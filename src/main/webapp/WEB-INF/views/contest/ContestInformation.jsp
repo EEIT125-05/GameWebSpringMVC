@@ -4,24 +4,32 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../Link.jsp"%>
-<%
-	request.setCharacterEncoding("UTF-8");
-response.setContentType("text/html;charset=UTF-8");
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>ContestInformation</title>
+<title>GameBar</title>
 </head>
 <body>
-	<%@ include file="../Header.jsp"%>
+<%@ include file="../Header.jsp"%>
 
-	<p>比賽詳細資料</p>
+<div class="container">
+
+	<h1 class="mt-4 mb-3">
+		比賽詳細資料 <small>XXXXX</small>
+	</h1>
+
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a>
+		</li>
+		<li class="breadcrumb-item active">賽事</li>
+	</ol>
 
 	<form action="<c:url value='/contest/Join'/>" method="post">
 		<p>比賽名稱: ${cContestBean.sName}</p>
 		<p>比賽遊戲: ${cContestBean.sGame}</p>
+		<p>主辦者: ${cContestBean.sHost}</p>
 		<p>報名日期: ${cContestBean.dSignStart} ~ ${cContestBean.dSignEnd}</p>
 		<p>比賽時間: ${cContestBean.tTime}</p>
 		<p>比賽地點: ${cContestBean.sLocation}</p>
@@ -82,6 +90,7 @@ response.setContentType("text/html;charset=UTF-8");
 
 	</form>
 
-	<%@ include file="../Foot.jsp"%>
+</div>
+<%@ include file="../Foot.jsp"%>
 </body>
 </html>

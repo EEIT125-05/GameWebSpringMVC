@@ -15,9 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 @Entity
 @Table(name = "contest")
 public class ContestBean {
@@ -40,6 +37,7 @@ public class ContestBean {
 	private String sHost;
 	@Column(columnDefinition = "nvarchar(MAX)")
 	private String sRule;
+	private String sImage;
 	
 	@OneToMany(mappedBy = "cContestBean",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<ParticipateBean> lParticipateBeans = new ArrayList<>();
@@ -49,7 +47,7 @@ public class ContestBean {
 	}
 	
 	public ContestBean(Integer iNo, String sName, String sGame, Date dSignStart, Date dSignEnd, Timestamp tTime,
-			String sLocation, Integer iPeople, String sHost, String sRule) {
+			String sLocation, Integer iPeople, String sHost, String sRule, String sImage) {
 		super();
 		this.iNo = iNo;
 		this.sName = sName;
@@ -61,6 +59,7 @@ public class ContestBean {
 		this.iPeople = iPeople;
 		this.sHost = sHost;
 		this.sRule = sRule;
+		this.sImage = sImage;
 	}
 
 	public Integer getiNo() {
@@ -141,6 +140,14 @@ public class ContestBean {
 
 	public void setsRule(String sRule) {
 		this.sRule = sRule;
+	}
+	
+	public String getsImage() {
+		return sImage;
+	}
+
+	public void setsImage(String sImage) {
+		this.sImage = sImage;
 	}
 
 	public List<ParticipateBean> getlParticipateBeans() {

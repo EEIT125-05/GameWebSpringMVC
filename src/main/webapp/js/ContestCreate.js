@@ -1,10 +1,20 @@
 $(function(){
 	$("#submit").attr("disabled","true");
-    let name = false;
-    let date2 = false;
-    let location2 = false;
-    let people = false;
-    let rule = false;
+
+    let flag1, flag2;
+	let mode1, mode2;
+	let today = $.format.date(new Date(), 'yyyy-MM-dd');
+	if($("#sSignStart").val() != "" && $("#sSignStart").val() <= today){
+				$("#sSignStart").attr("readonly", "true");
+				mode1 = true;
+	}
+	if($("#sSignEnd").val() != "" && $("#sSignEnd").val() <= today){
+				$("#sSignEnd").attr("readonly", "true");
+				flag1 = true;
+				mode2 = true;
+	}
+			
+    let name, date2, location2, people, rule;
 	if($("#sName").val() != ""){
 		name = true;
 	}
@@ -68,48 +78,39 @@ $(function(){
         date();
     });
     
-    let flag1 = false;
-    let flag2 = false;
     function date(){
-		let day = new Date().getDate();
-		if(day < 10){
-			day = "0" + day;
+		let today = $.format.date(new Date(), 'yyyy-MM-dd');
+		if(mode1 && !mode2){
+			modeAfterSignStart();
+		}else if(!mode2){
+	        if($("#sSignStart").val() != "" && $("#sSignEnd").val() != ""){
+	            if($("#sSignStart").val() < today){
+					$("#sSignEnd").next().text("開始日期不能比今天早");
+					flag1 = false;
+				}else if($("#sSignStart").val() > $("#sSignEnd").val()){
+	                $("#sSignEnd").next().text("結束日期不能比開始日期早");
+	                flag1 = false;
+	            }else{
+	                $("#sSignEnd").next().empty();
+	                flag1 = true;
+	            } 
+	        }
 		}
-		let d = new Date().getFullYear() + "-" +(new Date().getMonth()+1) + "-" + day;
-		
-        if($("#sSignStart").val() != ""  && $("#sSignEnd").val() != ""){
-            if($("#sSignStart").val() < d){
-				$("#sSignEnd").next().text("開始日期不能比今天早");
-				flag1 = false;
-			}else if($("#sSignStart").val() > $("#sSignEnd").val()){
-                $("#sSignEnd").next().text("結束日期不能比開始日期早");
-                flag1 = false;
-            }else{
-                $("#sSignEnd").next().empty();
-                flag1 = true;
-            } 
-        }
         
-        if($("#sSignEnd").val() != "" && $("#sTime").val() != ""){
-        	time = $("#sTime").val().split("T")[0];
-        	let d = new Date(time);
-        	let month = d.getMonth()+1; 
-        	let day = d.getDate()-1; 
-        	if(month < 10){ 
-        		month = "0" + month; 
-        	} 
-        	if(day < 10){ 
-        		day = "0" + day; 
-        	} 
-        	time = d.getFullYear() + "-" + month + "-" + day;
-            if($("#sSignEnd").val() > time){
-                $("#sTime").next().text("比賽日期必須比報名結束日期晚");
-                flag2 = false;
-            }else{
-                $("#sTime").next().empty();
-                flag2 = true;
-            }
-        }
+		if(mode2){
+			modeAfterSignEnd();
+		}else{
+	        if($("#sSignEnd").val() != "" && $("#sTime").val() != ""){
+	        	let time = $.format.date(new Date($("#sTime").val().split("T")[0]), 'yyyy-MM-dd');
+	            if($("#sSignEnd").val() >= time){
+	                $("#sTime").next().text("比賽日期必須比報名結束日期晚");
+	                flag2 = false;
+	            }else{
+	                $("#sTime").next().empty();
+	                flag2 = true;
+	            }
+	        }
+		}
         
         if(flag1 && flag2){
             date2 = true;
@@ -118,6 +119,36 @@ $(function(){
         }
         check();
     }
+
+
+	
+	function modeAfterSignStart(){
+		let today = $.format.date(new Date(), 'yyyy-MM-dd');
+        if($("#sSignEnd").val() != ""){
+            if($("#sSignEnd").val() < today){
+				$("#sSignEnd").next().text("結束日期不能比今天早");
+				flag1 = false;
+			}else{
+                $("#sSignEnd").next().empty();
+                flag1 = true;
+            } 
+        }
+	}
+	
+	function modeAfterSignEnd(){
+		if($("#sTime").val() != ""){
+			let today = $.format.date(new Date(), 'yyyy-MM-dd');
+        	let time = $.format.date(new Date($("#sTime").val().split("T")[0]), 'yyyy-MM-dd');
+            if(time <= today){
+                $("#sTime").next().text("比賽日期必須比今天晚");
+                flag2 = false;
+            }else{
+                $("#sTime").next().empty();
+                flag2 = true;
+            }
+        }
+	}
+
     
     $("#sLocation").blur(function(){
     	   let regu = "^[ ]+$";
