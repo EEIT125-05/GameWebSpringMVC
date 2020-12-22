@@ -1,0 +1,93 @@
+/* 新增貼文 */
+.Forum_Create {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px 24px;
+    border: 1px solid #4c7f80;
+    border-radius: 8px;
+    background: #7ccfd0;
+    background: -webkit-gradient(linear, left top, left bottom, from(#7ccfd0), to(#4c7f80));
+    background: -moz-linear-gradient(top, #7ccfd0, #4c7f80);
+    background: linear-gradient(to bottom, #7ccfd0, #4c7f80);
+    text-shadow: #305050 1px 1px 1px;
+    font: normal normal bold 20px courier new;
+    color: #ffffff;
+    text-decoration: none;
+}
+.Forum_Create:hover,
+.Forum_Create:focus {
+    border: 1px solid #5f9fa0;
+    background: #95f8fa;
+    background: -webkit-gradient(linear, left top, left bottom, from(#95f8fa), to(#5b989a));
+    background: -moz-linear-gradient(top, #95f8fa, #5b989a);
+    background: linear-gradient(to bottom, #95f8fa, #5b989a);
+    color: #ffffff;
+    text-decoration: none;
+}
+.Forum_Create:active {
+    background: #4c7f80;
+    background: -webkit-gradient(linear, left top, left bottom, from(#4c7f80), to(#4c7f80));
+    background: -moz-linear-gradient(top, #4c7f80, #4c7f80);
+    background: linear-gradient(to bottom, #4c7f80, #4c7f80);
+}
+.Forum_Create:before{
+    content:  "\0000a0";
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+    line-height: 22px;
+    margin: 0 4px -6px -4px;
+    position: relative;
+    top: -2px;
+    left: 1px;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAEH0lEQVQ4ja2UTWxUVRiGn3Pv3N5p56+006kd6R9cGFqs/CVoKglaogtYuDBsDNHEBRoXxrghmhhNDIkaE4kbg6xc4FYjYvyJkBggRAFBa5kyIw1TOkM77XRapkPv3HvOddH0tqMgxviuvnvO/d5zzve+3yey2ewP5XJ5iPsgEokc2rhx4/v3+28Z4sKFC96OHTuQUuJ5HkoplFJIKUmn0/T39wMwOTlJqVR6s1wuf2BZ1uKlS5cIhWNkfv2G9Pht2kIhnvnpHBuKVb7bYhFYfYrneX6saRoASilCoRCJRALHcd6JRCKNruseFkJUg8Eguq6v5Cl6cEkitHPaPZ8ihB9LKTFNk2QyiWEYb9i2fbhWq7VcvHiRYrGIYRi49uI6M2KfCHSos96d2wcD9yNOp9N1662trTiO82q5PDv/4UdH39re18z6TQNdseTDn2bE+EPrA1m4MnXUJ9Z1HV3X60i6u7vveqhTqzG3IB/d3uMwkCy1NLX3fnzgxZd2Hf8swrXP36ZrTdeRAMDIyAi2bdfV2PM8v87LotZqNZRSIHTamkP9z+8OHu1L/mFdjauh3y+fJ3Mtg1z7+LuvfHLs9QBAoVBgz54996rKXZHqjK+9k9t8MKmHiZz4ite+/oJoXyubH3niJLDkCtM0/5FkxYIK5YGQaYzaMfSgTeDnRiaHr7D36a2E+vYydrPaD5zRYEWoUqm09NRVhI7jYNs2tm2zaNvIWobKxDGcqRHW/Fzmt1Oj5B/bwrqhZ9EaOwGhAWiAL9rY2BjZbJb5+fk68qUaewREAWf6OKp4lfhVg+s/ZhnuaUHr2wdGPxoesKSTtpwMMDAwgBCCTCbD1NQUjuMghMDzPDxPIudOYufOkrjeyPj3I5xvj9C86zlak0PsGtyJ49R8A9Q1SENDA5ZlkUgkmJiYIJ1Os7CwAIDngWd28cBCmPyXv3BqTQS27SfavpuW5iYAfyz44i3DdV00TaOzsxOAXC5HNpulra0NIbTq5TNjTVu1Vr4NhDB37qd7wz7a4zE/X9M0X686Yikluq6Tz+cpl8tYlkWlUmF2dpbp6Wl1/socbt82HjzwFGawE8+tAivEDQ0NflxHbBgG+XyeXC5HV1cX0WiUYDCIaZoYhhE++PILCN0koGvMzc4wMzNDpVIhFov5N/aJV7dxoVBgfHycnp4eotEo1WrVH0DxeNwfp9JxCIfDABSLRZRS9Pb21g0ubXh4+NAy+Y0bN7Asi1gsxuLiom81KaXfJEtCLq2Fw2E6Ojp8e64mDuRyuSOpVOo9gMHBQX+jqamJf4tUKgXg2xMgYBhG+NatW6XTp0+3KKWUbdt/S1y20Oohtfpb13Ucx9GklHkhRAUgIKUsj46OPqmU2gSEhRCK/wAhBEII13XdmwDir7f4v/An6oP5ST/jyrcAAAAASUVORK5CYII=") no-repeat left center transparent;
+    background-size: 100% 100%;
+}
+/* 管理貼文 */
+.Forum_Management {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px 24px;
+    border: 1px solid #4c7f80;
+    border-radius: 8px;
+    background: #7ccfd0;
+    background: -webkit-gradient(linear, left top, left bottom, from(#7ccfd0), to(#4c7f80));
+    background: -moz-linear-gradient(top, #7ccfd0, #4c7f80);
+    background: linear-gradient(to bottom, #7ccfd0, #4c7f80);
+    text-shadow: #305050 1px 1px 1px;
+    font: normal normal bold 20px courier new;
+    color: #ffffff;
+    text-decoration: none;
+}
+.Forum_Management:hover,
+.Forum_Management:focus {
+    border: 1px solid #5f9fa0;
+    background: #95f8fa;
+    background: -webkit-gradient(linear, left top, left bottom, from(#95f8fa), to(#5b989a));
+    background: -moz-linear-gradient(top, #95f8fa, #5b989a);
+    background: linear-gradient(to bottom, #95f8fa, #5b989a);
+    color: #ffffff;
+    text-decoration: none;
+}
+.Forum_Management:active {
+    background: #4c7f80;
+    background: -webkit-gradient(linear, left top, left bottom, from(#4c7f80), to(#4c7f80));
+    background: -moz-linear-gradient(top, #4c7f80, #4c7f80);
+    background: linear-gradient(to bottom, #4c7f80, #4c7f80);
+}
+.Forum_Management:before{
+    content:  "\0000a0";
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+    line-height: 24px;
+    margin: 0 4px -6px -4px;
+    position: relative;
+    top: -2px;
+    left: 1px;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAEYElEQVRIiZ2WbWhTZxTHf/fmPUSXpkkNFefa2r2QYSlTa3GjbFgpxSHdl2lbBJFtsBUX3zbYVhmWTZlQWevYh0GdKOg+itqBTmHIxljBmLJgZzZlVF2jUQM2Jk2Te/bh3sT0tlXZgcM9z+E853/vc/7nPFcBVJ5OVgN2w84Bvz3NJsUA0OYBKvqdaqAu4Vi50QPC1O8nJrXktUVA1rR3lm01JcMIqAImysCrbbXNHnf7J4iAdvcfz1TyWjXwV1lMELhtyqOZ31oF3lcrllwHtgFWoA3VetBSHUJED7JUvwyq9SDQZsSEVe/i60CP6QtKSYva42jqLvgO3hPXm5+LsqBq3Nm6S7x7RsU3mJbKQw+l8tBD8Q2mxdt7WZxrd4ji8Y+72j8VX/9dcTR1F4wXK+Usr0FQ9S6+7t0z6sTm1KGnsyg2J5ZrP5MbPU1uIg6APViPffl6CrUtyHQGbC49Pj9Fam9DVrs/XlM8rvIjmtBSNz/O/NRfcljSt1GHOujiHOf2byE5cpLkyEnO7d9Cp5xFHerAkr5Tis9cGEC7P77bqN+Mcy+qXfH4x339SQn0XZH6xjUSiURkPolEIlLfuEYCfVfE139XlAVV4+hULs85g55tzrU7pHIwLYHGdRKJRETTNNE0TURkTjsSiUigcZ1UDqbF2bpLjMKX8lrQe8EFLEW19no6v3nelviD7ucesHnz5hkUO3LkCNFolIaGhpIvGAzy75+XiKWsKHWvkb34nRfRRoAMUFCB1aq/NuFo6oq7N/StV6vqyY2eprOzE0VRZmhRzP6uri5yo6dRA3W4N/StdzR1x9VAXQJYbQXsjlUbPe72zxAEBYXcRJxQKASAGOQvAhQKhVn+UChELhHHpSg439imF/zHLz2Z4S/spfMXERAQhBm+MrulpYWhoSGuXr06b0zZolSI3NTIicn0sffIXhgA0Xkei8VmHUVNTQ2HDx9m69atxOPxkj8Wi2FfVA9A9sIA6aPvMDVyfBJ9KKICbmAZqvWUtzcqVduHJRwOz8ucsbExaW5ulmQyKSIi4XBYqrYPi7f3sqBazwDLjJxz0LR155w0NWsymZxN07U7BGjHJGrZ0654Av+z0ZKiePw3MTVasQ/E0A9crTvftr3wOuJ6hlxNC0f37+TW2CX8fj8VFRXk83mi0SgHDhzgo4HjZN/6Fs37LFhsMJ1ZkI9fTAG/Gnm1Jwy7DIrN9WjYJYxht6h82GUpH46pvctzWupmDXALHnWyAA8l+yClpW612V9qVTJnv2Ly+y03tPS9hUrdq6ivbMS2chO2FZtQXmwlny+QOf81k8fevUFheqFt6QrSP3yo5f/+ZTdw3sirmIusAj2qd3EGfa7b0S+cU+6OfVJ5KC2+wbS4O/YJqvUU+tyxAz1qxZIMEDbVFDNAUYKm9TJHU5f4BnUAR1O3oFPxcXuAJ1/6RXGq/tqEY9UmD8DUyPFJ7U7p0n+slAMUpXxdDj7Xb4s2T3zJ/g+h03mn10t3IAAAAABJRU5ErkJggg==") no-repeat left center transparent;
+    background-size: 100% 100%;
+}
+

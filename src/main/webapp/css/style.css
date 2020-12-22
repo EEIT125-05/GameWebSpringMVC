@@ -1,0 +1,61 @@
+#intro .jumbotron{
+    height: 15vh;
+}
+h1,h2,h3,h4,h5,h6{
+    font-family: 'Noto Sans TC', sans-serif;
+}
+.btn{
+    background-color: cadetblue;
+    color:white;
+    padding: 10px 25px;
+    border-radius: 20px;
+}
+p,a,input,label,textarea,span,ul,li{
+    font-family: 'Goldman', cursive;
+}
+.nav-link{
+    font-family: 'ZCOOL XiaoWei', serif;
+    font-weight:bold;
+    justify-content:center;
+    align-items:center;
+}
+.middiv{
+    display: inline-flex;
+}
+.maindiv{
+    border-radius: 50px;
+    margin: auto;
+    width: 95%;
+    height: 900px;
+    background-color:cadetblue;
+    position:relative;
+}
+.rightdiv{
+    border-radius:0 50px 50px 0;
+    width: 85%;
+    height: 900px;
+    
+    background-color:#B9B9FF;
+    position:absolute;
+    right:0;
+    padding:20px;
+}
+.leftmain{
+	font-size: 2vh;
+	width:300px;
+	/*display:inline-flex;*/
+	position:absolute;
+	top:30px;
+	left:50px;
+}
+.buttontest{
+		text-align: left;
+		margin: 10px;
+	
+	}
+
+
+
+
+
+
