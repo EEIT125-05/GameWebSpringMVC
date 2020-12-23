@@ -111,12 +111,16 @@
         </div>
         <div>
             <label>宣傳圖片: </label>
-            <input type="file" id="fImage" name="fImage"/>
+            <input type="file" id="fImage" name="fImage" accept="image/*"/>
             <label class="error"></label>
         </div>
         <div>
-            <label for="sRule">比賽規則: </label>
-            <form:textarea id="sRule" path="sRule" rows="10" cols="40"/>
+            <label style="width:70px" id="previewLabel"></label>
+            <img id="imagePreview">
+        </div>
+        <div>
+            <label for="sRule" style="vertical-align:top">比賽規則: </label>
+            <form:textarea id="sRule" path="sRule" rows="10" cols="40"/><br>
             <form:errors path="sRule" class="error"/>
             <label class="error"></label>
         </div>
@@ -129,5 +133,27 @@
     
 </div>
 <%@ include file="../Foot.jsp" %>
+
+<script>
+	$(function(){
+		$("#imagePreview").hide();
+		$("#previewLabel").hide();
+		
+		$("#fImage").on("change",function(){
+            let fileReader = new FileReader();
+            fileReader.onload = function(e) {
+            	$("#previewLabel").show();
+            	$("#imagePreview").show();
+            	$("#imagePreview").attr('src',e.target.result)
+            						.attr('style',"width:560px;height:320px;margin-bottom:10px");
+            }
+            let imageFile = this.files[0];
+            fileReader.readAsDataURL(imageFile);
+
+		});
+	});
+	
+
+</script>
 </body>
 </html>

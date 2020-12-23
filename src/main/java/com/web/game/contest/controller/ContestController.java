@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -89,6 +90,9 @@ public class ContestController {
 		System.out.println("20201223_10:11");
 		String contentType = fImage.getContentType();
 		System.out.println("檔案類型: " + contentType);
+		if(!contentType.equals("image")) {
+			result.rejectValue("sImage", "", "不支援此檔案類型");
+		}
 		
 //		String suffixName=contentType.substring(contentType.indexOf("/")+1);
 //		System.out.println("字尾名: " + suffixName);
