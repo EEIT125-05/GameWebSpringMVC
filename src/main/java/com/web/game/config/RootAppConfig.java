@@ -19,21 +19,6 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @EnableTransactionManagement
 public class RootAppConfig {
 
-//	@Bean
-//	public DataSource dataSource() {
-//		ComboPooledDataSource ds = new ComboPooledDataSource();
-//		try {
-//			ds.setDriverClass("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-//		} catch (PropertyVetoException e) {
-//			e.printStackTrace();
-//		}
-//		ds.setUser("scott");
-//		ds.setPassword("tiger");
-//		ds.setJdbcUrl("jdbc:sqlserver://localhost:1433;databaseName=GameSpringMVCDB");
-//		ds.setInitialPoolSize(5);
-//		ds.setMaxPoolSize(10);
-//		return ds;
-//	}
 	@Bean
 	public DataSource dataSource() {
 		ComboPooledDataSource ds = new ComboPooledDataSource();
@@ -42,13 +27,28 @@ public class RootAppConfig {
 		} catch (PropertyVetoException e) {
 			e.printStackTrace();
 		}
-		ds.setUser("sa");
-		ds.setPassword("sa123456");
-		ds.setJdbcUrl("jdbc:sqlserver://localhost:1433;databaseName=GameDB");
+		ds.setUser("scott");
+		ds.setPassword("tiger");
+		ds.setJdbcUrl("jdbc:sqlserver://localhost:1433;databaseName=GameSpringMVCDB");
 		ds.setInitialPoolSize(5);
 		ds.setMaxPoolSize(10);
 		return ds;
 	}
+//	@Bean
+//	public DataSource dataSource() {
+//		ComboPooledDataSource ds = new ComboPooledDataSource();
+//		try {
+//			ds.setDriverClass("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+//		} catch (PropertyVetoException e) {
+//			e.printStackTrace();
+//		}
+//		ds.setUser("sa");
+//		ds.setPassword("sa123456");
+//		ds.setJdbcUrl("jdbc:sqlserver://localhost:1433;databaseName=GameDB");
+//		ds.setInitialPoolSize(5);
+//		ds.setMaxPoolSize(10);
+//		return ds;
+//	}
 	
 	private Properties getHibernateProperties() {//組態資訊-進階資訊
 		Properties p0 = new Properties();

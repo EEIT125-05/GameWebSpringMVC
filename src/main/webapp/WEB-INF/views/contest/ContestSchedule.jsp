@@ -3,15 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../Link.jsp"%>
-<%
-	request.setCharacterEncoding("UTF-8");
-response.setContentType("text/html;charset=UTF-8");
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>ContestSchedule</title>
+<title>Bar</title>
 <style>
 .player{
 	border: 2px solid red;
@@ -113,6 +110,41 @@ text-decoration: none;
 <body>
 	<%@ include file="../Header.jsp"%>
 
+<div class="container">
+
+<h1 class="mt-4 mb-3">比賽詳細資料/賽程安排
+      <small>XXXXX</small>
+    </h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="<c:url value='/'/>">Home</a>
+      </li>
+      <li class="breadcrumb-item active">賽事</li>
+    </ol>
+
+		<p>比賽名稱: ${cContestBean.sName} 
+<%-- 			<button type="submit" name="updateNo" value="${cContestBean.iNo}">更改</button> --%>
+			<a href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>
+			<a href="<c:url value='/contest/Delete/${cContestBean.iNo}'/>">刪除</a>
+<%-- 			<button type="submit" name="deleteNo" value="${cContestBean.iNo}">刪除</button> --%>
+			<span style="font-size:70%;color:red">(註:至比賽當日即無法更改比賽)</span>
+		</p>
+		<p>比賽遊戲: ${cContestBean.sGame}</p>
+		<p>主辦者: ${cContestBean.sHost}</p>
+		<p>報名日期: ${cContestBean.dSignStart} ~ ${cContestBean.dSignEnd}</p>
+		<p>比賽時間: ${cContestBean.tTime}</p>
+		<p>比賽地點: ${cContestBean.sLocation}</p>
+		<p>參加人數:
+			${fn:length(cContestBean.lParticipateBeans)}/${cContestBean.iPeople}</p>
+		<c:set var="rule" value="${cContestBean.sRule}" />
+		<%
+			request.setAttribute("vEnter", "\n");
+		%>
+		<span>比賽規則:</span> <br> <span>${fn:replace(rule,vEnter,"<br>")}</span>
+		<hr>
+
+
 	<p>本場比賽共有${fn:length(cContestBean.lParticipateBeans)}人參賽</p>
 	產生賽程表:
 	<form>
@@ -172,7 +204,7 @@ text-decoration: none;
 </div>
 
 
-
+</div>
 	<%@ include file="../Foot.jsp"%>
 
 	<script src="../js/jquery-ui.js"></script>

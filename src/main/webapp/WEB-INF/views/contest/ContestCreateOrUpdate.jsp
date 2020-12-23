@@ -4,30 +4,40 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <%@ include file="../Link.jsp" %>
-<%
-request.setCharacterEncoding("UTF-8");
-response.setContentType("text/html;charset=UTF-8");
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>ContestCreate</title>
+<title>GameBar</title>
 <style>
 .error{
 	color:red;
 }
 </style>
-<%-- <script src="<c:url value='/js/ContestCreate.js'/>"></script> --%>
+<script src="<c:url value='/js/ContestCreate.js'/>"></script>
 
 </head>
 <body>
 <%@ include file="../Header.jsp" %>
 	
-	<p>舉辦比賽資料</p>
+
+<div class="container">
+
+<h1 class="mt-4 mb-3">${sContestConfirm}比賽
+      <small>XXXXX</small>
+    </h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="<c:url value='/'/>">Home</a>
+      </li>
+      <li class="breadcrumb-item active">賽事</li>
+    </ol>
 	
-		<form:form method="POST" modelAttribute="cContestBean">
+		<form:form method="POST" modelAttribute="cContestBean" enctype="multipart/form-data">
 			<div>
             <label for="sName">比賽名稱: </label> 
             <form:input type="text" id="sName" path="sName"/>
@@ -58,8 +68,27 @@ response.setContentType("text/html;charset=UTF-8");
 	        	<c:set var="sTime" value=""/>
 	        </c:if>
 
-            <label>報名日期: </label> <input type="date" id="sSignStart" name="sSignStart" value="${sSignStart}"/> <label>~</label>
-            <input type="date" id="sSignEnd" name="sSignEnd" value="${sSignEnd}"/>
+            <label>報名日期: </label> 
+            <jsp:useBean id="date" class="java.util.Date"></jsp:useBean>
+            <fmt:formatDate var="today" value="${date}" pattern="yyyy-MM-dd"/>
+            <c:choose>
+            	<c:when test="${originSignStart <= today}">
+		            <input type="date" id="sSignStart" name="sSignStart" value="${sSignStart}" readonly/> <label>~</label>
+		            <input type="hidden" name="afterSignStart" value="true"/>
+            	</c:when>
+            	<c:otherwise>
+		            <input type="date" id="sSignStart" name="sSignStart" value="${sSignStart}"/> <label>~</label>
+            	</c:otherwise>
+            </c:choose>
+            <c:choose>
+            	<c:when test="${originSignEnd <= today}">
+		            <input type="date" id="sSignEnd" name="sSignEnd" value="${sSignEnd}" readonly/>
+		            <input type="hidden" name="afterSignEnd" value="true"/>
+            	</c:when>
+            	<c:otherwise>
+		            <input type="date" id="sSignEnd" name="sSignEnd" value="${sSignEnd}"/>
+            	</c:otherwise>
+            </c:choose>
             <form:errors path="dSignStart" class="error"/>
             <label class="error"></label>
         </div>
@@ -70,18 +99,23 @@ response.setContentType("text/html;charset=UTF-8");
             <label class="error"></label>
         </div>
         <div>
-            <label>比賽地點: </label> <form:input type="text" id="sLocation" path="sLocation"/>
+            <label for="sLocation">比賽地點: </label> <form:input type="text" id="sLocation" path="sLocation"/>
             <form:errors path="sLocation" class="error"/>
             <label class="error"></label>
         </div>
         <div>
-            <label>人數限制: </label> <form:input type="number" min="2" max="100"
+            <label for="iPeople">人數限制: </label> <form:input type="number" min="2" max="100"
                  id="iPeople" path="iPeople"/>
                  <form:errors path="iPeople" class="error"/>
             <label class="error"></label>
         </div>
         <div>
-            <label>比賽規則: </label>
+            <label>宣傳圖片: </label>
+            <input type="file" id="fImage" name="fImage"/>
+            <label class="error"></label>
+        </div>
+        <div>
+            <label for="sRule">比賽規則: </label>
             <form:textarea id="sRule" path="sRule" rows="10" cols="40"/>
             <form:errors path="sRule" class="error"/>
             <label class="error"></label>
@@ -92,7 +126,8 @@ response.setContentType("text/html;charset=UTF-8");
         </div>
 		</form:form>
 		
-
+    
+</div>
 <%@ include file="../Foot.jsp" %>
 </body>
 </html>
