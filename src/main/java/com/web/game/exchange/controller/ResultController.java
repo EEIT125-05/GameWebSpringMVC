@@ -18,6 +18,10 @@ public class ResultController {
 				Model model) {//path決定導向Thanks or Fail
 			System.out.println("???????????????????????????");
 			model.addAttribute("action",action);
+<<<<<<< HEAD
+=======
+			System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%");
+>>>>>>> SungChain
 		return "/exchange/"+path;
 		}
 }
