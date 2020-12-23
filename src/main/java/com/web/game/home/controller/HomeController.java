@@ -46,4 +46,9 @@ public class HomeController {
 		return "GameIndex";
 	}
 	
+	public String testHenry() {
+		System.out.println("Henry");
+		return null;
+	}
+	
 }
