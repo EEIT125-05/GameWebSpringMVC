@@ -39,20 +39,9 @@ public class HomeController {
 			cUser.setPath("/GameWebSpringMVC");
 			cUser.setMaxAge(300);
 			response.addCookie(cUser);
-			
-			
 		}
 		
 		return "GameIndex";
-	}
-	
-	public void Henry() {
-		System.out.println("github臭機吧");
-	}
-	
-	
-	public void SungChain1211() {
-		System.out.println("現在時間12:11");
 	}
 
 }
