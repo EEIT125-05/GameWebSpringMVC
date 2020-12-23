@@ -50,4 +50,8 @@ public class HomeController {
 		System.out.println("機掰github");
 	}
 	
+	
+	public void SungChain111() {
+		System.out.println("機掰github");
+	}
 }
