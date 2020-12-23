@@ -71,8 +71,8 @@
             <label>報名日期: </label> 
             <jsp:useBean id="date" class="java.util.Date"></jsp:useBean>
             <fmt:formatDate var="today" value="${date}" pattern="yyyy-MM-dd"/>
-            <c:choose>
-            	<c:when test="${originSignStart <= today}">
+             <c:choose>
+            	<c:when test="${sContestConfirm == '更新' && originSignStart <= today}">
 		            <input type="date" id="sSignStart" name="sSignStart" value="${sSignStart}" readonly/> <label>~</label>
 		            <input type="hidden" name="afterSignStart" value="true"/>
             	</c:when>
@@ -81,7 +81,7 @@
             	</c:otherwise>
             </c:choose>
             <c:choose>
-            	<c:when test="${originSignEnd <= today}">
+            	<c:when test="${sContestConfirm == '更新' && originSignEnd <= today}">
 		            <input type="date" id="sSignEnd" name="sSignEnd" value="${sSignEnd}" readonly/>
 		            <input type="hidden" name="afterSignEnd" value="true"/>
             	</c:when>

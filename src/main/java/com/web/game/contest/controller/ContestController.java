@@ -8,7 +8,6 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -78,8 +77,10 @@ public class ContestController {
 					Model model) {
 		cService.setTime(cContestBean, sSignStart, sSignEnd, sTime);//處理時間
 		
+//		String name ="contest-" + cContestBean.getiNo() + "-" + cContestBean.getsHost() + "-"
+//					+ cContestBean.getsName() + "-" + UUID.randomUUID().toString().replaceAll("-", "");
 		String name ="contest-" + cContestBean.getiNo() + "-" + cContestBean.getsHost() + "-"
-					+ cContestBean.getsName() + "-" + UUID.randomUUID().toString().replaceAll("-", "");
+				+ cContestBean.getsName() + "-";
 		System.out.println("UUID: " + name);
 		
 		String sImgName = fImage.getOriginalFilename();
@@ -89,40 +90,46 @@ public class ContestController {
 		String contentType = fImage.getContentType();
 		System.out.println("檔案類型: " + contentType);
 		
-		String suffixName=contentType.substring(contentType.indexOf("/")+1);
-		System.out.println("字尾名: " + suffixName);
+//		String suffixName=contentType.substring(contentType.indexOf("/")+1);
+//		System.out.println("字尾名: " + suffixName);
 		
-//		String ext = FilenameUtils.getExtension(fImage.getOriginalFilename());
-//		System.out.println("副檔名: " + ext);
+		String ext = FilenameUtils.getExtension(fImage.getOriginalFilename());
+		System.out.println("副檔名: " + ext);
 		
-		String sFilePath = context.getRealPath("/WEB-INF/views/contest/images");
+//		String sFilePath = context.getRealPath("/WEB-INF/views/contest/images");
+//		System.out.println("存檔路徑: " + sFilePath);
+		
+		String sFilePath = "C:\\Users\\Student\\Desktop\\GameBar\\GameWebSpringMVC\\src\\main\\webapp\\images";
 		System.out.println("存檔路徑: " + sFilePath);
 		
 		try {
 			
-			fImage.transferTo(new File(sFilePath + "/" + name + "." + suffixName));
+			fImage.transferTo(new File(sFilePath + "/" + name + "." + ext));
 			
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 			model.addAttribute("errorMessage","(圖片發生錯誤)");
 			return "contest/ContestError";
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
 			model.addAttribute("errorMessage","(圖片發生錯誤)");
 			return "contest/ContestError";
 		}
 		
-		cContestBean.setsImage(name + "." + suffixName);
-		System.out.println("完整檔名: " + name + "." + suffixName);
+		cContestBean.setsImage(name + "." + ext);
+		System.out.println("完整檔名: " + name + "." + ext);
 		
 		
 		cValidator.validate(cContestBean, result);
 		dValidator.setMode(afterSignStart, afterSignEnd);
 		dValidator.validate(cContestBean, result);
 		if (result.hasErrors()) {
+			if(((String)model.getAttribute("sContestConfirm")).equals("更新")) {
+				model.addAttribute("originSignStart", cService.selectOneContest(contestNo).getdSignStart());
+				model.addAttribute("originSignEnd", cService.selectOneContest(contestNo).getdSignEnd());
+			}
 			model.addAttribute("lGameList", gService.selectGameList());
-			model.addAttribute("originSignStart", cService.selectOneContest(contestNo).getdSignStart());
-			model.addAttribute("originSignEnd", cService.selectOneContest(contestNo).getdSignEnd());
 			return "contest/ContestCreateOrUpdate";
 		}
 		
