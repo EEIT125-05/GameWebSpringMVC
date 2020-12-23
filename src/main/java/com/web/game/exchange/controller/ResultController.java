@@ -16,8 +16,8 @@ public class ResultController {
 				@RequestParam(value="action")String action,
 				@RequestParam(value="path")String path,
 				Model model) {//path決定導向Thanks or Fail
+			System.out.println("???????????????????????????");
 			model.addAttribute("action",action);
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		return "/exchange/"+path;
 		}
 }
