@@ -51,4 +51,8 @@ public class HomeController {
 	}
 	
 	
+	public void SungChain1211() {
+		System.out.println("現在時間12:11");
+	}
+
 }
