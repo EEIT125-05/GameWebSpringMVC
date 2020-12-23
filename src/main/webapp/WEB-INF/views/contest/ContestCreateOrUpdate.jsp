@@ -111,7 +111,8 @@
         </div>
         <div>
             <label>宣傳圖片: </label>
-            <input type="file" id="fImage" name="fImage" accept="image/*"/>
+            <form:input type="file" id="fImage" path="fImage" accept="image/*"/>
+            <form:errors path="fImage" class="error"/>
             <label class="error"></label>
         </div>
         <div>

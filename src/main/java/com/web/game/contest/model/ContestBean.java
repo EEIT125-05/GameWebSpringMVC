@@ -14,6 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "contest")
@@ -41,6 +44,9 @@ public class ContestBean {
 	
 	@OneToMany(mappedBy = "cContestBean",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<ParticipateBean> lParticipateBeans = new ArrayList<>();
+	
+	@Transient
+	private MultipartFile fImage;
 
 	public ContestBean() {
 		super();
@@ -156,6 +162,14 @@ public class ContestBean {
 
 	public void setlParticipateBeans(List<ParticipateBean> lParticipateBeans) {
 		this.lParticipateBeans = lParticipateBeans;
+	}
+
+	public MultipartFile getfImage() {
+		return fImage;
+	}
+
+	public void setfImage(MultipartFile fImage) {
+		this.fImage = fImage;
 	}
 	
 	

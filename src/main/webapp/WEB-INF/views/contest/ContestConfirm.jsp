@@ -35,7 +35,9 @@
 		<p>比賽時間: ${sTime} </p>
 		<p>比賽地點: ${cContestBean.sLocation}</p>
 		<p>參加人數: ${cContestBean.iPeople}</p>
-	
+		<label style="vertical-align:top">宣傳圖片: </label>
+		<img src="<c:url value='/contest/ConfirmImage'/>" style="width:560px;height:320px"/>
+		<br>
 		<c:set var="rule" value="${cContestBean.sRule}" />
 				<%
 					request.setAttribute("vEnter", "\n");  
