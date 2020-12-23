@@ -46,12 +46,9 @@ public class HomeController {
 		return "GameIndex";
 	}
 	
-	public void SungChain() {
-		System.out.println("機掰github");
+	public void Henry() {
+		System.out.println("github臭機吧");
 	}
 	
 	
-	public void SungChain111() {
-		System.out.println("機掰github");
-	}
 }
