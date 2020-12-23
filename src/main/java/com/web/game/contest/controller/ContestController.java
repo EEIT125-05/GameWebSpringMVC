@@ -85,6 +85,7 @@ public class ContestController {
 		String sImgName = fImage.getOriginalFilename();
 		System.out.println("圖片檔: " + sImgName);
 		System.out.println("20201222_22:36加上");
+		System.out.println("20201223_10:11");
 		String contentType = fImage.getContentType();
 		System.out.println("檔案類型: " + contentType);
 		
