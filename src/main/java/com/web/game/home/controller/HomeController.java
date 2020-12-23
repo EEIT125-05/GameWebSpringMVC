@@ -46,4 +46,8 @@ public class HomeController {
 		return "GameIndex";
 	}
 	
+	public void SungChain() {
+		System.out.println("機掰github");
+	}
+	
 }
