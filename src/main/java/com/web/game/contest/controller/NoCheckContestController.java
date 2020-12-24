@@ -76,6 +76,8 @@ public class NoCheckContestController {
 	public ResponseEntity<byte[]> confirmImage(Model model){
 		
 		MultipartFile mf = null;
+		String sImage = ((ContestBean)model.getAttribute("cContestBean")).getsImage();
+		System.out.println("sImage: " + sImage);
 		InputStream is = null;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		byte[] bImage = null;
@@ -88,11 +90,13 @@ public class NoCheckContestController {
 		try {
 			//MultipartFile轉byte[]
 			mf = ((ContestBean)model.getAttribute("cContestBean")).getfImage();
+			System.out.println("mf: " + mf);
 			
 			//如果沒選圖片,給預設圖片
 			if(mf.getContentType().equals("application/octet-stream")) {
-				is = context.getResourceAsStream("/images/contestDefault.jpg");
-//				is = context.getResourceAsStream("/images/" + sImage);
+//				is = context.getResourceAsStream("/images/contestDefault.jpg");
+				is = context.getResourceAsStream("/images/" + sImage);
+				System.out.println("is: " + is);
 				System.out.println("給預設圖片");
 				if(is == null) {
 					System.out.println("is為空");
@@ -104,26 +108,23 @@ public class NoCheckContestController {
 				}
 				
 				bImage = baos.toByteArray();
-				System.out.println("bImage: " + bImage);
 				
 				is.close();
 				
 			}else {
 				bImage = mf.getBytes();
+				System.out.println("正常選圖片");
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("bImage: " + bImage);
 		
 		//從檔案名稱取得mimeType
-//		if(((ContestBean)model.getAttribute("cContestBean")).getsImage() == "") {
-//			//如果沒選圖片
-//			mimeType = "image/jpeg";
-//		}else {
-			mimeType = context.getMimeType(((ContestBean)model.getAttribute("cContestBean")).getsImage());
-			System.out.println("mimeType: " + mimeType);
-//		}
+		mimeType = context.getMimeType(sImage);
+		System.out.println("mimeType: " + mimeType);
+		
 		//設定mediaType,rsponseEntity的參數
 		mediaType = MediaType.valueOf(mimeType);
 		//設定header
