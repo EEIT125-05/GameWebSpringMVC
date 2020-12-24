@@ -1,7 +1,9 @@
 package com.web.game.contest.dao.impl;
 
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,15 @@ public class ContestDAOImpl implements ContestDAO {
 	public Boolean insertOrUpdateContest(ContestBean cContestBean) {
 		Session session = factory.getCurrentSession();
 		try {
-			session.saveOrUpdate(cContestBean);			
+			session.saveOrUpdate(cContestBean);
+			//先sava再拿到pk值,再存檔案名稱
+			if(!cContestBean.getsImage().equals("contestDefault.jpg")) {
+				String sImage ="contest-" + cContestBean.getiNo() + "-" + UUID.randomUUID().toString().replaceAll("-", "");
+				String ext = FilenameUtils.getExtension(cContestBean.getfImage().getOriginalFilename());
+	//			System.out.println("進資料庫的sImage: " + sImage + "." + ext);
+				//永續物件特性,直接存
+				cContestBean.setsImage(sImage + "." + ext);
+			}
 			return true;
 		}catch (Exception e) {
 			return false;

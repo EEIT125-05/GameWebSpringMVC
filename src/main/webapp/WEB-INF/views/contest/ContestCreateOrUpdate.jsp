@@ -142,14 +142,21 @@
 		
 		$("#fImage").on("change",function(){
             let fileReader = new FileReader();
+            let imageFile = this.files[0];
+            
+            if(typeof(imageFile) == "object"){
+	            fileReader.readAsDataURL(imageFile);
+            }else{
+	            $("#imagePreview").hide();
+	    		$("#previewLabel").hide();
+            }
+            
             fileReader.onload = function(e) {
             	$("#previewLabel").show();
             	$("#imagePreview").show();
             	$("#imagePreview").attr('src',e.target.result)
             						.attr('style',"width:560px;height:320px;margin-bottom:10px");
             }
-            let imageFile = this.files[0];
-            fileReader.readAsDataURL(imageFile);
 
 		});
 	});

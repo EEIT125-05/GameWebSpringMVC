@@ -1,25 +1,8 @@
 package com.web.game.contest.controller;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.util.UUID;
-
 import javax.servlet.ServletContext;
-import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialException;
 
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.CacheControl;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.web.game.contest.model.ContestBean;
 import com.web.game.contest.model.ParticipateBean;
@@ -90,55 +72,22 @@ public class ContestController {
 		cService.setTime(cContestBean, sSignStart, sSignEnd, sTime);//處理時間
 		
 		MultipartFile fImage = cContestBean.getfImage();
-		String contentType = fImage.getContentType().split("/")[0];
-//			System.out.println("檔案類型: " + contentType);
-		if(!contentType.equals("image")) {
-			result.rejectValue("fImage", "", "不支援此檔案類型");
+		String contentType = fImage.getContentType();
+		String sImageName = null;
+		if(!contentType.equals("application/octet-stream")) {
+			String fileType = contentType.split("/")[0];
+//			System.out.println("檔案類型: " + fileType);
+			if(!fileType.equals("image")) {
+				result.rejectValue("fImage", "", "不支援此檔案類型");
+			}
+			sImageName = fImage.getOriginalFilename();
+		}else {
+			sImageName = "contestDefault.jpg";
 		}
 		
-		String sImageName = fImage.getOriginalFilename();
-		System.out.println("圖片檔: " + sImageName);
+//		System.out.println("圖片檔: " + sImageName);
 		//暫存圖片檔名,之後要拿來取得mimeType
-		System.out.println("暫存之前: " + cContestBean.getfImage());
 		cContestBean.setsImage(sImageName);
-		System.out.println("暫存之後: " + cContestBean.getfImage());
-
-		
-		
-////		String name ="contest-" + cContestBean.getiNo() + "-" + cContestBean.getsHost() + "-"
-////					+ cContestBean.getsName() + "-" + UUID.randomUUID().toString().replaceAll("-", "");
-//		String sFileName ="contest-" + cContestBean.getiNo() + "-" + cContestBean.getsHost() + "-"
-//				+ cContestBean.getsName();
-//		System.out.println("UUID: " + sFileName);
-//		
-//		
-//		
-//		String ext = FilenameUtils.getExtension(fImage.getOriginalFilename());
-//		System.out.println("副檔名: " + ext);
-//		
-//		//String sFilePath = context.getRealPath("/WEB-INF/views/contest/images"); tomcat路徑
-//		
-////		String sFilePath = "C:\\Users\\Student\\Desktop\\GameBar\\GameWebSpringMVC\\src\\main\\webapp\\images";
-//		String sFilePath = "C:\\GameBar\\GameWebSpringMVC\\src\\main\\webapp\\images";
-//		System.out.println("存檔路徑: " + sFilePath);
-//		
-//		try {
-//			
-//			fImage.transferTo(new File(sFilePath + "/" + sFileName + "." + ext));
-//			
-//		} catch (IllegalStateException e) {
-//			e.printStackTrace();
-//			model.addAttribute("errorMessage","(圖片發生錯誤)");
-//			return "contest/ContestError";
-//		} 
-//		catch (IOException e) {
-//			e.printStackTrace();
-//			model.addAttribute("errorMessage","(圖片發生錯誤)");
-//			return "contest/ContestError";
-//		}
-//		
-//		cContestBean.setsImage(sFileName + "." + ext);
-//		System.out.println("完整檔名: " + sFileName + "." + ext);
 		
 		
 		cValidator.validate(cContestBean, result);
@@ -271,93 +220,91 @@ public class ContestController {
 		return "contest/ContestParticipate";
 	}
 	
-	@GetMapping("/ConfirmImage")
-	public ResponseEntity<byte[]> confirmImage(
-							Model model){
-		System.out.println("有進到方法");
-		
-		Blob blob = null;
-		InputStream is = null;
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		String mimeType = null;
-		ResponseEntity<byte[]> responseEntity = null;
-		byte[] bImage = null;
-		HttpHeaders headers = new HttpHeaders();
-		MediaType mediaType = null;
-		System.out.println("下面那行出事?");
-		System.out.println(((ContestBean)model.getAttribute("cContestBean")).getfImage());
-		//convertMultipartFileToBlob
-		byte[] test = null;
-		try {
-			//MultipartFile轉byte[]
-			System.out.println("驗證零");
-			MultipartFile mf = ((ContestBean)model.getAttribute("cContestBean")).getfImage();
-			System.out.println("驗證一");
-			test = mf.getBytes();
-			//byte[]轉blob
-			System.out.println("驗證二");
-			blob = new SerialBlob(test);
-			System.out.println("驗證三");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}catch (SerialException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		System.out.println("第1點");
-		//把blob放進inputStream
-		try {
-			is = blob.getBinaryStream();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		System.out.println("第2點");
-		//圖片來源有問題,放預設圖片(邏輯怪怪的要調整)
-		if(is == null) {
-			is = context.getResourceAsStream("/images/contestDefault.jpeg");
-		}
-		
-		
-		//將inputstream裡面的blob寫出去
-		Integer len = 0;
-		byte[] bytes = new byte[8192];
-		
-		try {
-			while((len = is.read(bytes)) != -1) {
-				baos.write(bytes, 0, len);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println("第3點");
-		//將baos轉成byte[]
-		bImage = baos.toByteArray();
-		
-		//從檔案名稱取得mimeType
-		mimeType = context.getMimeType(((ContestBean)model.getAttribute("cContestBean")).getsImage());
-		//設定mediaType,rsponseEntity的參數
-		mediaType = MediaType.valueOf(mimeType);
-		System.out.println("圖片測試mediaType: " + mediaType);
-		//設定header
-		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-		headers.setContentType(mediaType);
-		responseEntity = new ResponseEntity<>(bImage, headers, HttpStatus.OK);
-		
-		//關閉io
-		try {
-			if(is != null) {
-				is.close();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		System.out.println("第4點");
-		return responseEntity;
-	}
+//	@GetMapping("先放這這段程式碼")
+//	public ResponseEntity<String> 隨便(){
+//
+////		Blob blob = null;
+////		InputStream is = null;
+////		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		String mimeType = null;
+//		ResponseEntity<byte[]> responseEntity = null;
+////		byte[] bImage = null;
+//		HttpHeaders headers = new HttpHeaders();
+//		MediaType mediaType = null;
+//		
+//		//convertMultipartFileToBlob
+//		byte[] b = null;
+//		MultipartFile mf = null;
+//		try {
+//			//MultipartFile轉byte[]
+//			mf = ((ContestBean)model.getAttribute("cContestBean")).getfImage();
+//			b = mf.getBytes();
+//			//byte[]轉blob
+////			blob = new SerialBlob(b);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+////		catch (SerialException e) {
+////			e.printStackTrace();
+////		} catch (SQLException e) {
+////			e.printStackTrace();
+////		}
+//		catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		//把blob放進inputStream
+////		try {
+////			is = blob.getBinaryStream();
+////		} catch (SQLException e) {
+////			e.printStackTrace();
+////		}catch (Exception e) {
+////			e.printStackTrace();
+////		}
+////		//圖片來源有問題,放預設圖片(邏輯怪怪的要調整)
+////		if(is == null) {
+////			is = context.getResourceAsStream("/images/contestDefault.jpeg");
+////		}
+//		
+//		
+//		//將inputstream裡面的blob寫出去
+////		Integer len = 0;
+////		byte[] bytes = new byte[8192];
+////		
+////		try {
+////			while((len = is.read(bytes)) != -1) {
+////				baos.write(bytes, 0, len);
+////			}
+////		} catch (IOException e) {
+////			e.printStackTrace();
+////		}catch (Exception e) {
+////			e.printStackTrace();
+////		}
+//		//將baos轉成byte[]
+////		bImage = baos.toByteArray();
+//		
+//		//從檔案名稱取得mimeType
+//		mimeType = context.getMimeType(((ContestBean)model.getAttribute("cContestBean")).getsImage());
+//		//設定mediaType,rsponseEntity的參數
+//		mediaType = MediaType.valueOf(mimeType);
+//		System.out.println("圖片測試mediaType: " + mediaType);
+//		//設定header
+//		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+//		headers.setContentType(mediaType);
+//		responseEntity = new ResponseEntity<>(b, headers, HttpStatus.OK);
+//		
+//		//關閉io
+////		try {
+////			if(is != null) {
+////				is.close();
+////			}
+////		} catch (IOException e) {
+////			e.printStackTrace();
+////		}catch (Exception e) {
+////			e.printStackTrace();
+////		}
+//		
+//		return responseEntity;
+//	}
 	
 }
