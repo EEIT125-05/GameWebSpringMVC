@@ -40,6 +40,18 @@ public class WithDaoImpl implements WithDao {
 		Query<WithPlay> query = session.createQuery(hql);
 		WithPlay Wp =query.setParameter("nickname0", nickname).getSingleResult();
 		return Wp;	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public WithPlay getaccount(String account) {
+		String hql = "FROM WithPlay w WHERE w.sAccount = :sAccount0";
+		Session session = factory.getCurrentSession();
+		Query<WithPlay> query = session.createQuery(hql);
+		List<WithPlay> Wp =query.setParameter("sAccount0", account).getResultList();
+		if(Wp.size()==1) {
+			return Wp.get(0);
+		}
+		return new WithPlay();	}
 
 	@Override
 	public void delete(Integer iId) {
@@ -57,8 +69,19 @@ public class WithDaoImpl implements WithDao {
 		List<WithPlay> list = session.createQuery(hql).getResultList();
 		return list;	}
 	
+	
+	
+	
 	public Session getSession() {
         return factory.getCurrentSession();			
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<WithPlay> selectlist(String sNickname) {
+		String hql = "FROM WithPlay w WHERE w.sNickname like '%"+sNickname+"%'";
+		Session session = getSession();
+		return session.createQuery(hql).getResultList();
 	}
 
 }

@@ -8,10 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.web.multipart.MultipartFile;
 @Entity
+@Table(name = "WithPlay", uniqueConstraints = {@UniqueConstraint(columnNames = "sNickname") ,@UniqueConstraint(columnNames = "sAccount")})
 public class WithPlay {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +34,7 @@ public class WithPlay {
 	@Column(columnDefinition="VARCHAR(MAX) NOT NULL")
 	String sComment;
 	Integer iPrice;	
+	@Column(columnDefinition="VARCHAR(32) NOT NULL")
 	String sAccount;
 	
 	Blob bImage;

@@ -13,7 +13,6 @@ public class WithValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-//		System.out.println(clazz.getName());
 		boolean b = WithPlay.class.isAssignableFrom(clazz);
 		return b;
 	}

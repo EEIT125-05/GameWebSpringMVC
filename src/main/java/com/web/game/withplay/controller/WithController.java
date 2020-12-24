@@ -11,6 +11,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.rowset.serial.SerialBlob;
 
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
@@ -21,23 +22,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.web.game.contest.model.ContestBean;
+import com.web.game.member.model.MemberBean;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithService;
 import com.web.game.withplay.validators.WithValidator;
 
 
-
-
-
-
-
+@SessionAttributes("user")
 @Controller
 public class WithController {
 	
@@ -51,10 +52,6 @@ public class WithController {
 	@Autowired
 	ServletContext context;	
 		
-	@GetMapping("/withplay/Index")
-	public String WithplayIndex() {
-		return "withplay/WithplayIndex";
-	}
 		
 	@GetMapping("/withplay/With")
 	public String list(Model model) {
@@ -66,8 +63,17 @@ public class WithController {
 	@GetMapping("/withplay/new")
 	public String newWith(Model model) {
 		WithPlay withPlay=new WithPlay();
+		String nextPage = "withplay/With_form";
+		WithPlay checkwithPlay=withService.getaccount(((MemberBean) model.getAttribute("user")).getsAccount());
+		withPlay.setsAccount(((MemberBean)model.getAttribute("user")).getsAccount());
+		withPlay.setsName(((MemberBean)model.getAttribute("user")).getsEname());
+		withPlay.setsGender(((MemberBean)model.getAttribute("user")).getsGender());
+		if(withPlay.getsAccount().equals(checkwithPlay.getsAccount())) {
+			nextPage = "redirect:/withplay/Index";
+		}
 		model.addAttribute("With",withPlay);
-		return "withplay/With_form";
+		return nextPage;
+
 				
 	}
 	
@@ -109,16 +115,31 @@ public class WithController {
 			return "withplay/With_form";
 		}
 		
-		return "redirect:/withplay/With ";
+		return "withplay/Index";
 
 	}
-	@GetMapping(value = "/withplay/delete")
-	public String delete(@RequestParam Integer iId) {
+	@DeleteMapping(value = "/withplay/delete/{iId}")
+	public String delete(@PathVariable("iId") Integer iId) {
 		withService.delete(iId);
-		return "redirect:/withplay/With ";
+		return "redirect:/withplay/With";
 
 	}
 	
+	
+	@GetMapping("/withplay/update")
+	String update(Model model) {
+		WithPlay withPlay=new WithPlay();
+		withPlay.setsAccount(((MemberBean)model.getAttribute("user")).getsAccount());
+		WithPlay checkwithPlay=withService.getaccount(((MemberBean) model.getAttribute("user")).getsAccount());
+		String nextPage = "redirect:/withplay/Index";
+		System.out.println(checkwithPlay.getsAccount());
+		System.out.println(withPlay.getsAccount());
+		if(withPlay.getsAccount().equals(checkwithPlay.getsAccount())) {
+			nextPage = "withplay/With_update";
+			model.addAttribute("With", checkwithPlay);
+		}
+		return nextPage;
+	}
 	
 	@GetMapping(value = "/withplay/edit/{sNickname}")
 	public String edit(@PathVariable("sNickname") String nickname,Model model) {
@@ -142,7 +163,7 @@ public class WithController {
 			for (ObjectError error : list) {
 				System.out.println("有錯誤：" + error);
 			}
-			return "withplay/With_form";
+			return "withplay/With_update";
 		}
 		MultipartFile picture = With.getmWithImage();
 
@@ -167,100 +188,116 @@ public class WithController {
 			}
 		}
 		withService.update(With);
-		return "redirect:/withplay/With ";
+		return "redirect:/withplay/Index";
 
 	}
-	
-	@GetMapping("/withplay/picture/{sNickname}")
-	public ResponseEntity<byte[]> getPicture(@PathVariable("sNickname") String nickname) {
-		byte[] body = null;
-		ResponseEntity<byte[]> re = null;
-		MediaType mediaType = null;
-		HttpHeaders headers = new HttpHeaders();
-		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-
-		WithPlay wp = withService.get(nickname);
-		if (wp == null) {
-			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
-		}
-		String filename = wp.getsFileName();
-		if (filename != null) {
-			if (filename.toLowerCase().endsWith("jfif")) {
-				mediaType = MediaType.valueOf(context.getMimeType("dummy.jpeg"));
-			} else {
-				mediaType = MediaType.valueOf(context.getMimeType(filename));
-				headers.setContentType(mediaType);
-			}
-		}
-		Blob blob = wp.getbImage();
-		if (blob != null) {
-			body = blobToByteArray(blob);
-		} else {
-			String path = null;
-			if (wp.getsGender() == null || wp.getsGender().length() == 0) {
-				path = noImageMale;
-			} else if (wp.getsGender().equals("M")) {
-				path = noImageMale;
-			} else {
-				path = noImageFemale;
-				;
-			}
-			body = fileToByteArray(path);
-		}
-		re = new ResponseEntity<byte[]>(body, headers, HttpStatus.OK);
-
-		return re;
-	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	@ModelAttribute
 	public void commonData(Model model) {
 		Map<String, String> genderMap = new HashMap<>();
-		genderMap.put("M", "Male");
-		genderMap.put("F", "Female");
+		genderMap.put("male", "Male");
+		genderMap.put("female", "Female");
 		model.addAttribute("sGenderMap", genderMap);
+		Map<String, String> gameMap = new HashMap<>();
+		gameMap.put("英雄聯盟", "英雄聯盟");
+		gameMap.put("APEX", "APEX");
+		gameMap.put("絕地求生", "絕地求生");
+		gameMap.put("原神", "原神");
+		gameMap.put("糖豆人", "糖豆人");
+		gameMap.put("灌籃高手 SLAM DUNK", "灌籃高手 SLAM DUNK");
+		model.addAttribute("sGameMap", gameMap);
+
 	}
 	
-	private byte[] fileToByteArray(String path) {
-		byte[] result = null;
-		try (InputStream is = context.getResourceAsStream(path);
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
-			byte[] b = new byte[819200];
-			int len = 0;
-			while ((len = is.read(b)) != -1) {
-				baos.write(b, 0, len);
-			}
-			result = baos.toByteArray();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
+//	private byte[] fileToByteArray(String path) {
+//		byte[] result = null;
+//		try (InputStream is = context.getResourceAsStream(path);
+//				ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
+//			byte[] b = new byte[819200];
+//			int len = 0;
+//			while ((len = is.read(b)) != -1) {
+//				baos.write(b, 0, len);
+//			}
+//			result = baos.toByteArray();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return result;
+//	}
 
-	public byte[] blobToByteArray(Blob blob) {
-		byte[] result = null;
-		try (InputStream is = blob.getBinaryStream(); ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
-			byte[] b = new byte[819200];
-			int len = 0;
-			while ((len = is.read(b)) != -1) {
-				baos.write(b, 0, len);
-			}
-			result = baos.toByteArray();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
-
-	}
+//	public byte[] blobToByteArray(Blob blob) {
+//		byte[] result = null;
+//		try (InputStream is = blob.getBinaryStream(); ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
+//			byte[] b = new byte[819200];
+//			int len = 0;
+//			while ((len = is.read(b)) != -1) {
+//				baos.write(b, 0, len);
+//			}
+//			result = baos.toByteArray();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return result;
+//
+//	}
 	
 	
 }
+
+
+
+
+
+//	@GetMapping("/withplay/Index")
+//	public String WithplayIndex(Model model) {
+//		model.addAttribute("With",withService.list());
+//		return "withplay/WithplayIndex";
+//	}
+
+//	@GetMapping("/withplay/picture/{sNickname}")
+//	public ResponseEntity<byte[]> getPicture(@PathVariable("sNickname") String nickname) {
+//		byte[] body = null;
+//		ResponseEntity<byte[]> re = null;
+//		MediaType mediaType = null;
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+//
+//		WithPlay wp = withService.get(nickname);
+//		if (wp == null) {
+//			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
+//		}
+//		String filename = wp.getsFileName();
+//		if (filename != null) {
+//			if (filename.toLowerCase().endsWith("jfif")) {
+//				mediaType = MediaType.valueOf(context.getMimeType("dummy.jpeg"));
+//			} else {
+//				mediaType = MediaType.valueOf(context.getMimeType(filename));
+//				headers.setContentType(mediaType);
+//			}
+//		}
+//		Blob blob = wp.getbImage();
+//		if (blob != null) {
+//			body = blobToByteArray(blob);
+//		} else {
+//			String path = null;
+//			if (wp.getsGender() == null || wp.getsGender().length() == 0) {
+//				path = noImageMale;
+//			} else if (wp.getsGender().equals("M")) {
+//				path = noImageMale;
+//			} else {
+//				path = noImageFemale;
+//				;
+//			}
+//			body = fileToByteArray(path);
+//		}
+//		re = new ResponseEntity<byte[]>(body, headers, HttpStatus.OK);
+//
+//		return re;
+//	}
+
+//	@GetMapping("/withplay/select")
+//	public String get(@RequestParam String sNickname,Model model) {
+//		model.addAttribute("With", withService.selectlist(sNickname));
+//		return "withplay/Withplayselect";
+//				
+//	}

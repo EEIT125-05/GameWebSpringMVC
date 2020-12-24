@@ -10,8 +10,13 @@ public interface WithService {
 	void update(WithPlay Wp);
 
 	WithPlay get(String nickname);
+	
+	WithPlay getaccount(String account);
 
 	void delete(Integer iId);
 
 	List<WithPlay> list();
+	
+	List<WithPlay> selectlist(String sNickname);
+
 }

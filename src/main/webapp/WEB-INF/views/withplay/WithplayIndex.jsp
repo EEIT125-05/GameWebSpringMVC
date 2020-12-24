@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ include file="../Link.jsp"%>
 <%
 request.setCharacterEncoding("UTF-8");
@@ -14,41 +15,35 @@ response.setContentType("text/html;charset=UTF-8");
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>WithIndex</title>
-<!-- <script src="../js/ContestIndex.js"></script> -->
+<link rel="stylesheet" href="../css/WithGame.css">
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
-	<%-- 
-<c:set var = "user" scope = "session" value = "jack"/>
- --%>
 
+<div class="container">
 
-	<p>首頁</p>
-
-	<form action="<c:url value='/withplay/edit'/>" method="get">
-		
+	<form action='${pageContext.request.contextPath}/withplay/select'>	
 		<label>依暱稱搜尋: </label>
 		<input type="text" name="sNickname">
 		<input type="Submit" value="搜尋">
 	</form>
-	<form action="<c:url value='/withplay/WithController'/>" method="get">
-		<!--用get方式送資料,方便以後製作超連結 -->
 
-		<c:if test="${empty lContestList}">
+		<c:if test="${empty With}">
 			<p>目前無資料</p>
 		</c:if>
-
-		<c:forEach var="cContest" items="${lContestList}">
-			<button type="submit" name="contestId" value="${cContest.iNo}"
-				style="border: 2px solid red; background-color: transparent; margin: 10px; padding: 2px; text-align: left">
-				比賽名稱: ${cContest.sName} <br> 比賽遊戲: ${cContest.sGame} <br>
-				報名日期: ${cContest.dSignStart}~${cContest.dSignEnd} <br> 比賽時間:
-				${cContest.tTime} <br> 參加人數:
-				${fn:length(cContest.sParticipateBeans)}/${cContest.iPeople}
-			</button>
+		<c:forEach var="With" items="${With}">
+			<div class="div1">
+				<figure class="fi1">
+					<a href="">
+					<img class="img1" src='${pageContext.request.contextPath}/withplay/picture/${With.sNickname}'>
+					</a>
+					<figcaption>${With.sNickname}</figcaption>
+					<figcaption>${With.sGame}</figcaption>
+				</figure>
+			</div>
 		</c:forEach>
-	</form>
 
+</div>
 	<%@ include file="../Foot.jsp"%>
 	
 </body>

@@ -3,16 +3,19 @@
 <%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
+<%@ include file="../Link.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>New With Play</title>
+<link rel="stylesheet" href="../css/WithGame.css">
+
 </head>
 <body>
+<%@ include file="../Header.jsp" %>
+
 	<div align="center">
-		<H1>New WithPlay</H1>
 		<form:form method="post" modelAttribute="With"
 			enctype='multipart/form-data'>
 			<table cellpadding="5">
@@ -21,12 +24,12 @@
 
 				<tr>
 					<td>Account</td>
-					<td><form:input path="sAccount" />&nbsp;<form:errors path="sAccount"/></td>
+					<td><form:input path="sAccount" readonly="true"/>&nbsp;<form:errors path="sAccount"/></td>
 					
 				</tr>
 				<tr>
 					<td>Name</td>
-					<td><form:input path="sName" />&nbsp;<form:errors path="sName"/></td>
+					<td><form:input path="sName" readonly="true"/>&nbsp;<form:errors path="sName"/></td>
 				</tr>
 				<tr>
 					<td>Nickname</td>
@@ -34,7 +37,7 @@
 				</tr>
 				<tr>
 					<td>Gender</td>
-					<td><form:radiobuttons path="sGender" items='${sGenderMap}' />&nbsp;<form:errors path="sGender"/></td>
+					<td><form:radiobuttons path="sGender" items='${sGenderMap}' readonly="true"/>&nbsp;<form:errors path="sGender"/></td>
 				</tr>
 				<tr>
 					<td>Idcode</td>
@@ -42,7 +45,7 @@
 				</tr>
 				<tr>
 					<td>Game</td>
-					<td><form:input path="sGame" />&nbsp;<form:errors path="sGame"/></td>
+					<td><form:checkboxes path="sGame" items='${sGameMap}' />&nbsp;<form:errors path="sGame"/></td>
 
 				</tr>
 				<tr>
@@ -67,5 +70,7 @@
 		</form:form>
 
 	</div>
+	<%@ include file="../Foot.jsp" %>
+	
 </body>
 </html>

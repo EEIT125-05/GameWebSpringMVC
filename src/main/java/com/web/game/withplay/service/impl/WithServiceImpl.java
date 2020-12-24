@@ -38,6 +38,13 @@ public class WithServiceImpl implements WithService {
 			return wp;
 
 	}
+	
+	@Override
+	public WithPlay getaccount(String account) {
+		
+		return withDao.getaccount(account);
+		
+	}
 
 	@Override
 	public void delete(Integer iId) {
@@ -48,6 +55,11 @@ public class WithServiceImpl implements WithService {
 	@Override
 	public List<WithPlay> list() {
 		return withDao.list();
+	}
+
+	@Override
+	public List<WithPlay> selectlist(String sNickname) {
+		return withDao.selectlist(sNickname);
 	}
 
 }
