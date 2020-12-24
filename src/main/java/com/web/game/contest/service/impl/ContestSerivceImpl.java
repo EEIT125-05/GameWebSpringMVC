@@ -32,17 +32,19 @@ public class ContestSerivceImpl implements ContestService {
 			String sFilePath = "C:\\GameBar\\GameWebSpringMVC\\src\\main\\webapp\\images";
 	//		System.out.println("存檔路徑: " + sFilePath);
 			
-			try {
-				
-				MultipartFile fImage = cContestBean.getfImage();
-				fImage.transferTo(new File(sFilePath + "/" + cContestBean.getsImage()));
-				
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-				return false;
-			} catch (IOException e) {
-				e.printStackTrace();
-				return false;
+			//預設圖片不要存進路徑
+			if(!cContestBean.getsImage().equals("contestDefault.jpg")) {
+				try {
+					//關鍵點
+						MultipartFile fImage = cContestBean.getfImage();
+						fImage.transferTo(new File(sFilePath + "/" + cContestBean.getsImage()));
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+					return false;
+				} catch (IOException e) {
+					e.printStackTrace();
+					return false;
+				}
 			}
 			
 	//		System.out.println("完整檔名: " + cContestBean.getsImage());

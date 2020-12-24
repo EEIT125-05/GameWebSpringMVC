@@ -77,7 +77,6 @@ public class NoCheckContestController {
 		
 		MultipartFile mf = null;
 		String sImage = ((ContestBean)model.getAttribute("cContestBean")).getsImage();
-		System.out.println("sImage: " + sImage);
 		InputStream is = null;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		byte[] bImage = null;
@@ -90,17 +89,11 @@ public class NoCheckContestController {
 		try {
 			//MultipartFile轉byte[]
 			mf = ((ContestBean)model.getAttribute("cContestBean")).getfImage();
-			System.out.println("mf: " + mf);
 			
 			//如果沒選圖片,給預設圖片
 			if(mf.getContentType().equals("application/octet-stream")) {
-//				is = context.getResourceAsStream("/images/contestDefault.jpg");
 				is = context.getResourceAsStream("/images/" + sImage);
-				System.out.println("is: " + is);
-				System.out.println("給預設圖片");
-				if(is == null) {
-					System.out.println("is為空");
-				}
+				
 				Integer len = 0;
 				byte[] bytes = new byte[8192];
 				while((len = is.read(bytes)) != -1) {
@@ -113,17 +106,14 @@ public class NoCheckContestController {
 				
 			}else {
 				bImage = mf.getBytes();
-				System.out.println("正常選圖片");
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("bImage: " + bImage);
 		
 		//從檔案名稱取得mimeType
 		mimeType = context.getMimeType(sImage);
-		System.out.println("mimeType: " + mimeType);
 		
 		//設定mediaType,rsponseEntity的參數
 		mediaType = MediaType.valueOf(mimeType);

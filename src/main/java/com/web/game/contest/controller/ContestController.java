@@ -84,7 +84,6 @@ public class ContestController {
 		}else {
 			sImageName = "contestDefault.jpg";
 		}
-		System.out.println("sImageName: " + sImageName);
 		
 //		System.out.println("圖片檔: " + sImageName);
 		//暫存圖片檔名,之後要拿來取得mimeType
