@@ -40,7 +40,7 @@ public class HomeController {
 			cUser.setMaxAge(300);
 			response.addCookie(cUser);
 		}
-		
+		//12313213132
 		return "GameIndex";
 	}
 
