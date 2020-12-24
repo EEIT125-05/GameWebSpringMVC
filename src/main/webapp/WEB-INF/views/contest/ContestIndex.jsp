@@ -72,7 +72,7 @@
 				<div class="row">
 					<div class="col-md-7">
 						<a href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>"> <img class="img-fluid rounded mb-3 mb-md-0"
-							src="http://placehold.it/700x300" alt="">
+							src="<c:url value='/contest/ImageLoading?iNo=${cContest.iNo}'/>" alt="">
 						</a>
 					</div>
 					<div class="col-md-5">

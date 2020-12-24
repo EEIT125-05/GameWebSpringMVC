@@ -45,6 +45,8 @@ public class WebAppConfig implements WebMvcConfigurer {
 	public CommonsMultipartResolver multipartResolver() {
 	    CommonsMultipartResolver resolver=new CommonsMultipartResolver();
 	    resolver.setDefaultEncoding("utf-8");
+	    resolver.setMaxUploadSize(81920000);
+	    resolver.setMaxInMemorySize(81920000);
 	    return resolver;
 	}
 	
