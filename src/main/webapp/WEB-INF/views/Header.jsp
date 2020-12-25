@@ -75,7 +75,7 @@
               <a class="dropdown-item" href="<c:url value='/exchange/Index'/>">遊戲交換</a>
               <a class="dropdown-item" href="<c:url value="/exchange/insertSupportGame"/>">我要交換</a>
               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">管理交換</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/changepage"/>">測試中</a>
+              <a class="dropdown-item" href="<c:url value="/exchange/preparehomepage"/>">測試中</a>
               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">兼修中</a>
               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">兼修中</a>
               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">兼修中</a>

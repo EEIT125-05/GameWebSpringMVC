@@ -91,7 +91,7 @@ public class UDSupportGameController {
 	@ModelAttribute("MemberSupport")
 	public List<GameBean> PackGamerList() {
 		
-		//MemberBean member = (MemberBean) request.getSession(true).getAttribute("user");
+//		MemberBean member = (MemberBean) model.getAttribute("user");
 		//String sMemberaccount = member.getsAccount();//整合後打開
 		String sMemberaccount = "henryxoooo";//使用者帳號預設寫死
 		List<GameBean> list = new ArrayList<GameBean>();

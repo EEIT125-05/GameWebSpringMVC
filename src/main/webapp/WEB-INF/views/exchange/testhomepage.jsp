@@ -11,8 +11,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form method='get' action='' >
-<input type="text" name="params" > 
+<form method='get' action='<c:url value="/exchange/preparehomepage"/>' >
+<input type="text" name="searchparams" value="${ searchparams}"> 
 <input type="submit" > 
 <label><input type="radio" name="search" value="gamename" checked>遊戲名稱</label>
 <label><input type="radio" name="search" value="area">地區</label>
@@ -25,7 +25,6 @@
 								<img id="eximg" src="${pageContext.request.contextPath }/${g.image }" alt="路徑失聯">
 							</div>
 							<ul id="expgul">
-							${g.no }
 								<li>遊戲名稱:${g.gamename}</li>
 								<li>遊戲數量:${g.qty}</li>
 								<li>遊戲所在地:${g.gamelocation}</li>
@@ -37,11 +36,15 @@
 							</ul>
 						</div>
 				</c:forEach>
-<a href="<c:url value="/exchange/changepage?page=1&search=${search }&params=${params }"/>">1</a>
-<a href="<c:url value="/exchange/changepage?page=2&search=${search }&params=${params }"/>">2</a>
-<a href="<c:url value="/exchange/changepage?page=3&search=${search }&params=${params }"/>">3</a>
-<a href="<c:url value="/exchange/changepage?page=4&search=${search }&params=${params }"/>">4</a>
-<a href="<c:url value="/exchange/changepage?page=4&search=encodeURI(測試)"/>">4</a>
+<a href="<c:url value="/exchange/changepage?page=1&search=${search }"/>">1</a>
+<a href="<c:url value="/exchange/changepage?page=2&search=${search }"/>">2</a>
+<a href="<c:url value="/exchange/changepage?page=3&search=${search }"/>">3</a>
+<a href="<c:url value="/exchange/changepage?page=4&search=${search }"/>">4</a>
+<script>
+window.onload=function(){
+	var divout = dou
+}
+</script>
 </form>
 </body>
 </html>
