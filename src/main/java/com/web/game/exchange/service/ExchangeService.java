@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DaoSupport;
 import org.springframework.stereotype.Service;
 
 import com.web.game.exchange.dao.SupportDAO;
@@ -27,9 +28,8 @@ public class ExchangeService {
 		return list = supportDAO.changePage(page);
 	}
 	@Transactional
-	public List<GameBean> changepagebyparam(int page,String search,String param){
+	public List<GameBean> changePageByParam(int page,String search,String param){
 		List<GameBean> list = new ArrayList<GameBean>();
-		System.out.println("1111111111111");
 		return list = supportDAO.changePageByParam(page, search, param);
 	}
 	//--------------------------------
