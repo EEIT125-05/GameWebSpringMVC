@@ -10,14 +10,14 @@ let passwordflag = false;
 			let passwordConfirm = document.getElementById("passwordConfirm");
 			let c = document.getElementById("idpasswordConfirm");
 			if (passwordConfirm.value == "") {
-				c.innerHTML = ("請輸入密碼");
+				c.innerHTML = ("<font color='red'>請輸入密碼</font>");
 				passwordflag = false;
 			} else {
 				if (password.value == passwordConfirm.value) {
-					c.innerHTML = "OK";
+					c.innerHTML = "<font color='green'>OK</font>";
 					passwordflag = true;
 				} else {
-					c.innerHTML = "密碼不相同";
+					c.innerHTML = "<font color='red'>密碼不相同</font>";
 					passwordflag = false;
 				}
 			}
@@ -28,10 +28,10 @@ let passwordflag = false;
 			let nickname = document.getElementById("Nickname").value;
 			let idnickname = document.getElementById("idnickname");
 			if (nickname == "") {
-				idnickname.innerHTML = "請輸入暱稱";
+				idnickname.innerHTML = "<font color='red'>請輸入暱稱</font>";
 				nicknameflag = false;
 			} else {
-				idnickname.innerHTML = "OK";
+				idnickname.innerHTML = "<font color='green'>OK</font>";
 				nicknameflag = true;
 			}
 			check()
@@ -41,7 +41,7 @@ let passwordflag = false;
 			let email = document.getElementById("Email").value;
 			let idemail = document.getElementById("idemail");
 			if (email == "") {
-				idemail.innerHTML = "請輸入信箱";
+				idemail.innerHTML = "<font color='red'>請輸入信箱</font>";
 				emailflag = false;
 			} else {
 				idemail.innerHTML = "";
@@ -56,7 +56,7 @@ let passwordflag = false;
 			let idname = document.getElementById("idname");
 			let nameError = false;
 			if (ename == "") {
-				idname.innerHTML = "請輸入姓名";
+				idname.innerHTML = "<font color='red'>請輸入姓名</font>";
 				nameflag = false;
 			} else if (enameLen >= 2) {
 				for (let idname = 0; idname < enameLen; idname++) {
@@ -69,14 +69,14 @@ let passwordflag = false;
 					}
 				}
 				if (nameError) {
-					idname.innerHTML = "請輸入中文";
+					idname.innerHTML = "<font color='red'>請輸入中文</font>";
 					nameflag = false;
 				} else {
-					idname.innerHTML = "OK";
+					idname.innerHTML = "<font color='green'>OK</font>";
 					nameflag = true;
 				}
 			} else {
-				idname.innerHTML = "至少兩個字";
+				idname.innerHTML = "<font color='red'>至少兩個字</font>";
 				nameflag = false;
 			}
 			check()
@@ -88,21 +88,21 @@ let passwordflag = false;
 			let phoneCheck = false;
 			let reg = /^[0]{1}[9]{1}\d{8}$/;
 			if (phone == "") {
-				idphone.innerHTML = "請輸入手機號碼";
+				idphone.innerHTML = "<font color='red'>請輸入手機號碼</font>";
 				phoneflag = false;
 			} else if (phoneLen >= 10) {
 				if (reg.test(phone)) {
 					phoneCheck = true;
 				}
 				if (phoneCheck) {
-					idphone.innerHTML = "OK";
+					idphone.innerHTML = "<font color='green'>OK</font>";
 					phoneflag = true;
 				} else {
-					idphone.innerHTML = "格式錯誤請輸入正確電話號碼";
+					idphone.innerHTML = "<font color='red'>格式錯誤請輸入正確電話號碼</font>";
 					phoneflag = false;
 				}
 			} else {
-				idphone.innerHTML = "至少輸入10位號碼";
+				idphone.innerHTML = "<font color='red'>至少輸入10位號碼</font>";
 				phoneflag = false;
 			}
 			check()
@@ -112,10 +112,10 @@ let passwordflag = false;
 			let address = document.getElementById("Address").value;
 			let idaddress = document.getElementById("idaddress");
 			if (address == "") {
-				idaddress.innerHTML = "請輸入地址";
+				idaddress.innerHTML = "<font color='red'>請輸入地址</font>";
 				addressflag = false;
 			} else {
-				idaddress.innerHTML = "OK";
+				idaddress.innerHTML = "<font color='green'>OK</font>";
 				addressflag = true;
 			}
 			check()

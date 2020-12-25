@@ -13,13 +13,13 @@ public class MemberBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer iNo;
-	@Column(columnDefinition = "nvarchar(Max)")
+	@Column(columnDefinition = "nvarchar(Max)",unique = true)
 	private String sAccount;
 	@Column(columnDefinition = "nvarchar(Max)")
 	private String sPassword;
 	@Column(columnDefinition = "nvarchar(Max)")
 	private String sNickname;
-	@Column(columnDefinition = "nvarchar(Max)")
+	@Column(columnDefinition = "nvarchar(Max)",unique  = true)
 	private String sEmail;
 	@Column(columnDefinition = "nvarchar(Max)")
 	private String sEname;

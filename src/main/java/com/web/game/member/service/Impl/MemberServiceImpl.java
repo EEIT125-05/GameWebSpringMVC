@@ -58,4 +58,9 @@ public class MemberServiceImpl implements MemberService {
 		return list;
 	}
 
+	@Override
+	public String Checkmember(String sAccount) {
+		return dao.Checkmember(sAccount);
+	}
+
 }

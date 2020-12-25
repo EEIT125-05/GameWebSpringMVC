@@ -2,6 +2,7 @@ package com.web.game.member.dao.Impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.NoResultException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -71,11 +72,35 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public MemberBean Selectmember(String sAccount) {
 		MemberBean SelectMB = null;
+		try {
+			
 		String hql = "FROM MemberBean WHERE sAccount = :sAccount";
 		Session session = getSession();
-		SelectMB = (MemberBean) session.createQuery(hql).setParameter("sAccount", sAccount).getSingleResult();
+		SelectMB = (MemberBean)session.createQuery(hql).setParameter("sAccount", sAccount).getSingleResult();
 		System.out.println(SelectMB);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		return SelectMB;
+	}
+	
+	@Override
+	public String Checkmember(String sAccount) {
+		Session session = factory.getCurrentSession();
+		String hql = "FROM MemberBean WHERE sAccount = :sAccount";
+		String Account = "";
+		try {
+			MemberBean MB = (MemberBean) session.createQuery(hql).setParameter("sAccount", sAccount).getSingleResult();
+			Account = MB.getsAccount();
+		} catch (NoResultException ex) {
+			;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println(ex.getMessage());
+			Account = "Error: 資料庫異常，請檢查資料庫";
+		}
+		return Account;
+	
 	}
 
 	@Override

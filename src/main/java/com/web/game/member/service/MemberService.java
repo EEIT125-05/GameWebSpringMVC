@@ -18,5 +18,7 @@ public interface MemberService {
 
 	List<MemberBean> getAllMembers();
 
+	String Checkmember(String sAccount);
+
 
 }
