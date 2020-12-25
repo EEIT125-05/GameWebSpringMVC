@@ -17,8 +17,7 @@ request.setCharacterEncoding("UTF-8");
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>會員資料更新[]</title>
-<script src="./js/MemberUpdate.js"></script>
-
+<script src="<c:url value='../js/MemberUpdate.js'/>"></script>
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
@@ -30,7 +29,7 @@ request.setCharacterEncoding("UTF-8");
 				<input name="iNo" type="hidden" value="${user.iNo}" readonly>
 			</h3>
 			<h3>
-				會員帳號:<input name="sAccount" value="${user.sAccount}"
+				會員帳號:${user.sAccount}<input type="hidden" name="sAccount" value="${user.sAccount}"
 					readonly>
 			</h3>
 			<h3>
@@ -77,16 +76,16 @@ request.setCharacterEncoding("UTF-8");
 					value="${user.sPhone}"><span id="idphone"></span>
 			</h3>
 			<h3>
-				性別:<input name="sGender" value="${user.sGender}"
+				性別:${user.sGender}<input type="hidden" name="sGender" value="${user.sGender}"
 					readonly>
 			</h3>
 			<h3>
-				生日年月日:<input name="sBirthday" value="${user.sBirthday}" readonly>
+				生日年月日:${user.sBirthday}<input type="hidden" name="sBirthday" value="${user.sBirthday}" readonly>
 			</h3>
 			<h3>
-				建立日期:<input name="registerDate" value="${user.registerDate}" readonly>
+				建立日期:${user.registerDate}<input type="hidden" name="registerDate" value="${user.registerDate}" readonly>
 			</h3>
-			<input id="submit" name="submit" type="submit" value="修改">
+			<input id="submit" name="submit" type="submit" value="修改" disabled>
 		</div>
 	</form>
 

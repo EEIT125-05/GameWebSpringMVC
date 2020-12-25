@@ -2,16 +2,18 @@ package com.web.game.member.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,29 +25,14 @@ import com.web.game.member.service.MemberService;
 
 @Controller
 @RequestMapping("/member")
-@SessionAttributes({"user"})
-public class MemberController {
+@SessionAttributes({ "user" })
+public class MemberControllerVerified {
 
 	@Autowired
 	MemberService mService;
 
 	public void setService(MemberService service) {
 		this.mService = service;
-	}
-
-	@GetMapping("/Sign") 
-	public String memberSignin() {
-		return "member/MemberSignin";
-	}
-
-	@GetMapping("/Login")
-	public String Login() {
-		return "member/MemberLogin";
-	}
-
-	@GetMapping("/Data")
-	public String MemberMember() {
-		return "member/MemberData";
 	}
 
 	@PostMapping("/MemberCheck")
@@ -75,31 +62,21 @@ public class MemberController {
 		return "member/MemberSignin";
 	}
 
-	@PostMapping("/SignIn")
-	public String SigninMember(
-					Model model, 
-					@RequestParam String sAccount, 
-					@RequestParam String sPassword,
-					HttpServletResponse response) {
-		if (mService.SigninMember(sAccount, sPassword)) {
-			MemberBean SigninMB = mService.Selectmember(sAccount);
-			model.addAttribute("user", SigninMB);
-			
-//--------新增cookie----------------------------------------------------
-			Cookie cUser = new Cookie("user", SigninMB.getsAccount());
-			cUser.setPath("/GameWebSpringMVC");
-			cUser.setMaxAge(300);
-			response.addCookie(cUser);
-//--------新增cookie----------------------------------------------------
-			
-			return "redirect:/";//登入成功回首頁
-		} else {
-			model.addAttribute("showError", "帳號或密碼錯誤");
-			return "member/MemberSignin";
-		}
-			
+	
+	@GetMapping("/Data")
+	public String SigninToData(Model model) {
+		MemberBean Signin = (MemberBean) model.getAttribute("user");
+		return "member/MemberData";
 	}
-		
+	
+//	@GetMapping("/Data")
+//	public String SigninToData(Model model, String sAccount) {
+//		System.out.println("sAccount: " + sAccount);
+//		MemberBean Signin = mService.Selectmember(sAccount);
+//		model.addAttribute("user", Signin);
+//		System.out.println("已經登入的sAccount=" + sAccount);
+//		return "member/MemberData";
+//	}
 
 	@PostMapping("/Delete")
 	public String Delete(Model model, @RequestParam String sAccount) {
@@ -120,7 +97,7 @@ public class MemberController {
 		model.addAttribute("user", Data);
 		return "member/MemberUpdate";
 	}
-
+	
 	@PostMapping("/MemberData")
 	public String UpdateMember(Model model, @RequestParam Integer iNo, @RequestParam String sAccount,
 			@RequestParam String sPassword, @RequestParam String sNickname, @RequestParam String sEmail,
@@ -140,16 +117,14 @@ public class MemberController {
 		model.addAttribute("user", mb);
 		return "member/MemberData";
 	}
-	
+
 //------登出---------------------------------------------------------------------------
-	
+
 	@GetMapping("/Logout")
-	public String logout(
-				SessionStatus status,
-				HttpServletResponse response) {
-		
+	public String logout(SessionStatus status, HttpServletResponse response) {
+
 		status.setComplete();
-		//cookie砍掉
+		// cookie砍掉
 		Cookie cUser = new Cookie("user", "");
 		cUser.setPath("/GameWebSpringMVC");
 		cUser.setMaxAge(0);
@@ -157,7 +132,7 @@ public class MemberController {
 		System.out.println("砍掉cookie");
 		return "redirect:/";
 	}
-	
+
 //---------------------------------------------------------------------------------
 
 }

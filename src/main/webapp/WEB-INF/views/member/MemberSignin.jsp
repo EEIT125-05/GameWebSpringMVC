@@ -31,10 +31,10 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 					minlength="8" maxlength="16" required="required">
 			</h3>
 			<label style="color: red">${showError}</label>
-			<br> <label><input type="checkbox">記住我的帳號密碼</label><br>
+			<br> <label><input type="checkbox" name="rememberMe">記住我的密碼</label><br>
 			<input name="Signin" type="submit" value="Signin">
 			<div>
-				<a href="">忘記帳號</a><a href="">忘記密碼</a>
+				<a href="<c:url value='/member/Forget'/>">忘記密碼</a>
 			</div>
 		</div>
 

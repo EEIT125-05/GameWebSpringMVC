@@ -36,33 +36,33 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 			<h2>會員資料</h2>
 			<input type="hidden" name="iNo" ${user.iNo} readonly>
 			<h3>
-				設定的帳號:<input name="sAccount" value="${user.sAccount}" readonly>
+				設定的帳號:${user.sAccount}<input type="hidden" name="sAccount" value="${user.sAccount}" readonly>
 				<input type="hidden" name="sPassword" value="${user.sPassword}"
 					readonly>
 			</h3>
 			<h3>
-				使用的暱稱:<input name="sNickname" value="${user.sNickname}" readonly>
+				使用的暱稱:${user.sNickname}<input type="hidden" name="sNickname" value="${user.sNickname}" readonly>
 			</h3>
 			<h3>
-				使用的信箱:<input name="sEmail" value="${user.sEmail}" readonly>
+				使用的信箱:${user.sEmail}<input type="hidden" name="sEmail" value="${user.sEmail}" readonly>
 			</h3>
 			<h3>
-				真實姓名:<input name="sEname" value="${user.sEname}" readonly>
+				真實姓名:${user.sEname}<input type="hidden" name="sEname" value="${user.sEname}" readonly>
 			</h3>
 			<h3>
-				手機號碼:<input name="sPhone" value="${user.sPhone}" readonly>
+				手機號碼:${user.sPhone}<input type="hidden" name="sPhone" value="${user.sPhone}" readonly>
 			</h3>
 			<h3>
-				聯絡地址:<input name="sAddress" value="${user.sAddress}" readonly>
+				聯絡地址:${user.sAddress}<input type="hidden" name="sAddress" value="${user.sAddress}" readonly>
 			</h3>
 			<h3>
-				性別:<input name="sGender" value="${user.sGender}" readonly>
+				性別:${user.sGender}<input type="hidden" name="sGender" value="${user.sGender}" readonly>
 			</h3>
 			<h3>
-				生年月日:<input name="sBirthday" value="${user.sBirthday}" readonly>
+				生年月日:${user.sBirthday}<input type="hidden" name="sBirthday" value="${user.sBirthday}" readonly>
 			</h3>
 			<h3>
-				建立日期:<input name="registerDate" value="${user.registerDate}"
+				建立日期:${user.registerDate}<input type="hidden" name="registerDate" value="${user.registerDate}"
 					readonly>
 			</h3>
 			<input type="submit" name="submit" value="修改會員資料">

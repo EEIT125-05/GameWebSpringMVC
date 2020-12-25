@@ -19,6 +19,8 @@ public interface MemberDao {
 
 	MemberBean get(Integer iNo);
 
+	String Checkmember(String sAccount);
+
 
 
 }
