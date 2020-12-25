@@ -22,6 +22,7 @@ response.setContentType("text/html;charset=UTF-8");
 
 <div class="container">
 
+
 	<form action='${pageContext.request.contextPath}/withplay/select'>	
 		<label>依暱稱搜尋: </label>
 		<input type="text" name="sNickname">

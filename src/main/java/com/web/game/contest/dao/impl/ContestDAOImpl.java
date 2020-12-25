@@ -24,13 +24,15 @@ public class ContestDAOImpl implements ContestDAO {
 		try {
 			session.saveOrUpdate(cContestBean);
 			//先sava再拿到pk值,再存檔案名稱
-			if(!cContestBean.getsImage().equals("contestDefault.jpg")) {
-				String sImage ="contest-" + cContestBean.getiNo() + "-" + UUID.randomUUID().toString().replaceAll("-", "");
-				String ext = FilenameUtils.getExtension(cContestBean.getfImage().getOriginalFilename());
-	//			System.out.println("進資料庫的sImage: " + sImage + "." + ext);
-				//永續物件特性,直接存
-				cContestBean.setsImage(sImage + "." + ext);
-			}
+
+			String sImage ="contest-" + cContestBean.getiNo() + "-" + UUID.randomUUID().toString().replaceAll("-", "");
+			String ext = FilenameUtils.getExtension(cContestBean.getfImage().getOriginalFilename());
+			System.out.println("fImage.getOriginalFilename(): " + cContestBean.getfImage().getOriginalFilename());
+
+//			System.out.println("進資料庫的sImage: " + sImage + "." + ext);
+			//永續物件特性,直接存
+			cContestBean.setsImage(sImage + "." + ext);
+			
 			return true;
 		}catch (Exception e) {
 			return false;
@@ -51,7 +53,15 @@ public class ContestDAOImpl implements ContestDAO {
 
 	@Override
 	public Boolean updateContest(ContestBean cContestBean) {
-		return null;
+		System.out.println("進cdao");
+		Session session = factory.getCurrentSession();
+		try {
+			System.out.println("CONTESTbENA: " + cContestBean);
+			session.update(cContestBean);
+			return true;
+		}catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override

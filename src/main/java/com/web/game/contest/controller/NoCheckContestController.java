@@ -90,23 +90,25 @@ public class NoCheckContestController {
 			//MultipartFile轉byte[]
 			mf = ((ContestBean)model.getAttribute("cContestBean")).getfImage();
 			
+			bImage = mf.getBytes();
 			//如果沒選圖片,給預設圖片
-			if(mf.getContentType().equals("application/octet-stream")) {
-				is = context.getResourceAsStream("/images/" + sImage);
-				
-				Integer len = 0;
-				byte[] bytes = new byte[8192];
-				while((len = is.read(bytes)) != -1) {
-					baos.write(bytes, 0, len);
-				}
-				
-				bImage = baos.toByteArray();
-				
-				is.close();
-				
-			}else {
-				bImage = mf.getBytes();
-			}
+//			System.out.println("mf: " + mf);
+//			if(mf.getContentType().equals("application/octet-stream")) {
+//				is = context.getResourceAsStream("/images/" + sImage);
+//				
+//				Integer len = 0;
+//				byte[] bytes = new byte[8192];
+//				while((len = is.read(bytes)) != -1) {
+//					baos.write(bytes, 0, len);
+//				}
+//				
+//				bImage = baos.toByteArray();
+//				
+//				is.close();
+//				
+//			}else {
+//				bImage = mf.getBytes();
+//			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

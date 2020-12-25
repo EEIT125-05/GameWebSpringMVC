@@ -1,8 +1,13 @@
 package com.web.game.contest.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.web.game.contest.model.ContestBean;
 import com.web.game.contest.model.ParticipateBean;
@@ -73,21 +79,51 @@ public class ContestController {
 		
 		MultipartFile fImage = cContestBean.getfImage();
 		String contentType = fImage.getContentType();
-		String sImageName = null;
-		if(!contentType.equals("application/octet-stream")) {
+		String sImageName = cContestBean.getsImage();
+		
+		
+			
+		//預設圖片從資料夾取出轉換成multipartFile
+		if(contentType.equals("application/octet-stream")) {
+			if(model.getAttribute("sContestConfirm").equals("新增")) {
+				sImageName = "contestDefault.jpg";
+			}
+			
+			InputStream is = context.getResourceAsStream("/images/contestDefault.jpg");
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			try {
+				Integer len = 0;
+				byte[] bytes = new byte[8192];
+				while((len = is.read(bytes)) != -1) {
+					baos.write(bytes, 0, len);
+				}
+				byte[] bImage = baos.toByteArray();
+				fImage = new MockMultipartFile(sImageName, sImageName, "image/jpeg", bImage);
+				cContestBean.setfImage(fImage);
+				is.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else {
 			String fileType = contentType.split("/")[0];
 //			System.out.println("檔案類型: " + fileType);
 			if(!fileType.equals("image")) {
 				result.rejectValue("fImage", "", "不支援此檔案類型");
 			}
-			sImageName = fImage.getOriginalFilename();
-		}else {
-			sImageName = "contestDefault.jpg";
+			if(model.getAttribute("sContestConfirm").equals("新增")) {
+				sImageName = fImage.getOriginalFilename();
+			}
+			
 		}
 		
 //		System.out.println("圖片檔: " + sImageName);
 		//暫存圖片檔名,之後要拿來取得mimeType
 		cContestBean.setsImage(sImageName);
+		
+		
+		
+		
+		
 		
 		
 		cValidator.validate(cContestBean, result);
@@ -122,6 +158,15 @@ public class ContestController {
 			if(pService.insertParticipate((ParticipateBean)model.getAttribute("pParticipateBean"))) {
 				nextPage = "redirect:/contest/Thanks";
 			}else {
+				nextPage = "redirect:/contest/Error";
+			}
+		}else if(sContestConfirm.equals("更新")){
+			System.out.println("要更新囉");
+			if(cService.updateContest(cContestBean)) {
+				System.out.println("執行完service");
+				nextPage = "redirect:/contest/Thanks";
+			}else {
+				System.out.println("執行完service 失敗");
 				nextPage = "redirect:/contest/Error";
 			}
 		}else {

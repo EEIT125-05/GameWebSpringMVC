@@ -2,6 +2,7 @@ package com.web.game.contest.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -32,23 +33,18 @@ public class ContestSerivceImpl implements ContestService {
 			String sFilePath = "C:\\GameBar\\GameWebSpringMVC\\src\\main\\webapp\\images";
 	//		System.out.println("存檔路徑: " + sFilePath);
 			
-			//預設圖片不要存進路徑
-			if(!cContestBean.getsImage().equals("contestDefault.jpg")) {
-				try {
-					//關鍵點
-						MultipartFile fImage = cContestBean.getfImage();
-						fImage.transferTo(new File(sFilePath + "/" + cContestBean.getsImage()));
-				} catch (IllegalStateException e) {
-					e.printStackTrace();
-					return false;
-				} catch (IOException e) {
-					e.printStackTrace();
-					return false;
-				}
+			try {
+				MultipartFile fImage = cContestBean.getfImage();
+				fImage.transferTo(new File(sFilePath + "/" + cContestBean.getsImage()));
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+				return false;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
 			}
 			
 	//		System.out.println("完整檔名: " + cContestBean.getsImage());
-			
 			return true;
 		}else {
 			System.out.println("cdao有問題");
@@ -62,9 +58,29 @@ public class ContestSerivceImpl implements ContestService {
 		return cDao.deleteContest(cContestBean);
 	}
 
+	@Transactional
 	@Override
 	public Boolean updateContest(ContestBean cContestBean) {
-		return null;
+		if(cDao.updateContest(cContestBean)) {
+			System.out.println("執行完dao");
+			String sFilePath = "C:\\GameBar\\GameWebSpringMVC\\src\\main\\webapp\\images";
+			
+			try {
+				MultipartFile fImage = cContestBean.getfImage();
+				fImage.transferTo(new File(sFilePath + "/" + cContestBean.getsImage()));
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+				return false;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+			return true;
+		}else {
+			System.out.println("執行完dao 失敗");
+			System.out.println("cdao有問題");
+			return false;
+		}
 	}
 
 	@Transactional
