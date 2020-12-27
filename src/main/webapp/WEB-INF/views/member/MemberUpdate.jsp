@@ -16,74 +16,229 @@ request.setCharacterEncoding("UTF-8");
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <title>會員資料更新[]</title>
-<script src="<c:url value='../js/MemberUpdate.js'/>"></script>
+<%-- <script src="<c:url value='../js/MemberUpdate.js'/>"></script> --%>
+<script>
+	let passwordflag = false;
+	let nicknameflag = true;
+	let nameflag = true;
+	let addressflag = true;
+	let emailflag = true;
+	let phoneflag = true;
+
+	function checkPassword() {
+		let password = document.getElementById("Password");
+		let passwordConfirm = document.getElementById("passwordConfirm");
+		let c = document.getElementById("idpasswordConfirm");
+		if (passwordConfirm.value == "") {
+			c.innerHTML = ("<font color='red'>請輸入密碼</font>");
+			passwordflag = false;
+		} else {
+			if (password.value == passwordConfirm.value) {
+				c.innerHTML = "<font color='green'>OK</font>";
+				passwordflag = true;
+			} else {
+				c.innerHTML = "<font color='red'>密碼不相同</font>";
+				passwordflag = false;
+			}
+		}
+		check();
+	}
+	window.onload = function() {
+		var btn = document.getElementById("btn");
+		var psw = document.getElementById("Password");
+		var pswC = document.getElementById("passwordConfirm");
+
+		btn.onclick = function() {
+			if (psw.getAttribute('type') == 'password') {
+				psw.setAttribute('type', 'text');
+				btn.value = "visibility_off";
+			} else if (psw.getAttribute('type') == 'text') {
+				psw.setAttribute('type', 'password');
+				btn.value = "visibility";
+			}if (pswC.getAttribute('type') == 'password') {
+				pswC.setAttribute('type', 'text');
+				btn.value = "visibility_off";
+			} else if (pswC.getAttribute('type') == 'text') {
+				pswC.setAttribute('type', 'password');
+				btn.value = "visibility";
+			}
+			
+		}
+
+	}
+
+	function checkNickname() {
+		let nickname = document.getElementById("Nickname").value;
+		let idnickname = document.getElementById("idnickname");
+		if (nickname == "") {
+			idnickname.innerHTML = "<font color='red'>請輸入暱稱</font>";
+			nicknameflag = false;
+		} else {
+			idnickname.innerHTML = "<font color='green'>OK</font>";
+			nicknameflag = true;
+		}
+		check();
+	}
+
+	function checkEmail() {
+		let email = document.getElementById("Email").value;
+		let idemail = document.getElementById("idemail");
+		if (email == "") {
+			idemail.innerHTML = "<font color='red'>請輸入信箱</font>";
+			emailflag = false;
+		} else {
+			idemail.innerHTML = "";
+			emailflag = true;
+		}
+		check();
+	}
+
+	function checkName() {
+		let ename = document.getElementById("Ename").value;
+		let enameLen = ename.length;
+		let idname = document.getElementById("idname");
+		let nameError = false;
+		if (ename == "") {
+			idname.innerHTML = "<font color='red'>請輸入姓名</font>";
+			nameflag = false;
+		} else if (enameLen >= 2) {
+			for (let idname = 0; idname < enameLen; idname++) {
+				if (ename.charCodeAt(idname) < 0x4E00
+						|| ename.charCodeAt(idname) > 0x9FA5) {
+					nameError = true;
+					if (nameError) {
+						break;
+					}
+				}
+			}
+			if (nameError) {
+				idname.innerHTML = "<font color='red'>請輸入中文</font>";
+				nameflag = false;
+			} else {
+				idname.innerHTML = "<font color='green'>OK</font>";
+				nameflag = true;
+			}
+		} else {
+			idname.innerHTML = "<font color='red'>至少兩個字</font>";
+			nameflag = false;
+		}
+		check();
+	}
+	function checkPhone() {
+		let phone = document.getElementById("Phone").value;
+		let phoneLen = phone.length;
+		let idphone = document.getElementById("idphone");
+		let phoneCheck = false;
+		let reg = /^[0]{1}[9]{1}\d{8}$/;
+		if (phone == "") {
+			idphone.innerHTML = "<font color='red'>請輸入手機號碼</font>";
+			phoneflag = false;
+		} else if (phoneLen >= 10) {
+			if (reg.test(phone)) {
+				phoneCheck = true;
+			}
+			if (phoneCheck) {
+				idphone.innerHTML = "<font color='green'>OK</font>";
+				phoneflag = true;
+			} else {
+				idphone.innerHTML = "<font color='red'>格式錯誤請輸入正確電話號碼</font>";
+				phoneflag = false;
+			}
+		} else {
+			idphone.innerHTML = "<font color='red'>至少輸入10位號碼</font>";
+			phoneflag = false;
+		}
+		check();
+	}
+
+	function checkAddress() {
+		let address = document.getElementById("Address").value;
+		let idaddress = document.getElementById("idaddress");
+		if (address == "") {
+			idaddress.innerHTML = "<font color='red'>請輸入地址</font>";
+			addressflag = false;
+		} else {
+			idaddress.innerHTML = "<font color='green'>OK</font>";
+			addressflag = true;
+		}
+		check();
+	}
+
+	function check() {
+		if (passwordflag && nicknameflag && nameflag && addressflag
+				&& emailflag && phoneflag) {
+			document.getElementById("submit").disabled = false;
+		} else {
+			document.getElementById("submit").disabled = true;
+		}
+	}
+</script>
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
 
-	<form action="<c:url value='/member/MemberData'/>" method="post" modelAttribute="user">
+	<form action="<c:url value='/member/MemberData'/>" method="post"
+		modelAttribute="user">
 
 		<div>
 			<h3>
 				<input name="iNo" type="hidden" value="${user.iNo}" readonly>
 			</h3>
 			<h3>
-				會員帳號:${user.sAccount}<input type="hidden" name="sAccount" value="${user.sAccount}"
-					readonly>
+				會員帳號:${user.sAccount}<input type="hidden" name="sAccount"
+					value="${user.sAccount}" readonly>
 			</h3>
 			<h3>
-				更改密碼:<input id="password" type="text" minlength="8" required
+				更改密碼:<input id="Password" type="password" minlength="8" required
 					maxlength="16" onblur="checkPassword();" value="${user.sPassword}">
+				<input id="btn" type="button" class="material-icons"
+					style="font-size: 25px" value="visibility">
 			</h3>
 			<h3>
-				再次確認密碼:<input id="passwordConfirm" type="text" name="sPassword"
-					minlength="8" required maxlength="16" onblur="checkPassword();"
-					onkeyup="value=value.replace(/[\W]/g,'')"><span
+				再次確認密碼:<input id="passwordConfirm" type="password" name="sPassword"
+					minlength="8" required maxlength="16" onblur="checkPassword();"><span
 					id="idpasswordConfirm"></span>
 			</h3>
 			<h3>
 				更改暱稱:<input type="text" id="Nickname" name="sNickname"
-					onblur="checkNickname();" required
-					onkeyup="this.value=this.value.replace(/\s+/g,'')" maxlength="10"
-					onkeyup="value=this.value.replace( /^[\u4E00-\u9FA5a-zA-Z0-9_]$/)"
+					onblur="checkNickname();" required maxlength="10"
 					value="${user.sNickname}"><span id="idnickname"></span>
 			</h3>
 			<h3>
 				更改真實姓名:<input type="text" id="Ename" name="sEname" required
-					onblur="checkName();"
-					onkeyup="this.value=this.value.replace(/\s+/g,'')"
-					pattern="^[\u4e00-\u9fa5]+$" minlength="2" maxlength="4"
-					value="${user.sEname}"><span id="idname"></span>
+					onblur="checkName();" pattern="^[\u4e00-\u9fa5]+$" minlength="2"
+					maxlength="4" value="${user.sEname}"><span id="idname"></span>
 			</h3>
 			<h3>
-				聯絡地址:<input type="text" id="Address" name="sAddress" required
-					onkeyup="this.value=this.value.replace(/\s+/g,'')"
-					onblur="checkAddress();" maxlength="30" value="${user.sAddress}"><span
-					id="idaddress"></span>
+				聯絡地址:<input type="text" id="Address"
+					name="sAddress" required onblur="checkAddress();" maxlength="30"
+					value="${user.sAddress}"><span id="idaddress"></span>
 			</h3>
 			<h3>
-				更改信箱:<input type="email" id="Email" name="sEmail" required
-					maxlength="30" onkeyup="this.value=this.value.replace(/\s+/g,'')"
+				更改信箱:${user.sEmail}<input type="hidden" id="Email" name="sEmail" required
 					pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$"
 					onblur="checkEmail();" value="${user.sEmail}"><span
 					id="idemail"></span>
 			</h3>
 			<h3>
 				更改手機號碼:<input type="text" id="Phone" name="sPhone" maxlength="10"
-					required onkeyup="this.value=this.value.replace(/\s+/g,'')"
 					pattern="[0]{1}[9]{1}\d{8}" onblur="checkPhone();"
 					value="${user.sPhone}"><span id="idphone"></span>
 			</h3>
 			<h3>
-				性別:${user.sGender}<input type="hidden" name="sGender" value="${user.sGender}"
-					readonly>
+				性別:${user.sGender}<input type="hidden" name="sGender"
+					value="${user.sGender}" readonly>
 			</h3>
 			<h3>
-				生日年月日:${user.sBirthday}<input type="hidden" name="sBirthday" value="${user.sBirthday}" readonly>
+				生日年月日:${user.sBirthday}<input type="hidden" name="sBirthday"
+					value="${user.sBirthday}" readonly>
 			</h3>
 			<h3>
-				建立日期:${user.registerDate}<input type="hidden" name="registerDate" value="${user.registerDate}" readonly>
+				建立日期:${user.registerDate}<input type="hidden" name="registerDate"
+					value="${user.registerDate}" readonly>
 			</h3>
 			<input id="submit" name="submit" type="submit" value="修改" disabled>
 		</div>

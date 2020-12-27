@@ -54,8 +54,8 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<MemberBean> getAllMembers() {
 		List<MemberBean> list = new ArrayList<>();
-		list = dao.getAllMembers();
-		return list;
+		return list = dao.getAllMembers();
+		
 	}
 
 	@Override
@@ -63,4 +63,13 @@ public class MemberServiceImpl implements MemberService {
 		return dao.Checkmember(sAccount);
 	}
 
+	@Override
+	public String CheckEmail(String sEmail) {
+		return dao.CheckEmail(sEmail);
+	}
+
+	@Override
+	public String CheckPhone(String sPhone) {
+		return dao.CheckPhone(sPhone);
+	}
 }

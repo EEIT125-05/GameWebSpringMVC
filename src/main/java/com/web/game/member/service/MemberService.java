@@ -20,5 +20,9 @@ public interface MemberService {
 
 	String Checkmember(String sAccount);
 
+	String CheckEmail(String sEmail);
+
+	String CheckPhone(String sPhone);
+
 
 }

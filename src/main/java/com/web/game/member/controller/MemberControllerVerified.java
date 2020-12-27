@@ -1,16 +1,9 @@
 package com.web.game.member.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
 
@@ -35,47 +27,26 @@ public class MemberControllerVerified {
 		this.mService = service;
 	}
 
-	@PostMapping("/MemberCheck")
-	public String MemberLogin(Model model) {
-		MemberBean CheckMB = new MemberBean();
-		model.addAttribute("user", CheckMB);
-		return "member/MemberCheck";
-	}
-
-	@PostMapping("/MemberThanks")
-	public String MemberInsert(Model model, @RequestParam String sAccount, @RequestParam String sPassword,
-			@RequestParam String sNickname, @RequestParam String sEmail, @RequestParam String sEname,
-			@RequestParam String sPhone, @RequestParam String sAddress, @RequestParam String sGender,
-			@RequestParam String sBirthday, @RequestParam String registerDate) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		registerDate = sdf.format(new Date());
-		Integer iNo = null;
-		MemberBean InsertMB = new MemberBean(iNo, sAccount, sPassword, sNickname, sEmail, sEname, sPhone, sAddress,
-				sGender, sBirthday, registerDate);
-		model.addAttribute("user", InsertMB);
-		mService.InsertMember(InsertMB);
-		return "member/MemberThanks";
-	}
-
-	@GetMapping("/Thanks")
-	public String Thanks() {
-		return "member/MemberSignin";
-	}
-
-	
 	@GetMapping("/Data")
-	public String SigninToData(Model model) {
+	public String SigninToData(Model model, String sAccount) {
 		MemberBean Signin = (MemberBean) model.getAttribute("user");
+		sAccount = Signin.getsAccount();
+		if ( sAccount.equals("game20200922") ) {
+//			List<MemberBean> Allmember = mService.getAllMembers();
+//			System.out.println("Allmember="+Allmember);
+			model.addAttribute("users", mService.getAllMembers());
+			return "member/MemberGetAll";
+		} else {
+			;
+		}
 		return "member/MemberData";
 	}
-	
-//	@GetMapping("/Data")
-//	public String SigninToData(Model model, String sAccount) {
-//		System.out.println("sAccount: " + sAccount);
-//		MemberBean Signin = mService.Selectmember(sAccount);
-//		model.addAttribute("user", Signin);
-//		System.out.println("已經登入的sAccount=" + sAccount);
-//		return "member/MemberData";
+
+//	@PostMapping("/Allmember")
+//	public String GetAllmember(Model model) {
+//		List<MemberBean> Allmember = mService.getAllMembers();
+//		model.addAttribute("user", Allmember);
+//		return "member/MemberGetAll";
 //	}
 
 	@PostMapping("/Delete")
@@ -97,7 +68,7 @@ public class MemberControllerVerified {
 		model.addAttribute("user", Data);
 		return "member/MemberUpdate";
 	}
-	
+
 	@PostMapping("/MemberData")
 	public String UpdateMember(Model model, @RequestParam Integer iNo, @RequestParam String sAccount,
 			@RequestParam String sPassword, @RequestParam String sNickname, @RequestParam String sEmail,

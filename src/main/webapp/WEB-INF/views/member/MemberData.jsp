@@ -21,14 +21,14 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 <body>
 	<%@ include file="../Header.jsp"%>
 
-	<div>
-		<form action="<c:url value='/member/Delete'/>" method="post"
-			modelAttribute="user">
-			<input type="hidden" name="iNo" value="${user.iNo}"> 
-			<input type="hidden" name="sAccount" value="${user.sAccount}">
-			<input type="submit" name="submit" value="刪除會員">
-		</form>
-	</div>
+<!-- 	<div> -->
+<%-- 		<form action="<c:url value='/member/Delete'/>" method="post" --%>
+<!-- 			modelAttribute="user"> -->
+<%-- 			<input type="hidden" name="iNo" value="${user.iNo}">  --%>
+<%-- 			<input type="hidden" name="sAccount" value="${user.sAccount}"> --%>
+<!-- 			<input type="submit" name="submit" value="刪除會員"> -->
+<!-- 		</form> -->
+<!-- 	</div> -->
 
 	<div>
 		<form action="<c:url value='/member/Update'/>" method="post"

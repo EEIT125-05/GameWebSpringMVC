@@ -102,6 +102,24 @@ public class MemberDaoImpl implements MemberDao {
 		return Account;
 	
 	}
+	
+	@Override
+	public String CheckEmail(String sEmail) {
+		Session session = factory.getCurrentSession();
+		String hql = "FROM MemberBean WHERE sEmail = :sEmail";
+		String Email = "";
+		try {
+			MemberBean MB = (MemberBean) session.createQuery(hql).setParameter("sEmail", sEmail).getSingleResult();
+			Email = MB.getsAccount();
+		} catch (NoResultException ex) {
+			;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println(ex.getMessage());
+			Email = "Error: 資料庫異常，請檢查資料庫";
+		}
+		return Email;
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -117,5 +135,23 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public MemberBean get(Integer iNo) {
 		return factory.getCurrentSession().get(MemberBean.class, iNo);
+	}
+
+	@Override
+	public String CheckPhone(String sPhone) {
+		Session session = factory.getCurrentSession();
+		String hql = "FROM MemberBean WHERE sPhone = :sPhone";
+		String Phone = "";
+		try {
+			MemberBean MB = (MemberBean) session.createQuery(hql).setParameter("sPhone", sPhone).getSingleResult();
+			Phone = MB.getsAccount();
+		} catch (NoResultException ex) {
+			;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println(ex.getMessage());
+			Phone = "Error: 資料庫異常，請檢查資料庫";
+		}
+		return Phone;
 	}
 }

@@ -15,7 +15,8 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <title>會員註冊</title>
 <%-- <script src="<c:url value='/js/MemberLogin.js'/>"></script> --%>
 <script>
@@ -60,12 +61,13 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 				accountflag = false;
 			}
 		}
-		check();
 	}
 
 	window.onload = function() {
 		var Check = document.getElementById("accountCheck");
 		var idaccount = document.getElementById("idaccount");
+		var emailCheck = document.getElementById("emailCheck");
+		var PhoneCheck = document.getElementById("PhoneCheck");
 		Check.onclick = function() {
 			var sAccount = document.getElementById("sAccount").value.trim();
 			var xhr = new XMLHttpRequest();
@@ -86,6 +88,53 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 					}
 				}
 			}
+			check();
+		}
+		
+		emailCheck.onclick = function() {
+			var sEmail = document.getElementById("sEmail").value.trim();
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "<c:url value='/member/MemberemailCheck' />", true);
+			xhr.setRequestHeader("Content-Type",
+					"application/x-www-form-urlencoded");
+			xhr.send("sEmail=" + sEmail);
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					console.log("sEmail=" + sEmail);
+					var result = JSON.parse(xhr.responseText);
+					if (result.sEmail.length == 0) {
+						idemail.innerHTML = "<font color='green'>信箱可用</font>";
+						emailflag = true;
+					} else {
+						idemail.innerHTML = "<font color='red'>信箱已被使用，請重新輸入信箱</font>";
+						emailflag = false;
+					}
+				}
+			}
+			check();
+		}
+		
+		PhoneCheck.onclick = function() {
+			var sPhone = document.getElementById("sPhone").value.trim();
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "<c:url value='/member/MemberPhoneCheck' />", true);
+			xhr.setRequestHeader("Content-Type",
+					"application/x-www-form-urlencoded");
+			xhr.send("sPhone=" + sPhone);
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					console.log("sPhone=" + sPhone);
+					var result = JSON.parse(xhr.responseText);
+					if (result.sPhone.length == 0) {
+						idphone.innerHTML = "<font color='green'>電話可用</font>";
+						phoneflag = true;
+					} else {
+						idphone.innerHTML = "<font color='red'>電話已被使用，請重新輸入電話</font>";
+						phoneflag = false;
+					}
+				}
+			}
+			check();
 		}
 		
 		var btn = document.getElementById("btn");
@@ -133,17 +182,16 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 	}
 
 	function checkEmail() {
-		let email = document.getElementById("Email").value.trim();
+		let email = document.getElementById("sEmail").value.trim();
 		let emailLen = email.length;
 		let idemail = document.getElementById("idemail");
 		if (email == "") {
 			idemail.innerHTML = "<font color='red'>請輸入信箱</font>";
 			emailflag = false;
-		} else {
-			idemail.innerHTML = "<font color='green'>OK</font>";
-			emailflag = true;
+		}else{
+			idemail.innerHTML = "<font color='blue'>確認信箱驗證</font>";
+			emailflag = false;
 		}
-		check();
 	}
 
 	function checkName() {
@@ -178,7 +226,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 	}
 
 	function checkPhone() {
-		let phone = document.getElementById("Phone").value.trim();
+		let phone = document.getElementById("sPhone").value.trim();
 		let phoneLen = phone.length;
 		let idphone = document.getElementById("idphone");
 		let phoneCheck = false;
@@ -191,8 +239,8 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 				phoneCheck = true;
 			}
 			if (phoneCheck) {
-				idphone.innerHTML = "<font color='green'>OK</font>";
-				phoneflag = true;
+				idphone.innerHTML = "<font color='green'>請檢查號碼</font>";
+				phoneflag = false;
 			} else {
 				idphone.innerHTML = "<font color='red'>請輸入09開頭電話號碼</font>";
 				phoneflag = false;
@@ -209,17 +257,15 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 		let idaddress = document.getElementById("idaddress");
 		if (address == "") {
 			idaddress.innerHTML = "<font color='red'>請輸入地址</font>";
-			addressflag = false;
 		} else {
 			idaddress.innerHTML = "<font color='green'>OK</font>";
-			addressflag = true;
 		}
 		check();
 	}
 
 	function check() {
 		if (accountflag && passwordflag && nicknameflag && nameflag
-				&& addressflag && emailflag && phoneflag) {
+				&& emailflag && phoneflag) {
 			document.getElementById("submit").disabled = false;
 		} else {
 			document.getElementById("submit").disabled = true;
@@ -237,14 +283,15 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 			<h3>
 				設定的帳號:<input type="text" id="sAccount" name="sAccount" minlength="6"
 					maxlength="20" required onblur="checkAccount();"> <input
-					type="button" id='accountCheck' value="驗證" disabled> <span
+					type="button" id='accountCheck' value="檢查" disabled> <span
 					id="idaccount" /></span>
 			</h3>
 			<h3>
 				設定的密碼:<input type="password" id="Password" name="sPassword"
 					minlength="8" maxlength="16" required onblur="checkPassword();">
-				<input id="btn" type="button" class="material-icons" style="font-size: 25px" value="visibility">
-				<span id="idpassword"></span>
+				<input id="btn" type="button" class="material-icons"
+					style="font-size: 25px" value="visibility"> <span
+					id="idpassword"></span>
 			</h3>
 			<h3>
 				使用的暱稱:<input type="text" id="Nickname" name="sNickname" required
@@ -261,15 +308,17 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 					onblur="checkAddress();"> <span id="idaddress"></span>
 			</h3>
 			<h3>
-				使用的信箱:<input type="email" id="Email" name="sEmail" maxlength="30"
+				使用的信箱:<input type="email" id="sEmail" name="sEmail" maxlength="30"
 					required onblur="checkEmail();"
 					pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$">
+				<input type="button" id='emailCheck' value="檢查"> 
 				<span id="idemail"></span>
 			</h3>
 			<h3>
-				手機號碼:<input type="text" id="Phone" name="sPhone" maxlength="10"
-					required onblur="checkPhone();" pattern="[0]{1}[9]{1}\d{8}" /><span
-					id="idphone"></span>
+				手機號碼:<input type="text" id="sPhone" name="sPhone" maxlength="10"
+					required onblur="checkPhone();" pattern="[0]{1}[9]{1}\d{8}" />
+					<input type="button" id='PhoneCheck' value="檢查">
+					<span id="idphone"></span>
 			</h3>
 			<h3>
 				性別:<label><input type="radio" name="sGender" value="male"

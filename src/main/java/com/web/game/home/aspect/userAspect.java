@@ -15,9 +15,10 @@ import com.web.game.member.model.MemberBean;
 @Component
 public class userAspect {
 			 
-	@Before("execution (* com.web.game.contest.controller.ContestController.*(..)) "
-			+ "|| execution (* com.web.game.forum.controller.ForumController.*(..))"+
-			"||execution (* com.web.game.withplay.controller.WithController.*(..))")
+	@Before("execution (* com.web.game.contest.controller.ContestController.*(..)) "+
+			"||execution (* com.web.game.forum.controller.ForumController.*(..))"+
+			"||execution (* com.web.game.withplay.controller.WithController.*(..))"+
+			"||execution (* com.web.game.member.controller.MemberControllerVerified.*(..))")
 	public void userCheck(JoinPoint joinPoint) {
 		System.out.println("aop成功-------------------------------------------------------------------------------------------------------------------");
 		String methodName = joinPoint.getSignature().getName();
