@@ -152,7 +152,7 @@ $(function(){
 								$("#point").append("<div class=\"row\">"
 													+"<div class=\"col-md-7\">"
 													+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
-													+"src=\"http://placehold.it/700x300\" alt=\"\">"
+													+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\">"
 													+"</a>"
 													+"</div>"
 													+"<div class=\"col-md-5\">"

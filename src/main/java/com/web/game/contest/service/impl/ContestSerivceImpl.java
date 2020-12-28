@@ -2,7 +2,6 @@ package com.web.game.contest.service.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -55,6 +54,21 @@ public class ContestSerivceImpl implements ContestService {
 	@Transactional
 	@Override
 	public Boolean deleteContest(ContestBean cContestBean) {
+		
+		String fileName = "C:\\GameBar\\GameWebSpringMVC\\src\\main\\webapp\\images\\" + cContestBean.getsImage();
+		
+		File file = new File(fileName);
+	      // 如果檔案路徑所對應的檔案存在，並且是一個檔案，則直接刪除
+	      if (file.exists() && file.isFile()) {
+	          if (file.delete()) {
+	              System.out.println("刪除單個檔案" + fileName + "成功！");
+	          } else {
+	              System.out.println("刪除單個檔案" + fileName + "失敗！");
+	          }
+	      } else {
+	          System.out.println("刪除單個檔案失敗：" + fileName + "不存在！");
+	      }
+		
 		return cDao.deleteContest(cContestBean);
 	}
 
