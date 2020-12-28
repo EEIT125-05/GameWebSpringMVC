@@ -17,8 +17,6 @@ response.setContentType("text/html;charset=UTF-8");
 <body>
 <%@ include file="../Header.jsp" %>
 
-<%-- <c:set var="ForumConfirm" value="reply" scope="session"/> --%>
-
 <form action="<c:url value="/forum/Reply"/>" method="post">
 
 	<span>分類: ${fForumBean.sCategory} 標題: ${fForumBean.sTitle}</span><br>

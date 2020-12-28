@@ -44,9 +44,18 @@ public class NoCheckContestController {
 	@Autowired
 	GameListService gService;
 	
-	@GetMapping("Index")
-	public String contestIndex(Model model) {
-		model.addAttribute("lContestList", cService.selectAllContest());
+//	@GetMapping("Index")
+//	public String contestIndex(Model model) {
+//		model.addAttribute("lContestList", cService.selectAllContest());
+//		model.addAttribute("lGameList", gService.selectGameList());
+//		return "contest/ContestIndex";
+//	}
+	
+	@GetMapping("/Index")
+	public String indexPage(Model model,
+							@RequestParam() Integer pageNo) {
+		model.addAttribute("lContestList", cService.selectPageContest(pageNo));
+		model.addAttribute("totalPages", cService.getTotalPages());
 		model.addAttribute("lGameList", gService.selectGameList());
 		return "contest/ContestIndex";
 	}

@@ -84,7 +84,20 @@ public class ContestDAOImpl implements ContestDAO {
 	public List<ContestBean> selectAllContest() {
 		String hql = "from ContestBean";
 		Session session = factory.getCurrentSession();
-		return session.createQuery(hql).getResultList();
+		return session.createQuery(hql)
+				.setMaxResults(2)
+				.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ContestBean> selectPageContest(Integer pageNo) {
+		String hql = "from ContestBean";
+		Session session = factory.getCurrentSession();
+		return session.createQuery(hql)
+				.setFirstResult((pageNo-1)*2)
+				.setMaxResults(2)
+				.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -94,6 +107,13 @@ public class ContestDAOImpl implements ContestDAO {
 		System.out.println(hql);
 		Session session = factory.getCurrentSession();
 		return session.createQuery(hql).getResultList();
+	}
+	
+	@Override
+	public Integer getTotalPages() {
+		String hql = "select count(*) FROM ContestBean";
+		Session session = factory.getCurrentSession();
+		return (Integer)session.createQuery(hql).getSingleResult();
 	}
 
 }

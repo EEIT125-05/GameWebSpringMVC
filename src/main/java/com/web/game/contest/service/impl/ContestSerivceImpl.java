@@ -114,6 +114,12 @@ public class ContestSerivceImpl implements ContestService {
 	public List<ContestBean> selectAllContest() {
 		return cDao.selectAllContest();
 	}
+	
+	@Transactional
+	@Override
+	public List<ContestBean> selectPageContest(Integer pageNo) {
+		return cDao.selectPageContest(pageNo);
+	}
 
 	@Transactional
 	@Override
@@ -147,6 +153,10 @@ public class ContestSerivceImpl implements ContestService {
 		cContestBean.setdSignEnd(dSignEnd);
 	}
 	
-	
+	@Transactional
+	@Override
+	public Integer getTotalPages() {
+		return cDao.getTotalPages();
+	}
 
 }

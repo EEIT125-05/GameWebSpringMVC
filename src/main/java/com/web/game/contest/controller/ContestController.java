@@ -5,6 +5,7 @@ import java.io.InputStream;
 
 import javax.servlet.ServletContext;
 
+import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
@@ -262,6 +263,7 @@ public class ContestController {
 		model.addAttribute("lParticipateList", pService.selectParticipate(((MemberBean)model.getAttribute("user")).getsAccount()));
 		return "contest/ContestParticipate";
 	}
+	
 	
 //	@GetMapping("先放這這段程式碼")
 //	public ResponseEntity<String> 隨便(){
