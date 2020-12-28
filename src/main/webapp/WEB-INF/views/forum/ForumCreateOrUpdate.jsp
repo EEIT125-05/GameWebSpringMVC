@@ -17,7 +17,7 @@ response.setContentType("text/html;charset=UTF-8");
 	color:red;
 }
 </style>
-<script src="<c:url value='/js/ForumCreate.js'/>"></script>
+<%-- <script src="<c:url value='/js/ForumCreate.js'/>"></script> --%>
 </head>
 <body>
 <%@ include file="../Header.jsp" %>
@@ -43,7 +43,7 @@ response.setContentType("text/html;charset=UTF-8");
 	</div>
 	<div>
 		<label>內文: </label>
-		<form:textarea id="sText" path="sText" cols="100" row="15"/>
+		<form:textarea id="sText" path="sText" cols="100" rows="15"/>
 		<br><label id="textError" class="error"></label>
 		<br><form:errors path="sText" class="error"/> 
 	</div>
@@ -53,5 +53,11 @@ response.setContentType("text/html;charset=UTF-8");
 </form:form>
 
 <%@ include file="../Foot.jsp" %>
+
+<script src="<c:url value='/ckeditor/ckeditor.js'/>"></script>
+<script>
+CKEDITOR.replace( 'sText' );
+</script>
+
 </body>
 </html>
