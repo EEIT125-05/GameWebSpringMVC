@@ -103,15 +103,16 @@
           <span class="sr-only">Previous</span>
         </a>
       </li>
-      <li class="page-item">
-        <a class="page-link" href="#">1</a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" href="#">2</a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" href="#">3</a>
-      </li>
+      
+      <fmt:formatNumber type="number" var="totalPage" value="${fn:length(lContestList) / 2}" maxFractionDigits="0"/>
+	  <c:forEach var="page" begin="1" end="${totalPage}">
+	      <li class="page-item">
+	        <a class="page-link" href="<c:url value='/contest/Index?pageNo=${page}'/>">${page}</a>
+	        
+	      </li>
+	  </c:forEach>
+      
+      
       <li class="page-item">
         <a class="page-link" href="#" aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
@@ -152,7 +153,7 @@ $(function(){
 								$("#point").append("<div class=\"row\">"
 													+"<div class=\"col-md-7\">"
 													+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
-													+"src=\"http://placehold.it/700x300\" alt=\"\">"
+													+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\">"
 													+"</a>"
 													+"</div>"
 													+"<div class=\"col-md-5\">"

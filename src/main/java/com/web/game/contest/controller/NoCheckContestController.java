@@ -44,9 +44,18 @@ public class NoCheckContestController {
 	@Autowired
 	GameListService gService;
 	
-	@GetMapping("Index")
-	public String contestIndex(Model model) {
-		model.addAttribute("lContestList", cService.selectAllContest());
+//	@GetMapping("Index")
+//	public String contestIndex(Model model) {
+//		model.addAttribute("lContestList", cService.selectAllContest());
+//		model.addAttribute("lGameList", gService.selectGameList());
+//		return "contest/ContestIndex";
+//	}
+	
+	@GetMapping("/Index")
+	public String indexPage(Model model,
+							@RequestParam() Integer pageNo) {
+		model.addAttribute("lContestList", cService.selectPageContest(pageNo));
+		model.addAttribute("totalPages", cService.getTotalPages());
 		model.addAttribute("lGameList", gService.selectGameList());
 		return "contest/ContestIndex";
 	}
@@ -77,8 +86,6 @@ public class NoCheckContestController {
 		
 		MultipartFile mf = null;
 		String sImage = ((ContestBean)model.getAttribute("cContestBean")).getsImage();
-		InputStream is = null;
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		byte[] bImage = null;
 		String mimeType = null;
 		MediaType mediaType = null;
@@ -91,24 +98,6 @@ public class NoCheckContestController {
 			mf = ((ContestBean)model.getAttribute("cContestBean")).getfImage();
 			
 			bImage = mf.getBytes();
-			//如果沒選圖片,給預設圖片
-//			System.out.println("mf: " + mf);
-//			if(mf.getContentType().equals("application/octet-stream")) {
-//				is = context.getResourceAsStream("/images/" + sImage);
-//				
-//				Integer len = 0;
-//				byte[] bytes = new byte[8192];
-//				while((len = is.read(bytes)) != -1) {
-//					baos.write(bytes, 0, len);
-//				}
-//				
-//				bImage = baos.toByteArray();
-//				
-//				is.close();
-//				
-//			}else {
-//				bImage = mf.getBytes();
-//			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

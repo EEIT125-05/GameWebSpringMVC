@@ -43,7 +43,14 @@
 				<label style="vertical-align:top">宣傳圖片: </label>
 			</c:otherwise>
 		</c:choose>
-		<img src="<c:url value='/contest/ConfirmImage'/>" style="width:560px;height:320px"/>
+		<c:choose>
+			<c:when	test="${sContestConfirm == '刪除' }">
+				<img src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" style="width:560px;height:320px"/>
+			</c:when>
+			<c:otherwise>
+				<img src="<c:url value='/contest/ConfirmImage'/>" style="width:560px;height:320px"/>
+			</c:otherwise>
+		</c:choose>
 		<br>
 		<c:set var="rule" value="${cContestBean.sRule}" />
 				<%

@@ -18,8 +18,12 @@ public interface ContestService {
 	
 	List<ContestBean> selectAllContest();
 	
+	List<ContestBean> selectPageContest(Integer pageNo);
+	
 	List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, String sSign);
 	
 	void setTime(ContestBean cContestBean, String sSignStart, String sSignEnd, String sTime);
+	
+	Integer getTotalPages();
 	
 }

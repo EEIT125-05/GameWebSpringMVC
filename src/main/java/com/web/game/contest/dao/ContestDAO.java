@@ -18,7 +18,10 @@ public interface ContestDAO {
 	
 	List<ContestBean> selectAllContest();
 	
+	List<ContestBean> selectPageContest(Integer pageNo);
+	
 	List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate);
 	
+	Integer getTotalPages();
 
 }

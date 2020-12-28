@@ -22,23 +22,11 @@ response.setContentType("text/html;charset=UTF-8");
 
 	<p>分類: ${fForumBean.sCategory} 標題: ${fForumBean.sTitle}</p>
 
-	<c:set var="text" value="${fForumBean.sText}" />
-			<%
-				request.setAttribute("vEnter", "\n");  
-			%>
-	<span>內文:</span><br><span>${fn:replace(text,vEnter,"<br>")}</span>
+	<p>內文: </p>
+	<textarea id="sText" name="sText" cols="100" rows="15" disabled>${fForumBean.sText }</textarea>
 	<hr>
 	<input type="submit" name="confirm" value="確認${sForumConfirm}"/>
-	
-<%-- 	<c:if test="${sessionScope.ForumConfirm == 'create'}"> --%>
-<!-- 		<button type="submit" name="confirm" value="create">確認新增</button> -->
-<%-- 	</c:if> --%>
-<%-- 	<c:if test="${sessionScope.ForumConfirm == 'update'}"> --%>
-<!-- 		<button type="submit" name="confirm" value="update">確認更改</button> -->
-<%-- 	</c:if> --%>
-<%-- 	<c:if test="${sessionScope.ForumConfirm == 'delete'}"> --%>
-<!-- 		<button type="submit" name="confirm" value="delete">確認刪除</button> -->
-<%-- 	</c:if> --%>
+
 </form>
 
 
