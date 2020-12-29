@@ -80,8 +80,6 @@ public class ContestController {
 		String contentType = fImage.getContentType();
 		String sImageName = cContestBean.getsImage();
 		
-		
-			
 		//預設圖片從資料夾取出轉換成multipartFile
 		if(contentType.equals("application/octet-stream")) {
 			if(model.getAttribute("sContestConfirm").equals("新增")) {
@@ -141,13 +139,7 @@ public class ContestController {
 					@ModelAttribute("sContestConfirm") String sContestConfirm,
 					Model model) {
 		String nextPage = null;
-		if(sContestConfirm.equals("報名")){
-			if(pService.insertParticipate((ParticipateBean)model.getAttribute("pParticipateBean"))) {
-				nextPage = "redirect:/contest/Thanks";
-			}else {
-				nextPage = "redirect:/contest/Error";
-			}
-		}else if(sContestConfirm.equals("更新")){
+		if(sContestConfirm.equals("更新")){
 			if(cService.updateContest(cContestBean)) {
 				nextPage = "redirect:/contest/Thanks";
 			}else {
@@ -241,8 +233,14 @@ public class ContestController {
 					@ModelAttribute("cContestBean") ContestBean cContestBean,
 					@RequestParam String sGameId,
 					Model model) {
-		model.addAttribute("pParticipateBean", new ParticipateBean(null, ((MemberBean)model.getAttribute("user")).getsAccount(), sGameId, cContestBean));
-		return "contest/ContestConfirm";
+		String nextPage = null;
+		if(pService.insertParticipate(new ParticipateBean(null, ((MemberBean)model.getAttribute("user")).getsAccount(), sGameId, cContestBean))) {
+			model.addAttribute("sContestConfirm", "報名");
+			nextPage = "redirect:/contest/Thanks";
+		}else {
+			nextPage = "redirect:/contest/Error";
+		}
+		return nextPage;
 	}
 	
 	@GetMapping("/Participate")

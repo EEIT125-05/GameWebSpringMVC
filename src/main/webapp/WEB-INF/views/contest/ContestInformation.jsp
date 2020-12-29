@@ -75,12 +75,12 @@
 								<button type="submit" name="join" value="join" disabled>報名比賽</button>
 							</c:when>
 							<c:otherwise>
-								<input type="text" name="sGameId" required>
+								遊戲ID: <input type="text" name="sGameId" required>
 								<br>
 								<input type="checkbox" id="checkBox" name="checkBox" required>
 								<label for="checkBox">我同意遵守比賽規則</label>
 								<br>
-								<button type="submit" name="join" value="join">報名比賽</button>
+								<button type="submit" id="join" name="join" value="join">報名比賽</button>
 							</c:otherwise>
 						</c:choose>
 					</c:otherwise>
@@ -92,5 +92,23 @@
 
 </div>
 <%@ include file="../Foot.jsp"%>
+
+<script>
+
+	$(function(){
+		$("#join").on("click", function(){
+			return confirmJoin();
+		});
+	});
+
+	function confirmJoin(){
+	  var result = confirm("確認參加?");
+	  if (result) {
+	      return true;
+	  }
+	  return false;
+	}
+</script>
+
 </body>
 </html>

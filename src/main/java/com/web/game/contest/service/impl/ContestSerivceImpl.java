@@ -123,9 +123,9 @@ public class ContestSerivceImpl implements ContestService {
 
 	@Transactional
 	@Override
-	public List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, String sSign) {
+	public List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, String sSign, Integer scrollInt) {
 		
-		List<ContestBean> lContestList = cDao.searchContests(sSearch, sGame, sSignDate);
+		List<ContestBean> lContestList = cDao.searchContests(sSearch, sGame, sSignDate, scrollInt);
 		List<ContestBean> lContestListCheck = new ArrayList<ContestBean>();
 		
 		for(ContestBean cContestBean : lContestList) {

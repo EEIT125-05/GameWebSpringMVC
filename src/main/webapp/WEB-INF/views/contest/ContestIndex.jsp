@@ -96,30 +96,30 @@
 			</c:forEach>
 	</div>
 	
-	<ul class="pagination justify-content-center">
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-          <span class="sr-only">Previous</span>
-        </a>
-      </li>
+<!-- 	<ul class="pagination justify-content-center"> -->
+<!--       <li class="page-item"> -->
+<!--         <a class="page-link" href="#" aria-label="Previous"> -->
+<!--           <span aria-hidden="true">&laquo;</span> -->
+<!--           <span class="sr-only">Previous</span> -->
+<!--         </a> -->
+<!--       </li> -->
       
-      <fmt:formatNumber type="number" var="totalPage" value="${fn:length(lContestList) / 2}" maxFractionDigits="0"/>
-	  <c:forEach var="page" begin="1" end="${totalPage}">
-	      <li class="page-item">
-	        <a class="page-link" href="<c:url value='/contest/Index?pageNo=${page}'/>">${page}</a>
+<%--       <fmt:formatNumber type="number" var="totalPage" value="${fn:length(lContestList) / 2}" maxFractionDigits="0"/> --%>
+<%-- 	  <c:forEach var="page" begin="1" end="${totalPage}"> --%>
+<!-- 	      <li class="page-item"> -->
+<%-- 	        <a class="page-link" href="<c:url value='/contest/Index?pageNo=${page}'/>">${page}</a> --%>
 	        
-	      </li>
-	  </c:forEach>
+<!-- 	      </li> -->
+<%-- 	  </c:forEach> --%>
       
       
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-          <span class="sr-only">Next</span>
-        </a>
-      </li>
-    </ul>
+<!--       <li class="page-item"> -->
+<!--         <a class="page-link" href="#" aria-label="Next"> -->
+<!--           <span aria-hidden="true">&raquo;</span> -->
+<!--           <span class="sr-only">Next</span> -->
+<!--         </a> -->
+<!--       </li> -->
+<!--     </ul> -->
     
 </div>
 <%@ include file="../Foot.jsp" %>
@@ -137,6 +137,7 @@ $(function(){
 	
 	$("#submit").on("click",function(){
 		$("#point").empty();
+		scrollInt = 0;
 		let xhr = new XMLHttpRequest();
 		if(xhr != null){
 			
@@ -184,11 +185,72 @@ $(function(){
 					"&sGame=" + $("#sGame").val() +
 					"&sSignDate=" + $("#sSignDate").val()+
 					"&sSign=" + $("#sSign").val());
-			
 		}else{
 			alert("您的瀏覽器不支援Ajax");
 		}
 	});
+	
+// 	console.log("pageHeight: " + $("body").height());
+// 	console.log("windowHeight: " + $(window).height());
+// 	console.log("documentHeight: " + $(document).height());
+// 	console.log("觸發點: " + ($(document).height() - 700));
+	
+	
+	let timer
+	let scrollInt = 0;
+	$(window).on("scroll",function(){
+		window.clearTimeout(timer);
+	    timer = window.setTimeout(function() {
+				console.log($(this).scrollTop());	
+
+		if($(window).scrollTop() > $(document).height() - 700){
+// 			console.log("下個觸發點: " + ($(document).height() - 700));
+			scrollInt += 1;
+// 			console.log("scrollInt: " + scrollInt);
+			
+			$.ajax({
+				type:"post",
+				url:"<c:url value='/contest/IndexAjax'/>",
+				dataType:"json",
+				data:{"scrollInt": scrollInt,
+					"sSearch": $("#sSearch").val(),
+					"sGame": $("#sGame").val(),
+					"sSignDate": $("#sSignDate").val(),
+					"sSign": $("#sSign").val()
+				},
+				success: function(result){
+					$.each(result.lContestList,function(key, value){
+						$("#point").append("<div class=\"row\">"
+											+"<div class=\"col-md-7\">"
+											+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
+											+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\">"
+											+"</a>"
+											+"</div>"
+											+"<div class=\"col-md-5\">"
+											+"<h3>" + value.sName + "</h3>"
+											+"<p>比賽遊戲: " + value.sGame + "</p>"
+											+"<p>報名日期: " + $.format.date(new Date(value.dSignStart), 'yyyy-MM-dd') 
+														+ "~" + $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd') + "</p>"
+											+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
+											+"<p>參加人數: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
+											+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
+											+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"
+											+"</a>"
+											+"</div>"
+											+"</div>"
+											+"<hr>");
+							});
+					},
+					error: function(err){
+						alert("發生錯誤!");	
+					}
+				});
+				
+			}
+     	}, 100);
+	});
+	
+	
 
 });
 </script>

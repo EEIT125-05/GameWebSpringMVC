@@ -46,7 +46,8 @@ public class NoCheckContestController {
 	
 	@GetMapping("Index")
 	public String contestIndex(Model model) {
-		model.addAttribute("lContestList", cService.selectAllContest());
+//		model.addAttribute("lContestList", cService.selectAllContest());
+		model.addAttribute("lContestList", cService.searchContests("", "", "", "", 0));
 		model.addAttribute("lGameList", gService.selectGameList());
 		return "contest/ContestIndex";
 	}
@@ -56,7 +57,7 @@ public class NoCheckContestController {
 					@RequestParam Integer contestNo,
 					Model model) {
 		model.addAttribute("cContestBean", cService.selectOneContest(contestNo));
-		model.addAttribute("sContestConfirm", "報名");
+//		model.addAttribute("sContestConfirm", "報名");
 		return "contest/ContestInformation";
 	}
 	
@@ -65,10 +66,10 @@ public class NoCheckContestController {
 					@RequestParam(defaultValue = "") String sSearch,
 					@RequestParam String sGame,
 					@RequestParam String sSignDate,
-					@RequestParam String sSign){
-		
+					@RequestParam String sSign,
+					@RequestParam(defaultValue = "0") Integer scrollInt){
 		Map< String, List<ContestBean>> map = new HashMap<>();
-		map.put("lContestList", cService.searchContests(sSearch, sGame, sSignDate, sSign));
+		map.put("lContestList", cService.searchContests(sSearch, sGame, sSignDate, sSign, scrollInt));
 		return map;
 	}
 	
