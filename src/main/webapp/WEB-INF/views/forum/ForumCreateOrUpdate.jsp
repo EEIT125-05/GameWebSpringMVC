@@ -16,6 +16,10 @@ response.setContentType("text/html;charset=UTF-8");
 .error{
 	color:red;
 }
+.ck-editor__editable_inline {
+	/* 設定最低高度 */
+    min-height: 500px;
+}
 </style>
 <%-- <script src="<c:url value='/js/ForumCreate.js'/>"></script> --%>
 </head>
@@ -43,7 +47,7 @@ response.setContentType("text/html;charset=UTF-8");
 	</div>
 	<div>
 		<label>內文: </label>
-		<form:textarea id="sText" path="sText" cols="100" rows="15"/>
+		<form:textarea id="sText" path="sText" name="sText" cols="100" rows="15" placeholder="請在這裡填寫內容"/>
 		<br><label id="textError" class="error"></label>
 		<br><form:errors path="sText" class="error"/> 
 	</div>
@@ -55,9 +59,7 @@ response.setContentType("text/html;charset=UTF-8");
 <%@ include file="../Foot.jsp" %>
 
 <script src="<c:url value='/ckeditor/ckeditor.js'/>"></script>
-<script>
-CKEDITOR.replace( 'sText' );
-</script>
+<script>CKEDITOR.replace("sText");</script>
 
 </body>
 </html>

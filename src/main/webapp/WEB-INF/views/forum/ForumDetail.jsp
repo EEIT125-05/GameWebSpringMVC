@@ -21,11 +21,7 @@ response.setContentType("text/html;charset=UTF-8");
 
 	<span>分類: ${fForumBean.sCategory} 標題: ${fForumBean.sTitle}</span><br>
 	<span>發文時間: ${fForumBean.dDate} ${fForumBean.tTime}</span><br>
-	<c:set var="text" value="${fForumBean.sText}" />
-			<%
-				request.setAttribute("vEnter", "\n");  
-			%>
-	<span>內文:</span><br><span>${fn:replace(text,vEnter,"<br>")}</span>
+	<span>內文:</span><br><div>${fForumBean.sText}</div>
 	<hr>
 	<div  style="position:relative">
 		<c:forEach var="reply" items="${fForumBean.sReplyBeans}">

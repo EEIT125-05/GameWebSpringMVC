@@ -139,6 +139,7 @@ $(function(){
 		$("#point").empty();
 		let xhr = new XMLHttpRequest();
 		if(xhr != null){
+			
 			xhr.onreadystatechange = function(){
 				if(xhr.readyState === 4){
 					if(xhr.status === 200){
@@ -176,6 +177,10 @@ $(function(){
 					}
 				}
 			}
+			
+			
+			
+			
 
 			xhr.open("POST", "<c:url value='/contest/IndexAjax'/>",true);
 			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

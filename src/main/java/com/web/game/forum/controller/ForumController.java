@@ -74,10 +74,10 @@ public class ForumController {
 					@ModelAttribute("fForumBean") ForumBean fForumBean,
 					BindingResult result,
 					Model model) {
-//		validator.validate(fForumBean, result);
-//		if(result.hasErrors()) {
-//			return "forum/ForumCreateOrUpdate";
-//		}
+		validator.validate(fForumBean, result);
+		if(result.hasErrors()) {
+			return "forum/ForumCreateOrUpdate";
+		}
 		return "forum/ForumConfirm";
 	}
 	

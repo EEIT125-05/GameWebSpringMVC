@@ -23,7 +23,7 @@ response.setContentType("text/html;charset=UTF-8");
 	<p>分類: ${fForumBean.sCategory} 標題: ${fForumBean.sTitle}</p>
 
 	<p>內文: </p>
-	<textarea id="sText" name="sText" cols="100" rows="15" disabled>${fForumBean.sText }</textarea>
+	<div>${fForumBean.sText}</div>
 	<hr>
 	<input type="submit" name="confirm" value="確認${sForumConfirm}"/>
 
