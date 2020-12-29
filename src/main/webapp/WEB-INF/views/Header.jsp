@@ -60,7 +60,7 @@
               賽事
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-              <a class="dropdown-item" href="<c:url value='/contest/Index?pageNo=1'/>">所有比賽</a>
+              <a class="dropdown-item" href="<c:url value='/contest/Index'/>">所有比賽</a>
               <a class="dropdown-item" href="<c:url value='/contest/Create'/>">新增比賽</a>
               <a class="dropdown-item" href="<c:url value='/contest/Management'/>">管理比賽</a>
               <a class="dropdown-item" href="<c:url value='/contest/Participate'/>">我的比賽</a>

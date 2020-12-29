@@ -5,12 +5,12 @@ import java.io.InputStream;
 
 import javax.servlet.ServletContext;
 
-import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -119,12 +119,6 @@ public class ContestController {
 		//暫存圖片檔名,之後要拿來取得mimeType
 		cContestBean.setsImage(sImageName);
 		
-		
-		
-		
-		
-		
-		
 		cValidator.validate(cContestBean, result);
 		dValidator.setMode(afterSignStart, afterSignEnd);
 		dValidator.validate(cContestBean, result);
@@ -147,25 +141,16 @@ public class ContestController {
 					@ModelAttribute("sContestConfirm") String sContestConfirm,
 					Model model) {
 		String nextPage = null;
-		if(sContestConfirm.equals("刪除")) {	
-			if(cService.deleteContest(cContestBean)) {
-				nextPage = "redirect:/contest/Thanks";
-			}else {
-				nextPage = "redirect:/contest/Error";
-			}
-		}else if(sContestConfirm.equals("報名")){
+		if(sContestConfirm.equals("報名")){
 			if(pService.insertParticipate((ParticipateBean)model.getAttribute("pParticipateBean"))) {
 				nextPage = "redirect:/contest/Thanks";
 			}else {
 				nextPage = "redirect:/contest/Error";
 			}
 		}else if(sContestConfirm.equals("更新")){
-			System.out.println("要更新囉");
 			if(cService.updateContest(cContestBean)) {
-				System.out.println("執行完service");
 				nextPage = "redirect:/contest/Thanks";
 			}else {
-				System.out.println("執行完service 失敗");
 				nextPage = "redirect:/contest/Error";
 			}
 		}else {
@@ -231,20 +216,22 @@ public class ContestController {
 		return nextPage;
 	}
 	
-	@GetMapping("/Delete/{contestNo}")
+	@DeleteMapping("/Edit/{contestNo}")
 	public String contestDelete(
-					@PathVariable Integer contestNo,
-					Model model) {
+							@PathVariable Integer contestNo,
+							Model model) {
 		String nextPage = null;
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
 		if(cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {//驗證
-			//驗證&進入確認頁面
-			model.addAttribute("cContestBean", cContestBean);
-			model.addAttribute("sContestConfirm", "刪除");			
-			nextPage = "contest/ContestConfirm";
+			if(cService.deleteContest(cContestBean)) {
+				model.addAttribute("sContestConfirm", "刪除");	
+				nextPage = "redirect:/contest/Thanks";
+			}else {
+				nextPage = "redirect:/contest/Error";
+			}
 		}else {
 			model.addAttribute("errorMessage","(使用者錯誤)");
-			nextPage = "contest/ContestError";
+			nextPage = "redirect:/contest/Error";
 		}
 		return nextPage;
 	}

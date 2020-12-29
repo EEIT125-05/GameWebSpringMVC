@@ -21,7 +21,7 @@ response.setContentType("text/html;charset=UTF-8");
     min-height: 500px;
 }
 </style>
-<%-- <script src="<c:url value='/js/ForumCreate.js'/>"></script> --%>
+<script src="<c:url value='/js/ForumCreate.js'/>"></script>
 </head>
 <body>
 <%@ include file="../Header.jsp" %>

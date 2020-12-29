@@ -85,7 +85,7 @@ public class ContestDAOImpl implements ContestDAO {
 		String hql = "from ContestBean";
 		Session session = factory.getCurrentSession();
 		return session.createQuery(hql)
-				.setMaxResults(2)
+				.setMaxResults(4)
 				.getResultList();
 	}
 	

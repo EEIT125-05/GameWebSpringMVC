@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ include file="../Link.jsp"%>
 
 <!DOCTYPE html>
@@ -106,6 +107,27 @@ text-decoration: none;
 
 
 </style>
+
+<script>
+
+	$(function(){
+		$("#delete").on("click", function(){
+			return confirmDelete($(this).val());
+		});
+	});
+	
+
+
+	function confirmDelete(iNo){
+	  var result = confirm("確定刪除此筆記錄?");
+	  if (result) {
+		  document.forms[0].putOrDelete.value = "DELETE";
+	      return true;
+	  }
+	  return false;
+	}
+</script>
+
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
@@ -122,14 +144,17 @@ text-decoration: none;
       </li>
       <li class="breadcrumb-item active">賽事</li>
     </ol>
+<form action="<c:url value='/contest/Edit/${cContestBean.iNo}'/>" method="POST" >
+<input type="hidden" name="_method"  id='putOrDelete'   value="" >
 
 		<p>比賽名稱: ${cContestBean.sName} 
 <%-- 			<button type="submit" name="updateNo" value="${cContestBean.iNo}">更改</button> --%>
 			<a href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>
-			<a href="<c:url value='/contest/Delete/${cContestBean.iNo}'/>">刪除</a>
-<%-- 			<button type="submit" name="deleteNo" value="${cContestBean.iNo}">刪除</button> --%>
+			<button type="submit" id="delete" value="${cContestBean.iNo}">刪除</button>
+<%-- 			<a href="<c:url value='/contest/Delete/${cContestBean.iNo}'/>">刪除</a> --%>
 			<span style="font-size:70%;color:red">(註:至比賽當日即無法更改比賽)</span>
 		</p>
+</form>
 		<p>比賽遊戲: ${cContestBean.sGame}</p>
 		<p>主辦者: ${cContestBean.sHost}</p>
 		<p>報名日期: ${cContestBean.dSignStart} ~ ${cContestBean.dSignEnd}</p>

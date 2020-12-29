@@ -1,14 +1,14 @@
 $(function(){
 	$("#submit").attr("disabled","true");
     let title = false;
-	let text = false;
+	let text = true;
 	if($("#sTitle").val() != ""){
 		title = true;
 	}
 	
-	if($("#sText").val() != ""){
-		text = true;
-	}
+//	if($("#sText").val() != ""){
+//		text = true;
+//	}
     $("#sTitle").blur(function(){
 		let regu = "^[ ]+$";
    	    let re = new RegExp(regu);
@@ -25,18 +25,18 @@ $(function(){
         check();
     });
 
-	$("#sText").on("blur",function(){
-		let regu = "^[ ]+$";
-   	    let re = new RegExp(regu);
-        if($(this).val() == "" || re.test($(this).val())){
-            $("#textError").text("內文不能空白");
-            text = false;
-		}else{
-            $("#textError").empty();
-            text = true;
-        }
-        check();
-	});
+//	$("#sText").on("blur",function(){
+//		let regu = "^[ ]+$";
+//   	    let re = new RegExp(regu);
+//        if($(this).val() == "" || re.test($(this).val())){
+//            $("#textError").text("內文不能空白");
+//            text = false;
+//		}else{
+//            $("#textError").empty();
+//            text = true;
+//        }
+//        check();
+//	});
 
 	check();
     function check(){
@@ -46,4 +46,5 @@ $(function(){
             $("#submit").attr("disabled","true");
         }
     }
+
 });

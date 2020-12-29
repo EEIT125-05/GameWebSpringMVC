@@ -178,10 +178,6 @@ $(function(){
 				}
 			}
 			
-			
-			
-			
-
 			xhr.open("POST", "<c:url value='/contest/IndexAjax'/>",true);
 			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			xhr.send("sSearch=" + $("#sSearch").val() +
