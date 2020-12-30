@@ -71,7 +71,9 @@ public class RootAppConfig {
 											   "com.web.game.forum.model",
 											   "com.web.game.exchange.model",
 											   "com.web.game.withplay.model",
+											   "com.web.game.mall.model",
 											   "com.web.game.member.model"});//映射資訊 @Entity  把自己Entity的package加在這
+		
 		factory.setHibernateProperties(getHibernateProperties());
 		return factory;
 	}
