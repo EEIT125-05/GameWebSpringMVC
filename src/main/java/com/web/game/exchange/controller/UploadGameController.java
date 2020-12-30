@@ -4,6 +4,8 @@ import java.io.File;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,17 +23,17 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.web.game.exchange.model.DemandGameBean;
 import com.web.game.exchange.model.GameBean;
 import com.web.game.exchange.service.ExchangeService;
 
 @Controller
 @SessionAttributes({"user","initOption"})
 @RequestMapping("/exchange")
-public class UploadSupportGameController {
+public class UploadGameController {
 
 	@Autowired
 	ExchangeService service;
-	
 	
 	@GetMapping("/insertSupportGame")
 	public String GetNewGame(Model model) {
@@ -83,5 +85,51 @@ public class UploadSupportGameController {
 		attr.addAttribute("path",sPath);
 		return "redirect:/exchange/Result";
 	}
+	
+	@GetMapping("/insertDemandGame")
+	public String GetNewDemandGame(Model model) {
+		DemandGameBean demandgamebean = new DemandGameBean();
+//		MemberBean user = model.getAttribute("user");
+//		bean.setGamer(user.sAccount);整合後開啟
+		demandgamebean.setGamer("henryxoooo");
+		model.addAttribute("DemandGameBean",demandgamebean);
+//		model.addAttribute("insert","我要換");
+		return "exchange/EXCGameDemandForm";
+	}
+	
+	@PostMapping("/insertDemandGame")
+	public String insertDemandGame(@ModelAttribute("DemandGameBean") DemandGameBean demandgamebean,
+								   Model model,
+								   RedirectAttributes attr) {
+		
+		System.out.println("!!!!!!");
+		String image = "images/"+demandgamebean.getGamename() + ".jpg";
+		Integer status = 0;//代表尚未徵得 
+		SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
+    	String sTimeString = sdf.format(new Date());
+    	Timestamp time = Timestamp.valueOf(sTimeString);
+		demandgamebean.setImage(image);
+		demandgamebean.setStatus(status);
+		demandgamebean.setDate(time);
+		
+		String sAction = "新增";
+		String sPath = null;
+			if(service.InsertDemandGame(demandgamebean)) {	
+				sPath = "EXCThanks";
+			} else {
+				sPath = "EXCFail";
+			}
+		attr.addAttribute("action", sAction);
+		attr.addAttribute("path",sPath);
+		return "redirect:/exchange/Result";
+		
+	}
+	
+	@ModelAttribute("initOption")
+	public Map<String, Object> initOptionList(HttpServletRequest req,Model model){
+		Map<String, Object> initOptionMap = new HashMap<String, Object>();
+		return service.initOption();
+	}
+	
 }
 

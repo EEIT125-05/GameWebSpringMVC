@@ -57,6 +57,7 @@ request.setCharacterEncoding("UTF-8");
 <body>
 	<%@ include file="../Header.jsp" %>
 	<form action="<c:url value="/exchange/Search"/>" method="get">
+		<div>
 		<h2 style="display: inline-flex"></h2>
 		<label class="t1">請輸入想要搜尋的遊戲</label> <input type="text"
 			name="gamename"> <input type="submit" name="change"
@@ -113,6 +114,7 @@ request.setCharacterEncoding("UTF-8");
 
 			</c:otherwise>
 		</c:choose>
+		</div>
 	</form>
 	<%@ include file="../Foot.jsp"%>
 </body>

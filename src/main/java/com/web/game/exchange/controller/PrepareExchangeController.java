@@ -20,7 +20,7 @@ import com.web.game.exchange.model.GameBean;
 import com.web.game.exchange.service.ExchangeService;
 
 @Controller
-@SessionAttributes({"initOption"})
+//@SessionAttributes({"initOption"})
 @RequestMapping("/exchange")
 public class PrepareExchangeController {
 	
@@ -48,9 +48,9 @@ public class PrepareExchangeController {
 		List<GameBean> homepagelist = new ArrayList<GameBean>();
 		return service.GetAllSupport();
 	}
-	@ModelAttribute("initOption")
-	public Map<String, Object> initOptionList(HttpServletRequest req,Model model){
-		Map<String, Object> initOptionMap = new HashMap<String, Object>();
-		return service.initOption();
-	}
+//	@ModelAttribute("initOption")
+//	public Map<String, Object> initOptionList(HttpServletRequest req,Model model){
+//		Map<String, Object> initOptionMap = new HashMap<String, Object>();
+//		return service.initOption();
+//	}
 }

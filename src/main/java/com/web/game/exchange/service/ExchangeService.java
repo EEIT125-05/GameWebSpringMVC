@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DaoSupport;
 import org.springframework.stereotype.Service;
 
+import com.web.game.exchange.dao.DemandDAO;
 import com.web.game.exchange.dao.SupportDAO;
+import com.web.game.exchange.model.DemandGameBean;
 import com.web.game.exchange.model.GameBean;
 
 @Service
@@ -20,6 +22,8 @@ public class ExchangeService {
 
 	@Autowired
 	SupportDAO supportDAO;
+	@Autowired
+	DemandDAO demandDAO;
 
 	//-------------testchange
 	@Transactional
@@ -40,13 +44,19 @@ public class ExchangeService {
 		List<GameBean> list = new ArrayList<>();
 		list = supportDAO.GetAllSupport();
 		return list;
-			
 	}
 	
 	@Transactional
 	public List<GameBean> GetMemberSupport(String account){
 		List<GameBean> list = new ArrayList<>();
 		list = supportDAO.GetMemberSupport(account);
+		return list;
+	}
+	
+	@Transactional
+	public List<GameBean> GetMemberDemand(String account){
+		List<GameBean> list = new ArrayList<>();
+		list = demandDAO.GetMemberDemand(account);
 		return list;
 	}
 	
@@ -67,6 +77,7 @@ public class ExchangeService {
 
 	}
 
+	
 	@Transactional
 	public boolean DeleteSupportGame(int pno) {
 		boolean result = false;
@@ -75,9 +86,23 @@ public class ExchangeService {
 	}
 
 	@Transactional
+	public boolean DeleteDemandGame(int pno) {
+		boolean result = false;
+		result = demandDAO.deleteDemandGame(pno);
+		return result;
+	}
+
+	@Transactional
 	public boolean UpdateSupportGame(GameBean gb) {
 		boolean result = false;
 			result = supportDAO.updateSupportGame(gb);
+		return result;
+	}
+	
+	@Transactional
+	public boolean InsertDemandGame(DemandGameBean dgb) {
+		boolean result = false;
+			result = demandDAO.insertDemandGame(dgb);
 		return result;
 	}
 	

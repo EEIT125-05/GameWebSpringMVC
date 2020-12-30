@@ -149,7 +149,6 @@ div {
 	</form:form>
 
 	<script>
-		
 		if(${insert != null}){
 		let flag1 = false;
 		let flag2 = false;
@@ -239,6 +238,8 @@ div {
 				$("#submit").attr("disabled", true);
 			}
 		}
+		
+		
 	</script>
 
 	<%@ include file="../Foot.jsp"%>
