@@ -14,7 +14,8 @@ $(function(){
 				mode2 = true;
 	}
 			
-    let name, date2, location2, people, rule;
+    let name, date2, location2, people;
+	let rule = true;
 	if($("#sName").val() != ""){
 		name = true;
 	}
@@ -33,9 +34,9 @@ $(function(){
 		people = true;
 	}
 	
-	if($("#sRule").val() != ""){
-		rule = true;
-	}
+//	if($("#sRule").val() != ""){
+//		rule = true;
+//	}
 	
     $("#sName").blur(function(){
    	   let regu = "^[ ]+$";
@@ -177,18 +178,18 @@ $(function(){
         check();
     });
 
-    $("#sRule").blur(function(){
-    	let regu = "^[ ]+$";
-    	let re = new RegExp(regu);
-        if($(this).val() == "" || re.test($(this).val())){
-            $(this).next().text("規則不能空白");
-            rule = false;
-        }else{
-            $(this).next().empty();
-            rule = true;
-        }
-        check();
-    });
+//    $("#sRule").blur(function(){
+//    	let regu = "^[ ]+$";
+//    	let re = new RegExp(regu);
+//        if($(this).val() == "" || re.test($(this).val())){
+//            $(this).next().text("規則不能空白");
+//            rule = false;
+//        }else{
+//            $(this).next().empty();
+//            rule = true;
+//        }
+//        check();
+//    });
     
 	check();
     function check(){

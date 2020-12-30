@@ -135,12 +135,19 @@
 </div>
 <%@ include file="../Foot.jsp" %>
 
+<script src="<c:url value='/ckeditor/ckeditor.js'/>"></script>
 <script>
+	CKEDITOR.replace("sRule");
+
 	$(function(){
+		
+		console.log("file: " + $("#fImage").val());
+		
 		$("#imagePreview").hide();
 		$("#previewLabel").hide();
 		
 		$("#fImage").on("change",function(){
+			console.log("file: " + $("#fImage").val());
             let fileReader = new FileReader();
             let imageFile = this.files[0];
             
@@ -155,7 +162,7 @@
             	$("#previewLabel").show();
             	$("#imagePreview").show();
             	$("#imagePreview").attr('src',e.target.result)
-            						.attr('style',"width:560px;height:320px;margin-bottom:10px");
+            						.attr('style',"width:560px;margin-bottom:10px");
             }
 
 		});

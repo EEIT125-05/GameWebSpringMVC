@@ -190,10 +190,10 @@ $(function(){
 		}
 	});
 	
-// 	console.log("pageHeight: " + $("body").height());
-// 	console.log("windowHeight: " + $(window).height());
-// 	console.log("documentHeight: " + $(document).height());
-// 	console.log("觸發點: " + ($(document).height() - 700));
+	console.log("pageHeight: " + $("body").height());
+	console.log("windowHeight: " + $(window).height());
+	console.log("documentHeight: " + $(document).height());
+	console.log("觸發點: " + ($(document).height() - 1000));
 	
 	
 	let timer
@@ -203,42 +203,44 @@ $(function(){
 	    timer = window.setTimeout(function() {
 				console.log($(this).scrollTop());	
 
-		if($(window).scrollTop() > $(document).height() - 700){
-// 			console.log("下個觸發點: " + ($(document).height() - 700));
-			scrollInt += 1;
-// 			console.log("scrollInt: " + scrollInt);
-			
-			$.ajax({
-				type:"post",
-				url:"<c:url value='/contest/IndexAjax'/>",
-				dataType:"json",
-				data:{"scrollInt": scrollInt,
-					"sSearch": $("#sSearch").val(),
-					"sGame": $("#sGame").val(),
-					"sSignDate": $("#sSignDate").val(),
-					"sSign": $("#sSign").val()
-				},
-				success: function(result){
-					$.each(result.lContestList,function(key, value){
-						$("#point").append("<div class=\"row\">"
-											+"<div class=\"col-md-7\">"
-											+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
-											+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\">"
-											+"</a>"
-											+"</div>"
-											+"<div class=\"col-md-5\">"
-											+"<h3>" + value.sName + "</h3>"
-											+"<p>比賽遊戲: " + value.sGame + "</p>"
-											+"<p>報名日期: " + $.format.date(new Date(value.dSignStart), 'yyyy-MM-dd') 
-														+ "~" + $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd') + "</p>"
-											+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
-											+"<p>參加人數: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
-											+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
-											+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"
-											+"</a>"
-											+"</div>"
-											+"</div>"
-											+"<hr>");
+			if($(window).scrollTop() > $(document).height() - 1000){
+				console.log("pageHeight: " + $("body").height());
+				console.log("documentHeight: " + $(document).height());
+				console.log("下個觸發點: " + ($(document).height() - 1000));
+				scrollInt += 1;
+				console.log("scrollInt: " + scrollInt);
+				
+				$.ajax({
+					type:"post",
+					url:"<c:url value='/contest/IndexAjax'/>",
+					dataType:"json",
+					data:{"scrollInt": scrollInt,
+						"sSearch": $("#sSearch").val(),
+						"sGame": $("#sGame").val(),
+						"sSignDate": $("#sSignDate").val(),
+						"sSign": $("#sSign").val()
+					},
+					success: function(result){
+						$.each(result.lContestList,function(key, value){
+							$("#point").append("<div class=\"row\">"
+												+"<div class=\"col-md-7\">"
+												+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
+												+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\">"
+												+"</a>"
+												+"</div>"
+												+"<div class=\"col-md-5\">"
+												+"<h3>" + value.sName + "</h3>"
+												+"<p>比賽遊戲: " + value.sGame + "</p>"
+												+"<p>報名日期: " + $.format.date(new Date(value.dSignStart), 'yyyy-MM-dd') 
+															+ "~" + $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd') + "</p>"
+												+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
+												+"<p>參加人數: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
+												+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
+												+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"
+												+"</a>"
+												+"</div>"
+												+"</div>"
+												+"<hr>");
 							});
 					},
 					error: function(err){

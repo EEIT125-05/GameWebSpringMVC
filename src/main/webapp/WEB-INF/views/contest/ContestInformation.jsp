@@ -31,15 +31,12 @@
 		<p>比賽遊戲: ${cContestBean.sGame}</p>
 		<p>主辦者: ${cContestBean.sHost}</p>
 		<p>報名日期: ${cContestBean.dSignStart} ~ ${cContestBean.dSignEnd}</p>
-		<p>比賽時間: ${cContestBean.tTime}</p>
+		<fmt:formatDate var="sTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd HH:mm"/>
+		<p>比賽時間: ${sTime}</p>
 		<p>比賽地點: ${cContestBean.sLocation}</p>
 		<p>參加人數:
 			${fn:length(cContestBean.lParticipateBeans)}/${cContestBean.iPeople}</p>
-		<c:set var="rule" value="${cContestBean.sRule}" />
-		<%
-			request.setAttribute("vEnter", "\n");
-		%>
-		<span>比賽規則:</span> <br> <span>${fn:replace(rule,vEnter,"<br>")}</span>
+		<span>比賽規則:</span> <br> <span id="rule">${cContestBean.sRule}</span>
 		<hr>
 		<c:set var="now" value="<%=new java.util.Date()%>" />
 		<fmt:formatDate var="today" pattern="yyyy-MM-dd" value="${now}" />
@@ -94,7 +91,10 @@
 <%@ include file="../Foot.jsp"%>
 
 <script>
-
+	$("#rule").on("click","a",function(){
+		this.target = "_blank";
+	});
+	
 	$(function(){
 		$("#join").on("click", function(){
 			return confirmJoin();
