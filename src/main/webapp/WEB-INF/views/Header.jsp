@@ -28,7 +28,10 @@
               商城
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-              <a class="dropdown-item" href=""></a>
+              <a class="dropdown-item" href="<c:url value='/mall/Index'/>">商城</a>
+              <a class="dropdown-item" href="<c:url value='/mall/New'/>">新增商品</a>
+              <a class="dropdown-item" href="<c:url value='/mall/Inquire'/>">查詢商品</a>
+              <a class="dropdown-item" href="<c:url value='/mall/Delete'/>">刪除商品</a>
             </div>
           </li>
           
