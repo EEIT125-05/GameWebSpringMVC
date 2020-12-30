@@ -10,102 +10,91 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Bar</title>
+<title>GameBar</title>
 <style>
-.player{
-	border: 2px solid red;
-	margin: 10px;
-	padding: 2px;
-	cursor: default;
-}
-
-
-*{
-margin:0;
-padding:0;
-}
-
-#contain{
-    overflow: auto;
-    border: 1px solid red;
-}
-
-
-
-.tree ul{
-padding-top:20px;
-position: relative;
-
-}
-.tree li{
-float:left;
-list-style: none;
-text-align: center;
-position: relative;
-/* padding:20px 5px 0 5px; */
-padding:20px 5px 0 5px;
-
-}
-/*利用::before,::after作分支線*/
-.tree li::before,.tree li::after{
-content:"";
-position: absolute;
-top:0;
-right:50%;
-width:50%;
-height:20px;
-border-top:2px solid black;
-}
-.tree li:after{
-right:auto;
-left:50%;
-/* border-left:2px solid red; */
-border-left:2px solid black;
-}
-.tree li:first-child::before,.tree li:last-child::after{
-border:0 none;
-}
-.tree li:last-child::after{
-border-left:2px solid black;
-/* border-left:2px solid green; */
-}
-
-
-
-/*刪除僅只有一個分支的分支線*/
-.tree li:only-child::before,.tree li:only-child::after{
-border:none;
-}
-.tree li:only-child{
-padding-top:0;
-}
-
-
-/*新增僅只有一個分支的下分支線*/
-.tree ul ul::before{
-content:"";
-position: absolute;
-top:0;
-left:50%;
-border-left:2px solid black;
-/* border-left:2px solid blue; */
-width:0;
-height:20px;
-}
-
-.tree label{
-display: inline-block;
-border:2px solid black;
-/* border:2px solid #ccc; */
-padding: 5px 28px;
-margin:0;
-width:100px;
-color:#666;
-text-decoration: none;
-/* padding:10px; */
-}
-
-
+	.player{
+		border: 2px solid red;
+		margin: 10px;
+		padding: 2px;
+		cursor: default;
+	}
+	
+	
+	*{
+		margin:0;
+		padding:0;
+	}
+	
+	#tree{
+ 	    overflow: auto; 
+	    border: 1px solid red;
+	
+	}
+	
+	.tree ul{
+		padding-top:20px;
+		position: relative;
+	}
+	.tree li{
+		float:left;
+		list-style: none;
+		text-align: center;
+		position: relative;
+		padding:20px 5px 0 5px;
+	}
+	/*利用::before,::after作分支線*/
+	.tree li::before,.tree li::after{
+		content:"";
+		position: absolute;
+		top:0;
+		right:50%;
+		width:50%;
+		height:20px;
+		border-top:2px solid black;
+	}
+	.tree li:after{
+		right:auto;
+		left:50%;
+		/* border-left:2px solid red; */
+		border-left:2px solid black;
+	}
+	.tree li:first-child::before,.tree li:last-child::after{
+		border:0 none;
+	}
+	.tree li:last-child::after{
+		border-left:2px solid black;
+		/* border-left:2px solid green; */
+	}
+	
+	/*刪除僅只有一個分支的分支線*/
+	.tree li:only-child::before,.tree li:only-child::after{
+		border:none;
+	}
+	.tree li:only-child{
+		padding-top:0;
+	}
+	
+	/*新增僅只有一個分支的下分支線*/
+	.tree ul ul::before{
+		content:"";
+		position: absolute;
+		top:0;
+		left:50%;
+		border-left:2px solid black;
+		/* border-left:2px solid blue; */
+		width:0;
+		height:20px;
+	}
+	
+	.tree label{
+		display: inline-block;
+		border:2px solid black;
+		/* border:2px solid #ccc; */
+		text-decoration: none;
+		width:96px;
+		height:36px;
+		margin:0;
+	}
 
 </style>
 
@@ -222,7 +211,10 @@ text-decoration: none;
 		<input type="button" value="自動安排">
 		<input type="button" value="產生圖檔">
 	</form>
-	<div id="contain" class="tree"></div>
+	<div style="overflow:auto">
+		<div id="tree" class="tree">
+		</div>
+	</div>
 
 </div>
 
@@ -230,7 +222,7 @@ text-decoration: none;
 </div>
 	<%@ include file="../Foot.jsp"%>
 
-	<script src="../js/jquery-ui.js"></script>
+	<script src="<c:url value='/js/jquery-ui.js'/>"></script>
 	<script>
 	
 		$("#rule").on("click","a",function(){
@@ -313,61 +305,70 @@ text-decoration: none;
 					$("#playerCount").append("<label class=\"player\">" + $(this).text() + "</label>");
 				});			
 				
-				$("#contain").empty();
+				$("#tree").empty();
 				if($("#group:checked").length > 0) {
 		        	iPlayer = $("#teamCount").val();
 				}
+				$("#tree").width("3000px");
 // 				for (let i = 0; i < iPlayer; i++) {
-// 					$("#contain").append("<label class=\"drop\" style=\"height:100;width:200;border:2px solid green;margin:10px\"></label>");
-// 				}
+				for (let i = 0; i < 8; i++) {
+					$("#tree").append("<label class=\"drop\" style=\"height:100;width:200;border:2px solid green;margin:10px\"></label>");
+				}
 				
-				
-				let a = 60;
-		        $(".tree").width((110+(a-1)*120) + "px");
-				
-		        let iMax = a.toString(2).length;
-		        let max = Math.pow(2,iMax);
-		        if((max-a) == a){
-		            iMax = a.toString(2).length - 1;
-		        }
-		        
-		    	$("#contain").append("<ul class=\"layer1\">");
-		        $(".layer1").append("<li id=\"text1\" class=\"text1\"><label>&nbsp");
-// 		        $(".layer1").append("<li id=\"text1\" class=\"text1\"><label>第1層");
+//--------------產生賽程表-----------------------------------------------------
+// 				let a = 15;
+// 		        $("#tree").width((a*96+(2*a-1)*10) + "px");
+// // 		        console.log("寬度: " + (a*100+(2*a-1)*10));
+// 		        let pow = a.toString(2).length;
+// 		        let max = Math.pow(2,pow);
+// 		        if((max-a) == a){
+// 		            pow = a.toString(2).length - 1;
+// 		            max = Math.pow(2,pow);
+// 		        }
+// // 		        console.log("次方: " + pow);
+// // 		        console.log("補滿2的次方: " + max);
+// // 		        console.log("不要的場數: " + (max-a));
 
-		        for(let i=1; i<=iMax; i++){
-		            let j = i + 1;
-		            let className;
-		            if(i != a.toString(2).length){
-		                className = "class=\"text" + j + "\"";
-		            }else{
-		                className = "class=\"buttom\"";
-		            }
-		            $(".text" + i).append("<ul class=\"layer" + j + "\">");
-		            $(".layer" + j).append("<li " + className + "><label>&nbsp");
-		            $(".layer" + j).append("<li " + className + "><label>&nbsp");
-// 		            $(".layer" + j).append("<li " + className + "><label>第" + j + "層");
-		        }
-		        if((max-a) != a){
-		            let n = 1;
-		            let m = max/Math.pow(2,n+1)
-		            for(let i=1; i<=(max-a); i++){
-		                let j;
-		                if(i > m){
-		                    n ++;
-		                    m = m + max/Math.pow(2,n+1);
-		                }
-		                if(i%2 == 0){
-		                    j = max/Math.pow(2,n) - 1;
-		                }else{
-		                    j = i % (max/Math.pow(2,n+1));
-		                }
-		                console.log("j= " + j);
-		                $(".buttom").eq(j).parent().prev().before("<ul>").before("<ul>").before("<ul>").before("<ul>");
-		                $(".buttom").eq(j).parent().remove();
-		            }
-		        }
-				
+// 		        $("#tree").append("<ul class=\"layer1\">");
+// 		        $(".layer1").append("<li class=\"text1\"><label>&nbsp;</label>");
+		        
+// 		        for(let i=1; i<=pow; i++){
+// 		            let j = i + 1;
+// 		            let className;
+// 		            if(i != a.toString(2).length){
+// 		                className = "class=\"text" + j + "\"";
+// 		            }else{
+// 		                className = "class=\"buttom\"";
+// 		            }
+// 		            $(".text" + i).append("<ul class=\"layer" + j + "\">");
+// 		            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
+// 		            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
+// 		        }
+// 		        for(let i=0; i<max; i++){
+// 		            $(".buttom").eq(i).children().attr("id", "編號"+i).attr("class", "drop");
+// 		        } 
+		     
+// 		        for(let i=0; i<(max-a); i++){
+// 		            let str = i.toString(2);
+// 		            while(str.length < pow-1){
+// 		                str = "0" + str;
+// 		            }
+// // 		            console.log("i= " + i);
+// // 		            console.log("換成2進位: " + str);
+// 		            // str = str.split("").reverse().join("");
+// 		            // console.log("2進位反轉: " + str);
+// // 		            console.log("拆開: " + str.split(""));
+// 		            let eqNumber = 0;
+// 		            for(let j=0; j<pow-1; j++){
+// 		                eqNumber += str.split("")[j]*Math.pow(2,j+1);
+// 		            }
+// // 		            console.log("eq的值: " + eqNumber);
+// 		            $("#編號" + eqNumber).parent().parent().prev().before("<ul>").before("<ul>").before("<ul>").before("<ul>").attr("class","drop");
+// 		            $("#編號" + eqNumber).parent().parent().remove();
+// 		        }
+//--------------產生賽程表-----------------------------------------------------				
+		        
+		        
 				drag($(".player"));
 				drop($(".drop"));
 				
@@ -382,7 +383,8 @@ text-decoration: none;
 				    accept:"*",
 				    drop: function(ev,ui) {
 						console.log("drop" + $(this).text() + ui.draggable.text());
-						$(this).append("<label class=\"player\">" + ui.draggable.text() + "</label>");
+						$(this).text(ui.draggable.text());
+// 						$(this).append("<label class=\"player\">" + ui.draggable.text() + "</label>");
 						ui.draggable.css("visibility","hidden").removeClass("player");
 						
 					//	let 綠框內的個數 = $(".playerNone").length)/$(".drop").length;
