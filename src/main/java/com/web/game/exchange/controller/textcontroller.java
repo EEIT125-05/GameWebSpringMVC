@@ -47,6 +47,7 @@ public class textcontroller {
 		model.addAttribute("search", search);
 		model.addAttribute("list", list);
 		model.addAttribute("p",p);
+		System.out.println("page"+p);
 
 		return "exchange/testhomepage";
 	}
