@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DaoSupport;
 import org.springframework.stereotype.Service;
 
+import com.web.game.exchange.dao.DemandDAO;
 import com.web.game.exchange.dao.SupportDAO;
+import com.web.game.exchange.model.DemandGameBean;
 import com.web.game.exchange.model.GameBean;
 
 @Service
@@ -20,6 +22,8 @@ public class ExchangeService {
 
 	@Autowired
 	SupportDAO supportDAO;
+	@Autowired
+	DemandDAO demandDAO;
 
 	//-------------testchange
 	@Transactional
@@ -66,6 +70,7 @@ public class ExchangeService {
 
 	}
 
+	
 	@Transactional
 	public boolean DeleteSupportGame(int pno) {
 		boolean result = false;
@@ -77,6 +82,13 @@ public class ExchangeService {
 	public boolean UpdateSupportGame(GameBean gb) {
 		boolean result = false;
 			result = supportDAO.updateSupportGame(gb);
+		return result;
+	}
+	
+	@Transactional
+	public boolean InsertDemandGame(DemandGameBean dgb) {
+		boolean result = false;
+			result = demandDAO.insertDemandGame(dgb);
 		return result;
 	}
 	

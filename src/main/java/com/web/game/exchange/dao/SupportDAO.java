@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.web.game.contest.model.GameList;
+import com.web.game.exchange.model.DemandGameBean;
 import com.web.game.exchange.model.GameBean;
 
 @Repository
@@ -137,6 +138,8 @@ public class SupportDAO {
 		return result;
 
 	}
+	
+	
 
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> initOption() {
@@ -157,7 +160,7 @@ public class SupportDAO {
 		initAreaOptionList = session.createQuery(arealistHQL).getResultList();
 		initConsoleOptionList = session.createQuery(consolelistHQL).getResultList();
 		initConditionOptionList = session.createQuery(conditionlistHQL).getResultList();
-
+		
 		initOptionMap.put("GamenameList", initGamenameOptionList);
 		initOptionMap.put("AreaList", initAreaOptionList);
 		initOptionMap.put("ConsoleList", initConsoleOptionList);
