@@ -107,8 +107,8 @@ public class ContestDAOImpl implements ContestDAO {
 		System.out.println(hql);
 		Session session = factory.getCurrentSession();
 		return session.createQuery(hql)
-				.setFirstResult(scrollInt*3)
-				.setMaxResults(3)
+				.setFirstResult(scrollInt*4)
+				.setMaxResults(4)
 				.getResultList();
 	}
 	

@@ -13,11 +13,24 @@
         
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPages" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              會員管理
+      <c:choose>
+		<c:when test="${empty user}">
+              	會員管理
+		</c:when>
+		<c:otherwise>
+				${user.sAccount}
+		</c:otherwise>
+      </c:choose>        
             </a>
            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-              <a class="dropdown-item" href="<c:url value='/member/Sign'/>">登入</a>
-              <a class="dropdown-item" href="<c:url value='/member/Logout'/>">測試用登出</a>
+              <c:choose>
+				<c:when test="${empty user}">
+	              <a class="dropdown-item" href="<c:url value='/member/Sign'/>">登入</a>
+				</c:when>
+				<c:otherwise>
+	              <a class="dropdown-item" href="<c:url value='/member/Logout'/>">登出</a>
+				</c:otherwise>
+              </c:choose>
               <a class="dropdown-item" href="<c:url value='/member/Login'/>">註冊</a>
               <a class="dropdown-item" href="<c:url value='/member/Data'/>">會員資料</a>
             </div>

@@ -52,11 +52,7 @@
 			</c:otherwise>
 		</c:choose>
 		<br>
-		<c:set var="rule" value="${cContestBean.sRule}" />
-				<%
-					request.setAttribute("vEnter", "\n");  
-				%>
-		<span>比賽規則:</span><br><span>${fn:replace(rule,vEnter,"<br>")}</span>
+		<span>比賽規則:</span><br><span id="rule">${cContestBean.sRule}</span>
 		<br>
 		<hr>
 			<c:if test="${sContestConfirm == '報名' }">
@@ -68,5 +64,12 @@
 	</form>
 </div>
 <%@ include file="../Foot.jsp" %>
+
+<script>
+	$("#rule").on("click","a",function(){
+		this.target = "_blank";
+	});
+</script>
+
 </body>
 </html>

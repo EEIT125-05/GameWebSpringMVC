@@ -4,10 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="../Link.jsp" %>
-<%
-request.setCharacterEncoding("UTF-8");
-response.setContentType("text/html;charset=UTF-8");
-%>
 <!DOCTYPE html>
 <html>
 <head>

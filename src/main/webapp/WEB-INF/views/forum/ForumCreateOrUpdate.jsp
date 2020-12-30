@@ -3,10 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ include file="../Link.jsp" %>
-<%
-request.setCharacterEncoding("UTF-8");
-response.setContentType("text/html;charset=UTF-8");
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,10 +11,6 @@ response.setContentType("text/html;charset=UTF-8");
 <style>
 .error{
 	color:red;
-}
-.ck-editor__editable_inline {
-	/* 設定最低高度 */
-    min-height: 500px;
 }
 </style>
 <script src="<c:url value='/js/ForumCreate.js'/>"></script>
@@ -47,7 +39,7 @@ response.setContentType("text/html;charset=UTF-8");
 	</div>
 	<div>
 		<label>內文: </label>
-		<form:textarea id="sText" path="sText" name="sText" cols="100" rows="15" placeholder="請在這裡填寫內容"/>
+		<form:textarea id="sText" path="sText" cols="100" rows="15" placeholder="請在這裡填寫內容"/>
 		<br><label id="textError" class="error"></label>
 		<br><form:errors path="sText" class="error"/> 
 	</div>
