@@ -53,6 +53,13 @@ public class ExchangeService {
 		return list;
 	}
 	
+	@Transactional
+	public List<GameBean> GetMemberDemand(String account){
+		List<GameBean> list = new ArrayList<>();
+		list = demandDAO.GetMemberDemand(account);
+		return list;
+	}
+	
 	// 找到特定物件並回丟(1筆)
 	@Transactional
 	public GameBean FindsupportGame(int pk) {//暫時沒用到
@@ -75,6 +82,13 @@ public class ExchangeService {
 	public boolean DeleteSupportGame(int pno) {
 		boolean result = false;
 			result = supportDAO.deleteSupportGame(pno);
+		return result;
+	}
+
+	@Transactional
+	public boolean DeleteDemandGame(int pno) {
+		boolean result = false;
+		result = demandDAO.deleteDemandGame(pno);
 		return result;
 	}
 

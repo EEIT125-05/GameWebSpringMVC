@@ -88,11 +88,11 @@ public class UploadGameController {
 	
 	@GetMapping("/insertDemandGame")
 	public String GetNewDemandGame(Model model) {
-		DemandGameBean DemandGameBean = new DemandGameBean();
+		DemandGameBean demandgamebean = new DemandGameBean();
 //		MemberBean user = model.getAttribute("user");
 //		bean.setGamer(user.sAccount);整合後開啟
-		DemandGameBean.setGamer("henryxoooo");
-		model.addAttribute("DemandGameBean",DemandGameBean);
+		demandgamebean.setGamer("henryxoooo");
+		model.addAttribute("DemandGameBean",demandgamebean);
 //		model.addAttribute("insert","我要換");
 		return "exchange/EXCGameDemandForm";
 	}
@@ -102,6 +102,7 @@ public class UploadGameController {
 								   Model model,
 								   RedirectAttributes attr) {
 		
+		System.out.println("!!!!!!");
 		String image = "images/"+demandgamebean.getGamename() + ".jpg";
 		Integer status = 0;//代表尚未徵得 
 		SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");

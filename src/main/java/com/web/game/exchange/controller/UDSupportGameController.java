@@ -21,35 +21,48 @@ import com.web.game.exchange.model.GameBean;
 import com.web.game.exchange.service.ExchangeService;
 
 @Controller
-@SessionAttributes("initOption")
+@SessionAttributes({ "initOption", "user" })
 @RequestMapping("/exchange")
 public class UDSupportGameController {
 
 	@Autowired
 	ExchangeService service;
-	
+
 	@GetMapping("/management")
 	public String ManageSupportGame(Model model) {
 		return "exchange/EXCShowItem";
 	}
-	
-	@GetMapping("/delete")
-	public String DeleteSupportGame(
-			Model model,
-			RedirectAttributes attr, 
-			@RequestParam Integer deleteindex) {
+
+	@GetMapping("/deleteSupport")
+	public String DeleteSupportGame(Model model, RedirectAttributes attr, @RequestParam Integer deleteindex) {
+
+		// ------重定向
+		String sAction = "刪除";
+		String sPath = null;
+		if (service.DeleteSupportGame(deleteindex)) {
+			sPath = "EXCThanks";
+		} else {
+			sPath = "EXCFail";
+		}
+		attr.addAttribute("action", sAction);
+		attr.addAttribute("path", sPath);
+		return "redirect:/exchange/Result";
+	}
+
+	@GetMapping("/deleteDemand")
+	public String DeleteDemandGame(Model model, RedirectAttributes attr, @RequestParam Integer deleteindex) {
 		
-			//------重定向
-			String sAction = "刪除";
-			String sPath = null;
-				if(service.DeleteSupportGame(deleteindex)) {	
-					sPath = "EXCThanks";
-				} else {
-					sPath = "EXCFail";
-				}
-			attr.addAttribute("action", sAction);
-			attr.addAttribute("path",sPath);
-			return "redirect:/exchange/Result";
+		// ------重定向
+		String sAction = "刪除";
+		String sPath = null;
+		if (service.DeleteDemandGame(deleteindex)) {
+			sPath = "EXCThanks";
+		} else {
+			sPath = "EXCFail";
+		}
+		attr.addAttribute("action", sAction);
+		attr.addAttribute("path", sPath);
+		return "redirect:/exchange/Result";
 	}
 
 	@SuppressWarnings("unchecked")
@@ -58,44 +71,55 @@ public class UDSupportGameController {
 		List<GameBean> list = new ArrayList<GameBean>();
 		list = (List<GameBean>) model.getAttribute("MemberSupport");
 		GameBean gamebean = list.get(updateindex);
-		model.addAttribute("update","修改");
+		model.addAttribute("update", "修改");
 		model.addAttribute("gamebean", gamebean);
 		return "exchange/EXCGameSupportForm";
 	}
-	
+
 	@PostMapping("/update")
-	public String ConfirmUpdateSupportGame(Model model,
-			RedirectAttributes attr,
-			@ModelAttribute(value="gamebean") GameBean gamebean
-			) {
+	public String ConfirmUpdateSupportGame(Model model, RedirectAttributes attr,
+			@ModelAttribute(value = "gamebean") GameBean gamebean) {
 		System.out.println(gamebean.getStatus());
 		System.out.println(gamebean.getConsole());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String sTimeString = sdf.format(new Date());
 		Timestamp tTime = Timestamp.valueOf(sTimeString);
 		gamebean.setDate(tTime);
-		//------重定向
+		// ------重定向
 		String sAction = "更新";
 		String sPath = null;
-			if(service.UpdateSupportGame(gamebean)) {	
-				sPath = "EXCThanks";
-			} else {
-				sPath = "EXCFail";
-			}
+		if (service.UpdateSupportGame(gamebean)) {
+			sPath = "EXCThanks";
+		} else {
+			sPath = "EXCFail";
+		}
 		attr.addAttribute("action", sAction);
-		attr.addAttribute("path",sPath);
+		attr.addAttribute("path", sPath);
 		return "redirect:/exchange/Result";
 	}
-	
-	
+
 	@ModelAttribute("MemberSupport")
-	public List<GameBean> PackGamerList() {
-		
+	public List<GameBean> PackSupportGame() {
+
 //		MemberBean member = (MemberBean) model.getAttribute("user");
-		//String sMemberaccount = member.getsAccount();//整合後打開
-		String sMemberaccount = "henryxoooo";//使用者帳號預設寫死
+		// String sMemberaccount = member.getsAccount();//整合後打開
+		String sMemberaccount = "henryxoooo";// 使用者帳號預設寫死
 		List<GameBean> list = new ArrayList<GameBean>();
 		list = service.GetMemberSupport(sMemberaccount);
 		return list;
 	}
+
+	@ModelAttribute("MemberDemand")
+	public List<GameBean> PackDemandGame() {
+
+//		MemberBean member = (MemberBean) model.getAttribute("user");
+		// String sMemberaccount = member.getsAccount();//整合後打開
+		String sMemberaccount = "henryxoooo";// 使用者帳號預設寫死
+		List<GameBean> list = new ArrayList<GameBean>();
+		list = service.GetMemberDemand(sMemberaccount);
+		return list;
+	}
+	
+	
+	
 }
