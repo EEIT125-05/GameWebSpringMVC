@@ -14,13 +14,21 @@
 </head>
 <body>
 <%@ include file="../Header.jsp" %>
+<div class="container">
 
+<ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="<c:url value='/'/>">Home</a>
+      </li>
+    </ol>
+    
 	<div align="center">
 		<form:form method="post" modelAttribute="With"
 			enctype='multipart/form-data'>
 			<table cellpadding="5">
 			
 				<form:hidden path="iId" />
+				<form:hidden path="sGender" items='${sGenderMap}' readonly="true" />
 
 				<tr>
 					<td>Account</td>
@@ -34,10 +42,6 @@
 				<tr>
 					<td>Nickname</td>
 					<td><form:input path="sNickname" />&nbsp;<form:errors path="sNickname"/></td>
-				</tr>
-				<tr>
-					<td>Gender</td>
-					<td><form:radiobuttons path="sGender" items='${sGenderMap}' readonly="true"/>&nbsp;<form:errors path="sGender"/></td>
 				</tr>
 				<tr>
 					<td>Idcode</td>
@@ -70,6 +74,8 @@
 		</form:form>
 
 	</div>
+		</div>
+	
 	<%@ include file="../Foot.jsp" %>
 	
 </body>

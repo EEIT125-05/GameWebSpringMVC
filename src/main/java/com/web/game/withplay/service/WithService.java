@@ -9,7 +9,7 @@ public interface WithService {
 
 	void update(WithPlay Wp);
 
-	WithPlay get(String nickname);
+	WithPlay get(Integer iId);
 	
 	WithPlay getaccount(String account);
 
@@ -18,5 +18,7 @@ public interface WithService {
 	List<WithPlay> list();
 	
 	List<WithPlay> selectlist(String sNickname);
+
+	public List<WithPlay> searchForum(Integer iId);
 
 }

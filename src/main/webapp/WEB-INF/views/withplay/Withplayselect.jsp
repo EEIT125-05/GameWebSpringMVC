@@ -34,7 +34,7 @@ response.setContentType("text/html;charset=UTF-8");
 		<div class="div1">
 			<figure class="fi1">
 				<a href=""> <img class="img1"
-					src='${pageContext.request.contextPath}/withplay/picture/${With.sNickname}'>
+					src='${pageContext.request.contextPath}/withplay/picture/${With.iId}'>
 				</a>
 				<figcaption>${With.sNickname}</figcaption>
 				<figcaption>${With.sGame}</figcaption>

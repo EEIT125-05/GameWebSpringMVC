@@ -3,6 +3,7 @@ package com.web.game.withplay.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Blob;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -16,9 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.web.game.forum.model.ForumBean;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithService;
 
@@ -39,34 +43,34 @@ public class NocheckWithController {
 	@GetMapping("/withplay/Index")
 	public String WithplayIndex(Model model) {
 		model.addAttribute("With",withService.list());
-//		model.addAttribute("errorMessage","使用者尚未加入陪玩會員，請加入陪玩會員");
 		return "withplay/WithplayIndex";
 	}
 	
 	@GetMapping("/withplay/select")
 	public String get(@RequestParam String sNickname,Model model) {
 		model.addAttribute("With", withService.selectlist(sNickname));
-		return "withplay/Withplayselect";
-				
+		return "withplay/Withplayselect";			
+	}
+	
+	@PostMapping("/withplay/IndexAjax")
+	public @ResponseBody List<WithPlay> ajax(
+			@RequestParam(name="iId",defaultValue = "") Integer iId) {
+		System.out.println("ajax");
+		System.out.println("iId: " + iId);
+		System.out.println(withService.searchForum(iId));
+		return withService.searchForum(iId);
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	@GetMapping("/withplay/picture/{sNickname}")
-	public ResponseEntity<byte[]> getPicture(@PathVariable("sNickname") String nickname) {
+	@GetMapping("/withplay/picture/{iId}")
+	public ResponseEntity<byte[]> getPicture(@PathVariable("iId") Integer iId) {
 		byte[] body = null;
 		ResponseEntity<byte[]> re = null;
 		MediaType mediaType = null;
 		HttpHeaders headers = new HttpHeaders();
 		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
 
-		WithPlay wp = withService.get(nickname);
+		WithPlay wp = withService.get(iId);
 		if (wp == null) {
 			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
 		}
