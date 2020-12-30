@@ -13,12 +13,20 @@
 </head>
 <body>
 <%@ include file="../Header.jsp" %>
+<div class="container">
 
+<ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="<c:url value='/'/>">Home</a>
+      </li>
+    </ol>
+    
 	<div align="center">
-		<form:form method="post" modelAttribute="With" action="${pageContext.request.contextPath}/withplay/edit/${With.sNickname}"
+		<form:form method="post" modelAttribute="With" action="${pageContext.request.contextPath}/withplay/edit"
 			enctype='multipart/form-data'>
 			<table cellpadding="5">
 				<form:hidden path="iId" />
+				<form:hidden path="sGender" items='${sGenderMap}' readonly="true" />
 
 				<tr>
 					<td>Account</td>
@@ -35,10 +43,6 @@
 
 				</tr>
 				<tr>
-					<td>Gender</td>
-					<td><form:radiobuttons path="sGender" items='${sGenderMap}' readonly="true"/></td>
-				</tr>
-				<tr>
 					<td>Idcode</td>
 					<td><form:input path="sIdcode" readonly="true"/></td>
 					<form:errors path="sIdcode" cssClass="error" />
@@ -52,8 +56,8 @@
 				</tr>
 				<tr>
 					<td>Comment</td>
-					<td><form:input path="sComment" /></td>
-					<form:errors path="sComment" cssClass="error" />
+					<td><form:input path="sComment" /><form:errors path="sComment" /></td>
+				
 
 				</tr>
 				<tr>
@@ -63,8 +67,8 @@
 				</tr>
 				<tr>
 					<td>Price</td>
-					<td><form:input path="iPrice" /></td>
-					<form:errors path="iPrice" cssClass="error" />
+					<td><form:input path="iPrice" /><form:errors path="iPrice"  /></td>
+					
 
 				</tr>
 				<tr>
@@ -74,6 +78,8 @@
 		</form:form>
 
 	</div>
+		</div>
+	
 	<%@ include file="../Foot.jsp" %>
 	
 </body>

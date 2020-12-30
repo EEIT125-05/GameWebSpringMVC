@@ -24,7 +24,7 @@ public class WithValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "sName", "empty", "姓名欄不能空白");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "sNickname", "Nickname.not.empty", "暱稱欄不能空白");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "sIdcode", "ID.not.empty", "身份證號欄不能空白");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "sGender", "", "遊戲欄不能空白");
+//		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "sGender", "", "遊戲欄不能空白");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "sGame", "", "遊戲欄不能空白");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "sComment", "", "自我介紹欄不能空白");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "iPrice", "", "金額欄不能空白");

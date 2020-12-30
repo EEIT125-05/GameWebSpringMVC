@@ -28,10 +28,10 @@ public class WithServiceImpl implements WithService {
 	}
 
 	@Override
-	public WithPlay get(String nickname) {
+	public WithPlay get(Integer iId) {
 		WithPlay wp = null;
 		try {
-			wp = withDao.get(nickname);
+			wp = withDao.get(iId);
 			} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -62,4 +62,8 @@ public class WithServiceImpl implements WithService {
 		return withDao.selectlist(sNickname);
 	}
 
+	@Override
+	public List<WithPlay> searchForum(Integer iId) {
+		return withDao.searchForum(iId);
+	}
 }

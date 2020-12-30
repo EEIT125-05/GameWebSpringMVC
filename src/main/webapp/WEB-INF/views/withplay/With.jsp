@@ -45,11 +45,11 @@
 					<td>${With.sGender == 'F' ? "女" : "男" }</td>
 					<td>${With.sGame}</td>
 					<td><img width='200' height='200'
-						src='${pageContext.request.contextPath}/withplay/picture/${With.sNickname}' /></td>
+						src='${pageContext.request.contextPath}/withplay/picture/${With.iId}' /></td>
 					<td style="word-break: break-all; width:400px" >${With.sComment}</td>
 					<td>${With.iPrice}</td>
 					<td><a
-						href="${pageContext.request.contextPath}/withplay/edit/${With.sNickname}">Edit</a>
+						href="${pageContext.request.contextPath}/withplay/edit/${With.iId}">Edit</a>
 						&nbsp;&nbsp; 
 						<a class='deletelink'
 						href="${pageContext.request.contextPath}/withplay/delete/${With.iId}">Delete</a>

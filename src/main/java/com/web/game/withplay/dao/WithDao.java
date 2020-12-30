@@ -2,6 +2,7 @@ package com.web.game.withplay.dao;
 
 import java.util.List;
 
+import com.web.game.forum.model.ForumBean;
 import com.web.game.withplay.model.WithPlay;
 
 public interface WithDao {
@@ -9,7 +10,7 @@ public interface WithDao {
 
 	void update(WithPlay Wp);
 
-	WithPlay get(String nickname);
+	WithPlay get(Integer iId);
 
 	WithPlay getaccount(String account);
 	
@@ -18,4 +19,7 @@ public interface WithDao {
 	List<WithPlay> list();
 	
 	List<WithPlay> selectlist(String sNickname);
+	
+	List<WithPlay> searchForum(Integer iId);
+
 }

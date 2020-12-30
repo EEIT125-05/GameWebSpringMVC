@@ -1,7 +1,6 @@
 package com.web.game.withplay.controller;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+
 import java.sql.Blob;
 import java.util.HashMap;
 import java.util.List;
@@ -11,13 +10,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.rowset.serial.SerialBlob;
 
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.CacheControl;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.web.game.contest.model.ContestBean;
 import com.web.game.member.model.MemberBean;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithService;
@@ -115,7 +108,7 @@ public class WithController {
 			return "withplay/With_form";
 		}
 		
-		return "withplay/Index";
+		return "redirect:/withplay/Index";
 
 	}
 	@DeleteMapping(value = "/withplay/delete/{iId}")
@@ -132,8 +125,6 @@ public class WithController {
 		withPlay.setsAccount(((MemberBean)model.getAttribute("user")).getsAccount());
 		WithPlay checkwithPlay=withService.getaccount(((MemberBean) model.getAttribute("user")).getsAccount());
 		String nextPage = "redirect:/withplay/Index";
-		System.out.println(checkwithPlay.getsAccount());
-		System.out.println(withPlay.getsAccount());
 		if(withPlay.getsAccount().equals(checkwithPlay.getsAccount())) {
 			nextPage = "withplay/With_update";
 			model.addAttribute("With", checkwithPlay);
@@ -141,19 +132,19 @@ public class WithController {
 		return nextPage;
 	}
 	
-	@GetMapping(value = "/withplay/edit/{sNickname}")
-	public String edit(@PathVariable("sNickname") String nickname,Model model) {
-		WithPlay withPlay = withService.get(nickname);
+	@GetMapping(value = "/withplay/edit/{iId}")
+	public String edit(@PathVariable("iId") Integer iId,Model model) {
+		WithPlay withPlay = withService.get(iId);
 		model.addAttribute("With", withPlay);
 		return "withplay/With_update";
 	}
 	
-	@PostMapping(value = "/withplay/edit/{sNickname}")
+	@PostMapping(value = "/withplay/edit")
 	public String update(
 			@ModelAttribute("With") WithPlay With,
 			BindingResult result, 
 			Model model,
-			@PathVariable("sNickname") String Nickname,
+			@RequestParam("iId") Integer iId,
 			HttpServletRequest request
 			) {
 		WithValidator validator = new WithValidator();
@@ -168,7 +159,7 @@ public class WithController {
 		MultipartFile picture = With.getmWithImage();
 
 		if (picture.getSize() == 0) {
-			WithPlay original = withService.get(Nickname);
+			WithPlay original = withService.get(iId);
 			With.setbImage(original.getbImage());
 		} else {
 			String originalFilename = picture.getOriginalFilename();
@@ -209,95 +200,4 @@ public class WithController {
 
 	}
 	
-//	private byte[] fileToByteArray(String path) {
-//		byte[] result = null;
-//		try (InputStream is = context.getResourceAsStream(path);
-//				ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
-//			byte[] b = new byte[819200];
-//			int len = 0;
-//			while ((len = is.read(b)) != -1) {
-//				baos.write(b, 0, len);
-//			}
-//			result = baos.toByteArray();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return result;
-//	}
-
-//	public byte[] blobToByteArray(Blob blob) {
-//		byte[] result = null;
-//		try (InputStream is = blob.getBinaryStream(); ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
-//			byte[] b = new byte[819200];
-//			int len = 0;
-//			while ((len = is.read(b)) != -1) {
-//				baos.write(b, 0, len);
-//			}
-//			result = baos.toByteArray();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return result;
-//
-//	}
-	
-	
 }
-
-
-
-
-
-//	@GetMapping("/withplay/Index")
-//	public String WithplayIndex(Model model) {
-//		model.addAttribute("With",withService.list());
-//		return "withplay/WithplayIndex";
-//	}
-
-//	@GetMapping("/withplay/picture/{sNickname}")
-//	public ResponseEntity<byte[]> getPicture(@PathVariable("sNickname") String nickname) {
-//		byte[] body = null;
-//		ResponseEntity<byte[]> re = null;
-//		MediaType mediaType = null;
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-//
-//		WithPlay wp = withService.get(nickname);
-//		if (wp == null) {
-//			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
-//		}
-//		String filename = wp.getsFileName();
-//		if (filename != null) {
-//			if (filename.toLowerCase().endsWith("jfif")) {
-//				mediaType = MediaType.valueOf(context.getMimeType("dummy.jpeg"));
-//			} else {
-//				mediaType = MediaType.valueOf(context.getMimeType(filename));
-//				headers.setContentType(mediaType);
-//			}
-//		}
-//		Blob blob = wp.getbImage();
-//		if (blob != null) {
-//			body = blobToByteArray(blob);
-//		} else {
-//			String path = null;
-//			if (wp.getsGender() == null || wp.getsGender().length() == 0) {
-//				path = noImageMale;
-//			} else if (wp.getsGender().equals("M")) {
-//				path = noImageMale;
-//			} else {
-//				path = noImageFemale;
-//				;
-//			}
-//			body = fileToByteArray(path);
-//		}
-//		re = new ResponseEntity<byte[]>(body, headers, HttpStatus.OK);
-//
-//		return re;
-//	}
-
-//	@GetMapping("/withplay/select")
-//	public String get(@RequestParam String sNickname,Model model) {
-//		model.addAttribute("With", withService.selectlist(sNickname));
-//		return "withplay/Withplayselect";
-//				
-//	}

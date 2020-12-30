@@ -34,11 +34,11 @@ public class WithDaoImpl implements WithDao {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public WithPlay get(String nickname) {
-		String hql = "FROM WithPlay w WHERE w.sNickname = :nickname0";
+	public WithPlay get(Integer iId) {
+		String hql = "FROM WithPlay w WHERE w.iId = :iId0";
 		Session session = factory.getCurrentSession();
 		Query<WithPlay> query = session.createQuery(hql);
-		WithPlay Wp =query.setParameter("nickname0", nickname).getSingleResult();
+		WithPlay Wp =query.setParameter("iId0",iId).getSingleResult();
 		return Wp;	}
 	
 	@Override
@@ -82,6 +82,15 @@ public class WithDaoImpl implements WithDao {
 		String hql = "FROM WithPlay w WHERE w.sNickname like '%"+sNickname+"%'";
 		Session session = getSession();
 		return session.createQuery(hql).getResultList();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<WithPlay> searchForum(Integer iId) {
+		Session session = getSession();
+		String hql = "FROM WithPlay w WHERE w.iId = :iId0";
+		return  session.createQuery(hql).setParameter("iId0",iId).getResultList();
+		
 	}
 
 }
