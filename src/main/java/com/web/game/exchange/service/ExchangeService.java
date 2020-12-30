@@ -40,7 +40,6 @@ public class ExchangeService {
 		List<GameBean> list = new ArrayList<>();
 		list = supportDAO.GetAllSupport();
 		return list;
-			
 	}
 	
 	@Transactional
