@@ -1,6 +1,8 @@
 package com.web.game.withplay.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithService;
+import com.web.game.contest.model.ContestBean;
 import com.web.game.withplay.dao.WithDao;
 @Service
 @Transactional
@@ -63,7 +66,7 @@ public class WithServiceImpl implements WithService {
 	}
 
 	@Override
-	public List<WithPlay> searchForum(Integer iId) {
-		return withDao.searchForum(iId);
+	public List<WithPlay> search(String sNickname,String sGame) {
+		return withDao.search(sNickname, sGame);
 	}
 }

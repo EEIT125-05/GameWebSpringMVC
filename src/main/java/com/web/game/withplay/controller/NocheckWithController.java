@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.web.game.forum.model.ForumBean;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithService;
 
@@ -42,6 +41,7 @@ public class NocheckWithController {
 	
 	@GetMapping("/withplay/Index")
 	public String WithplayIndex(Model model) {
+		model.addAttribute("With", withService.search("", ""));
 		model.addAttribute("With",withService.list());
 		return "withplay/WithplayIndex";
 	}
@@ -52,13 +52,12 @@ public class NocheckWithController {
 		return "withplay/Withplayselect";			
 	}
 	
-	@PostMapping("/withplay/IndexAjax")
-	public @ResponseBody List<WithPlay> ajax(
-			@RequestParam(name="iId",defaultValue = "") Integer iId) {
-		System.out.println("ajax");
-		System.out.println("iId: " + iId);
-		System.out.println(withService.searchForum(iId));
-		return withService.searchForum(iId);
+	@PostMapping(value = "/withplay/IndexAjax", produces = "application/json; charset=utf-8")
+	public @ResponseBody List<WithPlay> search(
+			@RequestParam(defaultValue = "") String sNickname,
+			@RequestParam String sGame
+			) {
+		return withService.search(sNickname, sGame);
 	}
 	
 	

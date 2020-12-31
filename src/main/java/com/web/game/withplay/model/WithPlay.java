@@ -13,6 +13,8 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "WithPlay", uniqueConstraints = {@UniqueConstraint(columnNames = "sNickname") ,@UniqueConstraint(columnNames = "sAccount")})
 public class WithPlay {
@@ -36,7 +38,7 @@ public class WithPlay {
 	Integer iPrice;	
 	@Column(columnDefinition="VARCHAR(32) NOT NULL")
 	String sAccount;
-	
+	@JsonIgnore
 	Blob bImage;
 	String sFileName;
 	@Transient

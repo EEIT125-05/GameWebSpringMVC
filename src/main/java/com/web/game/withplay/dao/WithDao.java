@@ -20,6 +20,6 @@ public interface WithDao {
 	
 	List<WithPlay> selectlist(String sNickname);
 	
-	List<WithPlay> searchForum(Integer iId);
+	List<WithPlay> search(String sNickname,String sGame);
 
 }

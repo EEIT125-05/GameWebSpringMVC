@@ -34,20 +34,28 @@ response.setContentType("text/html;charset=UTF-8");
 		</ol>
 
 
-		<form action='${pageContext.request.contextPath}/withplay/select'>
+<%-- 		<form action='${pageContext.request.contextPath}/withplay/select'> --%>
 			<div class="input-group">
-			<label>依暱稱搜尋: </label> <input type="text" name="sNickname" class="form-control"> 
+			<label>依暱稱搜尋: </label> <input type="text" name="sNickname" class="form-control" id="sNickname"> 
 			<span class="input-group-append">
-			<input type="Submit" value="搜尋" class="btn btn-secondary">
+			<input type="button" value="搜尋" class="btn btn-secondary" id="submit">
 			</span>
 			</div>
-			
-		</form>
+			<label>進階條件: </label><br>
+		<label>遊戲</label>
+			<select id="sGame" class="form-control" name="sGame"
+					style="width:130px;display:inline">
+		    	<option value="">全部</option>
+				<c:forEach var="sGame" items="${With}">
+	            	<option value="${sGame}">${sGame}</option>
+				</c:forEach>
+            </select>
+<%-- 		</form> --%>
 
 		<c:if test="${empty With}">
 			<p>目前無資料</p>
 		</c:if>
-		<div class="row">
+		<div class="row" id="point">
 			<c:forEach var="With" items="${With}">
 				<div data-toggle="modal" data-target="#exampleModal${With.iId}"
 					>
@@ -117,6 +125,93 @@ response.setContentType("text/html;charset=UTF-8");
 			})
 		});
 
+		$("#submit").on("click",function(){
+			$("#point").empty();
+			let xhr = new XMLHttpRequest();
+			if(xhr != null){
+				
+				xhr.onreadystatechange = function(){
+					if(xhr.readyState === 4){
+						if(xhr.status === 200){
+							console.log(JSON.parse(xhr.responseText));
+							let type = xhr.getResponseHeader("Content-Type");
+							if(type.indexOf("application/json") === 0){
+								let obj = JSON.parse(xhr.responseText);
+								if(obj.length == 0){
+									$("#point").append("<p>無比賽符合您搜尋的條件</p>");
+								}
+	 							$.each(obj,function(key, value){
+									$("#point").append(
+										"<div class='row' id='point'>"
+										+"<div data-toggle='modal' data-target='#exampleModal${value.iId}'>"
+												+"<div class='col col-6 col-sm-4 col-md-4 col-lg-2'>"
+												+"<div class='div1'>"
+													+"<div class='fi1'>"
+														+"<a href='#'> <img class='img1' src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'></a>"
+														+"<a>"
+															+"<div>${value.sNickname}</div>"
+															+"<div>${value.sGame}</div>"
+															+"<div>"
+															+"<p>"
+															+"<span>$</span>"
+															+"<span>${value.iPrice}</span>"
+															+"<span>/局</span>"
+															+"</p>"
+															+"</div>"
+														+"</a>"
+
+													+"</div>"
+												+"</div>"
+											+"</div>"
+											+"<div class='modal fade' id='exampleModal${value.iId}' tabindex='-1' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
+												+"<div class='modal-dialog' role='document'>"
+													+"<div class='modal-content'>"
+														+"<div class='modal-header'>"
+															+"<h5 class='modal-title' id='exampleModalLabel'>Modal title</h5>"
+															+"<button type='button' class='close' data-dismiss='modal' aria-label='Close'> <span aria-hidden='true'>&times;</span> </button>"
+														+"</div>"
+														+"<div class='modal-body'>"
+														 +"<div class='container-fluid'>"	
+														      +"<div class='row'>"
+															+"<a> <img class='img1'"
+																+"src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'>"
+															+"</a>"
+															+"<div>${value.sGame}</div>"
+															+"<div>${value.sNickname}</div>"
+														+"</div>"
+														+"</div>"
+														+"</div>"
+														+"<div class='modal-footer'>"
+															+"<button type='button' class='btn btn-secondary'"
+																+"data-dismiss='modal'>Close</button>"
+															+"<button type='button' class='btn btn-primary'>Save"
+																+"changes</button>"
+														+"</div>"
+													+"</div>"
+												+"</div>"
+											+"</div>"
+										+"</div>"
+								+"</div>"
+									)});
+							}
+						}else{
+							alert("發生錯誤: readyState="+xhr.readyState+"status="+xhr.status);
+						}
+					}
+				}
+				
+				xhr.open("POST", "<c:url value='/withplay/IndexAjax'/>",true);
+				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				xhr.send("sNickname=" + $("#sNickname").val() +
+						"&sGame=" + $("#sGame").val()) ;
+						
+			}else{
+				alert("您的瀏覽器不支援Ajax");
+			}
+		});
+		
+		
+		
 		// 	$(".div1").each(function(){
 		// 		$(this).click(function(){
 		// 			console.log("123")

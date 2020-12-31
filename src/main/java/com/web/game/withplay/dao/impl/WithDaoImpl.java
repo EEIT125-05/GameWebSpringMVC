@@ -86,10 +86,10 @@ public class WithDaoImpl implements WithDao {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<WithPlay> searchForum(Integer iId) {
+	public List<WithPlay> search(String sNickname,String sGame) {
+		String hql = "from WithPlay where sNickname like '%" + sNickname + "%' and sGame like '%" + sGame + "%'" ;
 		Session session = getSession();
-		String hql = "FROM WithPlay w WHERE w.iId = :iId0";
-		return  session.createQuery(hql).setParameter("iId0",iId).getResultList();
+		return  session.createQuery(hql).getResultList();
 		
 	}
 
