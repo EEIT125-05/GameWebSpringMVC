@@ -36,4 +36,14 @@ public class ParticipateDAOImpl implements ParticipateDAO {
 		return session.createQuery(hql).setParameter("user", user).getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ParticipateBean> selectContestParticipate(Integer contestNo) {
+		String hql = "from ParticipateBean where contestNo = :contestNo";
+		Session session = factory.getCurrentSession();
+		return session.createQuery(hql).setParameter("contestNo", contestNo).getResultList();
+	}
+
+	
+	
 }

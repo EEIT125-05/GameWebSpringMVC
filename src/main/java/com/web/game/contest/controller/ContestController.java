@@ -223,7 +223,7 @@ public class ContestController {
 			}
 		}else {
 			model.addAttribute("errorMessage","(使用者錯誤)");
-			nextPage = "redirect:/contest/Error";
+			nextPage = "contest/ContestError";
 		}
 		return nextPage;
 	}
@@ -234,11 +234,17 @@ public class ContestController {
 					@RequestParam String sGameId,
 					Model model) {
 		String nextPage = null;
-		if(pService.insertParticipate(new ParticipateBean(null, ((MemberBean)model.getAttribute("user")).getsAccount(), sGameId, cContestBean))) {
-			model.addAttribute("sContestConfirm", "報名");
-			nextPage = "redirect:/contest/Thanks";
+		String user = ((MemberBean)model.getAttribute("user")).getsAccount();
+		if(pService.checkPlayer(cContestBean.getiNo(), user)) {
+			if(pService.insertParticipate(new ParticipateBean(null, user, sGameId, cContestBean))) {
+				model.addAttribute("sContestConfirm", "報名");
+				nextPage = "redirect:/contest/Thanks";
+			}else {
+				nextPage = "redirect:/contest/Error";
+			}
 		}else {
-			nextPage = "redirect:/contest/Error";
+			model.addAttribute("errorMessage","(您已參加本次賽事,無法重複報名)");
+			nextPage = "contest/ContestError";
 		}
 		return nextPage;
 	}

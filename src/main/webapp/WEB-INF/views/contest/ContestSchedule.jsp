@@ -28,7 +28,7 @@
 	#tree{
  	    overflow: auto; 
 	    border: 1px solid red;
-	
+		position: relative;
 	}
 	
 	.tree ul{
@@ -309,63 +309,67 @@
 				if($("#group:checked").length > 0) {
 		        	iPlayer = $("#teamCount").val();
 				}
-				$("#tree").width("3000px");
-// 				for (let i = 0; i < iPlayer; i++) {
-				for (let i = 0; i < 8; i++) {
-					$("#tree").append("<label class=\"drop\" style=\"height:100;width:200;border:2px solid green;margin:10px\"></label>");
-				}
+// 				$("#tree").width("3000px").height("300px");
+// // 				for (let i = 0; i < iPlayer; i++) {
+// 				for (let i = 0; i < 2; i++) {
+// 					$("#tree").append("<label class=\"drop\" id=d" + i + " style=\"height:100;width:200;border:2px solid green;margin:10px;\"></label>");
+// // 					$("#tree").append("<label class=\"drop\" style=\"height:100;width:200;border:2px solid green;margin:10px;position:absolute;left:" + (300*i) + "\"></label>");
+// 				}
+				
 				
 //--------------產生賽程表-----------------------------------------------------
-// 				let a = 15;
-// 		        $("#tree").width((a*96+(2*a-1)*10) + "px");
-// // 		        console.log("寬度: " + (a*100+(2*a-1)*10));
-// 		        let pow = a.toString(2).length;
-// 		        let max = Math.pow(2,pow);
-// 		        if((max-a) == a){
-// 		            pow = a.toString(2).length - 1;
-// 		            max = Math.pow(2,pow);
-// 		        }
-// // 		        console.log("次方: " + pow);
-// // 		        console.log("補滿2的次方: " + max);
-// // 		        console.log("不要的場數: " + (max-a));
+				let a = 7;
+		        $("#tree").width((a*96+(2*a-1)*10) + "px");
+// 		        console.log("寬度: " + (a*100+(2*a-1)*10));
+		        let pow = a.toString(2).length;
+		        let max = Math.pow(2,pow);
+		        if((max-a) == a){
+		            pow = a.toString(2).length - 1;
+		            max = Math.pow(2,pow);
+		        }
+// 		        console.log("次方: " + pow);
+// 		        console.log("補滿2的次方: " + max);
+// 		        console.log("不要的場數: " + (max-a));
 
-// 		        $("#tree").append("<ul class=\"layer1\">");
-// 		        $(".layer1").append("<li class=\"text1\"><label>&nbsp;</label>");
+		        $("#tree").append("<ul class=\"layer1\">");
+		        $(".layer1").append("<li class=\"text1\"><label>&nbsp;</label>");
 		        
-// 		        for(let i=1; i<=pow; i++){
-// 		            let j = i + 1;
-// 		            let className;
-// 		            if(i != a.toString(2).length){
-// 		                className = "class=\"text" + j + "\"";
-// 		            }else{
-// 		                className = "class=\"buttom\"";
-// 		            }
-// 		            $(".text" + i).append("<ul class=\"layer" + j + "\">");
-// 		            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
-// 		            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
-// 		        }
-// 		        for(let i=0; i<max; i++){
-// 		            $(".buttom").eq(i).children().attr("id", "編號"+i).attr("class", "drop");
-// 		        } 
+		        for(let i=1; i<=pow; i++){
+		            let j = i + 1;
+		            let className;
+		            if(i != a.toString(2).length){
+		                className = "class=\"text" + j + "\"";
+		            }else{
+		                className = "class=\"buttom\"";
+		            }
+		            $(".text" + i).append("<ul class=\"layer" + j + "\">");
+		            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
+		            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
+		        }
+		        for(let i=0; i<max; i++){
+		            $(".buttom").eq(i).children().attr("id", "編號"+i).attr("class", "drop");
+		        } 
 		     
-// 		        for(let i=0; i<(max-a); i++){
-// 		            let str = i.toString(2);
-// 		            while(str.length < pow-1){
-// 		                str = "0" + str;
-// 		            }
-// // 		            console.log("i= " + i);
-// // 		            console.log("換成2進位: " + str);
-// 		            // str = str.split("").reverse().join("");
-// 		            // console.log("2進位反轉: " + str);
-// // 		            console.log("拆開: " + str.split(""));
-// 		            let eqNumber = 0;
-// 		            for(let j=0; j<pow-1; j++){
-// 		                eqNumber += str.split("")[j]*Math.pow(2,j+1);
-// 		            }
-// // 		            console.log("eq的值: " + eqNumber);
-// 		            $("#編號" + eqNumber).parent().parent().prev().before("<ul>").before("<ul>").before("<ul>").before("<ul>").attr("class","drop");
-// 		            $("#編號" + eqNumber).parent().parent().remove();
-// 		        }
+		        for(let i=0; i<(max-a); i++){
+		            let str = i.toString(2);
+		            while(str.length < pow-1){
+		                str = "0" + str;
+		            }
+// 		            console.log("i= " + i);
+// 		            console.log("換成2進位: " + str);
+		            // str = str.split("").reverse().join("");
+		            // console.log("2進位反轉: " + str);
+// 		            console.log("拆開: " + str.split(""));
+		            let eqNumber = 0;
+		            for(let j=0; j<pow-1; j++){
+		                eqNumber += str.split("")[j]*Math.pow(2,j+1);
+		            }
+// 		            console.log("eq的值: " + eqNumber);
+		            $("#編號" + eqNumber).parent().parent().prev().before("<ul>").before("<ul>").before("<ul>").before("<ul>").attr("class","drop");
+		            $("#編號" + eqNumber).parent().parent().remove();
+		        }
+		        
+		        $(".drop").css("position","absolute").css("left", "100px");
 //--------------產生賽程表-----------------------------------------------------				
 		        
 		        
@@ -383,8 +387,8 @@
 				    accept:"*",
 				    drop: function(ev,ui) {
 						console.log("drop" + $(this).text() + ui.draggable.text());
-						$(this).text(ui.draggable.text());
-// 						$(this).append("<label class=\"player\">" + ui.draggable.text() + "</label>");
+// 						$(this).text(ui.draggable.text());
+						$(this).append("<label class=\"player\">" + ui.draggable.text() + "</label>");
 						ui.draggable.css("visibility","hidden").removeClass("player");
 						
 					//	let 綠框內的個數 = $(".playerNone").length)/$(".drop").length;

@@ -10,4 +10,5 @@ public interface ParticipateDAO {
 	
 	List<ParticipateBean> selectParticipate(String user);
 
+	List<ParticipateBean> selectContestParticipate(Integer contestNo); 
 }
