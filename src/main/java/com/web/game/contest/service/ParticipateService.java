@@ -9,5 +9,7 @@ public interface ParticipateService {
 	Boolean insertParticipate(ParticipateBean pParticipateBean);
 	
 	List<ParticipateBean> selectParticipate(String user);
+	
+	Boolean checkPlayer(Integer contestNo, String user);
 
 }

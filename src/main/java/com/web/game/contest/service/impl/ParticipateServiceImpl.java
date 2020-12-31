@@ -27,5 +27,16 @@ public class ParticipateServiceImpl implements ParticipateService {
 	public List<ParticipateBean> selectParticipate(String user) {
 		return pDAO.selectParticipate(user);
 	}
-
+	
+	@Transactional
+	@Override
+	public Boolean checkPlayer(Integer contestNo, String user){
+		for(ParticipateBean pParticipateBean: pDAO.selectContestParticipate(contestNo)) {
+			if(pParticipateBean.getsPlayer().equals(user)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 }
