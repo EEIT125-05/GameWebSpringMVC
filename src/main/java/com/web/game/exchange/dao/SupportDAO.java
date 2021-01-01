@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.NoResultException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,9 +12,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.web.game.contest.model.GameList;
-import com.web.game.exchange.model.DemandGameBean;
-import com.web.game.exchange.model.GameBean;
+import com.web.game.exchange.model.SupportGameBean;
 
 @Repository
 public class SupportDAO {
@@ -25,8 +22,8 @@ public class SupportDAO {
 
 	// ------------------------testpage
 	@SuppressWarnings("unchecked")
-	public List<GameBean> changePage(int page) {
-		List<GameBean> list = new ArrayList<>();
+	public List<SupportGameBean> changePage(int page) {
+		List<SupportGameBean> list = new ArrayList<>();
 		Session session = factory.getCurrentSession();
 		String queryAll = "FROM GameBean WHERE status = 0";
 
@@ -38,14 +35,14 @@ public class SupportDAO {
 			page = page - 1;
 			start = page * counts;
 		}
-		list = (List<GameBean>) session.createQuery(queryAll).setFirstResult(start).setMaxResults(counts)
+		list = (List<SupportGameBean>) session.createQuery(queryAll).setFirstResult(start).setMaxResults(counts)
 				.getResultList();
 		return list;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<GameBean> changePageByParam(int page, String search, String param) {
-		List<GameBean> list = new ArrayList<>();
+	public List<SupportGameBean> changePageByParam(int page, String search, String param) {
+		List<SupportGameBean> list = new ArrayList<>();
 		Session session = factory.getCurrentSession();
 		String hql = null;
 		String queryGamename = "FROM GameBean WHERE status = 0 AND gamename like '%" + param + "%'";
@@ -65,25 +62,25 @@ public class SupportDAO {
 			page = page - 1;
 			start = page * counts;
 		}
-		list = (List<GameBean>) session.createQuery(hql).setFirstResult(start).setMaxResults(counts).getResultList();
+		list = (List<SupportGameBean>) session.createQuery(hql).setFirstResult(start).setMaxResults(counts).getResultList();
 		return list;
 	}
 
 	// -------------------------------------------------
 
-	public List<GameBean> GetAllSupport() {
-		List<GameBean> list = new ArrayList<>();
+	public List<SupportGameBean> GetAllSupport() {
+		List<SupportGameBean> list = new ArrayList<>();
 		Session session = factory.getCurrentSession();
 		String hql = "FROM GameBean";
-		Query<GameBean> query = session.createQuery(hql);
+		Query<SupportGameBean> query = session.createQuery(hql);
 		list = query.getResultList();
 		return list;
 
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<GameBean> GetMemberSupport(String account) {
-		List<GameBean> list = new ArrayList<>();
+	public List<SupportGameBean> GetMemberSupport(String account) {
+		List<SupportGameBean> list = new ArrayList<>();
 		Session session = factory.getCurrentSession();
 		String hql = "FROM GameBean g WHERE g.gamer = :account";
 		list = session.createQuery(hql).setParameter("account", account).getResultList();
@@ -93,14 +90,14 @@ public class SupportDAO {
 	}
 
 	// 傳回特定物件值
-	public GameBean selectSupportGame(int pno) {// 暫時沒用到
-		GameBean gb = null;
+	public SupportGameBean selectSupportGame(int pno) {// 暫時沒用到
+		SupportGameBean gb = null;
 		Session session = factory.getCurrentSession();
-		gb = session.get(GameBean.class, pno);
+		gb = session.get(SupportGameBean.class, pno);
 		return gb;
 	}
 
-	public boolean insertSupportGame(GameBean gb) {
+	public boolean insertSupportGame(SupportGameBean gb) {
 		int count = 0;
 		boolean result = false;
 		Session session = factory.getCurrentSession();
@@ -116,7 +113,7 @@ public class SupportDAO {
 		int count = 0;
 		Session session = factory.getCurrentSession();
 		boolean result = false;
-		GameBean gb = new GameBean();
+		SupportGameBean gb = new SupportGameBean();
 		gb.setNo(pno);
 		session.delete(gb);
 		count++;
@@ -126,7 +123,7 @@ public class SupportDAO {
 		return result;
 	}
 
-	public boolean updateSupportGame(GameBean gb) {
+	public boolean updateSupportGame(SupportGameBean gb) {
 		int count = 0;
 		Session session = factory.getCurrentSession();
 		boolean result = false;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import com.web.game.exchange.model.GameBean;
+import com.web.game.exchange.model.SupportGameBean;
 import com.web.game.exchange.service.ExchangeService;
 
 @Controller
@@ -24,11 +24,17 @@ public class textcontroller {
 	@Autowired
 	ExchangeService service;
 
+	@GetMapping("/Index")
+	public String initExchange(Model model) {
+		System.out.println("/Index");
+		return "exchange/EXCHomePageGameList";
+	}
+	
 	@GetMapping("/preparehomepage")
 	public String search(Model model, @RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "search", defaultValue = "all") String search,
 			@RequestParam(value = "searchparams", required = false) String searchparams) {
-		List<GameBean> list = new ArrayList<GameBean>();
+		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
 		int count=5;//每頁幾筆
 		int p = 0;//共幾頁
 		if (searchparams == null) {
@@ -79,7 +85,7 @@ public class textcontroller {
 										    @RequestParam(value="search",defaultValue = "all")String sSearch) {
 		
 		Map<String, Object> supportGame = new HashMap<String, Object>();
-		List<GameBean> list = new ArrayList<GameBean>();
+		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
 		String sChangePageParams = (String) model.getAttribute("changepageparams");
 		System.out.println("sSearch"+sSearch);
 		System.out.println("iPage"+iPage);

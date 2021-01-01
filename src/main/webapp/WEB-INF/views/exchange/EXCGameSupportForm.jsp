@@ -104,7 +104,7 @@ div {
 			<div>
 				<label for="gamer">玩家名稱</label>
 				<form:input id="gamer" class="fixedlen"
-					style="background-color:gary" type="text" path="gamer" />${sessionScope.user.sAccount}
+					style="background-color:gary" type="text" path="gamer" />
 			</div>
 			<div>
 				<label for="dlc">含特典 </label>

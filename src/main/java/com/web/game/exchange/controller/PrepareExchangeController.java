@@ -1,9 +1,7 @@
 package com.web.game.exchange.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,9 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.web.game.exchange.model.GameBean;
+import com.web.game.exchange.model.SupportGameBean;
 import com.web.game.exchange.service.ExchangeService;
 
 @Controller
@@ -27,10 +24,11 @@ public class PrepareExchangeController {
 	@Autowired
 	ExchangeService service;
 	
-	@GetMapping("/Index")
-	public String initExchange(Model model) {
-		return "exchange/EXCHomePageGameList";
-	}
+//	@GetMapping("/Index")
+//	public String initExchange(Model model) {
+//		System.out.println("/Index");
+//		return "exchange/EXCHomePageGameList";
+//	}
 	
 	@GetMapping("/Search")
 	public String SearchGame(Model model,
@@ -44,8 +42,8 @@ public class PrepareExchangeController {
 	}
 	
 	@ModelAttribute("AllSupport")
-	public List<GameBean> initGameList(HttpServletRequest req,Model model){
-		List<GameBean> homepagelist = new ArrayList<GameBean>();
+	public List<SupportGameBean> initGameList(HttpServletRequest req,Model model){
+		List<SupportGameBean> homepagelist = new ArrayList<SupportGameBean>();
 		return service.GetAllSupport();
 	}
 //	@ModelAttribute("initOption")

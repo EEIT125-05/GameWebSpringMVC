@@ -85,6 +85,7 @@ request.setCharacterEncoding("UTF-8");
 								<li>是否含特點:${g.dlc}</li>
 								<li>備註:${g.remark}</li>
 							</ul>
+							<a href="">申請交換</a>
 						</div>
 					</c:if>
 				</c:forEach>

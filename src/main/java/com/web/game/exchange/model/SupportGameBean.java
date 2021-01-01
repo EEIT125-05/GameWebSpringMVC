@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 @Entity
 @Table(name="GameSupport_Table")
-public class GameBean implements Serializable {
+public class SupportGameBean implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -108,7 +108,7 @@ public class GameBean implements Serializable {
 		this.status = status;
 	}
 	
-	public GameBean(Integer no, String gamename, Integer qty, String gamelocation, String delivery, String console,
+	public SupportGameBean(Integer no, String gamename, Integer qty, String gamelocation, String delivery, String console,
 			String gamer, String dlc, String remark, String condition, String image, Timestamp date, Integer status) {
 		super();
 		this.no = no;
@@ -127,7 +127,7 @@ public class GameBean implements Serializable {
 	}
 	
 	//不須輸入PK
-	public GameBean(String gamename, Integer qty, String gamelocation, String delivery, String console, String gamer,
+	public SupportGameBean(String gamename, Integer qty, String gamelocation, String delivery, String console, String gamer,
 			String dlc, String remark, String condition, String image, Timestamp date, Integer status) {
 		super();
 		this.gamename = gamename;
@@ -144,7 +144,7 @@ public class GameBean implements Serializable {
 		this.status = status;
 	}
 	
-	public GameBean() {
+	public SupportGameBean() {
 		super();
 	}
 	

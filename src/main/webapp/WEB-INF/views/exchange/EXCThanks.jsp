@@ -30,7 +30,7 @@
 		<c:when test="${action=='新增' }">
 
 			<form action="<c:url value="/exchange/Index"/>" method="GET">
-				<input type="submit" value="返回主頁" name="">
+				<button type="submit" value="insert" name="decisions">返回主頁</button>
 			</form>
 
 		</c:when>

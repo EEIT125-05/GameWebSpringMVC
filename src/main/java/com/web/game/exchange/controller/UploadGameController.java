@@ -24,8 +24,10 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.game.exchange.model.DemandGameBean;
-import com.web.game.exchange.model.GameBean;
+import com.web.game.exchange.model.MyGameBean;
+import com.web.game.exchange.model.SupportGameBean;
 import com.web.game.exchange.service.ExchangeService;
+import com.web.game.member.model.MemberBean;
 
 @Controller
 @SessionAttributes({"user","initOption"})
@@ -35,12 +37,14 @@ public class UploadGameController {
 	@Autowired
 	ExchangeService service;
 	
+
+	
 	@GetMapping("/insertSupportGame")
 	public String GetNewGame(Model model) {
-		GameBean gamebean = new GameBean();
-//		MemberBean user = model.getAttribute("user");
-//		bean.setGamer(user.sAccount);整合後開啟
-		gamebean.setGamer("henryxoooo");
+		SupportGameBean gamebean = new SupportGameBean();
+		MemberBean user = (MemberBean) model.getAttribute("user");
+		gamebean.setGamer(user.getsAccount());//整合後開啟
+//		gamebean.setGamer("henryxoooo");//測試用
 		gamebean.setDlc("否");//預設值
 		model.addAttribute("gamebean",gamebean);
 		model.addAttribute("insert","我要換");
@@ -48,21 +52,25 @@ public class UploadGameController {
 	}
 	
 	@PostMapping("/insertSupportGame")
-	public String ImageUpload(@ModelAttribute("gamebean") GameBean gamebean,
+	public String ImageUpload(@ModelAttribute("gamebean") SupportGameBean gamebean,
 			Model model,
-			@RequestParam(value="file",required=false) CommonsMultipartFile file,  
+			@RequestParam(value="file",required=false) CommonsMultipartFile file,  //CommonsMultipartFile
 			HttpServletRequest request,
 			RedirectAttributes attr
 			)throws Exception{ 
+		System.out.println("insertSupportgame");
+		System.out.println("gamer"+gamebean.getGamer());
 		//---------注入資料
 		String name = "exchange-"+gamebean.getGamer()+"-"+gamebean.getGamename()+"-"+UUID.randomUUID().toString().replaceAll("-", "");//使用UUID給圖片重新命名，並去掉四個“-”
 		String imageName=file.getOriginalFilename();//獲取圖片名稱
 		//String contentType=file.getContentType();  //獲得檔案型別（可以判斷如果不是圖片，禁止上傳）
 		//String suffixName=contentType.substring(contentType.indexOf("/")+1);  獲得檔案字尾名 
-		String ext = FilenameUtils.getExtension(file.getOriginalFilename());//獲取檔案的副檔名
-		String filePath = "C:\\Java\\AdvancedWorkspace\\GameWebSpringMVC\\src\\main\\webapp\\images";//設定圖片上傳路徑
-		//System.out.println(filePath);
+		String ext = FilenameUtils.getExtension(file.getOriginalFilename());//獲取檔案的副檔名FilenameUtils
+		String filePath = "C:\\GameBar\\GameWebSpringMVC\\src\\main\\webapp\\images";//設定圖片上傳路徑
+		System.out.println(filePath+"/"+name + "." + ext);
+		System.out.println("!!");
 		file.transferTo(new File(filePath+"/"+name + "." + ext));//把圖片儲存路徑儲存到資料庫
+		System.out.println("!!");
 		String image = "images/"+name + "." + ext;
 		//重定向到查詢所有使用者的Controller，測試圖片回顯
 		SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
@@ -76,9 +84,12 @@ public class UploadGameController {
 		//---------insert後定向
 		String sAction = "新增";
 		String sPath = null;
-			if(service.InsertSupportGame(gamebean)) {	
+		System.out.println("beforeInsert");
+			if(service.InsertSupportGame(gamebean)) {
+				System.out.println("success");
 				sPath = "EXCThanks";
 			} else {
+				System.out.println("fail");
 				sPath = "EXCFail";
 			}
 		attr.addAttribute("action", sAction);
@@ -89,11 +100,10 @@ public class UploadGameController {
 	@GetMapping("/insertDemandGame")
 	public String GetNewDemandGame(Model model) {
 		DemandGameBean demandgamebean = new DemandGameBean();
-//		MemberBean user = model.getAttribute("user");
-//		bean.setGamer(user.sAccount);整合後開啟
-		demandgamebean.setGamer("henryxoooo");
+		MemberBean user = (MemberBean) model.getAttribute("user");
+		demandgamebean.setGamer(user.getsAccount());//整合後開啟
+//		demandgamebean.setGamer("henryxoooo");測試時使用
 		model.addAttribute("DemandGameBean",demandgamebean);
-//		model.addAttribute("insert","我要換");
 		return "exchange/EXCGameDemandForm";
 	}
 	
@@ -125,6 +135,40 @@ public class UploadGameController {
 		
 	}
 	
+	@GetMapping("/insertMyGame")
+	public String GetNewMyGame(Model model) {
+		MyGameBean mygamebean = new MyGameBean();
+		System.out.println("!insertMyGame!111");
+		MemberBean user = (MemberBean) model.getAttribute("user");
+		mygamebean.setGamer(user.getsAccount());//整合後開啟
+//		demandgamebean.setGamer("henryxoooo");測試時使用
+		model.addAttribute("mygamebean",mygamebean);
+		return "exchange/EXCMyGamesForm";
+	}
+	
+	@PostMapping("/insertMyGame")
+	public String insertMyGame(@ModelAttribute("mygamebean") MyGameBean mygamebean,
+								   Model model,
+								   RedirectAttributes attr) {
+		
+		System.out.println("!insertMyGame!");
+		Integer status = 0;//代表尚未徵得 
+		mygamebean.setStatus(status);
+		
+		String sAction = "新增";
+		String sPath = null;
+			if(service.insertMyGame(mygamebean)) {	
+				sPath = "EXCThanks";
+			} else {
+				sPath = "EXCFail";
+			}
+		attr.addAttribute("action", sAction);
+		attr.addAttribute("path",sPath);
+		return "redirect:/exchange/Result";
+		
+	}
+	
+	
 	@ModelAttribute("initOption")
 	public Map<String, Object> initOptionList(HttpServletRequest req,Model model){
 		Map<String, Object> initOptionMap = new HashMap<String, Object>();
@@ -132,4 +176,3 @@ public class UploadGameController {
 	}
 	
 }
-

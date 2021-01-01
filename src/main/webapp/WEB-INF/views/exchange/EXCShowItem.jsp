@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="../Link.jsp"%>
 
 <%
@@ -16,9 +17,9 @@
 <body>
 	<%@ include file="../Header.jsp"%>
 
-	<h1>管理 / ${user.account }</h1>
+	<h1>管理 / ${user.sAccount }</h1>
 
-	<h4>我要換</h4>
+	<h4>我要換/共${fn:length(MemberSupport)}筆</h4>
 	<c:choose> 	
 		<c:when test="${empty MemberSupport}">
 	查無資料<br>
@@ -74,7 +75,14 @@
 								<c:when test="${s.status == 1}">
     							已換出
     							</c:when>
+								<c:when test="${s.status == 2}">
+    							待換中
+    							</c:when>
 							</c:choose></td>
+						
+						<c:if test="${s.status == 2}">
+<%-- 							<a href="<c:url value="/exchange/update?updateindex=${vs.index}"/>">審核</a> --%>
+						</c:if>
 
 					</tr>
 
@@ -85,7 +93,7 @@
 			</table>
 
 <br>
-<h4>我要徵</h4>
+<h4>我要徵 /共${fn:length(MemberDemand)}筆</h4>
 			<c:choose>
 				<c:when test="${empty MemberDemand}">
 		查無資料<br>
@@ -140,6 +148,36 @@
 					</table>
 
 					<br>
+<h4>我的遊戲庫 /共${fn:length(MemberGames)}款</h4>
+			<c:choose>
+				<c:when test="${empty MemberGames}">
+		目前遊戲庫無任何遊戲<br>
+				</c:when>
+				<c:when test="${not empty MemberGames }">
+					<table border="1">
+						<tr>
+							<th>編號</th>
+							<th>遊戲名稱</th>
+							<th>主機平台</th>
+						</tr>
+
+						<c:forEach var='g' varStatus='vs2' items='${MemberGames }'>
+							<c:if test = "${g.status==0 }">
+							<tr>
+								<td>${vs2.count}</td>
+								<td>${g.gamename}</td>
+								<td>${g.console}</td>
+
+							</tr>
+						</c:if>
+						</c:forEach>
+						</c:when>
+						</c:choose>
+
+					</table>
+
+					<br>
+
 					<a href="<c:url value="/exchange/Index"/>">返回主頁</a>
 
 					<%@ include file="../Foot.jsp"%>
