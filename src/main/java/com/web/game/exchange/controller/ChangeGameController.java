@@ -49,7 +49,7 @@ public class ChangeGameController {
 		List<String> myGameBeans = (List<String>) exchangeService.getMemberGamesName(partyB.getsAccount());
 		MemberBean partyA = memberService.Selectmember(gamer);
 		SupportGameBean supportGame = exchangeService.FindsupportGame(no);
-		
+		System.out.println("!!!!");
 		
 		model.addAttribute("partyA",partyA);
 		model.addAttribute("supportGame",supportGame);
