@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.web.game.exchange.model.SupportGameBean;
 
+
 @Repository
 public class SupportDAO {
 
@@ -25,7 +26,7 @@ public class SupportDAO {
 	public List<SupportGameBean> changePage(int page) {
 		List<SupportGameBean> list = new ArrayList<>();
 		Session session = factory.getCurrentSession();
-		String queryAll = "FROM GameBean WHERE status = 0";
+		String queryAll = "FROM SupportGameBean WHERE status = 0";
 
 		int counts = 5;
 		int start = 0;
@@ -45,8 +46,8 @@ public class SupportDAO {
 		List<SupportGameBean> list = new ArrayList<>();
 		Session session = factory.getCurrentSession();
 		String hql = null;
-		String queryGamename = "FROM GameBean WHERE status = 0 AND gamename like '%" + param + "%'";
-		String queryArea = "FROM GameBean WHERE status = 0 AND gamelocation like '%" + param + "%'";
+		String queryGamename = "FROM SupportGameBean WHERE status = 0 AND gamename like '%" + param + "%'";
+		String queryArea = "FROM SupportGameBean WHERE status = 0 AND gamelocation like '%" + param + "%'";
 		System.out.println("dao param" + param);
 		if (search.equals("gamename")) {
 			hql = queryGamename;
@@ -71,7 +72,7 @@ public class SupportDAO {
 	public List<SupportGameBean> GetAllSupport() {
 		List<SupportGameBean> list = new ArrayList<>();
 		Session session = factory.getCurrentSession();
-		String hql = "FROM GameBean";
+		String hql = "FROM SupportGameBean";
 		Query<SupportGameBean> query = session.createQuery(hql);
 		list = query.getResultList();
 		return list;
@@ -82,7 +83,7 @@ public class SupportDAO {
 	public List<SupportGameBean> GetMemberSupport(String account) {
 		List<SupportGameBean> list = new ArrayList<>();
 		Session session = factory.getCurrentSession();
-		String hql = "FROM GameBean g WHERE g.gamer = :account";
+		String hql = "FROM SupportGameBean g WHERE g.gamer = :account";
 		list = session.createQuery(hql).setParameter("account", account).getResultList();
 
 		return list;
@@ -95,6 +96,15 @@ public class SupportDAO {
 		Session session = factory.getCurrentSession();
 		gb = session.get(SupportGameBean.class, pno);
 		return gb;
+	}
+	public SupportGameBean getSupportGameByAccount(String gamename,String account) {
+		SupportGameBean SGB = null;
+		Session session = factory.getCurrentSession();
+		String HQL = "FROM SupportGameBean WHERE gamer = :account AND gamename =:gamename";
+		System.out.println("getSupportGameByAccountin"+account);
+		SGB = (SupportGameBean) session.createQuery(HQL).setParameter("account", account).setParameter("gamename", gamename).getSingleResult();
+		System.out.println("getSupportGameByAccountout");
+		return SGB;
 	}
 
 	public boolean insertSupportGame(SupportGameBean gb) {

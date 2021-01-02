@@ -49,6 +49,7 @@
 						<li>是否含特點:${g.dlc}</li>
 						<li>備註:${g.remark}</li>
 					</ul>
+						<a class="applyFor" href="<c:url value="/exchange/applyFor?gamer=${g.gamer }&no=${g.no }"/>">申請交換</a>
 				</div>
 
 			</c:forEach>
@@ -64,6 +65,7 @@
 	<script>
 		window.onload = function() {
 			var pages = document.querySelectorAll(".page");
+			var applyFors = document.querySelectorAll(".applyFor");
 			var divout = document.getElementById("bigdiv")
 			var search = document.getElementById("search").value
 			var searchDOM = document.getElementById("search")
@@ -71,6 +73,9 @@
 
 			for (i = 0; i < pages.length; i++) {
 				pages[i].onclick = changepage
+			}
+			for (i = 0; i < applyFors.length; i++) {
+				applyFors[i].onclick = checkMemberCheck
 			}
 
 			function changepage() {
@@ -113,12 +118,18 @@
 									+ "<li>備註:"
 									+ g.list[i].remark
 									+ "</li>"
-									+ "</ul></div>"
+									+ "</ul><a class='applyFor' href='<c:url value='/exchange/applyFor?gamer="+g.list[i].gamer+"&no="+g.list[i].no+"'/>'>申請交換</a></div>"
 						}
 						divout.innerHTML += "<input type='hidden' id='search' value='"+g.searchparams+"'> "
 					}
 				}
 			}
+			
+			function checkMemberCheck() {
+				let i = (this.href)
+				console.log(i)
+			}
+			
 		}
 	</script>
 </body>

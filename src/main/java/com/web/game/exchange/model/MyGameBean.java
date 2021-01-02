@@ -1,9 +1,12 @@
 package com.web.game.exchange.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,7 +20,28 @@ public class MyGameBean {
 	private String console;
 	private String gamer;
 	private Integer status;
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name="FK_supportgamebean_id")
+	private SupportGameBean supportgamebean;
+	@OneToOne(mappedBy = "mygamebean")
+	private ChangeHistoryBean changehistorybean;
 	
+	public ChangeHistoryBean getChangehistorybean() {
+		return changehistorybean;
+	}
+
+	public void setChangehistorybean(ChangeHistoryBean changehistorybean) {
+		this.changehistorybean = changehistorybean;
+	}
+
+	public SupportGameBean getSupportgamebean() {
+		return supportgamebean;
+	}
+
+	public void setSupportgamebean(SupportGameBean supportgamebean) {
+		this.supportgamebean = supportgamebean;
+	}
+
 	public MyGameBean() {
 		super();
 	}

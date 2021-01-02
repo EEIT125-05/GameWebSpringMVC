@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.web.game.exchange.model.DemandGameBean;
-import com.web.game.exchange.model.SupportGameBean;
 
 @Repository
 public class DemandDAO {

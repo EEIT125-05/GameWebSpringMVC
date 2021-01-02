@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.game.exchange.model.DemandGameBean;
-import com.web.game.exchange.model.SupportGameBean;
 import com.web.game.exchange.model.MyGameBean;
+import com.web.game.exchange.model.SupportGameBean;
 import com.web.game.exchange.service.ExchangeService;
 import com.web.game.member.model.MemberBean;
 
@@ -108,7 +108,9 @@ public class UDSupportGameController {
 		String sMemberaccount = member.getsAccount();//整合後打開
 //		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
+		System.out.println("MemberSupportIn");
 		list = service.GetMemberSupport(sMemberaccount);
+		System.out.println("MemberSupportOut");
 		return list;
 	}
 
@@ -120,6 +122,7 @@ public class UDSupportGameController {
 //		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		list = service.GetMemberDemand(sMemberaccount);
+		System.out.println("MemberDemand");
 		return list;
 	}
 	
@@ -134,6 +137,5 @@ public class UDSupportGameController {
 		System.out.println("controllerlist"+list.size());
 		return list;
 	}
-	
 	
 }

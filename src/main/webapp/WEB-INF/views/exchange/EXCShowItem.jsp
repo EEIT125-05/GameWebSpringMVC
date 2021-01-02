@@ -5,9 +5,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="../Link.jsp"%>
 
-<%
-	// request.getSession(true).setAttribute("account", "admin1234");
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +14,7 @@
 <body>
 	<%@ include file="../Header.jsp"%>
 
-	<h1>管理 / ${user.sAccount }</h1>
+	<h1>管理 / ${user.sAccount } 你好</h1>
 
 	<h4>我要換/共${fn:length(MemberSupport)}筆</h4>
 	<c:choose> 	
@@ -62,7 +59,7 @@
 								<td><a
 									href="<c:url value="/exchange/update?updateindex=${vs.index}"/>">修改</a></td>
 							</c:when>
-							<c:when test="${s.status == 1}">
+							<c:when test="${s.status == 1 || s.status ==2}">
 								<td>刪除</td>
 								<td>修改</td>
 							</c:when>
@@ -76,7 +73,8 @@
     							已換出
     							</c:when>
 								<c:when test="${s.status == 2}">
-    							待換中
+								<a href="<c:url value="showApplyFor?no=${s.changehistorybean.no }"/>" >待審核</a>
+    							(來自${s.changehistorybean.partyB.sAccount }的交換請求)
     							</c:when>
 							</c:choose></td>
 						
@@ -148,7 +146,7 @@
 					</table>
 
 					<br>
-<h4>我的遊戲庫 /共${fn:length(MemberGames)}款</h4>
+<h4>我的遊戲庫 /共${fn:length(MemberGames)}筆</h4>
 			<c:choose>
 				<c:when test="${empty MemberGames}">
 		目前遊戲庫無任何遊戲<br>
@@ -159,15 +157,35 @@
 							<th>編號</th>
 							<th>遊戲名稱</th>
 							<th>主機平台</th>
+							<th></th>
 						</tr>
 
 						<c:forEach var='g' varStatus='vs2' items='${MemberGames }'>
-							<c:if test = "${g.status==0 }">
+							<c:if test = "${g.status==0 || g.status==2}">
 							<tr>
 								<td>${vs2.count}</td>
 								<td>${g.gamename}</td>
 								<td>${g.console}</td>
-
+								<c:choose>
+							<c:when test="${g.status==2 }">
+								<td>	
+								待換中(申請交換 <span style="color:green">${g.changehistorybean.supportgamebean.gamename }</span> 等待 <span style="color:green">${g.changehistorybean.partyA.sAccount }</span> 的同意)
+<%-- 								待換中(等待${g.changehistorybean.partyB.sAccount }) --%>
+<%-- 								待換中(等待${g.changehistorybean.mygamebean.gamename }) --%>
+<%-- 								待換中(等待${g.changehistorybean.supportgamebean.gamename }) --%>
+								</td>
+							</c:when>
+							<c:when test="${g.supportgamebean==null }">
+								<td>	
+								<a href="<c:url value="/exchange/myGameToSupportGame?no=${g.no }"/>">交換去</a>
+								</td>
+							</c:when>
+							<c:otherwise>
+							<td>
+								已在交換清單中
+							</td>
+							</c:otherwise>
+							</c:choose>
 							</tr>
 						</c:if>
 						</c:forEach>

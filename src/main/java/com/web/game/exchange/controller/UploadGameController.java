@@ -51,10 +51,11 @@ public class UploadGameController {
 		return "exchange/EXCGameSupportForm";
 	}
 	
-	@PostMapping("/insertSupportGame")
+	@PostMapping({"/insertSupportGame","/myGameToSupportGame"})
 	public String ImageUpload(@ModelAttribute("gamebean") SupportGameBean gamebean,
 			Model model,
 			@RequestParam(value="file",required=false) CommonsMultipartFile file,  //CommonsMultipartFile
+			@RequestParam(value="mygameid",required = false) Integer mygameid,
 			HttpServletRequest request,
 			RedirectAttributes attr
 			)throws Exception{ 
@@ -86,6 +87,14 @@ public class UploadGameController {
 		String sPath = null;
 		System.out.println("beforeInsert");
 			if(service.InsertSupportGame(gamebean)) {
+				if(mygameid != null) {
+					System.out.println("mygamid"+mygameid);
+					MyGameBean mygame = service.getMyGame(mygameid);
+					mygame.setSupportgamebean(gamebean);
+					if(service.updateGameToSupport(mygame)) {
+						System.out.println("gametoSupport成功");
+					}
+				}
 				System.out.println("success");
 				sPath = "EXCThanks";
 			} else {
@@ -135,6 +144,21 @@ public class UploadGameController {
 		
 	}
 	
+	@GetMapping("/myGameToSupportGame")
+	public String myGameToSupportGame(@RequestParam Integer no,
+									  Model model) {
+		SupportGameBean gamebean = new SupportGameBean();
+		MyGameBean mygame = service.getMyGame(no);
+		gamebean.setConsole(mygame.getConsole());
+		gamebean.setGamename(mygame.getGamename());
+		gamebean.setGamer(mygame.getGamer());
+		gamebean.setDlc("否");//預設值
+		model.addAttribute("gamebean",gamebean);
+		model.addAttribute("insert","我要換");
+		model.addAttribute("GameToSupport",no);
+		return "exchange/EXCGameSupportForm";
+	}
+	
 	@GetMapping("/insertMyGame")
 	public String GetNewMyGame(Model model) {
 		MyGameBean mygamebean = new MyGameBean();
@@ -152,7 +176,7 @@ public class UploadGameController {
 								   RedirectAttributes attr) {
 		
 		System.out.println("!insertMyGame!");
-		Integer status = 0;//代表尚未徵得 
+		Integer status = 0;// 
 		mygamebean.setStatus(status);
 		
 		String sAction = "新增";

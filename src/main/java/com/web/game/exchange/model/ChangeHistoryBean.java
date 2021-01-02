@@ -28,7 +28,7 @@ public class ChangeHistoryBean {
 	private MemberBean partyA;
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="FK_gamebean_id")
-	private SupportGameBean gamebean;
+	private SupportGameBean supportgamebean;
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="FK_partyB")
 	private MemberBean partyB;
@@ -37,23 +37,50 @@ public class ChangeHistoryBean {
 	private MyGameBean mygamebean;
 	
 	
+	
+	
+	public ChangeHistoryBean(Integer no, Timestamp date, Integer status, MemberBean partyA,
+			SupportGameBean supportgamebean, MemberBean partyB, MyGameBean mygamebean) {
+		super();
+		this.no = no;
+		this.date = date;
+		this.status = status;
+		this.partyA = partyA;
+		this.supportgamebean = supportgamebean;
+		this.partyB = partyB;
+		this.mygamebean = mygamebean;
+	}
+
+
 	public ChangeHistoryBean() {
 		super();
 	}
 	
-	public ChangeHistoryBean(Integer no, MemberBean partyA, SupportGameBean gamebean, MemberBean partyB,
-			MyGameBean mygamebean, Timestamp date, Integer status) {
-		super();
-		this.no = no;
-		this.partyA = partyA;
-		this.gamebean = gamebean;
-		this.partyB = partyB;
-		this.mygamebean = mygamebean;
-		this.date = date;
-		this.status = status;
+	
+	public SupportGameBean getSupportgamebean() {
+		return supportgamebean;
 	}
-	
-	
+
+
+
+	public void setSupportgamebean(SupportGameBean supportgamebean) {
+		this.supportgamebean = supportgamebean;
+	}
+
+
+
+	public MyGameBean getMygamebean() {
+		return mygamebean;
+	}
+
+
+
+	public void setMygamebean(MyGameBean mygamebean) {
+		this.mygamebean = mygamebean;
+	}
+
+
+
 	public Integer getNo() {
 		return no;
 	}
@@ -66,23 +93,11 @@ public class ChangeHistoryBean {
 	public void setPartyA(MemberBean partyA) {
 		this.partyA = partyA;
 	}
-	public SupportGameBean getGamebean() {
-		return gamebean;
-	}
-	public void setGamebean(SupportGameBean gamebean) {
-		this.gamebean = gamebean;
-	}
 	public MemberBean getPartyB() {
 		return partyB;
 	}
 	public void setPartyB(MemberBean partyB) {
 		this.partyB = partyB;
-	}
-	public MyGameBean getDemandgamebean() {
-		return mygamebean;
-	}
-	public void setDemandgamebean(MyGameBean demandgamebean) {
-		this.mygamebean = demandgamebean;
 	}
 	public Timestamp getDate() {
 		return date;

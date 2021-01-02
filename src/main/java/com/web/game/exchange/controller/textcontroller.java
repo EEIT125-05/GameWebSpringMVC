@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
 import com.web.game.exchange.model.SupportGameBean;
 import com.web.game.exchange.service.ExchangeService;
 
@@ -24,11 +25,11 @@ public class textcontroller {
 	@Autowired
 	ExchangeService service;
 
-	@GetMapping("/Index")
-	public String initExchange(Model model) {
-		System.out.println("/Index");
-		return "exchange/EXCHomePageGameList";
-	}
+//	@GetMapping("/Index")
+//	public String initExchange(Model model) {
+//		System.out.println("/Index");
+//		return "exchange/EXCHomePageGameList";
+//	}
 	
 	@GetMapping("/preparehomepage")
 	public String search(Model model, @RequestParam(value = "page", defaultValue = "1") Integer page,

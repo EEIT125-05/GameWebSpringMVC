@@ -20,15 +20,15 @@ import com.web.game.exchange.service.ExchangeService;
 //@SessionAttributes({"initOption"})
 @RequestMapping("/exchange")
 public class PrepareExchangeController {
-	
+
 	@Autowired
 	ExchangeService service;
 	
-//	@GetMapping("/Index")
-//	public String initExchange(Model model) {
-//		System.out.println("/Index");
-//		return "exchange/EXCHomePageGameList";
-//	}
+	@GetMapping("/Index")
+	public String initExchange(Model model) {
+		System.out.println("/Index");
+		return "exchange/EXCHomePageGameList";
+	}
 	
 	@GetMapping("/Search")
 	public String SearchGame(Model model,
@@ -46,9 +46,5 @@ public class PrepareExchangeController {
 		List<SupportGameBean> homepagelist = new ArrayList<SupportGameBean>();
 		return service.GetAllSupport();
 	}
-//	@ModelAttribute("initOption")
-//	public Map<String, Object> initOptionList(HttpServletRequest req,Model model){
-//		Map<String, Object> initOptionMap = new HashMap<String, Object>();
-//		return service.initOption();
-//	}
+	
 }

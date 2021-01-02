@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.support.DaoSupport;
 import org.springframework.stereotype.Service;
 
 import com.web.game.exchange.dao.ChangeDAO;
@@ -18,8 +17,8 @@ import com.web.game.exchange.dao.MyGamesDAO;
 import com.web.game.exchange.dao.SupportDAO;
 import com.web.game.exchange.model.ChangeHistoryBean;
 import com.web.game.exchange.model.DemandGameBean;
-import com.web.game.exchange.model.SupportGameBean;
 import com.web.game.exchange.model.MyGameBean;
+import com.web.game.exchange.model.SupportGameBean;
 
 @Service
 public class ExchangeService {
@@ -51,6 +50,13 @@ public class ExchangeService {
 		list = demandDAO.GetMemberDemand(account);
 		return list;
 	}
+	
+	@Transactional
+	public boolean DeleteDemandGame(int pno) {
+		boolean result = false;
+		result = demandDAO.deleteDemandGame(pno);
+		return result;
+	}
 	@Transactional
 	public boolean InsertDemandGame(DemandGameBean dgb) {
 		boolean result = false;
@@ -68,10 +74,15 @@ public class ExchangeService {
 	@Transactional
 	public List<SupportGameBean> GetMemberSupport(String account){
 		List<SupportGameBean> list = new ArrayList<>();
+		System.out.println("serviceIn");
 		list = supportDAO.GetMemberSupport(account);
+		System.out.println("serviceOut");
 		return list;
 	}
-	
+	@Transactional
+	public SupportGameBean getSupportGameByAccount(String gamename,String account) {
+		return supportDAO.getSupportGameByAccount(gamename,account);
+	}
 	
 	// 找到特定物件並回丟(1筆)
 	@Transactional
@@ -90,18 +101,10 @@ public class ExchangeService {
 
 	}
 
-	
 	@Transactional
-	public boolean DeleteSupportGame(int pno) {
+	public boolean DeleteSupportGame(Integer pno) {
 		boolean result = false;
 			result = supportDAO.deleteSupportGame(pno);
-		return result;
-	}
-
-	@Transactional
-	public boolean DeleteDemandGame(int pno) {
-		boolean result = false;
-		result = demandDAO.deleteDemandGame(pno);
 		return result;
 	}
 
@@ -113,16 +116,59 @@ public class ExchangeService {
 	}
 	
 	//------------------------ChangeHistory
+//	@Transactional
+//	public boolean createTransaction() {
+//		boolean result = false;
+//		result = changeDAO.createTransaction();
+//	return result;
+//	}
 	@Transactional
-	public boolean createTransaction() {
+	public boolean updateChangeHistorySubmit(ChangeHistoryBean CHB) {
 		boolean result = false;
-		result = changeDAO.createTransaction();
-	return result;
+		Integer status = 1;
+		CHB.setStatus(status);
+		CHB.getSupportgamebean().setStatus(status);
+		CHB.getMygamebean().setStatus(status);
+		if(supportDAO.updateSupportGame(CHB.getSupportgamebean())) {
+			if(mygamesDAO.updateGameToSupport(CHB.getMygamebean())) {
+				result = changeDAO.updateChangeHistory(CHB);
+			}
+		}
+		return result;
+	}
+	@Transactional
+	public boolean updateChangeHistoryReject(ChangeHistoryBean CHB) {
+		boolean result = false;
+		Integer status = 0;//其他則調整回最初狀態
+		CHB.setStatus(5);//狀態碼5保留資料用
+		CHB.getSupportgamebean().setStatus(status);
+		CHB.getMygamebean().setStatus(status);
+		if(supportDAO.updateSupportGame(CHB.getSupportgamebean())) {
+			if(mygamesDAO.updateGameToSupport(CHB.getMygamebean())) {
+				result = changeDAO.updateChangeHistory(CHB);
+			}
+		}
+		return result;
 	}
 	
 	@Transactional
-	public ChangeHistoryBean getHistory() {
-		return changeDAO.getHistory();
+	public boolean insertChangeHistory(ChangeHistoryBean CHB) {
+		boolean result = false;
+		
+		Integer status = 2;//更新2個遊戲的狀態待換中
+		CHB.getSupportgamebean().setStatus(status); 
+		CHB.getMygamebean().setStatus(status);
+		if(supportDAO.updateSupportGame(CHB.getSupportgamebean())) {
+			if(mygamesDAO.updateGameToSupport(CHB.getMygamebean())) {
+				result = changeDAO.insertChangeHistory(CHB);
+			}
+		}
+		return result;
+	}
+	
+	@Transactional
+	public ChangeHistoryBean getHistory(Integer id) {
+		return changeDAO.getHistory(id);
 	}
 	
 	@Transactional
@@ -135,8 +181,24 @@ public class ExchangeService {
 		return mygamesDAO.insertMyGame(mygame);
 	}
 	@Transactional
+	public MyGameBean getMyGameByAccount(String gamename,String account) {
+		return mygamesDAO.getMyGameByAccount(gamename,account);
+	}
+	@Transactional
+	public List<String> getMemberGamesName(String account) {
+		return mygamesDAO.getMemberGamesName(account);
+	}
+	@Transactional
 	public List<MyGameBean> getMemberGames(String account) {
 		return mygamesDAO.getMemberGames(account);
+	}
+	@Transactional
+	public MyGameBean getMyGame(Integer no) {
+		return mygamesDAO.getMyGame(no);
+	}
+	@Transactional
+	public boolean updateGameToSupport(MyGameBean mygame) {
+		return mygamesDAO.updateGameToSupport(mygame);
 	}
 	
 	//-----------------------

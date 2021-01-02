@@ -11,7 +11,7 @@
 <html>
 <HEAD>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
-<TITLE>許願池</TITLE>
+<TITLE>我的遊戲</TITLE>
 <style>
 legend {
 	font-size: 30px;
@@ -78,6 +78,10 @@ div {
 	</form:form>
 
 	<script>
+	if(${noGames != null}){
+		alert("您必須先新增遊戲至您的遊戲庫，才有辦法提出交換申請");
+	}	
+	
 	
 	$("#console1").on("blur", function() {
 		flag1 = false
@@ -105,21 +109,9 @@ div {
 		checkall();
 	})
 	
-	$("#gamelocation").on("blur", function() {
-			flag3 = false
-			if ($("#gamelocation :selected").text() == "") {
-				$("#gamelocationspan").html("<span>必填</span>")
-			} else if ($("#gamelocation :selected").text() == "請選擇地區") {
-				$("#gamelocationspan").html("<span>必填</span>")
-			} else {
-				$("#gamelocationspan").html("")
-				flag3 = true;
-			}
-			checkall();
-		})
 
 		function checkall() {
-			if (flag1 && flag2 && flag3) {
+			if (flag1 && flag2 ) {
 
 				$("#submit").attr("disabled", false);
 			} else {
