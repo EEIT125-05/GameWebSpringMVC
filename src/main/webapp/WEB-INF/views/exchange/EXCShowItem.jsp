@@ -59,7 +59,7 @@
 								<td><a
 									href="<c:url value="/exchange/update?updateindex=${vs.index}"/>">修改</a></td>
 							</c:when>
-							<c:when test="${s.status == 1 || s.status ==2 ||s.status ==3}">
+							<c:when test="${s.status == 1 || s.status ==2 ||s.status ==3 || s.status ==4}">
 								<td>刪除</td>
 								<td>修改</td>
 							</c:when>
@@ -78,6 +78,9 @@
     							</c:when>
     							<c:when test="${s.status == 3}">
     							已換出，與 ${s.mygamebean.changehistorybean.partyA.sAccount } 交換
+    							</c:when>
+    							<c:when test="${s.status == 4}">
+    							已向 ${s.mygamebean.changehistorybean.partyA.sAccount } 提出交換申請
     							</c:when>
 							</c:choose></td>
 					</tr>

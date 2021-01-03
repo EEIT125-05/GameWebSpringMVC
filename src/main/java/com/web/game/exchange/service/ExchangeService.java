@@ -174,7 +174,7 @@ public class ExchangeService {
 			if(mygamesDAO.updateGameToSupport(CHB.getMygamebean())) {
 				result = changeDAO.insertChangeHistory(CHB);
 				if(CHB.getMygamebean().getSupportgamebean()!=null) {
-					CHB.getMygamebean().getSupportgamebean().setStatus(2);//透過上交換過的狀態碼
+					CHB.getMygamebean().getSupportgamebean().setStatus(4);//透過上交換過的狀態碼
 					supportDAO.updateSupportGame(CHB.getMygamebean().getSupportgamebean());
 				}
 			}

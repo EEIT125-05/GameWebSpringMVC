@@ -62,14 +62,14 @@
 							</div>
 						</div>
 					</c:forEach>
+				</div>
 					<div>
 						<c:if test="${p > 1}">
 							<c:forEach var="num" begin="1" end="${p }" step="1">
-								<a class="page">${num}</a>
+								<a class="page"><i >${num}</i></a>
 							</c:forEach>
+						</c:if>
 					</div>
-					</c:if>
-				</div>
 			</div>
 
 

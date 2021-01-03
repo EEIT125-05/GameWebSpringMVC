@@ -59,7 +59,7 @@
                                                 <span>是否含特點:${g.dlc}</span>
                                                     <span>備註:${g.remark}</span>
 					<div class="work-link" style="margin: auto;">
-						<a class="applyFor" style="border-radius:30px" href="<c:url value="/exchange/applyFor?gamer=${g.gamer }&no=${g.no }"/>"><i class="fa fa-exchange"></i></a>
+						<a class="applyFor" style="border-radius:30px" href="<c:url value="/exchange/applyFor?gamer=${g.gamer }&no=${g.no }"/>"><i class="fa fa-exchange">1</i></a>
 					</div>
 				</div>
 			</div>

@@ -11,10 +11,10 @@
 <title>交換申請書</title>
 </head>
 <body>
-
+<%@ include file="../Header.jsp"%>
 <form method="post" action="<c:url value="/exchange/applyFor"/>">
 		<fieldset>
-			<legend></legend>
+			<legend>交換申請書</legend>
 			<div>
 <!-- 				禁止更改 -->
 				<label for="partyA">甲方 </label>
@@ -77,5 +77,6 @@ $("#myGame").on("blur", function() {
 })
 
 </script>
+<%@ include file="../Foot.jsp"%>
 </body>
 </html>

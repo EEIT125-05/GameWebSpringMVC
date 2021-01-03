@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mchange.v2.holders.ChangeNotifyingSynchronizedIntHolder;
 import com.web.game.exchange.model.ChangeHistoryBean;
@@ -61,6 +62,7 @@ public class ChangeGameController {
 	
 	@PostMapping("/applyFor")
 	public String createTransaction(
+			RedirectAttributes attr,
 			Model model,
 			@RequestParam String partyA,
 			@RequestParam Integer supportGameNo,
@@ -95,14 +97,20 @@ public class ChangeGameController {
 		System.out.println("4");
 		CHB.setStatus(0);
 		CHB.setDate(time);
-		if(exchangeService.insertChangeHistory(CHB)) {
-			System.out.println("success");
-		}else {
-			System.out.println("fail");
-		}
-		System.out.println("testStatus");
-		//暫時倒回首頁
-		return "exchange/EXCHomePageGameList";
+		
+		String sAction = "申請交換";
+		String sPath = null;
+			if(exchangeService.insertChangeHistory(CHB)) {	
+				sPath = "EXCThanks";
+			} else {
+				sPath = "EXCFail";
+			}
+			System.out.println("testStatus");
+		attr.addAttribute("action", sAction);
+		attr.addAttribute("path",sPath);
+		return "redirect:/exchange/Result";
+		
+		
 	}
 	
 	@GetMapping("/showApplyFor")
@@ -117,7 +125,9 @@ public class ChangeGameController {
 	}
 	
 	@GetMapping("/ApplyForSubmit")
-	public String updateApplyForSubmit(Model model,
+	public String updateApplyForSubmit(
+							  RedirectAttributes attr,
+							  Model model,
 			          		  @RequestParam Integer no
 			) {
 		System.out.println("submitIn");
@@ -125,15 +135,25 @@ public class ChangeGameController {
 		ChangeHistoryBean chChangeHistory = new ChangeHistoryBean();
 		chChangeHistory = exchangeService.getHistory(no);
 		System.out.println(chChangeHistory);
-		if(exchangeService.updateChangeHistorySubmit(chChangeHistory)) {
-			System.out.println("Submit");
-		}
+		
+		String sAction = "交換";
+		String sPath = null;
+			if(exchangeService.updateChangeHistorySubmit(chChangeHistory)) {	
+				sPath = "EXCThanks";
+			} else {
+				sPath = "EXCFail";
+			}
+		attr.addAttribute("action", sAction);
+		attr.addAttribute("path",sPath);
 		System.out.println("submitOut");
-		return "exchange/EXCShowApplyFor";
+		return "redirect:/exchange/Result";
+		
 	}
 	
 	@GetMapping("/ApplyForReject")
-	public String updateApplyForReject(Model model,
+	public String updateApplyForReject(
+			RedirectAttributes attr,
+			Model model,
 			@RequestParam Integer no
 			) {
 		System.out.println("RejectIn");
@@ -141,11 +161,18 @@ public class ChangeGameController {
 		ChangeHistoryBean chChangeHistory = new ChangeHistoryBean();
 		chChangeHistory = exchangeService.getHistory(no);
 		System.out.println(chChangeHistory);
-		if(exchangeService.updateChangeHistoryReject(chChangeHistory)) {
-			System.out.println("Reject");
-		}
+		
+		String sAction = "交換駁回";
+		String sPath = null;
+			if(exchangeService.updateChangeHistoryReject(chChangeHistory)) {	
+				sPath = "EXCThanks";
+			} else {
+				sPath = "EXCFail";
+			}
+		attr.addAttribute("action", sAction);
+		attr.addAttribute("path",sPath);
 		System.out.println("RejectOut");
-		return "exchange/EXCShowApplyFor";
+		return "redirect:/exchange/Result";
 	}
 	
 	@GetMapping("/memberHistoryList")
