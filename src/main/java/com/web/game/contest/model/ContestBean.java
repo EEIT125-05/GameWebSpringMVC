@@ -41,6 +41,7 @@ public class ContestBean {
 	@Column(columnDefinition = "nvarchar(MAX)")
 	private String sRule;
 	private String sImage;
+	private String sScheduleImage;
 	
 	@OneToMany(mappedBy = "cContestBean",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<ParticipateBean> lParticipateBeans = new ArrayList<>();
@@ -171,7 +172,13 @@ public class ContestBean {
 	public void setfImage(MultipartFile fImage) {
 		this.fImage = fImage;
 	}
+
+	public String getsScheduleImage() {
+		return sScheduleImage;
+	}
 	
-	
+	public void setsScheduleImage(String sScheduleImage) {
+		this.sScheduleImage = sScheduleImage;
+	}
 	
 }

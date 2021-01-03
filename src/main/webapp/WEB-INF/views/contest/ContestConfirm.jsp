@@ -44,12 +44,12 @@
 			</c:otherwise>
 		</c:choose>
 		<c:choose>
-			<c:when	test="${sContestConfirm == '刪除' }">
-				<img src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" style="width:560px;height:320px"/>
-			</c:when>
-			<c:otherwise>
+<%-- 			<c:when	test="${sContestConfirm == '刪除' }"> --%>
+<%-- 				<img src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" style="width:560px;height:320px"/> --%>
+<%-- 			</c:when> --%>
+<%-- 			<c:otherwise> --%>
 				<img src="<c:url value='/contest/ConfirmImage'/>" style="width:560px;height:320px"/>
-			</c:otherwise>
+<%-- 			</c:otherwise> --%>
 		</c:choose>
 		<br>
 		<span>比賽規則:</span><br><span id="rule">${cContestBean.sRule}</span>

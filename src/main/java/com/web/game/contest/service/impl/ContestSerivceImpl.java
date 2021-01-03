@@ -24,10 +24,10 @@ public class ContestSerivceImpl implements ContestService {
 	
 	@Transactional
 	@Override
-	public Boolean insertOrUpdateContest(ContestBean cContestBean) {
+	public Boolean insertContest(ContestBean cContestBean) {
 		
 		//確認寫進資料庫之後才存圖片到實際路徑中
-		if(cDao.insertOrUpdateContest(cContestBean)) {
+		if(cDao.insertContest(cContestBean)) {
 		
 			String sFilePath = "C:\\GameBar\\GameWebSpringMVC\\src\\main\\webapp\\images";
 	//		System.out.println("存檔路徑: " + sFilePath);
@@ -159,4 +159,12 @@ public class ContestSerivceImpl implements ContestService {
 		return cDao.getTotalPages();
 	}
 
+	@Transactional
+	@Override
+	public Boolean saveSchsduleImage(Integer iNo, String sScheduleImage) {
+		return cDao.saveSchsduleImage(iNo, sScheduleImage);
+	}
+
+	
+	
 }

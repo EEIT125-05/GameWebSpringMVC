@@ -6,7 +6,7 @@ import com.web.game.contest.model.ContestBean;
 
 public interface ContestDAO {
 	
-	Boolean insertOrUpdateContest(ContestBean cContestBean);
+	Boolean insertContest(ContestBean cContestBean);
 	
 	Boolean deleteContest(ContestBean cContestBean);
 	
@@ -23,5 +23,7 @@ public interface ContestDAO {
 	List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, Integer scrollInt);
 	
 	Integer getTotalPages();
+	
+	Boolean saveSchsduleImage(Integer iNo, String sScheduleImage);
 
 }

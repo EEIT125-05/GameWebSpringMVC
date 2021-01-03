@@ -136,153 +136,154 @@
     </ol>
 <form action="<c:url value='/contest/Edit/${cContestBean.iNo}'/>" method="POST" >
 <input type="hidden" name="_method"  id='putOrDelete'   value="" >
-
+ <input type="hidden" id="contestNo" value="${cContestBean.iNo}"> <!--截圖的ajax要用的 -->
+ 
 		<p>比賽名稱: ${cContestBean.sName} 
 <%-- 			<button type="submit" name="updateNo" value="${cContestBean.iNo}">更改</button> --%>
 			<a href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>
+			<span style="font-size:70%;color:red">(註:至比賽當日即無法更改比賽)</span>
 			<button type="submit" id="delete" value="${cContestBean.iNo}">刪除</button>
 <%-- 			<a href="<c:url value='/contest/Delete/${cContestBean.iNo}'/>">刪除</a> --%>
-			<span style="font-size:70%;color:red">(註:至比賽當日即無法更改比賽)</span>
 		</p>
 </form>
-		<p>比賽遊戲: ${cContestBean.sGame}</p>
-		<p>主辦者: ${cContestBean.sHost}</p>
-		<p>報名日期: ${cContestBean.dSignStart} ~ ${cContestBean.dSignEnd}</p>
-		<fmt:formatDate var="sTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd HH:mm"/>
-		<p>比賽時間: ${sTime}</p>
-		<p>比賽地點: ${cContestBean.sLocation}</p>
-		<p>參加人數:
-			${fn:length(cContestBean.lParticipateBeans)}/${cContestBean.iPeople}</p>
-		<span>比賽規則:</span> <br> <span id="rule">${cContestBean.sRule}</span>
-		<hr>
-
-
-	<p>本場比賽共有${fn:length(cContestBean.lParticipateBeans)}人參賽</p>
-	產生賽程表:
-	<form>
-		<div>
-			<label for="" id="team">隊伍形式: </label>
-			<label>
-				<input type="radio" id="individual" class="team" name="team" value="no" checked>個人賽
-			</label>
-			<label>
-				<input type="radio" id="group" class="team" name="team" value="yes" >團體賽	
-			</label><br>
-			<label id="teamCountSelect"></label>
-		</div>
-		<div>
-			<p>測試截圖</p>
-			<label>是否有預賽: </label>
-			<label>
-				<input type="radio" id="Npreliminaries" 
-				class="preliminaries" name="preliminaries" value="no" checked>無預賽
-			</label>
-			<label>
-				<input type="radio" id="Ypreliminaries" 
-				class="Preliminaries" name="preliminaries" value="yes">有預賽		
-			</label><br>
-			<label id="preliminariesCountSelect"></label>
-		</div>
-		<div>
-			<label>賽制: </label>
-			<label>
-				<input type="radio" id="knockout" 
-				class="competition" name="competition" value="no" checked>淘汰賽
-			</label>
-			<label>
-				<input type="radio" id="ground" 
-				class="competition" name="competition" value="yes" >循環賽
-			</label><br>
-		</div>
-		<input type="button" id="build" value="產生">
-	</form>
-	<div id="box">
-        <h1>hello world</h1>
-        <p style="background-color:#000;color:#fff;border:1px solid red;">我是一隻大灰狼</p>
-    </div>
-    <a href="#" id="a" download>點選下載圖片</a>
+	<p>比賽遊戲: ${cContestBean.sGame}</p>
+	<p>主辦者: ${cContestBean.sHost}</p>
+	<p>報名日期: ${cContestBean.dSignStart} ~ ${cContestBean.dSignEnd}</p>
+	<fmt:formatDate var="sTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd HH:mm"/>
+	<p>比賽時間: ${sTime}</p>
+	<p>比賽地點: ${cContestBean.sLocation}</p>
+	<p>參加人數:
+		${fn:length(cContestBean.lParticipateBeans)}/${cContestBean.iPeople}</p>
+	<span>比賽規則:</span> <br> <span id="rule">${cContestBean.sRule}</span>
 	<hr>
+
+	<label style="vertical-align:top">賽程表: </label>
+		<c:choose >
+			<c:when test="${empty cContestBean.sScheduleImage}">
+				<label>無</label>
+			</c:when>
+			<c:otherwise>
+				<img src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>" style="width:560px"/>
+			</c:otherwise>
+		</c:choose>
+	<hr>
+	
+	<button id="showOption">新增/更新賽程</button>
+	
+	<div id="option" style="display:none">
+		<p>本場比賽共有${fn:length(cContestBean.lParticipateBeans)}人參賽</p>
+		<form>
+			<div>
+				<label for="" id="team">隊伍形式: </label>
+				<label>
+					<input type="radio" id="individual" class="team" name="team" value="no" checked>個人賽
+				</label>
+				<label>
+					<input type="radio" id="group" class="team" name="team" value="yes" >團體賽	
+				</label><br>
+				<label id="teamCountSelect"></label>
+			</div>
+			<div>
+				<label>是否有預賽: </label>
+				<label>
+					<input type="radio" id="Npreliminaries" 
+					class="preliminaries" name="preliminaries" value="no" checked>無預賽
+				</label>
+				<label>
+					<input type="radio" id="Ypreliminaries" 
+					class="Preliminaries" name="preliminaries" value="yes">有預賽		
+				</label><br>
+				<label id="preliminariesCountSelect"></label>
+			</div>
+			<div>
+				<label>賽制: </label>
+				<label>
+					<input type="radio" id="knockout" 
+					class="competition" name="competition" value="no" checked>淘汰賽
+				</label>
+				<label>
+					<input type="radio" id="ground" 
+					class="competition" name="competition" value="yes" >循環賽
+				</label><br>
+			</div>
+			<input type="button" id="build" value="產生">
+		</form>
+		<hr>
+	</div>
 
 	<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
 		<span class="playerNone" style="display:none">${participate.sPlayer} </span>
 	</c:forEach>
 
-<div id="show" style="display:none">
-	<span>賽程:</span>
-	<form>
-		<input type="button" value="自動安排">
-<!-- 		<input type="button" id="createImage" value="產生圖檔"> -->
-<!-- 		<a href="#" id="download" download>產生圖檔</a> -->
-	</form>
-	<div id="screenshot">
-		<div style="overflow:auto">
-			<div id="tree" class="tree"></div>
+	<div id="showSchedule" style="display:none">
+		<span>賽程:</span>
+		<div id="screenshot">
+			<div style="overflow:auto">
+				<div id="tree" class="tree"></div>
+			</div>
+			<hr>
+			<div style="overflow:auto">
+				<div id="drow" class="drow"></div>
+			</div>
 		</div>
-		<hr>
-		<div style="overflow:auto">
-			<div id="drow" class="drow"></div>
-		</div>
+		<hr>	
+		<p>參賽人員:</p>
+		<label id="playerCount"></label>
+		<br>
+		<button id="">自動安排</button>
+	    <button id="createImage">儲存賽程</button>
+	
 	</div>
-	<hr>	
-	<p>參賽人員:</p>
-	<label id="playerCount"></label>
-
-</div>
 
 
 </div>
 	<%@ include file="../Foot.jsp"%>
 
 	<script src="<c:url value='/js/jquery-ui.js'/>"></script>
-<%-- 	<script src="<c:url value='/js/html2canvas.js'/>"></script> --%>
-<script  src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+	<script src="<c:url value='/js/html2canvas.js'/>"></script>
 	<script>
-			
-// 	        html2canvas(document.getElementById('chart3')).then(function(canvas) {
-// 	            document.getElementById('chart3').appendChild(canvas);
-// 	            var a = document.createElement('a');
-// 	            a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-// 	            a.download = 'image.jpg';
-// 	            a.click();
-// 	        });
-
 	
-	
-	
-	
-	
-// 		html2canvas(document.getElementById("box"), { useCORS: true }).then(function (canvas) {
-//             url = canvas.toDataURL();
-//             a = document.querySelector('#a');
-//             a.href = url;
-//         });
-		
-	
-		$("#rule").on("click","a",function(){
-			this.target = "_blank";
-		});
-		
 		$(function() {
 			
-			$("#a").on("click",function(){
-				$('html,body').animate({'scrollTop':0});
-		        // document.getElementById("contbox") 需要截圖的是div標籤
-		        html2canvas(document.getElementById("box"),
-		            {logging:false,
-		                width:$("#box").width(),// 寬設置為div標籤的寬
-		                height:$("#box").height(),// 高設置為div標籤的高
-		                useCORS:true}).then(function(canvas) {
-		            //將canvas畫布放大若干倍，然後盛放在較小的容器內，就顯得不模糊了
-		            var timestamp = Date.parse(new Date());
-		            //把截取到的圖片替換到a標籤的路徑下載
-		            $("#a").attr('href',canvas.toDataURL("image/png"));
-		            console.log(canvas.toDataURL("image/png"));
-		            //下載下來的圖片名字
-		            $("#a").attr('download',timestamp + '.png') ;
-		            $("#a")[0].click();
-		            //document.body.appendChild(canvas);
+			$("#rule").on("click","a",function(){
+				this.target = "_blank";
+			});
+			
+			$("#showOption").on("click",function(){
+				$("#option").css("display", "block");
+				$(this).css("display", "none");
+			});
+			
+			
+			$("#createImage").on("click", function(){
+				window.pageYOffset = 0;
+		        document.documentElement.scrollTop = 0
+		        document.body.scrollTop = 0
+		        html2canvas(document.getElementById("screenshot"), { useCORS: true, scale:2 }).then(function (canvas) {
+// 		            document.body.appendChild(canvas);
+		            var image64 = canvas.toDataURL("image/jpeg", 1.0);
+// 		            console.log("type: " + typeof(image64));
+// 		            console.log("image64: " + image64);
+		            
+		            $.ajax({
+						type:"post",
+						url:"<c:url value='/contest/ScheduleImage'/>",
+						dataType:"json",
+						data:{
+							"image64": image64,
+							"contestNo": $("#contestNo").val(),
+						},
+						success: function(result){
+							alert(result[0]);
+							location.reload();
+						},
+						error: function(err){
+							alert("發生錯誤!");	
+						}
+					});
 		        });
 			});
+			
 	
 			
 			$("#group").on("focus",function(){    
@@ -365,7 +366,7 @@
 			$("#build").on("click",function(){
 				$(this).val("產生/重新整理");
 				let iPlayer = $(".playerNone").length;
-				$("#show").attr("style","display:block;");
+				$("#showSchedule").attr("style","display:block;");
 				
 				$("#playerCount").empty();
 				$("#tree").empty();
@@ -581,7 +582,9 @@
 			});
 
 			function drag(object){
-				object.draggable();
+				object.draggable(
+						{revert: "invalid"}
+				);
 			}
 
 			function drop(object){

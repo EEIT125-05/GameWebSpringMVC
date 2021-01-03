@@ -19,7 +19,7 @@ public class ContestDAOImpl implements ContestDAO {
 	SessionFactory factory;
 
 	@Override
-	public Boolean insertOrUpdateContest(ContestBean cContestBean) {
+	public Boolean insertContest(ContestBean cContestBean) {
 		Session session = factory.getCurrentSession();
 		try {
 			session.saveOrUpdate(cContestBean);
@@ -53,10 +53,8 @@ public class ContestDAOImpl implements ContestDAO {
 
 	@Override
 	public Boolean updateContest(ContestBean cContestBean) {
-		System.out.println("進cdao");
 		Session session = factory.getCurrentSession();
 		try {
-			System.out.println("CONTESTbENA: " + cContestBean);
 			session.update(cContestBean);
 			return true;
 		}catch (Exception e) {
@@ -119,4 +117,17 @@ public class ContestDAOImpl implements ContestDAO {
 		return (Integer)session.createQuery(hql).getSingleResult();
 	}
 
+	@Override
+	public Boolean saveSchsduleImage(Integer iNo, String sScheduleImage) {
+		Session session = factory.getCurrentSession();
+		try {
+			ContestBean cContestBean = session.get(ContestBean.class, iNo);
+			cContestBean.setsScheduleImage(sScheduleImage);
+			return true;
+		}catch (Exception e) {
+			return false;
+		}
+	}
+
+	
 }

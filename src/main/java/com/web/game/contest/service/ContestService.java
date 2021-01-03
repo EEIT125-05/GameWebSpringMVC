@@ -6,7 +6,7 @@ import com.web.game.contest.model.ContestBean;
 
 public interface ContestService {
 
-	Boolean insertOrUpdateContest(ContestBean cContestBean);
+	Boolean insertContest(ContestBean cContestBean);
 	
 	Boolean deleteContest(ContestBean cContestBean);
 	
@@ -25,5 +25,7 @@ public interface ContestService {
 	void setTime(ContestBean cContestBean, String sSignStart, String sSignEnd, String sTime);
 	
 	Integer getTotalPages();
+	
+	Boolean saveSchsduleImage(Integer iNo, String sScheduleImage);
 	
 }
