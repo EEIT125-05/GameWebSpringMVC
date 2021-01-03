@@ -221,7 +221,6 @@
 			<div style="overflow:auto">
 				<div id="tree" class="tree"></div>
 			</div>
-			<hr>
 			<div style="overflow:auto">
 				<div id="drow" class="drow"></div>
 			</div>
