@@ -3,7 +3,9 @@ package com.web.game.withplay.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Blob;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 
@@ -46,11 +48,21 @@ public class NocheckWithController {
 		return "withplay/WithplayIndex";
 	}
 	
-	@GetMapping("/withplay/select")
-	public String get(@RequestParam String sNickname,Model model) {
-		model.addAttribute("With", withService.selectlist(sNickname));
-		return "withplay/Withplayselect";			
+//	@GetMapping("/withplay/select")
+//	public String get(@RequestParam String sNickname,Model model) {
+//		model.addAttribute("With", withService.selectlist(sNickname));
+//		return "withplay/Withplayselect";			
+//	}
+	
+	@PostMapping("/withplay/IDCheck")
+	public ResponseEntity<Map<String, String>> CheckPhone(@RequestParam("sIdcode") String sIdcode) {
+		Map<String, String> map = new HashMap<>();
+		String Idcode = withService.CheckID(sIdcode);
+		map.put("sIdcode", Idcode);
+		ResponseEntity<Map<String, String>> re = new ResponseEntity<>(map, HttpStatus.OK);
+		return re;
 	}
+
 	
 	@PostMapping(value = "/withplay/IndexAjax", produces = "application/json; charset=utf-8")
 	public @ResponseBody List<WithPlay> search(

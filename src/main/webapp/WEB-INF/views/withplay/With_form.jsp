@@ -10,7 +10,96 @@
 <meta charset="UTF-8">
 <title>New With Play</title>
 <link rel="stylesheet" href="../css/WithGame.css">
+<script>
+	let Commentflag = false;
+	let Idcodeflag = false;
+	function checkComment() {
+		let Comment = document.getElementById("Comment").value.trim();
+		let CommentLen = Comment.length;
+		let idname = document.getElementById("idname");
 
+		let CommentCheck = false;
+		if (Comment == "") {
+			idname.innerHTML = "<font color='red'>請輸入自我介紹</font>";
+		} else if (CommentLen >= 6) {
+			for (let idname = 0; idname < CommentLen; idname++) {
+				let ENAME = Comment.charAt(idname);
+				if (ENAME.charCodeAt(idname) < 0x4E00
+						|| ENAME.charCodeAt(idname) > 0x9FA5) {
+					CommentCheck = true;
+					if (CommentCheck)
+						break;
+				}
+			}
+			if (CommentCheck) {
+				idname.innerHTML = "<font color='red'>請輸入中文</font>";
+				nameflag = false;
+			} else {
+				idname.innerHTML = "<font color='green'>OK</font>";
+				nameflag = true;
+			}
+		} else {
+			idname.innerHTML = "<font color='red'>至少六個字</font>";
+			Commentflag = false;
+		}
+		check();
+	}
+	
+	function checkIdcode() {
+		let iIdcode = document.getElementById("sIdcode").value.trim();
+		let IdcodeLen = iIdcode.length;
+		let Idcode = document.getElementById("Idcode");
+		let IdcodeCheck = false;
+// 		let reg = /^[0]{1}[9]{1}\d{8}$/;
+		if (iIdcode == "") {
+			Idcode.innerHTML = "<font color='red'>請輸入身份證字號</font>";
+// 			Idcodeflag = false;
+		} else if (IdcodeLen >= 10) {
+// 			if (reg.test(phone)) {
+				IdcodeCheck = true;
+// 			}
+			if (IdcodeCheck) {
+				Idcode.innerHTML = "<font color='green'>請檢查號碼</font>";
+				Idcodeflag = false;
+			} else {
+				Idcode.innerHTML = "<font color='red'>請輸入正確格式</font>";
+				Idcodeflag = false;
+			}
+		} else {
+			Idcode.innerHTML = "<font color='red'>請輸入正確格式</font>";
+			Idcodeflag = false;
+		}
+// 		check();
+	}
+	
+	window.onload = function() {
+	var Check = document.getElementById("IdcodeCheck");
+	Check.onclick = function() {
+		var sIdcode = document.getElementById("sIdcode").value.trim();
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "<c:url value='/withplay/IDCheck' />", true);
+		xhr.setRequestHeader("Content-Type",
+				"application/x-www-form-urlencoded");
+		xhr.send("sIdcode=" + sIdcode);
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				console.log("sIdcode=" + sIdcode);
+				var result = JSON.parse(xhr.responseText);
+				if (result.sIdcode.length == 0) {
+					Idcode.innerHTML = "<font color='green'>身份證字號可用</font>";
+					Idcodeflag = true;
+				} else {
+					Idcode.innerHTML = "<font color='red'>身份證字號已被使用，請重新輸入</font>";
+					Idcodeflag = false;
+				}
+			}
+		}
+// 		check();
+	}
+	
+}
+
+</script>
 </head>
 <body>
 <%@ include file="../Header.jsp" %>
@@ -45,7 +134,9 @@
 				</tr>
 				<tr>
 					<td>Idcode</td>
-					<td><form:input path="sIdcode" />&nbsp;<form:errors path="sIdcode"/></td>
+					<td><form:input path="sIdcode" maxlength="10" id="sIdcode"  onblur="checkIdcode();"/>&nbsp;
+					<input type="button" id='IdcodeCheck' value="檢查"><span id="Idcode"></span>
+					</td>
 				</tr>
 				<tr>
 					<td>Game</td>
@@ -54,7 +145,8 @@
 				</tr>
 				<tr>
 					<td>Comment</td>
-					<td><form:input path="sComment" />&nbsp;<form:errors path="sComment"/></td>
+					<td><form:input path="sComment" id="Comment"  onblur="checkComment();"
+					 pattern="^[\u4e00-\u9fa5]+$" minlength="6"/><span id="idname"></span>&nbsp;</td>
 				</tr>
 				<tr>
 					<td>照片：<br>&nbsp;

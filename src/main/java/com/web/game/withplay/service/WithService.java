@@ -21,5 +21,8 @@ public interface WithService {
 	List<WithPlay> selectlist(String sNickname);
 
 	List<WithPlay> search(String sNickname,String sGame);
+	
+	String CheckID(String sIdcode);
+
 
 }
