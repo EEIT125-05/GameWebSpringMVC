@@ -34,9 +34,9 @@ div {
 </style>
 </HEAD>
 <BODY>
+
 	<%@ include file="../Header.jsp"%>
 
-	<%--       <form action="<c:url value='/exchange/ImageUpload'/>" method="POST" enctype="multipart/form-data"> --%>
 	<form:form method="post" modelAttribute="gamebean"
 		enctype='multipart/form-data'>
 		<fieldset>
@@ -53,7 +53,6 @@ div {
 				<span id="console1span"></span>
 			</div>
 			<div>
-
 				<label for="gamename">遊戲名稱</label>
 				<form:select path="gamename" style="width: 260px;" class="fixedlen"
 					id="gamename">
@@ -104,7 +103,7 @@ div {
 			<div>
 				<label for="gamer">玩家名稱</label>
 				<form:input id="gamer" class="fixedlen"
-					style="background-color:gary" type="text" path="gamer" />${sessionScope.user.sAccount}
+					style="background-color:gary" type="text" path="gamer" />
 			</div>
 			<div>
 				<label for="dlc">含特典 </label>
@@ -146,6 +145,10 @@ div {
 				<input type="reset" value="清除">
 			</div>
 		</fieldset>
+		<c:if test="${not empty GameToSupport}">
+				<input type="hidden" name="mygameid" value="${GameToSupport }">
+		</c:if>
+		
 	</form:form>
 
 	<script>
@@ -164,8 +167,20 @@ div {
 		let flag4 = true;
 		let flag5 = true;
 		}
+		if(${GameToSupport!=null}){
+			console.log("!!!!");
+			flag1 = true;
+			flag2 = true;
+			$("#console1").attr("disabled","disabled");
+			$("#gamename").attr("disabled","disabled");
+				$("#submit").on("click",function(){
+				$("#console1").removeAttr("disabled");
+				$("#gamename").removeAttr("disabled");
+			})
+		}
 		
-		$("#console1").on("blur", function() {
+		
+		$("#console1").on("blur", function(){
 			flag1 = false
 			if ($("#console1 :selected").text() == "") {
 				$("#console1span").html("<span>必填</span>")

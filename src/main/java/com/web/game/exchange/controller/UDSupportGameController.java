@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.web.game.exchange.model.GameBean;
+import com.web.game.exchange.model.DemandGameBean;
+import com.web.game.exchange.model.MyGameBean;
+import com.web.game.exchange.model.SupportGameBean;
 import com.web.game.exchange.service.ExchangeService;
+import com.web.game.member.model.MemberBean;
 
 @Controller
 @SessionAttributes({ "initOption", "user" })
@@ -68,9 +71,9 @@ public class UDSupportGameController {
 	@SuppressWarnings("unchecked")
 	@GetMapping("/update")
 	public String UpdateSupportGame(Model model, @RequestParam Integer updateindex) {
-		List<GameBean> list = new ArrayList<GameBean>();
-		list = (List<GameBean>) model.getAttribute("MemberSupport");
-		GameBean gamebean = list.get(updateindex);
+		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
+		list = (List<SupportGameBean>) model.getAttribute("MemberSupport");
+		SupportGameBean gamebean = list.get(updateindex);
 		model.addAttribute("update", "修改");
 		model.addAttribute("gamebean", gamebean);
 		return "exchange/EXCGameSupportForm";
@@ -78,7 +81,7 @@ public class UDSupportGameController {
 
 	@PostMapping("/update")
 	public String ConfirmUpdateSupportGame(Model model, RedirectAttributes attr,
-			@ModelAttribute(value = "gamebean") GameBean gamebean) {
+			@ModelAttribute(value = "gamebean") SupportGameBean gamebean) {
 		System.out.println(gamebean.getStatus());
 		System.out.println(gamebean.getConsole());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -99,27 +102,40 @@ public class UDSupportGameController {
 	}
 
 	@ModelAttribute("MemberSupport")
-	public List<GameBean> PackSupportGame() {
+	public List<SupportGameBean> PackSupportGame(Model model) {
 
-//		MemberBean member = (MemberBean) model.getAttribute("user");
-		// String sMemberaccount = member.getsAccount();//整合後打開
-		String sMemberaccount = "henryxoooo";// 使用者帳號預設寫死
-		List<GameBean> list = new ArrayList<GameBean>();
+		MemberBean member = (MemberBean) model.getAttribute("user");
+		String sMemberaccount = member.getsAccount();//整合後打開
+//		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
+		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
+		System.out.println("MemberSupportIn");
 		list = service.GetMemberSupport(sMemberaccount);
+		System.out.println("MemberSupportOut");
 		return list;
 	}
 
 	@ModelAttribute("MemberDemand")
-	public List<GameBean> PackDemandGame() {
+	public List<DemandGameBean> PackDemandGame(Model model) {
 
-//		MemberBean member = (MemberBean) model.getAttribute("user");
-		// String sMemberaccount = member.getsAccount();//整合後打開
-		String sMemberaccount = "henryxoooo";// 使用者帳號預設寫死
-		List<GameBean> list = new ArrayList<GameBean>();
+		MemberBean member = (MemberBean) model.getAttribute("user");
+		String sMemberaccount = member.getsAccount();//整合後打開
+//		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
+		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		list = service.GetMemberDemand(sMemberaccount);
+		System.out.println("MemberDemand");
 		return list;
 	}
 	
-	
+	@ModelAttribute("MemberGames")
+	public List<MyGameBean> PackMemberGames(Model model) {
+
+		MemberBean member = (MemberBean) model.getAttribute("user");
+		String sMemberaccount = member.getsAccount();//整合後打開
+//		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
+		List<MyGameBean> list = new ArrayList<MyGameBean>();
+		list = service.getMemberGames(sMemberaccount);
+		System.out.println("controllerlist"+list.size());
+		return list;
+	}
 	
 }

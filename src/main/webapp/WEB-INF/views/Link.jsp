@@ -12,3 +12,22 @@
 	<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
 	<script src="${pageContext.request.contextPath}/js/jquery-dateformat.js"></script>
 
+
+
+
+
+ <!-- Owl Carousel --> 
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/owl.carousel.css" />
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/owl.theme.default.css" />
+ <!-- Magnific Popup --> 
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/magnific-popup.css" />
+ <!-- Font Awesome Icon -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/font-awesome.min.css">
+ <!-- Custom stlylesheet --> 
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/portfoliostyle.css" />
+
+
+<%-- <script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.min.js"></script> --%>
+<script type="text/javascript" src="${pageContext.request.contextPath}/vendor/js/owl.carousel.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/vendor/js/jquery.magnific-popup.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/vendor/js/main.js"></script>

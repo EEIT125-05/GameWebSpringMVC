@@ -4,10 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix='form' uri="http://www.springframework.org/tags/form"%>
 <%@ include file="../Link.jsp"%>
-<%
-	response.setContentType("text/html;charset=UTF-8");
-request.setCharacterEncoding("UTF-8");
-%>
 
 
 
@@ -15,7 +11,7 @@ request.setCharacterEncoding("UTF-8");
 <html>
 <HEAD>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
-<TITLE>許願池</TITLE>
+<TITLE>我的遊戲</TITLE>
 <style>
 legend {
 	font-size: 30px;
@@ -43,9 +39,9 @@ div {
 <BODY>
 	<%@ include file="../Header.jsp"%>
 
-	<form:form method="post" modelAttribute="DemandGameBean">
+	<form:form method="post" modelAttribute="mygamebean">
 		<fieldset>
-			<legend>許願池</legend>
+			<legend>新增我的遊戲庫</legend>
 			<div>
 
 				<label for="console">平台 </label>
@@ -69,30 +65,11 @@ div {
 
 			</div>
 			<div>
-
-				<label for="gamelocation">商品位置</label>
-				<form:select path="area" style="width: 260px;"
-					class="fixedlen" id="gamelocation">
-					<form:option value="-1">請選擇地區</form:option>
-					<form:options items="${sessionScope.initOption.AreaList }" />
-				</form:select>
-
-				<span id="gamelocationspan"></span>
-			</div>
-			<div>
 				<label for="gamer">玩家名稱</label>
 				<form:input id="gamer" class="fixedlen"
 					style="background-color:gary" type="text" path="gamer" />
 			</div>
-			<div>
-				<label for="remark">備註 </label>
-				<form:input class="fixedlen" type="text" path="remark" />
-			</div>
-
-			<!--       <div> -->
-			<!--           <label for="image">圖片　　</label>根據gamename直接給圖片路徑(預設) -->
-			<!--           <span id="imagespan"></span> -->
-			<!--       </div> -->
+			
 			<div style="margin-top: 20px;">
 				<input type="submit" name="submit" id="submit" value="送出" disabled>
 				<input type="reset" value="清除">
@@ -101,6 +78,10 @@ div {
 	</form:form>
 
 	<script>
+	if(${noGames != null}){
+		alert("您必須先新增遊戲至您的遊戲庫，才有辦法提出交換申請");
+	}	
+	
 	
 	$("#console1").on("blur", function() {
 		flag1 = false
@@ -128,21 +109,9 @@ div {
 		checkall();
 	})
 	
-	$("#gamelocation").on("blur", function() {
-			flag3 = false
-			if ($("#gamelocation :selected").text() == "") {
-				$("#gamelocationspan").html("<span>必填</span>")
-			} else if ($("#gamelocation :selected").text() == "請選擇地區") {
-				$("#gamelocationspan").html("<span>必填</span>")
-			} else {
-				$("#gamelocationspan").html("")
-				flag3 = true;
-			}
-			checkall();
-		})
 
 		function checkall() {
-			if (flag1 && flag2 && flag3) {
+			if (flag1 && flag2 ) {
 
 				$("#submit").attr("disabled", false);
 			} else {

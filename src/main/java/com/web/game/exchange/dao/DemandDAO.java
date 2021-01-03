@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.web.game.exchange.model.DemandGameBean;
-import com.web.game.exchange.model.GameBean;
 
 @Repository
 public class DemandDAO {
@@ -31,8 +30,8 @@ public class DemandDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<GameBean> GetMemberDemand(String account) {
-		List<GameBean> list = new ArrayList<>();
+	public List<DemandGameBean> GetMemberDemand(String account) {
+		List<DemandGameBean> list = new ArrayList<>();
 		Session session = factory.getCurrentSession();
 		String hql = "FROM DemandGameBean g WHERE g.gamer = :account";
 		list = session.createQuery(hql).setParameter("account", account).getResultList();
