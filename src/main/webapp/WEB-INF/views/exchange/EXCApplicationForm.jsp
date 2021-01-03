@@ -26,9 +26,9 @@
 			<div>
 
 				<label for="gamename">欲換遊戲 </label>
-				<input type="text" name="supportGame" value="${supportGame.gamename }" style="width: 260px;" class="fixedlen"
+				<input type="text" name="supportGame" value="${supportGame.console }-${supportGame.gamename }" style="width: 260px;" class="fixedlen"
 					id="Supportgamebean" />
-					
+				<input type="hidden" name="supportGameNo" value="${supportGame.no }" />
 <!-- 				<span id="gamenamespan"></span> -->
 
 			</div>
@@ -43,10 +43,10 @@
 			<div>
 
 				<label for="gamename">提供遊戲</label>
-          <select style="width: 260px;" class="fixedlen"  name="myGame" id="myGame" >
+          <select style="width: 260px;" class="fixedlen"  name="myGameNo" id="myGame" >
           <option >我的遊戲庫</option>
-          <c:forEach var="row" items="${myGameBeans}">
-          <option>${row}</option>
+          <c:forEach var="g" items="${myGameBeans}">
+          <option value="${g.no }">${g.console}-${g.gamename}</option>
           </c:forEach>
           </select>
           <span id="gamenamespan"></span>

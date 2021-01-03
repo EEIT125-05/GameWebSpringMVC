@@ -59,7 +59,7 @@
 								<td><a
 									href="<c:url value="/exchange/update?updateindex=${vs.index}"/>">修改</a></td>
 							</c:when>
-							<c:when test="${s.status == 1 || s.status ==2}">
+							<c:when test="${s.status == 1 || s.status ==2 ||s.status ==3}">
 								<td>刪除</td>
 								<td>修改</td>
 							</c:when>
@@ -70,18 +70,16 @@
     							未換出
     							</c:when>
 								<c:when test="${s.status == 1}">
-    							已換出
+    							已換出，與 ${s.changehistorybean.partyB.sAccount } 交換
     							</c:when>
 								<c:when test="${s.status == 2}">
 								<a href="<c:url value="showApplyFor?no=${s.changehistorybean.no }"/>" >待審核</a>
     							(來自${s.changehistorybean.partyB.sAccount }的交換請求)
     							</c:when>
+    							<c:when test="${s.status == 3}">
+    							已換出，與 ${s.mygamebean.changehistorybean.partyA.sAccount } 交換
+    							</c:when>
 							</c:choose></td>
-						
-						<c:if test="${s.status == 2}">
-<%-- 							<a href="<c:url value="/exchange/update?updateindex=${vs.index}"/>">審核</a> --%>
-						</c:if>
-
 					</tr>
 
 				</c:forEach>

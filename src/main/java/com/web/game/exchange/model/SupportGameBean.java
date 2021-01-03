@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -30,7 +31,17 @@ public class SupportGameBean {
 	private Integer status;
 	@OneToOne(mappedBy = "supportgamebean")
 	private ChangeHistoryBean changehistorybean;
+	@OneToOne(mappedBy = "supportgamebean")
+	private MyGameBean mygamebean;
 	
+	public MyGameBean getMygamebean() {
+		return mygamebean;
+	}
+
+	public void setMygamebean(MyGameBean mygamebean) {
+		this.mygamebean = mygamebean;
+	}
+
 	public ChangeHistoryBean getChangehistorybean() {
 		return changehistorybean;
 	}

@@ -64,12 +64,12 @@ public class ExchangeService {
 		return result;
 	}
 	//-------------------------
-	@Transactional
-	public List<SupportGameBean> GetAllSupport(){
-		List<SupportGameBean> list = new ArrayList<>();
-		list = supportDAO.GetAllSupport();
-		return list;
-	}
+//	@Transactional
+//	public List<SupportGameBean> GetAllSupport(){
+//		List<SupportGameBean> list = new ArrayList<>();
+//		list = supportDAO.GetAllSupport();
+//		return list;
+//	}
 	
 	@Transactional
 	public List<SupportGameBean> GetMemberSupport(String account){
@@ -79,10 +79,10 @@ public class ExchangeService {
 		System.out.println("serviceOut");
 		return list;
 	}
-	@Transactional
-	public SupportGameBean getSupportGameByAccount(String gamename,String account) {
-		return supportDAO.getSupportGameByAccount(gamename,account);
-	}
+//	@Transactional
+//	public SupportGameBean getSupportGameByAccount(String gamename,String account) {
+//		return supportDAO.getSupportGameByAccount(gamename,account);
+//	}
 	
 	// 找到特定物件並回丟(1筆)
 	@Transactional
@@ -126,12 +126,21 @@ public class ExchangeService {
 	public boolean updateChangeHistorySubmit(ChangeHistoryBean CHB) {
 		boolean result = false;
 		Integer status = 1;
+		MyGameBean partyAgamebean=new MyGameBean(null,CHB.getMygamebean().getGamename(),CHB.getSupportgamebean().getConsole(),CHB.getSupportgamebean().getGamer(),0);
+		MyGameBean partyBgamebean=new MyGameBean(null,CHB.getSupportgamebean().getGamename(),CHB.getMygamebean().getConsole(),CHB.getMygamebean().getGamer(),0);
+		//gamer交換
 		CHB.setStatus(status);
 		CHB.getSupportgamebean().setStatus(status);
 		CHB.getMygamebean().setStatus(status);
 		if(supportDAO.updateSupportGame(CHB.getSupportgamebean())) {
 			if(mygamesDAO.updateGameToSupport(CHB.getMygamebean())) {
+				mygamesDAO.insertMyGame(partyAgamebean);
+				mygamesDAO.insertMyGame(partyBgamebean);
 				result = changeDAO.updateChangeHistory(CHB);
+				if(CHB.getMygamebean().getSupportgamebean()!=null) {
+					CHB.getMygamebean().getSupportgamebean().setStatus(3);//透過上交換過的狀態碼
+					supportDAO.updateSupportGame(CHB.getMygamebean().getSupportgamebean());
+				}
 			}
 		}
 		return result;
@@ -140,12 +149,15 @@ public class ExchangeService {
 	public boolean updateChangeHistoryReject(ChangeHistoryBean CHB) {
 		boolean result = false;
 		Integer status = 0;//其他則調整回最初狀態
-		CHB.setStatus(5);//狀態碼5保留資料用
 		CHB.getSupportgamebean().setStatus(status);
 		CHB.getMygamebean().setStatus(status);
 		if(supportDAO.updateSupportGame(CHB.getSupportgamebean())) {
 			if(mygamesDAO.updateGameToSupport(CHB.getMygamebean())) {
-				result = changeDAO.updateChangeHistory(CHB);
+				result = changeDAO.deleteChangeHistory(CHB);
+				if(CHB.getMygamebean().getSupportgamebean()!=null) {
+					CHB.getMygamebean().getSupportgamebean().setStatus(status);//透過上交換過的狀態碼
+					supportDAO.updateSupportGame(CHB.getMygamebean().getSupportgamebean());
+				}
 			}
 		}
 		return result;
@@ -161,6 +173,10 @@ public class ExchangeService {
 		if(supportDAO.updateSupportGame(CHB.getSupportgamebean())) {
 			if(mygamesDAO.updateGameToSupport(CHB.getMygamebean())) {
 				result = changeDAO.insertChangeHistory(CHB);
+				if(CHB.getMygamebean().getSupportgamebean()!=null) {
+					CHB.getMygamebean().getSupportgamebean().setStatus(2);//透過上交換過的狀態碼
+					supportDAO.updateSupportGame(CHB.getMygamebean().getSupportgamebean());
+				}
 			}
 		}
 		return result;
@@ -180,12 +196,12 @@ public class ExchangeService {
 	public boolean insertMyGame(MyGameBean mygame) {
 		return mygamesDAO.insertMyGame(mygame);
 	}
+//	@Transactional
+//	public MyGameBean getMyGameByAccount(String gamename,String account) {
+//		return mygamesDAO.getMyGameByAccount(gamename,account);
+//	}
 	@Transactional
-	public MyGameBean getMyGameByAccount(String gamename,String account) {
-		return mygamesDAO.getMyGameByAccount(gamename,account);
-	}
-	@Transactional
-	public List<String> getMemberGamesName(String account) {
+	public List<MyGameBean> getMemberGamesName(String account) {
 		return mygamesDAO.getMemberGamesName(account);
 	}
 	@Transactional

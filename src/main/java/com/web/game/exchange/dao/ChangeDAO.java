@@ -60,8 +60,19 @@ public class ChangeDAO {
 		return result;
 	}
 	
+	public boolean deleteChangeHistory(ChangeHistoryBean CHB) {
+		int count = 0;
+		boolean result = false;
+		Session session = factory.getCurrentSession();
+		session.delete(CHB);
+		count++;
+		if (count > 0) {
+			result = true;
+		}
+		return result;
+	}
+	
 	public ChangeHistoryBean getHistory(Integer id) {
-		
 		Session session = factory.getCurrentSession();
 		ChangeHistoryBean CHB = new ChangeHistoryBean();
 		CHB = session.get(ChangeHistoryBean.class, id);

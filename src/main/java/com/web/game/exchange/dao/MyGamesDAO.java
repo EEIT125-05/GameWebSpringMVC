@@ -8,9 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.web.game.exchange.model.DemandGameBean;
 import com.web.game.exchange.model.MyGameBean;
-import com.web.game.exchange.model.SupportGameBean;
 
 @Repository
 public class MyGamesDAO {
@@ -30,11 +28,11 @@ public class MyGamesDAO {
 		return result;
 	}
 	
-	public List<String> getMemberGamesName(String account){
+	public List<MyGameBean> getMemberGamesName(String account){
 		
-		List<String> list = new ArrayList<>();
+		List<MyGameBean> list = new ArrayList<>();
 		Session session = factory.getCurrentSession();
-		String hql = "select gamename FROM MyGameBean g WHERE g.gamer = :account AND g.status =0";
+		String hql = "FROM MyGameBean g WHERE g.gamer = :account AND g.status =0";
 		list = session.createQuery(hql).setParameter("account", account).getResultList();
 		System.out.println("MemberGameslist"+list.size());
 		return list;
@@ -60,15 +58,15 @@ public class MyGamesDAO {
 		return mygame;
 	}
 	
-	public MyGameBean getMyGameByAccount(String gamename , String account) {
-		MyGameBean MGB = new MyGameBean();
-		Session session = factory.getCurrentSession();
-		System.out.println(gamename+account);
-		String HQL = "FROM MyGameBean WHERE gamer = :account AND gamename = :gamename";
-		MGB = (MyGameBean) session.createQuery(HQL).setParameter("account", account).setParameter("gamename", gamename).getSingleResult();
-		System.out.println("out");
-		return MGB;
-	}
+//	public MyGameBean getMyGameByAccount(String gamename , String account) {
+//		MyGameBean MGB = new MyGameBean();
+//		Session session = factory.getCurrentSession();
+//		System.out.println(gamename+account);
+//		String HQL = "FROM MyGameBean WHERE gamer = :account AND gamename = :gamename";
+//		MGB = (MyGameBean) session.createQuery(HQL).setParameter("account", account).setParameter("gamename", gamename).getSingleResult();
+//		System.out.println("out");
+//		return MGB;
+//	}
 
 	public boolean updateGameToSupport(MyGameBean mygame) {
 		Session session = factory.getCurrentSession();

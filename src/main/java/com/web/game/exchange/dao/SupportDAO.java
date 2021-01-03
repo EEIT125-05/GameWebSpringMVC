@@ -69,15 +69,15 @@ public class SupportDAO {
 
 	// -------------------------------------------------
 
-	public List<SupportGameBean> GetAllSupport() {
-		List<SupportGameBean> list = new ArrayList<>();
-		Session session = factory.getCurrentSession();
-		String hql = "FROM SupportGameBean";
-		Query<SupportGameBean> query = session.createQuery(hql);
-		list = query.getResultList();
-		return list;
-
-	}
+//	public List<SupportGameBean> GetAllSupport() {
+//		List<SupportGameBean> list = new ArrayList<>();
+//		Session session = factory.getCurrentSession();
+//		String hql = "FROM SupportGameBean";
+//		Query<SupportGameBean> query = session.createQuery(hql);
+//		list = query.getResultList();
+//		return list;
+//
+//	}
 
 	@SuppressWarnings("unchecked")
 	public List<SupportGameBean> GetMemberSupport(String account) {
@@ -97,15 +97,15 @@ public class SupportDAO {
 		gb = session.get(SupportGameBean.class, pno);
 		return gb;
 	}
-	public SupportGameBean getSupportGameByAccount(String gamename,String account) {
-		SupportGameBean SGB = null;
-		Session session = factory.getCurrentSession();
-		String HQL = "FROM SupportGameBean WHERE gamer = :account AND gamename =:gamename";
-		System.out.println("getSupportGameByAccountin"+account);
-		SGB = (SupportGameBean) session.createQuery(HQL).setParameter("account", account).setParameter("gamename", gamename).getSingleResult();
-		System.out.println("getSupportGameByAccountout");
-		return SGB;
-	}
+//	public SupportGameBean getSupportGameByAccount(String gamename,String account) {
+//		SupportGameBean SGB = null;
+//		Session session = factory.getCurrentSession();
+//		String HQL = "FROM SupportGameBean WHERE gamer = :account AND gamename =:gamename";
+//		System.out.println("getSupportGameByAccountin"+account);
+//		SGB = (SupportGameBean) session.createQuery(HQL).setParameter("account", account).setParameter("gamename", gamename).getSingleResult();
+//		System.out.println("getSupportGameByAccountout");
+//		return SGB;
+//	}
 
 	public boolean insertSupportGame(SupportGameBean gb) {
 		int count = 0;

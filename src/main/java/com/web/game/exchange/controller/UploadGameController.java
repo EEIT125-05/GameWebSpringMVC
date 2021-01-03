@@ -149,6 +149,9 @@ public class UploadGameController {
 									  Model model) {
 		SupportGameBean gamebean = new SupportGameBean();
 		MyGameBean mygame = service.getMyGame(no);
+		System.out.println("no"+no);
+		System.out.println("mygame.getConsole()"+mygame.getConsole());
+		System.out.println("mygame.getGamename()"+mygame.getGamename());
 		gamebean.setConsole(mygame.getConsole());
 		gamebean.setGamename(mygame.getGamename());
 		gamebean.setGamer(mygame.getGamer());

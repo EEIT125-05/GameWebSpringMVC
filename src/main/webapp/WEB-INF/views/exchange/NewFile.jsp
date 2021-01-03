@@ -12,9 +12,9 @@
 <body>
 ${changehistorybean.no }
 ${changehistorybean.partyA.sAccount }
-${changehistorybean.gamebean.gamename }
+${changehistorybean.mygamebean.gamename }
 ${changehistorybean.partyB.sAccount }
-${changehistorybean.demandgamebean.gamename }
+${changehistorybean.supportgamebean.gamename }
 ${HistotyList }
 <c:choose>
 				<c:when test='${empty HistotyList}'>
@@ -25,9 +25,9 @@ ${HistotyList }
 				<c:forEach var='s' varStatus='vs' items='${HistotyList }'>
 				${s.no }
 				${s.partyA.sAccount }
-				${s.gamebean.gamename }
+				${s.mygamebean.gamename }
 				${s.partyB.sAccount }
-				${s.demandgamebean.gamename }
+				${s.supportgamebean.gamename }
 				</c:forEach>
 				</c:when>
 

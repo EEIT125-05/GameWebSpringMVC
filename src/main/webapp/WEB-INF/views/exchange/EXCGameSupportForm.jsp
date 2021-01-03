@@ -34,6 +34,7 @@ div {
 </style>
 </HEAD>
 <BODY>
+
 	<%@ include file="../Header.jsp"%>
 
 	<form:form method="post" modelAttribute="gamebean"
@@ -52,7 +53,6 @@ div {
 				<span id="console1span"></span>
 			</div>
 			<div>
-
 				<label for="gamename">遊戲名稱</label>
 				<form:select path="gamename" style="width: 260px;" class="fixedlen"
 					id="gamename">

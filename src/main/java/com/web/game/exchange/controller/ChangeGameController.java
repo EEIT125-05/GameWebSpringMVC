@@ -46,7 +46,7 @@ public class ChangeGameController {
 			) {
 		System.out.println("!!!!");
 		MemberBean partyB = (MemberBean) model.getAttribute("user");
-		List<String> myGameBeans = (List<String>) exchangeService.getMemberGamesName(partyB.getsAccount());
+		List<MyGameBean> myGameBeansOption = (List<MyGameBean>) exchangeService.getMemberGamesName(partyB.getsAccount());
 		MemberBean partyA = memberService.Selectmember(gamer);
 		SupportGameBean supportGame = exchangeService.FindsupportGame(no);
 		System.out.println("!!!!");
@@ -54,7 +54,7 @@ public class ChangeGameController {
 		model.addAttribute("partyA",partyA);
 		model.addAttribute("supportGame",supportGame);
 		model.addAttribute("partyB",partyB);
-		model.addAttribute("myGameBeans",myGameBeans);
+		model.addAttribute("myGameBeans",myGameBeansOption);
 		System.out.println("!!!!");
 		return "exchange/EXCApplicationForm";
 	}
@@ -63,20 +63,22 @@ public class ChangeGameController {
 	public String createTransaction(
 			Model model,
 			@RequestParam String partyA,
-			@RequestParam String supportGame,
+			@RequestParam Integer supportGameNo,
 			@RequestParam String partyB,
-			@RequestParam String myGame
+			@RequestParam Integer myGameNo
 			) {
+		System.out.println("supportGameNo"+supportGameNo);
+		System.out.println("myGameNo"+myGameNo);
 		ChangeHistoryBean CHB = new ChangeHistoryBean();
 		System.out.println("--");
 		MemberBean mbPartyA = memberService.Selectmember(partyA);
 		System.out.println("--");
 		MemberBean mbPartyB = memberService.Selectmember(partyB);
 		System.out.println("--");
-		SupportGameBean sgSupportGame = exchangeService.getSupportGameByAccount(supportGame,partyA);
-		System.out.println("--");
-		MyGameBean mgMyGame=exchangeService.getMyGameByAccount(myGame,partyB);
-		System.out.println("--");
+		SupportGameBean sgSupportGame = exchangeService.FindsupportGame(supportGameNo);
+		System.out.println("--!!");
+		MyGameBean mgMyGame=exchangeService.getMyGame(myGameNo);
+		System.out.println("--!!");
 		SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
     	String sTimeString = sdf.format(new Date());
     	Timestamp time = Timestamp.valueOf(sTimeString);
