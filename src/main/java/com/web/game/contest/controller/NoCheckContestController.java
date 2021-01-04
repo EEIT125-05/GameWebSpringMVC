@@ -1,18 +1,20 @@
 package com.web.game.contest.controller;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
@@ -20,7 +22,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -164,31 +165,19 @@ public class NoCheckContestController {
 							@RequestParam Integer contestNo) {
 		image64 = image64.split(",")[1];
 		List<String> list = new ArrayList<String>();
-			ContestBean cContestBean = cService.selectOneContest(contestNo);
-			String sImageName = null;
-			if(cContestBean.getsScheduleImage() != null) {
-				sImageName = cContestBean.getsScheduleImage();
-			}else {
-				sImageName = "schedule-" + contestNo + "-" + UUID.randomUUID().toString().replaceAll("-", "") + ".jpg";
-			}
-			
-			Decoder decoder = Base64.getDecoder();
-			byte[] bImage = decoder.decode(image64);
-			
-			MultipartFile fImage = new MockMultipartFile(sImageName, sImageName, "image/jpeg", bImage);
-			
-			String sFilePath = "C:\\GameBar\\GameWebSpringMVC\\src\\main\\webapp\\images";
-			
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] bImage = decoder.decode(image64);
+		
+		Blob bimageSchedule = null;
 		try {
-			fImage.transferTo(new File(sFilePath + "/" + sImageName));
-			if(cService.saveSchsduleImage(contestNo, sImageName)) {
+			bimageSchedule = new SerialBlob(bImage);
+			if(cService.saveSchsduleImage(contestNo, bimageSchedule)) {
 				list.add("賽程儲存完成");
 			}
-		} catch (IllegalStateException e) {
+		} catch (SerialException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
@@ -199,30 +188,21 @@ public class NoCheckContestController {
 	public ResponseEntity<byte[]> schdeuleLoading(
 								@PathVariable Integer iNo){
 		ContestBean cContestBean = cService.selectOneContest(iNo);
-		String sImage = cContestBean.getsScheduleImage();
+		Blob bScheduleImage = cContestBean.getbScheduleImage();
 		byte[] bImage = null;
-		
-		InputStream is = null;
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		is = context.getResourceAsStream("/images/" + sImage);
-//--------------------------------------------
-		if(is == null) {
-			return null;
-		}
-//--------------------------------------------
-		try {
-			Integer len = 0;
-			byte[] bytes = new byte[8192];
-			while ((len = is.read(bytes)) != -1) {
-				baos.write(bytes, 0, len);
+		try (InputStream is = bScheduleImage.getBinaryStream(); 
+			 ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
+			byte[] b = new byte[819200];
+			int len = 0;
+			while ((len = is.read(b)) != -1) {
+				baos.write(b, 0, len);
 			}
 			bImage = baos.toByteArray();
-			is.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		String mimeType = context.getMimeType(sImage);
+		String mimeType = "image/jpeg";
 		MediaType mediaType = MediaType.valueOf(mimeType);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setCacheControl(CacheControl.noCache().getHeaderValue());

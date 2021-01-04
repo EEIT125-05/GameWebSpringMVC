@@ -1,5 +1,6 @@
 package com.web.game.contest.dao;
 
+import java.sql.Blob;
 import java.util.List;
 
 import com.web.game.contest.model.ContestBean;
@@ -24,6 +25,6 @@ public interface ContestDAO {
 	
 	Integer getTotalPages();
 	
-	Boolean saveSchsduleImage(Integer iNo, String sScheduleImage);
+	Boolean saveSchsduleImage(Integer iNo, Blob bimageSchedule);
 
 }

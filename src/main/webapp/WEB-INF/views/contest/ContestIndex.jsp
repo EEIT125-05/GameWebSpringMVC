@@ -17,8 +17,8 @@
 
 <div class="container">
 
-<h1 class="mt-4 mb-3">賽事
-      <small>XXXXX</small>
+<h1 class="mt-4 mb-3">賽事首頁
+<!--       <small>XXXXX</small> -->
     </h1>
 
     <ol class="breadcrumb">

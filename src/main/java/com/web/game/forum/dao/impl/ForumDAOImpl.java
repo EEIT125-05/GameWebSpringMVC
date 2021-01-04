@@ -64,16 +64,20 @@ public class ForumDAOImpl implements ForumDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ForumBean> selectAllForum() {
-		String hql = "from ForumBean";
+		String hql = "from ForumBean order by dDate desc, tTime desc";
 		Session session = factory.getCurrentSession();
-		return session.createQuery(hql).getResultList();
+		return session.createQuery(hql)
+						.setMaxResults(6)
+						.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ForumBean> searchForum(String sCategory, String sSearch) {
 		Session session = factory.getCurrentSession();
-		String hql = "from ForumBean where sTitle like '%" + sSearch + "%' " + sCategory;
+		String hql = "from ForumBean where sTitle like '%" + sSearch + "%' " + sCategory + "order by dDate desc, tTime desc";
+		System.out.println("sSearch" + sSearch);
+		System.out.println("sCategory" + sCategory);
 		return session.createQuery(hql).getResultList();
 	}
 
