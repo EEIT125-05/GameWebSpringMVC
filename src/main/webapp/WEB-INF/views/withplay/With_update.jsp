@@ -92,13 +92,6 @@
 
 				</tr>
 				<tr>
-					<td>Comment</td>
-					<td><form:input path="sComment" id="Comment"  onblur="checkComment();"
-					 pattern="^[\u4e00-\u9fa5]+$" minlength="6"/><span id="idname"></span></td>
-				
-
-				</tr>
-				<tr>
 					<td>照片：<br>&nbsp;
 					</td>
 					<td><form:input path="mWithImage" type='file' /><br>&nbsp;
@@ -106,8 +99,11 @@
 				<tr>
 					<td>Price</td>
 					<td><form:input path="iPrice" /><form:errors path="iPrice"  /></td>
-					
-
+				</tr>
+				<tr>
+					<td>Comment</td>
+					<td><form:textarea path="sComment" id="Comment"  onblur="checkComment();"  rows="6" cols="30"
+					 pattern="^[\u4e00-\u9fa5]+$" minlength="6"/><span id="idname"></span></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center"><input type="submit"></td>

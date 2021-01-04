@@ -50,21 +50,19 @@
 		let IdcodeLen = iIdcode.length;
 		let Idcode = document.getElementById("Idcode");
 		let IdcodeCheck = false;
-// 		let reg = /^[0]{1}[9]{1}\d{8}$/;
+		let reg = /^[a-zA-Z]{1}[1-2]{1}\d{8}$/;
 		if (iIdcode == "") {
 			Idcode.innerHTML = "<font color='red'>請輸入身份證字號</font>";
-// 			Idcodeflag = false;
-		} else if (IdcodeLen >= 10) {
+			Idcodeflag = false;
+		} else if (IdcodeLen >= 10 && reg.test(iIdcode)) {
 // 			if (reg.test(phone)) {
 				IdcodeCheck = true;
 // 			}
 			if (IdcodeCheck) {
 				Idcode.innerHTML = "<font color='green'>請檢查號碼</font>";
+				
 				Idcodeflag = false;
-			} else {
-				Idcode.innerHTML = "<font color='red'>請輸入正確格式</font>";
-				Idcodeflag = false;
-			}
+			} 
 		} else {
 			Idcode.innerHTML = "<font color='red'>請輸入正確格式</font>";
 			Idcodeflag = false;
@@ -74,8 +72,10 @@
 	
 	window.onload = function() {
 	var Check = document.getElementById("IdcodeCheck");
+	let reg = /^[a-zA-Z]{1}[1-2]{1}\d{8}$/;
 	Check.onclick = function() {
 		var sIdcode = document.getElementById("sIdcode").value.trim();
+		if(sIdcode != ""&& reg.test(sIdcode)){	
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", "<c:url value='/withplay/IDCheck' />", true);
 		xhr.setRequestHeader("Content-Type",
@@ -92,9 +92,12 @@
 					Idcode.innerHTML = "<font color='red'>身份證字號已被使用，請重新輸入</font>";
 					Idcodeflag = false;
 				}
+				}
 			}
+		}else{
+			Idcode.innerHTML = "<font color='red'>請確認身份證字號格式</font>";
+			Idcodeflag = false;
 		}
-// 		check();
 	}
 	
 }
@@ -144,11 +147,6 @@
 
 				</tr>
 				<tr>
-					<td>Comment</td>
-					<td><form:input path="sComment" id="Comment"  onblur="checkComment();"
-					 pattern="^[\u4e00-\u9fa5]+$" minlength="6"/><span id="idname"></span>&nbsp;</td>
-				</tr>
-				<tr>
 					<td>照片：<br>&nbsp;
 					</td>
 					<td><form:input path="mWithImage" type='file' /></td>
@@ -158,6 +156,11 @@
 				<tr>
 					<td>Price</td>
 					<td><form:input path="iPrice" />&nbsp;<form:errors path="iPrice"/></td>
+				</tr>
+				<tr>
+					<td>Comment</td>
+					<td><form:textarea path="sComment" id="Comment"  onblur="checkComment();" rows="6" cols="30"
+					 pattern="^[\u4e00-\u9fa5]+$" minlength="6"/><span id="idname"></span>&nbsp;</td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center"><input type="submit"></td>

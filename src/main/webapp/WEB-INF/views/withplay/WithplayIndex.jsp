@@ -25,7 +25,7 @@ response.setContentType("text/html;charset=UTF-8");
 	<div class="container">
 
 		<h1 class="mt-4 mb-3">
-			陪玩 <small>XXXXX</small>
+			陪玩 <small>Play</small>
 		</h1>
 
 		<ol class="breadcrumb">
@@ -46,7 +46,7 @@ response.setContentType("text/html;charset=UTF-8");
 			<select id="sGame" class="form-control" name="sGame"
 					style="width:130px;display:inline">
 		    	<option value="">全部</option>
-				<c:forEach var="sGame" items="${With}">
+				<c:forEach var="sGame" items="${GameList}">
 	            	<option value="${sGame}">${sGame}</option>
 				</c:forEach>
             </select>
@@ -64,7 +64,8 @@ response.setContentType("text/html;charset=UTF-8");
 							<div class="fi1">
 								<a href="#"> <img class="img1"
 									src='${pageContext.request.contextPath}/withplay/picture/${With.iId}'>
-								</a> <a>
+								</a> 
+<!-- 								<a> -->
 									<div>${With.sNickname}</div>
 									<div>${With.sGame}</div>
 									<div>
@@ -74,7 +75,7 @@ response.setContentType("text/html;charset=UTF-8");
 									<span>/局</span>
 									</p>
 									</div>
-								</a>
+<!-- 								</a> -->
 
 							</div>
 						</div>
@@ -138,23 +139,23 @@ response.setContentType("text/html;charset=UTF-8");
 							if(type.indexOf("application/json") === 0){
 								let obj = JSON.parse(xhr.responseText);
 								if(obj.length == 0){
-									$("#point").append("<p>無比賽符合您搜尋的條件</p>");
+									$("#point").append("<p>無符合您搜尋的條件</p>");
 								}
 	 							$.each(obj,function(key, value){
 									$("#point").append(
 										"<div class='row' id='point'>"
-										+"<div data-toggle='modal' data-target='#exampleModal${value.iId}'>"
+										+"<div data-toggle='modal' data-target='#exampleModal" + value.iId + "'>"
 												+"<div class='col col-6 col-sm-4 col-md-4 col-lg-2'>"
 												+"<div class='div1'>"
 													+"<div class='fi1'>"
 														+"<a href='#'> <img class='img1' src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'></a>"
 														+"<a>"
-															+"<div>${value.sNickname}</div>"
-															+"<div>${value.sGame}</div>"
+															+"<div>"+value.sNickname+"</div>"
+															+"<div>"+value.sGame+"</div>"
 															+"<div>"
 															+"<p>"
 															+"<span>$</span>"
-															+"<span>${value.iPrice}</span>"
+															+"<span>"+value.iPrice+"</span>"
 															+"<span>/局</span>"
 															+"</p>"
 															+"</div>"
@@ -163,7 +164,7 @@ response.setContentType("text/html;charset=UTF-8");
 													+"</div>"
 												+"</div>"
 											+"</div>"
-											+"<div class='modal fade' id='exampleModal${value.iId}' tabindex='-1' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
+											+"<div class='modal fade' id='exampleModal" + value.iId + "' tabindex='-1' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
 												+"<div class='modal-dialog' role='document'>"
 													+"<div class='modal-content'>"
 														+"<div class='modal-header'>"
@@ -176,8 +177,8 @@ response.setContentType("text/html;charset=UTF-8");
 															+"<a> <img class='img1'"
 																+"src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'>"
 															+"</a>"
-															+"<div>${value.sGame}</div>"
-															+"<div>${value.sNickname}</div>"
+															+"<div>"+value.sGame+"</div>"
+															+"<div>"+value.sNickname+"</div>"
 														+"</div>"
 														+"</div>"
 														+"</div>"

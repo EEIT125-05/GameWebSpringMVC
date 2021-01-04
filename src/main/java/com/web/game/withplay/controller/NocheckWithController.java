@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.web.game.contest.service.GameListService;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithService;
 
@@ -41,10 +42,14 @@ public class NocheckWithController {
 	@Autowired
 	ServletContext context;	
 	
+	@Autowired
+	GameListService ListService;
+	
 	@GetMapping("/withplay/Index")
 	public String WithplayIndex(Model model) {
 		model.addAttribute("With", withService.search("", ""));
 		model.addAttribute("With",withService.list());
+		model.addAttribute("GameList",ListService.selectGameList());
 		return "withplay/WithplayIndex";
 	}
 	
