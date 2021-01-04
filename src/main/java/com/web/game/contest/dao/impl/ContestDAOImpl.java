@@ -1,5 +1,6 @@
 package com.web.game.contest.dao.impl;
 
+import java.sql.Blob;
 import java.util.List;
 import java.util.UUID;
 
@@ -118,11 +119,11 @@ public class ContestDAOImpl implements ContestDAO {
 	}
 
 	@Override
-	public Boolean saveSchsduleImage(Integer iNo, String sScheduleImage) {
+	public Boolean saveSchsduleImage(Integer iNo, Blob bimageSchedule) {
 		Session session = factory.getCurrentSession();
 		try {
 			ContestBean cContestBean = session.get(ContestBean.class, iNo);
-			cContestBean.setsScheduleImage(sScheduleImage);
+			cContestBean.setbScheduleImage(bimageSchedule);
 			return true;
 		}catch (Exception e) {
 			return false;

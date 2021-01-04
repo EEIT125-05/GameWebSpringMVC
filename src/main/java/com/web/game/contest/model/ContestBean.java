@@ -1,5 +1,6 @@
 package com.web.game.contest.model;
 
+import java.sql.Blob;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class ContestBean {
 	@Column(columnDefinition = "nvarchar(MAX)")
 	private String sRule;
 	private String sImage;
-	private String sScheduleImage;
+	private Blob bScheduleImage;
 	
 	@OneToMany(mappedBy = "cContestBean",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<ParticipateBean> lParticipateBeans = new ArrayList<>();
@@ -173,12 +174,12 @@ public class ContestBean {
 		this.fImage = fImage;
 	}
 
-	public String getsScheduleImage() {
-		return sScheduleImage;
+	public Blob getbScheduleImage() {
+		return bScheduleImage;
 	}
 	
-	public void setsScheduleImage(String sScheduleImage) {
-		this.sScheduleImage = sScheduleImage;
+	public void setbScheduleImage(Blob bScheduleImage) {
+		this.bScheduleImage = bScheduleImage;
 	}
 	
 }

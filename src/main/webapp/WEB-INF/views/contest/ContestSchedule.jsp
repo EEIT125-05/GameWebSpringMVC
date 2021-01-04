@@ -27,7 +27,7 @@
 	
 	#tree{
  	    overflow: auto; 
-	    border: 1px solid red;
+/* 	    border: 1px solid red; */
 		position: relative;
 	}
 	
@@ -95,6 +95,7 @@
 		height:36px;
 		margin:0;
 	}
+	
 
 </style>
 
@@ -140,7 +141,17 @@
  
 		<p>比賽名稱: ${cContestBean.sName} 
 <%-- 			<button type="submit" name="updateNo" value="${cContestBean.iNo}">更改</button> --%>
-			<a href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>
+			<jsp:useBean id="date" class="java.util.Date"></jsp:useBean>
+            <fmt:formatDate var="today" value="${date}" pattern="yyyy-MM-dd"/>
+            <fmt:formatDate var="dTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd"/>
+			<c:choose>
+				<c:when test="${dTime <= today}">
+					<span style="color:gray">更改</span>
+				</c:when>
+				<c:otherwise>
+					<a href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>
+				</c:otherwise>
+			</c:choose>
 			<span style="font-size:70%;color:red">(註:至比賽當日即無法更改比賽)</span>
 			<button type="submit" id="delete" value="${cContestBean.iNo}">刪除</button>
 <%-- 			<a href="<c:url value='/contest/Delete/${cContestBean.iNo}'/>">刪除</a> --%>
@@ -159,11 +170,11 @@
 
 	<label style="vertical-align:top">賽程表: </label>
 		<c:choose >
-			<c:when test="${empty cContestBean.sScheduleImage}">
+			<c:when test="${empty cContestBean.bScheduleImage}">
 				<label>無</label>
 			</c:when>
 			<c:otherwise>
-				<img src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>" style="width:560px"/>
+				<img src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>" style="width:560px;border:2px solid black;border-radius:10px"/>
 			</c:otherwise>
 		</c:choose>
 	<hr>
@@ -217,11 +228,10 @@
 
 	<div id="showSchedule" style="display:none">
 		<span>賽程:</span>
-		<div id="screenshot">
-			<div style="overflow:auto">
+		<div id="hiddenDiv" style="overflow:auto">
+			<div id="screenshot">
+	<!-- 		<div id="screenshot"> -->
 				<div id="tree" class="tree"></div>
-			</div>
-			<div style="overflow:auto">
 				<div id="drow" class="drow"></div>
 			</div>
 		</div>
@@ -258,8 +268,10 @@
 				window.pageYOffset = 0;
 		        document.documentElement.scrollTop = 0
 		        document.body.scrollTop = 0
+		        document.getElementById('screenshot').parentNode.style.overflow = 'visible';
 		        html2canvas(document.getElementById("screenshot"), { useCORS: true, scale:2 }).then(function (canvas) {
 // 		            document.body.appendChild(canvas);
+					document.getElementById('screenshot').parentNode.style.overflow = 'hidden'; 
 		            var image64 = canvas.toDataURL("image/jpeg", 1.0);
 // 		            console.log("type: " + typeof(image64));
 // 		            console.log("image64: " + image64);
@@ -389,7 +401,7 @@
 		        let mCenter = mW / 2; //中心點
 		        let mRadius = mCenter - 100; //半徑(減去的值用於給繪製的文字留空間)
 		        let mAngle; //角度
-		        let mColorPolygon = '#FF0000'; //多邊形顏色
+		        let mColorPolygon = '#000000'; //多邊形顏色
 		        let mColorText = '#000000';
 // 		        console.log("iPlayer: " + iPlayer);
 // 		        console.log("$(\"#preliminariesCount1\").val(): " + $("#preliminariesCount1").val());
@@ -511,72 +523,118 @@
 				
 //--------------產生賽程表-----------------------------------------------------
 				let a = Number(iPlayer);
-// 		        $("#tree").width((a*96+(2*a-1)*10) + "px");
-		        $("#tree").width("1000vw");
-// 		        console.log("寬度: " + (a*100+(2*a-1)*10));
-		        let pow = a.toString(2).length;
-		        let max = Math.pow(2,pow);
-		        if((max-a) == a){
-		            pow = a.toString(2).length - 1;
-		            max = Math.pow(2,pow);
-		        }
-// 		        console.log("次方: " + pow);
-// 		        console.log("補滿2的次方: " + max);
-// 		        console.log("不要的場數: " + (max-a));
-
-		        $("#tree").append("<ul class=\"layer1\">");
-		        $(".layer1").append("<li class=\"text1\"><label>&nbsp;</label>");
 		        
-		        for(let i=1; i<=pow; i++){
-		            let j = i + 1;
-		            let className;
-		            if(i != a.toString(2).length){
-		                className = "class=\"text" + j + "\"";
-		            }else{
-		                className = "class=\"buttom\"";
+		        if($("#knockout:checked").length > 0){//複賽淘汰賽
+			        $("#tree").width((a*96+(2*a-1)*10+20) + "px");
+	// 		        $("#tree").width("1000vw");
+	// 		        console.log("寬度: " + (a*100+(2*a-1)*10));
+			        let pow = a.toString(2).length;
+			        let max = Math.pow(2,pow);
+			        if((max-a) == a){
+			            pow = a.toString(2).length - 1;
+			            max = Math.pow(2,pow);
+			        }
+	// 		        console.log("次方: " + pow);
+	// 		        console.log("補滿2的次方: " + max);
+	// 		        console.log("不要的場數: " + (max-a));
+	
+			        $("#tree").append("<ul class=\"layer1\">");
+			        $(".layer1").append("<li class=\"text1\"><label>&nbsp;</label>");
+			        
+			        for(let i=1; i<=pow; i++){
+			            let j = i + 1;
+			            let className;
+			            if(i != a.toString(2).length){
+			                className = "class=\"text" + j + "\"";
+			            }else{
+			                className = "class=\"buttom\"";
+			            }
+			            $(".text" + i).append("<ul class=\"layer" + j + "\">");
+			            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
+			            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
+			        }
+			        for(let i=0; i<max; i++){
+			            $(".buttom").eq(i).children().attr("id", "編號"+i);
+	// 		            $(".buttom").eq(i).children().attr("id", "編號"+i).attr("class", "drop");
+			        } 
+			        if((max-a) == 0){
+			            $(".text" + (pow+1)).attr("class", "buttom");
+			        }
+			     
+			        for(let i=0; i<(max-a); i++){
+			            let str = i.toString(2);
+			            while(str.length < pow-1){
+			                str = "0" + str;
+			            }
+	// 		            console.log("i= " + i);
+	// 		            console.log("換成2進位: " + str);
+			            // str = str.split("").reverse().join("");
+			            // console.log("2進位反轉: " + str);
+	// 		            console.log("拆開: " + str.split(""));
+			            let eqNumber = 0;
+			            for(let j=0; j<pow-1; j++){
+			                eqNumber += str.split("")[j]*Math.pow(2,j+1);
+			            }
+	// 		            console.log("eq的值: " + eqNumber);
+			            $("#編號" + eqNumber).parent().parent().prev().before("<ul>").before("<ul>").before("<ul>").before("<ul>").parent().attr("class", "buttom");
+			            $("#編號" + eqNumber).parent().parent().remove();
+			        }
+					
+			        //統一給.buttom加上.drop
+			        if($("#Ypreliminaries:checked").length == 0){
+				        $(".buttom").find("label").attr("class", "drop").css("border-color","green");
+			        }
+			        
+		        }else{//複賽循環賽
+		        	
+		        	$("#tree").width("400px");
+		        	if($("#Ypreliminaries:checked").length == 0){
+			        	$("#drow").width("400px");
+		        	}
+		        	mCount = a
+	        		mAngle = Math.PI * 2 / mCount;
+		        	let canvas = document.createElement("canvas");
+		            document.getElementById("tree").appendChild(canvas);
+		            canvas.height = 400;
+		            canvas.width = 400;
+		            canvas.style = "display:inline;";
+		            let ctx = canvas.getContext('2d');
+		            drowLine(ctx);
+		            let coordinate = setTextCoordinate(ctx);
+		            
+		            for(let i=0; i<mCount; i++){
+		                let div = document.createElement("div");
+		                if($("#Ypreliminaries:checked").length == 0){
+			                div.style = "left:" + coordinate[i][0] + "px;top:" + coordinate[i][1] + "px;width:80px;border:2px solid green;position:absolute";
+			                div.className = "drop";
+				        }else{
+			                div.style = "left:" + coordinate[i][0] + "px;top:" + coordinate[i][1] + "px;width:80px;height:40px;border:2px solid black;position:absolute";
+				        }
+		                document.getElementById("tree").appendChild(div);
 		            }
-		            $(".text" + i).append("<ul class=\"layer" + j + "\">");
-		            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
-		            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
-		        }
-		        for(let i=0; i<max; i++){
-		            $(".buttom").eq(i).children().attr("id", "編號"+i);
-// 		            $(".buttom").eq(i).children().attr("id", "編號"+i).attr("class", "drop");
-		        } 
-		        if((max-a) == 0){
-		            $(".text" + (pow+1)).attr("class", "buttom");
-		        }
-		     
-		        for(let i=0; i<(max-a); i++){
-		            let str = i.toString(2);
-		            while(str.length < pow-1){
-		                str = "0" + str;
-		            }
-// 		            console.log("i= " + i);
-// 		            console.log("換成2進位: " + str);
-		            // str = str.split("").reverse().join("");
-		            // console.log("2進位反轉: " + str);
-// 		            console.log("拆開: " + str.split(""));
-		            let eqNumber = 0;
-		            for(let j=0; j<pow-1; j++){
-		                eqNumber += str.split("")[j]*Math.pow(2,j+1);
-		            }
-// 		            console.log("eq的值: " + eqNumber);
-		            $("#編號" + eqNumber).parent().parent().prev().before("<ul>").before("<ul>").before("<ul>").before("<ul>").parent().attr("class", "buttom");
-		            $("#編號" + eqNumber).parent().parent().remove();
-		        }
-				
-		        //統一給.buttom加上.drop
-		        if($("#Ypreliminaries:checked").length == 0){
-			        $(".buttom").find("label").attr("class", "drop");
+		            //div高需要等所有div生成才另外計算
+		            $(".drop").css("height", (40*$(".playerNone").length/$(".drop").length) + "px");
 		        }
 		        
-// 		        $(".drop").css("position","absolute").css("left", "100px");
+		        
+		        
+		        
+		        
+		        
 //--------------產生賽程表-----------------------------------------------------				
 		        
+		        //調整screenshot的寬度
+		        console.log("$(\"#tree\").width(): " + $("#tree").width());
+		        console.log("$(\"#drow\").width(): " + $("#drow").width());
+		        if($("#tree").width() > $("#drow").width()){
+		        	$("#screenshot").width($("#tree").width());
+		        }else{
+		        	$("#screenshot").width($("#drow").width());
+		        }
 		        
 				drag($(".player"));
 				drop($(".drop"));
+				
 				
 			});
 
@@ -591,7 +649,7 @@
 				    accept:"*",
 				    drop: function(ev,ui) {
 // 						console.log("drop" + $(this).text() + ui.draggable.text());
-						$(this).append("<label class=\"player\" style=\"margin:0\">" + ui.draggable.text() + "</label>");
+						$(this).append("<label class=\"player\" style=\"margin:0;border-color:red\">" + ui.draggable.text() + "</label>");
 						ui.draggable.css("visibility","hidden").removeClass("player");
 						
 					//	let 綠框內的個數 = $(".playerNone").length)/$(".drop").length;

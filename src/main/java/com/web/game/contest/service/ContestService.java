@@ -1,5 +1,6 @@
 package com.web.game.contest.service;
 
+import java.sql.Blob;
 import java.util.List;
 
 import com.web.game.contest.model.ContestBean;
@@ -26,6 +27,6 @@ public interface ContestService {
 	
 	Integer getTotalPages();
 	
-	Boolean saveSchsduleImage(Integer iNo, String sScheduleImage);
+	Boolean saveSchsduleImage(Integer iNo, Blob bimageSchedule);
 	
 }

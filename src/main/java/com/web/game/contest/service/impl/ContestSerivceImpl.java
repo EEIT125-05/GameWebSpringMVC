@@ -2,6 +2,7 @@ package com.web.game.contest.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -161,8 +162,8 @@ public class ContestSerivceImpl implements ContestService {
 
 	@Transactional
 	@Override
-	public Boolean saveSchsduleImage(Integer iNo, String sScheduleImage) {
-		return cDao.saveSchsduleImage(iNo, sScheduleImage);
+	public Boolean saveSchsduleImage(Integer iNo, Blob bimageSchedule) {
+		return cDao.saveSchsduleImage(iNo, bimageSchedule);
 	}
 
 	
