@@ -168,20 +168,21 @@
 	<span>比賽規則:</span> <br> <span id="rule">${cContestBean.sRule}</span>
 	<hr>
 
-	<div data-toggle="modal" data-target="#largeImage">
-		<label style="vertical-align:top">賽程表: </label>
-			<c:choose >
+		<div data-toggle="modal" data-target="#largeImage">
+			<label style="vertical-align: top">賽程表: </label>
+			<c:choose>
 				<c:when test="${empty cContestBean.bScheduleImage}">
 					<label>無</label>
 				</c:when>
 				<c:otherwise>
-					<a href="#"><img src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>" style="width:560px;border:2px solid black;border-radius:10px"/></a>
-				</c:otherwise>
-			</c:choose>
-	</div>
-	<div class="modal fade bs-example-modal-xl" id="largeImage" tabindex="-1"
-						role="dialog" aria-labelledby="exampleModalLongTitle"
-						aria-hidden="true" >
+					<a href="#">
+					<img
+						src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>"
+						style="width: 560px; border: 2px solid black; border-radius: 10px" />
+					</a>
+					<div class="modal fade bs-example-modal-xl" id="largeImage"
+						tabindex="-1" role="dialog"
+						aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 						<div class="modal-dialog modal-xl" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -192,11 +193,13 @@
 									</button>
 								</div>
 								<div class="modal-body">
-								  <div class="container-fluid">	
-								      <div class="row" style="overflow:auto">
-									<img src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>" style="width:1000px;border:2px solid black;border-radius:10px"/>
-								</div>
-								</div>
+									<div class="container-fluid">
+										<div class="row" style="overflow: auto">
+											<img
+												src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>"
+												style="width: 1000px; border: 2px solid black; border-radius: 10px" />
+										</div>
+									</div>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
@@ -205,7 +208,10 @@
 							</div>
 						</div>
 					</div>
-	<hr>
+				</c:otherwise>
+			</c:choose>
+		</div>
+		<hr>
 	
 	<button id="showOption">新增/更新賽程</button>
 	
