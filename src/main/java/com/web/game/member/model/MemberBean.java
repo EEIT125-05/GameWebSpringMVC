@@ -1,11 +1,18 @@
 package com.web.game.member.model;
 
+import java.sql.Blob;
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "member")
@@ -13,17 +20,17 @@ public class MemberBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer iNo;
-	@Column(columnDefinition = "nvarchar(Max)",unique = true)
+	@Column(columnDefinition = "nvarchar(Max)", unique = true)
 	private String sAccount;
 	@Column(columnDefinition = "nvarchar(Max)")
 	private String sPassword;
 	@Column(columnDefinition = "nvarchar(Max)")
 	private String sNickname;
-	@Column(columnDefinition = "nvarchar(Max)",unique  = true)
+	@Column(columnDefinition = "nvarchar(Max)", unique = true)
 	private String sEmail;
 	@Column(columnDefinition = "nvarchar(Max)")
 	private String sEname;
-	@Column(columnDefinition = "nvarchar(Max)",unique  = true)
+	@Column(columnDefinition = "nvarchar(Max)", unique = true)
 	private String sPhone;
 	@Column(columnDefinition = "nvarchar(Max)")
 	private String sAddress;
@@ -33,13 +40,22 @@ public class MemberBean {
 	private String sBirthday;
 	@Column(columnDefinition = "nvarchar(Max)")
 	private String registerDate;
+	@Column(columnDefinition = "nvarchar(Max)")
+	private boolean status = false;
+	
+	Blob image;
+	String fileName;
+	@Transient
+	MultipartFile productImage;
+
 
 	public MemberBean() {
 		super();
 	}
 
 	public MemberBean(Integer iNo, String sAccount, String sPassword, String sNickname, String sEmail, String sEname,
-			String sPhone, String sAddress, String sGender, String sBirthday, String registerDate) {
+			String sPhone, String sAddress, String sGender, String sBirthday, String registerDate, boolean status
+			) {
 		super();
 		this.iNo = iNo;
 		this.sAccount = sAccount;
@@ -52,6 +68,31 @@ public class MemberBean {
 		this.sGender = sGender;
 		this.sBirthday = sBirthday;
 		this.registerDate = registerDate;
+		this.status = status;
+	}
+
+	public Blob getImage() {
+		return image;
+	}
+
+	public void setImage(Blob image) {
+		this.image = image;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public MultipartFile getProductImage() {
+		return productImage;
+	}
+
+	public void setProductImage(MultipartFile productImage) {
+		this.productImage = productImage;
 	}
 
 	public String getRegisterDate() {
@@ -141,5 +182,21 @@ public class MemberBean {
 	public void setsBirthday(String sBirthday) {
 		this.sBirthday = sBirthday;
 	}
+
+	public boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+//	@Transient
+//	public Date getLastActivateTime() {
+//		Calendar cl = Calendar.getInstance();
+//		cl.setTime(registerTime);
+//		cl.add(Calendar.DATE, 1);
+//		return cl.getTime();
+//	}
 
 }

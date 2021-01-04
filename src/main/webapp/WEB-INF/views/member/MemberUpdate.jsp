@@ -18,7 +18,7 @@ request.setCharacterEncoding("UTF-8");
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
-<title>會員資料更新[]</title>
+<title>會員資料更新</title>
 <%-- <script src="<c:url value='../js/MemberUpdate.js'/>"></script> --%>
 <script>
 	let passwordflag = false;
@@ -58,14 +58,15 @@ request.setCharacterEncoding("UTF-8");
 			} else if (psw.getAttribute('type') == 'text') {
 				psw.setAttribute('type', 'password');
 				btn.value = "visibility";
-			}if (pswC.getAttribute('type') == 'password') {
+			}
+			if (pswC.getAttribute('type') == 'password') {
 				pswC.setAttribute('type', 'text');
 				btn.value = "visibility_off";
 			} else if (pswC.getAttribute('type') == 'text') {
 				pswC.setAttribute('type', 'password');
 				btn.value = "visibility";
 			}
-			
+
 		}
 
 	}
@@ -178,70 +179,75 @@ request.setCharacterEncoding("UTF-8");
 </script>
 </head>
 <body>
+	<H1 align='center'>會員修改資料</H1>
+	<hr>
 	<%@ include file="../Header.jsp"%>
 
-	<form action="<c:url value='/member/MemberData'/>" method="post"
-		modelAttribute="user">
-
-		<div>
-			<h3>
-				<input name="iNo" type="hidden" value="${user.iNo}" readonly>
-			</h3>
-			<h3>
-				會員帳號:${user.sAccount}<input type="hidden" name="sAccount"
-					value="${user.sAccount}" readonly>
-			</h3>
-			<h3>
-				更改密碼:<input id="Password" type="password" minlength="8" required
-					maxlength="16" onblur="checkPassword();" value="${user.sPassword}">
-				<input id="btn" type="button" class="material-icons"
-					style="font-size: 25px" value="visibility">
-			</h3>
-			<h3>
-				再次確認密碼:<input id="passwordConfirm" type="password" name="sPassword"
-					minlength="8" required maxlength="16" onblur="checkPassword();"><span
-					id="idpasswordConfirm"></span>
-			</h3>
-			<h3>
-				更改暱稱:<input type="text" id="Nickname" name="sNickname"
-					onblur="checkNickname();" required maxlength="10"
-					value="${user.sNickname}"><span id="idnickname"></span>
-			</h3>
-			<h3>
-				更改真實姓名:<input type="text" id="Ename" name="sEname" required
-					onblur="checkName();" pattern="^[\u4e00-\u9fa5]+$" minlength="2"
-					maxlength="4" value="${user.sEname}"><span id="idname"></span>
-			</h3>
-			<h3>
-				聯絡地址:<input type="text" id="Address"
-					name="sAddress" required onblur="checkAddress();" maxlength="30"
-					value="${user.sAddress}"><span id="idaddress"></span>
-			</h3>
-			<h3>
-				更改信箱:${user.sEmail}<input type="hidden" id="Email" name="sEmail" required
-					pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$"
-					onblur="checkEmail();" value="${user.sEmail}"><span
-					id="idemail"></span>
-			</h3>
-			<h3>
-				更改手機號碼:<input type="text" id="Phone" name="sPhone" maxlength="10"
-					pattern="[0]{1}[9]{1}\d{8}" onblur="checkPhone();"
-					value="${user.sPhone}"><span id="idphone"></span>
-			</h3>
-			<h3>
-				性別:${user.sGender}<input type="hidden" name="sGender"
-					value="${user.sGender}" readonly>
-			</h3>
-			<h3>
-				生日年月日:${user.sBirthday}<input type="hidden" name="sBirthday"
-					value="${user.sBirthday}" readonly>
-			</h3>
-			<h3>
-				建立日期:${user.registerDate}<input type="hidden" name="registerDate"
-					value="${user.registerDate}" readonly>
-			</h3>
-			<input id="submit" name="submit" type="submit" value="修改" disabled>
+	<div align='center'>
+		<div align='left' style="border: 3px solid gray; width: 550; height: 550">
+			<form action="<c:url value='/member/MemberData'/>" method="post"
+				modelAttribute="user">
+				<h3>
+					<input name="iNo" type="hidden" value="${user.iNo}" readonly>
+				</h3>
+				<h3>
+					會員帳號:${user.sAccount}<input type="hidden" name="sAccount"
+						value="${user.sAccount}" readonly>
+				</h3>
+				<h3>
+					更改密碼:<input id="Password" type="password" minlength="8" required
+						maxlength="16" onblur="checkPassword();" value="${user.sPassword}"><input
+						id="btn" type="button" class="material-icons"
+						style="font-size: 25px" value="visibility">
+				</h3>
+				<h3>
+					再次確認密碼:<input id="passwordConfirm" type="password" name="sPassword"
+						minlength="8" required maxlength="16" onblur="checkPassword();"><span
+						id="idpasswordConfirm"></span>
+				</h3>
+				<h3>
+					更改暱稱:<input type="text" id="Nickname" name="sNickname"
+						onblur="checkNickname();" required maxlength="10"
+						value="${user.sNickname}"><span id="idnickname"></span>
+				</h3>
+				<h3>
+					更改真實姓名:readonly<input type="hidden" id="Ename" name="sEname"
+						required onblur="checkName();" pattern="^[\u4e00-\u9fa5]+$"
+						minlength="2" maxlength="4" value="${user.sEname}" readonly><span
+						id="idname"></span>
+				</h3>
+				<h3>
+					聯絡地址:<input type="text" id="Address" name="sAddress" required
+						onblur="checkAddress();" maxlength="30" value="${user.sAddress}"><span
+						id="idaddress"></span>
+				</h3>
+				<h3>
+					更改信箱:${user.sEmail}<input type="hidden" id="Email" name="sEmail"
+						required
+						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$"
+						onblur="checkEmail();" value="${user.sEmail}"><span
+						id="idemail"></span>
+				</h3>
+				<h3>
+					更改手機號碼:<input type="text" id="Phone" name="sPhone" maxlength="10"
+						pattern="[0]{1}[9]{1}\d{8}" onblur="checkPhone();"
+						value="${user.sPhone}"><span id="idphone"></span>
+				</h3>
+				<h3>
+					性別:${user.sGender}<input type="hidden" name="sGender"
+						value="${user.sGender}" readonly>
+				</h3>
+				<h3>
+					生日年月日:${user.sBirthday}<input type="hidden" name="sBirthday"
+						value="${user.sBirthday}" readonly>
+				</h3>
+				<h3>
+					建立日期:${user.registerDate}<input type="hidden" name="registerDate"
+						value="${user.registerDate}" readonly>
+				</h3>
+				<input align='center' id="submit" name="submit" type="submit" value="修改" disabled>
 		</div>
+	</div>
 	</form>
 
 	<%@ include file="../Foot.jsp"%>
