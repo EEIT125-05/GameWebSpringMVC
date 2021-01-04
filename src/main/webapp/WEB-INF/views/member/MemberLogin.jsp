@@ -66,8 +66,6 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 	window.onload = function() {
 		var Check = document.getElementById("accountCheck");
 		var idaccount = document.getElementById("idaccount");
-		var emailCheck = document.getElementById("emailCheck");
-		var PhoneCheck = document.getElementById("PhoneCheck");
 		Check.onclick = function() {
 			var sAccount = document.getElementById("sAccount").value.trim();
 			var xhr = new XMLHttpRequest();
@@ -90,11 +88,14 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 			}
 			check();
 		}
-		
+
+		var emailCheck = document.getElementById("emailCheck");
 		emailCheck.onclick = function() {
 			var sEmail = document.getElementById("sEmail").value.trim();
 			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "<c:url value='/member/MemberemailCheck' />", true);
+			xhr
+					.open("POST", "<c:url value='/member/MemberemailCheck' />",
+							true);
 			xhr.setRequestHeader("Content-Type",
 					"application/x-www-form-urlencoded");
 			xhr.send("sEmail=" + sEmail);
@@ -113,11 +114,14 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 			}
 			check();
 		}
-		
+
+		var PhoneCheck = document.getElementById("PhoneCheck");
 		PhoneCheck.onclick = function() {
 			var sPhone = document.getElementById("sPhone").value.trim();
 			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "<c:url value='/member/MemberPhoneCheck' />", true);
+			xhr
+					.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
+							true);
 			xhr.setRequestHeader("Content-Type",
 					"application/x-www-form-urlencoded");
 			xhr.send("sPhone=" + sPhone);
@@ -136,17 +140,17 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 			}
 			check();
 		}
-		
+
 		var btn = document.getElementById("btn");
 		var psw = document.getElementById("Password");
-		
-		btn.onclick = function(){
-			if(psw.getAttribute('type') == 'password'){
-				psw.setAttribute('type','text');
-				btn.value="visibility_off";
-			}else if(psw.getAttribute('type') == 'text'){
-				psw.setAttribute('type','password');
-				btn.value="visibility";
+
+		btn.onclick = function() {
+			if (psw.getAttribute('type') == 'password') {
+				psw.setAttribute('type', 'text');
+				btn.value = "visibility_off";
+			} else if (psw.getAttribute('type') == 'text') {
+				psw.setAttribute('type', 'password');
+				btn.value = "visibility";
 			}
 		}
 	}
@@ -187,9 +191,11 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 		let idemail = document.getElementById("idemail");
 		if (email == "") {
 			idemail.innerHTML = "<font color='red'>請輸入信箱</font>";
+			document.getElementById("emailCheck").disabled = true;
 			emailflag = false;
-		}else{
+		} else {
 			idemail.innerHTML = "<font color='blue'>確認信箱驗證</font>";
+			document.getElementById("emailCheck").disabled = false;
 			emailflag = false;
 		}
 	}
@@ -233,13 +239,15 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 		let reg = /^[0]{1}[9]{1}\d{8}$/;
 		if (phone == "") {
 			idphone.innerHTML = "<font color='red'>請輸入手機號碼</font>";
+			document.getElementById("PhoneCheck").disabled = true;
 			phoneflag = false;
 		} else if (phoneLen >= 10) {
 			if (reg.test(phone)) {
+				document.getElementById("PhoneCheck").disabled = false;
 				phoneCheck = true;
 			}
 			if (phoneCheck) {
-				idphone.innerHTML = "<font color='green'>請檢查號碼</font>";
+				idphone.innerHTML = "<font color='blue'>請檢查號碼</font>";
 				phoneflag = false;
 			} else {
 				idphone.innerHTML = "<font color='red'>請輸入09開頭電話號碼</font>";
@@ -249,16 +257,20 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 			idphone.innerHTML = "<font color='red'>請輸入10位號碼</font>";
 			phoneflag = false;
 		}
-		check();
+
 	}
 
 	function checkAddress() {
 		let address = document.getElementById("Address").value.trim();
 		let idaddress = document.getElementById("idaddress");
-		if (address == "") {
-			idaddress.innerHTML = "<font color='red'>請輸入地址</font>";
-		} else {
+		if (address == "請挑選") {
+			idaddress.innerHTML = "<font color='red'>請選擇地址</font>";
+			let addressflag = false;
+		} else if (address !== "請挑選") {
 			idaddress.innerHTML = "<font color='green'>OK</font>";
+			let addressflag = true;
+		} else {
+			let addressflag = false;
 		}
 		check();
 	}
@@ -274,65 +286,94 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 </script>
 </head>
 <body>
+	<h1 align='center'>註冊成為GameBar會員</h1>
+	<hr>
 	<%@ include file="../Header.jsp"%>
-
-	<form action="<c:url value='/member/MemberCheck'/>" method="post"
-		modelAttribute="user">
-		<div class="a">
-			<h2>註冊成為會員</h2>
-			<h3>
-				設定的帳號:<input type="text" id="sAccount" name="sAccount" minlength="6"
-					maxlength="20" required onblur="checkAccount();"> <input
-					type="button" id='accountCheck' value="檢查" disabled> <span
-					id="idaccount" /></span>
-			</h3>
-			<h3>
-				設定的密碼:<input type="password" id="Password" name="sPassword"
-					minlength="8" maxlength="16" required onblur="checkPassword();">
-				<input id="btn" type="button" class="material-icons"
-					style="font-size: 25px" value="visibility"> <span
-					id="idpassword"></span>
-			</h3>
-			<h3>
-				使用的暱稱:<input type="text" id="Nickname" name="sNickname" required
-					maxlength="10" onblur="checkNickname();"> <span
-					id="idnickname"></span>
-			</h3>
-			<h3>
-				真實姓名:<input type="text" id="Ename" name="sEname" required
-					onblur="checkName();" pattern="^[\u4e00-\u9fa5]+$" minlength="2"
-					maxlength="4"><span id="idname"></span>
-			</h3>
-			<h3>
-				聯絡地址:<input type="text" id="Address" name="sAddress"
-					onblur="checkAddress();"> <span id="idaddress"></span>
-			</h3>
-			<h3>
-				使用的信箱:<input type="email" id="sEmail" name="sEmail" maxlength="30"
-					required onblur="checkEmail();"
-					pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$">
-				<input type="button" id='emailCheck' value="檢查"> 
-				<span id="idemail"></span>
-			</h3>
-			<h3>
-				手機號碼:<input type="text" id="sPhone" name="sPhone" maxlength="10"
-					required onblur="checkPhone();" pattern="[0]{1}[9]{1}\d{8}" />
-					<input type="button" id='PhoneCheck' value="檢查">
-					<span id="idphone"></span>
-			</h3>
-			<h3>
-				性別:<label><input type="radio" name="sGender" value="male"
-					required>男</label> <label><input type="radio"
-					name="sGender" value="female" required>女</label></span>
-			</h3>
-			<h3>
-				生年月日:<input type="date" id="Birthday" name="sBirthday" required>
-			</h3>
-			<h3>
-				<input type="hidden" name="registerDate">
-			</h3>
-			<button id="submit" type="submit" name="submit" value="註冊" disabled>註冊</button>
-		</div>
+	<div align='center'>
+		<form action="<c:url value='/member/MemberCheck'/>" method="post"
+			modelAttribute="user">
+			<div align='left'
+				style="border: 3px solid gray; width: 750; height: 550">
+				<h3 style='padding-top:10px;'>
+					設定的帳號:<input type="text" id="sAccount" name="sAccount"
+						minlength="6" maxlength="20" required onblur="checkAccount();">
+					<input type="button" id='accountCheck' value="檢查" disabled>
+					<span id="idaccount" /></span>
+				</h3>
+				<h3>
+					使用的信箱:<input type="email" id="sEmail" name="sEmail" maxlength="30"
+						required onblur="checkEmail();"
+						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$">
+					<input type="button" id='emailCheck' value="檢查" disabled> <span
+						id="idemail"></span>
+				</h3>
+				<h3>
+					手機號碼:<input type="text" id="sPhone" name="sPhone" maxlength="10"
+						required onblur="checkPhone();" pattern="[0]{1}[9]{1}\d{8}" /> <input
+						type="button" id='PhoneCheck' value="檢查" disabled> <span
+						id="idphone"></span>
+				</h3>
+				<h3>
+					設定的密碼:<input type="password" id="Password" name="sPassword"
+						minlength="8" maxlength="16" required onblur="checkPassword();">
+					<input id="btn" type="button" class="material-icons"
+						style="font-size: 25px" value="visibility"> <span
+						id="idpassword"></span>
+				</h3>
+				<h3>
+					真實姓名:<input type="text" id="Ename" name="sEname" required
+						onblur="checkName();" pattern="^[\u4e00-\u9fa5]+$" minlength="2"
+						maxlength="4"><span id="idname"></span>
+				</h3>
+				<h3>
+					使用的暱稱:<input type="text" id="Nickname" name="sNickname" required
+						maxlength="10" onblur="checkNickname();"> <span
+						id="idnickname"></span>
+				</h3>
+				<h3>
+					居住城市:<select id="Address" name="sAddress" onblur="checkAddress();">
+						<option>請挑選</option>
+						<option>臺北市</option>
+						<option>新北市</option>
+						<option>桃園市</option>
+						<option>臺中市</option>
+						<option>臺南市</option>
+						<option>高雄市</option>
+						<option>基隆市</option>
+						<option>新竹市</option>
+						<option>嘉義市</option>
+						<option>新竹縣</option>
+						<option>苗栗縣</option>
+						<option>彰化縣</option>
+						<option>南投縣</option>
+						<option>雲林縣</option>
+						<option>嘉義縣</option>
+						<option>屏東縣</option>
+						<option>宜蘭縣</option>
+						<option>花蓮縣</option>
+						<option>臺東縣</option>
+						<option>澎湖縣</option>
+						<option>金門縣</option>
+						<option>連江縣</option>
+					</select><span id="idaddress"></span>
+				</h3>
+				<h3>
+					性別:<label><input type="radio" name="sGender" value="男"
+						required>男</label> <label><input type="radio"
+						name="sGender" value="女" required>女</label></span>
+				</h3>
+				<h3>
+					生年月日:<input type="date" id="Birthday" name="sBirthday" required>
+				</h3>
+				<!-- 			<h3> -->
+				<!-- 				上傳照片:<input type="file" id="fileName" name="fileName" > -->
+				<!-- 			</h3> -->
+				<h3>
+					<input type="hidden" name="registerDate">
+				</h3>
+				<button id="submit" type="submit" name="submit" value="確認" disabled>確認</button>
+			</div>
+	</div>
 	</form>
 
 	<%@ include file="../Foot.jsp"%>
