@@ -18,42 +18,119 @@ th, tr, td {
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
+<div class="container">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height:300px;">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox" style="height:300px">
+       
+        <div class="carousel-item active" style="background-image: url('https://content.shopback.com/tw/wp-content/uploads/2020/04/10142030/Cover-nintendo-web.jpg');height:300px">
+          <div class="carousel-caption d-none d-md-block">
+            <h3></h3>
+         
+          </div>
+        </div>
+       
+        <div class="carousel-item" style="background-image: url('https://static02-proxy.hket.com/res/v3/image/content/2605000/2607364/MARIO_1024.png')">
+          <div class="carousel-caption d-none d-md-block">
+            <h3></h3>
+         
+          </div>
+        </div>
+     
+        <div class="carousel-item" style="background-image: url('http://placehold.it/900x300')">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>111 </h3>
+            <p>111111</p>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
 
-	<p>論壇首頁</p>
+      </a>
+    </div>
+  
 
+	<h1 class="mt-4 mb-3">討論區首頁
+<!--       <small>XXXXX</small> -->
+    </h1>
+  
 	<form>
-		<label>分類篩選: </label> <select id="sCategory"
-			name="sCategory">
-			<option value="" selected>全部</option>
-			<option value="and sCategory = '閒聊'">閒聊</option>
-			<option value="and sCategory = '公告'">公告</option>
-			<option value="and sCategory = '討論'">討論</option>
-			<option value="and sCategory = '問題'">問題</option>
-			<option value="and sCategory = '情報'">情報</option>
-			<option value="and sCategory = '攻略'">攻略</option>
-		</select> <label> 依標題搜尋: </label> <input type="text" id="sSearch" name="sSearch">
-		<input type="button" id="submit" name="select" value="查詢">
+  
+<!-- 		<label>分類篩選: </label> <select id="sCategory" -->
+<!-- 			name="sCategory"> -->
+<!-- 			<option value="" selected>全部</option> -->
+<!-- 			<option value="and sCategory = '閒聊'">閒聊</option> -->
+<!-- 			<option value="and sCategory = '公告'">公告</option> -->
+<!-- 			<option value="and sCategory = '討論'">討論</option> -->
+<!-- 			<option value="and sCategory = '問題'">問題</option> -->
+<!-- 			<option value="and sCategory = '情報'">情報</option> -->
+<!-- 			<option value="and sCategory = '攻略'">攻略</option> -->
+<!-- 		</select>  -->
+		<a class="btn btn-primary"
+							href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>" style="margin-right:10px">全部
+							<span class="glyphicon glyphicon-chevron-right"></span>
+						</a><a class="btn btn-primary"
+							href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>" style="margin-right:10px">閒聊
+							<span class="glyphicon glyphicon-chevron-right"></span>
+						</a><a class="btn btn-primary"
+							href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>" style="margin-right:10px">公告
+							<span class="glyphicon glyphicon-chevron-right"></span>
+						</a><a class="btn btn-primary"
+							href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>" style="margin-right:10px">討論
+							<span class="glyphicon glyphicon-chevron-right"></span>
+						</a><a class="btn btn-primary"
+							href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>" style="margin-right:10px">問題
+							<span class="glyphicon glyphicon-chevron-right"></span>
+						</a><a class="btn btn-primary"
+							href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>" style="margin-right:10px">情報
+							<span class="glyphicon glyphicon-chevron-right"></span>
+						</a><a class="btn btn-primary"
+							href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>" style="margin-right:10px">攻略
+							<span class="glyphicon glyphicon-chevron-right"></span>
+						</a>
+		<div class="input-group" style="margin-top:15px">
+			<h4> 標題:&nbsp;</h4>
+			<input type="text" id="sSearch" class="form-control" name="sSearch">
+			<span class="input-group-append">
+				<input type="button" id="submit" class="btn btn-secondary"
+					 name="select" value="搜尋">
+			</span>
+		</div>
 	</form>
-
+	<a class="btn btn-primary"
+							href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>">熱門
+							<span class="glyphicon glyphicon-chevron-right"></span>
+						</a>
+	<a class="btn btn-primary"
+							href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>">最新
+							<span class="glyphicon glyphicon-chevron-right"></span>
+						</a>
+	<hr>
 	<div id="point">
 		<c:forEach var="forum" items="${lForumList}">
-			<div style="border: 2px solid red; margin: 10px">
-				<div class="image"
-					style="border: 2px solid blue; width: 200px; height: 100px; display: inline">
-
-				</div>
-				<div class="text"
-					style="padding: 2px; text-align: left; border: 2px solid green;">
-					分類: ${forum.sCategory} <br>
-					 標題: ${forum.sTitle} <br>
-					發文/更改 時間: ${forum.dDate} ${forum.tTime} <br>
-					樓主:${forum.sAuthor} <br>
-					 留言數: ${fn:length(forum.sReplyBeans)}
-					<button type="submit" name="formNo" value="${forum.iNo}">詳細</button>
-				</div>
-				<%-- 					<a href="<c:url value='/forum/Detail/${forum.iNo}'/></a> --%>
+			<div class="row">
+<%-- 				<a href="<c:url value='/forum/Detail/${forum.iNo}'/>" style="display:block"> --%>
+					<div class="col-md-12">
+						<h3>[${forum.sCategory}]${forum.sTitle}</h3>
+						<span>發文/更改 時間: ${forum.dDate} ${forum.tTime}</span><br>
+						<span>樓主:${forum.sAuthor}</span><br>
+						<span>留言數: ${fn:length(forum.sReplyBeans)}</span>
+					</div>
+<!-- 				</a> -->
 			</div>
+			<hr>
 		</c:forEach>
+	</div>
 	</div>
 	<%@ include file="../Foot.jsp"%>
 	<script>

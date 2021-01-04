@@ -168,15 +168,43 @@
 	<span>比賽規則:</span> <br> <span id="rule">${cContestBean.sRule}</span>
 	<hr>
 
-	<label style="vertical-align:top">賽程表: </label>
-		<c:choose >
-			<c:when test="${empty cContestBean.bScheduleImage}">
-				<label>無</label>
-			</c:when>
-			<c:otherwise>
-				<img src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>" style="width:560px;border:2px solid black;border-radius:10px"/>
-			</c:otherwise>
-		</c:choose>
+	<div data-toggle="modal" data-target="#largeImage">
+		<label style="vertical-align:top">賽程表: </label>
+			<c:choose >
+				<c:when test="${empty cContestBean.bScheduleImage}">
+					<label>無</label>
+				</c:when>
+				<c:otherwise>
+					<a href="#"><img src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>" style="width:560px;border:2px solid black;border-radius:10px"/></a>
+				</c:otherwise>
+			</c:choose>
+	</div>
+	<div class="modal fade bs-example-modal-xl" id="largeImage" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLongTitle"
+						aria-hidden="true" >
+						<div class="modal-dialog modal-xl" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">賽程表</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+								  <div class="container-fluid">	
+								      <div class="row" style="overflow:auto">
+									<img src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>" style="width:1000px;border:2px solid black;border-radius:10px"/>
+								</div>
+								</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
 	<hr>
 	
 	<button id="showOption">新增/更新賽程</button>
@@ -253,6 +281,11 @@
 	<script>
 	
 		$(function() {
+			$('#largeImage').on('shown.bs.modal', function() {
+// 				$('#myInput').trigger('focus')
+				console.log("大圖");
+				
+			})
 			
 			$("#rule").on("click","a",function(){
 				this.target = "_blank";
