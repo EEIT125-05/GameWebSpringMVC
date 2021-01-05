@@ -1,5 +1,7 @@
 $(function(){
-	$("#submit").attr("disabled","true");
+	$("#submitForm").attr("disabled","true");
+	
+	console.log("testtt");
     let title = false;
 	let text = true;
 	if($("#sTitle").val() != ""){
@@ -13,7 +15,7 @@ $(function(){
 		let regu = "^[ ]+$";
    	    let re = new RegExp(regu);
         if($(this).val() == "" || re.test($(this).val())){
-            $("#titleError").text("標題不能空白");
+            $("#titleError").text("標題不能空白23");
             title = false;
         }else if($(this).val().length > 50){
 			$("#titleError").text("標題限制50字以內");
@@ -41,9 +43,9 @@ $(function(){
 	check();
     function check(){
         if(title && text){
-            $("#submit").removeAttr("disabled");
+            $("#submitForm").removeAttr("disabled");
         }else{
-            $("#submit").attr("disabled","true");
+            $("#submitForm").attr("disabled","true");
         }
     }
 

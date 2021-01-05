@@ -85,4 +85,19 @@ public class ForumDAOImpl implements ForumDAO {
 						.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> searchHotForums(String sCategory, String sSearch, String sHot, Integer scrollInt) {
+		Session session = factory.getCurrentSession();
+		String sql = "select forum.iNo,forum.sCategory,forum.sTitle,forum.dDate,forum.tTime,forum.sAuthor,forum.sText, count(iForumNo) c from forum left join reply on forum.iNo = reply.iForumNo " + 
+				"where sTitle like '%" + sSearch + "%' " + sCategory +
+				" group by forum.iNo,forum.sCategory,forum.sTitle,forum.dDate,forum.tTime,forum.sAuthor,forum.sText" + 
+				" order by " + sHot + "dDate desc, tTime desc";
+		System.out.println(sql);
+		return session.createNativeQuery(sql)
+						.setFirstResult(scrollInt*6)
+						.setMaxResults(6)
+						.getResultList();
+	}
+	
 }

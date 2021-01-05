@@ -20,5 +20,7 @@ public interface ForumService {
 	
 	public List<ForumBean> searchForum(String sCategory, String sSearch, Integer scrollInt);
 	
+	public List<Object[]> searchHotForums(String sCategory, String sSearch, String sHot, Integer scrollInt);
+	
 	public void setTime(ForumBean fForumBean);
 }

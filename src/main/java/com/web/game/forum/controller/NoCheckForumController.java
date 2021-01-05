@@ -27,7 +27,8 @@ public class NoCheckForumController {
 	@GetMapping("/Index")
 	public String forumIndex(Model model) {
 //		model.addAttribute("lForumList", fService.selectAllForum());
-		model.addAttribute("lForumList", fService.searchForum("", "", 0));
+//		model.addAttribute("lForumList", fService.searchForum("", "", 0));
+		model.addAttribute("lForumList", fService.searchHotForums("", "", "", 0));
 		return "/forum/ForumIndex";
 	}
 	
@@ -45,5 +46,14 @@ public class NoCheckForumController {
 			@RequestParam String sCategory,
 			@RequestParam(defaultValue = "0") Integer scrollInt) {
 		return fService.searchForum(sCategory, sSearch, scrollInt);
+	}
+	
+	@PostMapping("/HotAjax")
+	public @ResponseBody List<Object[]> hotAjax(
+			@RequestParam(defaultValue = "") String sSearch,
+			@RequestParam String sCategory,
+			@RequestParam(defaultValue = "") String sHot,
+			@RequestParam(defaultValue = "0") Integer scrollInt) {
+		return fService.searchHotForums(sCategory, sSearch, sHot, scrollInt);
 	}
 }
