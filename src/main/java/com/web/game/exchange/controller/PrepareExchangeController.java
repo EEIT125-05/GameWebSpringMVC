@@ -5,13 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,6 +39,7 @@ public class PrepareExchangeController {
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
 		int count=9;//每頁幾筆
 		int p = 0;//共幾頁
+		System.out.println("IndexIn");
 		if (searchparams == null) {
 			System.out.println("searchparams==null");
 			list = service.changepage(page);
@@ -60,7 +58,8 @@ public class PrepareExchangeController {
 		model.addAttribute("p",p);
 		System.out.println("page"+p);
 
-		return "exchange/EXCHomePageGameList";
+//		return "exchange/EXCHomePageGameList";
+		return "exchange/testhomepage";
 	}
 	
 	@GetMapping("/changepage")

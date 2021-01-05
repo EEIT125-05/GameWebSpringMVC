@@ -20,8 +20,22 @@
 			<div class="container">
 
 
-				<input type="text" name="searchparams" value="${ searchparams}">
+				<h1 class="mt-4 mb-3">交換版
+    </h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="<c:url value='/'/>">Home</a>
+      </li>
+      <li class="breadcrumb-item active">交換</li>
+    </ol>
+
+				<label>依名稱搜尋: </label>
+				<div class="input-group">
+				<input type="text" class="form-control" name="searchparams" value="${ searchparams}">
 				<input type="submit">
+				</div>
+
 
 				<c:choose>
 					<c:when test="${search =='area'}">

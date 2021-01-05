@@ -9,73 +9,121 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>交換版首頁</title>
 </head>
 <body>
-	<%@ include file="../Header.jsp" %>
+	<%@ include file="../Header.jsp"%>
 	<form method='get' action='<c:url value="/exchange/preparehomepage"/>'>
-		
-		
+
+
 		<div id="portfolio" class="section md-padding bg-grey">
-		<div class="container">
-		
-		
-		<input type="text" name="searchparams" value="${ searchparams}">
-		<input type="submit">
-
-		<c:choose>
-			<c:when test="${search =='area'}">
-				<label><input type="radio" name="search" value="gamename">遊戲名稱</label>
-				<label><input type="radio" name="search" value="area"
-					checked>地區</label>
-			</c:when>
-			<c:otherwise>
-				<label><input type="radio" name="search" value="gamename"
-					checked>遊戲名稱</label>
-				<label><input type="radio" name="search" value="area">地區</label>
-			</c:otherwise>
-		</c:choose>
-
-		<input type="hidden" id="search" value="${search}">
-		<!-- 藏參數 -->
+			<div class="container">
 
 
-		<div class="row" id="bigdiv">
+				<h1 class="mt-4 mb-3">交換版</h1>
+
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a>
+					</li>
+					<li class="breadcrumb-item active">交換</li>
+				</ol>
+
+				<label>依名稱搜尋: </label>
+				<div class="input-group">
+					<input type="text" class="form-control" name="searchparams"
+						value="${ searchparams}"> <input type="submit">
+				</div>
 
 
-		<c:forEach var='g' items='${list }'>
+				<c:choose>
+					<c:when test="${search =='area'}">
+						<label><input type="radio" name="search" value="gamename">遊戲名稱</label>
+						<label><input type="radio" name="search" value="area"
+							checked>地區</label>
+					</c:when>
+					<c:otherwise>
+						<label><input type="radio" name="search" value="gamename"
+							checked>遊戲名稱</label>
+						<label><input type="radio" name="search" value="area">地區</label>
+					</c:otherwise>
+				</c:choose>
 
-			<!-- Work -->
-			<div class="col-md-4 col-xs-6 work">
-				<img class="img-responsive" style="width:345px; height:345px" src="${pageContext.request.contextPath }/${g.image }" alt="">
-				<div class="overlay"></div>
-				<div class="work-content">
-                        <span>遊戲名稱:${g.gamename}</span>
-                            <span>遊戲數量:${g.qty}</span>
-                                <span>遊戲所在地:${g.gamelocation}</span>
-                                    <span>運送方式:${g.delivery}</span>
-                                        <span>主機平台:${g.console}</span>
-                                            <span>玩家名稱:${g.gamer}</span>
-                                                <span>是否含特點:${g.dlc}</span>
-                                                    <span>備註:${g.remark}</span>
-					<div class="work-link" style="margin: auto;">
-						<a class="applyFor" style="border-radius:30px" href="<c:url value="/exchange/applyFor?gamer=${g.gamer }&no=${g.no }"/>"><i class="fa fa-exchange">1</i></a>
-					</div>
+				<input type="hidden" id="search" value="${search}">
+				<!-- 藏參數 -->
+
+
+				<div class="row" id="bigdiv">
+
+
+					<c:forEach var='g' items='${list }'>
+
+						<!-- Work -->
+						<div class="col-md-4 col-xs-6 work">
+							<img class="img-responsive" style="width: 345px; height: 345px"
+								src="${pageContext.request.contextPath }/${g.image }" alt="">
+							<div class="overlay"></div>
+							<div class="work-content">
+								<span>遊戲名稱:${g.gamename}</span> <span>遊戲數量:${g.qty}</span> <span>遊戲所在地:${g.gamelocation}</span>
+								<span>運送方式:${g.delivery}</span> <span>主機平台:${g.console}</span> <span>玩家名稱:${g.gamer}</span>
+								<span>是否含特點:${g.dlc}</span> <span>備註:${g.remark}</span>
+								<div class="work-link" style="margin: auto;">
+																		<a class="applyFor" style="border-radius: 30px"
+																			href="<c:url value="/exchange/applyFor?gamer=${g.gamer }&no=${g.no }"/>"><i
+																			class="fa fa-exchange"></i></a>
+
+									<div data-toggle="modal" data-target="#exampleModal">
+										<button type="button" class="btn btn-primary"
+											data-toggle="modal" data-target="#exampleModalLong${g.no }">Launch
+											demo modal</button>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+						
+					
+										<div class="modal fade" id="exampleModalLong${g.no }" tabindex="-1"
+											role="dialog" aria-labelledby="exampleModalLongTitle"
+											aria-hidden="true">
+											<div class="modal-dialog" role="document">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="exampleModalLongTitle">Modal
+															title</h5>
+														<button type="button" class="close" data-dismiss="modal"
+															aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">${g.gamename}
+													<a >${g.no }</a>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary"
+															data-dismiss="modal">Close</button>
+														<button type="button" class="btn btn-primary">Save
+															changes</button>
+													</div>
+												</div>
+											</div>
+										</div>
+						
+						
+					</c:forEach>
+				</div>
+				<div>
+					<c:if test="${p > 1}">
+						<c:forEach var="num" begin="1" end="${p }" step="1">
+							<a class="page"><i>${num}</i></a>
+						</c:forEach>
+					</c:if>
 				</div>
 			</div>
-			</c:forEach>
-		<c:if test="${p > 1}">
-			<c:forEach var="num" begin="1" end="${p }" step="1">
-				<a class="page">${num}</a>
-			</c:forEach>
-		</c:if>
 		</div>
-		</div>
-		
-		
-		</div>
-		</div>
-		
+
+
+
 	</form>
 	<%@ include file="../Foot.jsp"%>
 	<script>
@@ -110,7 +158,7 @@
 						for (var i = 0; i < g.list.length; i++) {
 							console.log("!!")
 							divout.innerHTML += "<div class='col-md-4 col-xs-6 work'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/"+g.list[i].image+"' alt=''>"
-							+"<div class='overlay'></div><div class='work-content'><span>遊戲名稱:"
+									+ "<div class='overlay'></div><div class='work-content'><span>遊戲名稱:"
 									+ g.list[i].gamename
 									+ "</span>"
 									+ "<span>遊戲數量:"
@@ -134,7 +182,10 @@
 									+ "<span>備註:"
 									+ g.list[i].remark
 									+ "</span>"
-									+ "<div class='work-link' style='margin: auto;'><a class='applyFor' style='border-radius:30px' href=''<c:url value='/exchange/applyFor?gamer="+g.list[i].gamer+"&no="+g.list[i].no
+									+ "<div class='work-link' style='margin: auto;'><a class='applyFor' style='border-radius:30px' href=''<c:url value='/exchange/applyFor?gamer="
+									+ g.list[i].gamer
+									+ "&no="
+									+ g.list[i].no
 									+ "'/>'><i class='fa fa-exchange'></i></a>"
 									+ "</div></div></div>"
 						}
@@ -142,12 +193,12 @@
 					}
 				}
 			}
-			
+
 			function checkMemberCheck() {
 				let i = (this.href)
 				console.log(i)
 			}
-			
+
 		}
 	</script>
 </body>
