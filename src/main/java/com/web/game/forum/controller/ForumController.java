@@ -124,10 +124,13 @@ public class ForumController {
 	}
 
 	@PostMapping("/Reply")
-	public String reply(@ModelAttribute("fForumBean") ForumBean fForumBean, @RequestParam String sText,
-			@RequestParam Integer forumNo, Model model) {
+	public String reply(
+//			@ModelAttribute("fForumBean") ForumBean fForumBean,
+			@RequestParam String sText,
+			@RequestParam Integer forumNo,
+			Model model) {
 		String nextPage = null;
-		ReplyBean rReplyBean = rService.newBean(sText, fForumBean);
+		ReplyBean rReplyBean = rService.newBean(sText, fService.selectOneForum(forumNo));
 		rReplyBean.setsAuthor(((MemberBean) model.getAttribute("user")).getsAccount());
 		if (rService.insertReply(rReplyBean)) {
 			nextPage = "redirect:/forum/Detail/" + forumNo;

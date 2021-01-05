@@ -55,17 +55,25 @@
       </a>
     </div>
 
-	<form>
+	<form action="<c:url value='/forum/Index'/>" method="post">
   		<br>
-		<a class="btn btn-primary category categoryChoose">全部</a>
-		<a class="btn btn-primary category">閒聊</a>
-		<a class="btn btn-primary category">公告</a>
-		<a class="btn btn-primary category">討論</a>
-		<a class="btn btn-primary category">問題</a>
-		<a class="btn btn-primary category">情報</a>
-		<a class="btn btn-primary category">攻略</a>
+  		<button type="submit" class="btn btn-primary" name="sCategory" value="">全部</button>
+  		<button type="submit" class="btn btn-primary" name="sCategory" value="閒聊">閒聊</button>
+  		<button type="submit" class="btn btn-primary" name="sCategory" value="公告">公告</button>
+  		<button type="submit" class="btn btn-primary" name="sCategory" value="討論">討論</button>
+  		<button type="submit" class="btn btn-primary" name="sCategory" value="問題">問題</button>
+  		<button type="submit" class="btn btn-primary" name="sCategory" value="情報">情報</button>
+  		<button type="submit" class="btn btn-primary" name="sCategory" value="攻略">攻略</button>
+<!-- 		<a class="btn btn-primary category categoryChoose">全部</a> -->
+<!-- 		<a class="btn btn-primary category">閒聊</a> -->
+<!-- 		<a class="btn btn-primary category">公告</a> -->
+<!-- 		<a class="btn btn-primary category">討論</a> -->
+<!-- 		<a class="btn btn-primary category">問題</a> -->
+<!-- 		<a class="btn btn-primary category">情報</a> -->
+<!-- 		<a class="btn btn-primary category">攻略</a> -->
 <!-- 		<a class="btn btn-primary">熱門</a> -->
 <!-- 		<a class="btn btn-primary">最新</a> -->
+	</form>
 		
 		<div class="input-group" style="margin-top:15px">
 			<h3> 搜尋其他文章:&nbsp;</h3>
@@ -75,7 +83,6 @@
 					 name="select" value="搜尋">
 			</span>
 		</div>
-	</form>
 	<hr>
 
 	<form action="<c:url value="/forum/Reply"/>" method="post">
@@ -84,11 +91,11 @@
 	<div>${fForumBean.sText}</div>
 	<hr>
 	<div  style="position:relative">
+		<jsp:useBean id="nowDate" class="java.util.Date"/>
+		<fmt:formatDate var="dateString" value="${nowDate}" pattern="yyyy-MM-dd"/>
+<%-- 	<fmt:formatDate var="timeString" value="${nowDate}" pattern="HH:mm:ss"/> 先留著 要做XX分內可以拿來用--%>
+		<fmt:parseDate var="Date" value="${dateString}" pattern="yyyy-MM-dd"/>
 		<c:forEach var="reply" items="${fForumBean.sReplyBeans}">
-			<jsp:useBean id="nowDate" class="java.util.Date"/>
-			<fmt:formatDate var="dateString" value="${nowDate}" pattern="yyyy-MM-dd"/>
-<%-- 			<fmt:formatDate var="timeString" value="${nowDate}" pattern="HH:mm:ss"/> 先留著 要做XX分內可以拿來用--%>
-			<fmt:parseDate var="Date" value="${dateString}" pattern="yyyy-MM-dd"/>
 			<fmt:parseDate var="replyDate" value="${reply.dDate}" pattern="yyyy-MM-dd"/>
 			<c:choose>
 				<c:when test="${Date.time - replyDate.time == 0}">
@@ -101,8 +108,7 @@
 					<c:set var="timeString" value="${reply.dDate} ${reply.tTime}"/>							
 				</c:otherwise>
 			</c:choose>
-			<label>${reply.sAuthor}</label>
-			<label> : ${reply.sText}</label>
+				<label style="width:90%;"><b>${reply.sAuthor}</b> : ${reply.sText}</label>
 			<label style="position:absolute;right:0">${timeString}</label>
 			<br>
 		</c:forEach>

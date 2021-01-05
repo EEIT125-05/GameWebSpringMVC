@@ -82,6 +82,7 @@ a.delete{
 	<input type="hidden" id="sAccount" value="${user.sAccount}">
 <!-- 	ajax要用的 -->
   
+  		<input type="hidden" id="category" value="${category}">
 		<a class="btn btn-primary category categoryChoose">全部</a>
 		<a class="btn btn-primary category">閒聊</a>
 		<a class="btn btn-primary category">公告</a>
@@ -130,11 +131,19 @@ a.delete{
 	<%@ include file="../Foot.jsp"%>
 	<script>
 	$(function(){
+		console.log("類別: " + $("#category").val());
+		if($("#category").val() != ""){
+			$.each($(".category") ,function(key,value){
+				if(value.innerHTML == $("#category").val()){
+					$(".category").removeClass("categoryChoose");
+					$(this).addClass("categoryChoose");
+				}
+			});
+		}
 
 		$(document).on("click", ".delete", function(){
 			return confirmDelete($(this).val());
 		});
-	
 
 		function confirmDelete(iNo){
 		  var result = confirm("確定刪除此則文章?");

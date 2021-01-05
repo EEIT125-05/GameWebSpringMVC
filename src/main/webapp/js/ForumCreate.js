@@ -15,7 +15,7 @@ $(function(){
 		let regu = "^[ ]+$";
    	    let re = new RegExp(regu);
         if($(this).val() == "" || re.test($(this).val())){
-            $("#titleError").text("標題不能空白23");
+            $("#titleError").text("標題不能空白");
             title = false;
         }else if($(this).val().length > 50){
 			$("#titleError").text("標題限制50字以內");

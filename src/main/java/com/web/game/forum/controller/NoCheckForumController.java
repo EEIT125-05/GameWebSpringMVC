@@ -25,10 +25,25 @@ public class NoCheckForumController {
 	ForumService fService;
 	
 	@GetMapping("/Index")
-	public String forumIndex(Model model) {
+	public String forumIndex(
+					Model model) {
 //		model.addAttribute("lForumList", fService.selectAllForum());
 //		model.addAttribute("lForumList", fService.searchForum("", "", 0));
+		model.addAttribute("category", "");
 		model.addAttribute("lForumList", fService.searchHotForums("", "", "", 0));
+		return "/forum/ForumIndex";
+	}
+	
+	@PostMapping("/Index")
+	public String backForumIndex(
+					@RequestParam(defaultValue = "") String sCategory,
+					Model model) {
+		System.out.println("類別: " +sCategory );
+		model.addAttribute("category", sCategory);
+		if(!sCategory.equals("")) {
+			sCategory = "and sCategory = '" + sCategory +"'";
+		}
+		model.addAttribute("lForumList", fService.searchHotForums(sCategory, "", "", 0));
 		return "/forum/ForumIndex";
 	}
 	
