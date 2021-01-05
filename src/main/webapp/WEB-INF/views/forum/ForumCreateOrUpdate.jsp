@@ -19,7 +19,7 @@
 <%@ include file="../Header.jsp" %>
 
 <c:set var="ForumConfirm" value="create" scope="session"/>
-<h2>新增貼文資料</h2>
+<h2>${sForumConfirm}貼文</h2>
 
 <form:form method="POST" modelAttribute="fForumBean">
 	<div>

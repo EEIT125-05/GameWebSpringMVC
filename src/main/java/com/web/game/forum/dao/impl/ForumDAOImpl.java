@@ -73,12 +73,16 @@ public class ForumDAOImpl implements ForumDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ForumBean> searchForum(String sCategory, String sSearch) {
+	public List<ForumBean> searchForum(String sCategory, String sSearch, Integer scrollInt) {
 		Session session = factory.getCurrentSession();
-		String hql = "from ForumBean where sTitle like '%" + sSearch + "%' " + sCategory + "order by dDate desc, tTime desc";
+		String hql = "from ForumBean where sTitle like '%" + sSearch + "%' " + sCategory + " order by dDate desc, tTime desc";
 		System.out.println("sSearch" + sSearch);
 		System.out.println("sCategory" + sCategory);
-		return session.createQuery(hql).getResultList();
+		System.out.println(hql);
+		return session.createQuery(hql)
+						.setFirstResult(scrollInt*6)
+						.setMaxResults(6)
+						.getResultList();
 	}
 
 }

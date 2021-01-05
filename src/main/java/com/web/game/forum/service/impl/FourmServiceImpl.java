@@ -57,8 +57,8 @@ public class FourmServiceImpl implements ForumService {
 
 	@Transactional
 	@Override
-	public List<ForumBean> searchForum(String sCategory, String sSearch) {
-		return fDAO.searchForum(sCategory, sSearch);
+	public List<ForumBean> searchForum(String sCategory, String sSearch, Integer scrollInt) {
+		return fDAO.searchForum(sCategory, sSearch, scrollInt);
 	}
 
 	@Override
