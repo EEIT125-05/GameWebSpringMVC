@@ -51,27 +51,24 @@
 
       </a>
     </div>
-  	<hr>
-	<form>
-		<a class="btn btn-primary category categoryChoose">全部</a>
-		<a class="btn btn-primary category">閒聊</a>
-		<a class="btn btn-primary category">公告</a>
-		<a class="btn btn-primary category">討論</a>
-		<a class="btn btn-primary category">問題</a>
-		<a class="btn btn-primary category">情報</a>
-		<a class="btn btn-primary category">攻略</a>
+  	<br>
+	<form action="<c:url value='/forum/Index'/>" method="post">
+  		<button type="submit" class="btn btn-primary" name="sCategory" value="">全部</button>
+  		<button type="submit" class="btn btn-primary" name="sCategory" value="閒聊">閒聊</button>
+  		<button type="submit" class="btn btn-primary" name="sCategory" value="公告">公告</button>
+  		<button type="submit" class="btn btn-primary" name="sCategory" value="討論">討論</button>
+  		<button type="submit" class="btn btn-primary" name="sCategory" value="問題">問題</button>
+  		<button type="submit" class="btn btn-primary" name="sCategory" value="情報">情報</button>
+  		<button type="submit" class="btn btn-primary" name="sCategory" value="攻略">攻略</button>
 		
 		<div class="input-group" style="margin-top:15px">
-			<h3> 標題:&nbsp;</h3>
+			<h3> 搜尋其他文章:&nbsp;</h3>
 			<input type="text" id="sSearch" class="form-control" name="sSearch">
 			<span class="input-group-append">
-				<input type="button" id="submit" class="btn btn-secondary"
-					 name="select" value="搜尋">
+				<button type="submit" class="btn btn-secondary">搜尋</button>
 			</span>
 		</div>
 	</form>
-	<a class="btn btn-primary hot hotChoose" id="new">最新</a>
-	<a class="btn btn-primary hot" id="hot">熱門</a>
 	<hr>
 <h3>貼文資料確認</h3>
 
@@ -82,7 +79,7 @@
 	<p>內文: </p>
 	<div>${fForumBean.sText}</div>
 	<hr>
-	<input type="submit" name="confirm" value="確認${sForumConfirm}"/>
+	<input class="btn btn-primary" type="submit" name="confirm" value="確認${sForumConfirm}"/>
 
 </form>
 

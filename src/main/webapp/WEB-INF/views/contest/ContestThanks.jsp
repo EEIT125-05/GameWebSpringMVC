@@ -14,7 +14,7 @@
 <div class="container">
 
 <h1 class="mt-4 mb-3">${sContestConfirm}成功
-      <small>XXXXX</small>
+<!--       <small>XXXXX</small> -->
     </h1>
 
     <ol class="breadcrumb">
@@ -25,7 +25,7 @@
     </ol>
 
 <p>比賽${sContestConfirm}完成</p>
-<a href="<c:url value='/contest/Index'/>">回首頁</a>
+<a class="btn btn-primary" href="<c:url value='/contest/Index'/>">回首頁</a>
 
 </div>
 <%@ include file="../Foot.jsp" %>

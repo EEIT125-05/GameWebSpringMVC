@@ -16,7 +16,7 @@
 <div class="container">
 
 <h1 class="mt-4 mb-3">比賽資料確認
-      <small>XXXXX</small>
+<!--       <small>XXXXX</small> -->
     </h1>
 
     <ol class="breadcrumb">
@@ -43,14 +43,7 @@
 				<label style="vertical-align:top">宣傳圖片: </label>
 			</c:otherwise>
 		</c:choose>
-		<c:choose>
-<%-- 			<c:when	test="${sContestConfirm == '刪除' }"> --%>
-<%-- 				<img src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" style="width:560px;height:320px"/> --%>
-<%-- 			</c:when> --%>
-<%-- 			<c:otherwise> --%>
-				<img src="<c:url value='/contest/ConfirmImage'/>" style="width:560px;height:320px"/>
-<%-- 			</c:otherwise> --%>
-		</c:choose>
+		<img src="<c:url value='/contest/ConfirmImage'/>" style="width:560px;height:320px"/>
 		<br>
 		<span>比賽規則:</span><br><span id="rule">${cContestBean.sRule}</span>
 		<br>
@@ -59,7 +52,7 @@
 				<p>遊戲ID: ${pParticipateBean.sGameId}</p>
 				<hr>
 			</c:if>
-			<input type="submit" name="confirm" value="確認${sContestConfirm}"/>
+			<input class="btn btn-primary" type="submit" name="confirm" value="確認${sContestConfirm}"/>
 
 	</form>
 </div>

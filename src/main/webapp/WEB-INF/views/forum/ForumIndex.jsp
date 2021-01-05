@@ -83,6 +83,7 @@ a.delete{
 <!-- 	ajax要用的 -->
   
   		<input type="hidden" id="category" value="${category}">
+  		<input type="hidden" id="search" value="${search}">
 		<a class="btn btn-primary category categoryChoose">全部</a>
 		<a class="btn btn-primary category">閒聊</a>
 		<a class="btn btn-primary category">公告</a>
@@ -131,14 +132,26 @@ a.delete{
 	<%@ include file="../Foot.jsp"%>
 	<script>
 	$(function(){
-		console.log("類別: " + $("#category").val());
+		
+		let category = "";
+		let search = "";
+		let scrollInt = 0;
+		let hot = "";
+		//返回首頁要帶進的category值
 		if($("#category").val() != ""){
 			$.each($(".category") ,function(key,value){
 				if(value.innerHTML == $("#category").val()){
 					$(".category").removeClass("categoryChoose");
 					$(this).addClass("categoryChoose");
+					$("#sSearch").val("").attr("placeholder","在" + $(this).text() + "中搜尋");
+					category = "and sCategory = '" + $("#category").val() +"'";
 				}
 			});
+		}
+		
+		if($("#search").val() != ""){
+			$("#sSearch").val($("#search").val());
+			search = $("#search").val();
 		}
 
 		$(document).on("click", ".delete", function(){
@@ -154,10 +167,6 @@ a.delete{
 		  return false;
 		}
 		
-		let category = "";
-		let search = "";
-		let scrollInt = 0;
-		let hot = "";
 		
 		$("#submit").on("click",function(){
 			search = $("#sSearch").val();

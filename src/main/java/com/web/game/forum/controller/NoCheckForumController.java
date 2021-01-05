@@ -37,13 +37,15 @@ public class NoCheckForumController {
 	@PostMapping("/Index")
 	public String backForumIndex(
 					@RequestParam(defaultValue = "") String sCategory,
+					@RequestParam(defaultValue = "") String sSearch,
 					Model model) {
-		System.out.println("類別: " +sCategory );
+//		System.out.println("類別: " +sCategory );
 		model.addAttribute("category", sCategory);
+		model.addAttribute("search", sSearch);
 		if(!sCategory.equals("")) {
 			sCategory = "and sCategory = '" + sCategory +"'";
 		}
-		model.addAttribute("lForumList", fService.searchHotForums(sCategory, "", "", 0));
+		model.addAttribute("lForumList", fService.searchHotForums(sCategory, sSearch, "", 0));
 		return "/forum/ForumIndex";
 	}
 	

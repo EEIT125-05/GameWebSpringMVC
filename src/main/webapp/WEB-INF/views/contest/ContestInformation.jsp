@@ -17,7 +17,8 @@
 <div class="container">
 
 	<h1 class="mt-4 mb-3">
-		比賽詳細資料 <small>XXXXX</small>
+		比賽詳細資料 
+<!-- 		<small>XXXXX</small> -->
 	</h1>
 
 	<ol class="breadcrumb">
@@ -48,7 +49,7 @@
 				<input type="checkbox" name="checkBox" required disabled>
 				<label>我同意遵守比賽規則</label>
 				<br>
-				<button type="submit" name="join" value="join" disabled>報名比賽</button>
+				<button class="btn btn-primary" type="submit" name="join" value="join" disabled>報名比賽</button>
 			</c:when>
 			<c:otherwise>
 				<c:choose>
@@ -58,7 +59,7 @@
 						<input type="checkbox" name="checkBox" required disabled>
 						<label>我同意遵守比賽規則</label>
 						<br>
-						<button type="submit" name="join" value="join" disabled>報名比賽</button>
+						<button class="btn btn-primary" type="submit" name="join" value="join" disabled>報名比賽</button>
 					</c:when>
 					<c:otherwise>
 						<c:choose>
@@ -69,7 +70,7 @@
 								<input type="checkbox" name="checkBox" required disabled>
 								<label>我同意遵守比賽規則</label>
 								<br>
-								<button type="submit" name="join" value="join" disabled>報名比賽</button>
+								<button class="btn btn-primary" type="submit" name="join" value="join" disabled>報名比賽</button>
 							</c:when>
 							<c:otherwise>
 								遊戲ID: <input type="text" name="sGameId" required>
@@ -77,7 +78,7 @@
 								<input type="checkbox" id="checkBox" name="checkBox" required>
 								<label for="checkBox">我同意遵守比賽規則</label>
 								<br>
-								<button type="submit" id="join" name="join" value="join">報名比賽</button>
+								<button class="btn btn-primary" type="submit" id="join" name="join" value="join">報名比賽</button>
 							</c:otherwise>
 						</c:choose>
 					</c:otherwise>

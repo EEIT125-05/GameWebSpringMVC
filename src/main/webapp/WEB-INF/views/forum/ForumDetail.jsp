@@ -55,8 +55,8 @@
       </a>
     </div>
 
+	<br>
 	<form action="<c:url value='/forum/Index'/>" method="post">
-  		<br>
   		<button type="submit" class="btn btn-primary" name="sCategory" value="">全部</button>
   		<button type="submit" class="btn btn-primary" name="sCategory" value="閒聊">閒聊</button>
   		<button type="submit" class="btn btn-primary" name="sCategory" value="公告">公告</button>
@@ -64,25 +64,15 @@
   		<button type="submit" class="btn btn-primary" name="sCategory" value="問題">問題</button>
   		<button type="submit" class="btn btn-primary" name="sCategory" value="情報">情報</button>
   		<button type="submit" class="btn btn-primary" name="sCategory" value="攻略">攻略</button>
-<!-- 		<a class="btn btn-primary category categoryChoose">全部</a> -->
-<!-- 		<a class="btn btn-primary category">閒聊</a> -->
-<!-- 		<a class="btn btn-primary category">公告</a> -->
-<!-- 		<a class="btn btn-primary category">討論</a> -->
-<!-- 		<a class="btn btn-primary category">問題</a> -->
-<!-- 		<a class="btn btn-primary category">情報</a> -->
-<!-- 		<a class="btn btn-primary category">攻略</a> -->
-<!-- 		<a class="btn btn-primary">熱門</a> -->
-<!-- 		<a class="btn btn-primary">最新</a> -->
-	</form>
 		
 		<div class="input-group" style="margin-top:15px">
 			<h3> 搜尋其他文章:&nbsp;</h3>
 			<input type="text" id="sSearch" class="form-control" name="sSearch">
 			<span class="input-group-append">
-				<input type="button" id="submit" class="btn btn-secondary"
-					 name="select" value="搜尋">
+				<button type="submit" class="btn btn-secondary">搜尋</button>
 			</span>
 		</div>
+	</form>
 	<hr>
 
 	<form action="<c:url value="/forum/Reply"/>" method="post">

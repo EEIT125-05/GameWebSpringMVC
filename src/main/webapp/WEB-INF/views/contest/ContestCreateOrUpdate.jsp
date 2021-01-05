@@ -16,6 +16,15 @@
 .error{
 	color:red;
 }
+.dark-matter {
+	margin-left:0;
+	margin-right:0;
+	max-width: none; 
+}
+
+.dark-matter select {
+	width:10%
+}
 </style>
 <script src="<c:url value='/js/ContestCreate.js'/>"></script>
 
@@ -27,7 +36,7 @@
 <div class="container">
 
 <h1 class="mt-4 mb-3">${sContestConfirm}比賽
-      <small>XXXXX</small>
+<!--       <small>XXXXX</small> -->
     </h1>
 
     <ol class="breadcrumb">
@@ -37,7 +46,7 @@
       <li class="breadcrumb-item active">賽事</li>
     </ol>
 	
-		<form:form method="POST" modelAttribute="cContestBean" enctype="multipart/form-data">
+		<form:form class="dark-matter" method="POST" modelAttribute="cContestBean" enctype="multipart/form-data">
 			<div>
             <label for="sName">比賽名稱: </label> 
             <form:input type="text" id="sName" path="sName"/>
@@ -77,7 +86,7 @@
 		            <input type="hidden" name="afterSignStart" value="true"/>
             	</c:when>
             	<c:otherwise>
-		            <input type="date" id="sSignStart" name="sSignStart" value="${sSignStart}"/> <label>~</label>
+		            <input type="date" id="sSignStart" name="sSignStart" value="${sSignStart}"/> <label style="display:inline">~</label>
             	</c:otherwise>
             </c:choose>
             <c:choose>
@@ -125,7 +134,6 @@
             <form:errors path="sRule" class="error"/>
             <label class="error"></label>
         </div>
-        <hr>
         <div>
             <input type="submit" id="submit"  name="sContestConfirm" value="${sContestConfirm}"/>
         </div>
