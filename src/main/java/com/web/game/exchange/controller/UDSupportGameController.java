@@ -33,6 +33,9 @@ public class UDSupportGameController {
 
 	@GetMapping("/management")
 	public String ManageSupportGame(Model model) {
+		
+//		List<SupportGameBean> pending= (List<SupportGameBean>) model.addAttribute("MemberSupport");
+//		System.out.println("pending"+pending);
 		return "exchange/EXCShowItem";
 	}
 

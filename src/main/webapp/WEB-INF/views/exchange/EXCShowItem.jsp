@@ -14,20 +14,38 @@
 <body>
 	<%@ include file="../Header.jsp"%>
 
+<div class="container">
+
 	<h1>管理 / ${user.sAccount } 你好</h1>
 
-	<h4>我要換/共${fn:length(MemberSupport)}筆</h4>
-	<c:choose> 	
+ 
+
+
+<p >
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" >
+    我要換/共${fn:length(MemberSupport)}筆
+  </a>
+  <span class="text-success"  >
+    我要換/共${fn:length(MemberSupport)}筆
+  </span>
+  
+</p>
+
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+  
+  
+    <c:choose> 	
 		<c:when test="${empty MemberSupport}">
 	查無資料<br>
 		</c:when>
 		<c:when test="${not empty MemberSupport }">
 
-			<table border="1">
+			<table border="1" class="table table-hover" style="font-size: 12px; border:3px">
 				<tr>
 					<th>編號</th>
 					<th>遊戲名稱</th>
-					<th>數量</th>
+<!-- 					<th>數量</th> -->
 					<th>商品位置</th>
 					<th>運送方式</th>
 					<th>主機平台</th>
@@ -44,7 +62,7 @@
 					<tr>
 						<td>${vs.count}</td>
 						<td>${s.gamename}</td>
-						<td>${s.qty}</td>
+<%-- 						<td>${s.qty}</td> --%>
 						<td>${s.gamelocation}</td>
 						<td>${s.delivery}</td>
 						<td>${s.console}</td>
@@ -54,14 +72,14 @@
 
 						<c:choose>
 							<c:when test="${s.status == 0}">
-								<td><a
+								<td><a class="btn btn-primary btn-sm"
 									href="<c:url value="/exchange/deleteSupport?deleteindex=${s.no}"/>">刪除</a></td>
-								<td><a
+								<td><a class="btn btn-primary btn-sm"
 									href="<c:url value="/exchange/update?updateindex=${vs.index}"/>">修改</a></td>
 							</c:when>
 							<c:when test="${s.status == 1 || s.status ==2 ||s.status ==3 || s.status ==4}">
-								<td>刪除</td>
-								<td>修改</td>
+								<td><a class="btn btn-primary disabled btn-sm">刪除</a></td>
+								<td><a class="btn btn-primary disabled btn-sm">修改</a></td>
 							</c:when>
 						</c:choose>
 
@@ -73,7 +91,7 @@
     							已換出，與 ${s.changehistorybean.partyB.sAccount } 交換
     							</c:when>
 								<c:when test="${s.status == 2}">
-								<a href="<c:url value="showApplyFor?no=${s.changehistorybean.no }"/>" >待審核</a>
+								<a class="btn btn-primary btn-sm" style="background-color: green;" href='<c:url value="showApplyFor?no=${s.changehistorybean.no }"/>' >待審核</a>
     							(來自${s.changehistorybean.partyB.sAccount }的交換請求)
     							</c:when>
     							<c:when test="${s.status == 3}">
@@ -90,16 +108,34 @@
 				</c:choose>
 
 			</table>
+ 
+ 
+  </div>
+  
+  <br>
+  
+</div>
 
-<br>
-<h4>我要徵 /共${fn:length(MemberDemand)}筆</h4>
-			<c:choose>
+
+
+
+
+
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1">
+    	我要徵 /共${fn:length(MemberDemand)}筆
+  </a>
+</p>
+<div class="collapse" id="collapseExample1">
+  <div class="card card-body">
+  
+				<c:choose>
 				<c:when test="${empty MemberDemand}">
 		查無資料<br>
 				</c:when>
 				<c:when test="${not empty MemberDemand }">
 
-					<table border="1">
+					<table border="1" class="table table-hover" style="font-size: 12px; border:3px">
 						<tr>
 							<th>編號</th>
 							<th>遊戲名稱</th>
@@ -121,11 +157,11 @@
 
 								<c:choose>
 									<c:when test="${d.status == 0}">
-										<td><a
+										<td><a class="btn btn-primary btn-sm"
 											href="<c:url value="/exchange/deleteDemand?deleteindex=${d.no}"/>">刪除</a></td>
 									</c:when>
 									<c:when test="${d.status == 1}">
-										<td>刪除</td>
+										<td><a class="btn btn-primary disabled btn-sm">刪除</a></td>
 									</c:when>
 								</c:choose>
 
@@ -145,15 +181,29 @@
 						</c:choose>
 
 					</table>
+  
+  </div>
+  <br>
+</div>
+			
+			
+			 
 
-					<br>
-<h4>我的遊戲庫 /共${fn:length(MemberGames)}筆</h4>
-			<c:choose>
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
+    我的遊戲庫 /共${fn:length(MemberGames)}筆
+  </a>
+</p>
+<div class="collapse" id="collapseExample2">
+  <div class="card card-body">
+  
+  
+  <c:choose>
 				<c:when test="${empty MemberGames}">
 		目前遊戲庫無任何遊戲<br>
 				</c:when>
 				<c:when test="${not empty MemberGames }">
-					<table border="1">
+					<table border="1" class="table table-hover" style="font-size: 12px; border:3px">
 						<tr>
 							<th>編號</th>
 							<th>遊戲名稱</th>
@@ -171,9 +221,6 @@
 							<c:when test="${g.status==2 }">
 								<td>	
 								待換中(申請交換 <span style="color:green">${g.changehistorybean.supportgamebean.gamename }</span> 等待 <span style="color:green">${g.changehistorybean.partyA.sAccount }</span> 的同意)
-<%-- 								待換中(等待${g.changehistorybean.partyB.sAccount }) --%>
-<%-- 								待換中(等待${g.changehistorybean.mygamebean.gamename }) --%>
-<%-- 								待換中(等待${g.changehistorybean.supportgamebean.gamename }) --%>
 								</td>
 							</c:when>
 							<c:when test="${g.supportgamebean==null }">
@@ -194,11 +241,15 @@
 						</c:choose>
 
 					</table>
-
-					<br>
-
-					<a href="<c:url value="/exchange/Index"/>">返回主頁</a>
-
+  
+  
+  </div>
+  <br>
+</div>
+			
+			
+					<a class="btn btn-primary" style="background-color: red;" href="<c:url value="/exchange/Index"/>">返回主頁</a>
+</div>
 					<%@ include file="../Foot.jsp"%>
 </body>
 </html>

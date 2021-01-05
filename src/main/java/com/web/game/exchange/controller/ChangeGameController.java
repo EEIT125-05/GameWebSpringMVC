@@ -39,26 +39,26 @@ public class ChangeGameController {
 	@Autowired
 	MemberService memberService;
 	
-	@GetMapping("/applyFor")//applicationForm form:form無法接物件屬性
-	public String applyForChange(
-			@RequestParam String gamer,
-			@RequestParam Integer no,
-			Model model
-			) {
-		System.out.println("!!!!");
-		MemberBean partyB = (MemberBean) model.getAttribute("user");
-		List<MyGameBean> myGameBeansOption = (List<MyGameBean>) exchangeService.getMemberGamesName(partyB.getsAccount());
-		MemberBean partyA = memberService.Selectmember(gamer);
-		SupportGameBean supportGame = exchangeService.FindsupportGame(no);
-		System.out.println("!!!!");
-		
-		model.addAttribute("partyA",partyA);
-		model.addAttribute("supportGame",supportGame);
-		model.addAttribute("partyB",partyB);
-		model.addAttribute("myGameBeans",myGameBeansOption);
-		System.out.println("!!!!");
-		return "exchange/EXCApplicationForm";
-	}
+//	@GetMapping("/applyFor")//applicationForm form:form無法接物件屬性
+//	public String applyForChange(
+//			@RequestParam String gamer,
+//			@RequestParam Integer no,
+//			Model model
+//			) {
+//		System.out.println("!!!!");
+//		MemberBean partyB = (MemberBean) model.getAttribute("user");
+//		List<MyGameBean> myGameBeansOption = (List<MyGameBean>) exchangeService.getMemberGamesName(partyB.getsAccount());
+//		MemberBean partyA = memberService.Selectmember(gamer);
+//		SupportGameBean supportGame = exchangeService.FindsupportGame(no);
+//		System.out.println("!!!!");
+//		
+//		model.addAttribute("partyA",partyA);
+//		model.addAttribute("supportGame",supportGame);
+//		model.addAttribute("partyB",partyB);
+//		model.addAttribute("myGameBeans",myGameBeansOption);
+//		System.out.println("!!!!");
+//		return "exchange/EXCApplicationForm";
+//	}
 	
 	@PostMapping("/applyFor")
 	public String createTransaction(
@@ -85,6 +85,7 @@ public class ChangeGameController {
     	String sTimeString = sdf.format(new Date());
     	Timestamp time = Timestamp.valueOf(sTimeString);
 		
+    	System.out.println("getData!!");
 		
 		CHB.setPartyA(mbPartyA);
 		System.out.println("1");

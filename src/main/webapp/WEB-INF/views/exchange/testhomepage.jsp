@@ -50,84 +50,145 @@
 
 				<input type="hidden" id="search" value="${search}">
 				<!-- 藏參數 -->
+	</form>
+
+	<div class="row" id="bigdiv">
 
 
-				<div class="row" id="bigdiv">
+		<c:forEach var='g' items='${list }'>
 
+			<!-- Work -->
+			<div class="col-md-4 col-xs-6 work">
+				<img class="img-responsive" style="width: 345px; height: 345px"
+					src="${pageContext.request.contextPath }/${g.image }" alt="">
+				<div class="overlay"></div>
+				<div class="work-content">
+					<span>遊戲名稱:${g.gamename}</span> <span>遊戲數量:${g.qty}</span> <span>遊戲所在地:${g.gamelocation}</span>
+					<span>運送方式:${g.delivery}</span> <span>主機平台:${g.console}</span> <span>玩家名稱:${g.gamer}</span>
+					<span>是否含特點:${g.dlc}</span> <span>備註:${g.remark}</span>
+					<div class="work-link" style="margin: auto;">
 
-					<c:forEach var='g' items='${list }'>
-
-						<!-- Work -->
-						<div class="col-md-4 col-xs-6 work">
-							<img class="img-responsive" style="width: 345px; height: 345px"
-								src="${pageContext.request.contextPath }/${g.image }" alt="">
-							<div class="overlay"></div>
-							<div class="work-content">
-								<span>遊戲名稱:${g.gamename}</span> <span>遊戲數量:${g.qty}</span> <span>遊戲所在地:${g.gamelocation}</span>
-								<span>運送方式:${g.delivery}</span> <span>主機平台:${g.console}</span> <span>玩家名稱:${g.gamer}</span>
-								<span>是否含特點:${g.dlc}</span> <span>備註:${g.remark}</span>
-								<div class="work-link" style="margin: auto;">
-																		<a class="applyFor" style="border-radius: 30px"
-																			href="<c:url value="/exchange/applyFor?gamer=${g.gamer }&no=${g.no }"/>"><i
-																			class="fa fa-exchange"></i></a>
-
-									<div data-toggle="modal" data-target="#exampleModal">
-										<button type="button" class="btn btn-primary"
-											data-toggle="modal" data-target="#exampleModalLong${g.no }">Launch
-											demo modal</button>
-									</div>
-
-
-								</div>
-							</div>
+						<div data-toggle="modal" data-target="#exampleModal">
+							<button type="button" class="btn btn-primary" data-toggle="modal"
+								data-target="#exampleModalLong${g.no }" onclick="resetDisabled();"><i
+							class="fa fa-exchange"></i></button>
 						</div>
-						
-					
-										<div class="modal fade" id="exampleModalLong${g.no }" tabindex="-1"
-											role="dialog" aria-labelledby="exampleModalLongTitle"
-											aria-hidden="true">
-											<div class="modal-dialog" role="document">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h5 class="modal-title" id="exampleModalLongTitle">Modal
-															title</h5>
-														<button type="button" class="close" data-dismiss="modal"
-															aria-label="Close">
-															<span aria-hidden="true">&times;</span>
-														</button>
-													</div>
-													<div class="modal-body">${g.gamename}
-													<a >${g.no }</a>
-													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary"
-															data-dismiss="modal">Close</button>
-														<button type="button" class="btn btn-primary">Save
-															changes</button>
-													</div>
-												</div>
-											</div>
-										</div>
-						
-						
-					</c:forEach>
-				</div>
-				<div>
-					<c:if test="${p > 1}">
-						<c:forEach var="num" begin="1" end="${p }" step="1">
-							<a class="page"><i>${num}</i></a>
-						</c:forEach>
-					</c:if>
+
+
+					</div>
 				</div>
 			</div>
-		</div>
+
+			<div class="modal fade" id="exampleModalLong${g.no }" tabindex="-1"
+				role="dialog" aria-labelledby="exampleModalLongTitle"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">交換申請</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+
+						<form action="<c:url value="/exchange/applyFor"/>" method="post">
+							<div class="modal-body">
+
+
+								<fieldset>
+									<div>
+										<label for="partyA">甲方　　</label> <input type="text"
+											name="partyA" value="${g.gamer }"
+											style="width: 260px;" class="fixedlen" id="partyA"  readonly/>
+
+														<span id="console1span"></span>
+									</div>
+									<div>
+
+										<label for="gamename">欲換遊戲</label> <input type="text"
+											name="supportGame"
+											value="${g.console }-${g.gamename}"
+											style="width: 260px;" class="fixedlen" id="Supportgamebean" readonly />
+										<input type="hidden" name="supportGameNo"
+											value="${g.no }" />
+														<span id="gamenamespan"></span>
+
+									</div>
+									<div>
+
+										<label for="partyB">乙方　　</label> <input type="text"
+											name="partyB" value="${user.sAccount }"
+											style="width: 260px;" class="fixedlen" id="partyB" readonly/>
+														<span id="qtyspan"></span>
+
+									</div>
+									<div>
+
+										<label for="gamename">我的遊戲</label> <select
+											style="width: 260px;" class="fixedlen" name="myGameNo"
+											id="myGame${g.no }" onblur="resetSelect(${g.no });">
+											<option>我的遊戲庫</option>
+											<c:forEach var="M" items="${myGameBeans}">
+												<option value="${M.no }">${M.console}-${M.gamename}</option>
+											</c:forEach>
+										</select> <span id="gamenamespan${g.no }"></span>
+
+									</div>
+
+								</fieldset>
+
+							</div>
+							<div class="modal-footer">
+								<button type="botton" class="btn btn-secondary"
+									data-dismiss="modal" >返回</button>
+								<button type="submit" class="btn btn-primary appforsubmit" >申請</button>
+
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+		</c:forEach>
+	</div>
+	<div>
+		<c:if test="${p > 1}">
+			<c:forEach var="num" begin="1" end="${p }" step="1">
+				<a class="page"><i>${num}</i></a>
+			</c:forEach>
+		</c:if>
+	</div>
+	</div>
+	</div>
 
 
 
-	</form>
+
 	<%@ include file="../Foot.jsp"%>
 	<script>
+
+		function resetDisabled(){
+			$(".appforsubmit").attr("disabled", true);
+		}	
+	
+		function resetSelect(e){
+			
+			if ($("#myGame"+e).val() == "") {
+					$("#gamenamespan"+e).html("<span>必填</span>")
+					$(".appforsubmit").attr("disabled", true);
+				} else if ($("#myGame"+e).val() == "我的遊戲庫") {
+					$("#gamenamespan"+e).html("<span>必填</span>")
+					$(".appforsubmit").attr("disabled", true);
+				} else {
+					$("#gamenamespan"+e).html("")
+					$(".appforsubmit").attr("disabled", false);
+				}
+		}
+		
 		window.onload = function() {
+			
 			var pages = document.querySelectorAll(".page");
 			var applyFors = document.querySelectorAll(".applyFor");
 			var divout = document.getElementById("bigdiv")
@@ -192,11 +253,6 @@
 						divout.innerHTML += "<input type='hidden' id='search' value='"+g.searchparams+"'> "
 					}
 				}
-			}
-
-			function checkMemberCheck() {
-				let i = (this.href)
-				console.log(i)
 			}
 
 		}
