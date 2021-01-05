@@ -40,7 +40,7 @@ public class MemberBean {
 	private String sBirthday;
 	@Column(columnDefinition = "nvarchar(Max)")
 	private String registerDate;
-	@Column(columnDefinition = "nvarchar(Max)")
+	@Column(columnDefinition = "bit")
 	private boolean status = false;
 	
 	Blob image;

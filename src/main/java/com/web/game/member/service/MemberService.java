@@ -23,8 +23,6 @@ public interface MemberService {
 	String CheckEmail(String sEmail);
 
 	String CheckPhone(String sPhone);
-
+	
 	MemberBean get(Integer iNo);
-
-
 }

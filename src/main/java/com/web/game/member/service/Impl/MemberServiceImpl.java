@@ -75,10 +75,6 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public MemberBean get(Integer iNo) {
-		return dao.get(iNo);
+		return dao.get( iNo);
 	}
-
-	
-	
-
 }

@@ -1,5 +1,6 @@
 package com.web.game.member.controller;
 
+import javax.servlet.ServletContext;
 //import java.util.List;
 import javax.servlet.http.Cookie;
 //import javax.servlet.http.HttpServletRequest;
@@ -34,29 +35,42 @@ public class MemberControllerVerified {
 
 	@Autowired
 	MemberService mService;
+	
+	@Autowired
+	ServletContext context;
 
 	public void setService(MemberService service) {
 		this.mService = service;
 	}
 
 	@GetMapping("/Data")
-	public String SigninToData(Model model, String sAccount ) {
+	public String SigninToData(Model model, String sAccount ,HttpServletResponse response, SessionStatus Status) {
 		MemberBean Signin = (MemberBean) model.getAttribute("user");
 		sAccount = Signin.getsAccount();
 		if (sAccount.equals("game20200922")) {
-			model.addAttribute("users", mService.getAllMembers());
-			return "member/MemberGetAll";
+			Status.setComplete();
+			// cookie砍掉
+			Cookie cUser = new Cookie("user", "");
+			cUser.setPath("/GameWebSpringMVC");
+			cUser.setMaxAge(0);
+			response.addCookie(cUser);
+			return "redirect:/";
 		} else  {
 			;
 		}
 		return "member/MemberData";
-		
+	}
+	
+	@GetMapping("/GameBarGetAll")
+	public String GameBarGetAll(Model model) {
+		model.addAttribute("users", mService.getAllMembers());
+		return "member/MemberGetAll";
 	}
 
 	@RequestMapping("/Update/{sAccount}")
 	public String UpDateOneMember(@PathVariable("sAccount") String sAccount, Model model) {
 		MemberBean OneMember = mService.Selectmember(sAccount);
-		model.addAttribute("user", OneMember);
+		model.addAttribute("OneMember", OneMember);
 		return "member/GameBarGMUpdate";
 	}
 
@@ -75,17 +89,15 @@ public class MemberControllerVerified {
 	}
 
 	@RequestMapping("/delete/{iNo}")
-	public String Delete(@PathVariable("iNo") Integer iNo) {
-		mService.DeleteMember(iNo);
-		return "redirect:/member/Data";
+	public String Delete(@PathVariable("iNo") Integer iNo,Model model) {
+		if(iNo.equals("46")) {
+			;
+		}else {
+			mService.DeleteMember(iNo);
+		}
+		model.addAttribute("users", mService.getAllMembers());
+		return "member/MemberGetAll";
 	}
-
-//	@GetMapping("/{sAccount}")
-//	public String DeleteMember(@RequestParam("iNo") Integer iNo, Model model) {
-//		mService.DeleteMember(iNo);
-//		model.addAttribute("users", mService.getAllMembers());
-//		return "member/Membercheckdelete";
-//	}
 
 	@PostMapping("/Update")
 	public String MemberData(Model model, @RequestParam String sAccount) {
@@ -105,7 +117,6 @@ public class MemberControllerVerified {
 		mb.setsNickname(sNickname);
 		mb.setsAddress(sAddress);
 //		mb.setImage(Image);
-		model.addAttribute("user", mb);
 		mService.UpdateMember(mb);
 		model.addAttribute("user", mb);
 		return "member/MemberData";
@@ -123,21 +134,33 @@ public class MemberControllerVerified {
 		if (MBPicture == null) {
 			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
 		}
+		String filename = MBPicture.getFileName();
+		if (filename != null) {
+			if (filename.toLowerCase().endsWith("jfif")) {
+				mediaType = MediaType.valueOf(context.getMimeType("dummy.jpeg"));
+			} else {
+				mediaType = MediaType.valueOf(context.getMimeType(filename));
+				headers.setContentType(mediaType);
+			}
+		}
 		return re;
 	}
 	
 	@RequestMapping("/Change/{sAccount}")
-	public String StatusChange(@PathVariable("sAccount") String sAccount ,boolean status ) {
+	public String StatusChange(Model model,@PathVariable("sAccount") String sAccount ,boolean status,HttpServletResponse response ) {
 		MemberBean StatusChange = mService.Selectmember(sAccount);
 		status = StatusChange.getStatus();
-		if(status == true) {
+		if (sAccount.equals("game20200922")) {
+			;
+		}else if(status == true) {
 			StatusChange.setStatus(status = false);
 			mService.UpdateMember(StatusChange);
 		}else if (status == false) {
 			StatusChange.setStatus(status = true);
 			mService.UpdateMember(StatusChange);
 		}
-		return "redirect:/member/Data";
+		model.addAttribute("users", mService.getAllMembers());
+		return "member/MemberGetAll";
 	}
 
 //------登出---------------------------------------------------------------------------

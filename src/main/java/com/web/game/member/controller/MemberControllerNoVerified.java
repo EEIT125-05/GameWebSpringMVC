@@ -57,11 +57,14 @@ public class MemberControllerNoVerified {
 	public String MemberForget() {
 		return "member/MemberPasswordForget";
 	}
+	
+	@GetMapping("/GameBarGMSignin")
+	public String GameBarGMSignin() {
+		return "member/GameBarGMSignin";
+	}
 
 	@PostMapping("/MemberCheck")
 	public String MemberLogin(Model model) {
-		MemberBean CheckMB = new MemberBean();
-		model.addAttribute("user", CheckMB);
 		return "member/MemberCheck";
 	}
 
@@ -96,6 +99,7 @@ public class MemberControllerNoVerified {
 		}
 		mService.InsertMember(InsertMB);
 		Status.setComplete();
+		// cookie砍掉
 		Cookie cUser = new Cookie("user", "");
 		cUser.setPath("/GameWebSpringMVC");
 		cUser.setMaxAge(0);
@@ -135,14 +139,35 @@ public class MemberControllerNoVerified {
 		ResponseEntity<Map<String, String>> re = new ResponseEntity<>(map, HttpStatus.OK);
 		return re;
 	}
-
+	
+	@PostMapping("/GameBarSignin")
+	public String GameBarSignin(Model model, @RequestParam String sAccount, @RequestParam String sPassword,
+			HttpServletResponse response, SessionStatus Status) {
+		MemberBean GameBarSignin = mService.Selectmember(sAccount);
+		if (sAccount.equals("game20200922")) {
+			model.addAttribute("user", GameBarSignin);
+			model.addAttribute("users", mService.getAllMembers());
+			return "member/MemberGetAll";
+		}else {
+			return "member/MemberSignin";
+		}
+	}
+			
 	@PostMapping("/SignIn")
 	public String SigninMember(Model model, @RequestParam String sAccount, @RequestParam String sPassword,
 			boolean status, HttpServletResponse response, SessionStatus Status) {
 		if (mService.SigninMember(sAccount, sPassword)) {
 			MemberBean SigninMB = mService.Selectmember(sAccount);
 			status = SigninMB.getStatus();
-			if (status == true) {
+			if (sAccount.equals("game20200922")) {
+				Status.setComplete();
+				// cookie砍掉
+				Cookie cUser = new Cookie("user", "");
+				cUser.setPath("/GameWebSpringMVC");
+				cUser.setMaxAge(0);
+				response.addCookie(cUser);
+				return "member/MemberSignin";
+			}else if (status == true) {
 				model.addAttribute("user", SigninMB);
 
 //--------新增cookie----------------------------------------------------
