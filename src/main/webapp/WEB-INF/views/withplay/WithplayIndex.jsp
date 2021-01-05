@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ include file="../Link.jsp"%>
 <%
@@ -34,48 +35,45 @@ response.setContentType("text/html;charset=UTF-8");
 		</ol>
 
 
-<%-- 		<form action='${pageContext.request.contextPath}/withplay/select'> --%>
-			<div class="input-group">
-			<label>依暱稱搜尋: </label> <input type="text" name="sNickname" class="form-control" id="sNickname"> 
-			<span class="input-group-append">
-			<input type="button" value="搜尋" class="btn btn-secondary" id="submit">
+		<%-- 		<form action='${pageContext.request.contextPath}/withplay/select'> --%>
+		<div class="input-group">
+			<label>依暱稱搜尋: </label> <input type="text" name="sNickname"
+				class="form-control" id="sNickname"> <span
+				class="input-group-append"> <input type="button" value="搜尋"
+				class="btn btn-secondary" id="submit">
 			</span>
-			</div>
-			<label>進階條件: </label><br>
-		<label>遊戲</label>
-			<select id="sGame" class="form-control" name="sGame"
-					style="width:130px;display:inline">
-		    	<option value="">全部</option>
-				<c:forEach var="sGame" items="${GameList}">
-	            	<option value="${sGame}">${sGame}</option>
-				</c:forEach>
-            </select>
-<%-- 		</form> --%>
+		</div>
+		<label>進階條件: </label><br> <label>遊戲</label> <select id="sGame"
+			class="form-control" name="sGame"
+			style="width: 130px; display: inline">
+			<option value="">全部</option>
+			<c:forEach var="sGame" items="${GameList}">
+				<option value="${sGame}">${sGame}</option>
+			</c:forEach>
+		</select>
+		<%-- 		</form> --%>
 
-		<c:if test="${empty With}">
+		<c:if test="${empty Withlist}">
 			<p>目前無資料</p>
 		</c:if>
 		<div class="row" id="point">
-			<c:forEach var="With" items="${With}">
-				<div data-toggle="modal" data-target="#exampleModal${With.iId}"
-					>
-					<div class="col col-6 col-sm-4 col-md-4 col-lg-2">
+			<c:forEach var="With" items="${Withlist}">
+				<div class="col col-6 col-sm-4 col-md-4 col-lg-2">
+					<div data-toggle="modal" data-target="#exampleModal${With.iId}">
 						<div class="div1">
 							<div class="fi1">
 								<a href="#"> <img class="img1"
 									src='${pageContext.request.contextPath}/withplay/picture/${With.iId}'>
-								</a> 
-<!-- 								<a> -->
-									<div>${With.sNickname}</div>
-									<div>${With.sGame}</div>
-									<div>
+								</a>
+								<!-- 								<a> -->
+								<div>${With.sNickname}</div>
+								<div>${With.sGame}</div>
+								<div>
 									<p>
-									<span>$</span>
-									<span>${With.iPrice}</span>
-									<span>/局</span>
+										<span>$</span> <span>${With.iPrice}</span> <span>/局</span>
 									</p>
-									</div>
-<!-- 								</a> -->
+								</div>
+								<!-- 								</a> -->
 
 							</div>
 						</div>
@@ -93,16 +91,59 @@ response.setContentType("text/html;charset=UTF-8");
 									</button>
 								</div>
 								<div class="modal-body">
-								  <div class="container-fluid">	
-								      <div class="row">
-									<a> <img class="img1"
-										src='${pageContext.request.contextPath}/withplay/picture/${With.iId}'>
-									</a>
-									<div>${With.sGame}</div>
-									<div>${With.sNickname}</div>
+									<div class="container-fluid">
+										<div class="row">
+											<a> <img class="img1"
+												src='${pageContext.request.contextPath}/withplay/picture/${With.iId}'>
+											</a>
+											<div>${With.sGame}</div>
+											<div>${With.sNickname}</div>
 
-								</div>
-								</div>
+											<form action="<c:url value='/withplay/Reply'/>" method="post">
+
+
+												<hr>
+												<div style="position: relative">
+													<c:forEach var="reply" items="${With.sReplyBeans}">
+														<jsp:useBean id="nowDate" class="java.util.Date" />
+														<fmt:formatDate var="dateString" value="${nowDate}"
+															pattern="yyyy-MM-dd" />
+														<%-- 										<fmt:formatDate var="timeString" value="${nowDate}" pattern="HH:mm:ss"/> 先留著 要做XX分內可以拿來用 --%>
+														<fmt:parseDate var="Date" value="${dateString}"
+															pattern="yyyy-MM-dd" />
+														<fmt:parseDate var="replyDate" value="${reply.dDate}"
+															pattern="yyyy-MM-dd" />
+														<c:choose>
+															<c:when test="${Date.time - replyDate.time == 0}">
+																<c:set var="timeString" value="今日 ${reply.tTime}" />
+															</c:when>
+															<c:when test="${Date.time - replyDate.time == 86400000}">
+																<c:set var="timeString" value="昨日 ${reply.tTime}" />
+															</c:when>
+															<c:otherwise>
+																<c:set var="timeString"
+																	value="${reply.dDate} ${reply.tTime}" />
+															</c:otherwise>
+														</c:choose>
+														<label>${reply.sAuthor}</label>
+														<label> : ${reply.sText}</label>
+														<label style="position: absolute; right: 0">${timeString}</label>
+														<br>
+													</c:forEach>
+												</div>
+
+												<hr>
+
+												<div>
+													回覆: <input type="text" id="reply" name="sText" required>
+													<button type="submit" id="replySubmit" name="withNo"
+														value="${With.iId}">送出</button>
+												</div>
+											</form>
+
+
+										</div>
+									</div>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
@@ -120,99 +161,113 @@ response.setContentType("text/html;charset=UTF-8");
 	</div>
 	<%@ include file="../Foot.jsp"%>
 	<script>
-		$(function() {
-			$('#myModal').on('shown.bs.modal', function() {
-				$('#myInput').trigger('focus')
-			})
-		});
+				$(function() {
+					$('#myModal').on('shown.bs.modal', function() {
+						$('#myInput').trigger('focus')
+					})
+				});
 
-		$("#submit").on("click",function(){
+		$("#submit").on("click",function() {
 			$("#point").empty();
-			let xhr = new XMLHttpRequest();
-			if(xhr != null){
-				
-				xhr.onreadystatechange = function(){
-					if(xhr.readyState === 4){
-						if(xhr.status === 200){
-							console.log(JSON.parse(xhr.responseText));
-							let type = xhr.getResponseHeader("Content-Type");
-							if(type.indexOf("application/json") === 0){
-								let obj = JSON.parse(xhr.responseText);
-								if(obj.length == 0){
-									$("#point").append("<p>無符合您搜尋的條件</p>");
-								}
-	 							$.each(obj,function(key, value){
-									$("#point").append(
-										"<div class='row' id='point'>"
-										+"<div data-toggle='modal' data-target='#exampleModal" + value.iId + "'>"
-												+"<div class='col col-6 col-sm-4 col-md-4 col-lg-2'>"
-												+"<div class='div1'>"
-													+"<div class='fi1'>"
-														+"<a href='#'> <img class='img1' src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'></a>"
-														+"<a>"
-															+"<div>"+value.sNickname+"</div>"
-															+"<div>"+value.sGame+"</div>"
-															+"<div>"
-															+"<p>"
-															+"<span>$</span>"
-															+"<span>"+value.iPrice+"</span>"
-															+"<span>/局</span>"
-															+"</p>"
-															+"</div>"
-														+"</a>"
+							let xhr = new XMLHttpRequest();
+							if (xhr != null) {
 
-													+"</div>"
-												+"</div>"
-											+"</div>"
-											+"<div class='modal fade' id='exampleModal" + value.iId + "' tabindex='-1' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
-												+"<div class='modal-dialog' role='document'>"
-													+"<div class='modal-content'>"
-														+"<div class='modal-header'>"
-															+"<h5 class='modal-title' id='exampleModalLabel'>Modal title</h5>"
-															+"<button type='button' class='close' data-dismiss='modal' aria-label='Close'> <span aria-hidden='true'>&times;</span> </button>"
-														+"</div>"
-														+"<div class='modal-body'>"
-														 +"<div class='container-fluid'>"	
-														      +"<div class='row'>"
-															+"<a> <img class='img1'"
+								xhr.onreadystatechange = function() {
+									if (xhr.readyState === 4) {
+										if (xhr.status === 200) {
+											console.log(JSON.parse(xhr.responseText));
+											let type = xhr.getResponseHeader("Content-Type");
+											if (type.indexOf("application/json") === 0) {
+												let obj = JSON.parse(xhr.responseText);
+												if (obj.length == 0) {
+													$("#point").append(
+															"<p>無符合您搜尋的條件</p>");
+												}
+												$.each(obj,function(key,value) {$("#point").append(
+																					"<div class='row' id='point'>"
+																							+ "<div class='col col-6 col-sm-4 col-md-4 col-lg-2'>"
+																							+ "<div data-toggle='modal' data-target='#exampleModal" + value.iId + "'>"
+																							+ "<div class='div1'>"
+																							+ "<div class='fi1'>"
+																							+ "<a href='#'> <img class='img1' src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'></a>"
+																							+ "<a>"
+																							+ "<div>"
+																							+ value.sNickname
+																							+ "</div>"
+																							+ "<div>"
+																							+ value.sGame
+																							+ "</div>"
+																							+ "<div>"
+																							+ "<p>"
+																							+ "<span>$</span>"
+																							+ "<span>"
+																							+ value.iPrice
+																							+ "</span>"
+																							+ "<span>/局</span>"
+																							+ "</p>"
+																							+ "</div>"
+																							+ "</a>"
+
+																							+ "</div>"
+																							+ "</div>"
+																							+ "</div>"
+																							+ "<div class='modal fade' id='exampleModal" + value.iId + "' tabindex='-1' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
+																							+ "<div class='modal-dialog' role='document'>"
+																							+ "<div class='modal-content'>"
+																							+ "<div class='modal-header'>"
+																							+ "<h5 class='modal-title' id='exampleModalLabel'>Modal title</h5>"
+																							+ "<button type='button' class='close' data-dismiss='modal' aria-label='Close'> <span aria-hidden='true'>&times;</span> </button>"
+																							+ "</div>"
+																							+ "<div class='modal-body'>"
+																							+ "<div class='container-fluid'>"
+																							+ "<div class='row'>"
+																							+ "<a> <img class='img1'"
 																+"src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'>"
-															+"</a>"
-															+"<div>"+value.sGame+"</div>"
-															+"<div>"+value.sNickname+"</div>"
-														+"</div>"
-														+"</div>"
-														+"</div>"
-														+"<div class='modal-footer'>"
-															+"<button type='button' class='btn btn-secondary'"
+																							+ "</a>"
+																							+ "<div>"
+																							+ value.sGame
+																							+ "</div>"
+																							+ "<div>"
+																							+ value.sNickname
+																							+ "</div>"
+					
+																							+ "</div>"
+																							+ "</div>"
+																							+ "</div>"
+																							+ "<div class='modal-footer'>"
+																							+ "<button type='button' class='btn btn-secondary'"
 																+"data-dismiss='modal'>Close</button>"
-															+"<button type='button' class='btn btn-primary'>Save"
-																+"changes</button>"
-														+"</div>"
-													+"</div>"
-												+"</div>"
-											+"</div>"
-										+"</div>"
-								+"</div>"
-									)});
+																							+ "<button type='button' class='btn btn-primary'>Save"
+																							+ "changes</button>"
+																							+ "</div>"
+																							+ "</div>"
+																							+ "</div>"
+																							+ "</div>"
+																							+ "</div>"
+																							+ "</div>" )
+																});
+											};
+										} else {
+											alert("發生錯誤: readyState="
+													+ xhr.readyState
+													+ "status=" + xhr.status);
+										}
+									}
+								}
+
+								xhr.open("POST",
+										"<c:url value='/withplay/IndexAjax'/>",
+										true);
+								xhr.setRequestHeader("Content-Type",
+										"application/x-www-form-urlencoded");
+								xhr.send("sNickname=" + $("#sNickname").val()
+										+ "&sGame=" + $("#sGame").val());
+
+							} else {
+								alert("您的瀏覽器不支援Ajax");
 							}
-						}else{
-							alert("發生錯誤: readyState="+xhr.readyState+"status="+xhr.status);
-						}
-					}
-				}
-				
-				xhr.open("POST", "<c:url value='/withplay/IndexAjax'/>",true);
-				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-				xhr.send("sNickname=" + $("#sNickname").val() +
-						"&sGame=" + $("#sGame").val()) ;
-						
-			}else{
-				alert("您的瀏覽器不支援Ajax");
-			}
-		});
-		
-		
-		
+						});
+
 		// 	$(".div1").each(function(){
 		// 		$(this).click(function(){
 		// 			console.log("123")
