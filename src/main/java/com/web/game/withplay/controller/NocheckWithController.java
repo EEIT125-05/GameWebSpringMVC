@@ -3,7 +3,9 @@ package com.web.game.withplay.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Blob;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.web.game.contest.service.GameListService;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithService;
 
@@ -39,18 +42,32 @@ public class NocheckWithController {
 	@Autowired
 	ServletContext context;	
 	
+	@Autowired
+	GameListService ListService;
+	
 	@GetMapping("/withplay/Index")
 	public String WithplayIndex(Model model) {
 		model.addAttribute("With", withService.search("", ""));
 		model.addAttribute("With",withService.list());
+		model.addAttribute("GameList",ListService.selectGameList());
 		return "withplay/WithplayIndex";
 	}
 	
-	@GetMapping("/withplay/select")
-	public String get(@RequestParam String sNickname,Model model) {
-		model.addAttribute("With", withService.selectlist(sNickname));
-		return "withplay/Withplayselect";			
+//	@GetMapping("/withplay/select")
+//	public String get(@RequestParam String sNickname,Model model) {
+//		model.addAttribute("With", withService.selectlist(sNickname));
+//		return "withplay/Withplayselect";			
+//	}
+	
+	@PostMapping("/withplay/IDCheck")
+	public ResponseEntity<Map<String, String>> CheckPhone(@RequestParam("sIdcode") String sIdcode) {
+		Map<String, String> map = new HashMap<>();
+		String Idcode = withService.CheckID(sIdcode);
+		map.put("sIdcode", Idcode);
+		ResponseEntity<Map<String, String>> re = new ResponseEntity<>(map, HttpStatus.OK);
+		return re;
 	}
+
 	
 	@PostMapping(value = "/withplay/IndexAjax", produces = "application/json; charset=utf-8")
 	public @ResponseBody List<WithPlay> search(

@@ -33,8 +33,8 @@ public class WithValidator implements Validator {
 			errors.rejectValue("sIdcode", "", "身份證字號格式不符");
 		}
 
-		if (wp.getsComment().trim().length() != 0 && wp.getsComment().trim().length() < 5) {
-			errors.rejectValue("sComment", "", "自我介紹必須大於5個字");
+		if (wp.getsComment().trim().length() != 0 && wp.getsComment().trim().length() < 6) {
+			errors.rejectValue("sComment", "", "自我介紹必須大於6個字");
 		}
 
 		if (wp.getiPrice() != null&& wp.getiPrice() > 300) {

@@ -13,83 +13,155 @@
 th, tr, td {
 	border: 2px solid red;
 }
+
+.categoryChoose{
+	background-color:#0069d9;
+}
 </style>
 
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
+<div class="container">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height:300px;">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox" style="height:300px">
+       
+        <div class="carousel-item active" style="background-image: url('https://content.shopback.com/tw/wp-content/uploads/2020/04/10142030/Cover-nintendo-web.jpg');height:300px">
+          <div class="carousel-caption d-none d-md-block">
+            <h3></h3>
+         
+          </div>
+        </div>
+       
+        <div class="carousel-item" style="background-image: url('https://static02-proxy.hket.com/res/v3/image/content/2605000/2607364/MARIO_1024.png')">
+          <div class="carousel-caption d-none d-md-block">
+            <h3></h3>
+         
+          </div>
+        </div>
+     
+        <div class="carousel-item" style="background-image: url('https://uc.udn.com.tw/photo/2020/11/05/0/9020971.jpg')">
+          <div class="carousel-caption d-none d-md-block">
+            <h3></h3>
+            <p></p>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
 
-	<p>論壇首頁</p>
+      </a>
+    </div>
+  
 
+	<h1 class="mt-4 mb-3">討論區首頁
+    </h1>
+  
 	<form>
-		<label>分類篩選: </label> <select id="sCategory"
-			name="sCategory">
-			<option value="" selected>全部</option>
-			<option value="and sCategory = '閒聊'">閒聊</option>
-			<option value="and sCategory = '公告'">公告</option>
-			<option value="and sCategory = '討論'">討論</option>
-			<option value="and sCategory = '問題'">問題</option>
-			<option value="and sCategory = '情報'">情報</option>
-			<option value="and sCategory = '攻略'">攻略</option>
-		</select> <label> 依標題搜尋: </label> <input type="text" id="sSearch" name="sSearch">
-		<input type="button" id="submit" name="select" value="查詢">
+  
+		<a class="btn btn-primary category categoryChoose">全部</a>
+		<a class="btn btn-primary category">閒聊</a>
+		<a class="btn btn-primary category">公告</a>
+		<a class="btn btn-primary category">討論</a>
+		<a class="btn btn-primary category">問題</a>
+		<a class="btn btn-primary category">情報</a>
+		<a class="btn btn-primary category">攻略</a>
+		
+		<div class="input-group" style="margin-top:15px">
+			<h3> 標題:&nbsp;</h3>
+			<input type="text" id="sSearch" class="form-control" name="sSearch">
+			<span class="input-group-append">
+				<input type="button" id="submit" class="btn btn-secondary"
+					 name="select" value="搜尋">
+			</span>
+		</div>
 	</form>
-
+	<a class="btn btn-primary">熱門</a>
+	<a class="btn btn-primary">最新</a>
+	<hr>
 	<div id="point">
 		<c:forEach var="forum" items="${lForumList}">
-			<div style="border: 2px solid red; margin: 10px">
-				<div class="image"
-					style="border: 2px solid blue; width: 200px; height: 100px; display: inline">
-
-				</div>
-				<div class="text"
-					style="padding: 2px; text-align: left; border: 2px solid green;">
-					分類: ${forum.sCategory} <br>
-					 標題: ${forum.sTitle} <br>
-					發文/更改 時間: ${forum.dDate} ${forum.tTime} <br>
-					樓主:${forum.sAuthor} <br>
-					 留言數: ${fn:length(forum.sReplyBeans)}
-					<button type="submit" name="formNo" value="${forum.iNo}">詳細</button>
-				</div>
-				<%-- 					<a href="<c:url value='/forum/Detail/${forum.iNo}'/></a> --%>
+			<div class="row">
+<%-- 				<a href="<c:url value='/forum/Detail/${forum.iNo}'/>" style="display:block"> --%>
+					<div class="col-md-12">
+						<h3>[${forum.sCategory}]${forum.sTitle}</h3>
+						<span>發文/更改時間: ${forum.dDate} ${forum.tTime}</span><br>
+						<span>樓主: ${forum.sAuthor}</span><br>
+						<span>留言數: ${fn:length(forum.sReplyBeans)}</span>
+					</div>
+<!-- 				</a> -->
 			</div>
+			<hr>
 		</c:forEach>
+	</div>
 	</div>
 	<%@ include file="../Foot.jsp"%>
 	<script>
 	$(function(){
+		let category = "";
+		let search = "";
+		
 		$("#submit").on("click",function(){
+			search = $("#sSearch").val();
+			doAjax(category, search);		
+		});		
+		
+		$(".category").on("click", function(){
+			$(".category").removeClass("categoryChoose");
+			$(this).addClass("categoryChoose");
+			category = "and sCategory = '" + $(this).text() +"'";
+			search = "";
+			$("#sSearch").val("").attr("placeholder","在" + $(this).text() + "中搜尋");
+			if($(this).text() == "全部"){
+				category = "";
+				$("#sSearch").val("").attr("placeholder","");
+			}
+// 			console.log(category);
+			doAjax(category, search);
+		});
+		
+		function doAjax(category, search){
 			$.ajax({
 				type:"post",
 				url:"<c:url value='/forum/IndexAjax'/>",
 				dataType:"json",
-				data:{"sCategory" : $("#sCategory").val(),
-					  "sSearch" : $("#sSearch").val()
+				data:{"sCategory" : category,
+					"sSearch" : search
 				},
 				success:function (result) {	
 					$("#point").empty();
 					if(result.length == 0){
 						$("#point").append("<p>無貼文符合您搜尋的條件</p>")							
-					}else{
-						$("#point").append("<table style=\"border:2px solid red\">"+
-									"<thead>"+
-									"<tr><th>分類</th><th>標題</th><th>樓主</th><th>發文時間</th><th>留言數</th>"+
-									"</tr>"+
-									"</thead>"+
-									"<tbody></tbody></table>");
 					}
 					$.each(result ,function(key,value){
-						$("tbody").append("<tr><td>"+value.sCategory+"</td>"+
-								"<td><a href=\"/GameWebSpringMVC/forum/Detail/"+value.iNo+"\">"+value.sTitle+"</a></td>"+
-								"<td>"+value.sAuthor+"</td><td>"+$.format.date(new Date(value.dDate), 'yyyy-MM-dd')+" "+value.tTime+"</td>"+
-								"<td>"+value.sReplyBeans.length+"</td></tr>");
+						$("#point").append("<div class=\"row\">"+
+									"<div class=\"col-md-12\">"+
+									"<h3>[" + value.sCategory + "]" + value.sTitle + "</h3>"+
+									"<span>發文/更改時間: " + $.format.date(new Date(value.dDate), 'yyyy-MM-dd') + "&nbsp;" + value.tTime + "</span><br>"+
+									"<span>樓主: " + value.sAuthor + "</span><br>"+
+									"<span>留言數: " + value.sReplyBeans.length + "</span>"+
+									"</div>"+
+									"</div>"+
+									"<hr>");
 					});
 	            },
 	            error:function (err) {
 	                alert("發生錯誤!");
 	            }		
-			});							
-		});		
+			});
+		}
+		
+		
 		$("#point").on("click","a",function(){
 			this.target = "_blank";
 		});	

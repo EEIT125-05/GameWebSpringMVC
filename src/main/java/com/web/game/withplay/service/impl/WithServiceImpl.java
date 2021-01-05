@@ -69,4 +69,11 @@ public class WithServiceImpl implements WithService {
 	public List<WithPlay> search(String sNickname,String sGame) {
 		return withDao.search(sNickname, sGame);
 	}
+
+	@Override
+	public String CheckID(String sIdcode) {
+		return withDao.CheckID(sIdcode);
+	}
+	
+	
 }

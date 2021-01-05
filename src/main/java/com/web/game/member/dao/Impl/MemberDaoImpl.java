@@ -73,17 +73,15 @@ public class MemberDaoImpl implements MemberDao {
 	public MemberBean Selectmember(String sAccount) {
 		MemberBean SelectMB = null;
 		try {
-			
-		String hql = "FROM MemberBean WHERE sAccount = :sAccount";
-		Session session = getSession();
-		SelectMB = (MemberBean)session.createQuery(hql).setParameter("sAccount", sAccount).getSingleResult();
-		System.out.println(SelectMB);
-		}catch (Exception e) {
+			String hql = "FROM MemberBean WHERE sAccount = :sAccount";
+			Session session = getSession();
+			SelectMB = (MemberBean) session.createQuery(hql).setParameter("sAccount", sAccount).getSingleResult();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return SelectMB;
 	}
-	
+
 	@Override
 	public String Checkmember(String sAccount) {
 		Session session = factory.getCurrentSession();
@@ -100,9 +98,9 @@ public class MemberDaoImpl implements MemberDao {
 			Account = "Error: 資料庫異常，請檢查資料庫";
 		}
 		return Account;
-	
+
 	}
-	
+
 	@Override
 	public String CheckEmail(String sEmail) {
 		Session session = factory.getCurrentSession();

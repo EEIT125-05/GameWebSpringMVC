@@ -72,4 +72,13 @@ public class MemberServiceImpl implements MemberService {
 	public String CheckPhone(String sPhone) {
 		return dao.CheckPhone(sPhone);
 	}
+
+	@Override
+	public MemberBean get(Integer iNo) {
+		return dao.get(iNo);
+	}
+
+	
+	
+
 }

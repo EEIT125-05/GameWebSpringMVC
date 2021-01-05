@@ -2,12 +2,15 @@ package com.web.game.withplay.dao.impl;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.web.game.member.model.MemberBean;
 import com.web.game.withplay.dao.WithDao;
 import com.web.game.withplay.model.WithPlay;
 
@@ -91,6 +94,24 @@ public class WithDaoImpl implements WithDao {
 		Session session = getSession();
 		return  session.createQuery(hql).getResultList();
 		
+	}
+
+	@Override
+	public String CheckID(String sIdcode) {
+		Session session = getSession();
+		String hql = "FROM WithPlay WHERE sIdcode = :sIdcode";
+		String Idcode = "";
+		try {
+			WithPlay wp = (WithPlay) session.createQuery(hql).setParameter("sIdcode", sIdcode).getSingleResult();
+			Idcode = wp.getsAccount();
+		} catch (NoResultException ex) {
+			;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println(ex.getMessage());
+			Idcode = "Error: 資料庫異常，請檢查資料庫";
+		}
+		return Idcode;
 	}
 
 }
