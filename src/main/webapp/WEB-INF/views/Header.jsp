@@ -55,7 +55,7 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
               <a class="dropdown-item" href="<c:url value='/forum/Index'/>">討論區</a>
               <a class="dropdown-item" href="<c:url value='/forum/Create'/>">新增貼文</a>
-              <a class="dropdown-item" href="<c:url value='/forum/Management'/>">管理貼文</a>
+<%--               <a class="dropdown-item" href="<c:url value='/forum/Management'/>">管理貼文</a> --%>
             </div>
           </li>
           

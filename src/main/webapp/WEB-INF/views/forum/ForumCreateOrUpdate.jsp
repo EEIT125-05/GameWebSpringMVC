@@ -7,10 +7,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>ForumCreate</title>
+<title>GameBar</title>
 <style>
 .error{
 	color:red;
+}
+.dark-matter {
+	margin-left:0;
+	margin-right:0;
+	max-width: none; 
+}
+
+.dark-matter select {
+	width:10%
 }
 </style>
 <script src="<c:url value='/js/ForumCreate.js'/>"></script>
@@ -18,10 +27,71 @@
 <body>
 <%@ include file="../Header.jsp" %>
 
-<c:set var="ForumConfirm" value="create" scope="session"/>
-<h2>新增貼文資料</h2>
+<%-- <c:set var="ForumConfirm" value="create" scope="session"/> --%>
+<div class="container">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height:300px;">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox" style="height:300px">
+       
+        <div class="carousel-item active" style="background-image: url('https://content.shopback.com/tw/wp-content/uploads/2020/04/10142030/Cover-nintendo-web.jpg');height:300px">
+          <div class="carousel-caption d-none d-md-block">
+            <h3></h3>
+         
+          </div>
+        </div>
+       
+        <div class="carousel-item" style="background-image: url('https://static02-proxy.hket.com/res/v3/image/content/2605000/2607364/MARIO_1024.png')">
+          <div class="carousel-caption d-none d-md-block">
+            <h3></h3>
+         
+          </div>
+        </div>
+     
+        <div class="carousel-item" style="background-image: url('https://uc.udn.com.tw/photo/2020/11/05/0/9020971.jpg')">
+          <div class="carousel-caption d-none d-md-block">
+            <h3></h3>
+            <p></p>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
 
-<form:form method="POST" modelAttribute="fForumBean">
+      </a>
+    </div>
+  	<br>
+	<form>
+  
+		<a class="btn btn-primary category categoryChoose">全部</a>
+		<a class="btn btn-primary category">閒聊</a>
+		<a class="btn btn-primary category">公告</a>
+		<a class="btn btn-primary category">討論</a>
+		<a class="btn btn-primary category">問題</a>
+		<a class="btn btn-primary category">情報</a>
+		<a class="btn btn-primary category">攻略</a>
+		
+		<div class="input-group" style="margin-top:15px">
+			<h3> 標題:&nbsp;</h3>
+			<input type="text" id="sSearch" class="form-control" name="sSearch">
+			<span class="input-group-append">
+				<input type="button" id="submit" class="btn btn-secondary"
+					 name="select" value="搜尋">
+			</span>
+		</div>
+	</form>
+	<hr>
+<h3>${sForumConfirm}貼文</h3>
+
+<form:form class="dark-matter" method="POST" modelAttribute="fForumBean">
 	<div>
 		<label>分類: </label>
 		<form:select id="sCategory" path="sCategory">
@@ -34,20 +104,20 @@
 		</form:select>
 		<label>標題: </label>
 		<form:input type="text" id="sTitle" path="sTitle" size="83"/>
-		<br><label id="titleError" class="error"></label>
-		<br><form:errors path="sTitle" class="error"/> 
+		<label id="titleError" class="error"></label>
+		<form:errors path="sTitle" class="error"/> 
 	</div>
 	<div>
 		<label>內文: </label>
-		<form:textarea id="sText" path="sText" cols="100" rows="15" placeholder="請在這裡填寫內容"/>
+		<form:textarea id="sText" path="sText" cols="100" rows="15"/>
 		<br><label id="textError" class="error"></label>
 		<br><form:errors path="sText" class="error"/> 
 	</div>
 	<div>
-		<input type="submit" id="submit" name="sForumConfirm" value="${sForumConfirm}"/>
+		<input type="submit" id="submitForm" name="sForumConfirm" value="${sForumConfirm}"/>
 	</div>
 </form:form>
-
+</div>>
 <%@ include file="../Foot.jsp" %>
 
 <script src="<c:url value='/ckeditor/ckeditor.js'/>"></script>

@@ -73,12 +73,31 @@ public class ForumDAOImpl implements ForumDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ForumBean> searchForum(String sCategory, String sSearch) {
+	public List<ForumBean> searchForum(String sCategory, String sSearch, Integer scrollInt) {
 		Session session = factory.getCurrentSession();
-		String hql = "from ForumBean where sTitle like '%" + sSearch + "%' " + sCategory + "order by dDate desc, tTime desc";
+		String hql = "from ForumBean where sTitle like '%" + sSearch + "%' " + sCategory + " order by dDate desc, tTime desc";
 		System.out.println("sSearch" + sSearch);
 		System.out.println("sCategory" + sCategory);
-		return session.createQuery(hql).getResultList();
+		System.out.println(hql);
+		return session.createQuery(hql)
+						.setFirstResult(scrollInt*6)
+						.setMaxResults(6)
+						.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> searchHotForums(String sCategory, String sSearch, String sHot, Integer scrollInt) {
+		Session session = factory.getCurrentSession();
+		String sql = "select forum.iNo,forum.sCategory,forum.sTitle,forum.dDate,forum.tTime,forum.sAuthor,forum.sText, count(iForumNo) c from forum left join reply on forum.iNo = reply.iForumNo " + 
+				"where sTitle like '%" + sSearch + "%' " + sCategory +
+				" group by forum.iNo,forum.sCategory,forum.sTitle,forum.dDate,forum.tTime,forum.sAuthor,forum.sText" + 
+				" order by " + sHot + "dDate desc, tTime desc";
+		System.out.println(sql);
+		return session.createNativeQuery(sql)
+						.setFirstResult(scrollInt*6)
+						.setMaxResults(6)
+						.getResultList();
+	}
+	
 }

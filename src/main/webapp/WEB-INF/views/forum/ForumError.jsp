@@ -5,13 +5,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ForumError</title>
+<title>GameBar</title>
 </head>
 <body>
 <%@ include file="../Header.jsp" %>
 
 <p>發生錯誤,請重新操作!</p>
-<p>${updateMessage}</p>
+<p>${errorMessage}</p>
 
 <a href="<c:url value='/forum/Index'/>">回首頁</a>
 
