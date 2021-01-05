@@ -1,5 +1,7 @@
 package com.web.game.withplay.controller;
 
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.web.game.contest.service.GameListService;
 import com.web.game.withplay.model.WithPlay;
+import com.web.game.withplay.service.WithReplyService;
 import com.web.game.withplay.service.WithService;
 
 @SessionAttributes("user")
@@ -45,14 +48,28 @@ public class NocheckWithController {
 	@Autowired
 	GameListService ListService;
 	
+	
+	
 	@GetMapping("/withplay/Index")
 	public String WithplayIndex(Model model) {
-		model.addAttribute("With", withService.search("", ""));
-		model.addAttribute("With",withService.list());
+		model.addAttribute("Withsearch", withService.search("", ""));
+		model.addAttribute("Withlist",withService.list());
 		model.addAttribute("GameList",ListService.selectGameList());
+//		
+//		WithPlay test = withService.get(1);
+//		System.out.println("test: " + test.getsComment());
+//		System.out.println("test: " + test.get);
 		return "withplay/WithplayIndex";
 	}
 	
+	
+//	@GetMapping("/Detail/{forumNo}")
+//	public String withDetail(
+//					@PathVariable Integer withNo,
+//					Model model) {
+//		model.addAttribute("Withplay", withService.get(withNo));
+//		return "withplay/WithplayIndex";
+//	}
 //	@GetMapping("/withplay/select")
 //	public String get(@RequestParam String sNickname,Model model) {
 //		model.addAttribute("With", withService.selectlist(sNickname));
