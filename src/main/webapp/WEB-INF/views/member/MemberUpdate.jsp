@@ -183,10 +183,10 @@ request.setCharacterEncoding("UTF-8");
 	<hr>
 	<%@ include file="../Header.jsp"%>
 
-	<div align='center'>
-		<div align='left' style="border: 3px solid gray; width: 550; height: 550">
-			<form action="<c:url value='/member/MemberData'/>" method="post"
-				modelAttribute="user">
+	<form action="<c:url value='/member/MemberData'/>" method="post">
+		<div align='center'>
+			<div align='left'
+				style="border: 3px solid gray; width: 550; height: 550">
 				<h3>
 					<input name="iNo" type="hidden" value="${user.iNo}" readonly>
 				</h3>
@@ -211,15 +211,37 @@ request.setCharacterEncoding("UTF-8");
 						value="${user.sNickname}"><span id="idnickname"></span>
 				</h3>
 				<h3>
-					更改真實姓名:readonly<input type="hidden" id="Ename" name="sEname"
+					居住城市:<select id="Address" name="sAddress">
+						<option>${user.sAddress}</option>
+						<option>臺北市</option>
+						<option>新北市</option>
+						<option>桃園市</option>
+						<option>臺中市</option>
+						<option>臺南市</option>
+						<option>高雄市</option>
+						<option>基隆市</option>
+						<option>新竹市</option>
+						<option>嘉義市</option>
+						<option>新竹縣</option>
+						<option>苗栗縣</option>
+						<option>彰化縣</option>
+						<option>南投縣</option>
+						<option>雲林縣</option>
+						<option>嘉義縣</option>
+						<option>屏東縣</option>
+						<option>宜蘭縣</option>
+						<option>花蓮縣</option>
+						<option>臺東縣</option>
+						<option>澎湖縣</option>
+						<option>金門縣</option>
+						<option>連江縣</option>
+					</select>
+				</h3>
+				<h3>
+					更改真實姓名:${user.sEname}<input type="hidden" id="Ename" name="sEname"
 						required onblur="checkName();" pattern="^[\u4e00-\u9fa5]+$"
 						minlength="2" maxlength="4" value="${user.sEname}" readonly><span
 						id="idname"></span>
-				</h3>
-				<h3>
-					聯絡地址:<input type="text" id="Address" name="sAddress" required
-						onblur="checkAddress();" maxlength="30" value="${user.sAddress}"><span
-						id="idaddress"></span>
 				</h3>
 				<h3>
 					更改信箱:${user.sEmail}<input type="hidden" id="Email" name="sEmail"
@@ -229,8 +251,8 @@ request.setCharacterEncoding("UTF-8");
 						id="idemail"></span>
 				</h3>
 				<h3>
-					更改手機號碼:<input type="text" id="Phone" name="sPhone" maxlength="10"
-						pattern="[0]{1}[9]{1}\d{8}" onblur="checkPhone();"
+					更改手機號碼:${user.sPhone}<input type="hidden" id="Phone" name="sPhone"
+						maxlength="10" pattern="[0]{1}[9]{1}\d{8}" onblur="checkPhone();"
 						value="${user.sPhone}"><span id="idphone"></span>
 				</h3>
 				<h3>
@@ -245,9 +267,12 @@ request.setCharacterEncoding("UTF-8");
 					建立日期:${user.registerDate}<input type="hidden" name="registerDate"
 						value="${user.registerDate}" readonly>
 				</h3>
-				<input align='center' id="submit" name="submit" type="submit" value="修改" disabled>
+				<td><input align='center' id="submit" name="submit"
+					type="submit" value="修改" disabled></td>
+				<td><a href="<c:url value='/member/Data'/>"><input
+						type="button" value="回上一頁"></a></td>
+			</div>
 		</div>
-	</div>
 	</form>
 
 	<%@ include file="../Foot.jsp"%>

@@ -52,11 +52,11 @@ table, th, td {
 						<tr>
 							<td>${user.iNo}</td>
 							<td><img width='60' height='72'
-								src='/member/picture/${user.iNo}' /></td>
+								src='/member/picture/${user.sAccount}' /></td>
 							<%-- 							<td><a href="<c:url value='/member/${user.iNo}'/>" --%>
 							<%-- 								method="post">${user.iNo}</a></td> --%>
 							<td><a href="<c:url value='/member/Update/${user.sAccount}'/>">
-									${user.sAccount}</a></td>
+									<input type="button" value="${user.sAccount}"></a></td>
 							<%-- 							<td>${user.sAccount}</td> --%>
 							<td>${user.sNickname}</td>
 							<td>${user.sEname}</td>
@@ -66,7 +66,8 @@ table, th, td {
 							<td>${user.sBirthday}</td>
 							<td>${user.registerDate}</td>
 							<td><a
-								href="<c:url value='/member/Change/${user.sAccount}'/>">${user.status}</a></td>
+								href="<c:url value='/member/Change/${user.sAccount}'/>">
+								<input type="button" value="${user.status}"></a></td>
 							<td><a class='deletelink'
 								href="<c:url value='/member/delete/${user.iNo}'/>">刪除</a></td>
 						</tr>
