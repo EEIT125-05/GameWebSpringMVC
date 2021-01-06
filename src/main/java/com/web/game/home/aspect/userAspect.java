@@ -19,6 +19,7 @@ public class userAspect {
 	@Before("execution (* com.web.game.contest.controller.ContestController.*(..)) "+
 			"||execution (* com.web.game.forum.controller.ForumController.*(..))"+
 			"||execution (* com.web.game.withplay.controller.WithController.*(..))"+
+			"||execution (* com.web.game.exchange.controller.*.*(..))"+
 			"||execution (* com.web.game.member.controller.MemberControllerVerified.*(..))")
 	public void userCheck(JoinPoint joinPoint) {
 		System.out.println("aop成功-------------------------------------------------------------------------------------------------------------------");

@@ -66,11 +66,7 @@ public class ContestDAOImpl implements ContestDAO {
 	@Override
 	public ContestBean selectOneContest(Integer iNo) {
 		Session session = factory.getCurrentSession();
-		ContestBean cContestBean = session.get(ContestBean.class, iNo);
-		if(cContestBean == null) {
-			System.out.println("沒資料");
-		}
-		return cContestBean;
+		return session.get(ContestBean.class, iNo);
 	}
 
 	@SuppressWarnings("unchecked")

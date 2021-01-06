@@ -273,7 +273,7 @@
 		<p>參賽人員:</p>
 		<label id="playerCount"></label>
 		<br>
-		<button id="">自動安排</button>
+		<button id="auto">自動安排</button>
 	    <button id="createImage">儲存賽程</button>
 	
 	</div>
@@ -701,8 +701,15 @@
 				    	console.log("out");
 				    }
 				}); 
-				
 			}
+			
+			$("#auto").on("click",function(){
+				for(let i=0; i<$(".player").length; i++){
+					console.log("i: " + i);
+					$(".drop")[i].append("<label class=\"player\" style=\"margin:0;border-color:red\">" + $(".player")[i].text() + "</label>");
+				}
+// 				$(".drop").append("<label class=\"player\" style=\"margin:0;border-color:red\">" + "test" + "</label>");
+			});
 			
 
 		});
