@@ -140,7 +140,7 @@
             <label class="error"></label>
         </div>
         <div>
-            <input type="submit" id="submit"  name="sContestConfirm" value="${sContestConfirm}"/>
+            <input type="submit" id="submit" class="button" name="sContestConfirm" value="${sContestConfirm}"/>
         </div>
 		</form:form>
 		
