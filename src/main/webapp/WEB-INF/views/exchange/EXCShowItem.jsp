@@ -25,9 +25,9 @@
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" >
     我要換/共${fn:length(MemberSupport)}筆
   </a>
-  <span class="text-success"  >
-    我要換/共${fn:length(MemberSupport)}筆
-  </span>
+<!--   <span class="text-success"  > -->
+<%--     我要換/共${fn:length(MemberSupport)}筆 --%>
+<!--   </span> -->
   
 </p>
 

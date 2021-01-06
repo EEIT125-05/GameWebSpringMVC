@@ -46,9 +46,9 @@ public class UDSupportGameController {
 		String sAction = "刪除";
 		String sPath = null;
 		if(service.FindsupportGame(deleteindex).getMygamebean()!=null) {
-			System.out.println("testtttttttttttttttttttt");
-			service.FindsupportGame(deleteindex).getMygamebean().setSupportgamebean(null);
-			service.updateGameToSupport(service.FindsupportGame(deleteindex).getMygamebean());
+			MyGameBean mygamebean = service.FindsupportGame(deleteindex).getMygamebean();
+			mygamebean.setSupportgamebean(null);
+			service.updateGameToSupport(mygamebean);
 		}
 		if (service.DeleteSupportGame(deleteindex)) {
 			sPath = "EXCThanks";
