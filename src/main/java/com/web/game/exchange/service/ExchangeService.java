@@ -214,6 +214,7 @@ public class ExchangeService {
 	}
 	@Transactional
 	public boolean updateGameToSupport(MyGameBean mygame) {
+		System.out.println(mygame.getSupportgamebean());
 		return mygamesDAO.updateGameToSupport(mygame);
 	}
 	

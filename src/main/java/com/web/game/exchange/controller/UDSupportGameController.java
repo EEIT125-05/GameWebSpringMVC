@@ -45,6 +45,11 @@ public class UDSupportGameController {
 		// ------重定向
 		String sAction = "刪除";
 		String sPath = null;
+		if(service.FindsupportGame(deleteindex).getMygamebean()!=null) {
+			System.out.println("testtttttttttttttttttttt");
+			service.FindsupportGame(deleteindex).getMygamebean().setSupportgamebean(null);
+			service.updateGameToSupport(service.FindsupportGame(deleteindex).getMygamebean());
+		}
 		if (service.DeleteSupportGame(deleteindex)) {
 			sPath = "EXCThanks";
 		} else {

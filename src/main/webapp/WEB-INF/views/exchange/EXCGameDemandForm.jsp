@@ -17,6 +17,9 @@ request.setCharacterEncoding("UTF-8");
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
 <TITLE>許願池</TITLE>
 <style>
+.com{
+    max-width:1000px; 
+}
 legend {
 	font-size: 30px;
 }
@@ -25,7 +28,7 @@ fieldset {
 	padding-top: 10px;
 	padding-left: 20px;
 	margin: auto;
-	width: 400px;
+	width: 800px;
 	border-color: transparent;
 	border-radius: 15px;
 	margin: 20px;
@@ -43,7 +46,8 @@ div {
 <BODY>
 	<%@ include file="../Header.jsp"%>
 
-	<form:form method="post" modelAttribute="DemandGameBean">
+	<form:form method="post" modelAttribute="DemandGameBean" class="dark-matter com">
+		<div class="container">
 		<fieldset>
 			<legend>許願池</legend>
 			<div>
@@ -88,19 +92,17 @@ div {
 				<label for="remark">備註 </label>
 				<form:input class="fixedlen" type="text" path="remark" />
 			</div>
-
-			<!--       <div> -->
-			<!--           <label for="image">圖片　　</label>根據gamename直接給圖片路徑(預設) -->
-			<!--           <span id="imagespan"></span> -->
-			<!--       </div> -->
 			<div style="margin-top: 20px;">
-				<input type="submit" name="submit" id="submit" value="送出" disabled>
-				<input type="reset" value="清除">
+				<button type="submit" name="submit" id="submit" class="button" disabled>送出</button>
+				<button type="reset" class="button">清除</button>
 			</div>
 		</fieldset>
+		</div>
 	</form:form>
 
 	<script>
+	$("#gamer").attr("readonly", true);
+	
 	
 	$("#console1").on("blur", function() {
 		flag1 = false

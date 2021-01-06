@@ -13,6 +13,9 @@
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
 <TITLE>我的遊戲</TITLE>
 <style>
+.com{
+    max-width:1000px; 
+}
 legend {
 	font-size: 30px;
 }
@@ -21,7 +24,7 @@ fieldset {
 	padding-top: 10px;
 	padding-left: 20px;
 	margin: auto;
-	width: 400px;
+	width: 800px;
 	border-color: transparent;
 	border-radius: 15px;
 	margin: 20px;
@@ -39,7 +42,7 @@ div {
 <BODY>
 	<%@ include file="../Header.jsp"%>
 
-	<form:form method="post" modelAttribute="mygamebean">
+	<form:form method="post" modelAttribute="mygamebean" class="dark-matter com">
 		<fieldset>
 			<legend>新增我的遊戲庫</legend>
 			<div>
@@ -71,16 +74,19 @@ div {
 			</div>
 			
 			<div style="margin-top: 20px;">
-				<input type="submit" name="submit" id="submit" value="送出" disabled>
-				<input type="reset" value="清除">
+				<button type="submit" class="button" name="submit" id="submit" disabled>送出</button>
+				<button type="reset" class="button">清除</button>
 			</div>
 		</fieldset>
 	</form:form>
 
 	<script>
-	if(${noGames != null}){
-		alert("您必須先新增遊戲至您的遊戲庫，才有辦法提出交換申請");
-	}	
+	
+	$("#gamer").attr("readonly", true);
+	
+// 	if(${noGames != null}){
+// 		alert("您必須先新增遊戲至您的遊戲庫，才有辦法提出交換申請");
+// 	}	
 	
 	
 	$("#console1").on("blur", function() {

@@ -242,7 +242,6 @@
 
 					</table>
   
-  
   </div>
   <br>
 </div>
@@ -251,5 +250,6 @@
 					<a class="btn btn-primary" style="background-color: red;" href="<c:url value="/exchange/Index"/>">返回主頁</a>
 </div>
 					<%@ include file="../Foot.jsp"%>
+					
 </body>
 </html>
