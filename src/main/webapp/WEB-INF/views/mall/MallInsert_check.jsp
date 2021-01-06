@@ -149,9 +149,21 @@ table td {
 </head>
 <body>
 <%@ include file="../Header.jsp" %>
+<div class="container">
+
+<h1 class="mt-4 mb-3">商品
+      <small>新增資料</small>
+    </h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="<c:url value='/'/>">Home</a>
+      </li>
+      <li class="breadcrumb-item active">商品新增確認</li>
+    </ol>
 
 <!-- 商品資料新增->確認中(按下去就新增)	 -->
-		<img src="images/商品資料如下請確認.png" alt="">
+	
 	
 	<form action="<c:url value="/mall/new_check"/>" method="get">
 		<div class="main">
@@ -215,6 +227,7 @@ table td {
 		</div>
 			
 	</form>
+	</div>
 	<%@ include file="../Foot.jsp" %>
 </body>
 </html>

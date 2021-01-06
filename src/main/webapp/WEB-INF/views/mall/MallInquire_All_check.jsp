@@ -21,6 +21,18 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 
 <body>
 <%@ include file="../Header.jsp" %>
+<div class="container">
+
+<h1 class="mt-4 mb-3">商品
+      <small>更改</small>
+    </h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="<c:url value='/'/>">Home</a>
+      </li>
+      <li class="breadcrumb-item active">商品更改</li>
+    </ol>
 
 	
 	
@@ -37,7 +49,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 				交貨方式:<input type="text" name="deilvery" value="${good.deilvery}"><br />
 				商品尺寸:<input type="text" name="size" value="${good.size}"><br />
 				商品圖片:<input type="text" name="origin" value="${good.origin}"><br /><!-- 圖片 -->
-				商品貨號:<input type="text" name="item" value="${good.item}"><br />
+				商品簡介:<input type="text" name="item" value="${good.item}"><br />
 				商品分數:<input type="text" name="contentment" value="${good.contentment}"><br />
 		
 	
@@ -45,6 +57,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 		<input type="submit" name="callreturn" value="送出" />
 	</div>
 	</form>
+	</div>
 <%@ include file="../Foot.jsp" %>
 </body>
 </html>

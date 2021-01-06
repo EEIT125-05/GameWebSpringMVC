@@ -17,36 +17,46 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Test Database Connection Pooling</title>
 <style>
-th {
-	background-color: #9d8dea;
-	color: white;
-	border: 2px solid white;
+table, th , td  {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
 }
+table tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+</style>
 
-td {
-	background-color: rgb(251, 251, 147);
-	border: 2px solid white;
-}
-
-table {
-	border: 2px solid white;
-}
 </style>
 </head>
 
 <body>
-	<%@ include file="../Header.jsp" %>
+<%@ include file="../Header.jsp" %>
+<div class="container">
+
+<h1 class="mt-4 mb-3">商品
+      <small>查詢</small>
+    </h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="<c:url value='/'/>">Home</a>
+      </li>
+      <li class="breadcrumb-item active">商品查詢</li>
+    </ol>
 
 	<form action="<c:url value="/mall/update1"/>"  method="get">
-		    <img src="images/目前所有商品.png" alt="">
+		  
 		<table style="padding-left: 27px;">
 			<tr>
 				<th style="background-color: rgb(242, 189, 189);"><span
-					style="color: black;">查詢：</span></th>
+					style="color: black;">請輸入欲修改之編號：</span></th>
 				<td><input type="text" name="search" id="search1"
 					onblur=checkconsole() /> <input type="submit" id="submit"
-					name="updateto" value="搜尋" disabled /> <a class="button"
-					href="MallStrikeoutForm.jsp">刪除</a>
+					name="updateto" value="更改" disabled /> 
 					<span id="search1span"></span>
 				</div></td>
 			</tr>
@@ -54,19 +64,19 @@ table {
 
 
 		<table border="0.5">
-			<th>商品編號</th>
-			<th>商品名稱</th>
-			<th>商品類型</th>
-			<th>遊戲平台</th>
-			<th>商品分類</th>
-			<th>商品分級</th>
-			<th>商品價錢</th>
+			<th>No.</th>
+			<th>名稱</th>
+			<th>類型</th>
+			<th>平台</th>
+			<th>分類</th>
+			<th>分級</th>
+			<th>價錢</th>
 			<th>付款方式</th>
 			<th>交貨方式</th>
 			<th>商品尺寸</th>
 			<th>商品產地</th>
 			<!-- 改成圖片 -->
-			<th>商品貨號</th>
+			<th>商品簡介</th>
 			<th>商品評價</th>
 
 
@@ -122,6 +132,7 @@ table {
 			}
 		</script>
 		</from>
+		</div>
 		<%@ include file="../Foot.jsp" %>
 </body>
 
