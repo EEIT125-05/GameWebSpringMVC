@@ -5,6 +5,7 @@
 <%@ include file="../Link.jsp"%>
 
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -141,9 +142,8 @@
 							</div>
 							<div class="modal-footer">
 								<button type="botton" class="btn btn-secondary"
-									data-dismiss="modal" >返回</button>
+									data-dismiss="modal" id="demo1">返回</button>
 								<button type="submit" class="btn btn-primary appforsubmit" >申請</button>
-
 							</div>
 						</form>
 					</div>
@@ -163,10 +163,11 @@
 	</div>
 	</div>
 
-
+	<button id="demo1" type="submit">!!!test</button>
 
 
 	<%@ include file="../Foot.jsp"%>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 
 		function resetDisabled(){
@@ -188,6 +189,12 @@
 		}
 		
 		window.onload = function() {
+			
+			
+			document.getElementById("demo1").addEventListener("click",function(){
+				  swal("Good job!", "You clicked the button!", "success");
+				});
+			
 			
 			var pages = document.querySelectorAll(".page");
 			var applyFors = document.querySelectorAll(".applyFor");
