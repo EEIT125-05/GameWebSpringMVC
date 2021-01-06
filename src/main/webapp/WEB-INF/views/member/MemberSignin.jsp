@@ -55,27 +55,38 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 
 	function GoogleLogin() {
 		let auth2 = gapi.auth2.getAuthInstance();//取得GoogleAuth物件
-		auth2.signIn().then(function(GoogleUser) {
-		console.log("Google登入成功");
-		let user_id = GoogleUser.getId();//取得user id，不過要發送至Server端的話，為了資安請使用id_token，本人另一篇文章有範例：https://dotblogs.com.tw/shadow/2019/01/31/113026
-		console.log(`user_id:${user_id}`);
-		let AuthResponse = GoogleUser.getAuthResponse(true);//true會回傳包含access token ，false則不會
-		let id_token = AuthResponse.id_token;//取得id_token
-		//people.get方法參考：https://developers.google.com/people/api/rest/v1/people/get
-		gapi.client.people.people.get({'resourceName' : 'people/me',
-		'personFields' : 'names,phoneNumbers,emailAddresses,addresses,residences,genders,birthdays,occupations',}).then(function(res) {
+		auth2
+				.signIn()
+				.then(
+						function(GoogleUser) {
+							console.log("Google登入成功");
+							let user_id = GoogleUser.getId();//取得user id，不過要發送至Server端的話，為了資安請使用id_token，本人另一篇文章有範例：https://dotblogs.com.tw/shadow/2019/01/31/113026
+							console.log(`user_id:${user_id}`);
+							let AuthResponse = GoogleUser.getAuthResponse(true);//true會回傳包含access token ，false則不會
+							let id_token = AuthResponse.id_token;//取得id_token
+							//people.get方法參考：https://developers.google.com/people/api/rest/v1/people/get
+							gapi.client.people.people
+									.get(
+											{
+												'resourceName' : 'people/me',
+												'personFields' : 'names,phoneNumbers,emailAddresses,addresses,residences,genders,birthdays,occupations',
+											})
+									.then(
+											function(res) {
 												//通常你會想要知道的用戶個資↓
 												//success
-		let str = JSON.stringify(res.result);//將物件列化成string，方便顯示結果在畫面上
+												let str = JSON
+														.stringify(res.result);//將物件列化成string，方便顯示結果在畫面上
 												//顯示授權你網站存取的用戶個資
-		document.getElementById('content').innerHTML = str;
+												document
+														.getElementById('content').innerHTML = str;
 												//↑通常metadata標記primary:true的個資就是你該抓的資料
 
 												//請再自行Parse JSON，可以將JSON字串丟到線上parse工具查看：http://json.parser.online.fr/
 
 												//最終，取得用戶個資後看要填在畫面表單上或是透過Ajax儲存到資料庫(記得是傳id_token給你的Web Server而不是明碼的user_id喔)，本範例就不贅述，請自行努力XD
-		});	
-		}, function(error) {
+											});
+						}, function(error) {
 							console.log("Google登入失敗");
 							console.log(error);
 						});
@@ -148,15 +159,15 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 	<h1 align='center'>登入GameBar會員</h1>
 	<hr>
 	<%@ include file="../Header.jsp"%>
-	<div align='center'>
-		<form action="<c:url value='/member/SignIn'/>" method="post">
-
+	<form action="<c:url value='/member/SignIn'/>" method="post">
+		<div align='center'>
 			<div align='center'
 				style='border: 3px solid gray; width: 500; height: 500;'>
 				<h3 style='padding-top: 30px;' align='left'>
 					帳號:<input type="text" name="sAccount" minlength="6" maxlength="20"
 						placeholder="請輸入帳號" required="required">
 				</h3>
+				<h6 style='color:red;'>${showError}</h6>
 				<h3 style='padding-top: 30px;' align='left'>
 					密碼:<input type="password" id="Password" name="sPassword"
 						placeholder="請輸入密碼" minlength="8" maxlength="16" required>
@@ -174,24 +185,23 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 						style="width: 90px; margin: 0px 10px;" onClick="createCode()" /><input
 						id="Button1" onClick="validate();" type="button" value="驗證" />
 				</h4>
-		</form>
 
-		<button type="button" id="btnSignIn">Google登入</button>
-		<button type="button" id="btnDisconnect">斷連Google App</button>
-		<hr />
-		<div id="content"></div>
+				<div id="content"></div>
+				<button type="button" id="btnSignIn">Google登入</button>
+				<button type="button" id="btnDisconnect">斷連Google App</button>
+				<hr />
 
 
-		<input id="Signin" name="Signin" type="submit" value="登入"
-			style='width: 350; height: 50; font-size: 30; margin-top: 15;'>
+				<input id="Signin" name="Signin" type="submit" value="登入" disabled
+					style='width: 350; height: 50; font-size: 30; margin-top: 15;'>
 
-		<div style='padding-top: 10px;'>
-			<a href="<c:url value='/member/GameBarGMSignin'/>"><input
-				type="button" style='width: 350; height: 50; font-size: 30;'
-				value="管理者登入"></a>
+				<div style='padding-top: 10px;'>
+					<a href="<c:url value='/member/GameBarGMSignin'/>"><input
+						type="button" style='width: 350; height: 50; font-size: 30;'
+						value="管理者登入"></a>
+				</div>
+			</div>
 		</div>
-	</div>
-	</div>
 	</form>
 	<%@ include file="../Foot.jsp"%>
 </body>
