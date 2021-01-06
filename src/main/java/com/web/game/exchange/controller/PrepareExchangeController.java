@@ -51,7 +51,7 @@ public class PrepareExchangeController {
 		
 		
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
-		int count=9;//每頁幾筆
+		int count=6;//每頁幾筆
 		int p = 0;//共幾頁
 		System.out.println("IndexIn");
 		if (searchparams == null) {

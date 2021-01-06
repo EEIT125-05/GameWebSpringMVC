@@ -28,7 +28,7 @@ public class SupportDAO {
 		Session session = factory.getCurrentSession();
 		String queryAll = "FROM SupportGameBean WHERE status = 0";
 
-		int counts = 9;
+		int counts = 6;
 		int start = 0;
 		if (page == 1) {
 			start = 0;
@@ -55,7 +55,7 @@ public class SupportDAO {
 			hql = queryArea;
 		}
 
-		int counts = 9;
+		int counts = 6;
 		int start = 0;
 		if (page == 1) {
 			start = 0;
