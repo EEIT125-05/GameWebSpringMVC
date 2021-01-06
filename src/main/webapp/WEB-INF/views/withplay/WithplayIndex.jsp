@@ -58,7 +58,7 @@ response.setContentType("text/html;charset=UTF-8");
 		</c:if>
 		<div class="row" id="point">
 			<c:forEach var="With" items="${Withlist}">
-				<div class="col col-6 col-sm-4 col-md-4 col-lg-2">
+				<div class="col col-6 col-sm-4 col-md-4 col-lg-4">
 					<div data-toggle="modal" data-target="#exampleModal${With.iId}">
 						<div class="div1">
 							<div class="fi1">
@@ -168,7 +168,6 @@ response.setContentType("text/html;charset=UTF-8");
 				});
 
 		$("#submit").on("click",function() {
-			console.log("12346579");
 			$("#point").empty();
 							let xhr = new XMLHttpRequest();
 							if (xhr != null) {
@@ -187,8 +186,8 @@ response.setContentType("text/html;charset=UTF-8");
 												$.each(obj,function(key,value) {
 													
 													$("#point").append(
-																					"<div class='row' id='point'>"
-																							+ "<div class='col col-6 col-sm-4 col-md-4 col-lg-2'>"
+// 																					"<div class='row' id='point'>"
+																							 "<div class='col col-6 col-sm-4 col-md-4 col-lg-4'>"
 																							+ "<div data-toggle='modal' data-target='#exampleModal" + value.iId + "'>"
 																							+ "<div class='div1'>"
 																							+ "<div class='fi1'>"
@@ -265,9 +264,9 @@ response.setContentType("text/html;charset=UTF-8");
 																							+ "</div>"
 																							+ "</div>"
 																							+ "</div>"
-																							+ "</div>"
 																							+ "</div>" )
-																							let author ="";
+// 																							+ "</div>" )
+													let author ="";
 													let text = "";
 													let date = "";
 													let time = "";
