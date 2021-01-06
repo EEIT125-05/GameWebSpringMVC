@@ -10,6 +10,9 @@
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
 <TITLE>我要換</TITLE>
 <style>
+.com{
+    max-width:1000px; 
+}
 legend {
 	font-size: 30px;
 }
@@ -18,7 +21,7 @@ fieldset {
 	padding-top: 10px;
 	padding-left: 20px;
 	margin: auto;
-	width: 400px;
+	width: 800px;
 	border-color: transparent;
 	border-radius: 15px;
 	margin: 20px;
@@ -38,12 +41,12 @@ div {
 	<%@ include file="../Header.jsp"%>
 
 	<form:form method="post" modelAttribute="gamebean"
-		enctype='multipart/form-data'>
+		enctype='multipart/form-data' class="dark-matter com">
 		<fieldset>
 			<legend>${update }${insert }</legend>
 			<div>
 
-				<label for="console">平台 </label>
+				<label for="console">平台　　</label>
 				<form:select path="console" style="width: 260px;" class="fixedlen"
 					id="console1">
 					<form:option value="-1" label="請選擇平台" />
@@ -64,7 +67,7 @@ div {
 			</div>
 			<div>
 
-				<label for="qty">數量 </label>
+				<label for="qty">數量　　 </label>
 				<form:input class="fixedlen" id="qty" path="qty" type="text"
 					onchange="value=value.replace(/[^\d]/g,'')" />
 				<span id="qtyspan"></span>
@@ -106,14 +109,12 @@ div {
 					style="background-color:gary" type="text" path="gamer" />
 			</div>
 			<div>
-				<label for="dlc">含特典 </label>
-
+				<label for="dlc" >含特典 </label>
 				<form:radiobutton path="dlc" label="是" value="是" />
 				<form:radiobutton path="dlc" label="否" value="否" />
-
 			</div>
 			<div>
-				<label for="remark">備註 </label>
+				<label for="remark">備註　　</label>
 				<form:input class="fixedlen" type="text" path="remark" />
 			</div>
 			<c:if test="${insert != null }">
@@ -136,13 +137,13 @@ div {
 				<input type="hidden" name="decisions" value="wish">
 				<c:choose>
 					<c:when test="${update != null }">
-						<input type="submit" value="送出" id="submit">
+						<button type="submit" class="button"  id="submit" >送出</button>
 					</c:when>
 					<c:otherwise>
-						<input type="submit" value="送出" id="submit" disabled>
+						<button type="submit" class="button"  id="submit" disabled>送出</button>
 					</c:otherwise>
 				</c:choose>
-				<input type="reset" value="清除">
+				<button type="reset" class="button"  >清除</button>
 			</div>
 		</fieldset>
 		<c:if test="${not empty GameToSupport}">
@@ -152,6 +153,9 @@ div {
 	</form:form>
 
 	<script>
+		$("#delivery").attr("readonly", true);
+		$("#gamer").attr("readonly", true);
+	
 		if(${insert != null}){
 		let flag1 = false;
 		let flag2 = false;

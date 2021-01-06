@@ -34,6 +34,11 @@
 			</form>
 
 		</c:when>
+		<c:otherwise>
+		<form action="<c:url value="/exchange/management"/>" method="get">
+				<button type="submit" value="manager" name="decisions">返回管理</button>
+			</form>
+		</c:otherwise>
 	</c:choose>
 
 	<%@ include file="../Foot.jsp"%>

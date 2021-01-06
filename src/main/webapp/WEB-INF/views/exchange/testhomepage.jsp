@@ -2,7 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="../Link.jsp"%>
+
 
 
 <!DOCTYPE html>
@@ -55,7 +57,7 @@
 	<div class="row" id="bigdiv">
 
 
-		<c:forEach var='g' items='${list }'>
+		<c:forEach var='g' varStatus='vs' items='${list }'>
 
 			<!-- Work -->
 			<div class="col-md-4 col-xs-6 work">
@@ -92,7 +94,7 @@
 							</button>
 						</div>
 
-						<form action="<c:url value="/exchange/applyFor"/>" method="post">
+						<form action="<c:url value="/exchange/applyFor"/>" method="post" name="apply" onsubmit="applyclick()">
 							<div class="modal-body">
 
 
@@ -141,9 +143,8 @@
 							</div>
 							<div class="modal-footer">
 								<button type="botton" class="btn btn-secondary"
-									data-dismiss="modal" >返回</button>
-								<button type="submit" class="btn btn-primary appforsubmit" >申請</button>
-
+									data-dismiss="modal"  id="demo${vs.index }" onclick="applyclick();">返回</button>
+								<button type="botton" class="btn btn-primary appforsubmit "  onclick="applyclick();">申請</button>
 							</div>
 						</form>
 					</div>
@@ -163,12 +164,28 @@
 	</div>
 	</div>
 
-
+<!-- 	<button id="demo1" type="submit">!!!test</button> -->
 
 
 	<%@ include file="../Foot.jsp"%>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 
+		function applyclick(){
+			swal("Good job!",
+					  "You clicked the button!",
+					  "success").then(function(){
+			apply.submit();
+					  })
+		}
+	
+		
+// 		$("button").click(function(){
+//     	$("form").submit();
+//   		}); 
+	
+	
+	
 		function resetDisabled(){
 			$(".appforsubmit").attr("disabled", true);
 		}	
@@ -189,6 +206,8 @@
 		
 		window.onload = function() {
 			
+			
+			
 			var pages = document.querySelectorAll(".page");
 			var applyFors = document.querySelectorAll(".applyFor");
 			var divout = document.getElementById("bigdiv")
@@ -202,7 +221,7 @@
 			for (i = 0; i < applyFors.length; i++) {
 				applyFors[i].onclick = checkMemberCheck
 			}
-
+			console.log("綁定完成")
 			function changepage() {
 				let i = (this.innerText)
 				console.log(i)
@@ -254,8 +273,9 @@
 					}
 				}
 			}
+			}
 
-		}
+			
 	</script>
 </body>
 </html>
