@@ -91,11 +91,11 @@
               <a class="dropdown-item" href="<c:url value='/exchange/Index'/>">交換版</a>
               <a class="dropdown-item" href="<c:url value="/exchange/insertSupportGame"/>">我要換</a>
               <a class="dropdown-item" href="<c:url value="/exchange/insertDemandGame"/>">我要徵</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/management"/>">我的遊戲庫</a>
               <a class="dropdown-item" href="<c:url value="/exchange/insertMyGame"/>">新增我的遊戲庫</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/memberHistoryList"/>">我的changehistoryList(趕工中)</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/management"/>">許願池(趕工中)</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/preparehomepage"/>">測試中</a>
+              <a class="dropdown-item" href="<c:url value="/exchange/management"/>">我的遊戲庫</a>
+<%--               <a class="dropdown-item" href="<c:url value="/exchange/memberHistoryList"/>">我的changehistoryList(趕工中)</a> --%>
+<%--               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">許願池(趕工中)</a> --%>
+<%--               <a class="dropdown-item" href="<c:url value="/exchange/preparehomepage"/>">測試中</a> --%>
             </div>
           </li>
           

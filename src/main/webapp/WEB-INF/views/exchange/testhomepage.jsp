@@ -143,8 +143,8 @@
 							</div>
 							<div class="modal-footer">
 								<button type="botton" class="btn btn-secondary"
-									data-dismiss="modal"  id="demo${vs.index }" onclick="applyclick();">返回</button>
-								<button type="botton" class="btn btn-primary appforsubmit "  onclick="applyclick();">申請</button>
+									data-dismiss="modal"  id="demo${vs.index }" >返回</button>
+								<button type="botton" class="btn btn-primary appforsubmit " >申請</button>
 							</div>
 						</form>
 					</div>
@@ -171,13 +171,13 @@
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 
-		function applyclick(){
-			swal("Good job!",
-					  "You clicked the button!",
-					  "success").then(function(){
-			apply.submit();
-					  })
-		}
+// 		function applyclick(){
+// 			swal("Good job!",
+// 					  "You clicked the button!",
+// 					  "success").then(function(){
+// 			apply.submit();
+// 					  })
+// 		}
 	
 		
 // 		$("button").click(function(){
