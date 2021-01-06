@@ -168,6 +168,7 @@ response.setContentType("text/html;charset=UTF-8");
 				});
 
 		$("#submit").on("click",function() {
+			console.log("12346579");
 			$("#point").empty();
 							let xhr = new XMLHttpRequest();
 							if (xhr != null) {
@@ -183,7 +184,9 @@ response.setContentType("text/html;charset=UTF-8");
 													$("#point").append(
 															"<p>無符合您搜尋的條件</p>");
 												}
-												$.each(obj,function(key,value) {$("#point").append(
+												$.each(obj,function(key,value) {
+													
+													$("#point").append(
 																					"<div class='row' id='point'>"
 																							+ "<div class='col col-6 col-sm-4 col-md-4 col-lg-2'>"
 																							+ "<div data-toggle='modal' data-target='#exampleModal" + value.iId + "'>"
@@ -231,6 +234,25 @@ response.setContentType("text/html;charset=UTF-8");
 																							+ value.sNickname
 																							+ "</div>"
 					
+																							
+																							+"<form action='<c:url value='/withplay/Reply'/>' method='post'>"
+
+
+																							+"<hr>"
+																							+"<div id='reply" + value.iId + "' style='position: relative'>"
+																								
+																							+"</div>"
+
+																							+"<hr>"
+
+																							+"<div>"
+																								+"回覆: <input type='text' id='reply' name='sText' required>"
+																								+"<button type='submit' id='replySubmit' name='withNo'"
+																									+"value='" + value.iId + "'>送出</button>"
+																							+"</div>"
+																						+"</form>"
+																							
+																							
 																							+ "</div>"
 																							+ "</div>"
 																							+ "</div>"
@@ -245,7 +267,29 @@ response.setContentType("text/html;charset=UTF-8");
 																							+ "</div>"
 																							+ "</div>"
 																							+ "</div>" )
-																});
+																							let author ="";
+													let text = "";
+													let date = "";
+													let time = "";
+													let id = value.iId			
+													let d = new Date();
+													$.each(value.sReplyBeans,function(key,value) {
+														author = value.sAuthor;
+														text = value.sText;
+														date = $.format.date(new Date(value.dDate), 'yyyy-MM-dd');
+														if(d.getTime() - value.dDate <= 86400000){
+															date = "今日";
+														}else if(d.getTime() - Date.parse(date) > 86400000 && d.getTime() - Date.parse(date) <= 86400000*2){
+															date = "昨日";
+														}
+														time = value.tTime;
+														
+														$("#reply"+id).append("<label>" + author + "</label>"
+																+"<label> : " + text + "</label>"
+																+"<label style='position: absolute; right: 0'>" + date + " " + time + "</label>"
+																+"<br>")
+													});				
+												});
 											};
 										} else {
 											alert("發生錯誤: readyState="
