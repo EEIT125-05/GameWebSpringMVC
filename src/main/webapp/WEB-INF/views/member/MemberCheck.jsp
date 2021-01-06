@@ -21,10 +21,11 @@ response.setDateHeader("Expires", -1);
 
 	<h2 align='center'>註冊資料如下請確認</h2>
 	<hr>
-	<div align='center'>
-		<form action="<c:url value='/member/MemberThanks'/>" method="post"
-			enctype="multipart/form-data">
-			<div align='left' style="border: 3px solid gray; width: 650; height: 500">
+	<form action="<c:url value='/member/MemberThanks'/>" method="post"
+		enctype="multipart/form-data">
+		<div align='center'>
+			<div align='left'
+				style="border: 3px solid gray; width: 650; height: 550">
 				<h3>
 					設定的帳號:${param.sAccount}<input type="hidden" name="sAccount"
 						value='${param.sAccount}' />
@@ -62,15 +63,18 @@ response.setDateHeader("Expires", -1);
 						value='${param.sBirthday}' />
 				</h3>
 				<h3>
-					請選擇上傳照片:<input type="file" name="productImage" required/>
+					請選擇上傳照片:<input type="file" name="productImage" required />
 				</h3>
 				<%-- 			<h3><img type="hidden" name="image" value='${param.image}'/></h3> --%>
 				<input type="hidden" name="registerDate"
 					value='${param.registerDate}'> <input type="hidden"
 					name="status">
-				<button type="submit" name="confirm" value="註冊">註冊</button>
+				<h3 align='center'>
+					<button type="submit" name="confirm" value="註冊"
+						style='width: 350; height: 50; font-size: 30; margin-top: 15;'>註冊</button>
+				</h3>
 			</div>
-	</div>
+		</div>
 	</form>
 
 	<%@ include file="../Foot.jsp"%>

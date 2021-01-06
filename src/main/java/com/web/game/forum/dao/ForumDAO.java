@@ -18,6 +18,8 @@ public interface ForumDAO {
 
 	public List<ForumBean> selectAllForum();
 	
-	public List<ForumBean> searchForum(String sCategory, String sSearch);
+	public List<ForumBean> searchForum(String sCategory, String sSearch, Integer scrollInt);
+	
+	public List<Object[]> searchHotForums(String sCategory, String sSearch, String sHot, Integer scrollInt);
 
 }

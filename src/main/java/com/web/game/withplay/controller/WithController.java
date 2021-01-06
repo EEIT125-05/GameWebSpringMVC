@@ -25,8 +25,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.web.game.forum.model.ForumBean;
+import com.web.game.forum.model.ReplyBean;
 import com.web.game.member.model.MemberBean;
 import com.web.game.withplay.model.WithPlay;
+import com.web.game.withplay.model.WithReplyBean;
+import com.web.game.withplay.service.WithReplyService;
 import com.web.game.withplay.service.WithService;
 import com.web.game.withplay.validators.WithValidator;
 
@@ -44,6 +48,9 @@ public class WithController {
 
 	@Autowired
 	ServletContext context;	
+	
+	@Autowired
+	WithReplyService ReplyService;
 		
 		
 	@GetMapping("/withplay/With")
@@ -113,7 +120,9 @@ public class WithController {
 	}
 	@DeleteMapping(value = "/withplay/delete/{iId}")
 	public String delete(@PathVariable("iId") Integer iId) {
-		withService.delete(iId);
+		if(ReplyService.delete(iId)) {
+			withService.delete(iId);
+		}
 		return "redirect:/withplay/With";
 
 	}
@@ -182,6 +191,30 @@ public class WithController {
 		return "redirect:/withplay/Index";
 
 	}
+	
+	@PostMapping("/withplay/Reply")
+	public String reply(
+				@RequestParam String sText,
+				@RequestParam Integer withNo,
+				Model model) {
+		String nextPage = null;
+		WithPlay WithBean = withService.get(withNo);
+		WithReplyBean rReplyBean = ReplyService.newBean(sText, WithBean);
+		rReplyBean.setsAuthor(((MemberBean)model.getAttribute("user")).getsAccount());
+		try {if(ReplyService.insertReply(rReplyBean)) {
+			nextPage = "redirect:/withplay/Index";
+		}else {
+			nextPage = "redirect:/withplay/Index";
+		}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return nextPage;
+	}
+	
+	
 	
 	@ModelAttribute
 	public void commonData(Model model) {

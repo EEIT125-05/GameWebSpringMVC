@@ -1,4 +1,4 @@
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!-- Bootstrap core CSS -->
     <link href="${pageContext.request.contextPath}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -31,3 +31,5 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/vendor/js/owl.carousel.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/vendor/js/jquery.magnific-popup.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/vendor/js/main.js"></script>
+
+<link rel="stylesheet" href="<c:url value='/css/FormStyle.css'/>"/>

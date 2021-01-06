@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ForumThanks</title>
+<title>GameBar</title>
 </head>
 <body>
 <%@ include file="../Header.jsp" %>

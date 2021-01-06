@@ -7,12 +7,73 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>ForumConfirm</title>
+<title>GameBar</title>
 </head>
 <body>
 <%@ include file="../Header.jsp" %>
+<div class="container">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height:300px;">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox" style="height:300px">
+       
+        <div class="carousel-item active" style="background-image: url('https://content.shopback.com/tw/wp-content/uploads/2020/04/10142030/Cover-nintendo-web.jpg');height:300px">
+          <div class="carousel-caption d-none d-md-block">
+            <h3></h3>
+         
+          </div>
+        </div>
+       
+        <div class="carousel-item" style="background-image: url('https://static02-proxy.hket.com/res/v3/image/content/2605000/2607364/MARIO_1024.png')">
+          <div class="carousel-caption d-none d-md-block">
+            <h3></h3>
+         
+          </div>
+        </div>
+     
+        <div class="carousel-item" style="background-image: url('https://uc.udn.com.tw/photo/2020/11/05/0/9020971.jpg')">
+          <div class="carousel-caption d-none d-md-block">
+            <h3></h3>
+            <p></p>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
 
-<p>貼文資料確認</p>
+      </a>
+    </div>
+  	<hr>
+	<form>
+		<a class="btn btn-primary category categoryChoose">全部</a>
+		<a class="btn btn-primary category">閒聊</a>
+		<a class="btn btn-primary category">公告</a>
+		<a class="btn btn-primary category">討論</a>
+		<a class="btn btn-primary category">問題</a>
+		<a class="btn btn-primary category">情報</a>
+		<a class="btn btn-primary category">攻略</a>
+		
+		<div class="input-group" style="margin-top:15px">
+			<h3> 標題:&nbsp;</h3>
+			<input type="text" id="sSearch" class="form-control" name="sSearch">
+			<span class="input-group-append">
+				<input type="button" id="submit" class="btn btn-secondary"
+					 name="select" value="搜尋">
+			</span>
+		</div>
+	</form>
+	<a class="btn btn-primary hot hotChoose" id="new">最新</a>
+	<a class="btn btn-primary hot" id="hot">熱門</a>
+	<hr>
+<h3>貼文資料確認</h3>
 
 <form action="<c:url value='/forum/Confrim'/>" method="post">
 
@@ -25,7 +86,7 @@
 
 </form>
 
-
+</div>>
 <%@ include file="../Foot.jsp" %>
 </body>
 </html>

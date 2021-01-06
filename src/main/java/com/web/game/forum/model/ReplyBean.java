@@ -3,6 +3,7 @@ package com.web.game.forum.model;
 import java.sql.Date;
 import java.sql.Time;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +24,7 @@ public class ReplyBean {
 	private String sAuthor;
 	private Date dDate;
 	private Time tTime;
+	@Column(columnDefinition = "nvarchar(MAX)")
 	private String sText;
 	
 	@ManyToOne

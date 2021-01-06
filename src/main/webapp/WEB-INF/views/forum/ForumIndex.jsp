@@ -7,15 +7,26 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>ForumIndex</title>
+<title>GameBar</title>
 <%-- <script src="${pageContext.request.contextPath}/js/ForumIndex.js"></script> --%>
 <style>
 th, tr, td {
 	border: 2px solid red;
 }
 
-.categoryChoose{
+.categoryChoose, .hotChoose{
 	background-color:#0069d9;
+}
+a.enterDetail{
+	color: black;
+	text-decoration:none;
+}
+a.update{
+	height:38px; 
+	margin-right:10px
+}
+a.delete{
+	height:38px;
 }
 </style>
 
@@ -68,7 +79,10 @@ th, tr, td {
     </h1>
   
 	<form>
+	<input type="hidden" id="sAccount" value="${user.sAccount}">
+<!-- 	ajax要用的 -->
   
+  		<input type="hidden" id="category" value="${category}">
 		<a class="btn btn-primary category categoryChoose">全部</a>
 		<a class="btn btn-primary category">閒聊</a>
 		<a class="btn btn-primary category">公告</a>
@@ -86,20 +100,29 @@ th, tr, td {
 			</span>
 		</div>
 	</form>
-	<a class="btn btn-primary">熱門</a>
-	<a class="btn btn-primary">最新</a>
+	<a class="btn btn-primary hot hotChoose" id="new">最新</a>
+	<a class="btn btn-primary hot" id="hot">熱門</a>
 	<hr>
 	<div id="point">
 		<c:forEach var="forum" items="${lForumList}">
 			<div class="row">
-<%-- 				<a href="<c:url value='/forum/Detail/${forum.iNo}'/>" style="display:block"> --%>
-					<div class="col-md-12">
-						<h3>[${forum.sCategory}]${forum.sTitle}</h3>
-						<span>發文/更改時間: ${forum.dDate} ${forum.tTime}</span><br>
-						<span>樓主: ${forum.sAuthor}</span><br>
-						<span>留言數: ${fn:length(forum.sReplyBeans)}</span>
+					<div class="col-md-10">
+						<a class="enterDetail" href="<c:url value='/forum/Detail/${forum[0]}'/>">
+							<div>
+								<h3>[${forum[1]}]${forum[2]}</h3>
+								<span>發文/更改時間: ${forum[3]} ${forum[4]}</span><br> 
+								<span>樓主: ${forum[5]}</span><br> 
+								<span>留言數: ${forum[7]}</span>
+							</div>
+						</a>
 					</div>
-<!-- 				</a> -->
+					<c:if test="${forum[5] == user.sAccount}">
+						<form action="<c:url value='/forum/Edit/${forum[0]}'/>" method="POST" >
+							<input type="hidden" name="_method"  id='putOrDelete${forum[0]}'   value="" >
+							<a class="btn btn-primary update" href="<c:url value='/forum/Update/${forum[0]}'/>">修改</a>
+							<button type="submit" class="btn btn-primary delete" value="${forum[0]}">刪除</button>
+						</form>
+					</c:if>
 			</div>
 			<hr>
 		</c:forEach>
@@ -108,12 +131,38 @@ th, tr, td {
 	<%@ include file="../Foot.jsp"%>
 	<script>
 	$(function(){
+		console.log("類別: " + $("#category").val());
+		if($("#category").val() != ""){
+			$.each($(".category") ,function(key,value){
+				if(value.innerHTML == $("#category").val()){
+					$(".category").removeClass("categoryChoose");
+					$(this).addClass("categoryChoose");
+				}
+			});
+		}
+
+		$(document).on("click", ".delete", function(){
+			return confirmDelete($(this).val());
+		});
+
+		function confirmDelete(iNo){
+		  var result = confirm("確定刪除此則文章?");
+		  if (result) {
+			  $("#putOrDelete" + iNo).val("DELETE");
+		      return true;
+		  }
+		  return false;
+		}
+		
 		let category = "";
 		let search = "";
+		let scrollInt = 0;
+		let hot = "";
 		
 		$("#submit").on("click",function(){
 			search = $("#sSearch").val();
-			doAjax(category, search);		
+			scrollInt = 0;
+			doAjax(category, search, hot, scrollInt);		
 		});		
 		
 		$(".category").on("click", function(){
@@ -121,22 +170,44 @@ th, tr, td {
 			$(this).addClass("categoryChoose");
 			category = "and sCategory = '" + $(this).text() +"'";
 			search = "";
+			scrollInt = 0;
 			$("#sSearch").val("").attr("placeholder","在" + $(this).text() + "中搜尋");
 			if($(this).text() == "全部"){
 				category = "";
 				$("#sSearch").val("").attr("placeholder","");
 			}
 // 			console.log(category);
-			doAjax(category, search);
+			doAjax(category, search, hot, scrollInt);
 		});
 		
-		function doAjax(category, search){
+		$("#new").on("click",function(){
+			$(".hot").removeClass("hotChoose");
+			$(this).addClass("hotChoose");
+// 			search = "";
+// 			category = "";
+			scrollInt = 0;
+// 			$("#sSearch").val("").attr("placeholder","");
+			hot = "";
+			doAjax(category, search, hot, scrollInt);		
+		});	
+		
+		$("#hot").on("click",function(){
+			$(".hot").removeClass("hotChoose");
+			$(this).addClass("hotChoose");
+			scrollInt = 0;
+			hot = "c desc,";		
+			doAjax(category, search, hot, scrollInt);
+		});
+		
+		function doAjax(category, search, hot, scrollInt){
 			$.ajax({
 				type:"post",
-				url:"<c:url value='/forum/IndexAjax'/>",
+				url:"<c:url value='/forum/HotAjax'/>",
 				dataType:"json",
 				data:{"sCategory" : category,
-					"sSearch" : search
+					"sSearch" : search,
+					"sHot" : hot,
+					"scrollInt": scrollInt
 				},
 				success:function (result) {	
 					$("#point").empty();
@@ -144,13 +215,26 @@ th, tr, td {
 						$("#point").append("<p>無貼文符合您搜尋的條件</p>")							
 					}
 					$.each(result ,function(key,value){
+						let button = "";
+						if(value[5] == $("#sAccount").val()){
+							button = "<form action=\"<c:url value='/forum/Edit/" + value[0] + "'/>\" method=\"POST\" >"+
+										"<input type=\"hidden\" name=\"_method\"  id='putOrDelete" + value[0] + "'   value=\"\" >"+
+										"<a class=\"btn btn-primary update\" href=\"<c:url value='/forum/Update/" + value[0] + "'/>\">修改</a>"+
+										"<button type=\"submit\" class=\"btn btn-primary delete\" value=\"" + value[0] + "\">刪除</button>"+
+									"</form>";
+						}
 						$("#point").append("<div class=\"row\">"+
-									"<div class=\"col-md-12\">"+
-									"<h3>[" + value.sCategory + "]" + value.sTitle + "</h3>"+
-									"<span>發文/更改時間: " + $.format.date(new Date(value.dDate), 'yyyy-MM-dd') + "&nbsp;" + value.tTime + "</span><br>"+
-									"<span>樓主: " + value.sAuthor + "</span><br>"+
-									"<span>留言數: " + value.sReplyBeans.length + "</span>"+
+									"<div class=\"col-md-10\">"+
+									"<a class=\"enterDetail\" href=\"<c:url value='/forum/Detail/" + value[0] + "'/>\">"+
+									"<div>"+
+									"<h3>[" + value[1] + "]" + value[2] + "</h3>"+
+									"<span>發文/更改時間: " + $.format.date(new Date(value[3]), 'yyyy-MM-dd') + "&nbsp;" + value[4] + "</span><br>"+
+									"<span>樓主: " + value[5] + "</span><br>"+
+									"<span>留言數: " + value[7] + "</span>"+
 									"</div>"+
+									"</a>"+
+									"</div>"+
+									button +
 									"</div>"+
 									"<hr>");
 					});
@@ -161,15 +245,64 @@ th, tr, td {
 			});
 		}
 		
+		let timer
+		$(window).on("scroll",function(){
+			window.clearTimeout(timer);
+		    timer = window.setTimeout(function() {
+					console.log($(this).scrollTop());	
+
+				if($(window).scrollTop() > $(document).height() - 1100){
+// 					console.log("pageHeight: " + $("body").height());
+// 					console.log("documentHeight: " + $(document).height());
+// 					console.log("下個觸發點: " + ($(document).height() - 1100));
+					scrollInt += 1;
+// 					console.log("scrollInt: " + scrollInt);
+					
+					$.ajax({
+						type:"post",
+						url:"<c:url value='/forum/HotAjax'/>",
+						dataType:"json",
+						data:{"sCategory" : category,
+							"sSearch" : search,
+							"sHot" : hot,
+							"scrollInt": scrollInt
+						},
+						success:function (result) {	
+							$.each(result ,function(key,value){
+								$("#point").append("<div class=\"row\">"+
+										"<div class=\"col-md-10\">"+
+										"<a class=\"enterDetail\" href=\"<c:url value='/forum/Detail/" + value[0] + "'/>\">"+
+										"<div>"+
+										"<h3>[" + value[1] + "]" + value[2] + "</h3>"+
+										"<span>發文/更改時間: " + $.format.date(new Date(value[3]), 'yyyy-MM-dd') + "&nbsp;" + value[4] + "</span><br>"+
+										"<span>樓主: " + value[5] + "</span><br>"+
+										"<span>留言數: " + value[7] + "</span>"+
+										"</div>"+
+										"</a>"+
+										"</div>"+
+										"</div>"+
+										"<hr>");
+							});
+			            },
+			            error:function (err) {
+			                alert("發生錯誤!");
+			            }		
+					});
+					
+					
+				}
+	     	}, 100);
+		});
 		
-		$("#point").on("click","a",function(){
+		
+		$("#point").on("click",".enterDetail",function(){
 			this.target = "_blank";
 		});	
 		
-		$("#point").on("click","button",function(){
-			let contestId = $(this).val();
-			window.open("/GameWebSpringMVC/forum/Detail/"+contestId,"_blank");
-		});
+// 		$("#point").on("click","button",function(){
+// 			let contestId = $(this).val();
+// 			window.open("/GameWebSpringMVC/forum/Detail/"+contestId,"_blank");
+// 		});
 	});
 	</script>
 </body>

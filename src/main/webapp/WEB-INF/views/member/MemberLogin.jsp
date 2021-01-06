@@ -143,7 +143,6 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 
 		var btn = document.getElementById("btn");
 		var psw = document.getElementById("Password");
-
 		btn.onclick = function() {
 			if (psw.getAttribute('type') == 'password') {
 				psw.setAttribute('type', 'text');
@@ -289,12 +288,11 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 	<h1 align='center'>註冊成為GameBar會員</h1>
 	<hr>
 	<%@ include file="../Header.jsp"%>
-	<div align='center'>
-		<form action="<c:url value='/member/MemberCheck'/>" method="post"
-			modelAttribute="user">
+	<form action="<c:url value='/member/MemberCheck'/>" method="post">
+		<div align='center'>
 			<div align='left'
-				style="border: 3px solid gray; width: 750; height: 550">
-				<h3 style='padding-top:10px;'>
+				style="border: 3px solid gray; width: 750; height: 600">
+				<h3 style='padding-top: 10px;'>
 					設定的帳號:<input type="text" id="sAccount" name="sAccount"
 						minlength="6" maxlength="20" required onblur="checkAccount();">
 					<input type="button" id='accountCheck' value="檢查" disabled>
@@ -365,15 +363,20 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 				<h3>
 					生年月日:<input type="date" id="Birthday" name="sBirthday" required>
 				</h3>
-				<!-- 			<h3> -->
-				<!-- 				上傳照片:<input type="file" id="fileName" name="fileName" > -->
-				<!-- 			</h3> -->
 				<h3>
 					<input type="hidden" name="registerDate">
 				</h3>
-				<button id="submit" type="submit" name="submit" value="確認" disabled>確認</button>
+				<h3 align='center'>
+					<button id="submit" type="submit" name="submit" value="確認" disabled
+						style='width: 350; height: 50; font-size: 30; margin-top: 15;'>確認</button>
+				</h3>
+				<h3 align='center'>
+					<a href="<c:url value='########'/>"><input
+						id="GoogleLogin" type="button" value="Google註冊"
+						style='width: 350; height: 50; font-size: 30;'></a>
+				</h3>
 			</div>
-	</div>
+		</div>
 	</form>
 
 	<%@ include file="../Foot.jsp"%>

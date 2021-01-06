@@ -1,5 +1,7 @@
 $(function(){
-	$("#submit").attr("disabled","true");
+	$("#submitForm").attr("disabled","true");
+	
+	console.log("testtt");
     let title = false;
 	let text = true;
 	if($("#sTitle").val() != ""){
@@ -41,9 +43,9 @@ $(function(){
 	check();
     function check(){
         if(title && text){
-            $("#submit").removeAttr("disabled");
+            $("#submitForm").removeAttr("disabled");
         }else{
-            $("#submit").attr("disabled","true");
+            $("#submitForm").attr("disabled","true");
         }
     }
 

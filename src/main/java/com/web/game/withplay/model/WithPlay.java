@@ -2,12 +2,17 @@
 package com.web.game.withplay.model;
 
 import java.sql.Blob;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -44,7 +49,10 @@ public class WithPlay {
 	@Transient
 	MultipartFile mWithImage;
 	
+	@OneToMany(mappedBy = "WithBean", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	public List<WithReplyBean> sReplyBeans = new ArrayList<>();
 	
+
 	
 	public Blob getbImage() {
 		return bImage;
@@ -71,6 +79,7 @@ public class WithPlay {
 	}
 
 	public WithPlay() {
+		super();
 	}
 
 	public Integer getiId() {
@@ -127,6 +136,15 @@ public class WithPlay {
 	public void setsAccount(String sAccount) {
 		this.sAccount = sAccount;
 	}
+	
+	public List<WithReplyBean> getsReplyBeans() {
+		return sReplyBeans;
+	}
+
+	public void setsReplyBeans(List<WithReplyBean> sReplyBeans) {
+		this.sReplyBeans = sReplyBeans;
+	}
+
 	public WithPlay( String sName, String sNickname, String sGender, String sIdcode, String sGame,
 			String sComment, Integer iPrice, String sAccount) {
 		super();
