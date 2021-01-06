@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>GameBar</title>
+<title>討論區 - GameBar</title>
 <%-- <script src="${pageContext.request.contextPath}/js/ForumIndex.js"></script> --%>
 <style>
 th, tr, td {
@@ -140,11 +140,13 @@ a.delete{
 		//返回首頁要帶進的category值
 		if($("#category").val() != ""){
 			$.each($(".category") ,function(key,value){
+// 				console.log(value.innerHTML);
 				if(value.innerHTML == $("#category").val()){
 					$(".category").removeClass("categoryChoose");
 					$(this).addClass("categoryChoose");
 					$("#sSearch").val("").attr("placeholder","在" + $(this).text() + "中搜尋");
 					category = "and sCategory = '" + $("#category").val() +"'";
+					return false;
 				}
 			});
 		}

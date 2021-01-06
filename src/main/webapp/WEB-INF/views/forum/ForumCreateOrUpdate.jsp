@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>GameBar</title>
+<title>討論區 - GameBar</title>
 <style>
 .error{
 	color:red;

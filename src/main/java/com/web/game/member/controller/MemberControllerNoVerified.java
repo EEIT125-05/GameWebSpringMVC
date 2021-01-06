@@ -155,7 +155,7 @@ public class MemberControllerNoVerified {
 			
 	@PostMapping("/SignIn")
 	public String SigninMember(Model model, @RequestParam String sAccount, @RequestParam String sPassword,
-			boolean status, HttpServletResponse response, SessionStatus Status) {
+			boolean status, HttpServletRequest request, HttpServletResponse response, SessionStatus Status) {
 		if (mService.SigninMember(sAccount, sPassword)) {
 			MemberBean SigninMB = mService.Selectmember(sAccount);
 			status = SigninMB.getStatus();
@@ -171,13 +171,21 @@ public class MemberControllerNoVerified {
 				model.addAttribute("user", SigninMB);
 
 //--------新增cookie----------------------------------------------------
-			Cookie cUser = new Cookie("user", SigninMB.getsAccount());
-			cUser.setPath("/GameWebSpringMVC");
-			cUser.setMaxAge(3000);
-			response.addCookie(cUser);
+				Cookie cUser = new Cookie("user", SigninMB.getsAccount());
+				cUser.setPath("/GameWebSpringMVC");
+				cUser.setMaxAge(3000);
+				response.addCookie(cUser);
 //--------新增cookie----------------------------------------------------
-
-				return "redirect:/";// 登入成功回首頁
+				String nextPage = (String)request.getSession(true).getAttribute("requestURI");
+//				System.out.println("要前往的位置2: " + nextPage);
+				if(nextPage == null) {
+					nextPage = "/";
+				}else {
+					nextPage = "/" + nextPage.split("/")[1] + "/Index";
+//					System.out.println("要前往的位置3: " + nextPage);
+				}
+				
+				return "redirect:" + nextPage;// 登入成功回該系統的首頁
 			} else {
 				model.addAttribute("showError", "帳號已遭鎖定，如有問題請洽詢客服");
 				Status.setComplete();

@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>GameBar</title>
+<title>賽事 - GameBar</title>
 </head>
 <body>
 <%@ include file="../Header.jsp" %>

@@ -1,4 +1,4 @@
-package com.web.game.home.aspect;
+package com.web.game.home.exception;
 
 @SuppressWarnings("serial")
 public class userException extends RuntimeException {

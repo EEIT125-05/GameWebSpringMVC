@@ -65,9 +65,12 @@ public class ContestDAOImpl implements ContestDAO {
 
 	@Override
 	public ContestBean selectOneContest(Integer iNo) {
-		String hql = "from ContestBean where iNo = :iNo";
 		Session session = factory.getCurrentSession();
-		return (ContestBean)session.createQuery(hql).setParameter("iNo", iNo).getSingleResult();
+		ContestBean cContestBean = session.get(ContestBean.class, iNo);
+		if(cContestBean == null) {
+			System.out.println("沒資料");
+		}
+		return cContestBean;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
+import com.web.game.home.exception.userException;
 import com.web.game.member.model.MemberBean;
 
 @Aspect

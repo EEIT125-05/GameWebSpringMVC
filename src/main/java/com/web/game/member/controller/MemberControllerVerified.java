@@ -3,6 +3,7 @@ package com.web.game.member.controller;
 import javax.servlet.ServletContext;
 //import java.util.List;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,8 +167,12 @@ public class MemberControllerVerified {
 //------登出---------------------------------------------------------------------------
 
 	@GetMapping("/Logout")
-	public String logout(SessionStatus Status, HttpServletResponse response) {
-
+	public String logout(
+			SessionStatus Status,
+			HttpServletRequest request,
+			HttpServletResponse response) {
+		//從session中拿掉uri
+		request.getSession(true).removeAttribute("requestURI");
 		Status.setComplete();
 		// cookie砍掉
 		Cookie cUser = new Cookie("user", "");

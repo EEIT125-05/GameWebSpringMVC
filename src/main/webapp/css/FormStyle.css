@@ -26,7 +26,7 @@
 }
 
 .dark-matter label {
-    display: block; 
+/*     display: block;  */
     margin: 0px 0px 5px;
 }
 
@@ -40,7 +40,21 @@
 }
 
 .dark-matter input[type="text"],
+.dark-matter input[type="account"],
+.dark-matter input[type="password"],
+.dark-matter input[type="date"],
+.dark-matter input[type="datetime"],
+.dark-matter input[type="datetime-local"],
 .dark-matter input[type="email"],
+.dark-matter input[type="color"],
+.dark-matter input[type="month"],
+.dark-matter input[type="number"],
+.dark-matter input[type="range"],
+.dark-matter input[type="search"],
+.dark-matter input[type="tel"],
+.dark-matter input[type="time"],
+.dark-matter input[type="week"],
+.dark-matter input[type="url"],
 .dark-matter textarea,
 .dark-matter select {
     border: none;

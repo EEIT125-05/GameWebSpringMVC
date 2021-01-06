@@ -9,9 +9,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>GameBar</title>
+<title>賽事 - GameBar</title>
 <%-- <script src="${pageContext.request.contextPath}/js/ContestIndex.js"></script> --%>
+
 </head>
+
+
 <body>
 <%@ include file="../Header.jsp" %>
 
@@ -71,8 +74,9 @@
 
 				<div class="row">
 					<div class="col-md-7">
-						<a href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>"> <img class="img-fluid rounded mb-3 mb-md-0"
-							src="<c:url value='/contest/ImageLoading?iNo=${cContest.iNo}'/>" alt="">
+						<a href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>"> 
+							<img class="img-fluid rounded mb-3 mb-md-0"
+								src="<c:url value='/contest/ImageLoading?iNo=${cContest.iNo}'/>" alt="">
 						</a>
 					</div>
 					<div class="col-md-5">
@@ -96,31 +100,6 @@
 			</c:forEach>
 	</div>
 	
-<!-- 	<ul class="pagination justify-content-center"> -->
-<!--       <li class="page-item"> -->
-<!--         <a class="page-link" href="#" aria-label="Previous"> -->
-<!--           <span aria-hidden="true">&laquo;</span> -->
-<!--           <span class="sr-only">Previous</span> -->
-<!--         </a> -->
-<!--       </li> -->
-      
-<%--       <fmt:formatNumber type="number" var="totalPage" value="${fn:length(lContestList) / 2}" maxFractionDigits="0"/> --%>
-<%-- 	  <c:forEach var="page" begin="1" end="${totalPage}"> --%>
-<!-- 	      <li class="page-item"> -->
-<%-- 	        <a class="page-link" href="<c:url value='/contest/Index?pageNo=${page}'/>">${page}</a> --%>
-	        
-<!-- 	      </li> -->
-<%-- 	  </c:forEach> --%>
-      
-      
-<!--       <li class="page-item"> -->
-<!--         <a class="page-link" href="#" aria-label="Next"> -->
-<!--           <span aria-hidden="true">&raquo;</span> -->
-<!--           <span class="sr-only">Next</span> -->
-<!--         </a> -->
-<!--       </li> -->
-<!--     </ul> -->
-    
 </div>
 <%@ include file="../Foot.jsp" %>
 <script>

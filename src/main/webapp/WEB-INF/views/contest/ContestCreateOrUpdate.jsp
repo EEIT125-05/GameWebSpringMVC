@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>GameBar</title>
+<title>賽事 - GameBar</title>
 <style>
 .error{
 	color:red;
@@ -23,8 +23,13 @@
 }
 
 .dark-matter select {
-	width:10%
+	width:20%
 }
+
+.dark-matter input[type="date"]{
+ 	width:30%; 
+}
+
 </style>
 <script src="<c:url value='/js/ContestCreate.js'/>"></script>
 
@@ -86,7 +91,7 @@
 		            <input type="hidden" name="afterSignStart" value="true"/>
             	</c:when>
             	<c:otherwise>
-		            <input type="date" id="sSignStart" name="sSignStart" value="${sSignStart}"/> <label style="display:inline">~</label>
+		            <input type="date" id="sSignStart" name="sSignStart" value="${sSignStart}"/><label>~</label>
             	</c:otherwise>
             </c:choose>
             <c:choose>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GameBar</title>
+<title>討論區 - GameBar</title>
 </head>
 <body>
 <%@ include file="../Header.jsp" %>

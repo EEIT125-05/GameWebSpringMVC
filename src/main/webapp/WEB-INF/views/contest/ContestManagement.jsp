@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>GameBar</title>
+<title>賽事 - GameBar</title>
 </head>
 
 <body>
