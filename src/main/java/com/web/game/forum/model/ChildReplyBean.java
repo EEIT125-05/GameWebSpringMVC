@@ -2,26 +2,18 @@ package com.web.game.forum.model;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "reply")
-public class ReplyBean {
+@Table(name = "childReply")
+public class ChildReplyBean {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,31 +23,18 @@ public class ReplyBean {
 	private Time tTime;
 	@Column(columnDefinition = "nvarchar(MAX)")
 	private String sText;
-//    private Integer iParentId;
-	
-	@ManyToOne
-	@JoinColumn(name = "iForumNo")
-	@JsonIgnore
-	private ForumBean fForumBean;
-	
-	
-	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="iParentId", referencedColumnName="iNo")
-	private List<ChildReplyBean> lChildReplyBeans = new ArrayList<>();
-	
-	public ReplyBean() {
+
+	public ChildReplyBean() {
 		super();
 	}
 	
-	public ReplyBean(Integer iNo, String sAuthor, Date dDate, Time tTime, String sText, ForumBean fForumBean) {
+	public ChildReplyBean(Integer iNo, String sAuthor, Date dDate, Time tTime, String sText) {
 		super();
 		this.iNo = iNo;
 		this.sAuthor = sAuthor;
 		this.dDate = dDate;
 		this.tTime = tTime;
 		this.sText = sText;
-		this.fForumBean = fForumBean;
-//		this.iParentId = iParentId;
 	}
 
 	public Integer getiNo() {
@@ -97,23 +76,5 @@ public class ReplyBean {
 	public void setsText(String sText) {
 		this.sText = sText;
 	}
-
-//	public Integer getiParentId() {
-//		return iParentId;
-//	}
-//
-//	public void setiParentId(Integer iParentId) {
-//		this.iParentId = iParentId;
-//	}
-
-	public List<ChildReplyBean> getlChildReplyBeans() {
-		return lChildReplyBeans;
-	}
-
-	public void setlChildReplyBeans(List<ChildReplyBean> lChildReplyBeans) {
-		this.lChildReplyBeans = lChildReplyBeans;
-	}
-	
-	
 
 }

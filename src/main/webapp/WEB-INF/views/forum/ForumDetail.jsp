@@ -87,20 +87,34 @@
 		<fmt:parseDate var="Date" value="${dateString}" pattern="yyyy-MM-dd"/>
 		<c:forEach var="reply" items="${fForumBean.sReplyBeans}">
 			<fmt:parseDate var="replyDate" value="${reply.dDate}" pattern="yyyy-MM-dd"/>
-			<c:choose>
-				<c:when test="${Date.time - replyDate.time == 0}">
-					<c:set var="timeString" value="今日 ${reply.tTime}"/>			
-				</c:when>
-				<c:when test="${Date.time - replyDate.time == 86400000}">
-					<c:set var="timeString" value="昨日 ${reply.tTime}"/>			
-				</c:when>
-				<c:otherwise>
-					<c:set var="timeString" value="${reply.dDate} ${reply.tTime}"/>							
-				</c:otherwise>
-			</c:choose>
-				<label style="width:90%;"><b>${reply.sAuthor}</b> : ${reply.sText}</label>
-			<label style="position:absolute;right:0">${timeString}</label>
-			<br>
+<%-- 			<c:if test="${empty reply.iParentId}"> --%>
+<!-- 			確認是不是父留言(子留言一定有iParentId) -->
+				<c:choose>
+					<c:when test="${Date.time - replyDate.time == 0}">
+						<c:set var="timeString" value="今日 ${reply.tTime}"/>			
+					</c:when>
+					<c:when test="${Date.time - replyDate.time == 86400000}">
+						<c:set var="timeString" value="昨日 ${reply.tTime}"/>			
+					</c:when>
+					<c:otherwise>
+						<c:set var="timeString" value="${reply.dDate} ${reply.tTime}"/>							
+					</c:otherwise>
+				</c:choose>
+						<label style="width: 90%;">
+							<div><b>${reply.sAuthor} : </b></div>
+							<div>${reply.sText} </div>
+							<c:forEach var="childReply"	items="${reply.lChildReplyBeans}">
+								<label style="width:40px"></label>
+								<label>
+									<div><b>${childReply.sAuthor} : </b></div>
+									<div>${childReply.sText} </div>
+								</label>
+								<br>
+							</c:forEach> 
+						</label>
+						<label style="position:absolute;right:0">${timeString}</label>
+				<br>
+<%-- 			</c:if> --%>
 		</c:forEach>
 	</div>
 	
