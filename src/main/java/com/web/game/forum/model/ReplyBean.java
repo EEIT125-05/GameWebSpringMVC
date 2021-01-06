@@ -2,6 +2,8 @@ package com.web.game.forum.model;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,17 +29,22 @@ public class ReplyBean {
 	private Time tTime;
 	@Column(columnDefinition = "nvarchar(MAX)")
 	private String sText;
+    private Integer iParentId;
 	
 	@ManyToOne
 	@JoinColumn(name = "iForumNo")
 	@JsonIgnore
 	private ForumBean fForumBean;
 	
+	@OneToMany
+    @JoinColumn(name="iParentId")
+    private List<ReplyBean> lReplyBeans = new ArrayList<>();
+	
 	public ReplyBean() {
 		super();
 	}
 	
-	public ReplyBean(Integer iNo, String sAuthor, Date dDate, Time tTime, String sText, ForumBean fForumBean) {
+	public ReplyBean(Integer iNo, String sAuthor, Date dDate, Time tTime, String sText, ForumBean fForumBean, Integer iParentId) {
 		super();
 		this.iNo = iNo;
 		this.sAuthor = sAuthor;
@@ -44,6 +52,7 @@ public class ReplyBean {
 		this.tTime = tTime;
 		this.sText = sText;
 		this.fForumBean = fForumBean;
+		this.iParentId = iParentId;
 	}
 
 	public Integer getiNo() {
@@ -85,5 +94,23 @@ public class ReplyBean {
 	public void setsText(String sText) {
 		this.sText = sText;
 	}
+
+	public Integer getiParentId() {
+		return iParentId;
+	}
+
+	public void setiParentId(Integer iParentId) {
+		this.iParentId = iParentId;
+	}
+
+	public List<ReplyBean> getlReplyBeans() {
+		return lReplyBeans;
+	}
+
+	public void setlReplyBeans(List<ReplyBean> lReplyBeans) {
+		this.lReplyBeans = lReplyBeans;
+	}
+	
+	
 
 }

@@ -106,13 +106,13 @@
 	
 	<hr>
 	
-	<label>回覆: </label>
+	<label>留言: </label>
 	<input type="text" id="reply" name="sText" required>
-	<button type="submit" id="replySubmit" name="forumNo" value="${fForumBean.iNo}">送出</button>
+	<button type="submit" id="replySubmit" class="btn btn-primary" name="forumNo" value="${fForumBean.iNo}">送出</button>
 	<label></label>
 	</form>
 </div>
-<a href="<c:url value='/forum/Index'/>">回首頁</a>
+<%-- <a href="<c:url value='/forum/Index'/>">回首頁</a> --%>
 
 <%@ include file="../Foot.jsp" %>
 </body>

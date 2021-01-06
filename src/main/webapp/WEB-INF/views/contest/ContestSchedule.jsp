@@ -26,7 +26,7 @@
 	}
 	
 	#tree{
- 	    overflow: auto; 
+  	    overflow: auto;  
 /* 	    border: 1px solid red; */
 		position: relative;
 	}
@@ -149,12 +149,11 @@
 					<span style="color:gray">更改</span>
 				</c:when>
 				<c:otherwise>
-					<a href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>
+					<a class="btn btn-primary" href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>
 				</c:otherwise>
 			</c:choose>
 			<span style="font-size:70%;color:red">(註:至比賽當日即無法更改比賽)</span>
-			<button type="submit" id="delete" value="${cContestBean.iNo}">刪除</button>
-<%-- 			<a href="<c:url value='/contest/Delete/${cContestBean.iNo}'/>">刪除</a> --%>
+			<button class="btn btn-primary" type="submit" id="delete" value="${cContestBean.iNo}">刪除</button>
 		</p>
 </form>
 	<p>比賽遊戲: ${cContestBean.sGame}</p>
@@ -213,7 +212,7 @@
 		</div>
 		<hr>
 	
-	<button id="showOption">新增/更新賽程</button>
+	<button class="btn btn-primary" id="showOption">新增/更新賽程</button>
 	
 	<div id="option" style="display:none">
 		<p>本場比賽共有${fn:length(cContestBean.lParticipateBeans)}人參賽</p>
@@ -251,7 +250,7 @@
 					class="competition" name="competition" value="yes" >循環賽
 				</label><br>
 			</div>
-			<input type="button" id="build" value="產生">
+			<input class="btn btn-primary" type="button" id="build" value="產生">
 		</form>
 		<hr>
 	</div>
@@ -273,8 +272,8 @@
 		<p>參賽人員:</p>
 		<label id="playerCount"></label>
 		<br>
-		<button id="auto">自動安排</button>
-	    <button id="createImage">儲存賽程</button>
+		<button class="btn btn-primary" id="auto">自動安排</button>
+	    <button class="btn btn-primary" id="createImage">儲存賽程</button>
 	
 	</div>
 
@@ -302,39 +301,6 @@
 				$(this).css("display", "none");
 			});
 			
-			
-			$("#createImage").on("click", function(){
-				window.pageYOffset = 0;
-		        document.documentElement.scrollTop = 0
-		        document.body.scrollTop = 0
-		        document.getElementById('screenshot').parentNode.style.overflow = 'visible';
-		        html2canvas(document.getElementById("screenshot"), { useCORS: true, scale:2 }).then(function (canvas) {
-// 		            document.body.appendChild(canvas);
-					document.getElementById('screenshot').parentNode.style.overflow = 'hidden'; 
-		            var image64 = canvas.toDataURL("image/jpeg", 1.0);
-// 		            console.log("type: " + typeof(image64));
-// 		            console.log("image64: " + image64);
-		            
-		            $.ajax({
-						type:"post",
-						url:"<c:url value='/contest/ScheduleImage'/>",
-						dataType:"json",
-						data:{
-							"image64": image64,
-							"contestNo": $("#contestNo").val(),
-						},
-						success: function(result){
-							alert(result[0]);
-							location.reload();
-						},
-						error: function(err){
-							alert("發生錯誤!");	
-						}
-					});
-		        });
-			});
-			
-	
 			
 			$("#group").on("focus",function(){    
 				if($("#group:checked").length == 0){	
@@ -564,7 +530,7 @@
 				let a = Number(iPlayer);
 		        
 		        if($("#knockout:checked").length > 0){//複賽淘汰賽
-			        $("#tree").width((a*96+(2*a-1)*10+20) + "px");
+			        $("#tree").width((a*96+(2*a)*10+20) + "px").height("400px");
 	// 		        $("#tree").width("1000vw");
 	// 		        console.log("寬度: " + (a*100+(2*a-1)*10));
 			        let pow = a.toString(2).length;
@@ -621,7 +587,9 @@
 					
 			        //統一給.buttom加上.drop
 			        if($("#Ypreliminaries:checked").length == 0){
-				        $(".buttom").find("label").attr("class", "drop").css("border-color","green");
+				        $(".buttom").find("label").attr("class", "drop")
+				        							.css("border-color","green")
+				        							.css("height", (40*$(".playerNone").length/$(".drop").length) + "px");
 			        }
 			        
 		        }else{//複賽循環賽
@@ -662,7 +630,7 @@
 		        
 //--------------產生賽程表-----------------------------------------------------				
 		        
-		        //調整screenshot的寬度
+		        //調整screenshot的寬高
 		        console.log("$(\"#tree\").width(): " + $("#tree").width());
 		        console.log("$(\"#drow\").width(): " + $("#drow").width());
 		        if($("#tree").width() > $("#drow").width()){
@@ -688,7 +656,7 @@
 				    accept:"*",
 				    drop: function(ev,ui) {
 // 						console.log("drop" + $(this).text() + ui.draggable.text());
-						$(this).append("<label class=\"player\" style=\"margin:0;border-color:red\">" + ui.draggable.text() + "</label>");
+						$(this).append("<label class=\"player\" style=\"margin:0;padding:0;border-color:red\">" + ui.draggable.text() + "</label>");
 						ui.draggable.css("visibility","hidden").removeClass("player");
 						
 					//	let 綠框內的個數 = $(".playerNone").length)/$(".drop").length;
@@ -703,12 +671,50 @@
 				}); 
 			}
 			
+			$("#createImage").on("click", function(){
+				window.pageYOffset = 0;
+		        document.documentElement.scrollTop = 0
+		        document.body.scrollTop = 0
+		        document.getElementById('screenshot').parentNode.style.overflow = 'visible';
+		        html2canvas(document.getElementById("screenshot"), { useCORS: true, scale:2 }).then(function (canvas) {
+// 		            document.body.appendChild(canvas);
+					document.getElementById('screenshot').parentNode.style.overflow = 'hidden'; 
+		            var image64 = canvas.toDataURL("image/jpeg", 1.0);
+// 		            console.log("type: " + typeof(image64));
+// 		            console.log("image64: " + image64);
+		            
+		            $.ajax({
+						type:"post",
+						url:"<c:url value='/contest/ScheduleImage'/>",
+						dataType:"json",
+						data:{
+							"image64": image64,
+							"contestNo": $("#contestNo").val(),
+						},
+						success: function(result){
+							alert(result[0]);
+							location.reload();
+						},
+						error: function(err){
+							alert("發生錯誤!");	
+						}
+					});
+		        });
+			});
+			
+			
 			$("#auto").on("click",function(){
-				for(let i=0; i<$(".player").length; i++){
+				$(".player").remove();
+				let labelCount = ($(".playerNone").length/$(".drop").length);
+				for(let i=0; i<$(".drop").length; i++){
 					console.log("i: " + i);
-					$(".drop")[i].append("<label class=\"player\" style=\"margin:0;border-color:red\">" + $(".player")[i].text() + "</label>");
+					for(let j=i*labelCount; j<i*labelCount+labelCount ; j++){
+						console.log("j: " + j);
+						$(".drop").eq(i).append("<label class=\"player\" style=\"margin:0;padding:0;border-color:red\">" + $(".playerNone").eq(j).text() + "</label>");
+					}
 				}
-// 				$(".drop").append("<label class=\"player\" style=\"margin:0;border-color:red\">" + "test" + "</label>");
+				
+				$(".drop").css("border-color","transparent").droppable("destroy");
 			});
 			
 

@@ -112,7 +112,7 @@
 		<br><form:errors path="sText" class="error"/> 
 	</div>
 	<div>
-		<input type="submit" id="submitForm" name="sForumConfirm" value="${sForumConfirm}"/>
+		<input type="submit" id="submitForm" class="button" name="sForumConfirm" value="${sForumConfirm}"/>
 	</div>
 </form:form>
 </div>>
