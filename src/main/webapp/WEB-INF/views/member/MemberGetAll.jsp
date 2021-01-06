@@ -52,7 +52,7 @@ table, th, td {
 						<tr>
 							<td>${user.iNo}</td>
 							<td><img width='60' height='72'
-								src='/member/picture/${user.sAccount}' /></td>
+								src="<c:url value='/member/picture/${user.iNo}'/>"></td>
 							<%-- 							<td><a href="<c:url value='/member/${user.iNo}'/>" --%>
 							<%-- 								method="post">${user.iNo}</a></td> --%>
 							<td><a href="<c:url value='/member/Update/${user.sAccount}'/>">

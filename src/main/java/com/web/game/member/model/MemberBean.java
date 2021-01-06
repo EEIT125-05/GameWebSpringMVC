@@ -14,6 +14,8 @@ import javax.persistence.Transient;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sun.org.apache.xml.internal.security.signature.SignedInfo;
+
 @Entity
 @Table(name = "member")
 public class MemberBean {
