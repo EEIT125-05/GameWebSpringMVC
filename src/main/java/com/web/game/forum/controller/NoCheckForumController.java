@@ -53,8 +53,15 @@ public class NoCheckForumController {
 	public String forumDetail(
 					@PathVariable Integer forumNo,
 					Model model) {
-		model.addAttribute("fForumBean", fService.selectOneForum(forumNo));
-		return "forum/ForumDetail";
+		String nextPage = "forum/ForumDetail";
+		ForumBean fForumBean = fService.selectOneForum(forumNo);
+		if(fForumBean == null) {
+			model.addAttribute("errorMessage", "(這篇文章不存在)");
+			nextPage = "forum/ForumError";
+		}else {
+			model.addAttribute("fForumBean", fForumBean);
+		}
+		return nextPage;
 	}
 	
 	@PostMapping("/IndexAjax")

@@ -64,9 +64,15 @@ public class NoCheckContestController {
 	public String informationContest(
 					@RequestParam Integer contestNo,
 					Model model) {
-		model.addAttribute("cContestBean", cService.selectOneContest(contestNo));
-//		model.addAttribute("sContestConfirm", "報名");
-		return "contest/ContestInformation";
+		String nextPage = "contest/ContestInformation";
+		ContestBean cContestBean = cService.selectOneContest(contestNo);
+		if(cContestBean == null) {
+			model.addAttribute("errorMessage", "(這場比賽並不存在)");
+			nextPage = "contest/ContestError";
+		}else {
+			model.addAttribute("cContestBean", cContestBean);
+		}
+		return nextPage;
 	}
 	
 	@PostMapping(value = "/IndexAjax", produces = "application/json; charset=utf-8")

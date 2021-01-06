@@ -48,9 +48,8 @@ public class ForumDAOImpl implements ForumDAO {
 
 	@Override
 	public ForumBean selectOneForum(Integer iNo) {
-		String hql = "from ForumBean where iNo = :iNo";
 		Session session = factory.getCurrentSession();
-		return (ForumBean)session.createQuery(hql).setParameter("iNo", iNo).getSingleResult();
+		return session.get(ForumBean.class, iNo);
 	}
 
 	@SuppressWarnings("unchecked")

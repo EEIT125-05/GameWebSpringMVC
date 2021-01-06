@@ -135,8 +135,8 @@ response.setContentType("text/html;charset=UTF-8");
 												<hr>
 
 												<div>
-													回覆: <input type="text" id="reply" name="sText" required>
-													<button type="submit" id="replySubmit" name="withNo"
+													回覆: <input type="text" id="Reply${With.iId}" name="sText" required>
+													<button type="submit" id="replySubmit${With.iId}" name="withNo"
 														value="${With.iId}">送出</button>
 												</div>
 											</form>
