@@ -60,7 +60,7 @@
     
 	<div align="center">
 		<form:form method="post" modelAttribute="With" action="${pageContext.request.contextPath}/withplay/edit"
-			enctype='multipart/form-data'>
+			enctype='multipart/form-data' class="dark-matter">
 			<table cellpadding="5">
 				<form:hidden path="iId" />
 				<form:hidden path="sGender" items='${sGenderMap}' readonly="true" />
@@ -106,7 +106,7 @@
 					 pattern="^[\u4e00-\u9fa5]+$" minlength="6"/><span id="idname"></span></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type="submit"></td>
+					<td colspan="2" align="center"><input type="submit" class="btn btn-outline-primary"></td>
 				</tr>
 			</table>
 		</form:form>
