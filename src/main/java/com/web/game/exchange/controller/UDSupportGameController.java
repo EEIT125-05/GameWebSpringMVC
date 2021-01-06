@@ -39,44 +39,44 @@ public class UDSupportGameController {
 		return "exchange/EXCShowItem";
 	}
 
-	@GetMapping("/deleteSupport")
-	public String DeleteSupportGame(Model model, RedirectAttributes attr, @RequestParam Integer deleteindex) {
+//	@GetMapping("/deleteSupport")
+//	public String DeleteSupportGame(Model model, RedirectAttributes attr, @RequestParam Integer deleteindex) {
+//
+//		// ------重定向
+//		String sAction = "刪除";
+//		String sPath = null;
+//		if(service.FindsupportGame(deleteindex).getMygamebean()!=null) {
+//			MyGameBean mygamebean = service.FindsupportGame(deleteindex).getMygamebean();
+//			mygamebean.setSupportgamebean(null);
+//			System.out.println("test"+mygamebean.getSupportgamebean());
+//			service.updateGameToSupport(mygamebean);
+//			
+//		}
+//		if (service.DeleteSupportGame(deleteindex)) {
+//			sPath = "EXCThanks";
+//		} else {
+//			sPath = "EXCFail";
+//		}
+//		attr.addAttribute("action", sAction);
+//		attr.addAttribute("path", sPath);
+//		return "redirect:/exchange/Result";
+//	}
 
-		// ------重定向
-		String sAction = "刪除";
-		String sPath = null;
-		if(service.FindsupportGame(deleteindex).getMygamebean()!=null) {
-			MyGameBean mygamebean = service.FindsupportGame(deleteindex).getMygamebean();
-			mygamebean.setSupportgamebean(null);
-			System.out.println("test"+mygamebean.getSupportgamebean());
-			service.updateGameToSupport(mygamebean);
-			
-		}
-		if (service.DeleteSupportGame(deleteindex)) {
-			sPath = "EXCThanks";
-		} else {
-			sPath = "EXCFail";
-		}
-		attr.addAttribute("action", sAction);
-		attr.addAttribute("path", sPath);
-		return "redirect:/exchange/Result";
-	}
-
-	@GetMapping("/deleteDemand")
-	public String DeleteDemandGame(Model model, RedirectAttributes attr, @RequestParam Integer deleteindex) {
-		
-		// ------重定向
-		String sAction = "刪除";
-		String sPath = null;
-		if (service.DeleteDemandGame(deleteindex)) {
-			sPath = "EXCThanks";
-		} else {
-			sPath = "EXCFail";
-		}
-		attr.addAttribute("action", sAction);
-		attr.addAttribute("path", sPath);
-		return "redirect:/exchange/Result";
-	}
+//	@GetMapping("/deleteDemand")
+//	public String DeleteDemandGame(Model model, RedirectAttributes attr, @RequestParam Integer deleteindex) {
+//		
+//		// ------重定向
+//		String sAction = "刪除";
+//		String sPath = null;
+//		if (service.DeleteDemandGame(deleteindex)) {
+//			sPath = "EXCThanks";
+//		} else {
+//			sPath = "EXCFail";
+//		}
+//		attr.addAttribute("action", sAction);
+//		attr.addAttribute("path", sPath);
+//		return "redirect:/exchange/Result";
+//	}
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/update")
@@ -89,27 +89,27 @@ public class UDSupportGameController {
 		return "exchange/EXCGameSupportForm";
 	}
 
-	@PostMapping("/update")
-	public String ConfirmUpdateSupportGame(Model model, RedirectAttributes attr,
-			@ModelAttribute(value = "gamebean") SupportGameBean gamebean) {
-		System.out.println(gamebean.getStatus());
-		System.out.println(gamebean.getConsole());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String sTimeString = sdf.format(new Date());
-		Timestamp tTime = Timestamp.valueOf(sTimeString);
-		gamebean.setDate(tTime);
-		// ------重定向
-		String sAction = "更新";
-		String sPath = null;
-		if (service.UpdateSupportGame(gamebean)) {
-			sPath = "EXCThanks";
-		} else {
-			sPath = "EXCFail";
-		}
-		attr.addAttribute("action", sAction);
-		attr.addAttribute("path", sPath);
-		return "redirect:/exchange/Result";
-	}
+//	@PostMapping("/update")
+//	public String ConfirmUpdateSupportGame(Model model, RedirectAttributes attr,
+//			@ModelAttribute(value = "gamebean") SupportGameBean gamebean) {
+//		System.out.println(gamebean.getStatus());
+//		System.out.println(gamebean.getConsole());
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		String sTimeString = sdf.format(new Date());
+//		Timestamp tTime = Timestamp.valueOf(sTimeString);
+//		gamebean.setDate(tTime);
+//		// ------重定向
+//		String sAction = "更新";
+//		String sPath = null;
+//		if (service.UpdateSupportGame(gamebean)) {
+//			sPath = "EXCThanks";
+//		} else {
+//			sPath = "EXCFail";
+//		}
+//		attr.addAttribute("action", sAction);
+//		attr.addAttribute("path", sPath);
+//		return "redirect:/exchange/Result";
+//	}
 
 	@ModelAttribute("MemberSupport")
 	public List<SupportGameBean> PackSupportGame(Model model) {

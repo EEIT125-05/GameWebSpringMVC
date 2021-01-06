@@ -11,8 +11,9 @@
 <body>
 	<%@ include file="../Header.jsp"%>
 
-	<h1>${action }成功</h1>
+	<div class="container">
 
+	<h1>${action }成功</h1>
 	<c:choose>
 		<c:when test="${action=='刪除' }">
 
@@ -40,7 +41,7 @@
 			</form>
 		</c:otherwise>
 	</c:choose>
-
+</div>
 	<%@ include file="../Foot.jsp"%>
 </body>
 </html>
