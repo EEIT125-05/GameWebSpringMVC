@@ -80,7 +80,7 @@ public class ContestDAOImpl implements ContestDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ContestBean> selectAllContest() {
-		String hql = "from ContestBean";
+		String hql = "from ContestBean order by dSignStart desc";
 		Session session = factory.getCurrentSession();
 		return session.createQuery(hql)
 				.setMaxResults(4)
@@ -101,7 +101,7 @@ public class ContestDAOImpl implements ContestDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, Integer scrollInt) {
-		String hql = "from ContestBean where sName like '%" + sSearch + "%' and sGame like '%" + sGame + "%'" + sSignDate ;
+		String hql = "from ContestBean where sName like '%" + sSearch + "%' and sGame like '%" + sGame + "%'" + sSignDate +" order by dSignStart desc";
 		System.out.println(hql);
 		Session session = factory.getCurrentSession();
 		return session.createQuery(hql)

@@ -13,11 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
-import org.springframework.aop.interceptor.AbstractTraceInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
@@ -174,13 +172,35 @@ public class NoCheckContestController {
 							@RequestParam String groupPlayer) {
 		image64 = image64.split(",")[1];
 		List<String> list = new ArrayList<String>();
-		
+
 		System.out.println("表籤內容: " + groupPlayer);
 		
-//		for(Map<String, String> map: groupPlayer) {
-//			System.out.println("----------");
-//			System.out.println(map);
-//		}
+		List<List<String>> groupList = new ArrayList<List<String>>();
+		for(int i=0; i<groupPlayer.split("]").length; i++) {
+//			System.out.println("a: " + groupPlayer.split("]")[i]);	
+			List<String> groupMember = new ArrayList<String>();
+			for(int j=0; j<groupPlayer.split("]")[i].split(",").length; j++) {
+//				System.out.println("j: " + j);
+//				System.out.println("b: " + groupPlayer.split("]")[i].split(",")[j]);
+				for(int k=0; k<groupPlayer.split("]")[i].split(",")[j].split("\"").length; k++) {
+//					System.out.println("k: " + k);
+//					System.out.println("c: " + groupPlayer.split("]")[i].split(",")[j].split("\"")[k]);
+					String player = groupPlayer.split("]")[i].split(",")[j].split("\"")[k];
+					if(!player.equals("") && !player.equals("[") && !player.equals("[[")) {
+						groupMember.add(player);
+					}
+				}
+			}
+			groupList.add(groupMember);
+		}
+		
+		for(List<String> list2: groupList) {
+			System.out.println("---------------------");
+			for(String s: list2) {
+				System.out.println("參賽者: " + s);
+			}
+		}
+			
 		
 		Decoder decoder = Base64.getDecoder();
 		byte[] bImage = decoder.decode(image64);

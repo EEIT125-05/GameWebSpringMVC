@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.web.game.forum.model.ChildReplyBean;
 import com.web.game.forum.model.ForumBean;
 import com.web.game.forum.model.ReplyBean;
+import com.web.game.forum.service.ChildReplyService;
 import com.web.game.forum.service.ForumService;
 import com.web.game.forum.service.ReplyService;
 import com.web.game.forum.validators.ForumValidator;
@@ -30,6 +32,9 @@ public class ForumController {
 
 	@Autowired
 	ReplyService rService;
+	
+	@Autowired
+	ChildReplyService cService;
 
 	@Autowired
 	ForumValidator validator;
@@ -125,14 +130,31 @@ public class ForumController {
 
 	@PostMapping("/Reply")
 	public String reply(
-//			@ModelAttribute("fForumBean") ForumBean fForumBean,
 			@RequestParam String sText,
 			@RequestParam Integer forumNo,
 			Model model) {
 		String nextPage = null;
-		ReplyBean rReplyBean = rService.newBean(sText, fService.selectOneForum(forumNo));
+		ReplyBean rReplyBean = rService.newBean(sText, forumNo);
 		rReplyBean.setsAuthor(((MemberBean) model.getAttribute("user")).getsAccount());
 		if (rService.insertReply(rReplyBean)) {
+			nextPage = "redirect:/forum/Detail/" + forumNo;
+		} else {
+			nextPage = "forum/ForumError";
+		}
+		return nextPage;
+	}
+	
+	@PostMapping("/ChildReply")
+	public String childReply(
+			@RequestParam String sText,
+			@RequestParam Integer forumNo,
+			@RequestParam Integer parentReplyNo,
+			Model model) {
+		String nextPage = null;
+		ReplyBean rReplyBean = rService.selectOneReply(parentReplyNo);
+		ChildReplyBean cChildReplyBean = cService.newBean(sText, rReplyBean);
+		cChildReplyBean.setsAuthor(((MemberBean) model.getAttribute("user")).getsAccount());
+		if (cService.insertChildReply(cChildReplyBean)) {
 			nextPage = "redirect:/forum/Detail/" + forumNo;
 		} else {
 			nextPage = "forum/ForumError";

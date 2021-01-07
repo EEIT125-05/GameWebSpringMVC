@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.web.game.forum.model.ForumBean;
 import com.web.game.forum.service.ForumService;
+import com.web.game.forum.service.ReplyService;
 
 @Controller
 @RequestMapping("/forum")
@@ -23,6 +24,9 @@ public class NoCheckForumController {
 
 	@Autowired
 	ForumService fService;
+	
+	@Autowired
+	ReplyService rService;
 	
 	@GetMapping("/Index")
 	public String forumIndex(
@@ -59,6 +63,7 @@ public class NoCheckForumController {
 			model.addAttribute("errorMessage", "(這篇文章不存在)");
 			nextPage = "forum/ForumError";
 		}else {
+			model.addAttribute("lReplyBean", rService.selectForumReply(forumNo));
 			model.addAttribute("fForumBean", fForumBean);
 		}
 		return nextPage;

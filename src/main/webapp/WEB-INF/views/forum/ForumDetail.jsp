@@ -75,7 +75,6 @@
 	</form>
 	<hr>
 
-	<form action="<c:url value="/forum/Reply"/>" method="post">
 	<h3>[${fForumBean.sCategory}]${fForumBean.sTitle}</h3>
 	<span>${fForumBean.dDate} ${fForumBean.tTime}</span><br>
 	<div>${fForumBean.sText}</div>
@@ -85,10 +84,8 @@
 		<fmt:formatDate var="dateString" value="${nowDate}" pattern="yyyy-MM-dd"/>
 <%-- 	<fmt:formatDate var="timeString" value="${nowDate}" pattern="HH:mm:ss"/> 先留著 要做XX分內可以拿來用--%>
 		<fmt:parseDate var="Date" value="${dateString}" pattern="yyyy-MM-dd"/>
-		<c:forEach var="reply" items="${fForumBean.sReplyBeans}">
+		<c:forEach var="reply" items="${lReplyBean}">
 			<fmt:parseDate var="replyDate" value="${reply.dDate}" pattern="yyyy-MM-dd"/>
-<%-- 			<c:if test="${empty reply.iParentId}"> --%>
-<!-- 			確認是不是父留言(子留言一定有iParentId) -->
 				<c:choose>
 					<c:when test="${Date.time - replyDate.time == 0}">
 						<c:set var="timeString" value="今日 ${reply.tTime}"/>			
@@ -101,29 +98,46 @@
 					</c:otherwise>
 				</c:choose>
 						<label style="width: 90%;">
-							<div><b>${reply.sAuthor} : </b></div>
+							<div><b>${reply.sAuthor} : </b><a href="#">回覆</a></div>
 							<div>${reply.sText} </div>
 							<c:forEach var="childReply"	items="${reply.lChildReplyBeans}">
-								<label style="width:40px"></label>
-								<label>
+								<fmt:parseDate var="childReplyDate" value="${childReply.dDate}" pattern="yyyy-MM-dd"/>
+								<c:choose>
+									<c:when test="${Date.time - childReplyDate.time == 0}">
+										<c:set var="childTimeString" value="今日 ${childReply.tTime}"/>			
+									</c:when>
+									<c:when test="${Date.time - childReplyDate.time == 86400000}">
+										<c:set var="childTimeString" value="昨日 ${childReply.tTime}"/>			
+									</c:when>
+									<c:otherwise>
+										<c:set var="childTimeString" value="${childReply.dDate} ${childReply.tTime}"/>							
+									</c:otherwise>
+								</c:choose>
+								<label style="width:5%"></label>
+								<label style="width:90%">
 									<div><b>${childReply.sAuthor} : </b></div>
 									<div>${childReply.sText} </div>
 								</label>
+								<label style="position:absolute;right:0">${childTimeString}</label>
 								<br>
 							</c:forEach> 
+							<form action="<c:url value="/forum/ChildReply"/>" method="post">
+							<input type="hidden" name="forumNo" value="${fForumBean.iNo}">
+							<label style="width:5%"></label>
+								<input type="text" name="sText" required>
+								<button type="submit" class="btn btn-primary" name="parentReplyNo" value="${reply.iNo}">回覆</button>
+							</form>
 						</label>
-						<label style="position:absolute;right:0">${timeString}</label>
+						<label style="position:absolute;right:0"><b>${timeString}</b></label>
 				<br>
-<%-- 			</c:if> --%>
 		</c:forEach>
 	</div>
 	
 	<hr>
-	
+	<form action="<c:url value="/forum/Reply"/>" method="post">
 	<label>留言: </label>
 	<input type="text" id="reply" name="sText" required>
 	<button type="submit" id="replySubmit" class="btn btn-primary" name="forumNo" value="${fForumBean.iNo}">送出</button>
-	<label></label>
 	</form>
 </div>
 <%-- <a href="<c:url value='/forum/Index'/>">回首頁</a> --%>

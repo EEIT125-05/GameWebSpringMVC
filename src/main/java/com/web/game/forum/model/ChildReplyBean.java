@@ -8,7 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -23,18 +27,24 @@ public class ChildReplyBean {
 	private Time tTime;
 	@Column(columnDefinition = "nvarchar(MAX)")
 	private String sText;
+	
+	@ManyToOne
+	@JoinColumn(name = "iParentNo")
+	@JsonIgnore
+	private ReplyBean rReplyBean;
 
 	public ChildReplyBean() {
 		super();
 	}
 	
-	public ChildReplyBean(Integer iNo, String sAuthor, Date dDate, Time tTime, String sText) {
+	public ChildReplyBean(Integer iNo, String sAuthor, Date dDate, Time tTime, String sText, ReplyBean rReplyBean) {
 		super();
 		this.iNo = iNo;
 		this.sAuthor = sAuthor;
 		this.dDate = dDate;
 		this.tTime = tTime;
 		this.sText = sText;
+		this.rReplyBean = rReplyBean;
 	}
 
 	public Integer getiNo() {

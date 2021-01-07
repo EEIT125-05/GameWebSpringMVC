@@ -689,39 +689,27 @@
 				let groupFirst = 0; //每組的第一個人的編號
 				let iPlayer = $(".playerNone").length;
 				let gCount = Math.ceil(iPlayer/$("#preliminariesCount1").val()); //組數
-				console.log(gCount + "組")
+// 				console.log(gCount + "組")
 		        for(let i=0; i<gCount; i++){
 		        	if(i == gCount-1){
 			        	mCount = iPlayer - $("#preliminariesCount1").val() * i;
-						console.log(mCount + "人")
+// 						console.log(mCount + "人")
 		        	}else{
 			        	mCount = $("#preliminariesCount1").val();
-						console.log(mCount + "人")
+// 						console.log(mCount + "人")
 		        	}
 		        	let players = [];
-		        	for(let j=groupFirst; j<groupFirst+mCount; j++){
-// 		        		console.log($(".drop").eq(j).text());
+		        	for(let j=groupFirst; j<groupFirst+Number(mCount); j++){
+// 		        		console.log("groupFirst: " + groupFirst);
+// 		        		console.log("j: " + j);
 		        		players.push($(".drop").eq(j).text());
 		        	}
-		        	console.log("players: " + players);
+// 		        	console.log("players: " + players);
 		        	groupPlayer.push(players);
-		        	groupFirst = groupFirst+mCount;
+		        	groupFirst = groupFirst+Number(mCount);
 		        }
 	        	console.log("groupPlayer: " + groupPlayer);
 				
-// 				groupPlayer.push("111");
-		            let test = [{
-		            				"item1":"test1",
-		            			 	"item2":"test2"
-		            			},
-		            			{	
-		            				"item1":"test3",
-		            				"item2":"test4",
-		            			}]	;
-		            console.log("test: " + JSON.stringify(test));
-		            let test2 = [["aaa","bbb"],["ccc","ddd"]];
-		            let test3 = {name: "jack",
-		            				password:"123456"}
 		            $.ajax({
 						type:"post",
 						url:"<c:url value='/contest/ScheduleImage'/>",
@@ -733,7 +721,7 @@
 						},
 						success: function(result){
 							alert(result[0]);
-// 							location.reload();
+							location.reload();
 						},
 						error: function(err){
 							alert("發生錯誤!");	
