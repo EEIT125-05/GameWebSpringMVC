@@ -214,7 +214,15 @@ public class WithController {
 		return nextPage;
 	}
 	
-	
+	@PostMapping("/withplay/Order")
+	public String order(
+				@RequestParam Integer orderNo,
+				Model model) {
+		WithPlay withPlay = withService.get(orderNo);
+		model.addAttribute("With", withPlay);
+		return "withplay/Withorder";
+
+	}
 	
 	@ModelAttribute
 	public void commonData(Model model) {

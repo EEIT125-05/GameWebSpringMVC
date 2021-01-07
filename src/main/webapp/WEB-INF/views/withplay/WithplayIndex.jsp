@@ -57,7 +57,7 @@ response.setContentType("text/html;charset=UTF-8");
 		</c:if>
 		<div class="row" id="point">
 			<c:forEach var="With" items="${Withlist}">
-				<div class="col col-6 col-sm-4 col-md-4 col-lg-4">
+				<div class="col col-12 col-sm-12 col-md-6 col-lg-4">
 					<div data-toggle="modal" data-target="#exampleModal${With.iId}">
 						<div class="div1">
 							<div class="fi1">
@@ -144,12 +144,14 @@ response.setContentType("text/html;charset=UTF-8");
 										</div>
 									</div>
 								</div>
+								<form action="<c:url value='/withplay/Order'/>" method="post">
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
 										data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary">Save
-										changes</button>
+									<button type="submit" class="btn btn-primary" name="orderNo" value="${With.iId}">立即下單</button>
 								</div>
+								</form>
+								
 							</div>
 						</div>
 					</div>
