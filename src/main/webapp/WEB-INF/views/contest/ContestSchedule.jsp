@@ -683,6 +683,9 @@
 // 		            console.log("type: " + typeof(image64));
 // 		            console.log("image64: " + image64);
 				
+				let text = $(".drop").eq(0).text();
+				let groupPlayer = [];
+				groupPlayer.push("111");
 		            
 		            $.ajax({
 						type:"post",
@@ -691,6 +694,7 @@
 						data:{
 							"image64": image64,
 							"contestNo": $("#contestNo").val(),
+							"text": text
 						},
 						success: function(result){
 							alert(result[0]);

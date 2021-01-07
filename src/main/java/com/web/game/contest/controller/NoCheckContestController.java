@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
@@ -168,10 +169,11 @@ public class NoCheckContestController {
 	@PostMapping("/ScheduleImage")
 	public @ResponseBody List<String> saveScheduleImage(
 							@RequestParam String image64,
-							@RequestParam Integer contestNo) {
+							@RequestParam Integer contestNo,
+							@RequestParam String text) {
 		image64 = image64.split(",")[1];
 		List<String> list = new ArrayList<String>();
-		
+		System.out.println("表籤內容: " + text);
 		Decoder decoder = Base64.getDecoder();
 		byte[] bImage = decoder.decode(image64);
 		
