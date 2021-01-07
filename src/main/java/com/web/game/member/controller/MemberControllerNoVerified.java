@@ -178,7 +178,7 @@ public class MemberControllerNoVerified {
 //--------新增cookie----------------------------------------------------
 				String nextPage = (String)request.getSession(true).getAttribute("requestURI");
 //				System.out.println("要前往的位置2: " + nextPage);
-				if(nextPage == null) {
+				if(nextPage == null || nextPage.split("/")[1].equals("member")) {
 					nextPage = "/";
 				}else {
 					nextPage = "/" + nextPage.split("/")[1] + "/Index";
