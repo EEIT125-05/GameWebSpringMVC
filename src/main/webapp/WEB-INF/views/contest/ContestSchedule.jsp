@@ -689,23 +689,39 @@
 				let groupFirst = 0; //每組的第一個人的編號
 				let iPlayer = $(".playerNone").length;
 				let gCount = Math.ceil(iPlayer/$("#preliminariesCount1").val()); //組數
+				console.log(gCount + "組")
 		        for(let i=0; i<gCount; i++){
 		        	if(i == gCount-1){
 			        	mCount = iPlayer - $("#preliminariesCount1").val() * i;
+						console.log(mCount + "人")
 		        	}else{
 			        	mCount = $("#preliminariesCount1").val();
+						console.log(mCount + "人")
 		        	}
 		        	let players = [];
 		        	for(let j=groupFirst; j<groupFirst+mCount; j++){
-		        		cosole.log($(".drop").eq(0).text());
-		        		players.push($(".drop").eq(0).text());
+// 		        		console.log($(".drop").eq(j).text());
+		        		players.push($(".drop").eq(j).text());
 		        	}
+		        	console.log("players: " + players);
 		        	groupPlayer.push(players);
 		        	groupFirst = groupFirst+mCount;
 		        }
+	        	console.log("groupPlayer: " + groupPlayer);
 				
 // 				groupPlayer.push("111");
-		            let test = ["test3","test4"];
+		            let test = [{
+		            				"item1":"test1",
+		            			 	"item2":"test2"
+		            			},
+		            			{	
+		            				"item1":"test3",
+		            				"item2":"test4",
+		            			}]	;
+		            console.log("test: " + JSON.stringify(test));
+		            let test2 = [["aaa","bbb"],["ccc","ddd"]];
+		            let test3 = {name: "jack",
+		            				password:"123456"}
 		            $.ajax({
 						type:"post",
 						url:"<c:url value='/contest/ScheduleImage'/>",
@@ -713,11 +729,11 @@
 						data:{
 							"image64": image64,
 							"contestNo": $("#contestNo").val(),
-							"groupPlayer": groupPlayer.toString()
+							"groupPlayer": JSON.stringify(groupPlayer)
 						},
 						success: function(result){
 							alert(result[0]);
-							location.reload();
+// 							location.reload();
 						},
 						error: function(err){
 							alert("發生錯誤!");	

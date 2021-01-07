@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
+import org.springframework.aop.interceptor.AbstractTraceInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
@@ -170,14 +171,16 @@ public class NoCheckContestController {
 	public @ResponseBody List<String> saveScheduleImage(
 							@RequestParam String image64,
 							@RequestParam Integer contestNo,
-							@RequestParam List<String> groupPlayer) {
+							@RequestParam String groupPlayer) {
 		image64 = image64.split(",")[1];
 		List<String> list = new ArrayList<String>();
 		
 		System.out.println("表籤內容: " + groupPlayer);
-		for(String s: groupPlayer) {
-			System.out.println(s);
-		}
+		
+//		for(Map<String, String> map: groupPlayer) {
+//			System.out.println("----------");
+//			System.out.println(map);
+//		}
 		
 		Decoder decoder = Base64.getDecoder();
 		byte[] bImage = decoder.decode(image64);
