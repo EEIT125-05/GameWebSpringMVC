@@ -682,6 +682,7 @@
 		            var image64 = canvas.toDataURL("image/jpeg", 1.0);
 // 		            console.log("type: " + typeof(image64));
 // 		            console.log("image64: " + image64);
+				
 		            
 		            $.ajax({
 						type:"post",
