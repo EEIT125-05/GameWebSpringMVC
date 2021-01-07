@@ -683,10 +683,29 @@
 // 		            console.log("type: " + typeof(image64));
 // 		            console.log("image64: " + image64);
 				
-				let text = $(".drop").eq(0).text();
+// 				let text = $(".drop").eq(0).text();
 				let groupPlayer = [];
-				groupPlayer.push("111");
-		            
+				let mCount; //邊數->每組人數
+				let groupFirst = 0; //每組的第一個人的編號
+				let iPlayer = $(".playerNone").length;
+				let gCount = Math.ceil(iPlayer/$("#preliminariesCount1").val()); //組數
+		        for(let i=0; i<gCount; i++){
+		        	if(i == gCount-1){
+			        	mCount = iPlayer - $("#preliminariesCount1").val() * i;
+		        	}else{
+			        	mCount = $("#preliminariesCount1").val();
+		        	}
+		        	let players = [];
+		        	for(let j=groupFirst; j<groupFirst+mCount; j++){
+		        		cosole.log($(".drop").eq(0).text());
+		        		players.push($(".drop").eq(0).text());
+		        	}
+		        	groupPlayer.push(players);
+		        	groupFirst = groupFirst+mCount;
+		        }
+				
+// 				groupPlayer.push("111");
+		            let test = ["test3","test4"];
 		            $.ajax({
 						type:"post",
 						url:"<c:url value='/contest/ScheduleImage'/>",
@@ -694,7 +713,7 @@
 						data:{
 							"image64": image64,
 							"contestNo": $("#contestNo").val(),
-							"text": text
+							"groupPlayer": groupPlayer.toString()
 						},
 						success: function(result){
 							alert(result[0]);
@@ -712,9 +731,9 @@
 				$(".player").remove();
 				let labelCount = ($(".playerNone").length/$(".drop").length);
 				for(let i=0; i<$(".drop").length; i++){
-					console.log("i: " + i);
+// 					console.log("i: " + i);
 					for(let j=i*labelCount; j<i*labelCount+labelCount ; j++){
-						console.log("j: " + j);
+// 						console.log("j: " + j);
 						$(".drop").eq(i).append("<label class=\"player\" style=\"margin:0;padding:0;border-color:red\">" + $(".playerNone").eq(j).text() + "</label>");
 					}
 				}
