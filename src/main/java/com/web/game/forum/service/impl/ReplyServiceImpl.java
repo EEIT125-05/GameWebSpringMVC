@@ -33,7 +33,7 @@ public class ReplyServiceImpl implements ReplyService {
     	String sTimeString = timeSdf.format(new java.util.Date());
     	Date dDate = Date.valueOf(sDateString);
     	Time tTime = Time.valueOf(sTimeString);
-		return new ReplyBean(null, null, dDate, tTime, sText, iForumNo);
+		return new ReplyBean(null, null, dDate, tTime, sText, iForumNo, null);
 	}
 
 	@Transactional

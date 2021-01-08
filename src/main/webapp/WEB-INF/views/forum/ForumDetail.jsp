@@ -85,6 +85,8 @@
 <%-- 	<fmt:formatDate var="timeString" value="${nowDate}" pattern="HH:mm:ss"/> 先留著 要做XX分內可以拿來用--%>
 		<fmt:parseDate var="Date" value="${dateString}" pattern="yyyy-MM-dd"/>
 		<c:forEach var="reply" items="${lReplyBean}">
+		<c:if test="${empty reply.rReplyBean}">
+<!-- 		沒有iParentNo(rReplyBean)的才是父留言 -->
 			<fmt:parseDate var="replyDate" value="${reply.dDate}" pattern="yyyy-MM-dd"/>
 				<c:choose>
 					<c:when test="${Date.time - replyDate.time == 0}">
@@ -98,9 +100,10 @@
 					</c:otherwise>
 				</c:choose>
 						<label style="width: 90%;">
-							<div><b>${reply.sAuthor} : </b><a href="#">回覆</a></div>
+							<div><b>${reply.sAuthor} : </b>
+								<a data-toggle="collapse" href="#childReply${reply.iNo}" role="button" aria-expanded="false" aria-controls="#childReply${reply.iNo}">回覆</a></div>
 							<div>${reply.sText} </div>
-							<c:forEach var="childReply"	items="${reply.lChildReplyBeans}">
+							<c:forEach var="childReply"	items="${reply.lReplyBean}">
 								<fmt:parseDate var="childReplyDate" value="${childReply.dDate}" pattern="yyyy-MM-dd"/>
 								<c:choose>
 									<c:when test="${Date.time - childReplyDate.time == 0}">
@@ -121,15 +124,18 @@
 								<label style="position:absolute;right:0">${childTimeString}</label>
 								<br>
 							</c:forEach> 
-							<form action="<c:url value="/forum/ChildReply"/>" method="post">
+							<form action="<c:url value="/forum/Reply"/>" method="post">
 							<input type="hidden" name="forumNo" value="${fForumBean.iNo}">
-							<label style="width:5%"></label>
+							<div class="collapse" id="childReply${reply.iNo}">
+								<label style="width:5%" ></label>
 								<input type="text" name="sText" required>
 								<button type="submit" class="btn btn-primary" name="parentReplyNo" value="${reply.iNo}">回覆</button>
+							</div>
 							</form>
 						</label>
-						<label style="position:absolute;right:0"><b>${timeString}</b></label>
+					<label style="position:absolute;right:0"><b>${timeString}</b></label>
 				<br>
+			</c:if>
 		</c:forEach>
 	</div>
 	

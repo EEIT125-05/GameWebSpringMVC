@@ -12,8 +12,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -36,13 +40,18 @@ public class ReplyBean {
 //	private ForumBean fForumBean;
 	
 	@OneToMany(mappedBy = "rReplyBean", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	private List<ChildReplyBean> lChildReplyBeans = new ArrayList<>();
+	private List<ReplyBean> lReplyBean = new ArrayList<>();
+	
+	@ManyToOne
+	@JoinColumn(name = "iParentNo")
+	@JsonIgnore
+	private ReplyBean rReplyBean;
 	
 	public ReplyBean() {
 		super();
 	}
 	
-	public ReplyBean(Integer iNo, String sAuthor, Date dDate, Time tTime, String sText, Integer iForumNo) {
+	public ReplyBean(Integer iNo, String sAuthor, Date dDate, Time tTime, String sText, Integer iForumNo, ReplyBean rReplyBean) {
 		super();
 		this.iNo = iNo;
 		this.sAuthor = sAuthor;
@@ -51,6 +60,7 @@ public class ReplyBean {
 		this.sText = sText;
 		this.iForumNo = iForumNo;
 //		this.fForumBean = fForumBean;
+		this.rReplyBean = rReplyBean;
 	}
 
 	public Integer getiNo() {
@@ -93,20 +103,29 @@ public class ReplyBean {
 		this.sText = sText;
 	}
 
-	public List<ChildReplyBean> getlChildReplyBeans() {
-		return lChildReplyBeans;
-	}
-
-	public void setlChildReplyBeans(List<ChildReplyBean> lChildReplyBeans) {
-		this.lChildReplyBeans = lChildReplyBeans;
-	}
-
 	public Integer getiForumNo() {
 		return iForumNo;
 	}
 
+
 	public void setiForumNo(Integer iForumNo) {
 		this.iForumNo = iForumNo;
+	}
+	
+	public List<ReplyBean> getlReplyBean() {
+		return lReplyBean;
+	}
+	
+	public void setlReplyBean(List<ReplyBean> lReplyBean) {
+		this.lReplyBean = lReplyBean;
+	}
+
+	public ReplyBean getrReplyBean() {
+		return rReplyBean;
+	}
+
+	public void setrReplyBean(ReplyBean rReplyBean) {
+		this.rReplyBean = rReplyBean;
 	}
 	
 }
