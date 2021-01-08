@@ -180,13 +180,10 @@ public class ChangeGameController {
 	public String getMemberHistoryList(Model model) {
 		System.out.println("memberHistoryIn");
 		List<ChangeHistoryBean> list = new ArrayList<ChangeHistoryBean>();
-		System.out.println("1");
 		MemberBean user = (MemberBean) model.getAttribute("user");
-		System.out.println("1");
 		Integer iUserid = user.getiNo();
-		System.out.println("1");
 		list = exchangeService.getHistoryList(iUserid);
-		System.out.println("controllerGET"+list);
+		System.out.println("HistotyList"+list.size());
 		model.addAttribute("HistotyList",list);
 		
 		System.out.println("memberHistoryIn");

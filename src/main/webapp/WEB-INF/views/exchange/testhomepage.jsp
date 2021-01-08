@@ -234,9 +234,10 @@
 						var g = JSON.parse(xhr.responseText)
 						console.log("!")
 						divout.innerHTML = "";
-
+						console.log("length"+g.list.length)
+						console.log("myGameBeans"+g.myGameBeans.length)
 						for (var i = 0; i < g.list.length; i++) {
-							console.log("!!")
+							console.log("!````!")
 							divout.innerHTML += "<div class='col-md-4 col-xs-6 work'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/"+g.list[i].image+"' alt=''>"
 									+ "<div class='overlay'></div><div class='work-content'><span>遊戲名稱:"
 									+ g.list[i].gamename
@@ -262,14 +263,47 @@
 									+ "<span>備註:"
 									+ g.list[i].remark
 									+ "</span>"
-									+ "<div class='work-link' style='margin: auto;'><a class='applyFor' style='border-radius:30px' href=''<c:url value='/exchange/applyFor?gamer="
-									+ g.list[i].gamer
-									+ "&no="
-									+ g.list[i].no
-									+ "'/>'><i class='fa fa-exchange'></i></a>"
-									+ "</div></div></div>"
+									+ "<div class='work-link' style='margin: auto;'>"
+									+ "<div data-toggle='modal' data-target='#exampleModal'>"
+									+ "<button type='button' class='btn btn-primary' data-toggle='modal'"
+									+ "data-target='#exampleModalLong"+i+" onclick='resetDisabled();'><i"
+									+ "class='fa fa-exchange'></i></button>"
+									+ "</div></div></div></div>"
+									+ "<div class='modal fade' id='exampleModalLong"+i+" tabindex='-1'"
+									+ "role='dialog' aria-labelledby='exampleModalLongTitle'"
+									+ "aria-hidden='true'>"
+									+ "<div class='modal-dialog' role='document'>"
+									+ "<div class='modal-content'>"
+									+ "<div class='modal-header'>"
+									+ "<h5 class='modal-title' id='exampleModalLongTitle'>交換申請</h5>"
+									+ "<button type='button' class='close' data-dismiss='modal'"
+									+ "aria-label='Close'>"
+									+ "<span aria-hidden='true'>&times;</span></button></div>"
+									+ "<form action='<c:url value='/exchange/applyFor'/>' method='post' name='apply' onsubmit='applyclick()'><div class='modal-body'>"
+									+ "<fieldset><div><label for='partyA'>甲方　　</label> <input type='text'name='partyA' value="+g.list[i].gamer
+									+ "style='width: 260px;' class='fixedlen' id='partyA'  readonly/>"
+									+ "<span id='console1span'></span></div><div><label for='gamename'>欲換遊戲</label> <input type='text'"
+									+ "name='supportGame' value="+g.list[i].console+"-"+g.list[i].gamename
+									+ "style='width: 260px;' class='fixedlen' id='Supportgamebean' readonly />"
+									+ "<input type='hidden' name='supportGameNo'value='${g.no }' /><span id='gamenamespan'></span>"		
+									+ "</div><div><label for='partyB'>乙方　　</label> <input type='text'"	
+									+ "name='partyB' value="+g.mbUser.sAccount
+									+ "style='width: 260px;' class='fixedlen' id='partyB' readonly/>"
+									+ "<span id='qtyspan'></span></div><div>"
+									+ "<label for='gamename'>我的遊戲</label> <select style='width: 260px;' class='fixedlen' name='myGameNo'"
+									+ "id='myGame"+i+"' onblur='resetSelect("+i+");'>"
+									for (var y=0;y<g.myGameBeans.length;y++){
+										console.log(g.myGameBeans[y].gamename)
+									+ "<option value="+g.myGameBeans[y].no+">"+g.myGameBeans[y].console+"-"+g.myGameBeans[y].gamename+"</option>"
+									}
+									+ "</select><span id='gamenamespan"+i+"'></span>"
+									+ "</div></fieldset></div><div class='modal-footer'><button type='botton' class='btn btn-secondary'"
+									+ "data-dismiss='modal'  id='demo"+i+"' >返回</button>"
+									+ "<button type='botton' class='btn btn-primary appforsubmit ' >申請</button>"
+									+ "</div></form></div></div></div>"
+									
 						}
-						divout.innerHTML += "<input type='hidden' id='search' value='"+g.searchparams+"'> "
+						divout.innerHTML += "</div>"
 					}
 				}
 			}

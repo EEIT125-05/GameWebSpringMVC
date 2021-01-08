@@ -25,9 +25,9 @@
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" >
     我要換/共${fn:length(MemberSupport)}筆
   </a>
-<!--   <span class="text-success"  > -->
-<%--     我要換/共${fn:length(MemberSupport)}筆 --%>
-<!--   </span> -->
+  <c:if test="${not empty MemberPending}">
+  	<span class="text-danger">您有${fn:length(MemberPending)}筆交換待確認！</span>
+  </c:if>
   
 </p>
 
@@ -45,7 +45,6 @@
 				<tr>
 					<th>編號</th>
 					<th>遊戲名稱</th>
-<!-- 					<th>數量</th> -->
 					<th>商品位置</th>
 					<th>運送方式</th>
 					<th>主機平台</th>
@@ -62,7 +61,6 @@
 					<tr>
 						<td>${vs.count}</td>
 						<td>${s.gamename}</td>
-<%-- 						<td>${s.qty}</td> --%>
 						<td>${s.gamelocation}</td>
 						<td>${s.delivery}</td>
 						<td>${s.console}</td>
