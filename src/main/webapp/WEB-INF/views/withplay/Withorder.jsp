@@ -33,24 +33,39 @@ response.setContentType("text/html;charset=UTF-8");
 			<div
 				style="background-color:lightgrey; margin: 25px; height: 700px">
 				<h2 style="padding-top:15px">確認訂單</h2>
-				<div style="background-color: rgb(180, 230, 173); border: rgb(255, 0, 119) solid 3px; height: 200px; width: 200;float:left;">
-					<div>
-						<div>1</div>
-						<div>
-							<p>1</p>
-							<p>2</p>
-							<p>
-								<span>3</span>
+				<div style="background-color: rgb(180, 230, 173);  height: 600px; width: 775px;float:left;">
+					<div style="float:left;hegiht:200px;width:775px;border:blue solid 5px;">
+						<div style="float:left;border:black solid 5px;height: 150px; width: 150px;margin-top:20px;margin-bottom:20px;" >p</div>
+						<div style="display:inline;float:left;border:red solid 5px;height: 150px; width: 615px;margin-top:20px;margin-bottom:20px">
+							<p style="float:left;width:150px">1</p>
+							<p style="float:left;width:150px">2</p>
+							<p style="float:right;width:150px">50
+								<span >幣/一小時</span>
 							</p>
-
+							
+						<div style="float:left;width:150px;">
+						<div style="float:left;"><i class="fa fa-minus-square-o fa-2x"></i></div>
+						<input style="height:30;width:40px">
+						<div style="float:right;width:50px">
 						</div>
+						</div>
+						</div>
+						
+<!-- 						<div > -->
+<!-- 							<p>1</p> -->
+<!-- 							<p>2</p> -->
+<!-- 							<p> -->
+<!-- 								<span>3</span> -->
+<!-- 							</p> -->
+
+<!-- 						</div> -->
 					</div>
 					<div>
 						<h3>付款方式</h3>
-						<div>7</div>
 					</div>
+						<div>7</div>
 				</div>
-				<div style="background-color: rgb(173, 230, 227); border: rgb(212, 0, 255) solid 3px; height: 200px; width: 200;float:right;">
+				<div style="background-color: rgb(173, 230, 227); border: rgb(212, 0, 255) solid 3px; height: 200px; width: 310px;float:right;">
 					<div>
 						<div>4</div>
 						<div>
