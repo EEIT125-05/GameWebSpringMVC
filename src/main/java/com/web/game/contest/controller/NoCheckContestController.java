@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -164,6 +165,17 @@ public class NoCheckContestController {
 		
 		return responseEntity;
 	}
+	
+	@PostMapping("/Random")
+	public @ResponseBody List<String> randomList(
+							@RequestParam(value = "playerList[]") List<String> playerList){
+		Collections.shuffle(playerList);
+//		for(String s: playerList) {
+//			System.out.println("參賽者: " + s);
+//		}
+		return playerList;
+	}
+
 	
 	@PostMapping("/ScheduleImage")
 	public @ResponseBody List<String> saveScheduleImage(

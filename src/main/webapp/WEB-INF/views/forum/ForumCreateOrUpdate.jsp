@@ -22,6 +22,7 @@
 	width:10%
 }
 </style>
+<script src="<c:url value='/ckeditor/ckeditor.js'/>"></script>
 <script src="<c:url value='/js/ForumCreate.js'/>"></script>
 </head>
 <body>
@@ -113,13 +114,18 @@
 	</div>
 	<div>
 		<input type="submit" id="submitForm" class="button" name="sForumConfirm" value="${sForumConfirm}"/>
+		<input type="button" id="oneKey" class="button" value="一鍵輸入"/>
 	</div>
 </form:form>
 </div>>
 <%@ include file="../Foot.jsp" %>
 
-<script src="<c:url value='/ckeditor/ckeditor.js'/>"></script>
-<script>CKEDITOR.replace("sText");</script>
+
+<script>
+
+// 	CKEDITOR.replace("sText");
+
+</script>
 
 </body>
 </html>

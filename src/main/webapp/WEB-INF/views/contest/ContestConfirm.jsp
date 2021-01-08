@@ -43,7 +43,7 @@
 				<label style="vertical-align:top">宣傳圖片: </label>
 			</c:otherwise>
 		</c:choose>
-		<img src="<c:url value='/contest/ConfirmImage'/>" style="width:560px;height:320px"/>
+		<img src="<c:url value='/contest/ConfirmImage'/>" style="width:560px"/>
 		<br>
 		<span>比賽規則:</span><br><span id="rule">${cContestBean.sRule}</span>
 		<br>

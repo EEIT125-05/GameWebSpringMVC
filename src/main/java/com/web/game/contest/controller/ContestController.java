@@ -255,7 +255,6 @@ public class ContestController {
 		return "contest/ContestParticipate";
 	}
 	
-	
 //	@GetMapping("先放這這段程式碼")
 //	public ResponseEntity<String> 隨便(){
 //

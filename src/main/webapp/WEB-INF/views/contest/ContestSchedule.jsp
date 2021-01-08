@@ -594,7 +594,7 @@
 			        
 		        }else{//複賽循環賽
 		        	
-		        	$("#tree").width("400px");
+		        	$("#tree").width("500px");
 		        	if($("#Ypreliminaries:checked").length == 0){
 			        	$("#drow").width("400px");
 		        	}
@@ -603,7 +603,7 @@
 		        	let canvas = document.createElement("canvas");
 		            document.getElementById("tree").appendChild(canvas);
 		            canvas.height = 400;
-		            canvas.width = 400;
+		            canvas.width = 500;
 		            canvas.style = "display:inline;";
 		            let ctx = canvas.getContext('2d');
 		            drowLine(ctx);
@@ -732,19 +732,41 @@
 			
 			
 			$("#auto").on("click",function(){
-				$(".player").remove();
-				let labelCount = ($(".playerNone").length/$(".drop").length);
-				for(let i=0; i<$(".drop").length; i++){
-// 					console.log("i: " + i);
-					for(let j=i*labelCount; j<i*labelCount+labelCount ; j++){
-// 						console.log("j: " + j);
-						$(".drop").eq(i).append("<label class=\"player\" style=\"margin:0;padding:0;border-color:red\">" + $(".playerNone").eq(j).text() + "</label>");
+				let playerList = [];
+				$.each($(".playerNone"), function(key, value){
+					console.log(value.innerHTML);
+					playerList.push(value.innerHTML);
+				});
+				$.ajax({
+					type:"post",
+					url:"<c:url value='/contest/Random'/>",
+					dataType:"json",
+					data:{
+						"playerList": playerList
+					},
+					success: function(result){
+		 				$(".player").remove();
+		 				let labelCount = ($(".playerNone").length/$(".drop").length);
+		 				for(let i=0; i<$(".drop").length; i++){
+		 					for(let j=i*labelCount; j<i*labelCount+labelCount ; j++){
+		 						$(".drop").eq(i).append("<label class=\"player\" style=\"margin:0;padding:0;border-color:red\">" + result[j] + "</label>");
+		 					}
+		 				}
+ 						$(".drop").css("border-color","transparent").droppable("destroy");
+ 						//調整寬度
+ 						console.log("$(\"#tree\").width(): " + $("#tree").width());
+		        		console.log("$(\"#drow\").width(): " + $("#drow").width());
+ 						if($("#tree").width() > $("#drow").width()){
+ 				        	$("#screenshot").width($("#tree").width());
+ 				        }else{
+ 				        	$("#screenshot").width($("#drow").width());
+ 				        }
+					},
+					error: function(err){
+						alert("發生錯誤!");	
 					}
-				}
-				
-				$(".drop").css("border-color","transparent").droppable("destroy");
+				});
 			});
-			
 
 		});
 	</script>
