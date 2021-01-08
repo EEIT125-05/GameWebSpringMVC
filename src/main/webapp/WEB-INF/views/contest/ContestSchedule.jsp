@@ -211,8 +211,16 @@
 			</c:choose>
 		</div>
 		<hr>
+	<c:choose>
+		<c:when test="${dTime <= today}">
+			<span style="color:gray">新增/更新賽程</span>
+		</c:when>
+		<c:otherwise>
+			<button class="btn btn-primary" id="showOption">新增/更新賽程</button>
+		</c:otherwise>
+	</c:choose>
+	<span style="font-size:70%;color:red">(註:至比賽當日即無法更改賽程)</span>
 	
-	<button class="btn btn-primary" id="showOption">新增/更新賽程</button>
 	
 	<div id="option" style="display:none">
 		<p>本場比賽共有${fn:length(cContestBean.lParticipateBeans)}人參賽</p>
