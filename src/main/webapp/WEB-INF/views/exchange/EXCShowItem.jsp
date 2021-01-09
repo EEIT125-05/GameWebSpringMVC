@@ -20,18 +20,18 @@
 
  
 
-
+<!--  class="text-danger" -->
 <p >
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" >
     我要換/共${fn:length(MemberSupport)}筆
   </a>
   <c:if test="${not empty MemberPending}">
-  	<span class="text-danger">您有${fn:length(MemberPending)}筆交換待確認！</span>
+  	<span id="warningSpan" style="color:red;">您有${fn:length(MemberPending)}筆交換待確認！</span>
   </c:if>
   
 </p>
 
-<div class="collapse" id="collapseExample">
+<div class="collapse show" id="collapseExample">
   <div class="card card-body">
   
   
@@ -113,12 +113,6 @@
   <br>
   
 </div>
-
-
-
-
-
-
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1">
     	我要徵 /共${fn:length(MemberDemand)}筆
@@ -177,16 +171,10 @@
 						</c:forEach>
 						</c:when>
 						</c:choose>
-
 					</table>
-  
   </div>
   <br>
 </div>
-			
-			
-			 
-
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
     我的遊戲庫 /共${fn:length(MemberGames)}筆
@@ -194,8 +182,6 @@
 </p>
 <div class="collapse" id="collapseExample2">
   <div class="card card-body">
-  
-  
   <c:choose>
 				<c:when test="${empty MemberGames}">
 		目前遊戲庫無任何遊戲<br>
@@ -243,11 +229,27 @@
   </div>
   <br>
 </div>
-			
-			
 					<a class="btn btn-primary" style="background-color: red;" href="<c:url value="/exchange/Index"/>">返回主頁</a>
 </div>
 					<%@ include file="../Foot.jsp"%>
-					
+<script>
+if(${not empty MemberPending}){
+let t = window.setInterval(change,1000)
+var x = true;
+function change(){
+	let i = document.getElementById("warningSpan")
+	if(x==true){
+		console.log("white")
+	i.style.color="#FFFFFF"
+	x =false
+	}else{
+		console.log("red")
+	i.style.color="#FF0000"
+	x= true
+	}
+	
+}
+}
+</script>					
 </body>
 </html>
