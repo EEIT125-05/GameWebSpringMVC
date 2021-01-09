@@ -31,48 +31,51 @@ response.setContentType("text/html;charset=UTF-8");
 	<div class="container">
 		<div style="background-color:lightgrey;border-radius: 15px;">
 			<div
-				style="background-color:lightgrey; margin: 25px; height: 700px">
+				style="background-color:lightgrey; margin: 25px; height: 700px;padding-top:20px;padding-bottom:20px">
 				<h2 style="padding-top:15px">確認訂單</h2>
 				<div style="background-color: rgb(180, 230, 173);  height: 600px; width: 775px;float:left;">
-					<div style="float:left;hegiht:200px;width:775px;border:blue solid 5px;">
-						<div style="float:left;border:black solid 5px;height: 150px; width: 150px;margin-top:20px;margin-bottom:20px;" >p</div>
-						<div style="display:inline;float:left;border:red solid 5px;height: 150px; width: 615px;margin-top:20px;margin-bottom:20px">
+					<div style="float:left;hegiht:300px;width:775px;border:blue solid 5px;padding-top:20px;padding-bottom:20px;display:  flex; align-items: center; justify-content:  center;">
+						<div style="float:left;height: 200px; width: 200px;display: flex; align-items: center; justify-content:  center;" >
+						<img width=150px height=150px src='${pageContext.request.contextPath}/withplay/picture/${With.iId}' />
+						</div>
+						<div style="display:inline;float:left;border:red solid 5px;height: 200px; width: 565px;margin-top:20px;margin-bottom:20px;line-height:190px;">
 							<p style="float:left;width:150px">1</p>
-							<p style="float:left;width:150px">2</p>
+							<p style="float:left;width:100px">2</p>
 							<p style="float:right;width:150px">50
 								<span >幣/一小時</span>
 							</p>
 							
-						<div style="float:left;width:150px;">
+						<div style="float:left;width:150px;height:200px;display: flex; align-items: center; justify-content:  center;">
+						<div style="border:black solid 1px;border-radius:5px;">
 						<div style="float:left;"><i class="fa fa-minus-square-o fa-2x"></i></div>
-						<input style="height:30;width:40px">
-						<div style="float:right;width:50px">
+						<input typer=number style="height:30;width:40px;float:left;border:none;border-radius:5px;">
+						<div style="float:left;"><i class="fa fa-plus-square-o fa-2x" ></i></div>
 						</div>
 						</div>
 						</div>
 						
-<!-- 						<div > -->
-<!-- 							<p>1</p> -->
-<!-- 							<p>2</p> -->
-<!-- 							<p> -->
-<!-- 								<span>3</span> -->
-<!-- 							</p> -->
-
-<!-- 						</div> -->
 					</div>
 					<div>
 						<h3>付款方式</h3>
 					</div>
 						<div>7</div>
 				</div>
-				<div style="background-color: rgb(173, 230, 227); border: rgb(212, 0, 255) solid 3px; height: 200px; width: 310px;float:right;">
+				<div style=" border: rgb(212, 0, 255) solid 3px; height: 200px; width: 310px;float:right;padding:15px">
 					<div>
-						<div>4</div>
 						<div>
-							<span>5</span> <span>6</span>
+						<div style="height:30px;background-color:yellow;margin-bbottom:20px;">
+						<span style="float:left;">2</span>
+						<span style="float:right;">3</span>
+						</div>
+						<div style="margin-top:20px; margin-bbottom:20px;height:40px;">
+						<span>44</span>
+						<span style="float:right;">55</span>
+						</div>
 						</div>
 					</div>
-					<div>提交訂單</div>
+					<div style="padding-top:20px">
+					<button type="button" class="btn btn-danger" style="width:274px;">送出訂單</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -93,7 +96,6 @@ response.setContentType("text/html;charset=UTF-8");
 		<!-- 			</tr> -->
 		<%-- <%-- 			<c:forEach items="${With}" var="With" varStatus="status"> --%>
 		<!-- 				<tr> -->
-
 
 		<%-- 					<td>${With.sAccount}</td> --%>
 		<%-- 					<td >${With.sName}</td> --%>
