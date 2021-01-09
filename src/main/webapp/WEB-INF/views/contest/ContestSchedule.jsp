@@ -219,7 +219,7 @@
 			<button class="btn btn-primary" id="showOption">新增/更新賽程</button>
 		</c:otherwise>
 	</c:choose>
-	<span style="font-size:70%;color:red">(註:至比賽當日即無法更改賽程)</span>
+	<span id="spanHidden" style="font-size:70%;color:red">(註:至比賽當日即無法更改賽程)</span>
 	
 	
 	<div id="option" style="display:none">
@@ -264,7 +264,7 @@
 	</div>
 
 	<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
-		<span class="playerNone" style="display:none">${participate.sPlayer} </span>
+		<input class="playerNone" type="hidden" value="${participate.sPlayer}">
 	</c:forEach>
 
 	<div id="showSchedule" style="display:none">
@@ -307,6 +307,7 @@
 			$("#showOption").on("click",function(){
 				$("#option").css("display", "block");
 				$(this).css("display", "none");
+				$("#spanHidden").css("display", "none");
 			});
 			
 			
@@ -396,7 +397,7 @@
 				$("#tree").empty();
 				$("#drow").empty();
 				$(".playerNone").each(function(){
-					$("#playerCount").append("<label class=\"player\">" + $(this).text());
+					$("#playerCount").append("<label class=\"player\">" + $(this).val());
 				});			
 				
 				if($("#group:checked").length > 0) {
@@ -691,32 +692,42 @@
 // 		            console.log("type: " + typeof(image64));
 // 		            console.log("image64: " + image64);
 				
-// 				let text = $(".drop").eq(0).text();
-				let groupPlayer = [];
-				let mCount; //邊數->每組人數
-				let groupFirst = 0; //每組的第一個人的編號
-				let iPlayer = $(".playerNone").length;
-				let gCount = Math.ceil(iPlayer/$("#preliminariesCount1").val()); //組數
-// 				console.log(gCount + "組")
-		        for(let i=0; i<gCount; i++){
-		        	if(i == gCount-1){
-			        	mCount = iPlayer - $("#preliminariesCount1").val() * i;
-// 						console.log(mCount + "人")
-		        	}else{
-			        	mCount = $("#preliminariesCount1").val();
-// 						console.log(mCount + "人")
-		        	}
-		        	let players = [];
-		        	for(let j=groupFirst; j<groupFirst+Number(mCount); j++){
-// 		        		console.log("groupFirst: " + groupFirst);
-// 		        		console.log("j: " + j);
-		        		players.push($(".drop").eq(j).text());
-		        	}
-// 		        	console.log("players: " + players);
-		        	groupPlayer.push(players);
-		        	groupFirst = groupFirst+Number(mCount);
-		        }
-	        	console.log("groupPlayer: " + groupPlayer);
+					let groupPlayer = [];
+					let mCount; //邊數->每組人數
+					let groupFirst = 0; //每組的第一個人的編號
+					let iPlayer = $(".playerNone").length;
+					let schedule;
+					if($("#Ypreliminaries:checked").length > 0){
+						schedule = "knockout";
+						let gCount = Math.ceil(iPlayer/$("#preliminariesCount1").val()); //組數
+						console.log(gCount + "組")
+				        for(let i=0; i<gCount; i++){
+				        	if(i == gCount-1){
+					        	mCount = iPlayer - $("#preliminariesCount1").val() * i;
+	// 							console.log(mCount + "人")
+				        	}else{
+					        	mCount = $("#preliminariesCount1").val();
+	// 							console.log(mCount + "人")
+				        	}
+				        	let players = [];
+				        	for(let j=groupFirst; j<groupFirst+Number(mCount); j++){
+	// 			        		console.log("groupFirst: " + groupFirst);
+	// 			        		console.log("j: " + j);
+// 								console.log("-" + $(".drop").eq(j).find("label").text() + "-");
+				        		players.push($(".drop").eq(j).find("label").text());
+				        	}
+	// 			        	console.log("players: " + players);
+				        	groupPlayer.push(players);
+				        	groupFirst = groupFirst+Number(mCount);
+				        }
+	// 		        	console.log("groupPlayer: " + groupPlayer);
+					}else{
+						schedule = "ground";
+						for(let i=0; i<iPlayer; i++){
+// 							console.log("-" + $(".drop").find("label").eq(i).text() + "-");
+							groupPlayer.push($(".drop").find("label").eq(i).text());
+						}
+					}
 				
 		            $.ajax({
 						type:"post",
@@ -725,6 +736,7 @@
 						data:{
 							"image64": image64,
 							"contestNo": $("#contestNo").val(),
+							"schedule": schedule,
 							"groupPlayer": JSON.stringify(groupPlayer)
 						},
 						success: function(result){
@@ -742,8 +754,8 @@
 			$("#auto").on("click",function(){
 				let playerList = [];
 				$.each($(".playerNone"), function(key, value){
-					console.log(value.innerHTML);
-					playerList.push(value.innerHTML);
+					console.log(value.value);
+					playerList.push(value.value);
 				});
 				$.ajax({
 					type:"post",
@@ -761,14 +773,6 @@
 		 					}
 		 				}
  						$(".drop").css("border-color","transparent").droppable("destroy");
- 						//調整寬度
- 						console.log("$(\"#tree\").width(): " + $("#tree").width());
-		        		console.log("$(\"#drow\").width(): " + $("#drow").width());
- 						if($("#tree").width() > $("#drow").width()){
- 				        	$("#screenshot").width($("#tree").width());
- 				        }else{
- 				        	$("#screenshot").width($("#drow").width());
- 				        }
 					},
 					error: function(err){
 						alert("發生錯誤!");	

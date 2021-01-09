@@ -181,6 +181,7 @@ public class NoCheckContestController {
 	public @ResponseBody List<String> saveScheduleImage(
 							@RequestParam String image64,
 							@RequestParam Integer contestNo,
+							@RequestParam String schedule,
 							@RequestParam String groupPlayer) {
 		image64 = image64.split(",")[1];
 		List<String> list = new ArrayList<String>();
@@ -196,8 +197,8 @@ public class NoCheckContestController {
 //				System.out.println("b: " + groupPlayer.split("]")[i].split(",")[j]);
 				for(int k=0; k<groupPlayer.split("]")[i].split(",")[j].split("\"").length; k++) {
 //					System.out.println("k: " + k);
-//					System.out.println("c: " + groupPlayer.split("]")[i].split(",")[j].split("\"")[k]);
 					String player = groupPlayer.split("]")[i].split(",")[j].split("\"")[k];
+//					System.out.println("c: @" + player + "@");
 					if(!player.equals("") && !player.equals("[") && !player.equals("[[")) {
 						groupMember.add(player);
 					}
