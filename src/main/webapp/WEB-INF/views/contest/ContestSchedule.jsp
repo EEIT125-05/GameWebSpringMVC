@@ -211,8 +211,16 @@
 			</c:choose>
 		</div>
 		<hr>
+	<c:choose>
+		<c:when test="${dTime <= today}">
+			<span style="color:gray">新增/更新賽程</span>
+		</c:when>
+		<c:otherwise>
+			<button class="btn btn-primary" id="showOption">新增/更新賽程</button>
+		</c:otherwise>
+	</c:choose>
+	<span id="spanHidden" style="font-size:70%;color:red">(註:至比賽當日即無法更改賽程)</span>
 	
-	<button class="btn btn-primary" id="showOption">新增/更新賽程</button>
 	
 	<div id="option" style="display:none">
 		<p>本場比賽共有${fn:length(cContestBean.lParticipateBeans)}人參賽</p>
@@ -256,7 +264,7 @@
 	</div>
 
 	<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
-		<span class="playerNone" style="display:none">${participate.sPlayer} </span>
+		<input class="playerNone" type="hidden" value="${participate.sPlayer}">
 	</c:forEach>
 
 	<div id="showSchedule" style="display:none">
@@ -299,6 +307,7 @@
 			$("#showOption").on("click",function(){
 				$("#option").css("display", "block");
 				$(this).css("display", "none");
+				$("#spanHidden").css("display", "none");
 			});
 			
 			
@@ -388,7 +397,7 @@
 				$("#tree").empty();
 				$("#drow").empty();
 				$(".playerNone").each(function(){
-					$("#playerCount").append("<label class=\"player\">" + $(this).text());
+					$("#playerCount").append("<label class=\"player\">" + $(this).val());
 				});			
 				
 				if($("#group:checked").length > 0) {
@@ -585,6 +594,8 @@
 			            $("#編號" + eqNumber).parent().parent().remove();
 			        }
 					
+			        //統一設定高度?
+			        
 			        //統一給.buttom加上.drop
 			        if($("#Ypreliminaries:checked").length == 0){
 				        $(".buttom").find("label").attr("class", "drop")
@@ -594,7 +605,7 @@
 			        
 		        }else{//複賽循環賽
 		        	
-		        	$("#tree").width("400px");
+		        	$("#tree").width("500px");
 		        	if($("#Ypreliminaries:checked").length == 0){
 			        	$("#drow").width("400px");
 		        	}
@@ -603,7 +614,7 @@
 		        	let canvas = document.createElement("canvas");
 		            document.getElementById("tree").appendChild(canvas);
 		            canvas.height = 400;
-		            canvas.width = 400;
+		            canvas.width = 500;
 		            canvas.style = "display:inline;";
 		            let ctx = canvas.getContext('2d');
 		            drowLine(ctx);
@@ -658,6 +669,7 @@
 // 						console.log("drop" + $(this).text() + ui.draggable.text());
 						$(this).append("<label class=\"player\" style=\"margin:0;padding:0;border-color:red\">" + ui.draggable.text() + "</label>");
 						ui.draggable.css("visibility","hidden").removeClass("player");
+// 						$(".text3").find("label").text(ui.draggable.text()+"\n"+ui.draggable.text());
 						
 					//	let 綠框內的個數 = $(".playerNone").length)/$(".drop").length;
 						console.log("分組: " + ($(".playerNone").length/$(".drop").length))
@@ -682,7 +694,44 @@
 		            var image64 = canvas.toDataURL("image/jpeg", 1.0);
 // 		            console.log("type: " + typeof(image64));
 // 		            console.log("image64: " + image64);
-		            
+				
+					let groupPlayer = [];
+					let mCount; //邊數->每組人數
+					let groupFirst = 0; //每組的第一個人的編號
+					let iPlayer = $(".playerNone").length;
+					let schedule;
+					if($("#Ypreliminaries:checked").length > 0){
+						schedule = "knockout";
+						let gCount = Math.ceil(iPlayer/$("#preliminariesCount1").val()); //組數
+						console.log(gCount + "組")
+				        for(let i=0; i<gCount; i++){
+				        	if(i == gCount-1){
+					        	mCount = iPlayer - $("#preliminariesCount1").val() * i;
+	// 							console.log(mCount + "人")
+				        	}else{
+					        	mCount = $("#preliminariesCount1").val();
+	// 							console.log(mCount + "人")
+				        	}
+				        	let players = [];
+				        	for(let j=groupFirst; j<groupFirst+Number(mCount); j++){
+	// 			        		console.log("groupFirst: " + groupFirst);
+	// 			        		console.log("j: " + j);
+// 								console.log("-" + $(".drop").eq(j).find("label").text() + "-");
+				        		players.push($(".drop").eq(j).find("label").text());
+				        	}
+	// 			        	console.log("players: " + players);
+				        	groupPlayer.push(players);
+				        	groupFirst = groupFirst+Number(mCount);
+				        }
+	// 		        	console.log("groupPlayer: " + groupPlayer);
+					}else{
+						schedule = "ground";
+						for(let i=0; i<iPlayer; i++){
+// 							console.log("-" + $(".drop").find("label").eq(i).text() + "-");
+							groupPlayer.push($(".drop").find("label").eq(i).text());
+						}
+					}
+				
 		            $.ajax({
 						type:"post",
 						url:"<c:url value='/contest/ScheduleImage'/>",
@@ -690,6 +739,8 @@
 						data:{
 							"image64": image64,
 							"contestNo": $("#contestNo").val(),
+							"schedule": schedule,
+							"groupPlayer": JSON.stringify(groupPlayer)
 						},
 						success: function(result){
 							alert(result[0]);
@@ -704,19 +755,33 @@
 			
 			
 			$("#auto").on("click",function(){
-				$(".player").remove();
-				let labelCount = ($(".playerNone").length/$(".drop").length);
-				for(let i=0; i<$(".drop").length; i++){
-					console.log("i: " + i);
-					for(let j=i*labelCount; j<i*labelCount+labelCount ; j++){
-						console.log("j: " + j);
-						$(".drop").eq(i).append("<label class=\"player\" style=\"margin:0;padding:0;border-color:red\">" + $(".playerNone").eq(j).text() + "</label>");
+				let playerList = [];
+				$.each($(".playerNone"), function(key, value){
+					console.log(value.value);
+					playerList.push(value.value);
+				});
+				$.ajax({
+					type:"post",
+					url:"<c:url value='/contest/Random'/>",
+					dataType:"json",
+					data:{
+						"playerList": playerList
+					},
+					success: function(result){
+		 				$(".player").remove();
+		 				let labelCount = ($(".playerNone").length/$(".drop").length);
+		 				for(let i=0; i<$(".drop").length; i++){
+		 					for(let j=i*labelCount; j<i*labelCount+labelCount ; j++){
+		 						$(".drop").eq(i).append("<label class=\"player\" style=\"margin:0;padding:0;border-color:red\">" + result[j] + "</label>");
+		 					}
+		 				}
+ 						$(".drop").css("border-color","transparent").droppable("destroy");
+					},
+					error: function(err){
+						alert("發生錯誤!");	
 					}
-				}
-				
-				$(".drop").css("border-color","transparent").droppable("destroy");
+				});
 			});
-			
 
 		});
 	</script>

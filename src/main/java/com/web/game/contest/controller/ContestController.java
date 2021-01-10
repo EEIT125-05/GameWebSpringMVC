@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.game.contest.model.ContestBean;
 import com.web.game.contest.model.ParticipateBean;
@@ -51,6 +52,9 @@ public class ContestController {
 	
 	@Autowired
 	dateAndTimeValidator dValidator;
+	
+	private final static String THANKS_PAGE = "redirect:/contest/Thanks";
+	private final static String ERROR_PAGE = "redirect:/contest/Error";
 	
 	@GetMapping("/Create")
 	public String createOrUpdateContest(
@@ -141,28 +145,18 @@ public class ContestController {
 		String nextPage = null;
 		if(sContestConfirm.equals("更新")){
 			if(cService.updateContest(cContestBean)) {
-				nextPage = "redirect:/contest/Thanks";
+				nextPage = THANKS_PAGE;
 			}else {
-				nextPage = "redirect:/contest/Error";
+				nextPage = ERROR_PAGE;
 			}
 		}else {
 			if(cService.insertContest(cContestBean)) {
-				nextPage = "redirect:/contest/Thanks";
+				nextPage = THANKS_PAGE;
 			}else {
-				nextPage = "redirect:/contest/Error";
+				nextPage = ERROR_PAGE;
 			}
 		}
 		return nextPage;
-	}
-	
-	@GetMapping("/Thanks")
-	public String thanks() {
-		return "contest/ContestThanks";
-	}
-	
-	@GetMapping("/Error")
-	public String error(){
-		return "contest/ContestError";
 	}
 	
 	@GetMapping("/Management")
@@ -174,6 +168,7 @@ public class ContestController {
 	@GetMapping("/Schedule/{contestNo}")
 	public String contestSchedule(
 					@PathVariable Integer contestNo,
+					RedirectAttributes ra,
 					Model model) {
 		String nextPage = null;
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
@@ -181,8 +176,8 @@ public class ContestController {
 			model.addAttribute("cContestBean", cContestBean);
 			nextPage = "contest/ContestSchedule";
 		}else {
-			model.addAttribute("errorMessage","(使用者錯誤)");
-			nextPage = "contest/ContestError";
+			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
+			nextPage = ERROR_PAGE;
 		}
 		return nextPage;
 	}
@@ -190,6 +185,7 @@ public class ContestController {
 	@GetMapping("/Update/{contestNo}")
 	public String contestUpdate(
 						@PathVariable Integer contestNo,
+						RedirectAttributes ra,
 						Model model) {
 		String nextPage = null;
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
@@ -202,8 +198,8 @@ public class ContestController {
 			model.addAttribute("originSignEnd", cService.selectOneContest(contestNo).getdSignEnd());
 			nextPage = "contest/ContestCreateOrUpdate";
 		}else {
-			model.addAttribute("errorMessage","(使用者錯誤)");
-			nextPage = "contest/ContestError";
+			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
+			nextPage = ERROR_PAGE;
 		}
 		return nextPage;
 	}
@@ -211,19 +207,15 @@ public class ContestController {
 	@DeleteMapping("/Edit/{contestNo}")
 	public String contestDelete(
 							@PathVariable Integer contestNo,
+							RedirectAttributes ra,
 							Model model) {
 		String nextPage = null;
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
-		if(cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {//驗證
-			if(cService.deleteContest(cContestBean)) {
-				model.addAttribute("sContestConfirm", "刪除");	
-				nextPage = "redirect:/contest/Thanks";
-			}else {
-				nextPage = "redirect:/contest/Error";
-			}
+		if(cService.deleteContest(cContestBean)) {
+			model.addAttribute("sContestConfirm", "刪除");	
+			nextPage = THANKS_PAGE;
 		}else {
-			model.addAttribute("errorMessage","(使用者錯誤)");
-			nextPage = "contest/ContestError";
+			nextPage = ERROR_PAGE;
 		}
 		return nextPage;
 	}
@@ -232,19 +224,20 @@ public class ContestController {
 	public String joinContest(
 					@ModelAttribute("cContestBean") ContestBean cContestBean,
 					@RequestParam String sGameId,
+					RedirectAttributes ra,
 					Model model) {
 		String nextPage = null;
 		String user = ((MemberBean)model.getAttribute("user")).getsAccount();
 		if(pService.checkPlayer(cContestBean.getiNo(), user)) {
 			if(pService.insertParticipate(new ParticipateBean(null, user, sGameId, cContestBean))) {
 				model.addAttribute("sContestConfirm", "報名");
-				nextPage = "redirect:/contest/Thanks";
+				nextPage = THANKS_PAGE;
 			}else {
-				nextPage = "redirect:/contest/Error";
+				nextPage = ERROR_PAGE;
 			}
 		}else {
-			model.addAttribute("errorMessage","(您已參加本次賽事,無法重複報名)");
-			nextPage = "contest/ContestError";
+			ra.addFlashAttribute("errorMessage", "(您已參加本次賽事,無法重複報名)");
+			nextPage = ERROR_PAGE;
 		}
 		return nextPage;
 	}
@@ -254,7 +247,6 @@ public class ContestController {
 		model.addAttribute("lParticipateList", pService.selectParticipate(((MemberBean)model.getAttribute("user")).getsAccount()));
 		return "contest/ContestParticipate";
 	}
-	
 	
 //	@GetMapping("先放這這段程式碼")
 //	public ResponseEntity<String> 隨便(){

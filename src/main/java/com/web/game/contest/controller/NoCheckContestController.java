@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.game.contest.model.ContestBean;
 import com.web.game.contest.service.ContestService;
@@ -63,16 +65,27 @@ public class NoCheckContestController {
 	@GetMapping("/Information")
 	public String informationContest(
 					@RequestParam Integer contestNo,
+					RedirectAttributes ra,
 					Model model) {
 		String nextPage = "contest/ContestInformation";
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
 		if(cContestBean == null) {
-			model.addAttribute("errorMessage", "(這場比賽並不存在)");
-			nextPage = "contest/ContestError";
+			ra.addFlashAttribute("errorMessage", "(這場比賽並不存在)");
+			nextPage = "redirect:/contest/Error";
 		}else {
 			model.addAttribute("cContestBean", cContestBean);
 		}
 		return nextPage;
+	}
+	
+	@GetMapping("/Thanks")
+	public String thanks() {
+		return "contest/ContestThanks";
+	}
+	
+	@GetMapping("/Error")
+	public String error(){
+		return "contest/ContestError";
 	}
 	
 	@PostMapping(value = "/IndexAjax", produces = "application/json; charset=utf-8")
@@ -165,12 +178,54 @@ public class NoCheckContestController {
 		return responseEntity;
 	}
 	
+	@PostMapping("/Random")
+	public @ResponseBody List<String> randomList(
+							@RequestParam(value = "playerList[]") List<String> playerList){
+		Collections.shuffle(playerList);
+//		for(String s: playerList) {
+//			System.out.println("參賽者: " + s);
+//		}
+		return playerList;
+	}
+
+	
 	@PostMapping("/ScheduleImage")
 	public @ResponseBody List<String> saveScheduleImage(
 							@RequestParam String image64,
-							@RequestParam Integer contestNo) {
+							@RequestParam Integer contestNo,
+							@RequestParam String schedule,
+							@RequestParam String groupPlayer) {
 		image64 = image64.split(",")[1];
 		List<String> list = new ArrayList<String>();
+
+		System.out.println("表籤內容: " + groupPlayer);
+		
+		List<List<String>> groupList = new ArrayList<List<String>>();
+		for(int i=0; i<groupPlayer.split("]").length; i++) {
+//			System.out.println("a: " + groupPlayer.split("]")[i]);	
+			List<String> groupMember = new ArrayList<String>();
+			for(int j=0; j<groupPlayer.split("]")[i].split(",").length; j++) {
+//				System.out.println("j: " + j);
+//				System.out.println("b: " + groupPlayer.split("]")[i].split(",")[j]);
+				for(int k=0; k<groupPlayer.split("]")[i].split(",")[j].split("\"").length; k++) {
+//					System.out.println("k: " + k);
+					String player = groupPlayer.split("]")[i].split(",")[j].split("\"")[k];
+//					System.out.println("c: @" + player + "@");
+					if(!player.equals("") && !player.equals("[") && !player.equals("[[")) {
+						groupMember.add(player);
+					}
+				}
+			}
+			groupList.add(groupMember);
+		}
+		
+		for(List<String> list2: groupList) {
+			System.out.println("---------------------");
+			for(String s: list2) {
+				System.out.println("參賽者: " + s);
+			}
+		}
+			
 		
 		Decoder decoder = Base64.getDecoder();
 		byte[] bImage = decoder.decode(image64);

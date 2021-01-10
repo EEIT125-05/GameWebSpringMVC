@@ -176,7 +176,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 				</h3>
 				<h4>
 					<label style='padding-top: 10px; padding-right: 20px;'><input
-						type="checkbox" name="rememberMe">記住我的帳號密碼</label><a
+						type="checkbox" name="rememberMe" value="remeber">記住我的帳號密碼</label><a
 						href="<c:url value='/member/Forget'/>">忘記密碼</a><br>
 				</h4>
 				<h4 style='padding-top: 10px;'>

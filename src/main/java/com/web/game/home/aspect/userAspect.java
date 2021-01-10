@@ -30,17 +30,21 @@ public class userAspect {
 		List<Object> args = Arrays.asList(joinPoint.getArgs());
 		System.out.println("12345Before Advice送出的訊息：方法 " + methodName + " 開始執行，傳入的參數為 " + args);
 		
+		String user = null;
 		for(Object object: args) {
 			if(object instanceof Model) {
 				Model model = (Model)object;
 				System.out.println("使用者= " + model.getAttribute("user"));
-				try {
+				if(model.getAttribute("user") != null) {
+					user = ((MemberBean)model.getAttribute("user")).getsAccount();
 					System.out.println("帳號= "+((MemberBean)model.getAttribute("user")).getsAccount());					
-				} catch (NullPointerException e) {
-					throw new userException("使用者要登入-runtimeException");
+					break;
 				}
-				
 			}
+		}
+		
+		if(user == null) {
+			throw new userException("使用者要登入-runtimeException");
 		}
 	}
 }

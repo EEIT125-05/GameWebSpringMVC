@@ -5,8 +5,10 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "reply")
@@ -29,30 +32,35 @@ public class ReplyBean {
 	private Time tTime;
 	@Column(columnDefinition = "nvarchar(MAX)")
 	private String sText;
-    private Integer iParentId;
+	private Integer iForumNo;
+	
+//	@ManyToOne
+//	@JoinColumn(name = "iForumNo")
+//	@JsonIgnore
+//	private ForumBean fForumBean;
+	
+	@OneToMany(mappedBy = "rReplyBean", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	private List<ReplyBean> lReplyBean = new ArrayList<>();
 	
 	@ManyToOne
-	@JoinColumn(name = "iForumNo")
+	@JoinColumn(name = "iParentNo")
 	@JsonIgnore
-	private ForumBean fForumBean;
-	
-	@OneToMany
-    @JoinColumn(name="iParentId")
-    private List<ReplyBean> lReplyBeans = new ArrayList<>();
+	private ReplyBean rReplyBean;
 	
 	public ReplyBean() {
 		super();
 	}
 	
-	public ReplyBean(Integer iNo, String sAuthor, Date dDate, Time tTime, String sText, ForumBean fForumBean, Integer iParentId) {
+	public ReplyBean(Integer iNo, String sAuthor, Date dDate, Time tTime, String sText, Integer iForumNo, ReplyBean rReplyBean) {
 		super();
 		this.iNo = iNo;
 		this.sAuthor = sAuthor;
 		this.dDate = dDate;
 		this.tTime = tTime;
 		this.sText = sText;
-		this.fForumBean = fForumBean;
-		this.iParentId = iParentId;
+		this.iForumNo = iForumNo;
+//		this.fForumBean = fForumBean;
+		this.rReplyBean = rReplyBean;
 	}
 
 	public Integer getiNo() {
@@ -95,22 +103,29 @@ public class ReplyBean {
 		this.sText = sText;
 	}
 
-	public Integer getiParentId() {
-		return iParentId;
+	public Integer getiForumNo() {
+		return iForumNo;
 	}
 
-	public void setiParentId(Integer iParentId) {
-		this.iParentId = iParentId;
-	}
 
-	public List<ReplyBean> getlReplyBeans() {
-		return lReplyBeans;
-	}
-
-	public void setlReplyBeans(List<ReplyBean> lReplyBeans) {
-		this.lReplyBeans = lReplyBeans;
+	public void setiForumNo(Integer iForumNo) {
+		this.iForumNo = iForumNo;
 	}
 	
+	public List<ReplyBean> getlReplyBean() {
+		return lReplyBean;
+	}
 	
+	public void setlReplyBean(List<ReplyBean> lReplyBean) {
+		this.lReplyBean = lReplyBean;
+	}
 
+	public ReplyBean getrReplyBean() {
+		return rReplyBean;
+	}
+
+	public void setrReplyBean(ReplyBean rReplyBean) {
+		this.rReplyBean = rReplyBean;
+	}
+	
 }
