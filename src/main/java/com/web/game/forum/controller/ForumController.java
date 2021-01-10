@@ -137,27 +137,39 @@ public class ForumController {
 		if (rService.insertReply(rReplyBean)) {
 			nextPage = "redirect:/forum/Detail/" + forumNo;
 		} else {
-			nextPage = "forum/ForumError";
+			nextPage = "redirect:/forum/Error";
 		}
 		return nextPage;
 	}
 	
 	@PutMapping("/EditReply")
 	public String replyUpdate(
+							@RequestParam Integer forumNo,
 							@RequestParam Integer replyNo,
 							@RequestParam String newText,
 							Model model) {
 		System.out.println("回覆更新" + replyNo + newText);
-		return null;
+		ReplyBean rReplyBean = rService.selectOneReply(replyNo);
+		rReplyBean.setsText(newText);
+		if(rService.updateReply(rReplyBean)) {
+			return "redirect:/forum/Detail/" + forumNo;
+		}else {
+			return "redirect:/forum/Error";
+		}
 	}
 	
 	@DeleteMapping("/EditReply")
 	public String replyDelete(
+							@RequestParam Integer forumNo,
 							@RequestParam Integer replyNo,
 							Model model) {
 		System.out.println("回覆刪除" + replyNo);
-		
-		return null;
+		ReplyBean rReplyBean = rService.selectOneReply(replyNo);
+		if(rService.deleteReply(rReplyBean)) {
+			return "redirect:/forum/Detail/" + forumNo;
+		}else {
+			return "redirect:/forum/Error";
+		}
 	}
 	
 	

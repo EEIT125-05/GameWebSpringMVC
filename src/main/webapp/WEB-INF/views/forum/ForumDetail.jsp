@@ -13,6 +13,18 @@
 	form{
 		margin:0;
 	}
+	.replyUpdate,.replyDelete{
+		border:none;
+		background-color:transparent;
+		color:#007bff;
+	}
+	.replyUpdate:focus,.replyDelete:focus{
+		outline:none;
+	}
+	.replyUpdate:focus,.replyDelete:hover{
+		color: #0056b3;
+		text-decoration: underline;
+	}
 </style>
 </head>
 <body>
@@ -86,6 +98,7 @@
 	<hr>
 	
 	<form id="editReply" action="<c:url value='/forum/EditReply'/>" method="POST" >
+		<input type="hidden" name="forumNo" value="${fForumBean.iNo}" >
 		<input type="hidden" name="_method" value="" >
 		<input type="hidden" name="replyNo" value="" >
 		<input type="hidden" name="newText" value="" >
@@ -115,14 +128,13 @@
 							<div><b>${reply.sAuthor} : </b>
 								<a data-toggle="collapse" href="#childReply${reply.iNo}" role="button" aria-expanded="false" aria-controls="#childReply${reply.iNo}">回覆</a>
 								<c:if test="${reply.sAuthor == user.sAccount}">
+									<input type="hidden" id="oldText${reply.iNo}" value="${reply.sText}">
 									<button class="replyUpdate" value="${reply.iNo}">修改</button>
 									<button class="replyDelete" value="${reply.iNo}">刪除</button>
-<!-- 									<a class="replyUpdate">修改</a> -->
-<!-- 									<a>刪除</a> -->
 								</c:if>
 							</div>
 
-							<div>${reply.sText} </div>
+							<div id="newText${reply.iNo}">${reply.sText}</div>
 							<c:forEach var="childReply"	items="${reply.lReplyBean}">
 								<fmt:parseDate var="childReplyDate" value="${childReply.dDate}" pattern="yyyy-MM-dd"/>
 								<c:choose>
@@ -140,11 +152,12 @@
 								<label style="width:90%">
 									<div><b>${childReply.sAuthor} : </b>
 									<c:if test="${childReply.sAuthor == user.sAccount}">
-										<a class="replyUpdate">修改</a>
-										<a>刪除</a>
+										<input type="hidden" id="oldText${childReply.iNo}" value="${childReply.sText}">
+										<button class="replyUpdate" value="${childReply.iNo}">修改</button>
+										<button class="replyDelete" value="${childReply.iNo}">刪除</button>
 									</c:if>
 									</div>
-									<div>${childReply.sText} </div>
+									<div id="newText${childReply.iNo}">${childReply.sText} </div>
 								</label>
 								<label style="position:absolute;right:0">${childTimeString}</label>
 								<br>
@@ -175,13 +188,13 @@
 <script>
 	$(function(){
 		$(".replyUpdate").on("click",function(){
-			$("input[name=_method]").val("PUT");
-			$("input[name=replyNo]").val($(this).val());
-			let text = $(this).parent().next().text();
-			$(this).parent().next().html("<input type=\"text\" value=\"" + text + "\"> <button class=\"btn btn-primary submitNewReply\">送出");
+			let text = $("#oldText"+$(this).val()).val();
+			$("#newText"+$(this).val()).html("<input type=\"text\" value=\"" + text + "\"> <button class=\"btn btn-primary submitNewReply\">送出");
 		});
 		
 		$(document).on("click", ".submitNewReply", function(){
+			$("input[name=_method]").val("PUT");
+			$("input[name=replyNo]").val($(this).parent().prev().find(".replyUpdate").val());
 			$("input[name=newText]").val($(this).prev().val());
 			$("#editReply").submit();	
 		});
