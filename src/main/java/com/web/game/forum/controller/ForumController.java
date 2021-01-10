@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -106,7 +107,7 @@ public class ForumController {
 	}
 	
 	@DeleteMapping("/Edit/{forumNo}")
-	public String contestDelete(
+	public String forumDelete(
 							@PathVariable Integer forumNo,
 							Model model) {
 		String nextPage = null;
@@ -121,7 +122,7 @@ public class ForumController {
 	}
 
 	@PostMapping("/Reply")
-	public String reply(
+	public String replyCreate(
 			@RequestParam String sText,
 			@RequestParam Integer forumNo,
 			@RequestParam(defaultValue = "") Integer parentReplyNo,
@@ -140,5 +141,25 @@ public class ForumController {
 		}
 		return nextPage;
 	}
+	
+	@PutMapping("/EditReply")
+	public String replyUpdate(
+							@RequestParam Integer replyNo,
+							@RequestParam String newText,
+							Model model) {
+		System.out.println("回覆更新" + replyNo + newText);
+		return null;
+	}
+	
+	@DeleteMapping("/EditReply")
+	public String replyDelete(
+							@RequestParam Integer replyNo,
+							Model model) {
+		System.out.println("回覆刪除" + replyNo);
+		
+		return null;
+	}
+	
+	
 	
 }

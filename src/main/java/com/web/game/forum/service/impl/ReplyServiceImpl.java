@@ -24,6 +24,20 @@ public class ReplyServiceImpl implements ReplyService {
 	public Boolean insertReply(ReplyBean rReplyBean) {
 		return rDAO.insertReply(rReplyBean);
 	}
+	
+	@Transactional
+	@Override
+	public Boolean updateReply(ReplyBean rReplyBean) {
+		return rDAO.updateReply(rReplyBean);
+	}
+
+	@Transactional
+	@Override
+	public Boolean deleteReply(ReplyBean rReplyBean) {
+		return rDAO.deleteReply(rReplyBean);
+	}
+
+
 
 	@Override
 	public ReplyBean newBean(String sText, Integer iForumNo) {

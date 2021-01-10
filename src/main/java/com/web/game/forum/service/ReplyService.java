@@ -8,10 +8,14 @@ public interface ReplyService {
 	
 	public Boolean insertReply(ReplyBean rReplyBean);
 	
+	public Boolean updateReply(ReplyBean rReplyBean);
+	
+	public Boolean deleteReply(ReplyBean rReplyBean);
+	
 	public ReplyBean newBean(String sText, Integer iForumNo);
 	
-	List<ReplyBean> selectForumReply(Integer iForumNo);
+	public List<ReplyBean> selectForumReply(Integer iForumNo);
 	
-	ReplyBean selectOneReply(Integer iNo);
+	public ReplyBean selectOneReply(Integer iNo);
 
 }

@@ -8,7 +8,11 @@ public interface ReplyDAO {
 	
 	public Boolean insertReply(ReplyBean rReplyBean);
 	
-	List<ReplyBean> selectForumReply(Integer iForumNo);
+	public Boolean updateReply(ReplyBean rReplyBean);
+	
+	public Boolean deleteReply(ReplyBean rReplyBean);
+	
+	public List<ReplyBean> selectForumReply(Integer iForumNo);
 
-	ReplyBean selectOneReply(Integer iNo);
+	public ReplyBean selectOneReply(Integer iNo);
 }

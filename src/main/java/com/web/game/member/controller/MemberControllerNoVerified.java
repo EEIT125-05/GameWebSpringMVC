@@ -163,7 +163,6 @@ public class MemberControllerNoVerified {
 			HttpServletRequest request, 
 			HttpServletResponse response, 
 			SessionStatus Status) {
-		System.out.println("rememberMe: " + rememberMe);
 		if (mService.SigninMember(sAccount, sPassword)) {
 			MemberBean SigninMB = mService.Selectmember(sAccount);
 			status = SigninMB.getStatus();
@@ -182,7 +181,7 @@ public class MemberControllerNoVerified {
 			if(!rememberMe.equals("")) {
 				Cookie cUser = new Cookie("user", SigninMB.getsAccount());
 				cUser.setPath("/GameWebSpringMVC");
-				cUser.setMaxAge(3000);
+				cUser.setMaxAge(86400 * 7);
 				response.addCookie(cUser);
 			}
 //--------新增cookie----------------------------------------------------

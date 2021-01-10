@@ -594,6 +594,8 @@
 			            $("#編號" + eqNumber).parent().parent().remove();
 			        }
 					
+			        //統一設定高度?
+			        
 			        //統一給.buttom加上.drop
 			        if($("#Ypreliminaries:checked").length == 0){
 				        $(".buttom").find("label").attr("class", "drop")
@@ -667,6 +669,7 @@
 // 						console.log("drop" + $(this).text() + ui.draggable.text());
 						$(this).append("<label class=\"player\" style=\"margin:0;padding:0;border-color:red\">" + ui.draggable.text() + "</label>");
 						ui.draggable.css("visibility","hidden").removeClass("player");
+// 						$(".text3").find("label").text(ui.draggable.text()+"\n"+ui.draggable.text());
 						
 					//	let 綠框內的個數 = $(".playerNone").length)/$(".drop").length;
 						console.log("分組: " + ($(".playerNone").length/$(".drop").length))

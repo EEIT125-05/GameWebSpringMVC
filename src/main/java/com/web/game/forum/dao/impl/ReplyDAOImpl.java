@@ -27,6 +27,32 @@ public class ReplyDAOImpl implements ReplyDAO{
 			return false;
 		}
 	}
+	
+	@Override
+	public Boolean updateReply(ReplyBean rReplyBean) {
+		Session session = factory.getCurrentSession();
+		try {
+			session.update(rReplyBean);
+			return true;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public Boolean deleteReply(ReplyBean rReplyBean) {
+		Session session = factory.getCurrentSession();
+		try {
+			session.delete(rReplyBean);
+			return true;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+
 
 	@SuppressWarnings("unchecked")
 	@Override
