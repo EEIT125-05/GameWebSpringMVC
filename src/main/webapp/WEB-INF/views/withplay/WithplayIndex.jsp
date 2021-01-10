@@ -36,11 +36,10 @@ response.setContentType("text/html;charset=UTF-8");
 
 
 		<%-- 		<form action='${pageContext.request.contextPath}/withplay/select'> --%>
-		<div class="input-group">
-			<label>依暱稱搜尋: </label> <input type="text" name="sNickname"
-				class="form-control" id="sNickname"> <span
-				class="input-group-append"> <input type="button" value="搜尋"
-				class="btn btn-secondary" id="submit">
+		<div class="input-group"> 
+			<input type="text"  placeholder="輸入暱稱" name="sNickname" class="form-control input-lg" id="sNickname"> 
+				<span class="input-group-btn"> 
+				<input type="button" value="搜尋" class="btn btn-secondary" id="submit">
 			</span>
 		</div>
 		<label>進階條件: </label><br> <label>遊戲</label> <select id="sGame"
@@ -58,7 +57,7 @@ response.setContentType("text/html;charset=UTF-8");
 		</c:if>
 		<div class="row" id="point">
 			<c:forEach var="With" items="${Withlist}">
-				<div class="col col-6 col-sm-4 col-md-4 col-lg-4">
+				<div class="col col-12 col-sm-12 col-md-6 col-lg-4">
 					<div data-toggle="modal" data-target="#exampleModal${With.iId}">
 						<div class="div1">
 							<div class="fi1">
@@ -137,7 +136,7 @@ response.setContentType("text/html;charset=UTF-8");
 												<div>
 													回覆: <input type="text" id="Reply${With.iId}" name="sText" required>
 													<button type="submit" id="replySubmit${With.iId}" name="withNo"
-														value="${With.iId}">送出</button>
+														value="${With.iId}" class="btn btn-primary">送出</button>
 												</div>
 											</form>
 
@@ -145,12 +144,14 @@ response.setContentType("text/html;charset=UTF-8");
 										</div>
 									</div>
 								</div>
+								<form action="<c:url value='/withplay/Order'/>" method="post">
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
 										data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary">Save
-										changes</button>
+									<button type="submit" class="btn btn-primary" name="orderNo" value="${With.iId}">立即下單</button>
 								</div>
+								</form>
+								
 							</div>
 						</div>
 					</div>

@@ -7,8 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet"
-	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+
 <link rel="stylesheet" href="../css/WithGame.css">
 <title>With</title>
 <!-- <script src="../js/With.js"></script> -->
@@ -16,6 +15,7 @@
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
+<div class="container">
 
 	<div align="center" >
 		<form method='POST'>
@@ -62,6 +62,7 @@
 	<div align="center">
 		<a href="${pageContext.servletContext.contextPath}/withplay/Index">陪玩首頁</a>
 	</div>
+</div>
 	<%@ include file="../Foot.jsp"%>
 
 </body>

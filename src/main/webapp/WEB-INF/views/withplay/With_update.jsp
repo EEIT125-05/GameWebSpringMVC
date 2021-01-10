@@ -46,7 +46,12 @@
 
 
 </script>
+<style>
 
+td{
+	color:lightgrey;
+}
+</style>
 </head>
 <body>
 <%@ include file="../Header.jsp" %>
@@ -60,33 +65,33 @@
     
 	<div align="center">
 		<form:form method="post" modelAttribute="With" action="${pageContext.request.contextPath}/withplay/edit"
-			enctype='multipart/form-data'>
+			enctype='multipart/form-data' class="dark-matter">
 			<table cellpadding="5">
 				<form:hidden path="iId" />
 				<form:hidden path="sGender" items='${sGenderMap}' readonly="true" />
 
 				<tr>
-					<td>Account</td>
+					<td>帳號</td>
 					<td><form:input path="sAccount" readonly="true"/></td>
 				</tr>
 				<tr>
-					<td>Name</td>
+					<td>姓名</td>
 					<td><form:input path="sName" readonly="true"/></td>
 				</tr>
 				<tr>
-					<td>Nickname</td>
+					<td>暱稱</td>
 					<td><form:input path="sNickname" /></td>
 					<form:errors path="sNickname" cssClass="error" />
 
 				</tr>
 				<tr>
-					<td>Idcode</td>
+					<td>身分證字號</td>
 					<td><form:input path="sIdcode" readonly="true"/></td>
 					<form:errors path="sIdcode" cssClass="error" />
 
 				</tr>
 				<tr>
-					<td>Game</td>
+					<td>遊戲選項</td>
 					<td><form:checkboxes  path="sGame" items='${sGameMap}'/></td>
 					<form:errors path="sGame" cssClass="error" />
 
@@ -97,16 +102,16 @@
 					<td><form:input path="mWithImage" type='file' /><br>&nbsp;
 				</tr>
 				<tr>
-					<td>Price</td>
+					<td>金額</td>
 					<td><form:input path="iPrice" /><form:errors path="iPrice"  /></td>
 				</tr>
 				<tr>
-					<td>Comment</td>
+					<td>自我介紹</td>
 					<td><form:textarea path="sComment" id="Comment"  onblur="checkComment();"  rows="6" cols="30"
 					 pattern="^[\u4e00-\u9fa5]+$" minlength="6"/><span id="idname"></span></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type="submit"></td>
+					<td colspan="2" align="center"><input type="submit" class="btn btn-outline-primary"></td>
 				</tr>
 			</table>
 		</form:form>

@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <title>New With Play</title>
 <link rel="stylesheet" href="../css/WithGame.css">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 	let Commentflag = false;
 	let Idcodeflag = false;
@@ -89,7 +90,7 @@
 					Idcode.innerHTML = "<font color='green'>身份證字號可用</font>";
 					Idcodeflag = true;
 				} else {
-					Idcode.innerHTML = "<font color='red'>身份證字號已被使用，請重新輸入</font>";
+					Idcode.innerHTML = "<font color='red' '>身份證字號已被使用，請重新輸入</font>";
 					Idcodeflag = false;
 				}
 				}
@@ -101,8 +102,16 @@
 	}
 	
 }
-
+	
 </script>
+<style>
+.com{
+    max-width:800px; 
+}
+td{
+	color:lightgrey;
+}
+</style>
 </head>
 <body>
 <%@ include file="../Header.jsp" %>
@@ -116,54 +125,56 @@
     
 	<div align="center">
 		<form:form method="post" modelAttribute="With"
-			enctype='multipart/form-data'>
-			<table cellpadding="5">
+			enctype='multipart/form-data' class="dark-matter com">
+			<table style="cellpadding:5px">
 			
 				<form:hidden path="iId" />
 				<form:hidden path="sGender" items='${sGenderMap}' readonly="true" />
 
 				<tr>
-					<td>Account</td>
-					<td><form:input path="sAccount" readonly="true"/>&nbsp;<form:errors path="sAccount"/></td>
+					<td>帳號</td>
+					<td><form:input path="sAccount" readonly="true"/>&nbsp;<span style="color:red;"><form:errors path="sAccount"/></span></td>
+					
 					
 				</tr>
 				<tr>
-					<td>Name</td>
+					<td>姓名</td>
 					<td><form:input path="sName" readonly="true"/>&nbsp;<form:errors path="sName"/></td>
 				</tr>
 				<tr>
-					<td>Nickname</td>
-					<td><form:input path="sNickname" />&nbsp;<form:errors path="sNickname"/></td>
+					<td>暱稱</td>
+					<td><form:input path="sNickname" /><span style="color:red;"><form:errors  path="sNickname"/></span></td>
+					
 				</tr>
 				<tr>
-					<td>Idcode</td>
+					<td>身分證字號</td>
 					<td><form:input path="sIdcode" maxlength="10" id="sIdcode"  onblur="checkIdcode();"/>&nbsp;
 					<input type="button" id='IdcodeCheck' value="檢查"><span id="Idcode"></span>
 					</td>
 				</tr>
 				<tr>
-					<td>Game</td>
-					<td><form:checkboxes path="sGame" items='${sGameMap}' />&nbsp;<form:errors path="sGame"/></td>
+					<td>遊戲選項</td>
+					<td><span style="color:lightgrey;"><form:checkboxes path="sGame" items='${sGameMap}' /></span>&nbsp;<span style="color:red;"><form:errors path="sGame"/></span></td>
 
 				</tr>
 				<tr>
-					<td>照片：<br>&nbsp;
+					<td>照片<br>&nbsp;
 					</td>
 					<td><form:input path="mWithImage" type='file' /></td>
 
 					
 				</tr>
 				<tr>
-					<td>Price</td>
-					<td><form:input path="iPrice" />&nbsp;<form:errors path="iPrice"/></td>
+					<td>金額</td>
+					<td><form:input path="iPrice" />&nbsp;<span style="color:red;"><form:errors path="iPrice"/></span></td>
 				</tr>
 				<tr>
-					<td>Comment</td>
+					<td>自我介紹</td>
 					<td><form:textarea path="sComment" id="Comment"  onblur="checkComment();" rows="6" cols="30"
 					 pattern="^[\u4e00-\u9fa5]+$" minlength="6"/><span id="idname"></span>&nbsp;</td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type="submit"></td>
+					<td colspan="2" align="center"><input type="submit" class="btn btn-outline-primary"></td>
 				</tr>
 			</table>
 		</form:form>
