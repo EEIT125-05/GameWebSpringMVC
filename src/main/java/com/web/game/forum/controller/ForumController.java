@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.game.forum.model.ForumBean;
 import com.web.game.forum.model.ReplyBean;
@@ -88,6 +89,7 @@ public class ForumController {
 	@GetMapping("/Update/{forumNo}")
 	public String forumUpdate(
 			@PathVariable Integer forumNo,
+			RedirectAttributes ra,
 			Model model) {
 		String nextPage = null;
 		ForumBean fForumBean = fService.selectOneForum(forumNo);
@@ -97,8 +99,8 @@ public class ForumController {
 			model.addAttribute("sForumConfirm", "更新");
 			nextPage = "forum/ForumCreateOrUpdate";
 		}else {
-			model.addAttribute("errorMessage","(使用者錯誤)");
-			nextPage = "forum/ForumError";
+			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
+			nextPage = "redirect:/forum/Error";
 		}
 		return nextPage;
 	}
@@ -109,16 +111,11 @@ public class ForumController {
 							Model model) {
 		String nextPage = null;
 		ForumBean fForumBean = fService.selectOneForum(forumNo);
-		if(fForumBean.getsAuthor().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {//驗證
-			if(fService.deleteForum(fForumBean)) {
-				model.addAttribute("sForumConfirm", "刪除");	
-				nextPage = "redirect:/forum/Thanks";
-			}else {
-				nextPage = "redirect:/forum/Error";
-			}
+		if(fService.deleteForum(fForumBean)) {
+			model.addAttribute("sForumConfirm", "刪除");	
+			nextPage = "redirect:/forum/Thanks";
 		}else {
-			model.addAttribute("errorMessage","(使用者錯誤)");
-			nextPage = "forum/ForumError";
+			nextPage = "redirect:/forum/Error";
 		}
 		return nextPage;
 	}

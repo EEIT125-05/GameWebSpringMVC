@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.game.contest.model.ContestBean;
 import com.web.game.contest.service.ContestService;
@@ -64,16 +65,27 @@ public class NoCheckContestController {
 	@GetMapping("/Information")
 	public String informationContest(
 					@RequestParam Integer contestNo,
+					RedirectAttributes ra,
 					Model model) {
 		String nextPage = "contest/ContestInformation";
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
 		if(cContestBean == null) {
-			model.addAttribute("errorMessage", "(這場比賽並不存在)");
-			nextPage = "contest/ContestError";
+			ra.addFlashAttribute("errorMessage", "(這場比賽並不存在)");
+			nextPage = "redirect:/contest/Error";
 		}else {
 			model.addAttribute("cContestBean", cContestBean);
 		}
 		return nextPage;
+	}
+	
+	@GetMapping("/Thanks")
+	public String thanks() {
+		return "contest/ContestThanks";
+	}
+	
+	@GetMapping("/Error")
+	public String error(){
+		return "contest/ContestError";
 	}
 	
 	@PostMapping(value = "/IndexAjax", produces = "application/json; charset=utf-8")
