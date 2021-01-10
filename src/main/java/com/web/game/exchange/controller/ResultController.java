@@ -15,8 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -218,110 +220,10 @@ public class ResultController {
 			return "redirect:/exchange/Result";
 		}
 		
-		@PostMapping("/applyFor")
-		public String createTransaction(
-				RedirectAttributes attr,
-				Model model,
-				@RequestParam String partyA,
-				@RequestParam Integer supportGameNo,
-				@RequestParam String partyB,
-				@RequestParam Integer myGameNo
-				) {
-			System.out.println("supportGameNo"+supportGameNo);
-			System.out.println("myGameNo"+myGameNo);
-			ChangeHistoryBean CHB = new ChangeHistoryBean();
-			System.out.println("--");
-			MemberBean mbPartyA = memberService.Selectmember(partyA);
-			System.out.println("--");
-			MemberBean mbPartyB = memberService.Selectmember(partyB);
-			System.out.println("--");
-			SupportGameBean sgSupportGame = exchangeService.FindsupportGame(supportGameNo);
-			System.out.println("--!!");
-			MyGameBean mgMyGame=exchangeService.getMyGame(myGameNo);
-			System.out.println("--!!");
-			SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
-	    	String sTimeString = sdf.format(new Date());
-	    	Timestamp time = Timestamp.valueOf(sTimeString);
-			
-	    	System.out.println("getData!!");
-			
-			CHB.setPartyA(mbPartyA);
-			System.out.println("1");
-			CHB.setPartyB(mbPartyB);
-			System.out.println("2");
-			System.out.println("mgMyGame"+mgMyGame);
-			CHB.setMygamebean(mgMyGame);
-			System.out.println("3");
-			CHB.setSupportgamebean(sgSupportGame);
-			System.out.println("4");
-			CHB.setStatus(0);
-			CHB.setDate(time);
-			
-			String sAction = "申請交換";
-			String sPath = null;
-				if(exchangeService.insertChangeHistory(CHB)) {	
-					sPath = "EXCThanks";
-				} else {
-					sPath = "EXCFail";
-				}
-				System.out.println("testStatus");
-			attr.addAttribute("action", sAction);
-			attr.addAttribute("path",sPath);
-			return "redirect:/exchange/Result";
-			
-			
-		}
 		
-		@GetMapping("/ApplyForReject")
-		public String updateApplyForReject(
-				RedirectAttributes attr,
-				Model model,
-				@RequestParam Integer no
-				) {
-			System.out.println("RejectIn");
-			System.out.println(no);
-			ChangeHistoryBean chChangeHistory = new ChangeHistoryBean();
-			chChangeHistory = exchangeService.getHistory(no);
-			System.out.println(chChangeHistory);
-			
-			String sAction = "交換駁回";
-			String sPath = null;
-				if(exchangeService.updateChangeHistoryReject(chChangeHistory)) {	
-					sPath = "EXCThanks";
-				} else {
-					sPath = "EXCFail";
-				}
-			attr.addAttribute("action", sAction);
-			attr.addAttribute("path",sPath);
-			System.out.println("RejectOut");
-			return "redirect:/exchange/Result";
-		}
 		
-		@GetMapping("/ApplyForSubmit")
-		public String updateApplyForSubmit(
-								  RedirectAttributes attr,
-								  Model model,
-				          		  @RequestParam Integer no
-				) {
-			System.out.println("submitIn");
-			System.out.println(no);
-			ChangeHistoryBean chChangeHistory = new ChangeHistoryBean();
-			chChangeHistory = exchangeService.getHistory(no);
-			System.out.println(chChangeHistory);
-			
-			String sAction = "交換";
-			String sPath = null;
-				if(exchangeService.updateChangeHistorySubmit(chChangeHistory)) {	
-					sPath = "EXCThanks";
-				} else {
-					sPath = "EXCFail";
-				}
-			attr.addAttribute("action", sAction);
-			attr.addAttribute("path",sPath);
-			System.out.println("submitOut");
-			return "redirect:/exchange/Result";
-			
-		}
+		
+		
 		
 		
 		

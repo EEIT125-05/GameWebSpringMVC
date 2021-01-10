@@ -99,11 +99,14 @@ public class ChangeDAO {
 		
 		Session session = factory.getCurrentSession();
 		System.out.println("id"+id);
-		List<ChangeHistoryBean> list = new ArrayList<ChangeHistoryBean>();
-		String HQL = "FROM ChangeHistoryBean WHERE FK_partyA = :id";
-		list = (List<ChangeHistoryBean>) session.createQuery(HQL).setParameter("id", id).getResultList();
-		System.out.println("list"+list.size());
-		return list;
+		List<ChangeHistoryBean> listPartyA = new ArrayList<ChangeHistoryBean>();
+		List<ChangeHistoryBean> listPartyB = new ArrayList<ChangeHistoryBean>();
+		String HQLPartyA = "FROM ChangeHistoryBean WHERE FK_partyA = :id";
+		String HQLPartyB = "FROM ChangeHistoryBean WHERE FK_partyB = :id";
+		listPartyA = (List<ChangeHistoryBean>) session.createQuery(HQLPartyA).setParameter("id", id).getResultList();
+		listPartyB = (List<ChangeHistoryBean>) session.createQuery(HQLPartyB).setParameter("id", id).getResultList();
+		listPartyA.addAll(listPartyB);
+		return listPartyA;
 		
 	}
 }

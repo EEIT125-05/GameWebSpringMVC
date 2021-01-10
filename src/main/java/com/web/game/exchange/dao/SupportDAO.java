@@ -85,11 +85,18 @@ public class SupportDAO {
 		Session session = factory.getCurrentSession();
 		String hql = "FROM SupportGameBean g WHERE g.gamer = :account";
 		list = session.createQuery(hql).setParameter("account", account).getResultList();
-
 		return list;
-
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<SupportGameBean> getMemberPending(String account) {
+		List<SupportGameBean> list = new ArrayList<>();
+		Session session = factory.getCurrentSession();
+		String hql = "FROM SupportGameBean g WHERE g.gamer = :account AND g.status = 2";
+		list = session.createQuery(hql).setParameter("account", account).getResultList();
+		return list;
+	}
+	
 	// 傳回特定物件值
 	public SupportGameBean selectSupportGame(int pno) {// 暫時沒用到
 		SupportGameBean gb = null;

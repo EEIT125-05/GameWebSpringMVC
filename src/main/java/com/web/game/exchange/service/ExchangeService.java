@@ -34,7 +34,7 @@ public class ExchangeService {
 
 	//-------------testchange
 	@Transactional
-	public List<SupportGameBean> changepage(int page){
+	public List<SupportGameBean> changePage(int page){
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
 		return list = supportDAO.changePage(page);
 	}
@@ -44,6 +44,11 @@ public class ExchangeService {
 		return list = supportDAO.changePageByParam(page, search, param);
 	}
 	//------------------------demand
+	@Transactional
+	public List<DemandGameBean> changeDemandPage(int page,String searchParam){
+		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
+		return list = demandDAO.changeDemandPage(page, searchParam);
+	}
 	@Transactional
 	public List<DemandGameBean> GetMemberDemand(String account){
 		List<DemandGameBean> list = new ArrayList<>();
@@ -79,6 +84,16 @@ public class ExchangeService {
 		System.out.println("serviceOut");
 		return list;
 	}
+	@Transactional
+	public List<SupportGameBean> getMemberPending(String account){
+		List<SupportGameBean> list = new ArrayList<>();
+		System.out.println("serviceIn");
+		list = supportDAO.getMemberPending(account);
+		System.out.println("serviceOut");
+		return list;
+	}
+	
+	
 //	@Transactional
 //	public SupportGameBean getSupportGameByAccount(String gamename,String account) {
 //		return supportDAO.getSupportGameByAccount(gamename,account);

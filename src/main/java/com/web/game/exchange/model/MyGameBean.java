@@ -10,6 +10,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="MyGames_Table")
 public class MyGameBean {
@@ -23,8 +25,10 @@ public class MyGameBean {
 	private Integer status;
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="FK_supportgamebean_id")
+	@JsonIgnore
 	private SupportGameBean supportgamebean;
 	@OneToOne(mappedBy = "mygamebean")
+	@JsonIgnore
 	private ChangeHistoryBean changehistorybean;
 	
 	public ChangeHistoryBean getChangehistorybean() {
