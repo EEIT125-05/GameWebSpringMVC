@@ -45,11 +45,6 @@
 		src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 	<script>
 
-	function test(){
-		
-		
-		console.log("!@#")
-	}
 	
 function applyFor(x){
 	console.log(x)
@@ -84,7 +79,7 @@ function applyFor(x){
 	 				      str1,
 	 				      'success'
 	 				    ).then(function(){
-// 	 				   location.href='./management'
+	 				   location.href='./management'
 	 				    })
 	 			}
   			}	

@@ -125,9 +125,10 @@ public class ChangeGameController {
 		System.out.println(no);
 		ChangeHistoryBean chChangeHistory = new ChangeHistoryBean();
 		chChangeHistory = exchangeService.getHistory(no);
-		if(chChangeHistory != null) {
+		if(exchangeService.updateChangeHistoryReject(chChangeHistory)) {	
 			result = true;
-		}
+		} 
+		
 		System.out.println("result"+result);
 		System.out.println("RejectOut");
 		return result;
@@ -142,9 +143,10 @@ public class ChangeGameController {
 		System.out.println(no);
 		ChangeHistoryBean chChangeHistory = new ChangeHistoryBean();
 		chChangeHistory = exchangeService.getHistory(no);
-		if(chChangeHistory != null) {
+		if(exchangeService.updateChangeHistorySubmit(chChangeHistory)) {	
 			result = true;
-		}
+		} 
+		
 		System.out.println(chChangeHistory);
 		System.out.println("submitOut");
 		return result;
