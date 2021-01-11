@@ -34,14 +34,15 @@ response.setContentType("text/html;charset=UTF-8");
 				style="background-color:lightgrey; margin: 25px; height: 700px;padding-top:20px;padding-bottom:20px">
 				<h2 style="padding-top:15px">確認訂單</h2>
 				<div style="background-color: rgb(180, 230, 173);  height: 600px; width: 775px;float:left;">
-					<div style="float:left;hegiht:300px;width:775px;border:blue solid 5px;padding-top:20px;padding-bottom:20px;display:  flex; align-items: center; justify-content:  center;">
+				<hr>
+					<div style="float:left;hegiht:300px;width:775px;border:blue solid 5px;padding-bottom:20px;display:  flex; align-items: center; justify-content:  center;">
 						<div style="float:left;height: 200px; width: 200px;display: flex; align-items: center; justify-content:  center;" >
 						<img width=150px height=150px src='${pageContext.request.contextPath}/withplay/picture/${With.iId}' />
 						</div>
 						<div style="display:inline;float:left;border:red solid 5px;height: 200px; width: 565px;margin-top:20px;margin-bottom:20px;line-height:190px;">
-							<p style="float:left;width:150px">1</p>
-							<p style="float:left;width:100px">2</p>
-							<p style="float:right;width:150px">50
+							<p style="float:left;width:150px;font-size:150%;">${With.sNickname}</p>
+							<p style="float:left;width:100px;font-size:150%;">${With.sGame}</p>
+							<p style="float:right;width:150px;font-weight:bold;font-size:150%;">50
 								<span >幣/一小時</span>
 							</p>
 							
@@ -56,19 +57,20 @@ response.setContentType("text/html;charset=UTF-8");
 						
 					</div>
 					<div>
-						<h3>付款方式</h3>
+						<h3 style="font-weight:bold;">付款方式</h3>
 					</div>
 						<div>7</div>
 				</div>
-				<div style=" border: rgb(212, 0, 255) solid 3px; height: 200px; width: 310px;float:right;padding:15px">
+				<div style=" border: rgb(212, 0, 255) solid 3px; height: 200px; width: 310px;float:right;padding:15px;margin-top:30px">
 					<div>
 						<div>
 						<div style="height:30px;background-color:yellow;margin-bbottom:20px;">
 						<span style="float:left;">2</span>
 						<span style="float:right;">3</span>
 						</div>
-						<div style="margin-top:20px; margin-bbottom:20px;height:40px;">
-						<span>44</span>
+						<hr>
+						<div style="margin-top:20px; margin-bbottom:20px;height:40px;font-size:150%;">
+						<span>實付</span>
 						<span style="float:right;">55</span>
 						</div>
 						</div>
