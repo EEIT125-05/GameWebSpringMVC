@@ -12,6 +12,14 @@
 <head>
 <meta charset="UTF-8">
 <title>交換版首頁</title>
+<style>
+.span{
+	color:white;
+	font-size:8px;
+	font-face:"fantsay;
+}
+
+</style>
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
@@ -64,7 +72,7 @@
 					src="${pageContext.request.contextPath }/${g.image }" alt="">
 				<div class="overlay"></div>
 				<div class="work-content">
-					<span>遊戲名稱:${g.gamename}</span> <span>遊戲數量:${g.qty}</span> <span>遊戲所在地:${g.gamelocation}</span>
+					<span style="color:white;">遊戲名稱:${g.gamename}</span> <span>遊戲數量:${g.qty}</span> <span>遊戲所在地:${g.gamelocation}</span>
 					<span>運送方式:${g.delivery}</span> <span>主機平台:${g.console}</span> <span>玩家名稱:${g.gamer}</span>
 					<span>是否含特點:${g.dlc}</span> <span>備註:${g.remark}</span>
 					<div class="work-link" style="margin: auto;">
@@ -201,7 +209,7 @@
 			console.log(myGameval+supportGameNoval+partyAval+partyBval)
 			var xhr1 = new XMLHttpRequest();
 			
-			xhr1.open('GET', '<c:url value="/exchange/applyForAjax" />'
+			xhr1.open('POST', '<c:url value="/exchange/applyForAjax" />'
 					+ '?partyA=' + partyAval 
 					+ '&partyB='+ partyBval
 					+'&myGameNo='+myGameval

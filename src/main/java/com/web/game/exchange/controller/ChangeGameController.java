@@ -61,7 +61,7 @@ public class ChangeGameController {
 //		return "exchange/EXCApplicationForm";
 //	}
 	
-	@GetMapping("/applyForAjax")
+	@PostMapping("/applyForAjax")
 	public @ResponseBody boolean createTransaction(
 			Model model,
 			@RequestParam String partyA,
