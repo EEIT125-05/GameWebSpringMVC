@@ -142,28 +142,6 @@ public class ContestController {
 		return "contest/ContestConfirm";
 	}
 	
-//	@PostMapping("/Confirm")
-//	public String contestToDB(
-//					@ModelAttribute("cContestBean") ContestBean cContestBean,
-//					@ModelAttribute("sContestConfirm") String sContestConfirm,
-//					Model model) {
-//		String nextPage = null;
-//		if(sContestConfirm.equals("更新")){
-//			if(cService.updateContest(cContestBean)) {
-//				nextPage = THANKS_PAGE;
-//			}else {
-//				nextPage = ERROR_PAGE;
-//			}
-//		}else {
-//			if(cService.insertContest(cContestBean)) {
-//				nextPage = THANKS_PAGE;
-//			}else {
-//				nextPage = ERROR_PAGE;
-//			}
-//		}
-//		return nextPage;
-//	}
-	
 	@PostMapping("/Confirm")
 	public @ResponseBody Map<String, String> contestToDB(
 			@ModelAttribute("cContestBean") ContestBean cContestBean,
@@ -233,31 +211,29 @@ public class ContestController {
 	}
 	
 	@DeleteMapping("/Edit/{contestNo}")
-	public String contestDelete(
+	public @ResponseBody Map<String, String> contestDelete(
 							@PathVariable Integer contestNo,
-							RedirectAttributes ra,
+//							RedirectAttributes ra,
 							Model model) {
-		String nextPage = null;
+		Map<String, String> map = new HashMap<String, String>();
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
 		if(cService.deleteContest(cContestBean)) {
-			model.addAttribute("sContestConfirm", "刪除");	
-			nextPage = THANKS_PAGE;
+			map.put("status", "刪除成功");
 		}else {
-			nextPage = ERROR_PAGE;
+			map.put("status", "error");
 		}
-		return nextPage;
+		return map;
 	}
 		
 	@PostMapping("/Join")
 	public String joinContest(
 					@ModelAttribute("cContestBean") ContestBean cContestBean,
-					@RequestParam String sGameId,
 					RedirectAttributes ra,
 					Model model) {
 		String nextPage = null;
 		String user = ((MemberBean)model.getAttribute("user")).getsAccount();
 		if(pService.checkPlayer(cContestBean.getiNo(), user)) {
-			if(pService.insertParticipate(new ParticipateBean(null, user, sGameId, cContestBean))) {
+			if(pService.insertParticipate(new ParticipateBean(null, user, cContestBean))) {
 				model.addAttribute("sContestConfirm", "報名");
 				nextPage = THANKS_PAGE;
 			}else {

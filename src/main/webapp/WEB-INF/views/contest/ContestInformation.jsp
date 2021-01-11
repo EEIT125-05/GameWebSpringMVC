@@ -65,20 +65,18 @@
 
 		<c:choose>
 			<c:when test="${cContestBean.dSignStart > today}">
-				<input type="text" name="gameID" disabled value="未開始報名">
 				<br>
 				<input type="checkbox" name="checkBox" required disabled>
-				<label>我同意遵守比賽規則</label>
+				<label>我同意遵守比賽規則 未開始報名</label>
 				<br>
 				<button class="btn btn-primary" type="submit" name="join" value="join" disabled>報名比賽</button>
 			</c:when>
 			<c:otherwise>
 				<c:choose>
 					<c:when test="${cContestBean.dSignEnd < today}">
-						<input type="text" name="gameID" disabled value="已截止報名">
 						<br>
 						<input type="checkbox" name="checkBox" required disabled>
-						<label>我同意遵守比賽規則</label>
+						<label>我同意遵守比賽規則 已截止報名</label>
 						<br>
 						<button class="btn btn-primary" type="submit" name="join" value="join" disabled>報名比賽</button>
 					</c:when>
@@ -86,15 +84,13 @@
 						<c:choose>
 							<c:when
 								test="${fn:length(cContestBean.lParticipateBeans) == cContestBean.iPeople}">
-								<input type="text" name="gameID" disabled value="參加人數已額滿">
 								<br>
 								<input type="checkbox" name="checkBox" required disabled>
-								<label>我同意遵守比賽規則</label>
+								<label>我同意遵守比賽規則 參加人數已額滿</label>
 								<br>
 								<button class="btn btn-primary" type="submit" name="join" value="join" disabled>報名比賽</button>
 							</c:when>
 							<c:otherwise>
-								遊戲ID: <input type="text" name="sGameId" required>
 								<br>
 								<input type="checkbox" id="checkBox" name="checkBox" required>
 								<label for="checkBox">我同意遵守比賽規則</label>

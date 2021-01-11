@@ -55,7 +55,7 @@
 </div>
 <%@ include file="../Foot.jsp" %>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
+
 <script>
 	$("#rule").on("click","a",function(){
 		this.target = "_blank";
@@ -80,7 +80,7 @@
 							})
 				}else{
 					Swal.fire(
-							  '發生錯誤!',
+							  '資料庫發生錯誤!',
 							  '請聯繫管理員',
 							  'error'
 							)

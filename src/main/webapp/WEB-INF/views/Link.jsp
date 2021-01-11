@@ -31,5 +31,6 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/vendor/js/owl.carousel.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/vendor/js/jquery.magnific-popup.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/vendor/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 
 <link rel="stylesheet" href="<c:url value='/css/FormStyle.css'/>"/>
