@@ -201,7 +201,7 @@
 			console.log(myGameval+supportGameNoval+partyAval+partyBval)
 			var xhr1 = new XMLHttpRequest();
 			
-			xhr1.open('GET', '<c:url value="/exchange/applyForAjax" />'
+			xhr1.open('POST', '<c:url value="/exchange/applyForAjax" />'
 					+ '?partyA=' + partyAval 
 					+ '&partyB='+ partyBval
 					+'&myGameNo='+myGameval
