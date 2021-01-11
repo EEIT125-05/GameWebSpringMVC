@@ -14,6 +14,11 @@ response.setDateHeader("Expires", -1);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>註冊資料確認</title>
+<style>
+input {
+	border-radius: 10px;
+}
+</style>
 </head>
 
 <body>
@@ -25,7 +30,7 @@ response.setDateHeader("Expires", -1);
 		enctype="multipart/form-data">
 		<div align='center'>
 			<div align='left'
-				style="border: 3px solid gray; width: 650; height: 550">
+				style="border: 3px solid gray; width: 650; height: 550;border-radius: 5px;">
 				<h3>
 					設定的帳號:${param.sAccount}<input type="hidden" name="sAccount"
 						value='${param.sAccount}' />

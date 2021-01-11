@@ -25,6 +25,7 @@ public class MemberDaoImpl implements MemberDao {
 	public Boolean InsertMember(MemberBean InsertMB) {
 		Session session = getSession();
 		session.save(InsertMB);
+		System.out.println("成功儲存");
 		return true;
 	}
 
@@ -71,15 +72,19 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public MemberBean Selectmember(String sAccount) {
-		MemberBean SelectMB = null;
+		System.out.println("DAO的sAccount=" + sAccount);
 		try {
 			String hql = "FROM MemberBean WHERE sAccount = :sAccount";
 			Session session = getSession();
-			SelectMB = (MemberBean) session.createQuery(hql).setParameter("sAccount", sAccount).getSingleResult();
+			MemberBean SelectMB = (MemberBean) session.createQuery(hql).setParameter("sAccount", sAccount).getSingleResult();
+			System.out.println("有正常找到資料");
+			return SelectMB;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return SelectMB;
+		System.out.println("沒找到資料才會跑這裡");
+		System.out.println("DAO找到的sAccount=" + sAccount);
+		return null;
 	}
 
 	@Override
@@ -151,5 +156,20 @@ public class MemberDaoImpl implements MemberDao {
 			Phone = "Error: 資料庫異常，請檢查資料庫";
 		}
 		return Phone;
+	}
+
+	@Override
+	public MemberBean queryMember(String sAccount) {
+		MemberBean mb = null;
+		Session session = factory.getCurrentSession();
+		String hql = "FROM MemberBean WHERE sAccount = :sAccount";
+		@SuppressWarnings("unchecked")
+		List<MemberBean> beans = (List<MemberBean>) session.createQuery(hql).setParameter("sAccount", sAccount)
+				.getResultList();
+		if (beans.size() > 0) {
+			mb = beans.get(0);
+		}
+		return mb;
+
 	}
 }

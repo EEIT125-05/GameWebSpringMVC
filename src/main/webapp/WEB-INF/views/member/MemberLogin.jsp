@@ -17,6 +17,11 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
+<style>
+input {
+	border-radius: 10px;
+}
+</style>
 <title>會員註冊</title>
 <%-- <script src="<c:url value='/js/MemberLogin.js'/>"></script> --%>
 <script>
@@ -119,8 +124,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 		PhoneCheck.onclick = function() {
 			var sPhone = document.getElementById("sPhone").value.trim();
 			var xhr = new XMLHttpRequest();
-			xhr
-					.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
+			xhr.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
 							true);
 			xhr.setRequestHeader("Content-Type",
 					"application/x-www-form-urlencoded");
@@ -291,12 +295,12 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 	<form action="<c:url value='/member/MemberCheck'/>" method="post">
 		<div align='center'>
 			<div align='left'
-				style="border: 3px solid gray; width: 750; height: 600">
+				style="border: 3px solid gray; width: 750; height: 600; border-radius: 5px;">
 				<h3 style='padding-top: 10px;'>
-					設定的帳號:<input type="text" id="sAccount" name="sAccount"
+					設定的帳號:<input pattern="[a-zA-Z0-9]" type="text" id="sAccount" name="sAccount"
 						minlength="6" maxlength="20" required onblur="checkAccount();">
 					<input type="button" id='accountCheck' value="檢查" disabled>
-					<span id="idaccount" /></span>
+					<span id="idaccount"></span>
 				</h3>
 				<h3>
 					使用的信箱:<input type="email" id="sEmail" name="sEmail" maxlength="30"
@@ -371,8 +375,8 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 						style='width: 350; height: 50; font-size: 30; margin-top: 15;'>確認</button>
 				</h3>
 				<h3 align='center'>
-					<a href="<c:url value='########'/>"><input
-						id="GoogleLogin" type="button" value="Google註冊"
+					<a href="<c:url value='########'/>"><input id="GoogleLogin"
+						type="button" value="Google註冊"
 						style='width: 350; height: 50; font-size: 30;'></a>
 				</h3>
 			</div>

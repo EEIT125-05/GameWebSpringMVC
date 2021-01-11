@@ -77,4 +77,11 @@ public class MemberServiceImpl implements MemberService {
 	public MemberBean get(Integer iNo) {
 		return dao.get( iNo);
 	}
+
+	@Override
+	public MemberBean queryMember(String sAccount) {
+		MemberBean mb = null;
+		mb = dao.queryMember(sAccount);
+		return mb;
+	}
 }

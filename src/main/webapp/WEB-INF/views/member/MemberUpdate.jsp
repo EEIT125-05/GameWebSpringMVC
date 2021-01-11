@@ -12,7 +12,11 @@ response.setHeader("Pragma", "no-cache"); // HTTP 1.0
 response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 request.setCharacterEncoding("UTF-8");
 %>
-
+<style>
+input {
+	border-radius: 10px;
+}
+</style>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -183,10 +187,18 @@ request.setCharacterEncoding("UTF-8");
 	<hr>
 	<%@ include file="../Header.jsp"%>
 
-	<form action="<c:url value='/member/MemberData'/>" method="post">
+	<form action="<c:url value='/member/MemberData'/>" method="post" enctype="multipart/form-data">
 		<div align='center'>
 			<div align='left'
-				style="border: 3px solid gray; width: 550; height: 550">
+				style="border: 3px solid gray; width: 550; height: 850;border-radius: 5px;">
+				<div align='center' style="padding-top: 15">
+					<div>
+						<img style="width: 250; height: 175;"
+							src="<c:url value='/member/picture/${user.sAccount}'/>">
+							<input type="file" name="productImage" />
+					</div>
+				</div>
+				<hr>
 				<h3>
 					<input name="iNo" type="hidden" value="${user.iNo}" readonly>
 				</h3>
@@ -267,10 +279,12 @@ request.setCharacterEncoding("UTF-8");
 					建立日期:${user.registerDate}<input type="hidden" name="registerDate"
 						value="${user.registerDate}" readonly>
 				</h3>
-				<td><input align='center' id="submit" name="submit"
-					type="submit" value="修改" disabled></td>
-				<td><a href="<c:url value='/member/Data'/>"><input
-						type="button" value="回上一頁"></a></td>
+				<H3 align='center'>
+					<input id="submit" name="submit" type="submit"
+						value="修改" disabled style='background-color: yellow;'> <a
+						href="<c:url value='/member/Data'/>"><input type="button" value="回上一頁"
+						style='background-color: yellow;'></a>
+				</H3>
 			</div>
 		</div>
 	</form>

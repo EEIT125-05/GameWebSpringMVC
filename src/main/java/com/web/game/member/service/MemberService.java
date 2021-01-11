@@ -25,4 +25,7 @@ public interface MemberService {
 	String CheckPhone(String sPhone);
 	
 	MemberBean get(Integer iNo);
+
+	MemberBean queryMember(String sAccount);
+
 }
