@@ -2,10 +2,14 @@ package com.web.game.contest.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -137,26 +142,49 @@ public class ContestController {
 		return "contest/ContestConfirm";
 	}
 	
+//	@PostMapping("/Confirm")
+//	public String contestToDB(
+//					@ModelAttribute("cContestBean") ContestBean cContestBean,
+//					@ModelAttribute("sContestConfirm") String sContestConfirm,
+//					Model model) {
+//		String nextPage = null;
+//		if(sContestConfirm.equals("更新")){
+//			if(cService.updateContest(cContestBean)) {
+//				nextPage = THANKS_PAGE;
+//			}else {
+//				nextPage = ERROR_PAGE;
+//			}
+//		}else {
+//			if(cService.insertContest(cContestBean)) {
+//				nextPage = THANKS_PAGE;
+//			}else {
+//				nextPage = ERROR_PAGE;
+//			}
+//		}
+//		return nextPage;
+//	}
+	
 	@PostMapping("/Confirm")
-	public String contestToDB(
-					@ModelAttribute("cContestBean") ContestBean cContestBean,
-					@ModelAttribute("sContestConfirm") String sContestConfirm,
-					Model model) {
-		String nextPage = null;
+	public @ResponseBody Map<String, String> contestToDB(
+			@ModelAttribute("cContestBean") ContestBean cContestBean,
+			@ModelAttribute("sContestConfirm") String sContestConfirm,
+			Model model) {
+		
+		Map<String, String> map = new HashMap<String, String>();
 		if(sContestConfirm.equals("更新")){
 			if(cService.updateContest(cContestBean)) {
-				nextPage = THANKS_PAGE;
+				map.put("status", "更新成功");
 			}else {
-				nextPage = ERROR_PAGE;
+				map.put("status", "error");
 			}
 		}else {
 			if(cService.insertContest(cContestBean)) {
-				nextPage = THANKS_PAGE;
+				map.put("status", "新增成功");
 			}else {
-				nextPage = ERROR_PAGE;
+				map.put("status", "error");
 			}
 		}
-		return nextPage;
+		return map;
 	}
 	
 	@GetMapping("/Management")

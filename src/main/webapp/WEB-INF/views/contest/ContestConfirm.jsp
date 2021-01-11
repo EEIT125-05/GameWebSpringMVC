@@ -26,8 +26,6 @@
       <li class="breadcrumb-item active">賽事</li>
     </ol>
     
-
-	<form action="<c:url value='/contest/Confirm'/>" method="post">
 		<p>比賽名稱: ${cContestBean.sName}</p>
 		<p>比賽遊戲: ${cContestBean.sGame}</p>
 		<p>報名時間: ${cContestBean.dSignStart}~${cContestBean.dSignEnd}</p>
@@ -52,16 +50,65 @@
 				<p>遊戲ID: ${pParticipateBean.sGameId}</p>
 				<hr>
 			</c:if>
-			<input class="btn btn-primary" type="submit" name="confirm" value="確認${sContestConfirm}"/>
+			<input class="btn btn-primary" type="submit" id="confirm" name="confirm" value="確認${sContestConfirm}"/>
 
-	</form>
 </div>
 <%@ include file="../Foot.jsp" %>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 <script>
 	$("#rule").on("click","a",function(){
 		this.target = "_blank";
 	});
+	
+	
+	$("#confirm").on("click",function(){
+		
+		$.ajax({
+			type: "post",
+			url: "<c:url value='/contest/Confirm'/>",
+			dataType: "json",
+			data:{},
+			success: function(result){
+				if(result.status != "error"){
+					Swal.fire(
+							  result.status + "!",
+							  "",
+							  "success"
+							).then(function(){
+								$(location).attr("href", "<c:url value='/contest/Index'/>");
+							})
+				}else{
+					Swal.fire(
+							  '發生錯誤!',
+							  '請聯繫管理員',
+							  'error'
+							)
+				}
+						
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown){
+				Swal.fire(
+						  '發生錯誤!',
+						  '請聯繫管理員',
+						  'error'
+						)
+			}
+			
+			
+			
+			
+		});
+		
+		
+// 		Swal.fire(
+// 				  'Good job!',
+// 				  'You clicked the button!',
+// 				  'success'
+// 				)
+	});
+	
+	
 </script>
 
 </body>
