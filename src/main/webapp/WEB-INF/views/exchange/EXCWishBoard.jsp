@@ -36,20 +36,6 @@
 				<input type="submit">
 				</div>
 
-
-<%-- 				<c:choose> --%>
-<%-- 					<c:when test="${search =='area'}"> --%>
-<!-- 						<label><input type="radio" name="search" value="gamename">遊戲名稱</label> -->
-<!-- 						<label><input type="radio" name="search" value="area" -->
-<!-- 							checked>地區</label> -->
-<%-- 					</c:when> --%>
-<%-- 					<c:otherwise> --%>
-<!-- 						<label><input type="radio" name="search" value="gamename" -->
-<!-- 							checked>遊戲名稱</label> -->
-<!-- 						<label><input type="radio" name="search" value="area">地區</label> -->
-<%-- 					</c:otherwise> --%>
-<%-- 				</c:choose> --%>
-
 				<input type="hidden" id="search" value="${search}">
 				<!-- 藏參數 -->
 
