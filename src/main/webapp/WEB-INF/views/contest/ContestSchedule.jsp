@@ -11,10 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>賽事 - GameBar</title>
-<link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-  />
+
 <style>
 	.player{
 		border: 2px solid red;
@@ -130,19 +127,18 @@
 							dataType: "json",
 							data: {},
 							success: function(result){
-								if(result.status != "error"){
+								if(result.status == "success"){
 									Swal.fire({
-											      title:result.status + "!",
+											      title:"刪除成功!",
 												  icon:"success",
 												  hideClass: {
 												    popup: 'animate__animated animate__fadeOutUp'
 												  }
-											  }
-											).then(function(){
-												window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Index'/>");},800);
+											  }).then(function(){
+												window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Index'/>");},500);
 												
 											})
-								}else{
+								}else if(result.status == "sqlError"){
 									Swal.fire(
 											  '資料庫發生錯誤!',
 											  '請聯繫管理員',
@@ -152,7 +148,7 @@
 							},
 							error: function(err){
 								Swal.fire(
-										  '發生錯誤!',
+										  '網頁發生錯誤!',
 										  '請聯繫管理員',
 										  'error'
 										)

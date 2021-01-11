@@ -3,13 +3,11 @@ package com.web.game.contest.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,7 +56,6 @@ public class ContestController {
 	@Autowired
 	dateAndTimeValidator dValidator;
 	
-	private final static String THANKS_PAGE = "redirect:/contest/Thanks";
 	private final static String ERROR_PAGE = "redirect:/contest/Error";
 	
 	@GetMapping("/Create")
@@ -151,15 +148,17 @@ public class ContestController {
 		Map<String, String> map = new HashMap<String, String>();
 		if(sContestConfirm.equals("更新")){
 			if(cService.updateContest(cContestBean)) {
-				map.put("status", "更新成功");
+				map.put("status", "success");
+				map.put("successMessage", "更新成功");
 			}else {
-				map.put("status", "error");
+				map.put("status", "sqlError");
 			}
 		}else {
 			if(cService.insertContest(cContestBean)) {
-				map.put("status", "新增成功");
+				map.put("status", "success");
+				map.put("successMseeage", "新增成功");
 			}else {
-				map.put("status", "error");
+				map.put("status", "sqlError");
 			}
 		}
 		return map;
@@ -218,32 +217,26 @@ public class ContestController {
 		Map<String, String> map = new HashMap<String, String>();
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
 		if(cService.deleteContest(cContestBean)) {
-			map.put("status", "刪除成功");
+			map.put("status", "success");
 		}else {
-			map.put("status", "error");
+			map.put("status", "sqlError");
 		}
 		return map;
 	}
 		
 	@PostMapping("/Join")
-	public String joinContest(
-					@ModelAttribute("cContestBean") ContestBean cContestBean,
-					RedirectAttributes ra,
-					Model model) {
-		String nextPage = null;
+	public @ResponseBody Map<String, String> joinContest(
+			@ModelAttribute("cContestBean") ContestBean cContestBean,
+//			RedirectAttributes ra,
+			Model model) {
+		Map<String, String> map = new HashMap<String, String>();
 		String user = ((MemberBean)model.getAttribute("user")).getsAccount();
-		if(pService.checkPlayer(cContestBean.getiNo(), user)) {
-			if(pService.insertParticipate(new ParticipateBean(null, user, cContestBean))) {
-				model.addAttribute("sContestConfirm", "報名");
-				nextPage = THANKS_PAGE;
-			}else {
-				nextPage = ERROR_PAGE;
-			}
+		if(pService.insertParticipate(new ParticipateBean(null, user, cContestBean))) {
+			map.put("status", "success");
 		}else {
-			ra.addFlashAttribute("errorMessage", "(您已參加本次賽事,無法重複報名)");
-			nextPage = ERROR_PAGE;
+			map.put("status", "sqlError");
 		}
-		return nextPage;
+		return map;
 	}
 	
 	@GetMapping("/Participate")

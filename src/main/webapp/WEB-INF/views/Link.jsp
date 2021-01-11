@@ -34,3 +34,4 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 
 <link rel="stylesheet" href="<c:url value='/css/FormStyle.css'/>"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
