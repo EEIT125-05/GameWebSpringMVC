@@ -46,9 +46,9 @@
 				<tr>
 				<td>${vs.count }</td>
 				<td>${s.partyA.sAccount }</td>
-				<td>${s.mygamebean.gamename }</td>
-				<td>${s.partyB.sAccount }</td>
 				<td>${s.supportgamebean.gamename }</td>
+				<td>${s.partyB.sAccount }</td>
+				<td>${s.mygamebean.gamename }</td>
 				<td>${s.date }</td>
 				</tr>
 				</c:forEach>
