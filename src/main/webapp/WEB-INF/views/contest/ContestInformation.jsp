@@ -85,20 +85,96 @@
 		</div>
 		
 		<div id="總覽" class="hiddenDiv">
-		<p>比賽名稱: ${cContestBean.sName}</p>
-		<p>比賽遊戲: ${cContestBean.sGame}</p>
-		<p>主辦者: ${cContestBean.sHost}</p>
-		<p>報名日期: ${cContestBean.dSignStart} ~ ${cContestBean.dSignEnd}</p>
-		<fmt:formatDate var="sTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd HH:mm"/>
-		<p>比賽時間: ${sTime}</p>
-		<p>比賽地點: ${cContestBean.sLocation}</p>
-		<p>參加人數:
-			${fn:length(cContestBean.lParticipateBeans)}/${cContestBean.iPeople}</p>
-		<span>比賽規則:</span> 
-		<br> 
-		<span id="rule">${cContestBean.sRule}</span>
+			<p>比賽名稱: ${cContestBean.sName}</p>
+			<p>比賽遊戲: ${cContestBean.sGame}</p>
+			<p>主辦者: ${cContestBean.sHost}</p>
+			<p>報名日期: ${cContestBean.dSignStart} ~ ${cContestBean.dSignEnd}</p>
+			<fmt:formatDate var="sTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd HH:mm"/>
+			<p>比賽時間: ${sTime}</p>
+			<p>比賽地點: ${cContestBean.sLocation}</p>
+			<p>參加人數:
+				${fn:length(cContestBean.lParticipateBeans)}/${cContestBean.iPeople}</p>
+			<span>比賽規則:</span> 
+			<br> 
+			<span id="rule">${cContestBean.sRule}</span>
+		</div>
+		
+		<div id="參賽者" class="hiddenDiv" style="display:none">
+			<c:choose>
+				<c:when test="${fn:length(cContestBean.lParticipateBeans) == 0}">
+					<p>目前暫無參賽者</p>
+				</c:when>
+				<c:otherwise>
+					<p>目前參賽者: </p>
+					<c:forEach varStatus="vs" var="participate" items="${cContestBean.lParticipateBeans}">
+						<div><label style="width:50px;text-align:right">${vs.count}.</label><label>${participate.sPlayer}</label></div>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+		</div>
+		
+		<div id="賽程" class="hiddenDiv" style="display:none" data-toggle="modal" data-target="#largeImage">
+			<c:choose>
+				<c:when test="${empty cContestBean.bScheduleImage}">
+					<p>目前暫無賽程表</p>
+				</c:when>
+				<c:otherwise>
+					<p>賽程表: </p>
+					<a href="#">
+					<img
+						src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>"
+						style="width: 560px; border: 2px solid black; border-radius: 10px" />
+					</a>
+					<div class="modal fade bs-example-modal-xl" id="largeImage"
+						tabindex="-1" role="dialog"
+						aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+						<div class="modal-dialog modal-xl" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">賽程表</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<div class="container-fluid">
+										<div class="row" style="overflow: auto">
+											<img
+												src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>"
+												style="width: 1000px; border: 2px solid black; border-radius: 10px" />
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</c:otherwise>
+			</c:choose>
+			<c:if test="${cContestBean.sHost == user.sAccount }">
+				<hr>
+				<c:choose>
+					<c:when test="${dTime <= today}">
+						<span style="color:gray">新增/更新賽程</span>
+					</c:when>
+					<c:otherwise>
+						<button class="btn btn-primary" id="showOption">新增/更新賽程</button>
+					</c:otherwise>
+				</c:choose>
+				<span id="spanHidden" style="font-size:70%;color:red">(註:至比賽當日即無法更改賽程)</span>
+			</c:if>
 		</div>
 
+		<div id="排名" class="hiddenDiv" style="display:none">
+			<p>目前暫無排名</p>
+		</div>
+		
+		
+		
 </div>
 <%@ include file="../Foot.jsp"%>
 
@@ -108,17 +184,11 @@
 			this.target = "_blank";
 		});
 		
-		$("#join").on("click", function(){
-			return confirmJoin();
-		});
-
-		function confirmJoin(){
-		  var result = confirm("確認參加?");
-		  if (result) {
-		      return true;
-		  }
-		  return false;
-		}
+		$('#largeImage').on('shown.bs.modal', function() {
+//				$('#myInput').trigger('focus')
+			console.log("大圖");
+			
+		})
 		
 		$(".item").on("click",function(){
 			$(".item").removeClass("itemChoose");
