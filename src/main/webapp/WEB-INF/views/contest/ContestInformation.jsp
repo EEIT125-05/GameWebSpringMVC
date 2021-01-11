@@ -10,6 +10,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>${cContestBean.sName}</title>
+<style>
+.itemChoose{
+	background-color:#0069d9;
+}
+
+.item,.joinItem{
+	margin-top:10px
+}
+
+</style>
 </head>
 <body>
 <%@ include file="../Header.jsp"%>
@@ -17,17 +27,28 @@
 <div class="container">
 
 	<h1 class="mt-4 mb-3">
-		比賽詳細資料 
+<!-- 		比賽詳細資料  -->
 <!-- 		<small>XXXXX</small> -->
 	</h1>
 
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a>
-		</li>
-		<li class="breadcrumb-item active">賽事</li>
-	</ol>
+<!-- 	<ol class="breadcrumb"> -->
+<%-- 		<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a> --%>
+<!-- 		</li> -->
+<!-- 		<li class="breadcrumb-item active">賽事</li> -->
+<!-- 		<li class="breadcrumb-item active">詳細資料</li> -->
+<!-- 	</ol> -->
 
 	<form action="<c:url value='/contest/Join'/>" method="post">
+		<img src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" alt="" style="width:560px">
+		<div >
+			<label class="btn btn-primary item itemChoose">總覽</label>
+			<label class="btn btn-primary item">參賽者</label>
+			<label class="btn btn-primary item">賽程</label>
+			<label class="btn btn-primary item">排名</label>
+			<label class="btn btn-success joinItem">報名</label>
+		</div>
+		
+		<div id="總覽">
 		<p>比賽名稱: ${cContestBean.sName}</p>
 		<p>比賽遊戲: ${cContestBean.sGame}</p>
 		<p>主辦者: ${cContestBean.sHost}</p>
@@ -85,30 +106,45 @@
 				</c:choose>
 			</c:otherwise>
 		</c:choose>
-
+		</div>
 	</form>
 
 </div>
 <%@ include file="../Foot.jsp"%>
 
 <script>
-	$("#rule").on("click","a",function(){
-		this.target = "_blank";
-	});
-	
 	$(function(){
+		$("#rule").on("click","a",function(){
+			this.target = "_blank";
+		});
+		
 		$("#join").on("click", function(){
 			return confirmJoin();
 		});
-	});
 
-	function confirmJoin(){
-	  var result = confirm("確認參加?");
-	  if (result) {
-	      return true;
-	  }
-	  return false;
-	}
+		function confirmJoin(){
+		  var result = confirm("確認參加?");
+		  if (result) {
+		      return true;
+		  }
+		  return false;
+		}
+		
+		$(".item").on("click",function(){
+			$(".item").removeClass("itemChoose");
+			$(this).addClass("itemChoose");
+			$(".joinItem").css("background", "#28a745");
+			$("#" + $(this).text()).css("display","block");
+		});
+		
+		$(".joinItem").on("click",function(){
+			$(".item").removeClass("itemChoose");
+			$(this).css("background", "#218838");
+		});
+		
+	
+	
+	});
 </script>
 
 </body>
