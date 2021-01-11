@@ -20,8 +20,8 @@ public class ParticipateBean {
 	private Integer iNo;
 	@Column(columnDefinition = "nvarchar(50)")
 	private String sPlayer;
-	@Column(columnDefinition = "nvarchar(50)")
-	private String sGameId;
+//	@Column(columnDefinition = "nvarchar(50)")
+//	private String sGameId;
 	
 	@ManyToOne
 	@JsonIgnore
@@ -32,11 +32,11 @@ public class ParticipateBean {
 		super();
 	}
 	
-	public ParticipateBean(Integer iNo, String sPlayer, String sGameId, ContestBean cContestBean) {
+	public ParticipateBean(Integer iNo, String sPlayer, ContestBean cContestBean) {
 		super();
 		this.iNo = iNo;
 		this.sPlayer = sPlayer;
-		this.sGameId = sGameId;
+//		this.sGameId = sGameId;
 		this.cContestBean = cContestBean;
 	}
 
@@ -56,13 +56,13 @@ public class ParticipateBean {
 		this.sPlayer = sPlayer;
 	}
 
-	public String getsGameId() {
-		return sGameId;
-	}
-
-	public void setsGameId(String sGameId) {
-		this.sGameId = sGameId;
-	}
+//	public String getsGameId() {
+//		return sGameId;
+//	}
+//
+//	public void setsGameId(String sGameId) {
+//		this.sGameId = sGameId;
+//	}
 
 	public ContestBean getcContestBean() {
 		return cContestBean;

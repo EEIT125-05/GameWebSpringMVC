@@ -11,6 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>賽事 - GameBar</title>
+
 <style>
 	.player{
 		border: 2px solid red;
@@ -103,20 +104,65 @@
 
 	$(function(){
 		$("#delete").on("click", function(){
-			return confirmDelete($(this).val());
+			Swal.fire({
+				showClass: {
+				    popup: 'animate__animated animate__fadeInDown'
+				  },
+				  title: '確定刪除此筆紀錄?',
+				  text: "刪除之後將不能復原",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#d33',
+				  cancelButtonColor: '#3085d6',
+				  confirmButtonText: '刪除',
+			      cancelButtonText: '取消',
+					hideClass: {
+					    popup: 'animate__animated animate__fadeOutUp'
+					  }
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+							type: "delete",
+							url: "<c:url value='/contest/Edit/" + $(this).val() + "'/>",
+							dataType: "json",
+							data: {},
+							success: function(result){
+								if(result.status == "success"){
+									Swal.fire({
+											      title:"刪除成功!",
+												  icon:"success",
+												  hideClass: {
+												    popup: 'animate__animated animate__fadeOutUp'
+												  }
+											  }).then(function(){
+												window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Index'/>");},500);
+												
+											})
+								}else if(result.status == "sqlError"){
+									Swal.fire(
+											  '資料庫發生錯誤!',
+											  '請聯繫管理員',
+											  'error'
+											)
+								}
+							},
+							error: function(err){
+								Swal.fire(
+										  '網頁發生錯誤!',
+										  '請聯繫管理員',
+										  'error'
+										)
+							}
+							
+						});		
+				  }
+				})
+
 		});
 	});
 	
 
 
-	function confirmDelete(iNo){
-	  var result = confirm("確定刪除此筆記錄?");
-	  if (result) {
-		  document.forms[0].putOrDelete.value = "DELETE";
-	      return true;
-	  }
-	  return false;
-	}
 </script>
 
 </head>
@@ -135,7 +181,7 @@
       </li>
       <li class="breadcrumb-item active">賽事</li>
     </ol>
-<form action="<c:url value='/contest/Edit/${cContestBean.iNo}'/>" method="POST" >
+<%-- <form action="<c:url value='/contest/Edit/${cContestBean.iNo}'/>" method="POST" > --%>
 <input type="hidden" name="_method"  id='putOrDelete'   value="" >
  <input type="hidden" id="contestNo" value="${cContestBean.iNo}"> <!--截圖的ajax要用的 -->
  
@@ -155,7 +201,7 @@
 			<span style="font-size:70%;color:red">(註:至比賽當日即無法更改比賽)</span>
 			<button class="btn btn-primary" type="submit" id="delete" value="${cContestBean.iNo}">刪除</button>
 		</p>
-</form>
+<%-- </form> --%>
 	<p>比賽遊戲: ${cContestBean.sGame}</p>
 	<p>主辦者: ${cContestBean.sHost}</p>
 	<p>報名日期: ${cContestBean.dSignStart} ~ ${cContestBean.dSignEnd}</p>

@@ -55,7 +55,7 @@
 </div>
 <%@ include file="../Foot.jsp" %>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
+
 <script>
 	$("#rule").on("click","a",function(){
 		this.target = "_blank";
@@ -70,42 +70,49 @@
 			dataType: "json",
 			data:{},
 			success: function(result){
-				if(result.status != "error"){
-					Swal.fire(
-							  result.status + "!",
-							  "",
-							  "success"
-							).then(function(){
-								$(location).attr("href", "<c:url value='/contest/Index'/>");
+				if(result.status == "success"){
+					Swal.fire({
+							  title: result.successMessage + "!",
+							  icon: "success",
+							  showClass: {
+								    popup: 'animate__animated animate__fadeInDown'
+								  },
+							  hideClass: {
+								    popup: 'animate__animated animate__fadeOutUp'
+								  }
+					}).then(function(){
+								window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Index'/>");},500);
 							})
-				}else{
-					Swal.fire(
-							  '發生錯誤!',
-							  '請聯繫管理員',
-							  'error'
-							)
+				}else if(result.status == "sqlError"){
+					Swal.fire({
+							  title: '資料庫發生錯誤!',
+							  text: '請聯繫管理員',
+							  icon: 'error',
+							  showClass: {
+								    popup: 'animate__animated animate__fadeInDown'
+								  },
+							  hideClass: {
+								    popup: 'animate__animated animate__fadeOutUp'
+								  }
+					})
 				}
 						
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown){
-				Swal.fire(
-						  '發生錯誤!',
-						  '請聯繫管理員',
-						  'error'
-						)
+				Swal.fire({
+					  title: '網頁發生錯誤!',
+					  text: '請聯繫管理員',
+					  icon: 'error',
+					  showClass: {
+						    popup: 'animate__animated animate__fadeInDown'
+						  },
+					  hideClass: {
+						    popup: 'animate__animated animate__fadeOutUp'
+						  }
+			})
 			}
 			
-			
-			
-			
 		});
-		
-		
-// 		Swal.fire(
-// 				  'Good job!',
-// 				  'You clicked the button!',
-// 				  'success'
-// 				)
 	});
 	
 	

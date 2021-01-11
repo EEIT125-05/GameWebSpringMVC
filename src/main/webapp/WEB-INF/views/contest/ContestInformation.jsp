@@ -15,7 +15,7 @@
 	background-color:#0069d9;
 }
 
-.item,.joinItem{
+.item{
 	margin-top:10px
 }
 
@@ -38,17 +38,53 @@
 <!-- 		<li class="breadcrumb-item active">詳細資料</li> -->
 <!-- 	</ol> -->
 
-	<form action="<c:url value='/contest/Join'/>" method="post">
 		<img src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" alt="" style="width:560px">
 		<div >
 			<label class="btn btn-primary item itemChoose">總覽</label>
 			<label class="btn btn-primary item">參賽者</label>
 			<label class="btn btn-primary item">賽程</label>
 			<label class="btn btn-primary item">排名</label>
-			<label class="btn btn-success joinItem">報名</label>
+			<c:set var="joinStatus" value="true"/>
+			<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
+				<c:if test="${participate.sPlayer == user.sAccount}">
+					<c:set var="joinStatus" value="false"/>
+				</c:if>
+			</c:forEach>
+			<jsp:useBean id="nowDate" class="java.util.Date"/>
+			<fmt:formatDate var="today" pattern="yyyy-MM-dd" value="${nowDate}" />
+			<c:choose>
+				<c:when test="${joinStatus == 'false'}">
+					<button class="btn btn-success joinItem" disabled>已報名</button>
+				</c:when>
+				<c:otherwise>
+					<c:choose>
+					<c:when test="${cContestBean.dSignStart > today}">
+						<button class="btn btn-success joinItem" disabled>未開始報名</button>
+					</c:when>
+					<c:otherwise>
+						<c:choose>
+							<c:when test="${cContestBean.dSignEnd < today}">
+								<button class="btn btn-success joinItem" disabled>報名已截止</button>
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when
+										test="${fn:length(cContestBean.lParticipateBeans) == cContestBean.iPeople}">
+										<button class="btn btn-success joinItem" disabled>報名人數已滿</button>
+									</c:when>
+									<c:otherwise>
+										<button class="btn btn-success joinItem">報名</button>
+									</c:otherwise>
+								</c:choose>
+							</c:otherwise>
+						</c:choose>
+					</c:otherwise>
+					</c:choose>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		
-		<div id="總覽">
+		<div id="總覽" class="hiddenDiv">
 		<p>比賽名稱: ${cContestBean.sName}</p>
 		<p>比賽遊戲: ${cContestBean.sGame}</p>
 		<p>主辦者: ${cContestBean.sHost}</p>
@@ -58,56 +94,10 @@
 		<p>比賽地點: ${cContestBean.sLocation}</p>
 		<p>參加人數:
 			${fn:length(cContestBean.lParticipateBeans)}/${cContestBean.iPeople}</p>
-		<span>比賽規則:</span> <br> <span id="rule">${cContestBean.sRule}</span>
-		<hr>
-		<c:set var="now" value="<%=new java.util.Date()%>" />
-		<fmt:formatDate var="today" pattern="yyyy-MM-dd" value="${now}" />
-
-		<c:choose>
-			<c:when test="${cContestBean.dSignStart > today}">
-				<input type="text" name="gameID" disabled value="未開始報名">
-				<br>
-				<input type="checkbox" name="checkBox" required disabled>
-				<label>我同意遵守比賽規則</label>
-				<br>
-				<button class="btn btn-primary" type="submit" name="join" value="join" disabled>報名比賽</button>
-			</c:when>
-			<c:otherwise>
-				<c:choose>
-					<c:when test="${cContestBean.dSignEnd < today}">
-						<input type="text" name="gameID" disabled value="已截止報名">
-						<br>
-						<input type="checkbox" name="checkBox" required disabled>
-						<label>我同意遵守比賽規則</label>
-						<br>
-						<button class="btn btn-primary" type="submit" name="join" value="join" disabled>報名比賽</button>
-					</c:when>
-					<c:otherwise>
-						<c:choose>
-							<c:when
-								test="${fn:length(cContestBean.lParticipateBeans) == cContestBean.iPeople}">
-								<input type="text" name="gameID" disabled value="參加人數已額滿">
-								<br>
-								<input type="checkbox" name="checkBox" required disabled>
-								<label>我同意遵守比賽規則</label>
-								<br>
-								<button class="btn btn-primary" type="submit" name="join" value="join" disabled>報名比賽</button>
-							</c:when>
-							<c:otherwise>
-								遊戲ID: <input type="text" name="sGameId" required>
-								<br>
-								<input type="checkbox" id="checkBox" name="checkBox" required>
-								<label for="checkBox">我同意遵守比賽規則</label>
-								<br>
-								<button class="btn btn-primary" type="submit" id="join" name="join" value="join">報名比賽</button>
-							</c:otherwise>
-						</c:choose>
-					</c:otherwise>
-				</c:choose>
-			</c:otherwise>
-		</c:choose>
+		<span>比賽規則:</span> 
+		<br> 
+		<span id="rule">${cContestBean.sRule}</span>
 		</div>
-	</form>
 
 </div>
 <%@ include file="../Foot.jsp"%>
@@ -134,12 +124,71 @@
 			$(".item").removeClass("itemChoose");
 			$(this).addClass("itemChoose");
 			$(".joinItem").css("background", "#28a745");
+			$(".hiddenDiv").css("display","none");
 			$("#" + $(this).text()).css("display","block");
 		});
 		
 		$(".joinItem").on("click",function(){
 			$(".item").removeClass("itemChoose");
 			$(this).css("background", "#218838");
+			
+			(async () => {
+				const { value: accept } = await Swal.fire({
+				  title: "報名比賽",
+				  input: "checkbox",
+				  inputValue: 1,
+				  inputPlaceholder: "我同意遵守比賽規則",
+				  confirmButtonText: "報名&nbsp;<i class=\"fa fa-arrow-right\"></i>",
+				  inputValidator: (result) => {
+				    return !result && "您必須勾選才能報名"
+				  },
+				  showClass: {
+					    popup: 'animate__animated animate__fadeInDown'
+				  }
+				})
+
+				if (accept) {
+					$.ajax({
+						type: "post",
+						url: "<c:url value='/contest/Join'/>",
+						dataType: "json",
+						data:{},
+						success: function(result){
+							if(result.status == "success"){
+								Swal.fire({
+									  title: "報名完成",
+				 					  icon: "success",
+				 					  hideClass: {
+				 						    popup: 'animate__animated animate__fadeOutUp'
+				 					  }
+							  	})
+							}else if(result.status == "sqlError"){
+								Swal.fire({
+									  title: '資料庫發生錯誤!',
+									  text: '請聯繫管理員',
+									  icon: 'error',
+									  hideClass: {
+										    popup: 'animate__animated animate__fadeOutUp'
+										  }
+								})
+							}
+						},
+						error: function(err){
+							Swal.fire({
+								  title: '網頁發生錯誤!',
+								  text: '請聯繫管理員',
+								  icon: 'error',
+								  hideClass: {
+									    popup: 'animate__animated animate__fadeOutUp'
+									  }
+						})
+						}
+					});
+					
+					
+				  
+				}
+				})()
 		});
 		
 	

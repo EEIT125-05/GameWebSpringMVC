@@ -1,5 +1,8 @@
 package com.web.game.forum.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -57,27 +61,31 @@ public class ForumController {
 		return "forum/ForumConfirm";
 	}
 
-	@PostMapping("/Confrim")
-	public String forumToDB(@ModelAttribute("fForumBean") ForumBean fForumBean,
+//	@PostMapping("/Confrim")
+//	public String forumToDB(@ModelAttribute("fForumBean") ForumBean fForumBean,
+//			@ModelAttribute("sForumConfirm") String sForumConfirm, Model model) {
+//		String nextPage = null;
+//		fService.setTime(fForumBean);
+//		if (fService.insertOrUpdateForum(fForumBean)) {
+//			nextPage = "redirect:/forum/Thanks";
+//		} else {
+//			nextPage = "redirect:/forum/Error";
+//		}
+//		return nextPage;
+//	}
+	
+	@PostMapping("/Confirm")
+	public @ResponseBody Map<String, String> forumToDB(@ModelAttribute("fForumBean") ForumBean fForumBean,
 			@ModelAttribute("sForumConfirm") String sForumConfirm, Model model) {
-		String nextPage = null;
+		Map<String, String> map = new HashMap<String, String>();
 		fService.setTime(fForumBean);
 		if (fService.insertOrUpdateForum(fForumBean)) {
-			nextPage = "redirect:/forum/Thanks";
+			map.put("status", "success");
+			map.put("successMessage", model.getAttribute("sForumConfirm") + "成功");
 		} else {
-			nextPage = "redirect:/forum/Error";
+			map.put("status", "sqlError");
 		}
-		return nextPage;
-	}
-
-	@GetMapping("/Thanks")
-	public String thanks() {
-		return "forum/ForumThanks";
-	}
-
-	@GetMapping("/Error")
-	public String error() {
-		return "forum/ForumError";
+		return map;
 	}
 
 //	@GetMapping("/Management")

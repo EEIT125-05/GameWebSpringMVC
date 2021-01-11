@@ -68,6 +68,16 @@ public class NoCheckForumController {
 		}
 		return nextPage;
 	}
+
+	@GetMapping("/Thanks")
+	public String thanks() {
+		return "forum/ForumThanks";
+	}
+
+	@GetMapping("/Error")
+	public String error() {
+		return "forum/ForumError";
+	}
 	
 	@PostMapping("/IndexAjax")
 	public @ResponseBody List<ForumBean> ajax(
