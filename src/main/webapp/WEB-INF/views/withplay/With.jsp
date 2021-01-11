@@ -52,8 +52,8 @@
 					<td><a
 						href="${pageContext.request.contextPath}/withplay/edit/${With.iId}">Edit</a>
 						&nbsp;&nbsp; 
-						<a class='deletelink'
-						href="${pageContext.request.contextPath}/withplay/delete/${With.iId}">Delete</a>
+<!-- 						<a class='deletelink' -->
+<%-- 						href="${pageContext.request.contextPath}/withplay/delete/${With.iId}">Delete</a> --%>
 					</td>
 				</tr>
 			</c:forEach>
