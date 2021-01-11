@@ -49,8 +49,7 @@ public class MemberBean {
 	String fileName;
 	@Transient
 	MultipartFile productImage;
-
-
+	
 	public MemberBean() {
 		super();
 	}

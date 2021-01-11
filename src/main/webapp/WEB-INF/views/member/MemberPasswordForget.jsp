@@ -14,6 +14,11 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 <head>
 <meta charset="UTF-8">
 <title>忘記密碼</title>
+<style>
+input {
+	border-radius: 10px;
+}
+</style>
 </head>
 <%@ include file="../Header.jsp"%>
 <body>

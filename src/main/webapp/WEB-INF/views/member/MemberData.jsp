@@ -15,7 +15,11 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>會員資料</title>
-
+<style>
+input {
+	border-radius: 10px;
+}
+</style>
 </head>
 <body>
 	<H1 align='center'>會員資料管理</H1>
@@ -23,18 +27,21 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 	<%@ include file="../Header.jsp"%>
 	<div align='center'>
 		<div align='left'
-			style="border: 3px solid gray; width: 500; height: 500">
+			style="border: 3px solid gray; width: 500; height: 700;border-radius: 5px;">
 			<form action="<c:url value='/member/Update'/>" method="post">
-				<h2>會員資料</h2>
+				<div align='center' style="padding-top: 15">
+					<div>
+						<!-- 						style="border: 1px solid gray; width: 202; height: 202"> -->
+						<img style="width: 250; height: 175;"
+							src="<c:url value='/member/picture/${user.sAccount}'/>">
+					</div>
+				</div>
+				<hr>
 				<input type="hidden" name="iNo" ${user.iNo} readonly>
 				<h3>
 					設定的帳號:${user.sAccount}<input type="hidden" name="sAccount"
 						value="${user.sAccount}" readonly> <input type="hidden"
 						name="sPassword" value="${user.sPassword}" readonly>
-				</h3>
-				<h3>
-					使用的暱稱:${user.sNickname}<input type="hidden" name="sNickname"
-						value="${user.sNickname}" readonly>
 				</h3>
 				<h3>
 					使用的信箱:${user.sEmail}<input type="hidden" name="sEmail"
@@ -43,6 +50,10 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 				<h3>
 					真實姓名:${user.sEname}<input type="hidden" name="sEname"
 						value="${user.sEname}" readonly>
+				</h3>
+				<h3>
+					使用的暱稱:${user.sNickname}<input type="hidden" name="sNickname"
+						value="${user.sNickname}" readonly>
 				</h3>
 				<h3>
 					手機號碼:${user.sPhone}<input type="hidden" name="sPhone"
@@ -64,7 +75,9 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 					建立日期:${user.registerDate}<input type="hidden" name="registerDate"
 						value="${user.registerDate}" readonly>
 				</h3>
-				<input type="submit" name="submit" value="修改會員資料">
+				<H3 align='center'>
+					<input type="submit" name="submit" value="修改會員資料" style="background-color: yellow;">
+				</H3>
 			</form>
 		</div>
 	</div>

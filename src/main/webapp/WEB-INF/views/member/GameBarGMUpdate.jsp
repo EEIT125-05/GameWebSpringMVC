@@ -20,7 +20,11 @@ request.setCharacterEncoding("UTF-8");
 	rel="stylesheet">
 <title>會員資料更新</title>
 <%-- <script src="<c:url value='../js/MemberUpdate.js'/>"></script> --%>
-
+<style>
+input {
+	border-radius: 10px;
+}
+</style>
 </head>
 <body>
 	<H1 align='center'>會員後台管理</H1>
@@ -29,7 +33,7 @@ request.setCharacterEncoding("UTF-8");
 	<form action="<c:url value='/member/${sAccount}'/>" method="post">
 		<div align='center'>
 			<div align='left'
-				style="border: 3px solid gray; width: 600; height: 550">
+				style="border: 3px solid gray; width: 600; height: 550;border-radius: 5px;">
 				<h3>
 					<input name="iNo" type="hidden" value="${OneMember.iNo}" readonly>
 				</h3>
@@ -98,10 +102,12 @@ request.setCharacterEncoding("UTF-8");
 				<h3>
 					建立日期:${OneMember.registerDate}<input type="hidden"
 						name="registerDate" value="${OneMember.registerDate}" readonly>
-				</h3>
-				<td><input id="submit" name="submit" type="submit" value="修改"></td>
-				<td><a href="<c:url value='/member/GameBarGetAll'/>"><input
-						type="button" value="回上一頁"></a></td>
+
+					<h3 align='center'>
+						<input id="submit" name="submit" type="submit" value="修改">
+						<a href="<c:url value='/member/GameBarGetAll'/>"><input
+							type="button" value="回上一頁"></a>
+					</h3>
 			</div>
 		</div>
 	</form>

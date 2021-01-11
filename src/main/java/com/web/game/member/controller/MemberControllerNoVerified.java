@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,9 +27,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.j2objc.annotations.WeakOuter;
 import com.web.game.member.dao.MemberDao;
 import com.web.game.member.dao.Impl.MemberDaoImpl;
 import com.web.game.member.model.MemberBean;
+import com.web.game.member.model.MemberSigninBean;
 import com.web.game.member.service.MemberService;
 
 @Controller
@@ -58,11 +61,16 @@ public class MemberControllerNoVerified {
 	public String MemberForget() {
 		return "member/MemberPasswordForget";
 	}
-	
-	@GetMapping("/GameBarGMSignin")
-	public String GameBarGMSignin() {
-		return "member/GameBarGMSignin";
-	}
+
+//	@GetMapping("/Data")
+//	public String SigninToData() {
+//		return "member/MemberSignin";
+//	}
+
+//	@GetMapping("/GameBarGMSignin")
+//	public String GameBarGMSignin() {
+//		return "member/GameBarGMSignin";
+//	}
 
 	@PostMapping("/MemberCheck")
 	public String MemberLogin(Model model) {
@@ -83,9 +91,15 @@ public class MemberControllerNoVerified {
 				sGender, sBirthday, registerDate, false);
 		InsertMB.setProductImage(productImage);
 		MultipartFile picture = InsertMB.getProductImage();
-		String Filename = picture.getOriginalFilename();
-		if (Filename.length() > 0 && Filename.lastIndexOf(".") > -1) {
-			InsertMB.setFileName(Filename);
+		String originalFilename = picture.getOriginalFilename();
+
+		String ext = "";
+		if (originalFilename.lastIndexOf(".") > -1) {
+			ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+		}
+
+		if (originalFilename.length() > 0 && originalFilename.lastIndexOf(".") > -1) {
+			InsertMB.setFileName(originalFilename);
 		}
 
 		if (picture != null && !picture.isEmpty()) {
@@ -140,20 +154,41 @@ public class MemberControllerNoVerified {
 		ResponseEntity<Map<String, String>> re = new ResponseEntity<>(map, HttpStatus.OK);
 		return re;
 	}
-	
-	@PostMapping("/GameBarSignin")
-	public String GameBarSignin(Model model, @RequestParam String sAccount, @RequestParam String sPassword,
+
+	@PostMapping("/GameBarGMSignin")
+	public String GameBarSignin(Model model,String sAccount,
 			HttpServletResponse response, SessionStatus Status) {
+		sAccount="game20200922";
+		System.out.println("sAccount="+sAccount);
 		MemberBean GameBarSignin = mService.Selectmember(sAccount);
-		if (sAccount.equals("game20200922")) {
+		System.out.println("有進來嗎??");
 			model.addAttribute("user", GameBarSignin);
 			model.addAttribute("users", mService.getAllMembers());
 			return "member/MemberGetAll";
-		}else {
-			return "member/MemberSignin";
-		}
 	}
-			
+
+//	@GetMapping("/SignIn")
+//	public String login00(HttpServletRequest request, Model model,
+//			@CookieValue(value = "user", required = false) String sAccount,
+//			@CookieValue(value = "password", required = false) String sPassword,
+//			@CookieValue(value = "rm", required = false) Boolean rm) {
+//		if (sAccount == null)
+//			sAccount = "";
+//		if (sPassword == null) {
+//			sPassword = "";
+//		}
+//
+//		if (rm != null) {
+//			rm = Boolean.valueOf(rm);
+//		} else {
+//			rm = false;
+//		}
+
+//		MemberSigninBean bean = new MemberSigninBean(sAccount, sPassword, rm);
+//		model.addAttribute(bean); // loginBean
+//		return "member/MemberSignin";
+//	}
+
 	@PostMapping("/SignIn")
 	public String SigninMember(Model model, 
 			@RequestParam String sAccount, 
@@ -166,15 +201,7 @@ public class MemberControllerNoVerified {
 		if (mService.SigninMember(sAccount, sPassword)) {
 			MemberBean SigninMB = mService.Selectmember(sAccount);
 			status = SigninMB.getStatus();
-			if (sAccount.equals("game20200922")) {
-				Status.setComplete();
-				// cookie砍掉
-				Cookie cUser = new Cookie("user", "");
-				cUser.setPath("/GameWebSpringMVC");
-				cUser.setMaxAge(0);
-				response.addCookie(cUser);
-				return "member/MemberSignin";
-			}else if (status == true) {
+			if (status == true) {
 				model.addAttribute("user", SigninMB);
 
 //--------新增cookie----------------------------------------------------
@@ -185,20 +212,20 @@ public class MemberControllerNoVerified {
 				response.addCookie(cUser);
 			}
 //--------新增cookie----------------------------------------------------
-				String nextPage = (String)request.getSession(true).getAttribute("requestURI");
+				String nextPage = (String) request.getSession(true).getAttribute("requestURI");
 //				System.out.println("要前往的位置2: " + nextPage);
 				if(nextPage == null || nextPage.split("/")[1].equals("member")) {
 					nextPage = "/";
-				}else {
+				} else {
 					nextPage = "/" + nextPage.split("/")[1] + "/Index";
 //					System.out.println("要前往的位置3: " + nextPage);
 				}
-				
+
 				return "redirect:" + nextPage;// 登入成功回該系統的首頁
 			} else {
 				model.addAttribute("showError", "帳號已遭鎖定，如有問題請洽詢客服");
 				Status.setComplete();
-				// cookie砍掉
+//				// cookie砍掉
 				Cookie cUser = new Cookie("user", "");
 				cUser.setPath("/GameWebSpringMVC");
 				cUser.setMaxAge(0);
@@ -232,4 +259,97 @@ public class MemberControllerNoVerified {
 	}
 
 //---------------------------------------------------------------------------------
+
+//	@SuppressWarnings("unused")
+//	private void processCookies(MemberSigninBean bean, HttpServletRequest request, HttpServletResponse response) {
+//		Cookie cookieUser = null;
+//		Cookie cookiePassword = null;
+//		Cookie cookieRememberMe = null;
+//		String sAccount = bean.getsAccount();
+//		String sPassword = bean.getsPassword();
+//		Boolean rm = bean.isRememberMe();
+//
+//		if (bean.isRememberMe()) {
+//			cookieUser = new Cookie("user", sAccount);
+//			cookieUser.setMaxAge(7 * 24 * 60 * 60);
+//			cookieUser.setPath(request.getContextPath());
+//
+////			String encodePassword = GlobalService.encryptString(sPassword);
+//			cookiePassword = new Cookie("password", sPassword);
+//			cookiePassword.setMaxAge(7 * 24 * 60 * 60);
+//			cookiePassword.setPath(request.getContextPath());
+//
+//			cookieRememberMe = new Cookie("rm", "true");
+//			cookieRememberMe.setMaxAge(7 * 24 * 60 * 60);
+//			cookieRememberMe.setPath(request.getContextPath());
+//		} else {
+//			cookieUser = new Cookie("user", sAccount);
+//			cookieUser.setMaxAge(0);
+//			cookieUser.setPath(request.getContextPath());
+//
+//			cookiePassword = new Cookie("password", sPassword);
+//			cookiePassword.setMaxAge(0);
+//			cookiePassword.setPath(request.getContextPath());
+//
+//			cookieRememberMe = new Cookie("rm", "true");
+//			cookieRememberMe.setMaxAge(0);
+//			cookieRememberMe.setPath(request.getContextPath());
+//		}
+//		response.addCookie(cookieUser);
+//		response.addCookie(cookiePassword);
+//		response.addCookie(cookieRememberMe);
+//	}
+
+	@PostMapping("/GoogleSignin")
+	public boolean GoogleSignin(Model model, String sAccount, String sPassword, String sNickname,
+			@RequestParam(value = "googleEmail", required = false) String sEmail,
+			@RequestParam(value = "googleEname", required = false) String sEname, String sGender, String sPhone,
+			String sAddress, String sBirthday, HttpServletRequest request, HttpServletResponse response, String registerDate, boolean status) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		registerDate = sdf.format(new Date());
+		Integer iNo = null;
+		sAccount = sEmail;
+		System.out.println("sAccount=" + sAccount);
+		System.out.println("Ename=" + sEname);
+
+		MemberBean check = mService.Selectmember(sAccount);
+		System.out.println("check=" + check);
+		if (check == null) {
+			MemberBean InsertMB = new MemberBean(iNo, sAccount, sPassword, sNickname, sEmail, sEname, sPhone, sAddress,
+					sGender, sBirthday, registerDate, true);
+//			InsertMB.setsAccount(sAccount);
+//			InsertMB.setsEname(sEname);
+			mService.InsertMember(InsertMB);
+			System.out.println("已儲存成功");
+		} else {
+			System.out.println("已有帳戶直接登入?");
+		}
+				MemberBean SigninMB = mService.Selectmember(sAccount);
+//				System.out.println("卡在哪?");
+				model.addAttribute("user", SigninMB);
+				
+				Cookie cUser = new Cookie("user", SigninMB.getsAccount());
+				cUser.setPath("/GameWebSpringMVC");
+				cUser.setMaxAge(3000);
+				response.addCookie(cUser);
+				
+				String nextPage = (String) request.getSession(true).getAttribute("requestURI");
+//				System.out.println("要前往的位置2: " + nextPage);
+				System.out.println("nextPage="+nextPage);
+				if (nextPage == null || nextPage.split("/")[1].equals("member")) {
+					nextPage = "/";
+					System.out.println("nextpage=null");
+				} else {
+					nextPage = "/" + nextPage.split("/")[1] + "/Index";
+					System.out.println("要前往的位置3: " + nextPage);
+				}
+				System.out.println("nextpage22=null");
+				return true;
+			}
+	
+	@GetMapping("/GameIndex")
+	public String GoogleSignin() {
+		System.out.println("想回主畫面");
+		return "redirect:../";
+	}
 }
