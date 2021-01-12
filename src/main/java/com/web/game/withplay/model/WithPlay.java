@@ -25,24 +25,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class WithPlay {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer iId;
+	private Integer iId;
 
 	
 	@Column(columnDefinition="VARCHAR(32) NOT NULL")
-	String sName;
+	private String sName;
 	@Column(columnDefinition="VARCHAR(32) NOT NULL")
-	String sNickname;
+	private String sNickname;
 	@Column(columnDefinition="VARCHAR(7) NOT NULL")
-	String sGender;
+	private String sGender;
 	@Column(columnDefinition="VARCHAR(12) NOT NULL")
-	String sIdcode;
+	private String sIdcode;
 	@Column(columnDefinition="VARCHAR(MAX) NOT NULL")
-	String sGame;
+	private String sGame;
 	@Column(columnDefinition="VARCHAR(MAX) NOT NULL")
-	String sComment;
-	Integer iPrice;	
+	private String sComment;
+	private Integer iPrice;	
 	@Column(columnDefinition="VARCHAR(32) NOT NULL")
-	String sAccount;
+	private String sAccount;
 	@JsonIgnore
 	Blob bImage;
 	String sFileName;

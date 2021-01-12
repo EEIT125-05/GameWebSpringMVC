@@ -27,4 +27,6 @@ public interface MemberDao {
 
 	MemberBean queryMember(String sAccount);
 
+	MemberBean get(String sAccount);
+
 }

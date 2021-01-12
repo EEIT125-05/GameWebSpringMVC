@@ -28,4 +28,6 @@ public interface MemberService {
 
 	MemberBean queryMember(String sAccount);
 
+	MemberBean get(String sAccount);
+
 }

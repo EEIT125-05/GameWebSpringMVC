@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithService;
-import com.web.game.contest.model.ContestBean;
 import com.web.game.withplay.dao.WithDao;
 @Service
 @Transactional

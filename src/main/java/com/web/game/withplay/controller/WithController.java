@@ -119,7 +119,7 @@ public class WithController {
 
 	}
 	@DeleteMapping(value = "/withplay/delete/{iId}")
-	public String delete(@PathVariable("iId") Integer iId) {
+	public String delete(@PathVariable("iId") Integer iId,Model model) {
 		if(ReplyService.delete(iId)) {
 			withService.delete(iId);
 		}
