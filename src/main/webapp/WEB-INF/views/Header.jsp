@@ -70,8 +70,12 @@
               </c:when>  
               <c:otherwise> 
               <a class="dropdown-item" href="<c:url value='/withplay/Index'/>">找人陪玩</a>
+<%--               <c:when test="${empty withplayHost}"> --%>
               <a class="dropdown-item" href="<c:url value='/withplay/new'/>">當陪玩主</a>
+<%--               </c:when>   --%>
+<%--                <c:otherwise>               --%>
               <a class="dropdown-item" href="<c:url value='/withplay/update'/>">修改資料</a>
+<%--               </c:otherwise>               --%>
               <a class="dropdown-item" href="<c:url value='/withplay/With'/>">管理</a>
               </c:otherwise>
               </c:choose>

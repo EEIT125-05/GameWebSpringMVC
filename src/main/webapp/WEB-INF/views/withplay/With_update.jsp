@@ -107,7 +107,7 @@ td{
 					<td>照片：<br>
 					</td>
 					<td>
-					<form:input path="mWithImage" type='file' accept="image/*" id="fImage" style="width:70px;overflow:hidden;"/>
+					<form:input path="mWithImage" type='file' accept="image/*" id="fImage" style="width:346px;overflow:hidden;"/>
 					<label id="previewLabel"></label><br>
             		<img id="imagePreview">
             		</td>

@@ -42,7 +42,7 @@ import com.web.game.member.service.MemberService;
 
 @Controller
 @RequestMapping("/member")
-@SessionAttributes({ "user" })
+@SessionAttributes({ "user"})
 public class MemberControllerVerified {
 
 	@Autowired
