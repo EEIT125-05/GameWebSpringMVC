@@ -149,8 +149,8 @@ td{
 				</tr>
 				<tr>
 					<td>身分證字號</td>
-					<td><form:input path="sIdcode" maxlength="10" id="sIdcode"  onblur="checkIdcode();"/>&nbsp;
-					<input type="button" id='IdcodeCheck' value="檢查"><span id="Idcode"></span>
+					<td><form:input path="sIdcode" maxlength="10" id="sIdcode"  onblur="checkIdcode();"/>
+					<input type="button" id='IdcodeCheck' value="檢查"><br><span id="Idcode"></span>
 					</td>
 				</tr>
 				<tr>
@@ -162,8 +162,8 @@ td{
 					<td>照片<br>&nbsp;
 					</td>
 					<td >
-					<form:input path="mWithImage" type='file' accept="image/*" id="fImage" style="width:70px;"/>
-					<label id="previewLabel"></label>
+					<form:input path="mWithImage" type='file' accept="image/*" id="fImage" style="width:346px;overflow:hidden;"/>
+					<label id="previewLabel"></label><br>
             		<img id="imagePreview">
             		</td>
 				</tr>
@@ -213,7 +213,7 @@ td{
             	$("#previewLabel").show();
             	$("#imagePreview").show();
             	$("#imagePreview").attr('src',e.target.result)
-            						.attr('style',"height:200px;width:265px");
+            						.attr('style',"height:300px;width:346px;");
             }
 
 		});

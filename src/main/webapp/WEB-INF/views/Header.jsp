@@ -64,10 +64,19 @@
               陪玩
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+              <c:choose>
+              <c:when test="${empty user}">
+              <a class="dropdown-item" href="<c:url value='/withplay/Index'/>">找人陪玩</a>
+              </c:when>  
+              <c:otherwise> 
               <a class="dropdown-item" href="<c:url value='/withplay/Index'/>">找人陪玩</a>
               <a class="dropdown-item" href="<c:url value='/withplay/new'/>">當陪玩主</a>
               <a class="dropdown-item" href="<c:url value='/withplay/update'/>">修改資料</a>
               <a class="dropdown-item" href="<c:url value='/withplay/With'/>">管理</a>
+              </c:otherwise>
+              </c:choose>
+               
+              
             </div>
           </li>
           

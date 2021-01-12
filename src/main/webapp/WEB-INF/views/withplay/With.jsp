@@ -17,6 +17,13 @@
 	<%@ include file="../Header.jsp"%>
 <div class="container">
 
+<ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="<c:url value='/'/>">Home</a>
+      </li>
+      <li class="breadcrumb-item active">管理資料</li>
+    </ol>
+
 	<div align="center" >
 		<form method='POST'>
 			<input type='hidden' name='_method' value='DELETE'>
