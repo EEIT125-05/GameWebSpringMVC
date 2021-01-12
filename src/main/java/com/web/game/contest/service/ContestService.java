@@ -27,6 +27,6 @@ public interface ContestService {
 	
 	Integer getTotalPages();
 	
-	Boolean saveSchsduleImage(Integer iNo, Blob bimageSchedule);
+	Boolean saveSchsduleImage(Integer iNo, Blob bRematchImage,  Blob bPreliminariesImage);
 	
 }

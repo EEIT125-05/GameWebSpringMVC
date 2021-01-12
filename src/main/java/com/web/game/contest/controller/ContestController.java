@@ -1,6 +1,7 @@
 package com.web.game.contest.controller;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Console;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -161,6 +162,7 @@ public class ContestController {
 				map.put("status", "sqlError");
 			}
 		}
+		map.put("contestNo", Integer.toString(cContestBean.getiNo()));
 		return map;
 	}
 	

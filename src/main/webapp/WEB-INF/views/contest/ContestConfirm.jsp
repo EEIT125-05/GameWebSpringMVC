@@ -81,7 +81,7 @@
 								    popup: 'animate__animated animate__fadeOutUp'
 								  }
 					}).then(function(){
-								window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Index'/>");},500);
+								window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Information?contestNo=" + result.contestNo + "'/>");},500);
 							})
 				}else if(result.status == "sqlError"){
 					Swal.fire({

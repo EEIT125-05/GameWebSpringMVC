@@ -150,50 +150,95 @@
 				</c:choose>
 				<span id="spanHidden" style="font-size:70%;color:red">(註:至比賽當日即無法更改賽程)</span>
 			</c:if>
-			<div data-toggle="modal" data-target="#largeImage">
 				
 				<c:choose>
-					<c:when test="${empty cContestBean.bScheduleImage}">
+					<c:when test="${empty cContestBean.bRematchImage}">
 						<p>目前暫無賽程表</p>
 					</c:when>
 					<c:otherwise>
-						<p>賽程表: </p>
-						<a href="#">
-						<img
-							src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>"
-							style="width: 560px; border: 2px solid black; border-radius: 10px" />
-						</a>
-						<div class="modal fade bs-example-modal-xl" id="largeImage"
-							tabindex="-1" role="dialog"
-							aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-							<div class="modal-dialog modal-xl" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">賽程表</h5>
-										<button type="button" class="close" data-dismiss="modal"
-											aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										<div class="container-fluid">
-											<div class="row" style="overflow: auto">
-												<img
-													src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>"
-													style="width: 1000px; border: 2px solid black; border-radius: 10px" />
+						<p>複賽: </p>
+						<div data-toggle="modal" data-target="#RematchImage">
+							<a href="#">
+							<img
+								src="<c:url value='/contest/RematchImageLoading/${cContestBean.iNo}'/>"
+								style="width: 560px; border: 2px solid black; border-radius: 10px" />
+							</a>
+							<div class="modal fade bs-example-modal-xl" id="RematchImage"
+								tabindex="-1" role="dialog"
+								aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+								<div class="modal-dialog modal-xl" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">賽程表</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<div class="container-fluid">
+												<div class="row" style="overflow: auto">
+													<img
+														src="<c:url value='/contest/RematchImageLoading/${cContestBean.iNo}'/>"
+														style="width: 1000px; border: 2px solid black; border-radius: 10px" />
+												</div>
 											</div>
 										</div>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary"
-											data-dismiss="modal">Close</button>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-dismiss="modal">Close</button>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+						<c:choose>
+							<c:when test="${empty cContestBean.bPreliminariesImage}">
+								<br>
+								<p>預賽: 本場賽事並無預賽</p>
+							</c:when>						
+							<c:otherwise>
+								<br>
+								<p>預賽: </p>
+								<div data-toggle="modal" data-target="#PreliminariesImage">
+									<a href="#">
+									<img
+										src="<c:url value='/contest/PreliminariesImageLoading/${cContestBean.iNo}'/>"
+										style="width: 560px; border: 2px solid black; border-radius: 10px" />
+									</a>
+									<div class="modal fade bs-example-modal-xl" id="PreliminariesImage"
+										tabindex="-1" role="dialog"
+										aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+										<div class="modal-dialog modal-xl" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLabel">賽程表</h5>
+													<button type="button" class="close" data-dismiss="modal"
+														aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+													<div class="container-fluid">
+														<div class="row" style="overflow: auto">
+															<img
+																src="<c:url value='/contest/PreliminariesImageLoading/${cContestBean.iNo}'/>"
+																style="width: 1000px; border: 2px solid black; border-radius: 10px" />
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-dismiss="modal">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>							
+							</c:otherwise>
+						</c:choose>
 					</c:otherwise>
 				</c:choose>
-			</div>
 		</div>
 
 		<div id="戰績" class="hiddenDiv" style="display:none">

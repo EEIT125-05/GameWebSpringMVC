@@ -118,11 +118,12 @@ public class ContestDAOImpl implements ContestDAO {
 	}
 
 	@Override
-	public Boolean saveSchsduleImage(Integer iNo, Blob bimageSchedule) {
+	public Boolean saveSchsduleImage(Integer iNo, Blob bRematchImage, Blob bPreliminariesImage) {
 		Session session = factory.getCurrentSession();
 		try {
 			ContestBean cContestBean = session.get(ContestBean.class, iNo);
-			cContestBean.setbScheduleImage(bimageSchedule);
+			cContestBean.setbRematchImage(bRematchImage);
+			cContestBean.setbPreliminariesImage(bPreliminariesImage);
 			return true;
 		}catch (Exception e) {
 			return false;

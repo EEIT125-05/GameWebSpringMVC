@@ -45,7 +45,9 @@ public class ContestBean {
 	private String sRule;
 	private String sImage;
 	@JsonIgnore
-	private Blob bScheduleImage;
+	private Blob bRematchImage;
+	@JsonIgnore
+	private Blob bPreliminariesImage;
 	
 	@OneToMany(mappedBy = "cContestBean",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<ParticipateBean> lParticipateBeans = new ArrayList<>();
@@ -177,12 +179,21 @@ public class ContestBean {
 		this.fImage = fImage;
 	}
 
-	public Blob getbScheduleImage() {
-		return bScheduleImage;
+	public Blob getbRematchImage() {
+		return bRematchImage;
+	}
+
+	public void setbRematchImage(Blob bRematchImage) {
+		this.bRematchImage = bRematchImage;
+	}
+
+	public Blob getbPreliminariesImage() {
+		return bPreliminariesImage;
+	}
+
+	public void setbPreliminariesImage(Blob bPreliminariesImage) {
+		this.bPreliminariesImage = bPreliminariesImage;
 	}
 	
-	public void setbScheduleImage(Blob bScheduleImage) {
-		this.bScheduleImage = bScheduleImage;
-	}
 	
 }

@@ -193,50 +193,63 @@ public class NoCheckContestController {
 	public @ResponseBody List<String> saveScheduleImage(
 							@RequestParam String treeImage64,
 							@RequestParam String drowImage64,
-							@RequestParam Integer contestNo,
-							@RequestParam String schedule,
-							@RequestParam String groupPlayer) {
-		treeImage64 = treeImage64.split(",")[1];
+							@RequestParam Integer contestNo
+//							@RequestParam String schedule,
+//							@RequestParam String groupPlayer
+							) {
 		List<String> list = new ArrayList<String>();
 
-		System.out.println("表籤內容: " + groupPlayer);
-		
-		List<List<String>> groupList = new ArrayList<List<String>>();
-		for(int i=0; i<groupPlayer.split("]").length; i++) {
-//			System.out.println("a: " + groupPlayer.split("]")[i]);	
-			List<String> groupMember = new ArrayList<String>();
-			for(int j=0; j<groupPlayer.split("]")[i].split(",").length; j++) {
-//				System.out.println("j: " + j);
-//				System.out.println("b: " + groupPlayer.split("]")[i].split(",")[j]);
-				for(int k=0; k<groupPlayer.split("]")[i].split(",")[j].split("\"").length; k++) {
-//					System.out.println("k: " + k);
-					String player = groupPlayer.split("]")[i].split(",")[j].split("\"")[k];
-//					System.out.println("c: @" + player + "@");
-					if(!player.equals("") && !player.equals("[") && !player.equals("[[")) {
-						groupMember.add(player);
-					}
+//		System.out.println("表籤內容: " + groupPlayer);
+//		
+//		List<List<String>> groupList = new ArrayList<List<String>>();
+//		for(int i=0; i<groupPlayer.split("]").length; i++) {
+////			System.out.println("a: " + groupPlayer.split("]")[i]);	
+//			List<String> groupMember = new ArrayList<String>();
+//			for(int j=0; j<groupPlayer.split("]")[i].split(",").length; j++) {
+////				System.out.println("j: " + j);
+////				System.out.println("b: " + groupPlayer.split("]")[i].split(",")[j]);
+//				for(int k=0; k<groupPlayer.split("]")[i].split(",")[j].split("\"").length; k++) {
+////					System.out.println("k: " + k);
+//					String player = groupPlayer.split("]")[i].split(",")[j].split("\"")[k];
+////					System.out.println("c: @" + player + "@");
+//					if(!player.equals("") && !player.equals("[") && !player.equals("[[")) {
+//						groupMember.add(player);
+//					}
+//				}
+//			}
+//			groupList.add(groupMember);
+//		}
+//		
+//		for(List<String> list2: groupList) {
+//			System.out.println("---------------------");
+//			for(String s: list2) {
+//				System.out.println("參賽者: " + s);
+//			}
+//		}
+			
+		try {
+			Decoder decoder = Base64.getDecoder();
+			
+			treeImage64 = treeImage64.split(",")[1];
+			byte[] bTreeImage = decoder.decode(treeImage64);
+			Blob bRematchImage = new SerialBlob(bTreeImage);
+			
+			if(!drowImage64.equals("")) {
+				
+				drowImage64 = drowImage64.split(",")[1];
+				byte[] bDrowImage = decoder.decode(drowImage64);
+				Blob bPreliminariesImage = new SerialBlob(bDrowImage);
+				
+				if(cService.saveSchsduleImage(contestNo, bRematchImage, bPreliminariesImage)) {
+					list.add("賽程儲存完成");
+				}
+			}else {//沒預賽
+				System.out.println("沒有預賽");
+				if(cService.saveSchsduleImage(contestNo, bRematchImage, null)) {
+					list.add("賽程儲存完成");
 				}
 			}
-			groupList.add(groupMember);
-		}
-		
-		for(List<String> list2: groupList) {
-			System.out.println("---------------------");
-			for(String s: list2) {
-				System.out.println("參賽者: " + s);
-			}
-		}
 			
-		
-		Decoder decoder = Base64.getDecoder();
-		byte[] bImage = decoder.decode(treeImage64);
-		
-		Blob bimageSchedule = null;
-		try {
-			bimageSchedule = new SerialBlob(bImage);
-			if(cService.saveSchsduleImage(contestNo, bimageSchedule)) {
-				list.add("賽程儲存完成");
-			}
 		} catch (SerialException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -246,13 +259,13 @@ public class NoCheckContestController {
 		return list;
 	}
 	
-	@GetMapping("/ScheduleLoading/{iNo}")
-	public ResponseEntity<byte[]> schdeuleLoading(
+	@GetMapping("/RematchImageLoading/{iNo}")
+	public ResponseEntity<byte[]> rematchLoading(
 								@PathVariable Integer iNo){
 		ContestBean cContestBean = cService.selectOneContest(iNo);
-		Blob bScheduleImage = cContestBean.getbScheduleImage();
+		Blob bRematchImage = cContestBean.getbRematchImage();
 		byte[] bImage = null;
-		try (InputStream is = bScheduleImage.getBinaryStream(); 
+		try (InputStream is = bRematchImage.getBinaryStream(); 
 			 ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
 			byte[] b = new byte[819200];
 			int len = 0;
@@ -271,6 +284,32 @@ public class NoCheckContestController {
 		headers.setContentType(mediaType);
 		ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(bImage, headers, HttpStatus.OK);
 		
+		return responseEntity;
+	}
+	
+	@GetMapping("/PreliminariesImageLoading/{iNo}")
+	public ResponseEntity<byte[]> preliminariesLoading(
+								@PathVariable Integer iNo){
+		ContestBean cContestBean = cService.selectOneContest(iNo);
+		Blob bPreliminariesImage = cContestBean.getbPreliminariesImage();
+		byte[] bImage = null;
+		try (InputStream is = bPreliminariesImage.getBinaryStream(); 
+			 ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
+			byte[] b = new byte[819200];
+			int len = 0;
+			while ((len = is.read(b)) != -1) {
+				baos.write(b, 0, len);
+			}
+			bImage = baos.toByteArray();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String mimeType = "image/jpeg";
+		MediaType mediaType = MediaType.valueOf(mimeType);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+		headers.setContentType(mediaType);
+		ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(bImage, headers, HttpStatus.OK);
 		return responseEntity;
 	}
 }
