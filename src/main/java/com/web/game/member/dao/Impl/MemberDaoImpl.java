@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.web.game.member.dao.MemberDao;
 import com.web.game.member.model.MemberBean;
 
+
 @Repository
 public class MemberDaoImpl implements MemberDao {
 
@@ -68,6 +69,27 @@ public class MemberDaoImpl implements MemberDao {
 			System.out.println("帳號錯誤");
 			return false;
 		}
+	}
+	
+//	@Override
+//	public MemberBean get(Integer id) {
+//		return factory.getCurrentSession().get(Member.class, id);
+//	}
+	
+	@Override
+	public MemberBean get(String sAccount) {
+		System.out.println("DAO的sAccount=" + sAccount);
+		try {
+			String hql = "FROM MemberBean WHERE sAccount = :sAccount";
+			MemberBean SelectMB = ((Session) factory.getCurrentSession().createQuery(hql)).get(MemberBean.class, sAccount);
+			System.out.println("有正常找到資料");
+			return SelectMB;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("沒找到資料才會跑這裡");
+		System.out.println("DAO找到的sAccount=" + sAccount);
+		return null;
 	}
 
 	@Override

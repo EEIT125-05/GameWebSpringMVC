@@ -98,9 +98,11 @@ public class MemberControllerVerified {
 			@RequestParam String sEname, @RequestParam String sPhone, @RequestParam String sAddress,
 			@RequestParam String sGender, @RequestParam String sBirthday, @RequestParam String registerDate) {
 		MemberBean GameBarUpDate = mService.Selectmember(sAccount);
+		GameBarUpDate.setsNickname(sNickname);
 		GameBarUpDate.setsEname(sEname);
 		GameBarUpDate.setsEmail(sEmail);
 		GameBarUpDate.setsPhone(sPhone);
+		GameBarUpDate.setsAddress(sAddress);
 		mService.UpdateMember(GameBarUpDate);
 		model.addAttribute("users", mService.getAllMembers());
 		return "member/MemberGetAll";
@@ -274,6 +276,7 @@ public class MemberControllerVerified {
 			HttpServletResponse response) {
 		MemberBean StatusChange = mService.Selectmember(sAccount);
 		status = StatusChange.getStatus();
+		System.out.println("有無進來2222222222222");
 		if (sAccount.equals("game20200922")) {
 			;
 		} else if (status == true) {

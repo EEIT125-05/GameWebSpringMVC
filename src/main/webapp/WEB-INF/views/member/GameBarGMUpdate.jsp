@@ -55,7 +55,7 @@ input {
 						value="${OneMember.sEname}">
 				</h3>
 				<h3>
-					更改信箱<input type="text" id="Email" name="sEmail" required
+					更改信箱<input type="text" id="Email" name="sEmail" 
 						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$"
 						onblur="checkEmail();" value="${OneMember.sEmail}"><span
 						id="idemail"></span>
@@ -105,7 +105,7 @@ input {
 
 					<h3 align='center'>
 						<input id="submit" name="submit" type="submit" value="修改">
-						<a href="<c:url value='/member/GameBarGetAll'/>"><input
+						<a href="<c:url value='/member/Data'/>"><input
 							type="button" value="回上一頁"></a>
 					</h3>
 			</div>
