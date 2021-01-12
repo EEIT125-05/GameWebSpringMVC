@@ -33,15 +33,20 @@ import com.web.game.member.dao.Impl.MemberDaoImpl;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.model.MemberSigninBean;
 import com.web.game.member.service.MemberService;
+import com.web.game.withplay.service.WithService;
+import com.web.game.withplay.service.impl.WithServiceImpl;
 
 @Controller
 @RequestMapping("/member")
-@SessionAttributes({ "user" })
+@SessionAttributes({"user","withplayHost"})
 public class MemberControllerNoVerified {
 	String noImage = "/images/nopicture.jpg";
 
 	@Autowired
 	MemberService mService;
+	
+	@Autowired
+	WithService WithService;
 
 	public void setService(MemberService service) {
 		this.mService = service;
@@ -203,6 +208,7 @@ public class MemberControllerNoVerified {
 			status = SigninMB.getStatus();
 			if (status == true) {
 				model.addAttribute("user", SigninMB);
+				model.addAttribute("withplayHost", WithService.getaccount(sAccount));
 
 //--------新增cookie----------------------------------------------------
 			if(!rememberMe.equals("")) {

@@ -8,6 +8,8 @@ public interface ParticipateService {
 	
 	Boolean insertParticipate(ParticipateBean pParticipateBean);
 	
+	Boolean deleteParticipate(Integer contestNo, String sPlayer);
+	
 	List<ParticipateBean> selectParticipate(String user);
 	
 	Boolean checkPlayer(Integer contestNo, String user);

@@ -35,7 +35,7 @@ import com.web.game.withplay.service.WithService;
 import com.web.game.withplay.validators.WithValidator;
 
 
-@SessionAttributes("user")
+@SessionAttributes({"user","withplayHost"})
 @Controller
 public class WithController {
 	
@@ -114,7 +114,7 @@ public class WithController {
 			result.rejectValue("account", "", "請通知系統人員...");
 			return "withplay/With_form";
 		}
-		
+		model.addAttribute("withplayHost", With);
 		return "redirect:/withplay/Index";
 
 	}

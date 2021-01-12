@@ -12,13 +12,17 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
+import com.web.game.withplay.service.WithService;
 
 @Controller
-@SessionAttributes("user")
+@SessionAttributes({"user","withplayHost"})
 public class HomeController {
 
 	@Autowired
 	MemberService mService;
+	
+	@Autowired
+	WithService WithService;
 	
 	@GetMapping("/")
 	public String gameIndex(@CookieValue(required = false) String JSESSIONID,
@@ -34,6 +38,7 @@ public class HomeController {
 			System.out.println("從cookie登入");
 			MemberBean SigninMB = mService.Selectmember(user);
 			model.addAttribute("user", SigninMB);
+			model.addAttribute("withplayHost", WithService.getaccount(user));
 			
 			Cookie cUser = new Cookie("user", SigninMB.getsAccount());
 			cUser.setPath("/GameWebSpringMVC");

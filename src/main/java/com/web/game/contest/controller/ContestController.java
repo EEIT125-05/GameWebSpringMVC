@@ -156,7 +156,7 @@ public class ContestController {
 		}else {
 			if(cService.insertContest(cContestBean)) {
 				map.put("status", "success");
-				map.put("successMseeage", "新增成功");
+				map.put("successMessage", "新增成功");
 			}else {
 				map.put("status", "sqlError");
 			}
@@ -170,22 +170,22 @@ public class ContestController {
 		return "contest/ContestManagement";
 	}
 	
-	@GetMapping("/Schedule/{contestNo}")
-	public String contestSchedule(
-					@PathVariable Integer contestNo,
-					RedirectAttributes ra,
-					Model model) {
-		String nextPage = null;
-		ContestBean cContestBean = cService.selectOneContest(contestNo);
-		if(cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {//驗證
-			model.addAttribute("cContestBean", cContestBean);
-			nextPage = "contest/ContestSchedule";
-		}else {
-			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
-			nextPage = ERROR_PAGE;
-		}
-		return nextPage;
-	}
+//	@GetMapping("/Schedule/{contestNo}")
+//	public String contestSchedule(
+//					@PathVariable Integer contestNo,
+//					RedirectAttributes ra,
+//					Model model) {
+//		String nextPage = null;
+//		ContestBean cContestBean = cService.selectOneContest(contestNo);
+//		if(cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {//驗證
+//			model.addAttribute("cContestBean", cContestBean);
+//			nextPage = "contest/ContestSchedule";
+//		}else {
+//			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
+//			nextPage = ERROR_PAGE;
+//		}
+//		return nextPage;
+//	}
 	
 	@GetMapping("/Update/{contestNo}")
 	public String contestUpdate(
@@ -194,17 +194,20 @@ public class ContestController {
 						Model model) {
 		String nextPage = null;
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
-		if(cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {
+		if(cContestBean == null) {
+			ra.addFlashAttribute("errorMessage", "(這場比賽並不存在)");
+			nextPage = ERROR_PAGE;
+		}else if(!cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {
 			//驗證&進入更改頁面
+			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
+			nextPage = ERROR_PAGE;
+		}else {
 			model.addAttribute("cContestBean", cContestBean);
 			model.addAttribute("sContestConfirm", "更新");
 			model.addAttribute("lGameList", gService.selectGameList());
 			model.addAttribute("originSignStart", cService.selectOneContest(contestNo).getdSignStart());
 			model.addAttribute("originSignEnd", cService.selectOneContest(contestNo).getdSignEnd());
 			nextPage = "contest/ContestCreateOrUpdate";
-		}else {
-			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
-			nextPage = ERROR_PAGE;
 		}
 		return nextPage;
 	}
@@ -243,6 +246,41 @@ public class ContestController {
 	public String selectParticipate(Model model) {
 		model.addAttribute("lParticipateList", pService.selectParticipate(((MemberBean)model.getAttribute("user")).getsAccount()));
 		return "contest/ContestParticipate";
+	}
+	
+	@DeleteMapping("/Quit/{contestNo}")
+	public @ResponseBody Map<String, String> quitContest(
+							@PathVariable Integer contestNo,
+							Model model) {
+		Map<String, String> map = new HashMap<String, String>();
+		if(pService.deleteParticipate(contestNo, ((MemberBean)model.getAttribute("user")).getsAccount())) {
+			map.put("status", "success");
+		}else {
+			map.put("status", "sqlError");
+		}
+		return map;
+	}
+	
+	@GetMapping("/Schedule/{contestNo}")
+	public String test(
+				@PathVariable Integer contestNo,
+				RedirectAttributes ra,
+				Model model) {
+		String nextPage = null;
+		ContestBean cContestBean = cService.selectOneContest(contestNo);
+		if(cContestBean == null) {
+			ra.addFlashAttribute("errorMessage", "(這場比賽並不存在)");
+			nextPage = ERROR_PAGE;
+		}else if(!cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {
+			//驗證&進入更改頁面
+			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
+			nextPage = ERROR_PAGE;
+		}else {
+			model.addAttribute("cContestBean", cService.selectOneContest(contestNo));
+			nextPage = "contest/ContestSchedule";
+		}
+		
+		return nextPage;
 	}
 	
 //	@GetMapping("先放這這段程式碼")
