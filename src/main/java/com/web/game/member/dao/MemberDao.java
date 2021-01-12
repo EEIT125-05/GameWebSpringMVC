@@ -25,7 +25,8 @@ public interface MemberDao {
 
 	String CheckPhone(String sPhone);
 
+	MemberBean queryMember(String sAccount);
 
-
+	MemberBean get(String sAccount);
 
 }

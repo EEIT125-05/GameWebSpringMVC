@@ -22,6 +22,16 @@ public class ParticipateServiceImpl implements ParticipateService {
 		return pDAO.insertParticipate(pParticipateBean);
 	}
 
+	
+	@Transactional
+	@Override
+	public Boolean deleteParticipate(Integer contestNo, String sPlayer) {
+		return pDAO.deleteParticipate(contestNo, sPlayer);
+	}
+
+
+
+
 	@Transactional
 	@Override
 	public List<ParticipateBean> selectParticipate(String user) {

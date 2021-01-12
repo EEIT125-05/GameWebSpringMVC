@@ -63,6 +63,7 @@ public class ChangeGameController {
 	
 	@PostMapping("/applyForAjax")
 	public @ResponseBody boolean createTransaction(
+			Model model,
 			@RequestParam String partyA,
 			@RequestParam Integer supportGameNo,
 			@RequestParam String partyB,
@@ -102,7 +103,6 @@ public class ChangeGameController {
 			return true;
 		}
 		return false;
-		
 	}
 	
 	@GetMapping("/showApplyFor")
@@ -118,6 +118,7 @@ public class ChangeGameController {
 	
 	@GetMapping("/ApplyForReject")
 	public @ResponseBody boolean updateApplyForReject(
+			Model model,
 			@RequestParam Integer no
 			) {
 		boolean result = false;
@@ -136,6 +137,7 @@ public class ChangeGameController {
 	
 	@GetMapping("/ApplyForSubmit")
 	public boolean updateApplyForSubmit(
+			Model model,
 			          		  @RequestParam Integer no
 			) {
 		boolean result = false;

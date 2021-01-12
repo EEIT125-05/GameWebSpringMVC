@@ -2,6 +2,8 @@ package com.web.game.contest.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -53,7 +56,6 @@ public class ContestController {
 	@Autowired
 	dateAndTimeValidator dValidator;
 	
-	private final static String THANKS_PAGE = "redirect:/contest/Thanks";
 	private final static String ERROR_PAGE = "redirect:/contest/Error";
 	
 	@GetMapping("/Create")
@@ -138,25 +140,28 @@ public class ContestController {
 	}
 	
 	@PostMapping("/Confirm")
-	public String contestToDB(
-					@ModelAttribute("cContestBean") ContestBean cContestBean,
-					@ModelAttribute("sContestConfirm") String sContestConfirm,
-					Model model) {
-		String nextPage = null;
+	public @ResponseBody Map<String, String> contestToDB(
+			@ModelAttribute("cContestBean") ContestBean cContestBean,
+			@ModelAttribute("sContestConfirm") String sContestConfirm,
+			Model model) {
+		
+		Map<String, String> map = new HashMap<String, String>();
 		if(sContestConfirm.equals("更新")){
 			if(cService.updateContest(cContestBean)) {
-				nextPage = THANKS_PAGE;
+				map.put("status", "success");
+				map.put("successMessage", "更新成功");
 			}else {
-				nextPage = ERROR_PAGE;
+				map.put("status", "sqlError");
 			}
 		}else {
 			if(cService.insertContest(cContestBean)) {
-				nextPage = THANKS_PAGE;
+				map.put("status", "success");
+				map.put("successMessage", "新增成功");
 			}else {
-				nextPage = ERROR_PAGE;
+				map.put("status", "sqlError");
 			}
 		}
-		return nextPage;
+		return map;
 	}
 	
 	@GetMapping("/Management")
@@ -165,22 +170,22 @@ public class ContestController {
 		return "contest/ContestManagement";
 	}
 	
-	@GetMapping("/Schedule/{contestNo}")
-	public String contestSchedule(
-					@PathVariable Integer contestNo,
-					RedirectAttributes ra,
-					Model model) {
-		String nextPage = null;
-		ContestBean cContestBean = cService.selectOneContest(contestNo);
-		if(cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {//驗證
-			model.addAttribute("cContestBean", cContestBean);
-			nextPage = "contest/ContestSchedule";
-		}else {
-			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
-			nextPage = ERROR_PAGE;
-		}
-		return nextPage;
-	}
+//	@GetMapping("/Schedule/{contestNo}")
+//	public String contestSchedule(
+//					@PathVariable Integer contestNo,
+//					RedirectAttributes ra,
+//					Model model) {
+//		String nextPage = null;
+//		ContestBean cContestBean = cService.selectOneContest(contestNo);
+//		if(cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {//驗證
+//			model.addAttribute("cContestBean", cContestBean);
+//			nextPage = "contest/ContestSchedule";
+//		}else {
+//			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
+//			nextPage = ERROR_PAGE;
+//		}
+//		return nextPage;
+//	}
 	
 	@GetMapping("/Update/{contestNo}")
 	public String contestUpdate(
@@ -189,63 +194,93 @@ public class ContestController {
 						Model model) {
 		String nextPage = null;
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
-		if(cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {
+		if(cContestBean == null) {
+			ra.addFlashAttribute("errorMessage", "(這場比賽並不存在)");
+			nextPage = ERROR_PAGE;
+		}else if(!cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {
 			//驗證&進入更改頁面
+			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
+			nextPage = ERROR_PAGE;
+		}else {
 			model.addAttribute("cContestBean", cContestBean);
 			model.addAttribute("sContestConfirm", "更新");
 			model.addAttribute("lGameList", gService.selectGameList());
 			model.addAttribute("originSignStart", cService.selectOneContest(contestNo).getdSignStart());
 			model.addAttribute("originSignEnd", cService.selectOneContest(contestNo).getdSignEnd());
 			nextPage = "contest/ContestCreateOrUpdate";
-		}else {
-			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
-			nextPage = ERROR_PAGE;
 		}
 		return nextPage;
 	}
 	
 	@DeleteMapping("/Edit/{contestNo}")
-	public String contestDelete(
+	public @ResponseBody Map<String, String> contestDelete(
 							@PathVariable Integer contestNo,
-							RedirectAttributes ra,
+//							RedirectAttributes ra,
 							Model model) {
-		String nextPage = null;
+		Map<String, String> map = new HashMap<String, String>();
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
 		if(cService.deleteContest(cContestBean)) {
-			model.addAttribute("sContestConfirm", "刪除");	
-			nextPage = THANKS_PAGE;
+			map.put("status", "success");
 		}else {
-			nextPage = ERROR_PAGE;
+			map.put("status", "sqlError");
 		}
-		return nextPage;
+		return map;
 	}
 		
 	@PostMapping("/Join")
-	public String joinContest(
-					@ModelAttribute("cContestBean") ContestBean cContestBean,
-					@RequestParam String sGameId,
-					RedirectAttributes ra,
-					Model model) {
-		String nextPage = null;
+	public @ResponseBody Map<String, String> joinContest(
+			@ModelAttribute("cContestBean") ContestBean cContestBean,
+//			RedirectAttributes ra,
+			Model model) {
+		Map<String, String> map = new HashMap<String, String>();
 		String user = ((MemberBean)model.getAttribute("user")).getsAccount();
-		if(pService.checkPlayer(cContestBean.getiNo(), user)) {
-			if(pService.insertParticipate(new ParticipateBean(null, user, sGameId, cContestBean))) {
-				model.addAttribute("sContestConfirm", "報名");
-				nextPage = THANKS_PAGE;
-			}else {
-				nextPage = ERROR_PAGE;
-			}
+		if(pService.insertParticipate(new ParticipateBean(null, user, cContestBean))) {
+			map.put("status", "success");
 		}else {
-			ra.addFlashAttribute("errorMessage", "(您已參加本次賽事,無法重複報名)");
-			nextPage = ERROR_PAGE;
+			map.put("status", "sqlError");
 		}
-		return nextPage;
+		return map;
 	}
 	
 	@GetMapping("/Participate")
 	public String selectParticipate(Model model) {
 		model.addAttribute("lParticipateList", pService.selectParticipate(((MemberBean)model.getAttribute("user")).getsAccount()));
 		return "contest/ContestParticipate";
+	}
+	
+	@DeleteMapping("/Quit/{contestNo}")
+	public @ResponseBody Map<String, String> quitContest(
+							@PathVariable Integer contestNo,
+							Model model) {
+		Map<String, String> map = new HashMap<String, String>();
+		if(pService.deleteParticipate(contestNo, ((MemberBean)model.getAttribute("user")).getsAccount())) {
+			map.put("status", "success");
+		}else {
+			map.put("status", "sqlError");
+		}
+		return map;
+	}
+	
+	@GetMapping("/Schedule/{contestNo}")
+	public String test(
+				@PathVariable Integer contestNo,
+				RedirectAttributes ra,
+				Model model) {
+		String nextPage = null;
+		ContestBean cContestBean = cService.selectOneContest(contestNo);
+		if(cContestBean == null) {
+			ra.addFlashAttribute("errorMessage", "(這場比賽並不存在)");
+			nextPage = ERROR_PAGE;
+		}else if(!cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {
+			//驗證&進入更改頁面
+			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
+			nextPage = ERROR_PAGE;
+		}else {
+			model.addAttribute("cContestBean", cService.selectOneContest(contestNo));
+			nextPage = "contest/ContestSchedule";
+		}
+		
+		return nextPage;
 	}
 	
 //	@GetMapping("先放這這段程式碼")

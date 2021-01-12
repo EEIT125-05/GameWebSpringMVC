@@ -17,6 +17,14 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
+<style>
+.h3{
+	padding-left:10px;
+}
+input {
+	border-radius: 10px;
+}
+</style>
 <title>會員註冊</title>
 <%-- <script src="<c:url value='/js/MemberLogin.js'/>"></script> --%>
 <script>
@@ -119,8 +127,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 		PhoneCheck.onclick = function() {
 			var sPhone = document.getElementById("sPhone").value.trim();
 			var xhr = new XMLHttpRequest();
-			xhr
-					.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
+			xhr.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
 							true);
 			xhr.setRequestHeader("Content-Type",
 					"application/x-www-form-urlencoded");
@@ -290,32 +297,32 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 	<%@ include file="../Header.jsp"%>
 	<form action="<c:url value='/member/MemberCheck'/>" method="post">
 		<div align='center'>
-			<div align='left'
-				style="border: 3px solid gray; width: 750; height: 600">
+			<div align='left' 
+				style="border: 3px solid gray; width: 650; height: 710; border-radius: 5px;padding-left:20;">
 				<h3 style='padding-top: 10px;'>
-					設定的帳號:<input type="text" id="sAccount" name="sAccount"
+					設定的帳號:<input pattern="[a-zA-Z0-9]" type="text" id="sAccount" name="sAccount"
 						minlength="6" maxlength="20" required onblur="checkAccount();">
-					<input type="button" id='accountCheck' value="檢查" disabled>
-					<span id="idaccount" /></span>
+					<input type="button" id='accountCheck' value="檢查" disabled><br>
+					<span id="idaccount"></span>
 				</h3>
 				<h3>
 					使用的信箱:<input type="email" id="sEmail" name="sEmail" maxlength="30"
 						required onblur="checkEmail();"
 						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$">
-					<input type="button" id='emailCheck' value="檢查" disabled> <span
+					<input type="button" id='emailCheck' value="檢查" disabled><br> <span
 						id="idemail"></span>
 				</h3>
 				<h3>
 					手機號碼:<input type="text" id="sPhone" name="sPhone" maxlength="10"
 						required onblur="checkPhone();" pattern="[0]{1}[9]{1}\d{8}" /> <input
-						type="button" id='PhoneCheck' value="檢查" disabled> <span
+						type="button" id='PhoneCheck' value="檢查" disabled><br> <span
 						id="idphone"></span>
 				</h3>
 				<h3>
 					設定的密碼:<input type="password" id="Password" name="sPassword"
 						minlength="8" maxlength="16" required onblur="checkPassword();">
 					<input id="btn" type="button" class="material-icons"
-						style="font-size: 25px" value="visibility"> <span
+						style="font-size: 25px" value="visibility"> <br><span
 						id="idpassword"></span>
 				</h3>
 				<h3>
@@ -368,12 +375,13 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 				</h3>
 				<h3 align='center'>
 					<button id="submit" type="submit" name="submit" value="確認" disabled
-						style='width: 350; height: 50; font-size: 30; margin-top: 15;'>確認</button>
+						style='width: 350; height: 50; font-size: 30; margin-top: 15;border-radius: 10px;'>確認</button>
 				</h3>
 				<h3 align='center'>
-					<a href="<c:url value='########'/>"><input
-						id="GoogleLogin" type="button" value="Google註冊"
-						style='width: 350; height: 50; font-size: 30;'></a>
+					<a href="<c:url value='########'/>"><input id="GoogleLogin"
+						type="button" value="一鍵輸入"
+						style='width: 350; height: 50; font-size: 30;
+						background-color: green; color:'></a>
 				</h3>
 			</div>
 		</div>
