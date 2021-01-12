@@ -50,6 +50,11 @@ public class MemberServiceImpl implements MemberService {
 	public MemberBean Selectmember(String sAccount) {
 		return dao.Selectmember(sAccount);
 	}
+	
+	@Override
+	public MemberBean get(String sAccount) {
+		return dao.get(sAccount);
+	}
 
 	@Override
 	public List<MemberBean> getAllMembers() {
