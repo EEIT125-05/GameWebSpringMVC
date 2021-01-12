@@ -301,14 +301,15 @@ public class MemberControllerNoVerified {
 //	}
 
 	@PostMapping("/GoogleSignin")
-	public boolean GoogleSignin(Model model, String sAccount, String sPassword, String sNickname,
+	public boolean GoogleSignin(Model model,String sAccount, String sPassword, String sNickname,
 			@RequestParam(value = "googleEmail", required = false) String sEmail,
 			@RequestParam(value = "googleEname", required = false) String sEname, String sGender, String sPhone,
 			String sAddress, String sBirthday, HttpServletRequest request, HttpServletResponse response, String registerDate, boolean status) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		registerDate = sdf.format(new Date());
 		Integer iNo = null;
-		sAccount = sEmail;
+		sAccount = sEmail.split("@")[0];
+		 
 		System.out.println("sAccount=" + sAccount);
 		System.out.println("Ename=" + sEname);
 

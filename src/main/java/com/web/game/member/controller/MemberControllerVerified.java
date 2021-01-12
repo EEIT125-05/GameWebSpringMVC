@@ -211,7 +211,7 @@ public class MemberControllerVerified {
 	}
 
 	@GetMapping("/picture/{sAccount}")
-	public ResponseEntity<byte[]> getPicture(@PathVariable("sAccount") String sAccount) {
+	public ResponseEntity<byte[]> getPicture(Model model,@PathVariable("sAccount") String sAccount) {
 		InputStream is = null;
 		OutputStream os = null;
 		String fileName = null;
@@ -221,9 +221,9 @@ public class MemberControllerVerified {
 		HttpHeaders headers = new HttpHeaders();
 		MediaType mediaType = null;
 		Blob blob = null;
+		System.out.println("???????????????????????????????");
 		try {
 			MemberBean bean = mService.queryMember(sAccount);
-			System.out.println("bean=" + bean);
 			System.out.println("sAccount=" + sAccount);
 			if (bean != null) {
 				blob = bean.getImage();
