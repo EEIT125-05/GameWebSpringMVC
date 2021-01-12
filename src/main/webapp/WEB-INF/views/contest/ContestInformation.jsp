@@ -31,19 +31,18 @@
 <!-- 		<small>XXXXX</small> -->
 	</h1>
 
-<!-- 	<ol class="breadcrumb"> -->
-<%-- 		<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a> --%>
-<!-- 		</li> -->
-<!-- 		<li class="breadcrumb-item active">賽事</li> -->
-<!-- 		<li class="breadcrumb-item active">詳細資料</li> -->
-<!-- 	</ol> -->
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a></li>
+		<li class="breadcrumb-item active"><a href="<c:url value='/contest/Index'/>">賽事</a></li>
+		<li class="breadcrumb-item active"><a href="<c:url value='/contest/Information?contestNo=${cContestBean.iNo}'/>">詳細資料</a></li>
+	</ol>
 
 		<img src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" alt="" style="width:560px">
 		<div >
 			<label class="btn btn-primary item itemChoose">總覽</label>
 			<label class="btn btn-primary item">參賽者</label>
 			<label class="btn btn-primary item">賽程</label>
-			<label class="btn btn-primary item">排名</label>
+			<label class="btn btn-primary item">戰績</label>
 			<c:set var="joinStatus" value="true"/>
 			<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
 				<c:if test="${participate.sPlayer == user.sAccount}">
@@ -55,6 +54,16 @@
 			<c:choose>
 				<c:when test="${joinStatus == 'false'}">
 					<button class="btn btn-success joinItem" disabled>已報名</button>
+					<c:choose>
+						<c:when test="${cContestBean.dSignEnd < today}">
+							<button class="btn btn-danger" disabled>退出比賽</button>
+							<span style="font-size:70%;color:red">(註:報名截止後即無法退出比賽)</span>
+						</c:when>
+						<c:otherwise>
+							<button id="quitContest" class="btn btn-danger" value="${cContestBean.iNo}">退出比賽</button>
+							<span style="font-size:70%;color:red">(註:報名截止後即無法退出比賽)</span>
+						</c:otherwise>
+					</c:choose>
 				</c:when>
 				<c:otherwise>
 					<c:choose>
@@ -85,6 +94,19 @@
 		</div>
 		
 		<div id="總覽" class="hiddenDiv">
+			<c:if test="${cContestBean.sHost == user.sAccount }">
+            	<fmt:formatDate var="dTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd"/>
+				<c:choose>
+					<c:when test="${dTime <= today}">
+						<span style="color:gray">更改</span>
+					</c:when>
+					<c:otherwise>
+						<a class="btn btn-primary" href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>
+					</c:otherwise>
+				</c:choose>
+				<button class="btn btn-primary" type="submit" id="delete" value="${cContestBean.iNo}">刪除</button>
+				<span style="font-size:70%;color:red">(註:至比賽當日即無法更改比賽)</span>
+			</c:if>
 			<p>比賽名稱: ${cContestBean.sName}</p>
 			<p>比賽遊戲: ${cContestBean.sGame}</p>
 			<p>主辦者: ${cContestBean.sHost}</p>
@@ -113,64 +135,84 @@
 			</c:choose>
 		</div>
 		
-		<div id="賽程" class="hiddenDiv" style="display:none" data-toggle="modal" data-target="#largeImage">
-			<c:choose>
-				<c:when test="${empty cContestBean.bScheduleImage}">
-					<p>目前暫無賽程表</p>
-				</c:when>
-				<c:otherwise>
-					<p>賽程表: </p>
-					<a href="#">
-					<img
-						src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>"
-						style="width: 560px; border: 2px solid black; border-radius: 10px" />
-					</a>
-					<div class="modal fade bs-example-modal-xl" id="largeImage"
-						tabindex="-1" role="dialog"
-						aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-						<div class="modal-dialog modal-xl" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">賽程表</h5>
-									<button type="button" class="close" data-dismiss="modal"
-										aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="modal-body">
-									<div class="container-fluid">
-										<div class="row" style="overflow: auto">
-											<img
-												src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>"
-												style="width: 1000px; border: 2px solid black; border-radius: 10px" />
-										</div>
-									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary"
-										data-dismiss="modal">Close</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</c:otherwise>
-			</c:choose>
+		<div id="賽程" class="hiddenDiv" style="display:none">
 			<c:if test="${cContestBean.sHost == user.sAccount }">
-				<hr>
 				<c:choose>
 					<c:when test="${dTime <= today}">
 						<span style="color:gray">新增/更新賽程</span>
 					</c:when>
 					<c:otherwise>
-						<button class="btn btn-primary" id="showOption">新增/更新賽程</button>
+<%-- 						<form action="<c:url value='/contest/ScheduleTest'/>" method="post"> --%>
+							<a id="showOption" class="btn btn-primary" href="<c:url value='/contest/Schedule/${cContestBean.iNo}'/>">編輯賽程</a>
+<!-- 							<button class="btn btn-primary" id="showOption">新增/更新賽程</button> -->
+<!-- 						</form> -->
 					</c:otherwise>
 				</c:choose>
 				<span id="spanHidden" style="font-size:70%;color:red">(註:至比賽當日即無法更改賽程)</span>
 			</c:if>
+			<div data-toggle="modal" data-target="#largeImage">
+				
+				<c:choose>
+					<c:when test="${empty cContestBean.bScheduleImage}">
+						<p>目前暫無賽程表</p>
+					</c:when>
+					<c:otherwise>
+						<p>賽程表: </p>
+						<a href="#">
+						<img
+							src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>"
+							style="width: 560px; border: 2px solid black; border-radius: 10px" />
+						</a>
+						<div class="modal fade bs-example-modal-xl" id="largeImage"
+							tabindex="-1" role="dialog"
+							aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+							<div class="modal-dialog modal-xl" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">賽程表</h5>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<div class="container-fluid">
+											<div class="row" style="overflow: auto">
+												<img
+													src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>"
+													style="width: 1000px; border: 2px solid black; border-radius: 10px" />
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</div>
 		</div>
 
-		<div id="排名" class="hiddenDiv" style="display:none">
-			<p>目前暫無排名</p>
+		<div id="戰績" class="hiddenDiv" style="display:none">
+<!-- 			<p>比賽未開始,暫無戰績內容</p> -->
+			<p>冠軍:</p>
+			<p>亞軍:</p>
+			<p>季軍:</p>
+			<p>殿軍:</p>
+			<hr>
+
+			<p>round(n)</p>
+			<hr>
+			
+			<p>預賽圖</p>
+			<hr>
+			
+			<p>預賽戰績</p>
+
+
 		</div>
 		
 		
@@ -261,7 +303,127 @@
 				})()
 		});
 		
-	
+		$("#quitContest").on("click", function(){
+			console.log($(this).val());
+			Swal.fire({
+				showClass: {
+				    popup: 'animate__animated animate__fadeInDown'
+				  },
+				  title: '確定退出比賽?',
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#d33',
+				  cancelButtonColor: '#3085d6',
+				  confirmButtonText: '退出比賽',
+			      cancelButtonText: '取消',
+					hideClass: {
+					    popup: 'animate__animated animate__fadeOutUp'
+					  }
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+							type: "delete",
+							url: "<c:url value='/contest/Quit/" + $(this).val() + "'/>",
+							dataType: "json",
+							data: {},
+							success: function(result){
+								if(result.status == "success"){
+									Swal.fire({
+											      title:"退出成功!",
+												  icon:"success",
+												  hideClass: {
+												    popup: 'animate__animated animate__fadeOutUp'
+												  }
+											  }).then(function(){
+												window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Index'/>");},500);
+												
+											})
+								}else if(result.status == "sqlError"){
+									Swal.fire(
+											  '資料庫發生錯誤!',
+											  '請聯繫管理員',
+											  'error'
+											)
+								}
+							},
+							error: function(err){
+								Swal.fire(
+										  '網頁發生錯誤!',
+										  '請聯繫管理員',
+										  'error'
+										)
+							}
+							
+						});		
+				  }
+				})
+
+		});
+		
+		
+		
+		
+		$("#delete").on("click", function(){
+			Swal.fire({
+				showClass: {
+				    popup: 'animate__animated animate__fadeInDown'
+				  },
+				  title: '確定刪除此筆紀錄?',
+				  text: "刪除之後將不能復原",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#d33',
+				  cancelButtonColor: '#3085d6',
+				  confirmButtonText: '刪除',
+			      cancelButtonText: '取消',
+					hideClass: {
+					    popup: 'animate__animated animate__fadeOutUp'
+					  }
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+							type: "delete",
+							url: "<c:url value='/contest/Edit/" + $(this).val() + "'/>",
+							dataType: "json",
+							data: {},
+							success: function(result){
+								if(result.status == "success"){
+									Swal.fire({
+											      title:"刪除成功!",
+												  icon:"success",
+												  hideClass: {
+												    popup: 'animate__animated animate__fadeOutUp'
+												  }
+											  }).then(function(){
+												window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Index'/>");},500);
+												
+											})
+								}else if(result.status == "sqlError"){
+									Swal.fire(
+											  '資料庫發生錯誤!',
+											  '請聯繫管理員',
+											  'error'
+											)
+								}
+							},
+							error: function(err){
+								Swal.fire(
+										  '網頁發生錯誤!',
+										  '請聯繫管理員',
+										  'error'
+										)
+							}
+							
+						});		
+				  }
+				})
+
+		});
+		
+		
+		$("#showOption").on("click", function(){
+			this.target = "_blank";
+		});
 	
 	});
 </script>

@@ -80,7 +80,26 @@
 						</a>
 					</div>
 					<div class="col-md-5">
-						<h3>${cContest.sName}</h3>
+						<h3 style="display:inline">${cContest.sName}</h3>
+							<jsp:useBean id="nowDate" class="java.util.Date"/>
+							<fmt:formatDate var="today" pattern="yyyy-MM-dd" value="${nowDate}" />
+							<c:choose>
+								<c:when test="${cContest.dSignStart > today}">
+									<span style="color:blue">(報名未開始)</span>
+								</c:when>
+								<c:otherwise>
+									<c:choose>
+										<c:when test="${cContest.dSignEnd < today}">
+											<span style="color:red">(報名已截止)</span>
+										</c:when>
+										<c:otherwise>
+											<span style="color:green">(報名開放中)</span>
+										</c:otherwise>
+									</c:choose>
+								</c:otherwise>
+							</c:choose>
+							
+						<hr>
 						<p>比賽遊戲: ${cContest.sGame}</p>
 						<p>報名日期: ${cContest.dSignStart}~${cContest.dSignEnd}</p>
 						<fmt:formatDate var="sTime" value="${cContest.tTime}"
@@ -132,6 +151,29 @@ $(function(){
 								$("#point").append("<p>無比賽符合您搜尋的條件</p>");
 							}
  							$.each(obj.lContestList,function(key, value){
+ 								
+ 								let subTitle;
+ 								let color;
+ 								let d = $.format.date(new Date(), 'yyyy-MM-dd');
+ 								let signStart = $.format.date(new Date(value.dSignStart), 'yyyy-MM-dd');
+ 								let signEnd = $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd');
+ 								console.log("d: " + d);
+ 								console.log("signStart: " + signStart);
+ 								console.log("signEnd: " + signEnd);
+ 								if(d < signStart){
+ 									subTitle = "報名未開始";
+ 									color = "blue";
+ 									console.log("報名未開始");
+ 								}else if(d >= signStart && d <= signEnd){
+ 									subTitle = "報名開放中";
+ 									color = "green";
+ 									console.log("報名開放中");
+ 								}else{
+ 									subTitle = "報名已截止";
+ 									color = "red";
+ 									console.log("報名已截止");
+ 								}
+ 								
 								$("#point").append("<div class=\"row\">"
 													+"<div class=\"col-md-7\">"
 													+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
@@ -139,7 +181,8 @@ $(function(){
 													+"</a>"
 													+"</div>"
 													+"<div class=\"col-md-5\">"
-													+"<h3>" + value.sName + "</h3>"
+													+"<h3 style=\"display:inline\">" + value.sName + "</h3><span style=\"color:" + color + "\">    (" + subTitle + ")</span>"
+													+"<hr>"
 													+"<p>比賽遊戲: " + value.sGame + "</p>"
 													+"<p>報名日期: " + $.format.date(new Date(value.dSignStart), 'yyyy-MM-dd') 
 																+ "~" + $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd') + "</p>"
@@ -203,6 +246,29 @@ $(function(){
 					},
 					success: function(result){
 						$.each(result.lContestList,function(key, value){
+							
+							let subTitle;
+								let color;
+								let d = $.format.date(new Date(), 'yyyy-MM-dd');
+								let signStart = $.format.date(new Date(value.dSignStart), 'yyyy-MM-dd');
+								let signEnd = $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd');
+								console.log("d: " + d);
+								console.log("signStart: " + signStart);
+								console.log("signEnd: " + signEnd);
+								if(d < signStart){
+									subTitle = "報名未開始";
+									color = "blue";
+									console.log("報名未開始");
+								}else if(d >= signStart && d <= signEnd){
+									subTitle = "報名開放中";
+									color = "green";
+									console.log("報名開放中");
+								}else{
+									subTitle = "報名已截止";
+									color = "red";
+									console.log("報名已截止");
+								}
+								
 							$("#point").append("<div class=\"row\">"
 												+"<div class=\"col-md-7\">"
 												+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
@@ -210,7 +276,8 @@ $(function(){
 												+"</a>"
 												+"</div>"
 												+"<div class=\"col-md-5\">"
-												+"<h3>" + value.sName + "</h3>"
+												+"<h3 style=\"display:inline\">" + value.sName + "</h3><span style=\"color:" + color + "\">    (" + subTitle + ")</span>"
+												+"<hr>"
 												+"<p>比賽遊戲: " + value.sGame + "</p>"
 												+"<p>報名日期: " + $.format.date(new Date(value.dSignStart), 'yyyy-MM-dd') 
 															+ "~" + $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd') + "</p>"
