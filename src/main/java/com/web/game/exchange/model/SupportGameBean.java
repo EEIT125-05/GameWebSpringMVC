@@ -10,6 +10,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="GameSupport_Table")
 public class SupportGameBean {
@@ -30,8 +32,10 @@ public class SupportGameBean {
 	private Timestamp date;
 	private Integer status;
 	@OneToOne(mappedBy = "supportgamebean")
+	@JsonIgnore
 	private ChangeHistoryBean changehistorybean;
 	@OneToOne(mappedBy = "supportgamebean")
+	@JsonIgnore
 	private MyGameBean mygamebean;
 	
 	public MyGameBean getMygamebean() {

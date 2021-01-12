@@ -31,6 +31,7 @@
 }
 
 </style>
+<script src="<c:url value='/ckeditor/ckeditor.js'/>"></script>
 <script src="<c:url value='/js/ContestCreate.js'/>"></script>
 
 </head>
@@ -60,7 +61,7 @@
         </div>
         <div>
             <label>比賽項目: </label>
-            <form:select id="" path="sGame">
+            <form:select id="sGame" path="sGame">
             	<form:options items="${lGameList}"/>
             </form:select>
             <form:errors path="sGame"/>
@@ -140,7 +141,8 @@
             <label class="error"></label>
         </div>
         <div>
-            <input type="submit" id="submit"  name="sContestConfirm" value="${sContestConfirm}"/>
+            <input type="submit" id="submit" class="button" name="sContestConfirm" value="${sContestConfirm}"/>
+            <input type="button" id="oneKey" class="button" value="一鍵輸入"/>
         </div>
 		</form:form>
 		
@@ -148,9 +150,8 @@
 </div>
 <%@ include file="../Foot.jsp" %>
 
-<script src="<c:url value='/ckeditor/ckeditor.js'/>"></script>
 <script>
-	CKEDITOR.replace("sRule");
+// 	CKEDITOR.replace("sRule");
 
 	$(function(){
 		
@@ -179,11 +180,6 @@
             }
 
 		});
-		
-		
-		
-		
-		
 		
 	});
 	

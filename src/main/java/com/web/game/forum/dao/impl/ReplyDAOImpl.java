@@ -1,5 +1,7 @@
 package com.web.game.forum.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +27,54 @@ public class ReplyDAOImpl implements ReplyDAO{
 			return false;
 		}
 	}
+	
+	@Override
+	public Boolean updateReply(ReplyBean rReplyBean) {
+		Session session = factory.getCurrentSession();
+		try {
+			session.update(rReplyBean);
+			return true;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public Boolean deleteReply(ReplyBean rReplyBean) {
+		Session session = factory.getCurrentSession();
+		try {
+			session.delete(rReplyBean);
+			return true;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReplyBean> selectForumReply(Integer iForumNo) {
+		String hql = "from ReplyBean where iForumNo = :iForumNo";
+		Session session = factory.getCurrentSession();
+		List<ReplyBean> list = null;
+		try {
+			list = session.createQuery(hql).setParameter("iForumNo", iForumNo).getResultList();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	@Override
+	public ReplyBean selectOneReply(Integer iNo) {
+		Session session = factory.getCurrentSession();
+		return session.get(ReplyBean.class, iNo);
+	}
+	
+	
 
 }

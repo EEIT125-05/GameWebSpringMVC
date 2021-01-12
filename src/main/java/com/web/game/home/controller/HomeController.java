@@ -37,7 +37,7 @@ public class HomeController {
 			
 			Cookie cUser = new Cookie("user", SigninMB.getsAccount());
 			cUser.setPath("/GameWebSpringMVC");
-			cUser.setMaxAge(3000);
+			cUser.setMaxAge(86400 * 7);
 			response.addCookie(cUser);
 		}
 		return "GameIndex";

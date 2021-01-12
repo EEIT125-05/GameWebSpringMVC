@@ -199,4 +199,22 @@ $(function(){
             $("#submit").attr("disabled","true");
         }
     }
+
+	let ckeditor = CKEDITOR.replace("sRule");
+	$("#oneKey").on("click", function(){
+			$("#sName").val("魔物獵人狩獵大賽");
+			$("#sGame").val("魔物獵人");
+			
+			let today = new Date();
+			$("#sSignStart").val($.format.date(today, "yyyy-MM-dd"));
+			let nextWeek = today.setDate(today.getDate() + 7); 
+			$("#sSignEnd").val($.format.date(nextWeek, "yyyy-MM-dd"));
+			let time = today.setDate(today.getDate() + 7); 
+			$("#sTime").val($.format.date(time, "yyyy-MM-dd") + "T14:30");
+			$("#sLocation").val("中央大學(桃園市中壢區中大路300號)");
+			$("#iPeople").val(16);
+			$("#submit").removeAttr("disabled");
+			ckeditor.setData("<div>1.計時賽</div><div>2.等級限制hr300以上</div><div>3.計時賽分兩場</div><ul><li>自選武器</li><li>限定武器</li></ul><div>4.總計時較短者晉級</div><div>5.獎金:</div><ul><li>第一名:新台幣10000元整,獎牌一面,官方客製造型</li><li>第二名:新台幣8000元整,獎牌一面</li><li>第三名:新台幣5000元整,獎牌一面</li></ul>") ;
+			
+	});
 });

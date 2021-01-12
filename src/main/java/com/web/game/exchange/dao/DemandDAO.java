@@ -10,12 +10,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.web.game.exchange.model.DemandGameBean;
+import com.web.game.exchange.model.SupportGameBean;
 
 @Repository
 public class DemandDAO {
 
 	@Autowired
 	SessionFactory factory;
+	
+	@SuppressWarnings("unchecked")
+	public List<DemandGameBean> changeDemandPage(int page,String searchParam){
+		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
+		Session session =factory.getCurrentSession();
+		String queryAll = "FROM DemandGameBean WHERE status = 0"+searchParam;
+		
+		int counts = 6;
+		int start = 0;
+		if (page == 1) {
+			start = 0;
+		} else {
+			page = page - 1;
+			start = page * counts;
+		}
+		list = (List<DemandGameBean>) session.createQuery(queryAll).setFirstResult(start).setMaxResults(counts)
+				.getResultList();
+		
+		return list;
+	}
 	
 	public boolean insertDemandGame(DemandGameBean dgb) {
 		int count = 0;

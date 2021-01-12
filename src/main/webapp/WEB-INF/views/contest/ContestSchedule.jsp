@@ -11,6 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>賽事 - GameBar</title>
+
 <style>
 	.player{
 		border: 2px solid red;
@@ -26,7 +27,7 @@
 	}
 	
 	#tree{
- 	    overflow: auto; 
+  	    overflow: auto;  
 /* 	    border: 1px solid red; */
 		position: relative;
 	}
@@ -103,20 +104,65 @@
 
 	$(function(){
 		$("#delete").on("click", function(){
-			return confirmDelete($(this).val());
+			Swal.fire({
+				showClass: {
+				    popup: 'animate__animated animate__fadeInDown'
+				  },
+				  title: '確定刪除此筆紀錄?',
+				  text: "刪除之後將不能復原",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#d33',
+				  cancelButtonColor: '#3085d6',
+				  confirmButtonText: '刪除',
+			      cancelButtonText: '取消',
+					hideClass: {
+					    popup: 'animate__animated animate__fadeOutUp'
+					  }
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+							type: "delete",
+							url: "<c:url value='/contest/Edit/" + $(this).val() + "'/>",
+							dataType: "json",
+							data: {},
+							success: function(result){
+								if(result.status == "success"){
+									Swal.fire({
+											      title:"刪除成功!",
+												  icon:"success",
+												  hideClass: {
+												    popup: 'animate__animated animate__fadeOutUp'
+												  }
+											  }).then(function(){
+												window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Index'/>");},500);
+												
+											})
+								}else if(result.status == "sqlError"){
+									Swal.fire(
+											  '資料庫發生錯誤!',
+											  '請聯繫管理員',
+											  'error'
+											)
+								}
+							},
+							error: function(err){
+								Swal.fire(
+										  '網頁發生錯誤!',
+										  '請聯繫管理員',
+										  'error'
+										)
+							}
+							
+						});		
+				  }
+				})
+
 		});
 	});
 	
 
 
-	function confirmDelete(iNo){
-	  var result = confirm("確定刪除此筆記錄?");
-	  if (result) {
-		  document.forms[0].putOrDelete.value = "DELETE";
-	      return true;
-	  }
-	  return false;
-	}
 </script>
 
 </head>
@@ -135,7 +181,7 @@
       </li>
       <li class="breadcrumb-item active">賽事</li>
     </ol>
-<form action="<c:url value='/contest/Edit/${cContestBean.iNo}'/>" method="POST" >
+<%-- <form action="<c:url value='/contest/Edit/${cContestBean.iNo}'/>" method="POST" > --%>
 <input type="hidden" name="_method"  id='putOrDelete'   value="" >
  <input type="hidden" id="contestNo" value="${cContestBean.iNo}"> <!--截圖的ajax要用的 -->
  
@@ -149,14 +195,13 @@
 					<span style="color:gray">更改</span>
 				</c:when>
 				<c:otherwise>
-					<a href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>
+					<a class="btn btn-primary" href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>
 				</c:otherwise>
 			</c:choose>
 			<span style="font-size:70%;color:red">(註:至比賽當日即無法更改比賽)</span>
-			<button type="submit" id="delete" value="${cContestBean.iNo}">刪除</button>
-<%-- 			<a href="<c:url value='/contest/Delete/${cContestBean.iNo}'/>">刪除</a> --%>
+			<button class="btn btn-primary" type="submit" id="delete" value="${cContestBean.iNo}">刪除</button>
 		</p>
-</form>
+<%-- </form> --%>
 	<p>比賽遊戲: ${cContestBean.sGame}</p>
 	<p>主辦者: ${cContestBean.sHost}</p>
 	<p>報名日期: ${cContestBean.dSignStart} ~ ${cContestBean.dSignEnd}</p>
@@ -212,8 +257,16 @@
 			</c:choose>
 		</div>
 		<hr>
+	<c:choose>
+		<c:when test="${dTime <= today}">
+			<span style="color:gray">新增/更新賽程</span>
+		</c:when>
+		<c:otherwise>
+			<button class="btn btn-primary" id="showOption">新增/更新賽程</button>
+		</c:otherwise>
+	</c:choose>
+	<span id="spanHidden" style="font-size:70%;color:red">(註:至比賽當日即無法更改賽程)</span>
 	
-	<button id="showOption">新增/更新賽程</button>
 	
 	<div id="option" style="display:none">
 		<p>本場比賽共有${fn:length(cContestBean.lParticipateBeans)}人參賽</p>
@@ -251,13 +304,13 @@
 					class="competition" name="competition" value="yes" >循環賽
 				</label><br>
 			</div>
-			<input type="button" id="build" value="產生">
+			<input class="btn btn-primary" type="button" id="build" value="產生">
 		</form>
 		<hr>
 	</div>
 
 	<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
-		<span class="playerNone" style="display:none">${participate.sPlayer} </span>
+		<input class="playerNone" type="hidden" value="${participate.sPlayer}">
 	</c:forEach>
 
 	<div id="showSchedule" style="display:none">
@@ -273,8 +326,8 @@
 		<p>參賽人員:</p>
 		<label id="playerCount"></label>
 		<br>
-		<button id="auto">自動安排</button>
-	    <button id="createImage">儲存賽程</button>
+		<button class="btn btn-primary" id="auto">自動安排</button>
+	    <button class="btn btn-primary" id="createImage">儲存賽程</button>
 	
 	</div>
 
@@ -300,41 +353,9 @@
 			$("#showOption").on("click",function(){
 				$("#option").css("display", "block");
 				$(this).css("display", "none");
+				$("#spanHidden").css("display", "none");
 			});
 			
-			
-			$("#createImage").on("click", function(){
-				window.pageYOffset = 0;
-		        document.documentElement.scrollTop = 0
-		        document.body.scrollTop = 0
-		        document.getElementById('screenshot').parentNode.style.overflow = 'visible';
-		        html2canvas(document.getElementById("screenshot"), { useCORS: true, scale:2 }).then(function (canvas) {
-// 		            document.body.appendChild(canvas);
-					document.getElementById('screenshot').parentNode.style.overflow = 'hidden'; 
-		            var image64 = canvas.toDataURL("image/jpeg", 1.0);
-// 		            console.log("type: " + typeof(image64));
-// 		            console.log("image64: " + image64);
-		            
-		            $.ajax({
-						type:"post",
-						url:"<c:url value='/contest/ScheduleImage'/>",
-						dataType:"json",
-						data:{
-							"image64": image64,
-							"contestNo": $("#contestNo").val(),
-						},
-						success: function(result){
-							alert(result[0]);
-							location.reload();
-						},
-						error: function(err){
-							alert("發生錯誤!");	
-						}
-					});
-		        });
-			});
-			
-	
 			
 			$("#group").on("focus",function(){    
 				if($("#group:checked").length == 0){	
@@ -422,7 +443,7 @@
 				$("#tree").empty();
 				$("#drow").empty();
 				$(".playerNone").each(function(){
-					$("#playerCount").append("<label class=\"player\">" + $(this).text());
+					$("#playerCount").append("<label class=\"player\">" + $(this).val());
 				});			
 				
 				if($("#group:checked").length > 0) {
@@ -564,7 +585,7 @@
 				let a = Number(iPlayer);
 		        
 		        if($("#knockout:checked").length > 0){//複賽淘汰賽
-			        $("#tree").width((a*96+(2*a-1)*10+20) + "px");
+			        $("#tree").width((a*96+(2*a)*10+20) + "px").height("400px");
 	// 		        $("#tree").width("1000vw");
 	// 		        console.log("寬度: " + (a*100+(2*a-1)*10));
 			        let pow = a.toString(2).length;
@@ -619,14 +640,18 @@
 			            $("#編號" + eqNumber).parent().parent().remove();
 			        }
 					
+			        //統一設定高度?
+			        
 			        //統一給.buttom加上.drop
 			        if($("#Ypreliminaries:checked").length == 0){
-				        $(".buttom").find("label").attr("class", "drop").css("border-color","green");
+				        $(".buttom").find("label").attr("class", "drop")
+				        							.css("border-color","green")
+				        							.css("height", (40*$(".playerNone").length/$(".drop").length) + "px");
 			        }
 			        
 		        }else{//複賽循環賽
 		        	
-		        	$("#tree").width("400px");
+		        	$("#tree").width("500px");
 		        	if($("#Ypreliminaries:checked").length == 0){
 			        	$("#drow").width("400px");
 		        	}
@@ -635,7 +660,7 @@
 		        	let canvas = document.createElement("canvas");
 		            document.getElementById("tree").appendChild(canvas);
 		            canvas.height = 400;
-		            canvas.width = 400;
+		            canvas.width = 500;
 		            canvas.style = "display:inline;";
 		            let ctx = canvas.getContext('2d');
 		            drowLine(ctx);
@@ -662,7 +687,7 @@
 		        
 //--------------產生賽程表-----------------------------------------------------				
 		        
-		        //調整screenshot的寬度
+		        //調整screenshot的寬高
 		        console.log("$(\"#tree\").width(): " + $("#tree").width());
 		        console.log("$(\"#drow\").width(): " + $("#drow").width());
 		        if($("#tree").width() > $("#drow").width()){
@@ -688,8 +713,9 @@
 				    accept:"*",
 				    drop: function(ev,ui) {
 // 						console.log("drop" + $(this).text() + ui.draggable.text());
-						$(this).append("<label class=\"player\" style=\"margin:0;border-color:red\">" + ui.draggable.text() + "</label>");
+						$(this).append("<label class=\"player\" style=\"margin:0;padding:0;border-color:red\">" + ui.draggable.text() + "</label>");
 						ui.draggable.css("visibility","hidden").removeClass("player");
+// 						$(".text3").find("label").text(ui.draggable.text()+"\n"+ui.draggable.text());
 						
 					//	let 綠框內的個數 = $(".playerNone").length)/$(".drop").length;
 						console.log("分組: " + ($(".playerNone").length/$(".drop").length))
@@ -703,14 +729,105 @@
 				}); 
 			}
 			
-			$("#auto").on("click",function(){
-				for(let i=0; i<$(".player").length; i++){
-					console.log("i: " + i);
-					$(".drop")[i].append("<label class=\"player\" style=\"margin:0;border-color:red\">" + $(".player")[i].text() + "</label>");
-				}
-// 				$(".drop").append("<label class=\"player\" style=\"margin:0;border-color:red\">" + "test" + "</label>");
+			$("#createImage").on("click", function(){
+				window.pageYOffset = 0;
+		        document.documentElement.scrollTop = 0
+		        document.body.scrollTop = 0
+		        document.getElementById('screenshot').parentNode.style.overflow = 'visible';
+		        html2canvas(document.getElementById("screenshot"), { useCORS: true, scale:2 }).then(function (canvas) {
+// 		            document.body.appendChild(canvas);
+					document.getElementById('screenshot').parentNode.style.overflow = 'hidden'; 
+		            var image64 = canvas.toDataURL("image/jpeg", 1.0);
+// 		            console.log("type: " + typeof(image64));
+// 		            console.log("image64: " + image64);
+				
+					let groupPlayer = [];
+					let mCount; //邊數->每組人數
+					let groupFirst = 0; //每組的第一個人的編號
+					let iPlayer = $(".playerNone").length;
+					let schedule;
+					if($("#Ypreliminaries:checked").length > 0){
+						schedule = "knockout";
+						let gCount = Math.ceil(iPlayer/$("#preliminariesCount1").val()); //組數
+						console.log(gCount + "組")
+				        for(let i=0; i<gCount; i++){
+				        	if(i == gCount-1){
+					        	mCount = iPlayer - $("#preliminariesCount1").val() * i;
+	// 							console.log(mCount + "人")
+				        	}else{
+					        	mCount = $("#preliminariesCount1").val();
+	// 							console.log(mCount + "人")
+				        	}
+				        	let players = [];
+				        	for(let j=groupFirst; j<groupFirst+Number(mCount); j++){
+	// 			        		console.log("groupFirst: " + groupFirst);
+	// 			        		console.log("j: " + j);
+// 								console.log("-" + $(".drop").eq(j).find("label").text() + "-");
+				        		players.push($(".drop").eq(j).find("label").text());
+				        	}
+	// 			        	console.log("players: " + players);
+				        	groupPlayer.push(players);
+				        	groupFirst = groupFirst+Number(mCount);
+				        }
+	// 		        	console.log("groupPlayer: " + groupPlayer);
+					}else{
+						schedule = "ground";
+						for(let i=0; i<iPlayer; i++){
+// 							console.log("-" + $(".drop").find("label").eq(i).text() + "-");
+							groupPlayer.push($(".drop").find("label").eq(i).text());
+						}
+					}
+				
+		            $.ajax({
+						type:"post",
+						url:"<c:url value='/contest/ScheduleImage'/>",
+						dataType:"json",
+						data:{
+							"image64": image64,
+							"contestNo": $("#contestNo").val(),
+							"schedule": schedule,
+							"groupPlayer": JSON.stringify(groupPlayer)
+						},
+						success: function(result){
+							alert(result[0]);
+							location.reload();
+						},
+						error: function(err){
+							alert("發生錯誤!");	
+						}
+					});
+		        });
 			});
 			
+			
+			$("#auto").on("click",function(){
+				let playerList = [];
+				$.each($(".playerNone"), function(key, value){
+					console.log(value.value);
+					playerList.push(value.value);
+				});
+				$.ajax({
+					type:"post",
+					url:"<c:url value='/contest/Random'/>",
+					dataType:"json",
+					data:{
+						"playerList": playerList
+					},
+					success: function(result){
+		 				$(".player").remove();
+		 				let labelCount = ($(".playerNone").length/$(".drop").length);
+		 				for(let i=0; i<$(".drop").length; i++){
+		 					for(let j=i*labelCount; j<i*labelCount+labelCount ; j++){
+		 						$(".drop").eq(i).append("<label class=\"player\" style=\"margin:0;padding:0;border-color:red\">" + result[j] + "</label>");
+		 					}
+		 				}
+ 						$(".drop").css("border-color","transparent").droppable("destroy");
+					},
+					error: function(err){
+						alert("發生錯誤!");	
+					}
+				});
+			});
 
 		});
 	</script>

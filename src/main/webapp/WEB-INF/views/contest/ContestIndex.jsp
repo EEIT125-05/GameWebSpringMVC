@@ -31,9 +31,9 @@
       <li class="breadcrumb-item active">賽事</li>
     </ol>
 
-		<label>依名稱搜尋: </label>
+<!-- 		<label>依名稱搜尋: </label> -->
 		<div class="input-group">
-			<input type="text" id="sSearch" class="form-control" name="sSearch">
+			<input type="text" id="sSearch" class="form-control" name="sSearch" placeholder="依名稱、地點搜尋">
 			<span class="input-group-append">
 				<input type="button" id="submit" class="btn btn-secondary"
 					 name="select" value="查詢">
@@ -86,6 +86,7 @@
 						<fmt:formatDate var="sTime" value="${cContest.tTime}"
 							pattern="yyyy-MM-dd HH:mm" />
 						<p>比賽時間: ${sTime}</p>
+						<p>比賽地點: ${cContest.sLocation}</p>
 						<p>參加人數:
 							${fn:length(cContest.lParticipateBeans)}/${cContest.iPeople}</p>
 						<a class="btn btn-primary"
@@ -143,6 +144,7 @@ $(function(){
 													+"<p>報名日期: " + $.format.date(new Date(value.dSignStart), 'yyyy-MM-dd') 
 																+ "~" + $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd') + "</p>"
 													+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
+													+"<p>比賽地點: " + value.sLocation + "</p>"
 													+"<p>參加人數: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
 													+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
 													+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"
@@ -213,6 +215,7 @@ $(function(){
 												+"<p>報名日期: " + $.format.date(new Date(value.dSignStart), 'yyyy-MM-dd') 
 															+ "~" + $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd') + "</p>"
 												+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
+												+"<p>比賽地點: " + value.sLocation + "</p>"
 												+"<p>參加人數: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
 												+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
 												+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"

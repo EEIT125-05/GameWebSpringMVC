@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -189,8 +190,14 @@ public class MemberControllerNoVerified {
 //	}
 
 	@PostMapping("/SignIn")
-	public String SigninMember(Model model, @RequestParam String sAccount, @RequestParam String sPassword,
-			boolean status, HttpServletRequest request, HttpServletResponse response, SessionStatus Status) {
+	public String SigninMember(Model model, 
+			@RequestParam String sAccount, 
+			@RequestParam String sPassword,
+			@RequestParam(defaultValue = "") String rememberMe,
+			boolean status, 
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			SessionStatus Status) {
 		if (mService.SigninMember(sAccount, sPassword)) {
 			MemberBean SigninMB = mService.Selectmember(sAccount);
 			status = SigninMB.getStatus();
@@ -198,14 +205,16 @@ public class MemberControllerNoVerified {
 				model.addAttribute("user", SigninMB);
 
 //--------新增cookie----------------------------------------------------
+			if(!rememberMe.equals("")) {
 				Cookie cUser = new Cookie("user", SigninMB.getsAccount());
 				cUser.setPath("/GameWebSpringMVC");
-				cUser.setMaxAge(3000);
+				cUser.setMaxAge(86400 * 7);
 				response.addCookie(cUser);
+			}
 //--------新增cookie----------------------------------------------------
 				String nextPage = (String) request.getSession(true).getAttribute("requestURI");
 //				System.out.println("要前往的位置2: " + nextPage);
-				if (nextPage == null) {
+				if(nextPage == null || nextPage.split("/")[1].equals("member")) {
 					nextPage = "/";
 				} else {
 					nextPage = "/" + nextPage.split("/")[1] + "/Index";
@@ -228,6 +237,28 @@ public class MemberControllerNoVerified {
 			return "member/MemberSignin";
 		}
 	}
+	
+//------登出---------------------------------------------------------------------------
+
+	@GetMapping("/Logout")
+	public String logout(
+			SessionStatus Status,
+			HttpSession session,
+			HttpServletResponse response) {
+		//從session中拿掉uri
+//			request.getSession(true).removeAttribute("requestURI");
+		Status.setComplete();
+		session.invalidate();
+		// cookie砍掉
+		Cookie cUser = new Cookie("user", "");
+		cUser.setPath("/GameWebSpringMVC");
+		cUser.setMaxAge(0);
+		response.addCookie(cUser);
+		System.out.println("砍掉cookie");
+		return "redirect:/";
+	}
+
+//---------------------------------------------------------------------------------
 
 //	@SuppressWarnings("unused")
 //	private void processCookies(MemberSigninBean bean, HttpServletRequest request, HttpServletResponse response) {
@@ -305,7 +336,7 @@ public class MemberControllerNoVerified {
 				String nextPage = (String) request.getSession(true).getAttribute("requestURI");
 //				System.out.println("要前往的位置2: " + nextPage);
 				System.out.println("nextPage="+nextPage);
-				if (nextPage == null) {
+				if (nextPage == null || nextPage.split("/")[1].equals("member")) {
 					nextPage = "/";
 					System.out.println("nextpage=null");
 				} else {

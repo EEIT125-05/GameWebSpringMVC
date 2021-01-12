@@ -72,18 +72,70 @@
 	<hr>
 <h3>貼文資料確認</h3>
 
-<form action="<c:url value='/forum/Confrim'/>" method="post">
+<%-- <form action="<c:url value='/forum/Confrim'/>" method="post"> --%>
 
 	<p>分類: ${fForumBean.sCategory} 標題: ${fForumBean.sTitle}</p>
 
 	<p>內文: </p>
 	<div>${fForumBean.sText}</div>
 	<hr>
-	<input class="btn btn-primary" type="submit" name="confirm" value="確認${sForumConfirm}"/>
+	<input class="btn btn-primary" type="submit" id="confirm" name="confirm" value="確認${sForumConfirm}"/>
 
-</form>
+<!-- </form> -->
 
-</div>>
+</div>
 <%@ include file="../Foot.jsp" %>
+<script>
+	$("#confirm").on("click",function(){
+		$.ajax({
+			type: "post",
+			url: "<c:url value='/forum/Confirm'/>",
+			dataType: "json",
+			data:{},
+			success: function(result){
+				if(result.status == "success"){
+					Swal.fire({
+							  title: result.successMessage + "!",
+							  icon: "success",
+							  showClass: {
+								    popup: 'animate__animated animate__fadeInDown'
+								  },
+							  hideClass: {
+								    popup: 'animate__animated animate__fadeOutUp'
+								  }
+					}).then(function(){
+								window.setTimeout(function(){$(location).attr("href", "<c:url value='/forum/Index'/>");},500);
+							})
+				}else if(result.status == "sqlError"){
+					Swal.fire({
+							  title: '資料庫發生錯誤!',
+							  text: '請聯繫管理員',
+							  icon: 'error',
+							  showClass: {
+								    popup: 'animate__animated animate__fadeInDown'
+								  },
+							  hideClass: {
+								    popup: 'animate__animated animate__fadeOutUp'
+								  }
+					})
+				}
+						
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown){
+				Swal.fire({
+					  title: '網頁發生錯誤!',
+					  text: '請聯繫管理員',
+					  icon: 'error',
+					  showClass: {
+						    popup: 'animate__animated animate__fadeInDown'
+						  },
+					  hideClass: {
+						    popup: 'animate__animated animate__fadeOutUp'
+						  }
+			})
+			}
+		});
+	});
+</script>
 </body>
 </html>

@@ -290,24 +290,5 @@ public class MemberControllerVerified {
 		return "member/MemberGetAll";
 	}
 
-//------登出---------------------------------------------------------------------------
-
-	@GetMapping("/Logout")
-	public String logout(SessionStatus Status, HttpSession session, HttpServletRequest request,
-			HttpServletResponse response) {
-		// 從session中拿掉uri
-		request.getSession(true).removeAttribute("requestURI");
-		Status.setComplete();
-		session.invalidate();
-		// cookie砍掉
-		Cookie cUser = new Cookie("user", "");
-		cUser.setPath("/GameWebSpringMVC");
-		cUser.setMaxAge(0);
-		response.addCookie(cUser);
-		System.out.println("砍掉cookie");
-		return "redirect:/";
-	}
-
-//---------------------------------------------------------------------------------
 
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -39,7 +40,7 @@ public class ChangeGameController {
 	@Autowired
 	MemberService memberService;
 	
-//	@GetMapping("/applyFor")//applicationForm form:form無法接物件屬性
+//	@GetMapping("/applyFor")//applicationForm form:form無法接物件屬性 暫時沒用到
 //	public String applyForChange(
 //			@RequestParam String gamer,
 //			@RequestParam Integer no,
@@ -60,9 +61,8 @@ public class ChangeGameController {
 //		return "exchange/EXCApplicationForm";
 //	}
 	
-	@PostMapping("/applyFor")
-	public String createTransaction(
-			RedirectAttributes attr,
+	@PostMapping("/applyForAjax")
+	public @ResponseBody boolean createTransaction(
 			Model model,
 			@RequestParam String partyA,
 			@RequestParam Integer supportGameNo,
@@ -99,19 +99,10 @@ public class ChangeGameController {
 		CHB.setStatus(0);
 		CHB.setDate(time);
 		
-		String sAction = "申請交換";
-		String sPath = null;
-			if(exchangeService.insertChangeHistory(CHB)) {	
-				sPath = "EXCThanks";
-			} else {
-				sPath = "EXCFail";
-			}
-			System.out.println("testStatus");
-		attr.addAttribute("action", sAction);
-		attr.addAttribute("path",sPath);
-		return "redirect:/exchange/Result";
-		
-		
+		if(exchangeService.insertChangeHistory(CHB)) {
+			return true;
+		}
+		return false;
 	}
 	
 	@GetMapping("/showApplyFor")
@@ -125,68 +116,54 @@ public class ChangeGameController {
 		return "exchange/EXCShowApplyFor";
 	}
 	
-	@GetMapping("/ApplyForSubmit")
-	public String updateApplyForSubmit(
-							  RedirectAttributes attr,
-							  Model model,
-			          		  @RequestParam Integer no
-			) {
-		System.out.println("submitIn");
-		System.out.println(no);
-		ChangeHistoryBean chChangeHistory = new ChangeHistoryBean();
-		chChangeHistory = exchangeService.getHistory(no);
-		System.out.println(chChangeHistory);
-		
-		String sAction = "交換";
-		String sPath = null;
-			if(exchangeService.updateChangeHistorySubmit(chChangeHistory)) {	
-				sPath = "EXCThanks";
-			} else {
-				sPath = "EXCFail";
-			}
-		attr.addAttribute("action", sAction);
-		attr.addAttribute("path",sPath);
-		System.out.println("submitOut");
-		return "redirect:/exchange/Result";
-		
-	}
-	
 	@GetMapping("/ApplyForReject")
-	public String updateApplyForReject(
-			RedirectAttributes attr,
+	public @ResponseBody boolean updateApplyForReject(
 			Model model,
 			@RequestParam Integer no
 			) {
+		boolean result = false;
 		System.out.println("RejectIn");
 		System.out.println(no);
 		ChangeHistoryBean chChangeHistory = new ChangeHistoryBean();
 		chChangeHistory = exchangeService.getHistory(no);
-		System.out.println(chChangeHistory);
+		if(exchangeService.updateChangeHistoryReject(chChangeHistory)) {	
+			result = true;
+		} 
 		
-		String sAction = "交換駁回";
-		String sPath = null;
-			if(exchangeService.updateChangeHistoryReject(chChangeHistory)) {	
-				sPath = "EXCThanks";
-			} else {
-				sPath = "EXCFail";
-			}
-		attr.addAttribute("action", sAction);
-		attr.addAttribute("path",sPath);
+		System.out.println("result"+result);
 		System.out.println("RejectOut");
-		return "redirect:/exchange/Result";
+		return result;
 	}
+	
+	@GetMapping("/ApplyForSubmit")
+	public boolean updateApplyForSubmit(
+			Model model,
+			          		  @RequestParam Integer no
+			) {
+		boolean result = false;
+		System.out.println("submitIn");
+		System.out.println(no);
+		ChangeHistoryBean chChangeHistory = new ChangeHistoryBean();
+		chChangeHistory = exchangeService.getHistory(no);
+		if(exchangeService.updateChangeHistorySubmit(chChangeHistory)) {	
+			result = true;
+		} 
+		
+		System.out.println(chChangeHistory);
+		System.out.println("submitOut");
+		return result;
+		
+	}
+	
 	
 	@GetMapping("/memberHistoryList")
 	public String getMemberHistoryList(Model model) {
 		System.out.println("memberHistoryIn");
 		List<ChangeHistoryBean> list = new ArrayList<ChangeHistoryBean>();
-		System.out.println("1");
 		MemberBean user = (MemberBean) model.getAttribute("user");
-		System.out.println("1");
 		Integer iUserid = user.getiNo();
-		System.out.println("1");
 		list = exchangeService.getHistoryList(iUserid);
-		System.out.println("controllerGET"+list);
+		System.out.println("HistotyList"+list.size());
 		model.addAttribute("HistotyList",list);
 		
 		System.out.println("memberHistoryIn");

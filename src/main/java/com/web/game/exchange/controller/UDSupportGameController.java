@@ -4,10 +4,15 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,50 +38,47 @@ public class UDSupportGameController {
 
 	@GetMapping("/management")
 	public String ManageSupportGame(Model model) {
-		
-//		List<SupportGameBean> pending= (List<SupportGameBean>) model.addAttribute("MemberSupport");
-//		System.out.println("pending"+pending);
 		return "exchange/EXCShowItem";
 	}
 
-	@GetMapping("/deleteSupport")
-	public String DeleteSupportGame(Model model, RedirectAttributes attr, @RequestParam Integer deleteindex) {
+//	@GetMapping("/deleteSupport")
+//	public String DeleteSupportGame(Model model, RedirectAttributes attr, @RequestParam Integer deleteindex) {
+//
+//		// ------重定向
+//		String sAction = "刪除";
+//		String sPath = null;
+//		if(service.FindsupportGame(deleteindex).getMygamebean()!=null) {
+//			MyGameBean mygamebean = service.FindsupportGame(deleteindex).getMygamebean();
+//			mygamebean.setSupportgamebean(null);
+//			System.out.println("test"+mygamebean.getSupportgamebean());
+//			service.updateGameToSupport(mygamebean);
+//			
+//		}
+//		if (service.DeleteSupportGame(deleteindex)) {
+//			sPath = "EXCThanks";
+//		} else {
+//			sPath = "EXCFail";
+//		}
+//		attr.addAttribute("action", sAction);
+//		attr.addAttribute("path", sPath);
+//		return "redirect:/exchange/Result";
+//	}
 
-		// ------重定向
-		String sAction = "刪除";
-		String sPath = null;
-		if(service.FindsupportGame(deleteindex).getMygamebean()!=null) {
-			MyGameBean mygamebean = service.FindsupportGame(deleteindex).getMygamebean();
-			mygamebean.setSupportgamebean(null);
-			System.out.println("test"+mygamebean.getSupportgamebean());
-			service.updateGameToSupport(mygamebean);
-			
-		}
-		if (service.DeleteSupportGame(deleteindex)) {
-			sPath = "EXCThanks";
-		} else {
-			sPath = "EXCFail";
-		}
-		attr.addAttribute("action", sAction);
-		attr.addAttribute("path", sPath);
-		return "redirect:/exchange/Result";
-	}
-
-	@GetMapping("/deleteDemand")
-	public String DeleteDemandGame(Model model, RedirectAttributes attr, @RequestParam Integer deleteindex) {
-		
-		// ------重定向
-		String sAction = "刪除";
-		String sPath = null;
-		if (service.DeleteDemandGame(deleteindex)) {
-			sPath = "EXCThanks";
-		} else {
-			sPath = "EXCFail";
-		}
-		attr.addAttribute("action", sAction);
-		attr.addAttribute("path", sPath);
-		return "redirect:/exchange/Result";
-	}
+//	@GetMapping("/deleteDemand")
+//	public String DeleteDemandGame(Model model, RedirectAttributes attr, @RequestParam Integer deleteindex) {
+//		
+//		// ------重定向
+//		String sAction = "刪除";
+//		String sPath = null;
+//		if (service.DeleteDemandGame(deleteindex)) {
+//			sPath = "EXCThanks";
+//		} else {
+//			sPath = "EXCFail";
+//		}
+//		attr.addAttribute("action", sAction);
+//		attr.addAttribute("path", sPath);
+//		return "redirect:/exchange/Result";
+//	}
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/update")
@@ -84,32 +86,33 @@ public class UDSupportGameController {
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
 		list = (List<SupportGameBean>) model.getAttribute("MemberSupport");
 		SupportGameBean gamebean = list.get(updateindex);
+		System.out.println("init"+model.getAttribute("initOption"));
 		model.addAttribute("update", "修改");
 		model.addAttribute("gamebean", gamebean);
 		return "exchange/EXCGameSupportForm";
 	}
 
-	@PostMapping("/update")
-	public String ConfirmUpdateSupportGame(Model model, RedirectAttributes attr,
-			@ModelAttribute(value = "gamebean") SupportGameBean gamebean) {
-		System.out.println(gamebean.getStatus());
-		System.out.println(gamebean.getConsole());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String sTimeString = sdf.format(new Date());
-		Timestamp tTime = Timestamp.valueOf(sTimeString);
-		gamebean.setDate(tTime);
-		// ------重定向
-		String sAction = "更新";
-		String sPath = null;
-		if (service.UpdateSupportGame(gamebean)) {
-			sPath = "EXCThanks";
-		} else {
-			sPath = "EXCFail";
-		}
-		attr.addAttribute("action", sAction);
-		attr.addAttribute("path", sPath);
-		return "redirect:/exchange/Result";
-	}
+//	@PostMapping("/update")
+//	public String ConfirmUpdateSupportGame(Model model, RedirectAttributes attr,
+//			@ModelAttribute(value = "gamebean") SupportGameBean gamebean) {
+//		System.out.println(gamebean.getStatus());
+//		System.out.println(gamebean.getConsole());
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		String sTimeString = sdf.format(new Date());
+//		Timestamp tTime = Timestamp.valueOf(sTimeString);
+//		gamebean.setDate(tTime);
+//		// ------重定向
+//		String sAction = "更新";
+//		String sPath = null;
+//		if (service.UpdateSupportGame(gamebean)) {
+//			sPath = "EXCThanks";
+//		} else {
+//			sPath = "EXCFail";
+//		}
+//		attr.addAttribute("action", sAction);
+//		attr.addAttribute("path", sPath);
+//		return "redirect:/exchange/Result";
+//	}
 
 	@ModelAttribute("MemberSupport")
 	public List<SupportGameBean> PackSupportGame(Model model) {
@@ -146,6 +149,25 @@ public class UDSupportGameController {
 		list = service.getMemberGames(sMemberaccount);
 		System.out.println("controllerlist"+list.size());
 		return list;
+	}
+	
+	@ModelAttribute("MemberPending")
+	public List<SupportGameBean> packPendingGame(Model model) {
+
+		MemberBean member = (MemberBean) model.getAttribute("user");
+		String sMemberaccount = member.getsAccount();//整合後打開
+//		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
+		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
+		System.out.println("MemberSupportIn");
+		list = service.getMemberPending(sMemberaccount);
+		System.out.println("MemberSupportOut");
+		return list;
+	}
+	
+	@ModelAttribute("initOption")
+	public Map<String, Object> initOptionList(HttpServletRequest req,Model model){
+		Map<String, Object> initOptionMap = new HashMap<String, Object>();
+		return service.initOption();
 	}
 	
 }
