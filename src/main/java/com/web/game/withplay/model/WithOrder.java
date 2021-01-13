@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 
 import com.web.game.member.model.MemberBean;
 
+
 @Entity
 public class WithOrder {
 
@@ -27,13 +28,28 @@ public class WithOrder {
 	private String sGame;
 	
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name="MemberBean")
-	private MemberBean MemberBean;
+	private MemberBean Member;
+	
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name="WithPlay")
-	private WithPlay WithPlay;
+	@JoinColumn(name="Play")
+	private WithPlay With;
 	
 	
+	public WithOrder() {
+		super();
+	}
+	public WithOrder(Integer iNo, Date dDate, Time tTime, Integer iStatus, Integer iPrice,String sGame,
+			MemberBean MemberBean,WithPlay withPlay) {
+		super();
+		this.iNo = iNo;
+		this.dDate = dDate;
+		this.tTime = tTime;
+		this.iStatus = iStatus;
+		this.iPrice = iPrice;
+		this.sGame = sGame;
+		this.Member = MemberBean;
+		With = withPlay;
+	}
 	public Integer getiNo() {
 		return iNo;
 	}
@@ -65,24 +81,26 @@ public class WithOrder {
 	public void setsGame(String sGame) {
 		this.sGame = sGame;
 	}
-	public MemberBean getMemberBean() {
-		return MemberBean;
-	}
-	public void setMemberBean(MemberBean memberBean) {
-		MemberBean = memberBean;
-	}
-	public WithPlay getWithPlay() {
-		return WithPlay;
-	}
-	public void setWithPlay(WithPlay withPlay) {
-		WithPlay = withPlay;
-	}
+	
 	public Integer getiStatus() {
 		return iStatus;
 	}
 	public void setiStatus(Integer iStatus) {
 		this.iStatus = iStatus;
 	}
+	public MemberBean getMember() {
+		return Member;
+	}
+	public void setMember(MemberBean member) {
+		Member = member;
+	}
+	public WithPlay getWith() {
+		return With;
+	}
+	public void setWith(WithPlay with) {
+		With = with;
+	}
+	
 
 		
 }

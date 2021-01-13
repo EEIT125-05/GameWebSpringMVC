@@ -1,5 +1,8 @@
 package com.web.game.withplay.service.impl;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +24,16 @@ public class WithOrderServiceImpl implements WithOrderService {
 	@Override
 	public boolean insertWithOrder(WithOrder Order) {		
 		Integer status = 1;//更新訂單狀態
-		Order.setiStatus(status);; 
+		SimpleDateFormat dateSdf = new SimpleDateFormat( "yyyy-MM-dd");
+    	SimpleDateFormat timeSdf = new SimpleDateFormat( "HH:mm:ss");
+    	String sDateString = dateSdf.format(new java.util.Date());
+    	String sTimeString = timeSdf.format(new java.util.Date());
+    	Date dDate = Date.valueOf(sDateString);
+    	Time tTime = Time.valueOf(sTimeString);
+		Order.setiStatus(status);
+		Order.setdDate(dDate);
+		Order.settTime(tTime);
+
 		return oDAO.insertWithOrder(Order);
 	}
 

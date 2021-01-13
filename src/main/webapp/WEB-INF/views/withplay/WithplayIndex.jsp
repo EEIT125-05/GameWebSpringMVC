@@ -108,7 +108,6 @@ response.setContentType("text/html;charset=UTF-8");
 														<jsp:useBean id="nowDate" class="java.util.Date" />
 														<fmt:formatDate var="dateString" value="${nowDate}"
 															pattern="yyyy-MM-dd" />
-														<%-- 										<fmt:formatDate var="timeString" value="${nowDate}" pattern="HH:mm:ss"/> 先留著 要做XX分內可以拿來用 --%>
 														<fmt:parseDate var="Date" value="${dateString}"
 															pattern="yyyy-MM-dd" />
 														<fmt:parseDate var="replyDate" value="${reply.dDate}"

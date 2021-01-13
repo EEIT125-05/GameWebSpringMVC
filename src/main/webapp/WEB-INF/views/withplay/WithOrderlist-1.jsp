@@ -45,16 +45,15 @@
 				<th>功能</th>
 			</tr>
 			</thead>
-			<c:forEach items="${With}" var="With" varStatus="status">
+			<c:forEach items="${WithOrder}" var="Order" varStatus="status">
 				<tr>
-					<td>${With.sAccount}</td>
-					<td >${With.sName}</td>
-					<td>${With.sNickname}</td>
-					<td>${With.sIdcode}</td>
-					<td>${With.sGender == 'F' ? "女" : "男" }</td>
-					<td>${With.sGame}</td>
-					<td><img width='200' height='200'
-						src='${pageContext.request.contextPath}/withplay/picture/${With.iId}' /></td>
+					<td>${status.count}</td>
+					<td>${Order.iNo}</td>
+					<td ></td>
+					<td>${Order.tTime} ${Order.dDate}</td>
+					<td>${Order.iPrice}</td>
+					<td>${Order.sGame}</td>
+<%-- 					<td>${Order.Play.sA}</td> --%>
 					<td style="word-break: break-all; width:400px" >${With.sComment}</td>
 					<td>${With.iPrice}</td>
 					<td><a

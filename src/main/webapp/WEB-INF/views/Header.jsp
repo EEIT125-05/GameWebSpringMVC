@@ -76,6 +76,7 @@
 <%--                <c:otherwise>               --%>
               <a class="dropdown-item" href="<c:url value='/withplay/update'/>">修改資料</a>
 <%--               </c:otherwise>               --%>
+              <a class="dropdown-item" href="<c:url value='/withplay/Withorderlist'/>">我的訂單</a>
               <a class="dropdown-item" href="<c:url value='/withplay/With'/>">管理</a>
               </c:otherwise>
               </c:choose>

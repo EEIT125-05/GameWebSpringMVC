@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <%@ include file="../Link.jsp"%>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -78,24 +80,34 @@ input[type=number]::-webkit-inner-spin-button {
 						<hr>
 						<div style="margin-top:20px; margin-bbottom:20px;height:40px;font-size:150%;">
 						<span>實付</span>
-						<span style="float:right;" id="t3">${With.iPrice}元</span>
+						<span style="float:right;" id="iPrice" >${With.iPrice}元</span>
 						</div>
 						</div>
 					</div>
+					<form action="<c:url value='/withplay/Orderlist'/>" method="post">
+				<input type="hidden" id="total" value="${With.iPrice}" name="total"/>
+				<input type="hidden"  value="${user.iNo}" name="usAccount"/>
+				<input type="hidden"  value="${With.iId}" name="wsAccount"/>
+				<input type="hidden"  value="${With.sGame}" name="sGame"/>
 					<div style="padding-top:20px">
-					<button type="button" class="btn btn-danger" style="width:274px;">送出訂單</button>
+					<button type="submit" class="btn btn-danger" style="width:274px;">送出訂單</button>
 					</div>
+						</form>
 				</div>
 			</div>
 		</div>
 	
 	</div>
-
-
+<%-- 	<form action="<c:url value='/withplay/Orderlist'/>" method="post"> --%>
+<%-- 			<input type="hidden" id="total" value="${With.iPrice}"/> --%>
+<%-- 			<input type="hidden"  value="${user}" id="usAccount"/> --%>
+<%-- 			<input type="hidden"  value="${With.iId}" id="wsAccount"/> --%>
+<%-- 			<input type="hidden"  value="${With.sGame}" id="sGame"/> --%>
+			
+<%-- 	</form> --%>
 	<div align="center">
 		<a href="${pageContext.servletContext.contextPath}/withplay/Index">陪玩首頁</a>
 	</div>
-
 	<%@ include file="../Foot.jsp"%>
 </body>
 <script>
@@ -103,13 +115,18 @@ $(function(){
 	var t = $("#quantity");
 	var t1=$("#t1");
 	var t2=$("#t2");
-	var t3=$("#t3");
+	var t3=$("#iPrice");
 	var t4=$("#t4").html().split("元")[0];
+	var t5=$("#total");
+//  	if(t.val()>=15){
+// 		t.val().attr("value",t.val());
 	$("#add").click(function(){
 		t.val(parseInt(t.val())+1).attr("value", t.val());
 		t1.html("總價（局 * " + t.val() + "）");
 		t2.html(parseInt(t.val())*parseInt(t4) + "元");
 		t3.html(t2.html());
+		t5.val(parseInt(t.val())*parseInt(t4))
+		t5.val(parseInt(t.val())*parseInt(t4)).attr("value",t5.val());
 		$("#min").removeAttr("disabled");//當按加1時，解除$("#min")不可讀狀態
 		if(parseInt(t.val())>=15){
 			$("#add").attr("disabled","disabled")
@@ -122,13 +139,16 @@ $(function(){
                 t1.html("總價（局 * " + t.val() + "）");
         		t2.html(parseInt(t.val())*parseInt(t4) + "元");
         		t3.html(t2.html());
+        		t5.val(parseInt(t.val())*parseInt(t4))
+        		t5.val(parseInt(t.val())*parseInt(t4)).attr("value",t5.val());
                 $("#add").removeAttr("disabled");
                 }else{
                 $("#min").attr("disabled","disabled")        //當$("#min")為1時，$("#min")不可讀狀態
                }
+
 	})
 
-	
+// 	}
 
 })
 </script>
