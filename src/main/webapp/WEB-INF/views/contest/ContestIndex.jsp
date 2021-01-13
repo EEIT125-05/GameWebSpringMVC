@@ -98,9 +98,29 @@
 									</c:choose>
 								</c:otherwise>
 							</c:choose>
-							
 						<hr>
 						<p>比賽遊戲: ${cContest.sGame}</p>
+						
+				    	<c:choose>
+				    		<c:when test="${cContest.iTeamMemberCount == 1}">
+				    			<c:set var="iTeamMemberCount" value="個人"/>
+				    		</c:when>
+				    		<c:otherwise>
+				    			<c:set var="iTeamMemberCount" value="團體"/>
+				    		</c:otherwise>
+				    	</c:choose>
+						<c:if test="${cContest.sRematchMode == 'knockout'}">
+			    			<c:set var="sRematchMode" value="淘汰賽"/>
+				    	</c:if>
+				    	<c:if test="${cContest.sRematchMode == 'ground'}">
+			    			<c:set var="sRematchMode" value="循環賽"/>
+				    	</c:if>
+				    	<c:if test="${cContest.sRematchMode == 'free'}">
+			    			<c:set var="sRematchMode" value="自由對戰"/>
+				    	</c:if>
+						<p>賽制: ${iTeamMemberCount}-${sRematchMode}</p>
+						
+						
 						<p>報名日期: ${cContest.dSignStart}~${cContest.dSignEnd}</p>
 						<fmt:formatDate var="sTime" value="${cContest.tTime}"
 							pattern="yyyy-MM-dd HH:mm" />
@@ -174,6 +194,24 @@ $(function(){
  									console.log("報名已截止");
  								}
  								
+ 								let teamMemberCount;
+ 								let rematchMode;
+ 								
+ 								if(value.iTeamMemberCount == 1){
+ 									teamMemberCount = "個人";
+ 								}else{
+ 									teamMemberCount = "團體";
+ 								}
+ 								
+ 								if(value.sRematchMode == "knockout"){
+ 									rematchMode = "淘汰賽";
+ 								}else if(value.sRematchMode == "ground"){
+ 									rematchMode = "循環賽";
+ 								}else if(value.sRematchMode == "free"){
+ 									rematchMode = "自由對戰";
+ 								}
+ 								
+ 								
 								$("#point").append("<div class=\"row\">"
 													+"<div class=\"col-md-7\">"
 													+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
@@ -184,6 +222,7 @@ $(function(){
 													+"<h3 style=\"display:inline\">" + value.sName + "</h3><span style=\"color:" + color + "\">    (" + subTitle + ")</span>"
 													+"<hr>"
 													+"<p>比賽遊戲: " + value.sGame + "</p>"
+													+"<p>賽制: " + teamMemberCount + "-" + rematchMode + "</p>"
 													+"<p>報名日期: " + $.format.date(new Date(value.dSignStart), 'yyyy-MM-dd') 
 																+ "~" + $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd') + "</p>"
 													+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
@@ -248,48 +287,67 @@ $(function(){
 						$.each(result.lContestList,function(key, value){
 							
 							let subTitle;
-								let color;
-								let d = $.format.date(new Date(), 'yyyy-MM-dd');
-								let signStart = $.format.date(new Date(value.dSignStart), 'yyyy-MM-dd');
-								let signEnd = $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd');
-								console.log("d: " + d);
-								console.log("signStart: " + signStart);
-								console.log("signEnd: " + signEnd);
-								if(d < signStart){
-									subTitle = "報名未開始";
-									color = "blue";
-									console.log("報名未開始");
-								}else if(d >= signStart && d <= signEnd){
-									subTitle = "報名開放中";
-									color = "green";
-									console.log("報名開放中");
-								}else{
-									subTitle = "報名已截止";
-									color = "red";
-									console.log("報名已截止");
-								}
-								
+							let color;
+							let d = $.format.date(new Date(), 'yyyy-MM-dd');
+							let signStart = $.format.date(new Date(value.dSignStart), 'yyyy-MM-dd');
+							let signEnd = $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd');
+							console.log("d: " + d);
+							console.log("signStart: " + signStart);
+							console.log("signEnd: " + signEnd);
+							if(d < signStart){
+								subTitle = "報名未開始";
+								color = "blue";
+								console.log("報名未開始");
+							}else if(d >= signStart && d <= signEnd){
+								subTitle = "報名開放中";
+								color = "green";
+								console.log("報名開放中");
+							}else{
+								subTitle = "報名已截止";
+								color = "red";
+								console.log("報名已截止");
+							}
+							
+							let teamMemberCount;
+							let rematchMode;
+							
+							if(value.iTeamMemberCount == 1){
+								teamMemberCount = "個人";
+							}else{
+								teamMemberCount = "團體";
+							}
+							
+							if(value.sRematchMode == "knockout"){
+								rematchMode = "淘汰賽";
+							}else if(value.sRematchMode == "ground"){
+								rematchMode = "循環賽";
+							}else if(value.sRematchMode == "free"){
+								rematchMode = "自由對戰";
+							}
+							
+							
 							$("#point").append("<div class=\"row\">"
-												+"<div class=\"col-md-7\">"
-												+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
-												+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\">"
-												+"</a>"
-												+"</div>"
-												+"<div class=\"col-md-5\">"
-												+"<h3 style=\"display:inline\">" + value.sName + "</h3><span style=\"color:" + color + "\">    (" + subTitle + ")</span>"
-												+"<hr>"
-												+"<p>比賽遊戲: " + value.sGame + "</p>"
-												+"<p>報名日期: " + $.format.date(new Date(value.dSignStart), 'yyyy-MM-dd') 
-															+ "~" + $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd') + "</p>"
-												+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
-												+"<p>比賽地點: " + value.sLocation + "</p>"
-												+"<p>參加人數: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
-												+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
-												+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"
-												+"</a>"
-												+"</div>"
-												+"</div>"
-												+"<hr>");
+											+"<div class=\"col-md-7\">"
+											+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
+											+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\">"
+											+"</a>"
+											+"</div>"
+											+"<div class=\"col-md-5\">"
+											+"<h3 style=\"display:inline\">" + value.sName + "</h3><span style=\"color:" + color + "\">    (" + subTitle + ")</span>"
+											+"<hr>"
+											+"<p>比賽遊戲: " + value.sGame + "</p>"
+											+"<p>賽制: " + teamMemberCount + "-" + rematchMode + "</p>"
+											+"<p>報名日期: " + $.format.date(new Date(value.dSignStart), 'yyyy-MM-dd') 
+														+ "~" + $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd') + "</p>"
+											+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
+											+"<p>比賽地點: " + value.sLocation + "</p>"
+											+"<p>參加人數: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
+											+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
+											+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"
+											+"</a>"
+											+"</div>"
+											+"</div>"
+											+"<hr>");
 							});
 					},
 					error: function(err){

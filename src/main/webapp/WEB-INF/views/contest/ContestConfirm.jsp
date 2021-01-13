@@ -49,7 +49,8 @@
     			<p><label style="width:67.47px;text-align:right">預賽: </label><label>無預賽</label></p>
     		</c:when>
     		<c:otherwise>
-    			<p><label style="width:67.47px;text-align:right">預賽: </label><label>有預賽，${cContestBean.sPreliminary}</label></p>
+    			<c:set var="sPreliminary" value="${fn:split(cContestBean.sPreliminary,'-')}"/>
+    			<p><label style="width:67.47px;text-align:right">預賽: </label><label>有預賽，${sPreliminary[0]}取${sPreliminary[1]}  剩餘取${sPreliminary[2]}</label></p>
     		</c:otherwise>
     	</c:choose>
     	

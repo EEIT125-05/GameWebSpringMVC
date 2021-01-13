@@ -117,10 +117,10 @@
 	    	
 	    	<c:choose>
 	    		<c:when test="${cContestBean.iTeamMemberCount == 1}">
-	    			<p><label>隊伍組成: </label><label>個人賽</label></p>
+	    			<p><label>隊伍組成: </label><label>個人</label></p>
 	    		</c:when>
 	    		<c:otherwise>
-	    			<p><label>隊伍組成: </label><label>團體賽，每隊${cContestBean.iTeamMemberCount}人</label></p>
+	    			<p><label>隊伍組成: </label><label>團體，每隊${cContestBean.iTeamMemberCount}人</label></p>
 	    		</c:otherwise>
 	    	</c:choose>
 	    	<c:choose>
@@ -128,7 +128,8 @@
 	    			<p><label style="width:67.47px;text-align:right">預賽: </label><label>無預賽</label></p>
 	    		</c:when>
 	    		<c:otherwise>
-	    			<p><label style="width:67.47px;text-align:right">預賽: </label><label>有預賽，${cContestBean.sPreliminary}</label></p>
+	    			<c:set var="sPreliminary" value="${fn:split(cContestBean.sPreliminary,'-')}"/>
+    			<p><label style="width:67.47px;text-align:right">預賽: </label><label>有預賽，${sPreliminary[0]}取${sPreliminary[1]}  剩餘取${sPreliminary[2]}</label></p>
 	    		</c:otherwise>
 	    	</c:choose>
 	    	

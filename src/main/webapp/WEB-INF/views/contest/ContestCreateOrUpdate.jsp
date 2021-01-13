@@ -105,14 +105,12 @@
 		            <input type="hidden" id="sPreliminary" name="sPreliminary" value="none">
             	</c:when>
             	<c:otherwise>
-            		<c:set var="preliminaryString" value="${cContestBean.sPreliminary}"/>
-            		<c:set var="preliminary1" value="${fn:substring(preliminaryString, 0, 1)}"/>
-            		<c:set var="preliminary2" value="${fn:substring(preliminaryString, 2, 3)}"/>
-            		<c:set var="preliminary3" value="${fn:substring(preliminaryString, 6, -1)}"/>
+            		<c:set var="sPreliminary" value="${fn:split(cContestBean.sPreliminary,'-')}"/>
+            		<label>${sPreliminary[0]}-${sPreliminary[1]}-${sPreliminary[2]}</label>
 		            <label><input type="radio" name="preliminaries" id="Npreliminaries" value="false"/>無預賽</label>
 		            <label><input type="radio" name="preliminaries" id="Ypreliminaries" value="true" checked/>有預賽</label>
 		            <label id="preliminariesCountSelect" style="margin:0"></label>
-		            <input type="hidden" id="sPreliminary" name="sPreliminary" value="${preliminary1}取${preliminary2}剩餘取${preliminary3}">
+		            <input type="hidden" id="sPreliminary" name="sPreliminary" value="${sPreliminary[0]}-${sPreliminary[1]}-${sPreliminary[2]}">
             	</c:otherwise>
             </c:choose>
             
@@ -206,11 +204,25 @@
 	$(function(){
 		
 		if($("#iPeople").val() != ""){
-			$("preliminariesCountSelect")
+			let preliminaries = $("#sPreliminary").val().split('-');
+			$("#preliminariesCountSelect").append("<select id=\"preliminariesCount1\" style=\"margin:0;width:50px\"></select>取<select id=\"preliminariesCount2\" style=\"margin:0;width:50px\"></select>剩餘取<select id=\"preliminariesCount3\" style=\"margin:0;;width:30px\"><option value=\"0\">0</option></select>");;
+			for(let i=2; i<=$("#iPeople").val(); i++) {
+				$("#preliminariesCount1").append("<option value=" + i + ">" + i);
+			}
+			$("#preliminariesCount1").val(preliminaries[0]);
+			for(let i=1; i<=preliminaries[0]; i++){
+				$("#preliminariesCount2").append("<option value=" + i + ">" + i + "</option>")
+			}
+			$("#preliminariesCount2").val(preliminaries[1]);
+			if($("#iPeople").val() % $("#preliminariesCount1").val() != 0){
+				$("#preliminariesCount3").empty();
+				for(let i=1; i<=$("#iPeople").val() - $("#preliminariesCount1").val()*Math.floor($("#iPeople").val()/$("#preliminariesCount1").val()); i++){
+					$("#preliminariesCount3").append("<option value=" + i + ">" + i);
+				}
+				$("#preliminariesCount3").val(preliminaries[2]);
+			}
+			
 		}
-		
-		
-		
 		
 		if($("#ground:checked").length > 0){
 			$("#ground").attr("checked", "true");
@@ -266,6 +278,7 @@
 				if($("#iPeople").val() == ""){
 					$("#preliminariesCountSelect").append("<label style=\"color:red\">請先選擇隊伍數");
 				}else{
+					console.log("有執行這行")
 					preliminariesCount();
 				}
 			}
@@ -276,6 +289,17 @@
 			$("#sPreliminary").val("none");
 // 			console.log("字串 " + $("#sPreliminary").val());
 		});
+		
+		function preliminariesCount(){
+		    let iPlayer = $("#iPeople").val();
+	        $("#preliminariesCountSelect").append("<select id=\"preliminariesCount1\" style=\"margin:0;width:50px\"></select>");
+			for(let i=2; i<=iPlayer; i++) {
+				$("#preliminariesCount1").append("<option value=" + i + ">" + i);
+			}
+			$("#preliminariesCountSelect").append("取<select id=\"preliminariesCount2\" style=\"margin:0;width:50px\"><option value=\"1\">1</option><option value=\"2\">2</option></select>剩餘取<select id=\"preliminariesCount3\" style=\"margin:0;;width:30px\"><option value=\"0\">0</option></select>");
+			$("#sPreliminary").val($("#preliminariesCount1").val() + "-" + $("#preliminariesCount2").val() + "-" + $("#preliminariesCount3").val());
+// 			console.log("字串 " + $("#sPreliminary").val());
+		}
 		
 		$(document).on("change", "#preliminariesCount1", function(){
 			$("#preliminariesCount2").empty();
@@ -294,23 +318,12 @@
 			
 	    });
 		
-		function preliminariesCount(){
-		    let iPlayer = $("#iPeople").val();
-	        $("#preliminariesCountSelect").append("<select id=\"preliminariesCount1\" style=\"margin:0;width:50px\"></select>");
-			for(let i=2; i<=iPlayer; i++) {
-				$("#preliminariesCount1").append("<option value=" + i + ">" + i);
-			}
-			$("#preliminariesCountSelect").append("取<select id=\"preliminariesCount2\" style=\"margin:0;width:50px\"><option value=\"1\">1</option><option value=\"2\">2</option></select>剩餘取<select id=\"preliminariesCount3\" style=\"margin:0;;width:30px\"><option value=\"0\">0</option></select>");
-			$("#sPreliminary").val($("#preliminariesCount1").val() + "取" + $("#preliminariesCount2").val() + "剩餘取" + $("#preliminariesCount3").val());
-// 			console.log("字串 " + $("#sPreliminary").val());
-		}
-		
 		$(document).on("change", "#preliminariesCount1,#preliminariesCount2,#preliminariesCount3", function(){
-			$("#sPreliminary").val($("#preliminariesCount1").val() + "取" + $("#preliminariesCount2").val() + "剩餘取" + $("#preliminariesCount3").val());
+			$("#sPreliminary").val($("#preliminariesCount1").val() + "-" + $("#preliminariesCount2").val() + "-" + $("#preliminariesCount3").val());
 // 			console.log("字串 " + $("#sPreliminary").val());
 		})
 		
-		console.log("file: " + $("#fImage").val());
+// 		console.log("file: " + $("#fImage").val());
 		
 		$("#imagePreview").hide();
 		$("#previewLabel").hide();
