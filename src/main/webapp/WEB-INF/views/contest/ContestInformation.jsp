@@ -11,6 +11,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>${cContestBean.sName}</title>
 <style>
+.hiddenDiv label{
+	margin:0
+}
 .itemChoose{
 	background-color:#0069d9;
 }
@@ -107,15 +110,55 @@
 				<button class="btn btn-primary" type="submit" id="delete" value="${cContestBean.iNo}">刪除</button>
 				<span style="font-size:70%;color:red">(註:至比賽當日即無法更改比賽)</span>
 			</c:if>
-			<p>比賽名稱: ${cContestBean.sName}</p>
-			<p>比賽遊戲: ${cContestBean.sGame}</p>
-			<p>主辦者: ${cContestBean.sHost}</p>
-			<p>報名日期: ${cContestBean.dSignStart} ~ ${cContestBean.dSignEnd}</p>
+			
+			<p><label>比賽名稱: </label><label>${cContestBean.sName}</label></p>
+	    	<p><label>比賽遊戲: </label><label>${cContestBean.sGame}</label></p>
+	    	<p><label style="width:67.47px;text-align:right">隊伍數: </label><label>${cContestBean.iPeople}</label></p>
+	    	
+	    	<c:choose>
+	    		<c:when test="${cContestBean.iTeamMemberCount == 1}">
+	    			<p><label>隊伍組成: </label><label>個人</label></p>
+	    		</c:when>
+	    		<c:otherwise>
+	    			<p><label>隊伍組成: </label><label>團體，每隊${cContestBean.iTeamMemberCount}人</label></p>
+	    		</c:otherwise>
+	    	</c:choose>
+	    	<c:choose>
+	    		<c:when test="${cContestBean.sPreliminary == 'none'}">
+	    			<p><label style="width:67.47px;text-align:right">預賽: </label><label>無預賽</label></p>
+	    		</c:when>
+	    		<c:otherwise>
+	    			<c:set var="sPreliminary" value="${fn:split(cContestBean.sPreliminary,'-')}"/>
+    			<p><label style="width:67.47px;text-align:right">預賽: </label><label>有預賽，${sPreliminary[0]}取${sPreliminary[1]}  剩餘取${sPreliminary[2]}</label></p>
+	    		</c:otherwise>
+	    	</c:choose>
+	    	
+	    	<c:if test="${cContestBean.sRematchMode == 'knockout'}">
+	    		<p><label>比賽形式: </label><label>淘汰賽</label></p>
+	    	</c:if>
+	    	<c:if test="${cContestBean.sRematchMode == 'ground'}">
+	    		<p><label>比賽形式: </label><label>循環賽</label></p>
+	    	</c:if>
+	    	<c:if test="${cContestBean.sRematchMode == 'free'}">
+	    		<p><label>比賽形式: </label><label>自由對戰</label></p>
+	    	</c:if>
+	    	
+	    	<p><label>報名時間: </label><label> ${cContestBean.dSignStart}~${cContestBean.dSignEnd}</label></p>
 			<fmt:formatDate var="sTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd HH:mm"/>
-			<p>比賽時間: ${sTime}</p>
-			<p>比賽地點: ${cContestBean.sLocation}</p>
-			<p>參加人數:
-				${fn:length(cContestBean.lParticipateBeans)}/${cContestBean.iPeople}</p>
+	    	<p><label>比賽時間: </label><label>${sTime}</label></p>
+	    	<p><label>比賽地點: </label><label>${cContestBean.sLocation}</label></p>
+			
+			
+			
+<%-- 			<p>比賽名稱: ${cContestBean.sName}</p> --%>
+<%-- 			<p>比賽遊戲: ${cContestBean.sGame}</p> --%>
+<%-- 			<p>主辦者: ${cContestBean.sHost}</p> --%>
+<%-- 			<p>報名日期: ${cContestBean.dSignStart} ~ ${cContestBean.dSignEnd}</p> --%>
+<%-- 			<fmt:formatDate var="sTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd HH:mm"/> --%>
+<%-- 			<p>比賽時間: ${sTime}</p> --%>
+<%-- 			<p>比賽地點: ${cContestBean.sLocation}</p> --%>
+<!-- 			<p>參加人數: -->
+<%-- 				${fn:length(cContestBean.lParticipateBeans)}/${cContestBean.iPeople}</p> --%>
 			<span>比賽規則:</span> 
 			<br> 
 			<span id="rule">${cContestBean.sRule}</span>
@@ -150,50 +193,95 @@
 				</c:choose>
 				<span id="spanHidden" style="font-size:70%;color:red">(註:至比賽當日即無法更改賽程)</span>
 			</c:if>
-			<div data-toggle="modal" data-target="#largeImage">
 				
 				<c:choose>
-					<c:when test="${empty cContestBean.bScheduleImage}">
+					<c:when test="${empty cContestBean.bRematchImage}">
 						<p>目前暫無賽程表</p>
 					</c:when>
 					<c:otherwise>
-						<p>賽程表: </p>
-						<a href="#">
-						<img
-							src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>"
-							style="width: 560px; border: 2px solid black; border-radius: 10px" />
-						</a>
-						<div class="modal fade bs-example-modal-xl" id="largeImage"
-							tabindex="-1" role="dialog"
-							aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-							<div class="modal-dialog modal-xl" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">賽程表</h5>
-										<button type="button" class="close" data-dismiss="modal"
-											aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										<div class="container-fluid">
-											<div class="row" style="overflow: auto">
-												<img
-													src="<c:url value='/contest/ScheduleLoading/${cContestBean.iNo}'/>"
-													style="width: 1000px; border: 2px solid black; border-radius: 10px" />
+						<p>複賽: </p>
+						<div data-toggle="modal" data-target="#RematchImage">
+							<a href="#">
+							<img
+								src="<c:url value='/contest/RematchImageLoading/${cContestBean.iNo}'/>"
+								style="width: 560px; border: 2px solid black; border-radius: 10px" />
+							</a>
+							<div class="modal fade bs-example-modal-xl" id="RematchImage"
+								tabindex="-1" role="dialog"
+								aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+								<div class="modal-dialog modal-xl" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">賽程表</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<div class="container-fluid">
+												<div class="row" style="overflow: auto">
+													<img
+														src="<c:url value='/contest/RematchImageLoading/${cContestBean.iNo}'/>"
+														style="width: 1000px; border: 2px solid black; border-radius: 10px" />
+												</div>
 											</div>
 										</div>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary"
-											data-dismiss="modal">Close</button>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-dismiss="modal">Close</button>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+						<c:choose>
+							<c:when test="${empty cContestBean.bPreliminariesImage}">
+								<br>
+								<p>預賽: 本場賽事並無預賽</p>
+							</c:when>						
+							<c:otherwise>
+								<br>
+								<p>預賽: </p>
+								<div data-toggle="modal" data-target="#PreliminariesImage">
+									<a href="#">
+									<img
+										src="<c:url value='/contest/PreliminariesImageLoading/${cContestBean.iNo}'/>"
+										style="width: 560px; border: 2px solid black; border-radius: 10px" />
+									</a>
+									<div class="modal fade bs-example-modal-xl" id="PreliminariesImage"
+										tabindex="-1" role="dialog"
+										aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+										<div class="modal-dialog modal-xl" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLabel">賽程表</h5>
+													<button type="button" class="close" data-dismiss="modal"
+														aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+													<div class="container-fluid">
+														<div class="row" style="overflow: auto">
+															<img
+																src="<c:url value='/contest/PreliminariesImageLoading/${cContestBean.iNo}'/>"
+																style="width: 1000px; border: 2px solid black; border-radius: 10px" />
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-dismiss="modal">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>							
+							</c:otherwise>
+						</c:choose>
 					</c:otherwise>
 				</c:choose>
-			</div>
 		</div>
 
 		<div id="戰績" class="hiddenDiv" style="display:none">

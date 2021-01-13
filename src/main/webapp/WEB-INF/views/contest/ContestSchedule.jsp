@@ -507,7 +507,7 @@ $(function(){
 //		        console.log("不要的場數: " + (max-a));
 
 	        $("#tree").append("<ul class=\"layer1\">");
-	        $(".layer1").append("<li class=\"text1\"><label>&nbsp;</label>");
+	        $(".layer1").append("<li class=\"text1\"><label>冠軍</label>");
 	        
 	        for(let i=1; i<=pow; i++){
 	            let j = i + 1;
@@ -640,104 +640,109 @@ $(function(){
 // 			document.getElementById('tree').parentNode.style.overflow = 'hidden'; 
             treeImage64 = canvas.toDataURL("image/jpeg", 1.0);
 //	        console.log("type: " + typeof(image64));
-//	        console.log("image64: " + image64);
-        });
-        
-//         document.getElementById('drow').parentNode.style.overflow = 'visible';
-        html2canvas(document.getElementById("drow"), { useCORS: true, scale:2 }).then(function (canvas) {
-//             document.body.appendChild(canvas);
-// 			document.getElementById('drow').parentNode.style.overflow = 'hidden'; 
-        	drowImage64 = canvas.toDataURL("image/jpeg", 1.0);
-//          console.log("type: " + typeof(image64));
-//          console.log("image64: " + image64);
-    	});
-        
-//         let groupPlayer = [];
-// 		let mCount; //邊數->每組人數
-// 		let groupFirst = 0; //每組的第一個人的編號
-// 		let schedule;
-		
-// 		if($("#Ypreliminaries:checked").length > 0){//有預賽
-// 			schedule = "knockout";
-// 			let gCount = Math.ceil($(".drop").length/$("#preliminariesCount1").val()); //組數
-// 			console.log(gCount + "組")
-// 	        for(let i=0; i<gCount; i++){
-// 	        	if(i == gCount-1){
-// 		        	mCount = $(".drop").length - $("#preliminariesCount1").val() * i;
-// //						console.log(mCount + "人")
-// 	        	}else{
-// 		        	mCount = $("#preliminariesCount1").val();
-// //						console.log(mCount + "人")
-// 	        	}
-// 	        	let players = [];
-// 	        	for(let j=groupFirst; j<groupFirst+Number(mCount); j++){
-// //		        		console.log("groupFirst: " + groupFirst);
-// //		        		console.log("j: " + j);
-// //						console.log("-" + $(".drop").eq(j).find("label").text() + "-");
-// 					let string = "";
-// 					for(let k=0; k<$(".drop").eq(j).find("span").length; k++){
-// 						string = string + ($(".drop").eq(j).find("span").eq(k).text() + "-");
-// 					}
-// 					groupPlayer.push(string);
-// 	        	}
-// //		        	console.log("players: " + players);
-// 	        	groupPlayer.push(players);
-// 	        	groupFirst = groupFirst+Number(mCount);
-// 	        }
-// //	        	console.log("groupPlayer: " + groupPlayer);
-// 		}else{//沒預賽
-// 			schedule = "ground";
-// 			for(let i=0; i<$(".drop").length; i++){
-// 				let string = "";
-// 				for(let j=0; j<$(".drop").eq(i).find("span").length; j++){
-// 					string = string + ($(".drop").eq(i).find("span").eq(j).text() + "-");
-// 				}
-// 				groupPlayer.push(string);
-// 			}
-// 		}
-	
-        $.ajax({
-			type:"post",
-			url:"<c:url value='/contest/ScheduleImage'/>",
-			dataType:"json",
-			data:{
-				"treeImage64": treeImage64,
-				"drowImage64": drowImage64,
-				"contestNo": $("#contestNo").val(),
-// 				"schedule": schedule,
-				"schedule": "test",
-				"groupPlayer": JSON.stringify("test")
-// 				"groupPlayer": JSON.stringify(groupPlayer)
-			},
-			success: function(result){
-				Swal.fire({
-					  title: result[0] + "!",
-					  icon: "success",
-					  showClass: {
-						    popup: 'animate__animated animate__fadeInDown'
-						  },
-					  hideClass: {
-						    popup: 'animate__animated animate__fadeOutUp'
-						  }
-				}).then(function(){
-							window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Information?contestNo=" + $("#contestNo").val() + "'/>");},500);
-						})
-				
-			},
-			error: function(err){
-				Swal.fire({
-					  title: '網頁發生錯誤!',
-					  text: '請聯繫管理員',
-					  icon: 'error',
-					  showClass: {
-						    popup: 'animate__animated animate__fadeInDown'
-						  },
-					  hideClass: {
-						    popup: 'animate__animated animate__fadeOutUp'
-						  }
+// 	        console.log("treeImage64: " + treeImage64);
+	        
+	        html2canvas(document.getElementById("drow"), { useCORS: true, scale:2 }).then(function (canvas) {
+	    		if(canvas.height == 0){
+	    			drowImage64 = "";
+	    		}else{
+		        	drowImage64 = canvas.toDataURL("image/jpeg", 1.0);
+// 		        	console.log("drowImage64: " + drowImage64);
+	    		}
+	    	
+	            let groupPlayer = [];
+	     		let mCount; //邊數->每組人數
+	     		let groupFirst = 0; //每組的第一個人的編號
+	     		let perliminary;
+	     		let mode;
+	    		
+	     		if($("#Ypreliminaries:checked").length > 0){//有預賽
+	     			perliminary = "true";
+	     			let gCount = Math.ceil($(".drop").length/$("#preliminariesCount1").val()); //組數
+	     			console.log(gCount + "組")
+	     	        for(let i=0; i<gCount; i++){
+	     	        	if(i == gCount-1){
+	     		        	mCount = $(".drop").length - $("#preliminariesCount1").val() * i;
+	    //						console.log(mCount + "人")
+	     	        	}else{
+	     		        	mCount = $("#preliminariesCount1").val();
+	    //						console.log(mCount + "人")
+	     	        	}
+	     	        	let players = [];
+	     	        	for(let j=groupFirst; j<groupFirst+Number(mCount); j++){
+	    //		        		console.log("groupFirst: " + groupFirst);
+	    //		        		console.log("j: " + j);
+	    //						console.log("-" + $(".drop").eq(j).find("label").text() + "-");
+	     					let string = "";
+	     					for(let k=0; k<$(".drop").eq(j).find("span").length; k++){
+	     						string = string + ($(".drop").eq(j).find("span").eq(k).text() + "-");
+	     					}
+	     					groupPlayer.push(string);
+	     	        	}
+	    //		        	console.log("players: " + players);
+	     	        	groupPlayer.push(players);
+	     	        	groupFirst = groupFirst+Number(mCount);
+	     	        }
+	    //	        	console.log("groupPlayer: " + groupPlayer);
+	     		}else{//沒預賽
+	     			perliminary = "false";
+	     			for(let i=0; i<$(".drop").length; i++){
+	     				let string = "";
+	     				for(let j=0; j<$(".drop").eq(i).find("span").length; j++){
+	     					string = string + ($(".drop").eq(i).find("span").eq(j).text() + "-");
+	     				}
+	     				groupPlayer.push(string);
+	     			}
+	     		}
+
+	    		
+	    		
+	    		
+	    		
+	    		$.ajax({
+					type:"post",
+					url:"<c:url value='/contest/ScheduleImage'/>",
+					dataType:"json",
+					data:{
+						"treeImage64": treeImage64,
+		 				"drowImage64": drowImage64,
+						"contestNo": $("#contestNo").val(),
+		 				"schedule": schedule,
+		 				"groupPlayer": JSON.stringify(groupPlayer)
+					},
+					success: function(result){
+						Swal.fire({
+							  title: result[0] + "!",
+							  icon: "success",
+							  showClass: {
+								    popup: 'animate__animated animate__fadeInDown'
+								  },
+							  hideClass: {
+								    popup: 'animate__animated animate__fadeOutUp'
+								  }
+						}).then(function(){
+									window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Information?contestNo=" + $("#contestNo").val() + "'/>");},500);
+								})
+						
+					},
+					error: function(err){
+						Swal.fire({
+							  title: '網頁發生錯誤!',
+							  text: '請聯繫管理員',
+							  icon: 'error',
+							  showClass: {
+								    popup: 'animate__animated animate__fadeInDown'
+								  },
+							  hideClass: {
+								    popup: 'animate__animated animate__fadeOutUp'
+								  }
+						});
+					}
 				});
-			}
-		});
+	        
+	        });
+	        
+        });
         
 	});
 	

@@ -77,10 +77,14 @@ public class ContestController {
 					@RequestParam(required = false, defaultValue = "1970-01-01 00:00") String sTime,
 					@RequestParam(required = false, defaultValue = "false") Boolean afterSignStart,
 					@RequestParam(required = false, defaultValue = "false") Boolean afterSignEnd,
+					@RequestParam Integer iTeamMemberCount,
+					@RequestParam String sPreliminary,
 					@PathVariable(required = false) Integer contestNo,
 					BindingResult result,
 					Model model) {
 		cService.setTime(cContestBean, sSignStart, sSignEnd, sTime);//處理時間
+		cContestBean.setiTeamMemberCount(iTeamMemberCount);
+		cContestBean.setsPreliminary(sPreliminary);
 		
 		MultipartFile fImage = cContestBean.getfImage();
 		String contentType = fImage.getContentType();
@@ -150,6 +154,7 @@ public class ContestController {
 			if(cService.updateContest(cContestBean)) {
 				map.put("status", "success");
 				map.put("successMessage", "更新成功");
+				map.put("contestNo", Integer.toString(cContestBean.getiNo()));
 			}else {
 				map.put("status", "sqlError");
 			}
@@ -157,6 +162,7 @@ public class ContestController {
 			if(cService.insertContest(cContestBean)) {
 				map.put("status", "success");
 				map.put("successMessage", "新增成功");
+				map.put("contestNo", Integer.toString(cContestBean.getiNo()));
 			}else {
 				map.put("status", "sqlError");
 			}
@@ -169,23 +175,6 @@ public class ContestController {
 		model.addAttribute("lContestList", cService.selectUserContest(((MemberBean)model.getAttribute("user")).getsAccount()));
 		return "contest/ContestManagement";
 	}
-	
-//	@GetMapping("/Schedule/{contestNo}")
-//	public String contestSchedule(
-//					@PathVariable Integer contestNo,
-//					RedirectAttributes ra,
-//					Model model) {
-//		String nextPage = null;
-//		ContestBean cContestBean = cService.selectOneContest(contestNo);
-//		if(cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {//驗證
-//			model.addAttribute("cContestBean", cContestBean);
-//			nextPage = "contest/ContestSchedule";
-//		}else {
-//			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
-//			nextPage = ERROR_PAGE;
-//		}
-//		return nextPage;
-//	}
 	
 	@GetMapping("/Update/{contestNo}")
 	public String contestUpdate(

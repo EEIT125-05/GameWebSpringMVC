@@ -39,7 +39,7 @@ public class ParticipateDAOImpl implements ParticipateDAO {
 									.executeUpdate();
 //			System.out.println("result: " + result);
 			if(result != 1) {
-				new Exception();
+				new RuntimeException();
 			}
 			return true;
 		} catch (Exception e) {
