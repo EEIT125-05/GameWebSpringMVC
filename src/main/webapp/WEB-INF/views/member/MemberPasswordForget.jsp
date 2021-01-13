@@ -22,23 +22,21 @@ input {
 </head>
 <%@ include file="../Header.jsp"%>
 <body>
-<h1 align='center'>忘記密碼</h1>
+	<h1 align='center'>忘記密碼</h1>
 	<hr>
-		<form action="<c:url value='######'/>" method="post">
-	<div align='center'>
-			<div align='left'
-				style="border: 3px solid gray; width: 450; height: 350">
-				<H3>
-					設定的帳號:<input type="text" name="sAccount">
+	<form action="<c:url value='/member/JavaMail'/>" method="post">
+		<div align='center'>
+			<div align='center'
+				style="border: 3px solid gray; width: 450; height: 150">
+				<H3 align='center'>
+					請輸入原本的的信箱<input type="email" name="mail" style="width: 400;"
+						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$">
 				</H3>
 				<H3>
-					設定的信箱:<input type="text" name="sEmail">
-				</H3>
-				<H3>
-					<button id="button">找回密碼</button>
+					<input type="submit" value="找回密碼">
 				</H3>
 			</div>
-	</div>
+		</div>
 	</form>
 	<%@ include file="../Foot.jsp"%>
 </body>

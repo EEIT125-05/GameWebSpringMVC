@@ -13,9 +13,13 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+
 <style>
 table, th, td {
-	border: 3px solid gray;
+	border: 2px solid gray;
 }
 </style>
 <title>管理會員資料</title>
@@ -23,9 +27,6 @@ table, th, td {
 <%@ include file="../Header.jsp"%>
 <body>
 	<H1 align='center'>會員後台管理</H1>
-	<H5 style="position: absolute; right: 50;">
-		搜尋:<input id='Search' type="text">
-	</H5>
 	<br>
 	<hr>
 	<form>
@@ -37,9 +38,9 @@ table, th, td {
 			</c:when>
 
 			<c:otherwise>
-				<table id='table' style="text-align: center;">
+				<table id='tablee' style="text-align: center;width:80%;"><thead>
 					<tr style='background-color: limegreen;height:72;' >
-						<th width='40'>編號</th>
+						<th width='40' type="">編號</th>
 						<th width='30'>照片</th>
 						<th width='30'>帳號</th>
 						<th width='30'>暱稱</th>
@@ -52,7 +53,7 @@ table, th, td {
 						<th width='30'>建立日期</th>
 						<th width='30'>狀態</th>
 						<th width='70'>資料維護</th>
-					</tr>
+					</tr></thead><tbody>
 					<c:forEach var='user' items='${users}'>
 						<tr>
 							<td>${user.iNo}</td>
@@ -83,7 +84,7 @@ table, th, td {
 									style='background-color: red; width: 100%; height: 100%;'
 									value='刪除'></a></td>
 						</tr>
-					</c:forEach>
+					</c:forEach></tbody>
 				</table>
 			</c:otherwise>
 		</c:choose>
@@ -99,8 +100,8 @@ table, th, td {
 			});
 		})
 
-		$(document).ready(function() {
-			$('#table').DataTable();
+		$().ready(function() {
+			$('#tablee').DataTable({});
 		});
 
 		// 		window.onload = function() {

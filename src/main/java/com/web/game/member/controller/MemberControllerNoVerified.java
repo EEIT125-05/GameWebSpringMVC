@@ -17,9 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,12 +25,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.j2objc.annotations.WeakOuter;
-import com.web.game.member.dao.MemberDao;
-import com.web.game.member.dao.Impl.MemberDaoImpl;
-import com.web.game.member.model.MemberBean;
-import com.web.game.member.model.MemberSigninBean;
 import com.web.game.member.service.MemberService;
+import com.web.game.member.model.*;
+//import mail.JavaMail;
 
 @Controller
 @RequestMapping("/member")
@@ -61,16 +56,30 @@ public class MemberControllerNoVerified {
 	public String MemberForget() {
 		return "member/MemberPasswordForget";
 	}
+	
+	@PostMapping("/JavaMail")
+	public String JavaMail(@RequestParam(value="mail",required = false) String sEmail,Integer iNo) {
+		MemberBean Number =  mService.SearchMail(sEmail);
+		iNo = Number.getiNo();
+		JavaMail mail = new JavaMail();
+//		model.addAttribute("user", Number);
+		mail.SendMail(sEmail,iNo);
+		return "redirect:/";
+	}
+	
+	@GetMapping("/forget/PasswordSet")
+	public String MemberPasswordSet(Model model, Integer iNo) {
+		model.addAttribute("user", iNo);
+		return "member/MemberPasswordSet";
+	}
 
-//	@GetMapping("/Data")
-//	public String SigninToData() {
-//		return "member/MemberSignin";
-//	}
-
-//	@GetMapping("/GameBarGMSignin")
-//	public String GameBarGMSignin() {
-//		return "member/GameBarGMSignin";
-//	}
+	@PostMapping("/PasswordChange")
+	public String PasswordChang(Model model,@RequestParam String sEmail,@RequestParam String sPassword){
+		MemberBean Update = mService.SearchMail(sEmail);
+		Update.setsPassword(sPassword);
+		mService.UpdateMember(Update);
+		return "redirect:/";
+	}
 
 	@PostMapping("/MemberCheck")
 	public String MemberLogin(Model model) {
