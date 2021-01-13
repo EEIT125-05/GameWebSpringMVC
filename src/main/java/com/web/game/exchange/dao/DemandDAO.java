@@ -19,10 +19,10 @@ public class DemandDAO {
 	SessionFactory factory;
 	
 	@SuppressWarnings("unchecked")
-	public List<DemandGameBean> changeDemandPage(int page,String searchParam){
+	public List<DemandGameBean> changeDemandPage(int page){
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		Session session =factory.getCurrentSession();
-		String queryAll = "FROM DemandGameBean WHERE status = 0"+searchParam;
+		String queryAll = "FROM DemandGameBean WHERE status = 0";
 		
 		int counts = 6;
 		int start = 0;

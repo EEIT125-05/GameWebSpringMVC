@@ -13,11 +13,6 @@
 <meta charset="UTF-8">
 <title>交換版首頁</title>
 <style>
-.span{
-	color:white;
-	font-size:8px;
-	font-face:"fantsay;
-}
 
 </style>
 </head>
@@ -57,9 +52,9 @@
 						<label><input type="radio" name="search" value="area">地區</label>
 					</c:otherwise>
 				</c:choose>
-	</form>
 				<input type="hidden" id="search" value="${search}">
 				<!-- 藏參數 -->
+	</form>
 
 	<div class="row" id="bigdiv">
 
@@ -72,7 +67,7 @@
 					src="${pageContext.request.contextPath }/${g.image }" alt="">
 				<div class="overlay"></div>
 				<div class="work-content">
-					<span style="color:white;">遊戲名稱:${g.gamename}</span> <span>遊戲數量:${g.qty}</span> <span>遊戲所在地:${g.gamelocation}</span>
+					<span>遊戲名稱:${g.gamename}</span> <span>遊戲數量:${g.qty}</span> <span>遊戲所在地:${g.gamelocation}</span>
 					<span>運送方式:${g.delivery}</span> <span>主機平台:${g.console}</span> <span>玩家名稱:${g.gamer}</span>
 					<span>是否含特點:${g.dlc}</span> <span>備註:${g.remark}</span>
 					<div class="work-link" style="margin: auto;">
@@ -107,14 +102,14 @@
 								<fieldset>
 									<div>
 										<label for="partyA">甲方　　</label> <input type="text"
-											name="partyA" value="${g.gamer }"
+											name="partyA" value="${user.sAccount }"
 											style="width: 260px;" class="fixedlen" id="partyA${vs.index }"  readonly/>
 
 														<span id="console1span"></span>
 									</div>
 									<div>
 
-										<label for="gamename">欲換遊戲</label> <input type="text"
+										<label for="gamename">您的遊戲</label> <input type="text"
 											name="supportGame"
 											value="${g.console }-${g.gamename}"
 											style="width: 260px;" class="fixedlen" id="Supportgamebean" readonly />
@@ -126,7 +121,7 @@
 									<div>
 
 										<label for="partyB">乙方　　</label> <input type="text"
-											name="partyB" value="${user.sAccount }"
+											name="partyB" value="${g.gamer }"
 											style="width: 260px;" class="fixedlen" id="partyB${vs.index }" readonly/>
 														<span id="qtyspan"></span>
 

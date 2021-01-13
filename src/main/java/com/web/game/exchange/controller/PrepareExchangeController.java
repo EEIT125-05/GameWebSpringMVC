@@ -30,14 +30,15 @@ public class PrepareExchangeController {
 	ExchangeService service;
 	
 	@GetMapping("/wishBoard")
-	public String initWishBoard(Model model, @RequestParam(value = "page", defaultValue = "1") Integer page,
+	public String initWishBoard(Model model,
+			@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "searchparams", required = false)String searchParam) {
 		
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		int count=6;//每頁幾筆
 		int p = 0;//共幾頁
 		System.out.println("wishBoardIn");
-			list = service.changeDemandPage(page, searchParam);
+			list = service.changeDemandPage(page);
 			p=(list.size()/count)+1;
 		model.addAttribute("searchparams", searchParam);
 		model.addAttribute("changepageparams", searchParam);

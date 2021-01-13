@@ -45,9 +45,9 @@ public class ExchangeService {
 	}
 	//------------------------demand
 	@Transactional
-	public List<DemandGameBean> changeDemandPage(int page,String searchParam){
+	public List<DemandGameBean> changeDemandPage(int page){
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
-		return list = demandDAO.changeDemandPage(page, searchParam);
+		return list = demandDAO.changeDemandPage(page);
 	}
 	@Transactional
 	public List<DemandGameBean> GetMemberDemand(String account){
