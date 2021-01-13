@@ -9,6 +9,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>賽事 - GameBar</title>
+<style>
+	label{
+		margin:0
+	}
+</style>
 </head>
 <body>
 <%@ include file="../Header.jsp" %>
@@ -25,14 +30,44 @@
       </li>
       <li class="breadcrumb-item active">賽事</li>
     </ol>
-    
-		<p>比賽名稱: ${cContestBean.sName}</p>
-		<p>比賽遊戲: ${cContestBean.sGame}</p>
-		<p>報名時間: ${cContestBean.dSignStart}~${cContestBean.dSignEnd}</p>
+    	
+    	<p><label>比賽名稱: </label><label>${cContestBean.sName}</label></p>
+    	<p><label>比賽遊戲: </label><label>${cContestBean.sGame}</label></p>
+    	<p><label style="width:67.47px;text-align:right">隊伍數: </label><label>${cContestBean.iPeople}</label></p>
+    	
+    	<c:choose>
+    		<c:when test="${cContestBean.iTeamMemberCount == 1}">
+    			<p><label>隊伍組成: </label><label>個人賽</label></p>
+    		</c:when>
+    		<c:otherwise>
+    			<p><label>隊伍組成: </label><label>團體賽，每隊${cContestBean.iTeamMemberCount}人</label></p>
+    		</c:otherwise>
+    	</c:choose>
+    	
+    	<c:choose>
+    		<c:when test="${cContestBean.sPreliminary == 'none'}">
+    			<p><label style="width:67.47px;text-align:right">預賽: </label><label>無預賽</label></p>
+    		</c:when>
+    		<c:otherwise>
+    			<p><label style="width:67.47px;text-align:right">預賽: </label><label>有預賽，${cContestBean.sPreliminary}</label></p>
+    		</c:otherwise>
+    	</c:choose>
+    	
+    	<c:if test="${cContestBean.sRematchMode == 'knockout'}">
+    		<p><label>比賽形式: </label><label>淘汰賽</label></p>
+    	</c:if>
+    	<c:if test="${cContestBean.sRematchMode == 'ground'}">
+    		<p><label>比賽形式: </label><label>循環賽</label></p>
+    	</c:if>
+    	<c:if test="${cContestBean.sRematchMode == 'free'}">
+    		<p><label>比賽形式: </label><label>自由對戰</label></p>
+    	</c:if>
+    	
+    	<p><label>報名時間: </label><label> ${cContestBean.dSignStart}~${cContestBean.dSignEnd}</label></p>
 		<fmt:formatDate var="sTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd HH:mm"/>
-		<p>比賽時間: ${sTime} </p>
-		<p>比賽地點: ${cContestBean.sLocation}</p>
-		<p>參加人數: ${cContestBean.iPeople}</p>
+    	<p><label>比賽時間: </label><label>${sTime}</label></p>
+    	<p><label>比賽地點: </label><label>${cContestBean.sLocation}</label></p>
+    	
 		<c:choose>
 			<c:when	test="${cContestBean.sImage == 'contestDefault.jpg'}">
 				<label style="vertical-align:top">宣傳圖片(預設): </label>
@@ -46,11 +81,7 @@
 		<span>比賽規則:</span><br><span id="rule">${cContestBean.sRule}</span>
 		<br>
 		<hr>
-			<c:if test="${sContestConfirm == '報名' }">
-				<p>遊戲ID: ${pParticipateBean.sGameId}</p>
-				<hr>
-			</c:if>
-			<input class="btn btn-primary" type="submit" id="confirm" name="confirm" value="確認${sContestConfirm}"/>
+		<input class="btn btn-primary" type="submit" id="confirm" name="confirm" value="確認${sContestConfirm}"/>
 
 </div>
 <%@ include file="../Foot.jsp" %>
