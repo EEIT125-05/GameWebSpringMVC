@@ -38,7 +38,7 @@
 
 				<input type="hidden" id="search" value="${search}">
 				<!-- 藏參數 -->
-
+</form>
 
 				<div class="row" id="bigdiv">
 
@@ -48,32 +48,103 @@
 						<!-- Work -->
 						<div class="col-md-4 col-xs-6 work">
 							<img class="img-responsive" style="width: 345px; height: 345px"
-								src="${pageContext.request.contextPath }/images/$${g.gamename}" alt="">
+								src="${pageContext.request.contextPath }/images/${g.gamename}.jpg" alt="">
 							<div class="overlay"></div>
 							<div class="work-content">
 								<span>遊戲名稱:${g.gamename}</span><span>玩家名稱:${g.gamer}</span>
 								<div class="work-link" style="margin: auto;">
-									<a class="applyFor" style="border-radius: 30px"
-										href="<c:url value="/exchange/applyFor?gamer=${g.gamer }&no=${g.no }"/>"><i
-										class="fa fa-exchange"></i></a>
-								</div>
-							</div>
+
+						<div data-toggle="modal" data-target="#exampleModal">
+							<button type="button" class="btn btn-primary" data-toggle="modal"
+								data-target="#exampleModalLong${g.no }" ><i
+							class="fa fa-exchange"></i></button>
 						</div>
-					</c:forEach>
-				</div>
-					<div>
-						<c:if test="${p > 1}">
-							<c:forEach var="num" begin="1" end="${p }" step="1">
-								<a class="page"><i >${num}</i></a>
-							</c:forEach>
-						</c:if>
+
+
 					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" id="exampleModalLong${g.no }" tabindex="-1"
+				role="dialog" aria-labelledby="exampleModalLongTitle"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">交換申請</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+
+							<div class="modal-body">
+
+
+								<fieldset>
+									<div>
+										<label for="partyA">甲方　　</label> <input type="text"
+											name="partyA" value="${g.gamer }"
+											style="width: 260px;" class="fixedlen" id="partyA${vs.index }"  readonly/>
+
+														<span id="console1span"></span>
+									</div>
+									<div>
+
+										<label for="gamename">欲換遊戲</label> <input type="text"
+											name="supportGame"
+											value="${g.console }-${g.gamename}"
+											style="width: 260px;" class="fixedlen" id="Supportgamebean" readonly />
+										<input type="hidden" name="supportGameNo" id="supportGameNo${vs.index }"
+											value="${g.no }" />
+														<span id="gamenamespan"></span>
+
+									</div>
+									<div>
+
+										<label for="partyB">乙方　　</label> <input type="text"
+											name="partyB" value="${user.sAccount }"
+											style="width: 260px;" class="fixedlen" id="partyB${vs.index }" readonly/>
+														<span id="qtyspan"></span>
+
+									</div>
+									<div>
+
+										<label for="gamename">我的遊戲</label> <select
+											style="width: 260px;" class="fixedlen" name="myGameNo"
+											id="myGame${vs.index }" onblur="resetSelect(${vs.index });">
+											<option>我的遊戲庫</option>
+											<c:forEach var="M" items="${myGameBeans}">
+												<option value="${M.no }">${M.console}-${M.gamename}</option>
+											</c:forEach>
+										</select> <span id="gamenamespan${vs.index }"></span>
+
+									</div>
+
+								</fieldset>
+
+							</div>
+							<div class="modal-footer">
+								<button type="botton" class="btn btn-secondary"
+									data-dismiss="modal" >返回</button>
+								<a class="btn btn-primary appforsubmit " onclick="checksubmit(${vs.index });">申請</a>
+							</div>
+					</div>
+				</div>
 			</div>
 
 
-		</div>
-
-	</form>
+		</c:forEach>
+	</div>
+	<div>
+		<c:if test="${p > 1}">
+			<c:forEach var="num" begin="1" end="${p }" step="1">
+				<a class="page"><i>${num}</i></a>
+			</c:forEach>
+		</c:if>
+	</div>
+	</div>
+	</div>
 	<%@ include file="../Foot.jsp"%>
 	<script>
 		window.onload = function() {
