@@ -18,4 +18,5 @@ public interface WithOrderService {
 	
 	public List<WithOrder> getWithOrderList(Integer id);
 
+	public List<WithOrder> getWithOrderwithList(Integer id);
 }

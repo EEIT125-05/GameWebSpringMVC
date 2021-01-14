@@ -58,7 +58,7 @@ response.setContentType("text/html;charset=UTF-8");
 		</c:if>
 		<div class="row" id="point">
 			<c:forEach var="With" items="${Withlist}">
-				<div class="col col-12 col-sm-12 col-md-6 col-lg-4">
+				<div class="col col-12 col-sm-6 col-md-6 col-lg-3">
 					<div data-toggle="modal" data-target="#exampleModal${With.iId}">
 						<div class="div1">
 							<div class="fi1">

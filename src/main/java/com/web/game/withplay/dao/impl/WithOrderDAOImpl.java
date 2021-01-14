@@ -71,12 +71,25 @@ public class WithOrderDAOImpl implements WithOrderDao{
 		Session session = factory.getCurrentSession();
 		System.out.println("id"+id);
 		List<WithOrder> listPartyA = new ArrayList<WithOrder>();
-		String HQLMemberBean = "FROM WithOrder WHERE Member_iNo = :id";
+		String HQLMemberBean = "FROM WithOrder WHERE MPlay = :id";
 		listPartyA = (List<WithOrder>) session.createQuery(HQLMemberBean).setParameter("id", id).getResultList();
 		System.out.println("listPartyA"+listPartyA);
 		
 		return listPartyA;
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<WithOrder> getWithOrderwithList(Integer id) {
+		Session session = factory.getCurrentSession();
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println("id"+id);
+		List<WithOrder> list = new ArrayList<WithOrder>();
+		String HQLMemberBean = "FROM WithOrder WHERE Play = :id";
+		list = (List<WithOrder>) session.createQuery(HQLMemberBean).setParameter("id", id).getResultList();
+		System.out.println("listParty"+list);		
+		return list;
 	}
 
 

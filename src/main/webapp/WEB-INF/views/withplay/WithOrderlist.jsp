@@ -16,7 +16,7 @@
 
 <div class="container">
 
-	<h1>管理 ${user.sAccount }你好</h1>
+	<h1>管理 ${user.sNickname }你好</h1>
 
  
 

@@ -37,9 +37,9 @@ input[type=number]::-webkit-inner-spin-button {
 <body >
 	<%@ include file="../Header.jsp"%>
 	<div class="container">
-		<div style="background-color:lightgrey;border-radius: 15px;">
+		<div style="background-color:#FFFAF4;border-radius: 15px;">
 			<div
-				style="background-color:lightgrey; margin: 25px; height: 700px;padding-top:20px;padding-bottom:20px">
+				style="margin: 25px; height: 700px;padding-top:20px;padding-bottom:20px">
 				<h2 style="padding-top:15px">確認訂單</h2>
 				<div style="height: 600px; width: 775px;float:left;">
 				<hr>
@@ -57,7 +57,7 @@ input[type=number]::-webkit-inner-spin-button {
 						<div style="float:left;width:150px;height:200px;display: flex; align-items: center; justify-content:center;">
 						<div style="display: flex; align-items: center; justify-content:center;">
 						<input id="min" name="" type="button" value="-" style="color:black;border:none;border-radius:5px 0 0 5px;height:30px;width:40px;line-height:0.5;color:red;font-family:fantasy;fantasy;font-size:35px;">
-						<input type=number id="quantity" style="height:30px;width:40px;border:none;line-height:1.5;text-align: center;font-weight:bold;font-size:20px;" value="1">
+						<input type=number id="quantity" style="height:30px;width:40px;border:none;line-height:1.5;text-align: center;font-weight:bold;font-size:20px;background-color:fefcfb;" value="1">
 						<input id="add" name="" type="button" value="+" style="width:40px;height:30px;border:none;border-radius:0 5px 5px 0;line-height:0.5;color:red;font-family:fantasy;font-size:30px;">
 						
 						</div>
@@ -70,7 +70,7 @@ input[type=number]::-webkit-inner-spin-button {
 					</div>
 						<div>7</div>
 				</div>
-				<div style="height: 200px; width: 310px;float:right;padding:15px;margin-top:30px;background-color:#FFFFC9;border-radius:15px">
+				<div style="height: 200px; width: 310px;float:right;padding:15px;margin-top:30px;background-color:fefcfb;border-radius:15px">
 					<div>
 						<div>
 						<div style="height:30px;margin-bbottom:20px;">

@@ -28,6 +28,7 @@ public class WithOrder {
 	private String sGame;
 	
 	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name="MPlay")
 	private MemberBean Member;
 	
 	@OneToOne(cascade = CascadeType.PERSIST)

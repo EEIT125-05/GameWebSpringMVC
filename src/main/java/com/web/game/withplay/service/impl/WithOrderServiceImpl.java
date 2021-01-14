@@ -65,6 +65,12 @@ public class WithOrderServiceImpl implements WithOrderService {
 	public List<WithOrder> getWithOrderList(Integer id) {
 		return oDAO.getWithOrderlist(id);
 	}
+
+	@Override
+	public List<WithOrder> getWithOrderwithList(Integer id) {
+		return oDAO.getWithOrderwithList(id);
+
+	}
 	
 	
 }

@@ -10,6 +10,7 @@
 <script src='//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js'></script>
 <link rel='stylesheet' href='https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css'>
 <link rel="stylesheet" href="../css/WithGame.css">
+<link rel="stylesheet" href="../css/WithGame.css">
 <title>會員資料管理</title>
 <!-- <script src="../js/With.js"></script> -->
 
@@ -53,9 +54,9 @@
 					<td>${With.sIdcode}</td>
 					<td>${With.sGender == 'F' ? "女" : "男" }</td>
 					<td>${With.sGame}</td>
-					<td><img width='200' height='200'
+					<td><img style="width:150px;height:150px;"class="img1"
 						src='${pageContext.request.contextPath}/withplay/picture/${With.iId}' /></td>
-					<td style="word-break: break-all; width:400px" >${With.sComment}</td>
+					<td style="word-break: break-all; width:300px" >${With.sComment}</td>
 					<td>${With.iPrice}</td>
 					<td><a
 						href="${pageContext.request.contextPath}/withplay/edit/${With.iId}">Edit</a>

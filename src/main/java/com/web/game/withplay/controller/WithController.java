@@ -253,8 +253,7 @@ public class WithController {
 	@GetMapping("/withplay/Withorderlist")
 	public String PersonOrder(Model model) {
 		model.addAttribute("WithOrder",withOrderService.getWithOrderList(((MemberBean) model.getAttribute("user")).getiNo()));
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println(withOrderService.getWithOrderList(((MemberBean) model.getAttribute("user")).getiNo()));
+		model.addAttribute("WithOrder2",withOrderService.getWithOrderwithList(((MemberBean) model.getAttribute("user")).getiNo()));
 		return "withplay/WithOrderlist-1";
 				
 	}
