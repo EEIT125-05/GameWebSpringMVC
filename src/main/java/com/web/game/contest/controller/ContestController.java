@@ -3,6 +3,7 @@ package com.web.game.contest.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -32,6 +33,7 @@ import com.web.game.contest.service.ParticipateService;
 import com.web.game.contest.validators.ContestValidator;
 import com.web.game.contest.validators.dateAndTimeValidator;
 import com.web.game.member.model.MemberBean;
+import com.web.game.member.service.MemberService;
 
 @Controller
 @RequestMapping("/contest")
@@ -49,6 +51,9 @@ public class ContestController {
 	
 	@Autowired
 	ParticipateService pService;
+	
+	@Autowired
+	MemberService mService;
 	
 	@Autowired
 	ContestValidator cValidator;
@@ -230,6 +235,53 @@ public class ContestController {
 		}
 		return map;
 	}
+	
+	@PostMapping("/MultiJoin")
+	public @ResponseBody Map<String, String> multiJoinContest(
+					@RequestParam Integer contestNo,
+					@RequestParam(value="players[]") List<String> players,		
+					Model model) {
+		Map<String, String> map = new HashMap<String, String>();
+		ContestBean cContestBean = cService.selectOneContest(contestNo);
+		Boolean toDB = true;
+		Boolean chechAnswer = true;
+		StringBuilder toDBPlayers = new StringBuilder();
+		for(String player:players) {
+//			System.out.println("players: " + player);
+			String sAccount = mService.Checkmember(player);
+//			System.out.println("account: " + sAccount);
+			if(sAccount.equals("")) {
+				toDB = false;
+				break;
+			}
+			for(ParticipateBean pParticipateBean: cContestBean.getlParticipateBeans()) {
+				for(String playersString: pParticipateBean.getsPlayer().split("/")) {
+					if(playersString.equals(player)) {
+						chechAnswer = false;
+						break;
+					}
+				}
+			}
+			
+			toDBPlayers.append("/" + player);
+		}
+		if(!toDB) {
+			map.put("status", "noUserError");
+		}else if(!chechAnswer){
+			map.put("status", "playerError");
+		}else {
+//			System.out.println("和資料庫處理");
+			toDBPlayers.delete(0, 1);
+			if(pService.insertParticipate(new ParticipateBean(null, toDBPlayers.toString(), cContestBean))) {
+				map.put("status", "success");
+			}else {
+				map.put("status", "sqlError");
+			}
+		}
+		
+		return map;
+	}
+	
 	
 	@GetMapping("/Participate")
 	public String selectParticipate(Model model) {

@@ -72,7 +72,7 @@ public class ContestDAOImpl implements ContestDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ContestBean> selectUserContest(String user) {
-		String hql = "from ContestBean where sHost = :user";
+		String hql = "from ContestBean where sHost = :user order by dSignStart desc";
 		Session session = factory.getCurrentSession();
 		return session.createQuery(hql).setParameter("user", user).getResultList();
 	}

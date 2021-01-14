@@ -157,7 +157,7 @@
 							pattern="yyyy-MM-dd HH:mm" />
 						<p>比賽時間: ${sTime}</p>
 						<p>比賽地點: ${cContest.sLocation}</p>
-						<p>參加人數:
+						<p>報名狀況:
 							${fn:length(cContest.lParticipateBeans)}/${cContest.iPeople}</p>
 						<a class="btn btn-primary"
 							href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>">詳細按鈕
@@ -265,7 +265,7 @@ $(function(){
  															+ "~" + $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd') + "</p>"
  												+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
  												+"<p>比賽地點: " + value.sLocation + "</p>"
- 												+"<p>參加人數: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
+ 												+"<p>報名狀況: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
  												+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
  												+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"
  												+"</a>"
@@ -395,7 +395,7 @@ $(function(){
 												+ "~" + $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd') + "</p>"
 									+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
 									+"<p>比賽地點: " + value.sLocation + "</p>"
-									+"<p>參加人數: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
+									+"<p>報名狀況: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
 									+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
 									+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"
 									+"</a>"
@@ -500,7 +500,7 @@ $(function(){
 												+ "~" + $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd') + "</p>"
 									+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
 									+"<p>比賽地點: " + value.sLocation + "</p>"
-									+"<p>參加人數: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
+									+"<p>報名狀況: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
 									+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
 									+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"
 									+"</a>"
@@ -608,7 +608,7 @@ $(function(){
 														+ "~" + $.format.date(new Date(value.dSignEnd), 'yyyy-MM-dd') + "</p>"
 											+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
 											+"<p>比賽地點: " + value.sLocation + "</p>"
-											+"<p>參加人數: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
+											+"<p>報名狀況: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
 											+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
 											+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"
 											+"</a>"
