@@ -74,7 +74,7 @@
 
 						<div data-toggle="modal" data-target="#exampleModal">
 							<button type="button" class="btn btn-primary" data-toggle="modal"
-								data-target="#exampleModalLong${g.no }" ><i
+								data-target="#exampleModalLong${vs.index}" ><i
 							class="fa fa-exchange"></i></button>
 						</div>
 
@@ -83,7 +83,7 @@
 				</div>
 			</div>
 
-			<div class="modal fade" id="exampleModalLong${g.no }" tabindex="-1"
+			<div class="modal fade" id="exampleModalLong${vs.index}" tabindex="-1"
 				role="dialog" aria-labelledby="exampleModalLongTitle"
 				aria-hidden="true">
 				<div class="modal-dialog" role="document">
@@ -102,14 +102,14 @@
 								<fieldset>
 									<div>
 										<label for="partyA">甲方　　</label> <input type="text"
-											name="partyA" value="${user.sAccount }"
+											name="partyA" value="${g.gamer }"
 											style="width: 260px;" class="fixedlen" id="partyA${vs.index }"  readonly/>
 
 														<span id="console1span"></span>
 									</div>
 									<div>
 
-										<label for="gamename">您的遊戲</label> <input type="text"
+										<label for="gamename">欲換遊戲</label> <input type="text"
 											name="supportGame"
 											value="${g.console }-${g.gamename}"
 											style="width: 260px;" class="fixedlen" id="Supportgamebean" readonly />
@@ -121,7 +121,7 @@
 									<div>
 
 										<label for="partyB">乙方　　</label> <input type="text"
-											name="partyB" value="${g.gamer }"
+											name="partyB" value="${user.sAccount }"
 											style="width: 260px;" class="fixedlen" id="partyB${vs.index }" readonly/>
 														<span id="qtyspan"></span>
 

@@ -215,12 +215,18 @@ public class ExchangeService {
 //	public MyGameBean getMyGameByAccount(String gamename,String account) {
 //		return mygamesDAO.getMyGameByAccount(gamename,account);
 //	}
+	
+	@Transactional
+	public boolean checkMyGameBean(String account,String gamename) {
+		return mygamesDAO.checkMyGameBean(account, gamename);
+	}
 	@Transactional
 	public List<MyGameBean> getMemberGamesName(String account) {
 		return mygamesDAO.getMemberGamesName(account);
 	}
 	@Transactional
 	public List<MyGameBean> getMemberGames(String account) {
+		System.out.println("ServiceIn");
 		return mygamesDAO.getMemberGames(account);
 	}
 	@Transactional
