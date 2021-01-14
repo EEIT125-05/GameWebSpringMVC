@@ -171,7 +171,7 @@ td{
 				
 				<tr>
 					<td>金額</td>
-					<td><form:input path="iPrice" />&nbsp;<span style="color:red;"><form:errors path="iPrice"/></span></td>
+					<td><form:input path="iPrice" />&nbsp;<span style="color:yellow;"><form:errors path="iPrice" placeholder="不得大於150元"/></span></td>
 				</tr>
 				<tr>
 					<td>自我介紹</td>

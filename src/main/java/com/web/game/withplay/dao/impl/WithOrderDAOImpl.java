@@ -92,5 +92,14 @@ public class WithOrderDAOImpl implements WithOrderDao{
 		return list;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<WithOrder> list() {
+		Session session = factory.getCurrentSession();
+		String hql = "FROM WithOrder";
+		List<WithOrder> list = session.createQuery(hql).getResultList();
+		return list;
+	}
+
 
 }

@@ -31,7 +31,7 @@
 			<input type='hidden' name='_method' value='DELETE'>
 		</form>
 		
-			<h1>${user.sNickname }你好</h1>
+			<h1>${user.sNickname}你好</h1>
 		</div>	
 	<p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"" >
@@ -71,21 +71,20 @@
 					<td>${Order.dDate}</td>
 					<td>${Order.sGame}</td>
 					<td>${Order.iPrice}</td>
-					<td >${With.sComment}</td>
-					<td>${With.iPrice}</td>
 					<td>
 						<c:choose>
 						<c:when test="${Order.member.sAccount == user.sAccount }">
-						等待對方審核
+						等待確認
 						</c:when>
 						<c:when test="${Order.with.sAccount == user.sAccount }">
-						確認 婉拒
+						尚未確認
 						</c:when>
 						<c:otherwise>
 						</c:otherwise>						
-						</c:choose>        
-						
+						</c:choose>        	
 					</td>
+					<td>${With.iPrice}</td>
+					<td >${With.sComment}</td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -110,39 +109,36 @@
 			<tr>
 				<th>編號</th>
 				<th>照片</th>
-				<th>陪玩主</th>
+				<th>會員</th>
 				<th>訂單時間</th>
 				<th>遊戲</th>
 				<th >消費金額</th>
 				<th>狀態</th>
-				<th >自我介紹</th>
-				<th>價格</th>
+				<th>功能</th>
 			</tr>
 			</thead>
 			<c:forEach items="${WithOrder2}" var="withOrder" varStatus="status">
 				<tr>	
 					<td>${status.count}</td>
-					<td><img style="width:150px;height:150px;"class="img1" src='${pageContext.request.contextPath}/withplay/picture/${withOrder.with.iId}'>
+					<td><img style="width:150px;height:150px;"class="img1" src='${pageContext.request.contextPath}/withplay/picture/${withOrder.member.iNo}'>
 								</td>
-					<td >${withOrder.with.sNickname}</td>
-					<td>${withOrder.dDate}<br>${Order.tTime}</td>
+					<td >${withOrder.member.sNickname}</td>
+					<td>${withOrder.dDate}</td>
 					<td>${withOrder.sGame}</td>
 					<td>${withOrder.iPrice}</td>
-					<td >${With.sComment}</td>
-					<td>${With.iPrice}</td>
 					<td>
 						<c:choose>
 						<c:when test="${withOrder.member.sAccount == user.sAccount }">
-						等待對方審核
+						等待確認
 						</c:when>
 						<c:when test="${withOrder.with.sAccount == user.sAccount }">
-						確認 婉拒
+						尚未確認
 						</c:when>
 						<c:otherwise>
 						</c:otherwise>						
-						</c:choose>        
-						
+						</c:choose>        	
 					</td>
+					<td >${With.sComment}</td>
 				</tr>
 			</c:forEach>
 		</table>

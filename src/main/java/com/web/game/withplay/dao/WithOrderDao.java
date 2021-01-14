@@ -17,4 +17,6 @@ public interface WithOrderDao {
 	public List<WithOrder> getWithOrderlist(Integer id);
 
 	public List<WithOrder> getWithOrderwithList(Integer id);
+	
+	public List<WithOrder> list();
 }
