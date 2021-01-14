@@ -100,8 +100,8 @@ public class ContestDAOImpl implements ContestDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, Integer scrollInt) {
-		String hql = "from ContestBean where (sName like '%" + sSearch + "%' or sLocation like '%" + sSearch + "%') and sGame like '%" + sGame + "%'" + sSignDate +" order by dSignStart desc";
+	public List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, String sCompSystem, Integer scrollInt) {
+		String hql = "from ContestBean where (sName like '%" + sSearch + "%' or sLocation like '%" + sSearch + "%') and sGame like '%" + sGame + "%' " + sSignDate + sCompSystem +" order by dSignStart desc";
 		System.out.println(hql);
 		Session session = factory.getCurrentSession();
 		return session.createQuery(hql)

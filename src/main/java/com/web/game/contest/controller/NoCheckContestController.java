@@ -57,7 +57,7 @@ public class NoCheckContestController {
 	@GetMapping("Index")
 	public String contestIndex(Model model) {
 //		model.addAttribute("lContestList", cService.selectAllContest());
-		model.addAttribute("lContestList", cService.searchContests("", "", "", "", 0));
+		model.addAttribute("lContestList", cService.searchContests("", "", "", "", "", 0));
 		model.addAttribute("lGameList", gService.selectGameList());
 		return "contest/ContestIndex";
 	}
@@ -94,11 +94,25 @@ public class NoCheckContestController {
 					@RequestParam String sGame,
 					@RequestParam String sSignDate,
 					@RequestParam String sSign,
+					@RequestParam String sCompSystem,
 					@RequestParam(defaultValue = "0") Integer scrollInt){
 		Map< String, List<ContestBean>> map = new HashMap<>();
-		map.put("lContestList", cService.searchContests(sSearch, sGame, sSignDate, sSign, scrollInt));
+		map.put("lContestList", cService.searchContests(sSearch, sGame, sSignDate, sSign, sCompSystem, scrollInt));
 		return map;
 	}
+	
+	@PostMapping("/FastAjax")
+	public @ResponseBody List<ContestBean> fastSearch(
+					@RequestParam String sGame,
+					@RequestParam String sCompSystem){
+		List<ContestBean> lContestBean = new ArrayList<ContestBean>();
+		
+		
+		
+		
+		return lContestBean;
+	}
+	
 	
 	@GetMapping("/ConfirmImage")
 	public ResponseEntity<byte[]> confirmImage(Model model){

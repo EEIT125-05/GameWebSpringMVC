@@ -21,7 +21,7 @@ public interface ContestService {
 	
 	List<ContestBean> selectPageContest(Integer pageNo);
 	
-	List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, String sSign, Integer scrollInt);
+	List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, String sSign, String sCompSystem, Integer scrollInt);
 	
 	void setTime(ContestBean cContestBean, String sSignStart, String sSignEnd, String sTime);
 	
