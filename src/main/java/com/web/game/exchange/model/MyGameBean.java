@@ -30,7 +30,30 @@ public class MyGameBean {
 	@OneToOne(mappedBy = "mygamebean")
 	@JsonIgnore
 	private ChangeHistoryBean changehistorybean;
+	@OneToOne(mappedBy = "mygamebean")
+	@JsonIgnore
+	private WishHistoryBean wishhistorybean;
+	@OneToOne(mappedBy = "mygamename")
+	@JsonIgnore
+	private DemandGameBean demandgamebean;
 	
+	
+	public WishHistoryBean getWishhistorybean() {
+		return wishhistorybean;
+	}
+
+	public void setWishhistorybean(WishHistoryBean wishhistorybean) {
+		this.wishhistorybean = wishhistorybean;
+	}
+
+	public DemandGameBean getDemandgamebean() {
+		return demandgamebean;
+	}
+
+	public void setDemandgamebean(DemandGameBean demandgamebean) {
+		this.demandgamebean = demandgamebean;
+	}
+
 	public ChangeHistoryBean getChangehistorybean() {
 		return changehistorybean;
 	}

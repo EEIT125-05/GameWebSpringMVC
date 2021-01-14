@@ -15,10 +15,12 @@ import com.web.game.exchange.dao.ChangeDAO;
 import com.web.game.exchange.dao.DemandDAO;
 import com.web.game.exchange.dao.MyGamesDAO;
 import com.web.game.exchange.dao.SupportDAO;
+import com.web.game.exchange.dao.WishDao;
 import com.web.game.exchange.model.ChangeHistoryBean;
 import com.web.game.exchange.model.DemandGameBean;
 import com.web.game.exchange.model.MyGameBean;
 import com.web.game.exchange.model.SupportGameBean;
+import com.web.game.exchange.model.WishHistoryBean;
 
 @Service
 public class ExchangeService {
@@ -31,6 +33,8 @@ public class ExchangeService {
 	SupportDAO supportDAO;
 	@Autowired
 	DemandDAO demandDAO;
+	@Autowired
+	WishDao wishDAO;
 
 	//-------------testchange
 	@Transactional
@@ -54,6 +58,11 @@ public class ExchangeService {
 		List<DemandGameBean> list = new ArrayList<>();
 		list = demandDAO.GetMemberDemand(account);
 		return list;
+	}
+	
+	@Transactional
+	public DemandGameBean getDemandGameBean(int iNo) {
+		return demandDAO.getDemandGameBean(iNo);
 	}
 	
 	@Transactional
@@ -206,6 +215,17 @@ public class ExchangeService {
 	public List<ChangeHistoryBean> getHistoryList(Integer id){
 		return changeDAO.getHistoryList(id);
 	}
+	//------------------------wishhistory
+	@Transactional
+	public boolean insertWishHistory(WishHistoryBean WHB) {
+		Integer status = 2;
+		WHB.getDemandgamebean().setStatus(status);
+		WHB.getDemandgamebean().setStatus(status);
+		return wishDAO.insertWishHistory(WHB);
+		
+		
+	}
+	
 	//------------------------mygames
 	@Transactional
 	public boolean insertMyGame(MyGameBean mygame) {

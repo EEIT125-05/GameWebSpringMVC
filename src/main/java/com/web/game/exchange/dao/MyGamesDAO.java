@@ -63,7 +63,7 @@ public class MyGamesDAO {
 	public boolean checkMyGameBean(String account,String gamename) {
 		Session session = factory.getCurrentSession();
 		List<MyGameBean> list = new ArrayList<MyGameBean>(); 
-		String hql = "FROM MyGameBean g WHERE g.gamer = :account AND g.gamename = :gamename";
+		String hql = "FROM MyGameBean g WHERE g.gamer = :account AND g.gamename = :gamename AND g.status = 0";
 		list = session.createQuery(hql)
 				.setParameter("account", account)
 				.setParameter("gamename", gamename)

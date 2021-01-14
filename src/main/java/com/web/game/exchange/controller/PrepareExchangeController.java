@@ -33,7 +33,7 @@ public class PrepareExchangeController {
 	public String initWishBoard(Model model,
 			@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "searchparams", required = false)String searchParam) {
-		
+		System.out.println("01140931");
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		int count=6;//每頁幾筆
 		int p = 0;//共幾頁

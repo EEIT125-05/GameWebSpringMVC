@@ -56,7 +56,7 @@
 						<div data-toggle="modal" data-target="#exampleModal">
 							<button type="button" class="btn btn-primary" data-toggle="modal"
 								data-target="#exampleModalLong${vs.index}"
-								onclick="selectChange('${g.gamename }','${g.gamer}');">
+								onclick="selectChange('${g.gamename }','${g.gamer}','${vs.index }');">
 								<i class="fa fa-exchange"></i>
 							</button>
 						</div>
@@ -84,7 +84,7 @@
 
 							<fieldset>
 								<div>
-									<label for="partyA">甲方 </label> <input type="text"
+									<label for="partyA">甲方　　 </label> <input type="text"
 										name="partyA" value="${user.sAccount }" style="width: 260px;"
 										class="fixedlen" id="partyA${vs.index }" readonly /> <span
 										id="console1span"></span>
@@ -101,7 +101,7 @@
 								</div>
 								<div>
 
-									<label for="partyB">乙方 </label> <input type="text"
+									<label for="partyB">乙方　　 </label> <input type="text"
 										name="partyB" value="${g.gamer }" style="width: 260px;"
 										class="fixedlen" id="partyB${vs.index }" readonly /> <span
 										id="qtyspan"></span>
@@ -112,10 +112,7 @@
 									<label for="gamename">對方遊戲</label> <select
 										style="width: 260px;" class="fixedlen" name="myGameNo"
 										id="myGame${vs.index }" onblur="resetSelect(${vs.index });">
-										<option>對方的遊戲庫</option>
-										<c:forEach var="M" items="${myGameBeans}">
-											<option value="${M.no }">${M.console}-${M.gamename}</option>
-										</c:forEach>
+										
 									</select> <span id="gamenamespan${vs.index }"></span>
 
 								</div>
@@ -124,10 +121,13 @@
 
 						</div>
 						<div class="modal-footer">
+						<div id="submit${vs.index }">
 							<button type="botton" class="btn btn-secondary"
 								data-dismiss="modal">返回</button>
 							<a class="btn btn-primary appforsubmit "
+								id="button${vs.index }"
 								onclick="checksubmit(${vs.index });">申請</a>
+						</div>
 						</div>
 					</div>
 				</div>
@@ -148,22 +148,40 @@
 	<%@ include file="../Foot.jsp"%>
 	<script>
 	
-	function selectChange(gamename,gamer){
-		
+	function selectChange(gamename,gamer,no){
 		console.log(gamename)
 		console.log(gamer)
+		let optstr ="";
 		var xhr2 = new XMLHttpRequest();
-		xhr2.open('GET','<c:url value="/exchange/memberSupportAjax"/>'+'?gamename='+gamename,true)
+		xhr2.open('GET','<c:url value="/exchange/memberSupportAjax"/>'+'?gamename='+gamename+'&gamer='+gamer,true)
 		xhr2.send();
 		xhr2.onload=function(){
 			if (xhr2.readyState === 4 && xhr2.status === 200) {
 			var s = JSON.parse(xhr2.responseText)
 				console.log("success")
-				console.log("s"+s)
+				console.log("result"+s.result)
+				if(s.result === false){
+					Swal.fire(
+							  '您並沒有此款遊戲，如果您有此款遊戲請新增至遊戲庫內',
+							  '',
+							  'warning'
+							)
+					
+					console.log(document.getElementById("gotomygame"+no)+"gotomygame")
+					if(document.getElementById("gotomygame"+no) == null){
+					$('#button'+no).remove();
+					$('#submit'+no).append("<a class='btn btn-danger appforsubmit ' id='gotomygame"+no+"' href='<c:url value='/exchange/insertMyGame'/>'>新增遊戲</a>");
+					}
+					console.log("falseIn")
+				}
+				$("#myGame"+no).empty()
+				optstr += "<option>對方的遊戲庫</option>"
+				for (let i = 0; i < s.list.length; i++){
+					optstr += "<option value='"+s.list[i].no+"'>"+s.list[i].console+"-"+s.list[i].gamename+"</option>"
+				}
+				$("#myGame"+no).append(optstr)
+					
 				
-// 			for(let i=0 ;i<s.list.length;i++){
-// 				console.log(s.list[i].no)
-// 			}
 			}else{
 				alert("失敗---readyState"+readyState+"status"+status)
 			}
@@ -176,7 +194,7 @@
 		if ($("#myGame"+e).val() == "") {
 				$("#gamenamespan"+e).html("<span>必填</span>")
 				$(".appforsubmit").attr("disabled", true);
-			} else if ($("#myGame"+e).val() == "我的遊戲庫") {
+			} else if ($("#myGame"+e).val() == "對方的遊戲庫") {
 				$("#gamenamespan"+e).html("<span>必填</span>")
 				$(".appforsubmit").attr("disabled", true);
 			} else {
@@ -198,7 +216,7 @@
 				+ '?partyA=' + partyAval 
 				+ '&partyB='+ partyBval
 				+'&myGameNo='+myGameval
-				+ '&supportGameNo='+supportGameNoval
+				+ '&demandGameNo='+supportGameNoval
 				, true);
 		xhr1.send();
 		xhr1.onload = function() {
@@ -221,23 +239,6 @@
 	}
 	
 	window.onload = function() {
-// 		var xhr2 = new XMLHttpRequest();
-// 		xhr2.open('GET','<c:url value="/exchange/memberSupportAjax"/>',true)
-// 		xhr2.send();
-// 		xhr2.onload=function(){
-// 			if (xhr2.readyState === 4 && xhr2.status === 200) {
-// 			var s = JSON.parse(xhr2.responseText)
-// 				console.log("success")
-// 				console.log("s"+s)
-// 				console.log("s.list.length"+s.list.length)
-				
-// 			for(let i=0 ;i<s.list.length;i++){
-// 				console.log(s.list[i].no)
-// 			}
-// 			}else{
-// 				alert("失敗---readyState"+readyState+"status"+status)
-// 			}
-// 		}
 		
 		
 		var pages = document.querySelectorAll(".page");
@@ -247,13 +248,14 @@
 
 		var xhr = new XMLHttpRequest();
 
+		
 		for (i = 0; i < pages.length; i++) {
 			pages[i].onclick = changepage
 		}
 		console.log("綁定完成")
 		function changepage() {
 			let i = (this.innerText)
-			var optstr =""
+			let optstr =""
 			xhr.open('GET', '<c:url value="/exchange/changepage" />'
 					+ '?page=' + i + '&search=' + search, true);
 			xhr.send();
@@ -334,6 +336,9 @@
 					divout.innerHTML += "</div>"
 				}
 			}
+			
+			
+			
 		}
 		}
 	
