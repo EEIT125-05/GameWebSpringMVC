@@ -300,7 +300,7 @@ input {
 			<div align='left' 
 				style="border: 3px solid gray; width: 650; height: 710; border-radius: 5px;padding-left:20;">
 				<h3 style='padding-top: 10px;'>
-					設定的帳號:<input pattern="[a-z0-9]" type="text" id="sAccount" name="sAccount"
+					設定的帳號:<input pattern="[a-z0-9]{6,}" type="text" id="sAccount" name="sAccount"
 						minlength="6" maxlength="20" required onblur="checkAccount();">
 					<input type="button" id='accountCheck' value="檢查" disabled><br>
 					<span id="idaccount"></span>
@@ -319,7 +319,7 @@ input {
 						id="idphone"></span>
 				</h3>
 				<h3>
-					設定的密碼:<input type="password" id="Password" name="sPassword"
+					設定的密碼:<input pattern="[a-z0-9]{8,}" type="password" id="Password" name="sPassword"
 						minlength="8" maxlength="16" required onblur="checkPassword();">
 					<input id="btn" type="button" class="material-icons"
 						style="font-size: 25px" value="visibility"> <br><span

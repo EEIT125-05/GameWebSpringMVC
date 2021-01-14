@@ -187,15 +187,17 @@ input {
 	<hr>
 	<%@ include file="../Header.jsp"%>
 
-	<form action="<c:url value='/member/MemberData'/>" method="post" enctype="multipart/form-data">
+	<form action="<c:url value='/member/MemberData'/>" method="post"
+		enctype="multipart/form-data">
 		<div align='center'>
 			<div align='left'
-				style="border: 3px solid gray; width: 550; height: 850;border-radius: 5px;">
+				style="border: 3px solid gray; width: 550; height: 850; border-radius: 5px;">
 				<div align='center' style="padding-top: 15">
 					<div>
 						<img style="width: 250; height: 175;"
-							src="<c:url value='/member/picture/${user.sAccount}'/>">
-							<input type="file" name="productImage" />
+							src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>"><br>
+						點選換照片<input type="file" name="productImage" />
+
 					</div>
 				</div>
 				<hr>
@@ -214,8 +216,8 @@ input {
 				</h3>
 				<h3>
 					再次確認密碼:<input id="passwordConfirm" type="password" name="sPassword"
-						minlength="8" required maxlength="16" onblur="checkPassword();"><span
-						id="idpasswordConfirm"></span>
+						minlength="8" placeholder="修改前請再次輸入密碼" required maxlength="16"
+						onblur="checkPassword();"><span id="idpasswordConfirm"></span>
 				</h3>
 				<h3>
 					更改暱稱:<input type="text" id="Nickname" name="sNickname"
@@ -280,10 +282,10 @@ input {
 						value="${user.registerDate}" readonly>
 				</h3>
 				<H3 align='center'>
-					<input id="submit" name="submit" type="submit"
-						value="修改" disabled style='background-color: Orange;'> <a
-						href="<c:url value='/member/Data'/>"><input type="button" value="回上一頁"
-						style='background-color: Orange;'></a>
+					<input id="submit" name="submit" type="submit" value="修改" disabled
+						style='background-color: Orange;'> <a
+						href="<c:url value='/member/Data'/>"><input type="button"
+						value="回上一頁" style='background-color: Orange;'></a>
 				</H3>
 			</div>
 		</div>

@@ -192,11 +192,11 @@ public class MemberDaoImpl implements MemberDao {
 			mb = beans.get(0);
 		}
 		return mb;
-
 	}
 
 	@Override
 	public MemberBean SearchMail(String sEmail) {
+		System.out.println("進來這裡的Mail是????="+sEmail);
 		try {
 			String hql = "FROM MemberBean WHERE sEmail = :sEmail";
 			Session session = getSession();
@@ -206,6 +206,7 @@ public class MemberDaoImpl implements MemberDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("沒有找到Mail");
 		return null;
 	}
 

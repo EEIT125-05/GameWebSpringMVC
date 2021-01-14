@@ -164,8 +164,8 @@ input {
 				<div align='center' style="padding-top: 15">
 					<div>
 						<img style="width: 250; height: 175;"
-							src="<c:url value='/member/picture/${user.sAccount}'/>"><br>
-						<input type="file" name="productImage" />
+							src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>"><br>
+						點選換照片<input type="file" name="productImage" />
 					</div>
 				</div>
 				<hr>
@@ -184,7 +184,7 @@ input {
 						value="${user.sPassword}" readonly>
 				</h3>
 				<h3>
-					信箱:${user.sEmail}<input type="hidden" id="Email" name="sEmail"
+					<input type="hidden" id="Email" name="sEmail"
 						required
 						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$"
 						onblur="checkEmail();" value="${user.sEmail}"><span

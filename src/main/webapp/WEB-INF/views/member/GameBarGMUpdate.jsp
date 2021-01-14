@@ -30,7 +30,7 @@ input {
 	<H1 align='center'>會員後台管理</H1>
 	<hr>
 	<%@ include file="../Header.jsp"%>
-	<form action="<c:url value='/member/${sAccount}'/>" method="post">
+	<form action="<c:url value='/member/GameBar/${sAccount}'/>" method="post">
 		<div align='center'>
 			<div align='left'
 				style="border: 3px solid gray; width: 600; height: 550; border-radius: 5px;">
@@ -40,6 +40,11 @@ input {
 				<h3>
 					會員帳號:${OneMember.sAccount}<input type="hidden" name="sAccount"
 						value="${OneMember.sAccount}" readonly>
+				</h3>
+				<h3>
+					會員信箱:${OneMember.sEmail}<input type="hidden" id="Email" name="sEmail"
+						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$"
+						onblur="checkEmail();" value="${OneMember.sEmail}">
 				</h3>
 				<h3>
 					會員密碼:<input type="password" name="sPassword"
@@ -53,12 +58,6 @@ input {
 					更改真實姓名:<input type="text" id="Ename" name="sEname"
 						pattern="^[\u4e00-\u9fa5]+$" minlength="2" maxlength="4"
 						value="${OneMember.sEname}">
-				</h3>
-				<h3>
-					更改信箱<input type="text" id="Email" name="sEmail"
-						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$"
-						onblur="checkEmail();" value="${OneMember.sEmail}"><span
-						id="idemail"></span>
 				</h3>
 				<h3>
 					更改手機號碼:<input type="text" id="Phone" name="sPhone" maxlength="10"

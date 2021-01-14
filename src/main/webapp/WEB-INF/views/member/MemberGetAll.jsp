@@ -44,7 +44,7 @@ table, th, td {
 						<th width='30'>照片</th>
 						<th width='30'>帳號</th>
 						<th width='30'>暱稱</th>
-						<th width='30'>姓名</th>
+						<th width='10'>姓名</th>
 						<th width='30'>信箱</th>
 						<th width='30'>居住地</th>
 						<th width='30'>手機號碼</th>
@@ -57,12 +57,12 @@ table, th, td {
 					<c:forEach var='user' items='${users}'>
 						<tr>
 							<td>${user.iNo}</td>
-							<td><img width='60' height='72'
-								src="<c:url value='/member/picture/${user.sAccount}'/>"></td>
+							<td><img width='60' height='80'
+								src="<c:url value='/member/picture/getall/${user.sAccount}'/>"></td>
 							<%-- 							<td><a href="<c:url value='/member/${user.iNo}'/>" --%>
 							<%-- 								method="post">${user.iNo}</a></td> --%>
 							<td><a
-								href="<c:url value='/member/Update/${user.sAccount}'/>"> <input
+								href="<c:url value='/member/Update?sAccount=${user.sAccount}'/>"> <input
 									type="button" value="${user.sAccount}"
 									style='background-color: skyblue; width: 100%; height: 100%;'></a></td>
 							<%-- 							<td>${user.sAccount}</td> --%>

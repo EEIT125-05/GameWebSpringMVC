@@ -23,6 +23,7 @@ input {
 }
 </style>
 <title>會員登入</title>
+ 
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script type="text/javascript"
@@ -191,6 +192,7 @@ input {
 						});//end gapi.load
 	}//end GoogleClientInit function
 </script>
+
 <script type="text/javascript">
 	function changeimg() {
 		var myimg = document.getElementById("code");
@@ -259,7 +261,7 @@ input {
 				<h3 style='padding-top: 30px;' align='left'>
 					帳號:<input type="text" name="sAccount" minlength="6" maxlength="20"
 						placeholder="請輸入帳號" required
-						value="${requestScope.user}${param.sAccount}">
+						value="${requestScope.sAccount}${param.sAccount}">
 				</h3>
 				<h3 style='padding-top: 30px;' align='left'>
 					密碼:<input type="password" id="Password" name="sPassword"
@@ -308,8 +310,8 @@ input {
 		</div>
 	</div>
 	</div>
-	<form id="Google" type="submit"
-		action="<c:url value='/member/GameIndex'/>"></form>
+	<form id="Google" action="<c:url value='/member/GameIndex'/>"></form>
+	
 	<%@ include file="../Foot.jsp"%>
 </body>
 </html>

@@ -33,7 +33,7 @@ input {
 					<div>
 						<!-- 						style="border: 1px solid gray; width: 202; height: 202"> -->
 						<img style="width: 250; height: 175;"
-							src="<c:url value='/member/picture/${user.sAccount}'/>">
+							src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>">
 					</div>
 				</div>
 				<hr>

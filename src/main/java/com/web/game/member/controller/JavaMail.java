@@ -19,15 +19,15 @@ public class JavaMail {
 	private String customer = "" ;
 	private String subject = "親愛的GameBar會員通知";
 //	private String PasswordSet = "http://localhost:8080/GameWebSpringMVC/src/main/webapp/WEB-INF/views/member/MemberPasswordSet";
-	private Integer No = null ;  
-	private String txt = "請點選下面網址更改密碼<br><a href=\"" + "http://localhost:8080/GameWebSpringMVC/member/forget/PasswordSet?"+No + "\">點擊我</a>";
-	
+//	private Integer No = null ;  
+//	private String txt = "請點選下面網址更改密碼<br><a href=\"" + "http://localhost:8080/GameWebSpringMVC/member/forget/PasswordSet?"+No + "\">點擊我</a>";
+	private String txt = "";
 
 	 @SuppressWarnings("static-access")
 	 public void SendMail(String sEmail, Integer iNo) {
-		No = iNo ;
+		System.out.println("傳進來的iNo="+iNo);
+		txt="請點選下面網址更改密碼<br><a href=\"" + "http://localhost:8080/GameWebSpringMVC/member/forget/PasswordSet?iNo="+iNo+"\">點擊我</a>";
 		customer = sEmail ;
-		System.out.println("有進來了嗎");
 		Properties prop = new Properties();
 		prop.setProperty("mail.transport.protocol", "smtp");
 
@@ -80,7 +80,7 @@ public class JavaMail {
 			message.setContent(txt, "text/html;charset=utf-8");
 
 			Transport transport = session.getTransport();
-
+			System.out.println("txt="+txt);
 			transport.send(message);
 			System.out.println("成功寄出");
 			transport.close();

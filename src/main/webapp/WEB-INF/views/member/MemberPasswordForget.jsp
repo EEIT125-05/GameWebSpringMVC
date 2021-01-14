@@ -27,11 +27,14 @@ input {
 	<form action="<c:url value='/member/JavaMail'/>" method="post">
 		<div align='center'>
 			<div align='center'
-				style="border: 3px solid gray; width: 450; height: 150">
+				style="border: 3px solid gray; width: 450; height: 250">
 				<H3 align='center'>
-					請輸入原本的的信箱<input type="email" name="mail" style="width: 400;"
+					請輸入使用的信箱<input type="email" name="mail" style="width: 400;"
 						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$">
 				</H3>
+				<h6 style='color: red;'>${showError}</h6>
+				<h6 style='color: green;'>${message}</h6>
+				<BR>
 				<H3>
 					<input type="submit" value="找回密碼">
 				</H3>

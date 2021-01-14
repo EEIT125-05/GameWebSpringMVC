@@ -88,12 +88,12 @@ input {
 	<form action="<c:url value='/member/PasswordChange'/>" method="post">
 		<div align='center'>
 			<div align='left'
-				style="border: 3px solid gray; padding-left: 20; padding-top: 20; width: 450; height: 350">
+				style="border: 3px solid gray; padding-left: 20; padding-top: 20; width: 450; height: 450">
 				<h3>
-					iNo:{user.iNo}
+					<input type="hidden" name="iNo" value="${m.iNo}">
 				</h3>
 				<h3>
-					輸入新密碼:<input id="Password" type="password" name="sPassword"
+					輸入新密碼:<input id="Password" type="password"
 						minlength="8" required maxlength="16" onblur="checksPassword();"><input
 						id="btn" type="button" class="material-icons"
 						style="font-size: 25px" value="visibility"><br>
