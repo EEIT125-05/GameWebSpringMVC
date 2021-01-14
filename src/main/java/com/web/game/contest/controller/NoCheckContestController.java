@@ -191,11 +191,12 @@ public class NoCheckContestController {
 	
 	@PostMapping("/ScheduleImage")
 	public @ResponseBody List<String> saveScheduleImage(
-							@RequestParam String image64,
+							@RequestParam String treeImage64,
+							@RequestParam String drowImage64,
 							@RequestParam Integer contestNo,
 							@RequestParam String schedule,
 							@RequestParam String groupPlayer) {
-		image64 = image64.split(",")[1];
+		treeImage64 = treeImage64.split(",")[1];
 		List<String> list = new ArrayList<String>();
 
 		System.out.println("表籤內容: " + groupPlayer);
@@ -228,7 +229,7 @@ public class NoCheckContestController {
 			
 		
 		Decoder decoder = Base64.getDecoder();
-		byte[] bImage = decoder.decode(image64);
+		byte[] bImage = decoder.decode(treeImage64);
 		
 		Blob bimageSchedule = null;
 		try {

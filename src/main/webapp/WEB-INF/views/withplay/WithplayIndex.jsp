@@ -32,17 +32,17 @@ response.setContentType("text/html;charset=UTF-8");
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a>
 			</li>
+			<li class="breadcrumb-item active">陪玩</li>
 		</ol>
 
 
 		<%-- 		<form action='${pageContext.request.contextPath}/withplay/select'> --%>
-		<div class="input-group"> 
-			<input type="text"  placeholder="輸入暱稱" name="sNickname" class="form-control input-lg" id="sNickname"> 
+		<div class="input-group" style="width:600px;text-align:center;">
+			<input type="text"  placeholder="輸入暱稱" name="sNickname" class="form-control input-lg" id="sNickname" style="width:200px"> 
 				<span class="input-group-btn"> 
 				<input type="button" value="搜尋" class="btn btn-secondary" id="submit">
-			</span>
-		</div>
-		<label>進階條件: </label><br> <label>遊戲</label> <select id="sGame"
+			</span>&emsp;&emsp;
+		<label style="font-weight: 900;">進階條件: </label><label style="font-weight: 900;">遊戲</label> <select id="sGame"
 			class="form-control" name="sGame"
 			style="width: 130px; display: inline">
 			<option value="">全部</option>
@@ -50,6 +50,7 @@ response.setContentType("text/html;charset=UTF-8");
 				<option value="${sGame}">${sGame}</option>
 			</c:forEach>
 		</select>
+		</div>
 		<%-- 		</form> --%>
 
 		<c:if test="${empty Withlist}">
