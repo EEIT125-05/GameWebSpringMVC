@@ -13,7 +13,7 @@ public class RecordBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer iNo;
-	private Integer iContestNo;//做contest與record的一對多?
+	private Integer iContestNo;
 	private Integer iGroupNo;
 	private Integer iGroupMemberNo;
 	private Integer iRematchNo;

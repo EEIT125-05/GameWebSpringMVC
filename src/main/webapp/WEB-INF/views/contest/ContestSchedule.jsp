@@ -140,52 +140,50 @@
 				<label>${vs.count}. </label><label class="playerNone" style="margin-right:10px">${participate.sPlayer}</label>
 			</c:forEach>
 		</div>
-		<form>
-			<div>
-				<label for="" id="team">隊伍形式: </label>
-				<label>
-					<input type="radio" id="individual" class="team" name="team" value="no" checked>個人賽
-				</label>
-				<label>
-					<input type="radio" id="group" class="team" name="team" value="yes" >團體賽	
-				</label><br>
-				<label id="teamCountSelect"></label>
-			</div>
-			<div>
-				<label>是否有預賽: </label>
-				<label>
-					<input type="radio" id="Npreliminaries" 
-					class="preliminaries" name="preliminaries" value="no" checked>無預賽
-				</label>
-				<label>
-					<input type="radio" id="Ypreliminaries" 
-					class="Preliminaries" name="preliminaries" value="yes">有預賽		
-				</label><br>
-				<label id="preliminariesCountSelect"></label>
-			</div>
-			<div>
-				<label>賽制: </label>
-				<label>
-					<input type="radio" id="knockout" 
-					class="competition" name="competition" value="no" checked>淘汰賽
-				</label>
-				<label>
-					<input type="radio" id="ground" 
-					class="competition" name="competition" value="yes" >循環賽
-				</label><br>
-			</div>
+		<div>
+			<c:choose>
+	    		<c:when test="${cContestBean.iTeamMemberCount == 1}">
+	    			<label>隊伍組成: </label><label>個人</label><br>
+	    		</c:when>
+	    		<c:otherwise>
+	    			<label>隊伍組成: </label><label>團體，每隊${cContestBean.iTeamMemberCount}人</label><br>
+	    		</c:otherwise>
+	    	</c:choose>
+	    	<c:choose>
+	    		<c:when test="${cContestBean.sPreliminary == 'none'}">
+	    			<label>預賽: </label><label>無預賽</label><br>
+	    		</c:when>
+	    		<c:otherwise>
+	    			<c:set var="sPreliminary" value="${fn:split(cContestBean.sPreliminary,'-')}"/>
+	   				<label>預賽: </label><label>有預賽，${sPreliminary[0]}取${sPreliminary[1]}  剩餘取${sPreliminary[2]}</label><br>
+	    		</c:otherwise>
+	    	</c:choose>
+	    		<input type="hidden" id="preliminary" value="${cContestBean.sPreliminary}">
+	    	
+	    	<c:if test="${cContestBean.sRematchMode == 'knockout'}">
+	    		<label>比賽形式: </label><label>淘汰賽</label><br>
+	    	</c:if>
+	    	<c:if test="${cContestBean.sRematchMode == 'ground'}">
+	    		<label>比賽形式: </label><label>循環賽</label><br>
+	    	</c:if>
+	    	<c:if test="${cContestBean.sRematchMode == 'free'}">
+	    		<label>比賽形式: </label><label>自由對戰</label><br>
+	    	</c:if>
+	    		<input type="hidden" id="rematchMode" value="${cContestBean.sRematchMode}">
 			<input class="btn btn-primary" type="button" id="build" value="產生">
-		</form>
+		</div>
 		<hr>
 	</div>
 
 	<div id="showSchedule" style="display:none">
 		<span>賽程:</span>
 		<div id="hiddenDiv" style="overflow:auto">
-				<label style="margin-left:10px;border:2px solid black">複賽</label>
+				<label>複賽</label>
 				<div id="tree" class="tree"></div>
 				<br>
-				<label id="preliminariesHidden" style="margin-left:10px;border:2px solid black;display:none">預賽</label>
+				<c:if test="${cContestBean.sPreliminary != 'none'}">
+					<label>預賽</label>
+				</c:if>
 				<div id="drow" class="drow"></div>
 		</div>
 		<hr>	
@@ -262,82 +260,9 @@ $(function(){
 
 	});
 	
-	$("#group").on("focus",function(){    
-		if($("#group:checked").length == 0){	
-	        let showSelect = false;
-	        $("#teamCountSelect").append("分<select id=\"teamCount\"></select>組");
-	        for(let i=2; i<$(".playerNone").length; i++){
-	        	if($(".playerNone").length % i == 0) {
-	        		$("#teamCount").append("<option value=" + i + ">" + i + "</option>");
-					showSelect = true;
-				}
-	        }
-	        if(!showSelect) {
-	        	$("#teamCountSelect").text("目前人數無法分組");
-			}
-		}
-		if($("#Ypreliminaries:checked").length > 0){
-			$("#preliminariesCountSelect").empty();
-			preliminariesCount();
-		}
-	});
 	
-	$("#individual").on("focus",function(){
-		$("#teamCountSelect").empty();
-		if($("#Ypreliminaries:checked").length > 0){
-			$("#preliminariesCountSelect").empty();
-			preliminariesCount();
-		}
-	});
-	
-	$(document).on("change", "#teamCount", function(){
-        if($("#Ypreliminaries:checked").length > 0){
-        	$("#preliminariesCountSelect").empty();
-        	preliminariesCount();
-		}
-    });
-	
-	$("#Ypreliminaries").on("focus", function(){
-		if($("#Ypreliminaries:checked").length == 0){
-			preliminariesCount();
-		}
-	});
-	
-	$("#Npreliminaries").on("focus",function(){
-		$("#preliminariesCountSelect").empty();
-	});
-	
-	$(document).on("change", "#preliminariesCount1", function(){
-		$("#preliminariesCount2").empty();
-		for(let i=1; i<=$(this).val(); i++){
-			$("#preliminariesCount2").append("<option value=" + i + ">" + i + "</option>")
-		}
-		let iPlayer = $(".playerNone").length;
-		if($("#teamCount").val() != null) {
-        	iPlayer = $("#teamCount").val();
-		}
-		if(iPlayer % $("#preliminariesCount1").val() != 0){
-			$("#last").empty();
-			$("#last").append("剩餘取<select id=\"preliminariesCount3\">");
-			for(let i=1; i<=iPlayer - $("#preliminariesCount1").val()*Math.floor(iPlayer/$("#preliminariesCount1").val()); i++){
-				$("#preliminariesCount3").append("<option value=" + i + ">" + i);
-			}
-		}else{
-			$("#last").empty();
-		}
-    });
-	 
-	function preliminariesCount(){
-	    let iPlayer = $(".playerNone").length;
-        $("#preliminariesCountSelect").append("<select id=\"preliminariesCount1\"></select>");
-        if($("#teamCount").val() != null) {
-        	iPlayer = $("#teamCount").val();
-		}
-		for(let i=2; i<=iPlayer; i++) {
-			$("#preliminariesCount1").append("<option value=" + i + ">" + i);
-		}
-		$("#preliminariesCountSelect").append("取<select id=\"preliminariesCount2\"><option value=\"1\">1</option><option value=\"2\">2</option></select><span id=\"last\"></span>");
-	}
+	let preliminary = $("#preliminary").val();
+	let rematchMode = $("#rematchMode").val();
 	
 	$("#build").on("click",function(){
 		$(this).val("產生/重新整理");
@@ -351,38 +276,49 @@ $(function(){
 			$("#playerCount").append("<label class=\"player\">" + $(this).text());
 		});			
 		
-		if($("#group:checked").length > 0) {
-        	iPlayer = $("#teamCount").val();
-		}
-//--------------產生預賽(循環)-------------------------------------------------
+// 		if($("#group:checked").length > 0) {
+//         	iPlayer = $("#teamCount").val();
+// 		}
 
+
+//--------------產生預賽(循環)-------------------------------------------------
         let mW = 400;
         let mH = 400;
-//都做完沒問題就可以刪了let drow = document.getElementById("drow");
-//	    同上    drow.style = "width:" + (mW*Math.ceil(iPlayer/$("#preliminariesCount1").val())+5) + "px;position:relative";
-        $("#drow").css("width", (mW*Math.ceil(iPlayer/$("#preliminariesCount1").val())+5) + "px")
-        			.css("position", "relative");
         let mCount; //邊數
         let mCenter = mW / 2; //中心點
         let mRadius = mCenter - 100; //半徑(減去的值用於給繪製的文字留空間)
         let mAngle; //角度
         let mColorPolygon = '#000000'; //多邊形顏色
         let mColorText = '#000000';
-//	        console.log("iPlayer: " + iPlayer);
-//	        console.log("$(\"#preliminariesCount1\").val(): " + $("#preliminariesCount1").val());
 		
-		let gCount = Math.ceil(iPlayer/$("#preliminariesCount1").val()); //組數
-        for(let i=0; i<gCount; i++){
-        	if(i == gCount-1){
-	        	mCount = iPlayer - $("#preliminariesCount1").val() * i;
-        	}else{
-	        	mCount = $("#preliminariesCount1").val();
-        	}
-        	mAngle = Math.PI * 2 / mCount;
-            createGroup(i);
-        }
-
-        function createGroup(i){
+		if(preliminary != "none"){
+			let pre = preliminary.split("-"); //ex:4取3剩餘取1
+	        $("#drow").css("width", (mW*Math.ceil(iPlayer/pre[0])+5) + "px")
+	        			.css("position", "relative");
+			
+			let gCount = Math.ceil(iPlayer/pre[0]); //組數
+	        for(let i=0; i<gCount; i++){
+	        	if(i == gCount-1){
+		        	mCount = iPlayer - pre[0] * i;
+	        	}else{
+		        	mCount = pre[0];
+	        	}
+	        	mAngle = Math.PI * 2 / mCount;
+	            createGroup(i);
+	        }
+	
+	        
+//--------------預賽產出的複賽參賽者-------------------------------------------------
+		
+			iPlayer = gCount*pre[1];
+			if(pre[2] != "0"){
+				iPlayer = (gCount-1)*pre[1]+Number(pre[2]);
+			}
+		
+		}
+		console.log("淘汰賽數量: " + iPlayer);
+		
+		function createGroup(i){
         	let canvas = document.createElement("canvas");
             document.getElementById("drow").appendChild(canvas);
             // document.body.appendChild(canvas);
@@ -420,44 +356,26 @@ $(function(){
             ctx.fillStyle = mColorText;
             ctx.strokeStyle = mColorText;//換個顏色
             let coordinate = [];//儲存各方框座標
-            let size = [];//儲存各方框寬高
             for (let i = 0; i < mCount; i++) {
             	let x = mCenter +  mRadius * Math.cos(mAngle * i);
             	let y = mCenter +  mRadius * Math.sin(mAngle * i);
                 if (mAngle * i >= 0 && mAngle * i <= Math.PI / 2) {
                     //******點在左上******
-                    // ctx.fillText("文字" + i, x+10, y+5 +  fontSize);
-                    // ctx.strokeRect(x, y, ctx.measureText("文字" + i).width, fontSize);
-                    // ctx.strokeRect(x+10, y, 80, 30);
-                    // console.log('x:' +  (x+10), 'y:' +  y);
                     coordinate.push([x+30,y]);
-                    // size.push([,]);
                 } else if (mAngle * i > Math.PI / 2 && mAngle * i <= Math.PI) {
                     //******點在右上******
-                    // ctx.fillText("文字" + i, x-10 - ctx.measureText("文字" + i).width, y+5 +  fontSize);
-                    // ctx.strokeRect(x-10 -80, y, 80, 30);
-                    // console.log('x:' +  (x-10), 'y:' +  y);
                     coordinate.push([x-80,y]);
                 } else if (mAngle * i > Math.PI && mAngle * i <= Math.PI * 3 / 2) {
                     //******點在右下******
-                    // ctx.fillText("文字" + i, x-10 - ctx.measureText("文字" + i).width, y-5);
-                    // ctx.strokeRect(x-10 -80, y-30, 80, 30);
-                    // console.log('x:' +  (x-10), 'y:' +  y);
                     coordinate.push([x-80,y-30]);
                 } else {
                     //******點在左下******
-                    // ctx.fillText("文字" + i, x+10, y-5);
-                    // ctx.strokeRect(x+10, y-30, 80, 30);
-                    // console.log('x:' +  (x+10), 'y:' +  y);
                     coordinate.push([x+30,y-30]);
                 }
             }
-//	            console.log(coordinate);
             return coordinate;
         }
         // console.log("各方框座標: " + coordinate);
-        // console.log("文字1的y座標: " + coordinate[1][1]);
-        // ctx.clearRect(coordinate[3][0]-1,coordinate[3][1]+1,-78,28);//+1+1-2-2 看位置調整
 
         function createDiv(coordinate, groupLeft){
             //做div
@@ -471,28 +389,13 @@ $(function(){
             //div高需要等所有div生成才另外計算
             $(".drop").css("height", (40*$(".playerNone").length/$(".drop").length) + "px");
         }
-
-//--------------產生預賽(循環)-------------------------------------------------
 		
-		
-		if($("#Ypreliminaries:checked").length > 0){
-			iPlayer = gCount*$("#preliminariesCount2").val();
-			if($("#last").text() != ""){
-				iPlayer = (gCount-1)*$("#preliminariesCount2").val()+Number($("#preliminariesCount3").val());
-			}
-			$("#preliminariesHidden").css("display", "inline");
-		}else{
-			$("#preliminariesHidden").css("display", "none");
-		}		
-		
-		
-		console.log("淘汰賽數量: " + iPlayer);
 		
 		
 //--------------產生賽程表-----------------------------------------------------
 		let a = Number(iPlayer);
         
-        if($("#knockout:checked").length > 0){//複賽淘汰賽
+        if(rematchMode == "knockout"){//複賽淘汰賽
 	        $("#tree").width((a*96+(2*a)*10+20) + "px");
 //		        $("#tree").width("1000vw");
 //		        console.log("寬度: " + (a*100+(2*a-1)*10));
@@ -550,17 +453,17 @@ $(function(){
 			
 	        //統一設定高度?
 	        
-	        //統一給.buttom加上.drop
-	        if($("#Ypreliminaries:checked").length == 0){
+	        //沒預賽統一給.buttom加上.drop
+	        if(preliminary == "none"){
 		        $(".buttom").find("label").attr("class", "drop")
 		        							.css("border-color","green")
 		        							.css("height", (40*$(".playerNone").length/$(".drop").length) + "px");
 	        }
 	        
-        }else{//複賽循環賽
+        }else if(rematchMode == "ground"){//複賽循環賽
         	
         	$("#tree").width("500px");
-        	if($("#Ypreliminaries:checked").length == 0){
+        	if(preliminary == "none"){
 	        	$("#drow").width("400px");
         	}
         	mCount = a
@@ -576,21 +479,19 @@ $(function(){
             
             for(let i=0; i<mCount; i++){
                 let div = document.createElement("div");
-                if($("#Ypreliminaries:checked").length == 0){
-	                div.style = "left:" + coordinate[i][0] + "px;top:" + coordinate[i][1] + "px;width:80px;border:2px solid green;position:absolute";
+                if(preliminary == "none"){
+	                div.style = "left:" + (coordinate[i][0]-15) + "px;top:" + coordinate[i][1] + "px;width:80px;border:2px solid green;position:absolute";
 	                div.className = "drop";
 		        }else{
-	                div.style = "left:" + coordinate[i][0] + "px;top:" + coordinate[i][1] + "px;width:80px;height:40px;border:2px solid black;position:absolute";
+	                div.style = "left:" + (coordinate[i][0]-15) + "px;top:" + coordinate[i][1] + "px;width:80px;height:40px;border:2px solid black;position:absolute";
 		        }
                 document.getElementById("tree").appendChild(div);
             }
             //div高需要等所有div生成才另外計算
             $(".drop").css("height", (40*$(".playerNone").length/$(".drop").length) + "px");
+        }else{//複賽自由對戰
+        	$("#tree").width("250px").html("<p style=\"margin-left:20px\">自由對戰,預賽共有" + iPlayer + "人晉級</p>");
         }
-        
-        
-        
-        
         
         
 //--------------產生賽程表-----------------------------------------------------				
@@ -653,19 +554,18 @@ $(function(){
 	            let groupPlayer = [];
 	     		let mCount; //邊數->每組人數
 	     		let groupFirst = 0; //每組的第一個人的編號
-	     		let perliminary;
-	     		let mode;
 	    		
-	     		if($("#Ypreliminaries:checked").length > 0){//有預賽
+	     		if(preliminary != "none"){//有預賽
+	     			let pre = preliminary.split("-");
 	     			perliminary = "true";
-	     			let gCount = Math.ceil($(".drop").length/$("#preliminariesCount1").val()); //組數
+	     			let gCount = Math.ceil($(".drop").length/pre[0]); //組數
 	     			console.log(gCount + "組")
 	     	        for(let i=0; i<gCount; i++){
 	     	        	if(i == gCount-1){
-	     		        	mCount = $(".drop").length - $("#preliminariesCount1").val() * i;
+	     		        	mCount = $(".drop").length - pre[0] * i;
 	    //						console.log(mCount + "人")
 	     	        	}else{
-	     		        	mCount = $("#preliminariesCount1").val();
+	     		        	mCount = pre[0];
 	    //						console.log(mCount + "人")
 	     	        	}
 	     	        	let players = [];
@@ -695,10 +595,6 @@ $(function(){
 	     			}
 	     		}
 
-	    		
-	    		
-	    		
-	    		
 	    		$.ajax({
 					type:"post",
 					url:"<c:url value='/contest/ScheduleImage'/>",
@@ -707,7 +603,6 @@ $(function(){
 						"treeImage64": treeImage64,
 		 				"drowImage64": drowImage64,
 						"contestNo": $("#contestNo").val(),
-		 				"schedule": schedule,
 		 				"groupPlayer": JSON.stringify(groupPlayer)
 					},
 					success: function(result){
