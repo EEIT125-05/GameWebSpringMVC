@@ -21,6 +21,13 @@
 .item{
 	margin-top:10px
 }
+table, th, td {
+  border: 1px solid black;
+  text-align:center;
+}
+table {
+  width: 50%;
+}
 
 </style>
 </head>
@@ -53,7 +60,7 @@
 			<c:choose>
 	    		<c:when test="${cContestBean.iTeamMemberCount != 1}">
 	    			<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
-	    				<c:forEach var="player" items="${fn:split(participate.sPlayer,'/')}">
+	    				<c:forEach var="player" items="${fn:split(participate.sPlayer,',')}">
 		    				<c:if test="${player == user.sAccount}">
 								<c:set var="joinStatus" value="false"/>
 							</c:if>
@@ -300,20 +307,79 @@
 
 		<div id="戰績" class="hiddenDiv" style="display:none">
 <!-- 			<p>比賽未開始,暫無戰績內容</p> -->
-			<p>冠軍:</p>
-			<p>亞軍:</p>
-			<p>季軍:</p>
-			<p>殿軍:</p>
-			<hr>
+<!-- 			<p>冠軍:</p> -->
+<!-- 			<p>亞軍:</p> -->
+<!-- 			<p>季軍:</p> -->
+<!-- 			<p>殿軍:</p> -->
+<!-- 			<hr> -->
 
-			<p>round(n)</p>
+<!-- 			<p>round(n)</p> -->
+<!-- 			<hr> -->
+			
+<!-- 			<p>預賽圖</p> -->
 			<hr>
 			
-			<p>預賽圖</p>
-			<hr>
+			<p>預賽戰績處理:</p>
 			
-			<p>預賽戰績</p>
-
+			<c:forEach var="recordListCount" begin="1" end="${fn:length(lGroupRecord)}">
+				<label>第${recordListCount}組參賽者:</label>
+				<c:forEach var="record" items="${lGroupRecord[recordListCount-1]}">
+					<label>&nbsp;${record.sPlayers}</label>
+				</c:forEach>
+				<c:choose>
+					<c:when test="${empty lGroupRecordDetail[recordListCount-1]}">
+						<button class="btn btn-primary savePreliminaryRecord" value="${recordListCount}">儲存第${recordListCount}組紀錄</button>
+					</c:when>
+					<c:otherwise>
+						<button class="btn btn-primary savePreliminaryRecord" value="${recordListCount}" disabled>儲存第${recordListCount}組紀錄</button>
+					</c:otherwise>
+				</c:choose>
+				<br>
+				 <c:set var="count" value="0"/>
+<!-- 				 算win位置要用的計數器 -->
+				<c:forEach var="recordCount" begin="1" end="${fn:length(lGroupRecord[recordListCount-1])}">
+					
+					<c:forEach var="matchCount" begin="${recordCount+1}" end="${fn:length(lGroupRecord[recordListCount-1])}">
+						<label>對戰:</label><br>
+						<table>
+							<tr>
+								<th style="width:20%">勝方</th>
+								<c:choose>
+									<c:when test="${empty lGroupRecordDetail[recordListCount-1]}">
+										<th style="width:40%" colspan="2" class="win group${recordListCount}"></th>
+									</c:when>
+									<c:otherwise>
+										<th style="width:40%" colspan="2" class="win group${recordListCount}">${lGroupRecordDetail[recordListCount-1][count].sWin}</th>
+										 <c:set var="count" value="${count+1}"/>
+									</c:otherwise>
+								</c:choose>
+							</tr>
+							<tr>
+								<td style="width:20%">參賽者</td>
+								
+								<c:choose>
+									<c:when test="${empty lGroupRecordDetail[recordListCount-1]}">
+										<td style="width:40%"><button class="btn btn-primary choosePlayer">${lGroupRecord[recordListCount-1][recordCount-1].sPlayers}</button></td>
+										<td style="width:40%"><button class="btn btn-primary choosePlayer">${lGroupRecord[recordListCount-1][matchCount-1].sPlayers}</button></td>
+									</c:when>
+									<c:otherwise>
+										<td style="width:40%"><button class="btn btn-primary choosePlayer" disabled>${lGroupRecord[recordListCount-1][recordCount-1].sPlayers}</button></td>
+										<td style="width:40%"><button class="btn btn-primary choosePlayer" disabled>${lGroupRecord[recordListCount-1][matchCount-1].sPlayers}</button></td>
+									</c:otherwise>
+								</c:choose>
+								
+								
+								
+							</tr>
+						</table>
+						
+					</c:forEach>
+				
+				</c:forEach>
+				
+				
+				<hr>
+			</c:forEach>
 
 		</div>
 		
@@ -383,7 +449,9 @@
 					 					  hideClass: {
 					 						    popup: 'animate__animated animate__fadeOutUp'
 					 					  }
-								  	})
+								  	}).then(function(){
+										window.setTimeout(function(){location.reload();},500);
+									})
 								}else if(result.status == "sqlError"){
 									Swal.fire({
 										  title: '資料庫發生錯誤!',
@@ -539,57 +607,6 @@
 					}
 				})()
 				
-				
-				
-				
-				
-// 				(async () => {
-// 				const {value: formValues} = await swal({
-// 					  title: 'Multiple inputs',
-// 					  content:
-// // 					    '<input id="swal-input1" class="swal2-input">' +
-// 					    '<input id="swal-input2" class="swal2-input">',
-// 					  focusConfirm: false,
-// 					  preConfirm: () => {
-// 					    return [
-// // 					      document.getElementById('swal-input1').value,
-// 					      document.getElementById('swal-input2').value
-// 					    ]
-// 					  }
-// 					})
-
-// 					if (formValues) {
-// 					  swal(JSON.stringify(formValues))
-// 					}
-// 				})()
-				
-				
-				
-				
-// 				(async () => {
-// 					const { value: player1 } = await Swal.fire({
-// 						  title: "輸入第1位參賽者的GameBar帳號",
-// 						  html: "1.<input type='text' class='swal2-input' value='test' style='width:50px'>" +
-// 						   "2.<input type='text' class='swal2-input' value='test' style='width:50px'>",
-// 						  input: 'text',
-// 						  inputValidator: (value) => {
-// 							  console.log(value)
-// 						    if (!value) {
-// 						      return 'You need to write something!'
-// 						    }
-// 						  }
-// 						})
-
-// 						if (player1) {//有內容
-// 						  Swal.fire(player1)
-// 						}else{//無內容
-							
-// 						}
-					
-					
-// 					})()
-				
-				
 			}
 			
 			
@@ -629,7 +646,7 @@
 												    popup: 'animate__animated animate__fadeOutUp'
 												  }
 											  }).then(function(){
-												window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Index'/>");},500);
+												window.setTimeout(function(){location.reload();},500);
 												
 											})
 								}else if(result.status == "sqlError"){
@@ -710,14 +727,108 @@
 							
 						});		
 				  }
-				})
+				});
 
 		});
-		
 		
 		$("#showOption").on("click", function(){
 			this.target = "_blank";
 		});
+		
+		$(".choosePlayer").on("click", function(){
+			$(this).parent().parent().prev().find(".win").text($(this).text());
+		});
+		
+		$(".savePreliminaryRecord").on("click", function(){
+			
+			let win = [];
+			let catchSpace = false;
+			$.each($(".group" + $(this).val()), function(key, value){
+				win.push(value.innerHTML);
+				console.log(value.innerHTML);
+				if(value.innerHTML == ""){
+					catchSpace = true;
+				}
+			});
+			if(catchSpace){
+				Swal.fire({
+					  title: "發生錯誤!",
+					  text: "不能儲存空白勝方,請更改",
+					  icon: 'error',
+					showClass: {
+					    popup: 'animate__animated animate__fadeInDown'
+					  },
+						hideClass: {
+						    popup: 'animate__animated animate__fadeOutUp'
+						  }
+					})
+			}else{
+				Swal.fire({
+					  title: '確定儲存戰績?',
+					  text: "儲存之後將不能更改,請再三檢查",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#d33',
+					  cancelButtonColor: '#3085d6',
+					  confirmButtonText: '儲存',
+				      cancelButtonText: '取消',
+					  showClass: {
+					    popup: 'animate__animated animate__fadeInDown'
+					  },
+					  hideClass: {
+						popup: 'animate__animated animate__fadeOutUp'
+					  }
+					}).then((result) => {
+						  if (result.isConfirmed) {
+							  $.ajax({
+									type: "post",
+									url: "<c:url value='/contest/SaveRecord'/>",
+									dataType: "json",
+									data: {
+											"contestNo": $("#delete").val(),//借來用
+											"groupNo": $(this).val(),
+											"win": win
+									},
+									success: function(result){
+										if(result.status == "success"){
+											Swal.fire({
+													      title:"儲存成功!",
+														  icon:"success",
+														  hideClass: {
+														    popup: 'animate__animated animate__fadeOutUp'
+														  }
+													  }).then(function(){
+														window.setTimeout(function(){location.reload();},500);
+														
+													})
+										}else if(result.status == "sqlError"){
+											Swal.fire(
+													  '資料庫發生錯誤!',
+													  '請聯繫管理員',
+													  'error'
+													)
+										}
+									},
+									error: function(err){
+										Swal.fire(
+												  '網頁發生錯誤!',
+												  '請聯繫管理員',
+												  'error'
+												)
+									}
+									
+								});		
+						  }
+						});
+			}
+			
+			
+			
+			
+			
+			
+		});
+		
 	
 	});
 </script>

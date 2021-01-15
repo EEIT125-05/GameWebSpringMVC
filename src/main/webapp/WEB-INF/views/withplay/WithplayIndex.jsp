@@ -24,7 +24,8 @@ response.setContentType("text/html;charset=UTF-8");
 	<%@ include file="../Header.jsp"%>
 
 	<div class="container">
-
+	<input type="hidden" id="userNow" value="${user.sAccount}">
+	<input type="hidden" id="userNo" value="${user.iNo}">
 		<h1 class="mt-4 mb-3">
 			陪玩 <small>Play</small>
 		</h1>
@@ -199,8 +200,15 @@ response.setContentType("text/html;charset=UTF-8");
 													$("#point").append(
 															"<p>無符合您搜尋的條件</p>");
 												}
+												let user = $("#userNow").val();
+												let checkString;
 												$.each(obj,function(key,value) {
-													
+													if(value.sAccount == user){
+														checkString = "<button type=\"submit\" class=\"btn btn-primary \" disabled=\"disabled\" name=\"orderNo\" value=\"" + value.iId + "\">立即下單</button>"
+													}else{
+														checkString = "<button type=\"submit\" class=\"btn btn-primary \" name=\"orderNo\" value=\"" + value.iId + "\">立即下單</button>"
+
+													}
 													$("#point").append(
 // 																					"<div class='row' id='point'>"
 																							 "<div class='col col-12 col-sm-6 col-md-6 col-lg-3'>"
@@ -275,7 +283,8 @@ response.setContentType("text/html;charset=UTF-8");
 																								+"<div class='modal-footer'>"
 																									+"<button type='button' class='btn btn-secondary'"
 																										+"data-dismiss='modal'>關閉</button>"																																			
-																									+"<button type='submit' class='btn btn-primary' name='orderNo' value='"+value.iId+"'>立即下單</button>"
+																									+ checkString
+// 																									+"<button type='submit' class='btn btn-primary' name='orderNo' value='"+value.iId+"'>立即下單</button>"
 																								+"</div>"
 																								+"</form>"																							
 																							+ "</div>"

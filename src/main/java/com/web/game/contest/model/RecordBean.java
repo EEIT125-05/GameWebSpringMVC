@@ -1,5 +1,6 @@
 package com.web.game.contest.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +18,7 @@ public class RecordBean {
 	private Integer iGroupNo;
 	private Integer iGroupMemberNo;
 	private Integer iRematchNo;
+	@Column(columnDefinition = "nvarchar(MAX)")
 	private String sPlayers;
 	private Integer iWinCount;
 	
