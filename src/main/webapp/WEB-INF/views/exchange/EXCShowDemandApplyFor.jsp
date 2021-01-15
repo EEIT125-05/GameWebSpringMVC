@@ -17,25 +17,25 @@
 				<legend>交換申請</legend>
 				<div>
 					<label>您的帳號</label> <input type="text"
-						value="${changeHistoryBean.partyA.sAccount }${wishhistorybean.partyB.sAccount}" readonly />
+						value="${changeHistoryBean.partyA.sAccount }" readonly />
 				</div>
 				<div>
 					<label>您的遊戲</label> <input type="text"
-						value="${changeHistoryBean.supportgamebean.gamename }${wishhistorybean.mygamebean.gamename}" readonly />
+						value="${changeHistoryBean.supportgamebean.gamename }" readonly />
 				</div>
 				<div>
 					<label>對方帳號</label> <input type="text"
-						value="${changeHistoryBean.partyB.sAccount }${wishhistorybean.partyA.sAccount}" readonly />
+						value="${changeHistoryBean.partyB.sAccount }" readonly />
 				</div>
 				<div>
 					<label>對方遊戲</label> <input type="text"
-						value="${changeHistoryBean.mygamebean.gamename }${wishhistorybean.demandgamebean.gamename}" readonly />
+						value="${changeHistoryBean.mygamebean.gamename }" readonly />
 				</div>
 				<div>
 					<a class="btn btn-primary" onclick="applyFor('Submit');">確認</a> <a
 						class="btn btn-primary" onclick="applyFor('Reject');" />駁回</a>
-					<input type="hidden" id="HistoryNo"
-						value="${changeHistoryBean.no }${wishhistorybean.no}" />
+					<input type="hidden" id="ChangeHistoryNo"
+						value="${changeHistoryBean.no }" />
 				</div>
 			</fieldset>
 		</div>
@@ -67,8 +67,8 @@ function applyFor(x){
 }).then((result) => {
   if (result.isConfirmed) {
 	 	var xhr = new XMLHttpRequest();
-	 	var no = document.getElementById("HistoryNo").value
-	 	xhr.open('GET','<c:url value="/exchange/${Demand}ApplyFor'+x+'" />'+'?no='+no,true);
+	 	var no = document.getElementById("ChangeHistoryNo").value
+	 	xhr.open('GET','<c:url value="/exchange/ApplyFor'+x+'" />'+'?no='+no,true);
 	 	xhr.send();
 	 	xhr.onload = function(){
 	 		if(xhr.readyState===4 && xhr.status ===200){

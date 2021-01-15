@@ -33,7 +33,7 @@ public class MyGameBean {
 	@OneToOne(mappedBy = "mygamebean")
 	@JsonIgnore
 	private WishHistoryBean wishhistorybean;
-	@OneToOne(mappedBy = "mygamename")
+	@OneToOne(mappedBy = "mygamebean")
 	@JsonIgnore
 	private DemandGameBean demandgamebean;
 	

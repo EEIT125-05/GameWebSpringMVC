@@ -21,6 +21,7 @@ public class WishDao {
 	SessionFactory factory;
 	
 	public boolean insertWishHistory(WishHistoryBean WHB) {
+		System.out.println("insertWishHistoryDAOIn");
 		int count = 0;
 		boolean result = false;
 		Session session = factory.getCurrentSession();
@@ -30,6 +31,40 @@ public class WishDao {
 		if (count > 0) {
 			result = true;
 		}
+		System.out.println("insertWishHistoryDAOOut");
+		return result;
+	}
+	
+	public WishHistoryBean getWishHistory(int iNo) {
+		Session session = factory.getCurrentSession();
+		return session.get(WishHistoryBean.class, iNo);
+	}
+	
+	public boolean updateWishHistory(WishHistoryBean WHB) {
+		int count = 0;
+		boolean result = false;
+		Session session = factory.getCurrentSession();
+		session.update(WHB);
+		
+		count++;
+		if (count > 0) {
+			result = true;
+		}
+		System.out.println("updateWishHistoryDAOOut");
+		return result;
+	}
+	public boolean deleteWishHistory(WishHistoryBean WHB) {
+		System.out.println("deleteWishHistoryDAOIn");
+		int count = 0;
+		boolean result = false;
+		Session session = factory.getCurrentSession();
+		session.delete(WHB);
+		
+		count++;
+		if (count > 0) {
+			result = true;
+		}
+		System.out.println("deleteWishHistoryDAOOut");
 		return result;
 	}
 }

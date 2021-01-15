@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name="GameDemand_Table")
@@ -30,14 +32,25 @@ public class DemandGameBean implements Serializable{
 	private Integer status;
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="FK_mygamebean")
-	private MyGameBean mygamename;
+	private MyGameBean mygamebean;
+	@OneToOne(mappedBy = "demandgamebean")
+	@JsonIgnore
+	private WishHistoryBean wishhistorybean;
 	
-	public MyGameBean getMygamename() {
-		return mygamename;
+	public WishHistoryBean getWishhistorybean() {
+		return wishhistorybean;
 	}
 
-	public void setMygamename(MyGameBean mygamename) {
-		this.mygamename = mygamename;
+	public void setWishhistorybean(WishHistoryBean wishhistorybean) {
+		this.wishhistorybean = wishhistorybean;
+	}
+
+	public MyGameBean getMygamebean() {
+		return mygamebean;
+	}
+	
+	public void setMygamebean(MyGameBean mygamebean) {
+		this.mygamebean = mygamebean;
 	}
 
 	public DemandGameBean() {

@@ -153,7 +153,6 @@ public class UDSupportGameController {
 	
 	@ModelAttribute("MemberPending")
 	public List<SupportGameBean> packPendingGame(Model model) {
-
 		MemberBean member = (MemberBean) model.getAttribute("user");
 		String sMemberaccount = member.getsAccount();//整合後打開
 //		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
@@ -164,6 +163,18 @@ public class UDSupportGameController {
 		return list;
 	}
 	
+	@ModelAttribute("MemberDemandPending")
+	public List<DemandGameBean> packDemandPendingGame(Model model) {
+		MemberBean member = (MemberBean) model.getAttribute("user");
+		String sMemberaccount = member.getsAccount();//整合後打開
+//		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
+		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
+		System.out.println("MemberDemandIn");
+		list = service.GetMemberDemandPending(sMemberaccount);
+		System.out.println("MemberDemandOut");
+		return list;
+	}
+
 	@ModelAttribute("initOption")
 	public Map<String, Object> initOptionList(HttpServletRequest req,Model model){
 		Map<String, Object> initOptionMap = new HashMap<String, Object>();
