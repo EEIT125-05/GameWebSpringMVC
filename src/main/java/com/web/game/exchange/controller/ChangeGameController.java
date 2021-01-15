@@ -121,19 +121,18 @@ public class ChangeGameController {
 			Model model,
 			@RequestParam Integer no
 			) {
-//		boolean result = false;
-//		System.out.println("RejectIn");
-//		System.out.println(no);
-//		ChangeHistoryBean chChangeHistory = new ChangeHistoryBean();
-//		chChangeHistory = exchangeService.getHistory(no);
-//		if(exchangeService.updateChangeHistoryReject(chChangeHistory)) {	
-//			result = true;
-//		} 
-//		
-//		System.out.println("result"+result);
-//		System.out.println("RejectOut");
-//		return result;
-		return false;
+		boolean result = false;
+		System.out.println("RejectIn");
+		System.out.println(no);
+		ChangeHistoryBean chChangeHistory = new ChangeHistoryBean();
+		chChangeHistory = exchangeService.getHistory(no);
+		if(exchangeService.updateChangeHistoryReject(chChangeHistory)) {	
+			result = true;
+		} 
+		
+		System.out.println("result"+result);
+		System.out.println("RejectOut");
+		return result;
 	}
 	
 	@GetMapping("/ApplyForSubmit")
@@ -141,19 +140,18 @@ public class ChangeGameController {
 			Model model,
 			          		  @RequestParam Integer no
 			) {
-//		boolean result = false;
-//		System.out.println("submitIn");
-//		System.out.println(no);
-//		ChangeHistoryBean chChangeHistory = new ChangeHistoryBean();
-//		chChangeHistory = exchangeService.getHistory(no);
-//		if(exchangeService.updateChangeHistorySubmit(chChangeHistory)) {	
-//			result = true;
-//		} 
-//		
-//		System.out.println(chChangeHistory);
-//		System.out.println("submitOut");
-//		return result;
-		return false;
+		boolean result = false;
+		System.out.println("submitIn");
+		System.out.println(no);
+		ChangeHistoryBean chChangeHistory = new ChangeHistoryBean();
+		chChangeHistory = exchangeService.getHistory(no);
+		if(exchangeService.updateChangeHistorySubmit(chChangeHistory)) {	
+			result = true;
+		} 
+		
+		System.out.println(chChangeHistory);
+		System.out.println("submitOut");
+		return result;
 	}
 	
 	

@@ -36,11 +36,15 @@
 
 				<input type="hidden" id="search" value="${search}">
 				<!-- 藏參數 -->
-	</form>
+	
 	<br>
 	<div>
 <%-- 	<a class="btn btn-secondary" href='<c:url value="/exchange/addFilter?gamename=刺客"/>' onclick="changeCondition('刺客');">刺客</a> --%>
-	<a class="btn btn-secondary" onclick="changeCondition('刺客');">刺客</a>
+	<a class="btn btn-secondary" onclick="changeCondition('刺客','gamename');">刺客</a>
+	<a class="btn btn-secondary" onclick="changeCondition('戰神','gamename');">戰神</a>
+	<a class="btn btn-secondary" onclick="changeCondition('薩爾達','gamename');">薩爾達</a>
+	<a class="btn btn-secondary" onclick="changeCondition('台北市','area');">台北市</a>
+	<a class="btn btn-secondary" onclick="changeCondition('新北市','area');">新北市</a>
 	</div>
 	<br>
 	<div class="row" id="bigdiv">
@@ -145,7 +149,7 @@
 
 		</c:forEach>
 	</div>
-	<div>
+	<div id="pagediv">
 		<c:if test="${p > 1}">
 			<c:forEach var="num" begin="1" end="${p }" step="1">
 				<a class="page"><i>${num}</i></a>
@@ -154,24 +158,26 @@
 	</div>
 	</div>
 	</div>
+	</form>
 	<%@ include file="../Foot.jsp"%>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 	
-	function changeCondition(e){
-		console.log(e)
+	function changeCondition(a,b){
+		console.log(a)
+		console.log(b)
 		var xhr3 =new XMLHttpRequest();
 		let divout = document.getElementById("bigdiv")
-		xhr3.open('GET','<c:url value="/exchange/addFilter?gamename='+e+'"/>',true)
+		xhr3.open('GET','<c:url value="/exchange/addFilter?str='+a+'&condition='+b+'"/>',true)
 		xhr3.send();
 		xhr3.onload=function(){
 			if(xhr3.readyState ===4 && xhr3.status ===200){
 				let t = JSON.parse(xhr3.responseText)
 				console.log("success")
-				
+				divout.innerHTML ="";
 				for (let i = 0; i < t.list.length; i++) {
 						console.log("!````!")
-						divout.innerHTML += "<div class='col-md-4 col-xs-6 work'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/images/"+t.lise[i].gamename+".jpg' alt=''>"
+						divout.innerHTML += "<div class='col-md-4 col-xs-6 work'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/images/"+t.list[i].gamename+".jpg' alt=''>"
 								+ "<div class='overlay'></div><div class='work-content'><span>遊戲名稱:"
 								+ t.list[i].gamename
 								+ "</span>"
@@ -190,7 +196,7 @@
 								+ "<div class='work-link' style='margin: auto;'>"
 								+ "<div data-toggle='modal' data-target='#exampleModal'>"
 								+ "<button type='button' class='btn btn-primary' data-toggle='modal'"
-								+ "data-target='#exampleModalLong"+i+"' onclick='selectChange('"+t.list[i].gamename+"''"+t.list[i].gamer+"''"+i+"'); >"
+								+ "data-target=\"#exampleModalLong"+i+"\" onclick=\"selectChange('"+t.list[i].gamename+"','"+t.list[i].gamer+"','"+i+"');\" >"
 								+ "<i class='fa fa-exchange'></i></button>"
 								+ "</div></div></div></div>"
 								+ "<div class='modal fade' id='exampleModalLong"+i+"' tabindex='-1'"

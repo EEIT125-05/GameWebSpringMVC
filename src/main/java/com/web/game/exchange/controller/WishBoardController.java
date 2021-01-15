@@ -57,15 +57,17 @@ public class WishBoardController {
 	
 	@GetMapping("/addFilter")
 	public @ResponseBody Map<String, Object> addFilter(Model model,
-							@RequestParam String gamename
+							@RequestParam String str,
+							@RequestParam String condition
 			) {
 		System.out.println("addFilterIn");
-		System.out.println("gamename"+gamename);
+		System.out.println("str"+str);
+		System.out.println("condition"+condition);
 		Integer page = 1;  
 		MemberBean mbUser = (MemberBean) model.getAttribute("user");
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
-		String sHql = "AND gamename like '%" + gamename + "%'";
+		String sHql = "AND "+ condition+ " like '%" + str + "%'";
 		list = exchangeService.changeDemandByFilter(page, sHql);
 		map.put("list",list);
 		System.out.println(list.size());
