@@ -38,17 +38,19 @@ public class WithOrderServiceImpl implements WithOrderService {
 	}
 
 	@Override
-	public boolean updateWithOrderSubmit(WithOrder Order) {
-		Integer status = 2;
-		Order.setiStatus(status);
-		return oDAO.insertWithOrder(Order);
+	public boolean updateWithOrderSubmit(Integer iNO) {
+		Integer status = 2; //ok
+		WithOrder order=oDAO.getWithOrder(iNO);
+		order.setiStatus(status);
+		return oDAO.updateWithOrder(order);
 	}
 	@Override
-	public boolean updateWithOrderReject(WithOrder Order) {
-		Integer status = 3;//其他則調整回最初狀態
-		Order.setiStatus(status);
+	public boolean updateWithOrderReject(Integer iNO) {
+		Integer status = 3;//拒絕
+		WithOrder order=oDAO.getWithOrder(iNO);
+		order.setiStatus(status);
 		
-		return oDAO.insertWithOrder(Order);
+		return oDAO.updateWithOrder(order);
 	}
 	@Override
 	public WithOrder getWithOrder(Integer id) {
