@@ -61,6 +61,11 @@ public class DemandDAO {
 
 	}
 	
+	public DemandGameBean getDemandGameBean(int iNo) {
+		Session session = factory.getCurrentSession();
+		return session.get(DemandGameBean.class, iNo);
+	}
+	
 	public boolean deleteDemandGame(int pno) {
 		int count = 0;
 		Session session = factory.getCurrentSession();
