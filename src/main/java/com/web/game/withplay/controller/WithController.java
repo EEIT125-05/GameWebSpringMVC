@@ -23,13 +23,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.web.game.forum.model.ForumBean;
 import com.web.game.forum.model.ReplyBean;
 import com.web.game.member.model.MemberBean;
+import com.web.game.member.service.MemberService;
+import com.web.game.withplay.model.WithOrder;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.model.WithReplyBean;
+import com.web.game.withplay.service.WithOrderService;
 import com.web.game.withplay.service.WithReplyService;
 import com.web.game.withplay.service.WithService;
 import com.web.game.withplay.validators.WithValidator;
@@ -52,6 +56,11 @@ public class WithController {
 	@Autowired
 	WithReplyService ReplyService;
 		
+	@Autowired
+	MemberService memberService;
+	
+	@Autowired
+	WithOrderService withOrderService;
 		
 	@GetMapping("/withplay/With")
 	public String list(Model model) {
@@ -215,14 +224,46 @@ public class WithController {
 	}
 	
 	@PostMapping("/withplay/Order")
+	 public String order(
+	    @RequestParam Integer orderNo,
+	    Model model) {
+	  WithPlay withPlay = withService.get(orderNo);
+	  model.addAttribute("With", withPlay);
+	  return "withplay/Withorder";
+
+	 }
+	
+	@PostMapping("/withplay/Orderlist")
 	public String order(
-				@RequestParam Integer orderNo,
+				@RequestParam Integer usAccount,
+				@RequestParam Integer wsAccount,
+				@RequestParam String sGame,
+				@RequestParam Integer total,
 				Model model) {
-		WithPlay withPlay = withService.get(orderNo);
-		model.addAttribute("With", withPlay);
-		return "withplay/Withorder";
+		WithPlay withPlay = withService.get(wsAccount);
+		MemberBean member=memberService.get(usAccount);
+		WithOrder order=new WithOrder(null, null, null, null, total, sGame, member, withPlay);
+		withOrderService.insertWithOrder(order);
+		model.addAttribute("Order", order);
+		return "redirect:/withplay/Index";
 
 	}
+	
+	
+	@GetMapping("/withplay/Withorderlist")
+	public String PersonOrder(Model model) {
+		model.addAttribute("WithOrder",withOrderService.getWithOrderList(((MemberBean) model.getAttribute("user")).getiNo()));
+		model.addAttribute("WithOrder2",withOrderService.getWithOrderwithList(((MemberBean) model.getAttribute("user")).getiNo()));
+		return "withplay/WithOrderlist-1";
+				
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	@ModelAttribute
 	public void commonData(Model model) {

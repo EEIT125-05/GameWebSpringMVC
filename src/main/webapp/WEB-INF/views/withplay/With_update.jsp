@@ -49,7 +49,8 @@
 <style>
 
 .com{
-    max-width:850px; 
+    max-width:850px;
+    
 }
 td{
 	color:lightgrey;
@@ -106,8 +107,8 @@ td{
 					<td>照片：<br>
 					</td>
 					<td>
-					<form:input path="mWithImage" type='file' accept="image/*" id="fImage" style="width:70px;"/>
-					<label id="previewLabel"></label>
+					<form:input path="mWithImage" type='file' accept="image/*" id="fImage" style="width:346px;overflow:hidden;"/>
+					<label id="previewLabel"></label><br>
             		<img id="imagePreview">
             		</td>
 				</tr>
@@ -155,7 +156,7 @@ td{
             	$("#previewLabel").show();
             	$("#imagePreview").show();
             	$("#imagePreview").attr('src',e.target.result)
-            						.attr('style',"height:200px;width:265px");
+            						.attr('style',"height:300px;width:346px;");
             }
 
 		});

@@ -64,20 +64,41 @@ public class WithOrderDAOImpl implements WithOrderDao{
 		
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<WithOrder> getWithOrderlist(Integer id) {
 		
 		Session session = factory.getCurrentSession();
 		System.out.println("id"+id);
 		List<WithOrder> listPartyA = new ArrayList<WithOrder>();
-		List<WithOrder> listPartyB = new ArrayList<WithOrder>();
-		String HQLMemberBean = "FROM WithOrder WHERE MemberBean = :id";
-		String HQLWithPlay = "FROM WithOrder WHERE WithPlay = :id";
+		String HQLMemberBean = "FROM WithOrder WHERE MPlay = :id";
 		listPartyA = (List<WithOrder>) session.createQuery(HQLMemberBean).setParameter("id", id).getResultList();
-		listPartyB = (List<WithOrder>) session.createQuery(HQLWithPlay).setParameter("id", id).getResultList();
-		listPartyA.addAll(listPartyB);
+		System.out.println("listPartyA"+listPartyA);
+		
 		return listPartyA;
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<WithOrder> getWithOrderwithList(Integer id) {
+		Session session = factory.getCurrentSession();
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println("id"+id);
+		List<WithOrder> list = new ArrayList<WithOrder>();
+		String HQLMemberBean = "FROM WithOrder WHERE Play = :id";
+		list = (List<WithOrder>) session.createQuery(HQLMemberBean).setParameter("id", id).getResultList();
+		System.out.println("listParty"+list);		
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<WithOrder> list() {
+		Session session = factory.getCurrentSession();
+		String hql = "FROM WithOrder";
+		List<WithOrder> list = session.createQuery(hql).getResultList();
+		return list;
 	}
 
 

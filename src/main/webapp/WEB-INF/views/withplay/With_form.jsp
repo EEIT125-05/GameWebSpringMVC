@@ -3,6 +3,7 @@
 <%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../Link.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -149,8 +150,8 @@ td{
 				</tr>
 				<tr>
 					<td>身分證字號</td>
-					<td><form:input path="sIdcode" maxlength="10" id="sIdcode"  onblur="checkIdcode();"/>&nbsp;
-					<input type="button" id='IdcodeCheck' value="檢查"><span id="Idcode"></span>
+					<td><form:input path="sIdcode" maxlength="10" id="sIdcode"  onblur="checkIdcode();"/>
+					<input type="button" id='IdcodeCheck' value="檢查"><br><span id="Idcode"></span>
 					</td>
 				</tr>
 				<tr>
@@ -162,15 +163,15 @@ td{
 					<td>照片<br>&nbsp;
 					</td>
 					<td >
-					<form:input path="mWithImage" type='file' accept="image/*" id="fImage" style="width:70px;"/>
-					<label id="previewLabel"></label>
+					<form:input path="mWithImage" type='file' accept="image/*" id="fImage" style="width:346px;overflow:hidden;"/>
+					<label id="previewLabel"></label><br>
             		<img id="imagePreview">
             		</td>
 				</tr>
 				
 				<tr>
 					<td>金額</td>
-					<td><form:input path="iPrice" />&nbsp;<span style="color:red;"><form:errors path="iPrice"/></span></td>
+					<td><form:input path="iPrice" />&nbsp;<span style="color:yellow;"><form:errors path="iPrice" placeholder="不得大於150元"/></span></td>
 				</tr>
 				<tr>
 					<td>自我介紹</td>
@@ -213,7 +214,7 @@ td{
             	$("#previewLabel").show();
             	$("#imagePreview").show();
             	$("#imagePreview").attr('src',e.target.result)
-            						.attr('style',"height:200px;width:265px");
+            						.attr('style',"height:300px;width:346px;");
             }
 
 		});

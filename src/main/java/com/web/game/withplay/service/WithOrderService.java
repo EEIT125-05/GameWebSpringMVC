@@ -3,7 +3,6 @@ package com.web.game.withplay.service;
 
 import java.util.List;
 
-import com.web.game.exchange.model.ChangeHistoryBean;
 import com.web.game.withplay.model.WithOrder;
 
 
@@ -19,4 +18,7 @@ public interface WithOrderService {
 	
 	public List<WithOrder> getWithOrderList(Integer id);
 
+	public List<WithOrder> getWithOrderwithList(Integer id);
+	
+	public List<WithOrder> list();
 }
