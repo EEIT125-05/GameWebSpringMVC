@@ -80,7 +80,7 @@ public class MemberControllerNoVerified {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("showError", "無此帳號");
+			model.addAttribute("showError", "沒有登錄過的信箱");
 			return "member/MemberPasswordForget";
 		}
 
@@ -117,7 +117,7 @@ public class MemberControllerNoVerified {
 			@RequestParam String sNickname, @RequestParam String sEmail, @RequestParam String sEname,
 			@RequestParam String sPhone, @RequestParam String sAddress, @RequestParam String sGender,
 			@RequestParam String sBirthday, @RequestParam String registerDate, @RequestParam Integer status,
-			@RequestParam("productImage") MultipartFile productImage, SessionStatus Status,
+			@RequestParam MultipartFile productImage, SessionStatus Status,
 			HttpServletResponse response) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		registerDate = sdf.format(new Date());

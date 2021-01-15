@@ -70,6 +70,11 @@ input {
 				<h3>
 					請選擇上傳照片:<input type="file" name="productImage" required />
 				</h3>
+<!-- 				<h3> -->
+<%-- 					已選擇的照片:${param.productImage}<img style="width: 250; height: 175;" --%>
+<%-- 						src='${param.productImage}' /> <input type="hidden" --%>
+<!-- 						name="productImage" /> -->
+<!-- 				</h3> -->
 				<%-- 			<h3><img type="hidden" name="image" value='${param.image}'/></h3> --%>
 				<input type="hidden" name="registerDate"
 					value='${param.registerDate}'> <input type="hidden"
