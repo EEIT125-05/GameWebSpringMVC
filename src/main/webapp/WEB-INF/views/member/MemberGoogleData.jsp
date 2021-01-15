@@ -36,7 +36,7 @@ input {
 							src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>">
 					</div>
 				</div>
-				<hr>
+				<hr style="color: white; border: 1px solid;">
 				<input type="hidden" name="iNo" ${user.iNo} readonly>
 				<h3>
 					設定的帳號:${user.sAccount}<input type="hidden" name="sAccount"

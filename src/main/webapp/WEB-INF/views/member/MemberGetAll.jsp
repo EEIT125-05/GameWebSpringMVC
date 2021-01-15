@@ -18,8 +18,10 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
 
 <style>
-table, th, td {
+td {
 	border: 2px solid gray;
+	background-color: #272727;
+	color: white;
 }
 </style>
 <title>管理會員資料</title>

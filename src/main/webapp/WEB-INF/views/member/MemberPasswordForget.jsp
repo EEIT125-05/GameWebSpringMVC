@@ -27,16 +27,23 @@ input {
 	<form action="<c:url value='/member/JavaMail'/>" method="post">
 		<div align='center'>
 			<div align='center'
-				style="border: 3px solid gray; width: 450; height: 250">
+				style="border: 3px solid gray; width: 450; height: 250;padding-top:15;background-color: #272727;color: white;">
 				<H3 align='center'>
-					請輸入使用的信箱<input type="email" name="mail" style="width: 400;"
+					請輸入使用的信箱<input type="email" name="mail" style="width: 400;padding-top:15;"
 						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$">
 				</H3>
 				<h6 style='color: red;'>${showError}</h6>
 				<h6 style='color: green;'>${message}</h6>
 				<BR>
 				<H3>
-					<input type="submit" value="找回密碼">
+					<button type="submit">
+						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+							fill="currentColor" class="bi bi-envelope-fill"
+							viewBox="0 0 16 16"> <path
+							d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z" />
+						</svg>
+						寄信送出更改密碼
+					</button>
 				</H3>
 			</div>
 		</div>

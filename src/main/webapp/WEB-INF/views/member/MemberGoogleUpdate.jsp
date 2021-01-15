@@ -168,7 +168,7 @@ input {
 						點選換照片<input type="file" name="productImage" />
 					</div>
 				</div>
-				<hr>
+				<hr style="color: white; border: 1px solid;">
 				<h3>
 					<input name="iNo" type="hidden" value="${user.iNo}" readonly>
 				</h3>
