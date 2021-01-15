@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.web.game.contest.service.GameListService;
 import com.web.game.withplay.model.WithPlay;
+import com.web.game.withplay.service.WithOrderService;
 import com.web.game.withplay.service.WithReplyService;
 import com.web.game.withplay.service.WithService;
 
@@ -48,13 +49,17 @@ public class NocheckWithController {
 	@Autowired
 	GameListService ListService;
 	
-	
+	@Autowired
+	WithOrderService withOrderService;
 	
 	@GetMapping("/withplay/Index")
 	public String WithplayIndex(Model model) {
-		model.addAttribute("Withsearch", withService.search("", ""));
+//		model.addAttribute("Withsearch", withService.search("", ""));
 		model.addAttribute("Withlist",withService.list());
 		model.addAttribute("GameList",ListService.selectGameList());
+		model.addAttribute("OrderList",withOrderService.list());
+		System.out.println(withOrderService.list());
+		
 //		
 //		WithPlay test = withService.get(1);
 //		System.out.println("test: " + test.getsComment());

@@ -3,6 +3,7 @@ package com.web.game.contest.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -32,6 +33,7 @@ import com.web.game.contest.service.ParticipateService;
 import com.web.game.contest.validators.ContestValidator;
 import com.web.game.contest.validators.dateAndTimeValidator;
 import com.web.game.member.model.MemberBean;
+import com.web.game.member.service.MemberService;
 
 @Controller
 @RequestMapping("/contest")
@@ -49,6 +51,9 @@ public class ContestController {
 	
 	@Autowired
 	ParticipateService pService;
+	
+	@Autowired
+	MemberService mService;
 	
 	@Autowired
 	ContestValidator cValidator;
@@ -77,10 +82,14 @@ public class ContestController {
 					@RequestParam(required = false, defaultValue = "1970-01-01 00:00") String sTime,
 					@RequestParam(required = false, defaultValue = "false") Boolean afterSignStart,
 					@RequestParam(required = false, defaultValue = "false") Boolean afterSignEnd,
+					@RequestParam Integer iTeamMemberCount,
+					@RequestParam String sPreliminary,
 					@PathVariable(required = false) Integer contestNo,
 					BindingResult result,
 					Model model) {
 		cService.setTime(cContestBean, sSignStart, sSignEnd, sTime);//處理時間
+		cContestBean.setiTeamMemberCount(iTeamMemberCount);
+		cContestBean.setsPreliminary(sPreliminary);
 		
 		MultipartFile fImage = cContestBean.getfImage();
 		String contentType = fImage.getContentType();
@@ -150,13 +159,15 @@ public class ContestController {
 			if(cService.updateContest(cContestBean)) {
 				map.put("status", "success");
 				map.put("successMessage", "更新成功");
+				map.put("contestNo", Integer.toString(cContestBean.getiNo()));
 			}else {
 				map.put("status", "sqlError");
 			}
 		}else {
 			if(cService.insertContest(cContestBean)) {
 				map.put("status", "success");
-				map.put("successMseeage", "新增成功");
+				map.put("successMessage", "新增成功");
+				map.put("contestNo", Integer.toString(cContestBean.getiNo()));
 			}else {
 				map.put("status", "sqlError");
 			}
@@ -170,23 +181,6 @@ public class ContestController {
 		return "contest/ContestManagement";
 	}
 	
-	@GetMapping("/Schedule/{contestNo}")
-	public String contestSchedule(
-					@PathVariable Integer contestNo,
-					RedirectAttributes ra,
-					Model model) {
-		String nextPage = null;
-		ContestBean cContestBean = cService.selectOneContest(contestNo);
-		if(cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {//驗證
-			model.addAttribute("cContestBean", cContestBean);
-			nextPage = "contest/ContestSchedule";
-		}else {
-			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
-			nextPage = ERROR_PAGE;
-		}
-		return nextPage;
-	}
-	
 	@GetMapping("/Update/{contestNo}")
 	public String contestUpdate(
 						@PathVariable Integer contestNo,
@@ -194,17 +188,20 @@ public class ContestController {
 						Model model) {
 		String nextPage = null;
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
-		if(cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {
+		if(cContestBean == null) {
+			ra.addFlashAttribute("errorMessage", "(這場比賽並不存在)");
+			nextPage = ERROR_PAGE;
+		}else if(!cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {
 			//驗證&進入更改頁面
+			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
+			nextPage = ERROR_PAGE;
+		}else {
 			model.addAttribute("cContestBean", cContestBean);
 			model.addAttribute("sContestConfirm", "更新");
 			model.addAttribute("lGameList", gService.selectGameList());
 			model.addAttribute("originSignStart", cService.selectOneContest(contestNo).getdSignStart());
 			model.addAttribute("originSignEnd", cService.selectOneContest(contestNo).getdSignEnd());
 			nextPage = "contest/ContestCreateOrUpdate";
-		}else {
-			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
-			nextPage = ERROR_PAGE;
 		}
 		return nextPage;
 	}
@@ -239,10 +236,92 @@ public class ContestController {
 		return map;
 	}
 	
+	@PostMapping("/MultiJoin")
+	public @ResponseBody Map<String, String> multiJoinContest(
+					@RequestParam Integer contestNo,
+					@RequestParam(value="players[]") List<String> players,		
+					Model model) {
+		Map<String, String> map = new HashMap<String, String>();
+		ContestBean cContestBean = cService.selectOneContest(contestNo);
+		Boolean toDB = true;
+		Boolean chechAnswer = true;
+		StringBuilder toDBPlayers = new StringBuilder();
+		for(String player:players) {
+//			System.out.println("players: " + player);
+			String sAccount = mService.Checkmember(player);
+//			System.out.println("account: " + sAccount);
+			if(sAccount.equals("")) {
+				toDB = false;
+				break;
+			}
+			for(ParticipateBean pParticipateBean: cContestBean.getlParticipateBeans()) {
+				for(String playersString: pParticipateBean.getsPlayer().split("/")) {
+					if(playersString.equals(player)) {
+						chechAnswer = false;
+						break;
+					}
+				}
+			}
+			
+			toDBPlayers.append("/" + player);
+		}
+		if(!toDB) {
+			map.put("status", "noUserError");
+		}else if(!chechAnswer){
+			map.put("status", "playerError");
+		}else {
+//			System.out.println("和資料庫處理");
+			toDBPlayers.delete(0, 1);
+			if(pService.insertParticipate(new ParticipateBean(null, toDBPlayers.toString(), cContestBean))) {
+				map.put("status", "success");
+			}else {
+				map.put("status", "sqlError");
+			}
+		}
+		
+		return map;
+	}
+	
+	
 	@GetMapping("/Participate")
 	public String selectParticipate(Model model) {
 		model.addAttribute("lParticipateList", pService.selectParticipate(((MemberBean)model.getAttribute("user")).getsAccount()));
 		return "contest/ContestParticipate";
+	}
+	
+	@DeleteMapping("/Quit/{contestNo}")
+	public @ResponseBody Map<String, String> quitContest(
+							@PathVariable Integer contestNo,
+							Model model) {
+		Map<String, String> map = new HashMap<String, String>();
+		if(pService.deleteParticipate(contestNo, ((MemberBean)model.getAttribute("user")).getsAccount())) {
+			map.put("status", "success");
+		}else {
+			map.put("status", "sqlError");
+		}
+		return map;
+	}
+	
+	@GetMapping("/Schedule/{contestNo}")
+	public String test(
+				@PathVariable Integer contestNo,
+				RedirectAttributes ra,
+				Model model) {
+		String nextPage = null;
+		ContestBean cContestBean = cService.selectOneContest(contestNo);
+		if(cContestBean == null) {
+			ra.addFlashAttribute("errorMessage", "(這場比賽並不存在)");
+			nextPage = ERROR_PAGE;
+		}else if(!cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {
+			//驗證&進入更改頁面
+			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
+			nextPage = ERROR_PAGE;
+		}else {
+			model.addAttribute("cContestBean", cService.selectOneContest(contestNo));
+			nextPage = "contest/ContestSchedule";
+		}
+		
+		return nextPage;
 	}
 	
 //	@GetMapping("先放這這段程式碼")

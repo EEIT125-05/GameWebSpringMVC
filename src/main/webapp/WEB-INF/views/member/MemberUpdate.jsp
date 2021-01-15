@@ -281,9 +281,9 @@ input {
 				</h3>
 				<H3 align='center'>
 					<input id="submit" name="submit" type="submit"
-						value="修改" disabled style='background-color: yellow;'> <a
+						value="修改" disabled style='background-color: Orange;'> <a
 						href="<c:url value='/member/Data'/>"><input type="button" value="回上一頁"
-						style='background-color: yellow;'></a>
+						style='background-color: Orange;'></a>
 				</H3>
 			</div>
 		</div>

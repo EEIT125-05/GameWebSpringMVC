@@ -3,6 +3,7 @@
 <%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../Link.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -36,7 +37,7 @@
 				idname.innerHTML = "<font color='red'>請輸入中文</font>";
 				nameflag = false;
 			} else {
-				idname.innerHTML = "<font color='green'>OK</font>";
+				idname.innerHTML = "<font color='yellow'>OK</font>";
 				nameflag = true;
 			}
 		} else {
@@ -60,7 +61,7 @@
 				IdcodeCheck = true;
 // 			}
 			if (IdcodeCheck) {
-				Idcode.innerHTML = "<font color='green'>請檢查號碼</font>";
+				Idcode.innerHTML = "<font color='yellow'>請檢查號碼</font>";
 				
 				Idcodeflag = false;
 			} 
@@ -87,7 +88,7 @@
 				console.log("sIdcode=" + sIdcode);
 				var result = JSON.parse(xhr.responseText);
 				if (result.sIdcode.length == 0) {
-					Idcode.innerHTML = "<font color='green'>身份證字號可用</font>";
+					Idcode.innerHTML = "<font color='yellow'>身份證字號可用</font>";
 					Idcodeflag = true;
 				} else {
 					Idcode.innerHTML = "<font color='red' '>身份證字號已被使用，請重新輸入</font>";
@@ -106,7 +107,7 @@
 </script>
 <style>
 .com{
-    max-width:800px; 
+    max-width:850px; 
 }
 td{
 	color:lightgrey;
@@ -121,13 +122,14 @@ td{
       <li class="breadcrumb-item">
         <a href="<c:url value='/'/>">Home</a>
       </li>
+      <li class="breadcrumb-item active">成為陪玩主</li>
     </ol>
     
 	<div align="center">
 		<form:form method="post" modelAttribute="With"
 			enctype='multipart/form-data' class="dark-matter com">
 			<table style="cellpadding:5px">
-			
+				<tbody >
 				<form:hidden path="iId" />
 				<form:hidden path="sGender" items='${sGenderMap}' readonly="true" />
 
@@ -148,8 +150,8 @@ td{
 				</tr>
 				<tr>
 					<td>身分證字號</td>
-					<td><form:input path="sIdcode" maxlength="10" id="sIdcode"  onblur="checkIdcode();"/>&nbsp;
-					<input type="button" id='IdcodeCheck' value="檢查"><span id="Idcode"></span>
+					<td><form:input path="sIdcode" maxlength="10" id="sIdcode"  onblur="checkIdcode();"/>
+					<input type="button" id='IdcodeCheck' value="檢查"><br><span id="Idcode"></span>
 					</td>
 				</tr>
 				<tr>
@@ -160,29 +162,66 @@ td{
 				<tr>
 					<td>照片<br>&nbsp;
 					</td>
-					<td><form:input path="mWithImage" type='file' /></td>
-
-					
+					<td >
+					<form:input path="mWithImage" type='file' accept="image/*" id="fImage" style="width:346px;overflow:hidden;"/>
+					<label id="previewLabel"></label><br>
+            		<img id="imagePreview">
+            		</td>
 				</tr>
+				
 				<tr>
 					<td>金額</td>
-					<td><form:input path="iPrice" />&nbsp;<span style="color:red;"><form:errors path="iPrice"/></span></td>
+					<td><form:input path="iPrice" />&nbsp;<span style="color:yellow;"><form:errors path="iPrice" placeholder="不得大於150元"/></span></td>
 				</tr>
 				<tr>
 					<td>自我介紹</td>
 					<td><form:textarea path="sComment" id="Comment"  onblur="checkComment();" rows="6" cols="30"
-					 pattern="^[\u4e00-\u9fa5]+$" minlength="6"/><span id="idname"></span>&nbsp;</td>
+					 pattern="^[\u4e00-\u9fa5]+$" minlength="6" placeholder="輸入中文六個字以上"/><span id="idname"></span></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type="submit" class="btn btn-outline-primary"></td>
+					<td colspan="2" align="center"><input type="submit" class="button"></td>
 				</tr>
+				<tbody/>
 			</table>
+				
 		</form:form>
 
 	</div>
 		</div>
 	
 	<%@ include file="../Foot.jsp" %>
+	<script>
+	$(function(){
+		
+		console.log("file: " + $("#fImage").val());
+		
+		$("#imagePreview").hide();
+		$("#previewLabel").hide();
+		
+		$("#fImage").on("change",function(){
+			console.log("file: " + $("#fImage").val());
+            let fileReader = new FileReader();
+            let imageFile = this.files[0];
+            
+            if(typeof(imageFile) == "object"){
+	            fileReader.readAsDataURL(imageFile);
+            }else{
+	            $("#imagePreview").hide();
+	    		$("#previewLabel").hide();
+            }
+            
+            fileReader.onload = function(e) {
+            	$("#previewLabel").show();
+            	$("#imagePreview").show();
+            	$("#imagePreview").attr('src',e.target.result)
+            						.attr('style',"height:300px;width:346px;");
+            }
+
+		});
+		
+	});
 	
+
+</script>
 </body>
 </html>

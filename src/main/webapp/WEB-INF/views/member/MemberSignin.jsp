@@ -288,7 +288,7 @@ input {
 				</h4>
 
 				<input id="Signin" name="Signin" type="submit" value="會員登入"
-					style='width: 350; height: 50; font-size: 30; margin-top: 15; background-color: yellow'>
+					style='width: 350; height: 50; font-size: 30; margin-top: 15; background-color: yellow; color: purple'>
 		</form>
 		<div>
 			<div>
@@ -296,12 +296,12 @@ input {
 					method="post">
 					<div style='padding-top: 10px;'>
 						<input type="submit"
-							style='width: 350; height: 50; font-size: 30; margin-top: 15; background-color: red'
+							style='width: 350; height: 50; font-size: 30; margin-top: 15; background-color: red; color: limegreen;'
 							value="管理者登入">
 					</div>
 				</form>
 				<button type="button" id="btnSignIn"
-					style='width: 350; height: 50; font-size: 30; margin-top: 15; border-radius: 10px; background-color: skyblue'>Google登入</button>
+					style='width: 350; height: 50; font-size: 30; margin-top: 15; border-radius: 10px; background-color: blue; color: Orange'>Google登入</button>
 				<!-- 					<button type="button" id="btnDisconnect">斷連Google App</button> -->
 				<div id="content"></div>
 			</div>

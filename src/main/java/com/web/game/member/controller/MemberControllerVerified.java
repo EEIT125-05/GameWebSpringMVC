@@ -42,7 +42,7 @@ import com.web.game.member.service.MemberService;
 
 @Controller
 @RequestMapping("/member")
-@SessionAttributes({ "user" })
+@SessionAttributes({ "user"})
 public class MemberControllerVerified {
 
 	@Autowired
@@ -98,9 +98,11 @@ public class MemberControllerVerified {
 			@RequestParam String sEname, @RequestParam String sPhone, @RequestParam String sAddress,
 			@RequestParam String sGender, @RequestParam String sBirthday, @RequestParam String registerDate) {
 		MemberBean GameBarUpDate = mService.Selectmember(sAccount);
+		GameBarUpDate.setsNickname(sNickname);
 		GameBarUpDate.setsEname(sEname);
 		GameBarUpDate.setsEmail(sEmail);
 		GameBarUpDate.setsPhone(sPhone);
+		GameBarUpDate.setsAddress(sAddress);
 		mService.UpdateMember(GameBarUpDate);
 		model.addAttribute("users", mService.getAllMembers());
 		return "member/MemberGetAll";
@@ -209,7 +211,7 @@ public class MemberControllerVerified {
 	}
 
 	@GetMapping("/picture/{sAccount}")
-	public ResponseEntity<byte[]> getPicture(@PathVariable("sAccount") String sAccount) {
+	public ResponseEntity<byte[]> getPicture(Model model,@PathVariable("sAccount") String sAccount) {
 		InputStream is = null;
 		OutputStream os = null;
 		String fileName = null;
@@ -219,9 +221,9 @@ public class MemberControllerVerified {
 		HttpHeaders headers = new HttpHeaders();
 		MediaType mediaType = null;
 		Blob blob = null;
+		System.out.println("???????????????????????????????");
 		try {
 			MemberBean bean = mService.queryMember(sAccount);
-			System.out.println("bean=" + bean);
 			System.out.println("sAccount=" + sAccount);
 			if (bean != null) {
 				blob = bean.getImage();
@@ -274,6 +276,7 @@ public class MemberControllerVerified {
 			HttpServletResponse response) {
 		MemberBean StatusChange = mService.Selectmember(sAccount);
 		status = StatusChange.getStatus();
+		System.out.println("有無進來2222222222222");
 		if (sAccount.equals("game20200922")) {
 			;
 		} else if (status == true) {

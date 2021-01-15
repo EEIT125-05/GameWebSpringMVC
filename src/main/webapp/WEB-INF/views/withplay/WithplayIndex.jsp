@@ -32,17 +32,17 @@ response.setContentType("text/html;charset=UTF-8");
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a>
 			</li>
+			<li class="breadcrumb-item active">陪玩</li>
 		</ol>
 
 
 		<%-- 		<form action='${pageContext.request.contextPath}/withplay/select'> --%>
-		<div class="input-group"> 
-			<input type="text"  placeholder="輸入暱稱" name="sNickname" class="form-control input-lg" id="sNickname"> 
+		<div class="input-group" style="width:600px;text-align:center;">
+			<input type="text"  placeholder="輸入暱稱" name="sNickname" class="form-control input-lg" id="sNickname" style="width:200px"> 
 				<span class="input-group-btn"> 
 				<input type="button" value="搜尋" class="btn btn-secondary" id="submit">
-			</span>
-		</div>
-		<label>進階條件: </label><br> <label>遊戲</label> <select id="sGame"
+			</span>&emsp;&emsp;
+		<label style="font-weight: 900;">進階條件: </label><label style="font-weight: 900;">遊戲</label> <select id="sGame"
 			class="form-control" name="sGame"
 			style="width: 130px; display: inline">
 			<option value="">全部</option>
@@ -50,6 +50,7 @@ response.setContentType("text/html;charset=UTF-8");
 				<option value="${sGame}">${sGame}</option>
 			</c:forEach>
 		</select>
+		</div>
 		<%-- 		</form> --%>
 
 		<c:if test="${empty Withlist}">
@@ -57,7 +58,7 @@ response.setContentType("text/html;charset=UTF-8");
 		</c:if>
 		<div class="row" id="point">
 			<c:forEach var="With" items="${Withlist}">
-				<div class="col col-12 col-sm-12 col-md-6 col-lg-4">
+				<div class="col col-12 col-sm-6 col-md-6 col-lg-3">
 					<div data-toggle="modal" data-target="#exampleModal${With.iId}">
 						<div class="div1">
 							<div class="fi1">
@@ -107,7 +108,6 @@ response.setContentType("text/html;charset=UTF-8");
 														<jsp:useBean id="nowDate" class="java.util.Date" />
 														<fmt:formatDate var="dateString" value="${nowDate}"
 															pattern="yyyy-MM-dd" />
-														<%-- 										<fmt:formatDate var="timeString" value="${nowDate}" pattern="HH:mm:ss"/> 先留著 要做XX分內可以拿來用 --%>
 														<fmt:parseDate var="Date" value="${dateString}"
 															pattern="yyyy-MM-dd" />
 														<fmt:parseDate var="replyDate" value="${reply.dDate}"
@@ -132,11 +132,19 @@ response.setContentType("text/html;charset=UTF-8");
 												</div>
 
 												<hr>
-
 												<div>
+												<c:choose>
+												<c:when test="${OrderList[user.iNo-1].member.iNo == user.iNo}">
 													回覆: <input type="text" id="Reply${With.iId}" name="sText" required>
 													<button type="submit" id="replySubmit${With.iId}" name="withNo"
-														value="${With.iId}" class="btn btn-primary">送出</button>
+														value="${With.iId}" class="btn btn-primary" >送出</button>
+												</c:when>
+												<c:otherwise>
+													回覆: <input type="text" id="Reply${With.iId}" name="sText" required>
+													<button type="submit" id="replySubmit${With.iId}" name="withNo"
+														value="${With.iId}" class="btn btn-primary"  disabled="disabled">送出</button>
+												</c:otherwise>						
+												</c:choose> 
 												</div>
 											</form>
 
@@ -147,8 +155,15 @@ response.setContentType("text/html;charset=UTF-8");
 								<form action="<c:url value='/withplay/Order'/>" method="post">
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
-										data-dismiss="modal">Close</button>
-									<button type="submit" class="btn btn-primary" name="orderNo" value="${With.iId}">立即下單</button>
+										data-dismiss="modal">關閉</button>
+									<c:choose>										
+									<c:when test="${user.sAccount == With.sAccount}">									
+									<button type="submit" class="btn btn-primary " disabled="disabled" name="orderNo" value="${With.iId}">立即下單</button>
+									</c:when>
+									<c:otherwise>
+									<button type="submit" class="btn btn-primary" name="orderNo" value="${With.iId}">立即下單</button>									
+									</c:otherwise>
+									</c:choose>								
 								</div>
 								</form>
 								
@@ -188,7 +203,7 @@ response.setContentType("text/html;charset=UTF-8");
 													
 													$("#point").append(
 // 																					"<div class='row' id='point'>"
-																							 "<div class='col col-6 col-sm-4 col-md-4 col-lg-4'>"
+																							 "<div class='col col-12 col-sm-6 col-md-6 col-lg-3'>"
 																							+ "<div data-toggle='modal' data-target='#exampleModal" + value.iId + "'>"
 																							+ "<div class='div1'>"
 																							+ "<div class='fi1'>"
@@ -255,13 +270,14 @@ response.setContentType("text/html;charset=UTF-8");
 																							
 																							+ "</div>"
 																							+ "</div>"
-																							+ "</div>"
-																							+ "<div class='modal-footer'>"
-																							+ "<button type='button' class='btn btn-secondary'"
-																+"data-dismiss='modal'>Close</button>"
-																							+ "<button type='button' class='btn btn-primary'>Save"
-																							+ "changes</button>"
-																							+ "</div>"
+																							+ "</div>"						
+																							+"<form action='<c:url value='/withplay/Order'/>' method='post'>"
+																								+"<div class='modal-footer'>"
+																									+"<button type='button' class='btn btn-secondary'"
+																										+"data-dismiss='modal'>關閉</button>"																																			
+																									+"<button type='submit' class='btn btn-primary' name='orderNo' value='"+value.iId+"'>立即下單</button>"
+																								+"</div>"
+																								+"</form>"																							
 																							+ "</div>"
 																							+ "</div>"
 																							+ "</div>"
@@ -321,6 +337,9 @@ response.setContentType("text/html;charset=UTF-8");
 		// 		})
 		// 	})
 
+
+		
+		
 		// 	$(".div1").on("click",function(){	
 		// 			console.log("123")
 		// // 			.ajax({

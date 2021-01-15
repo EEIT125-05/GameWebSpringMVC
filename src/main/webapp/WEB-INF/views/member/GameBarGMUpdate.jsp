@@ -33,7 +33,7 @@ input {
 	<form action="<c:url value='/member/${sAccount}'/>" method="post">
 		<div align='center'>
 			<div align='left'
-				style="border: 3px solid gray; width: 600; height: 550;border-radius: 5px;">
+				style="border: 3px solid gray; width: 600; height: 550; border-radius: 5px;">
 				<h3>
 					<input name="iNo" type="hidden" value="${OneMember.iNo}" readonly>
 				</h3>
@@ -55,7 +55,7 @@ input {
 						value="${OneMember.sEname}">
 				</h3>
 				<h3>
-					更改信箱<input type="text" id="Email" name="sEmail" required
+					更改信箱<input type="text" id="Email" name="sEmail"
 						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$"
 						onblur="checkEmail();" value="${OneMember.sEmail}"><span
 						id="idemail"></span>
@@ -104,9 +104,10 @@ input {
 						name="registerDate" value="${OneMember.registerDate}" readonly>
 
 					<h3 align='center'>
-						<input id="submit" name="submit" type="submit" value="修改">
-						<a href="<c:url value='/member/GameBarGetAll'/>"><input
-							type="button" value="回上一頁"></a>
+						<input id="submit" name="submit" type="submit" value="修改"
+							style='background-color: Orange;'> <a
+							href="<c:url value='/member/Data'/>"><input type="button"
+							value="回上一頁" style='background-color: Orange;'></a>
 					</h3>
 			</div>
 		</div>

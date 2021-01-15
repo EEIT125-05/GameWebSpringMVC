@@ -18,7 +18,7 @@ public class ParticipateBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer iNo;
-	@Column(columnDefinition = "nvarchar(50)")
+	@Column(columnDefinition = "nvarchar(MAX)")
 	private String sPlayer;
 //	@Column(columnDefinition = "nvarchar(50)")
 //	private String sGameId;

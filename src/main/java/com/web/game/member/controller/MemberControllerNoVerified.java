@@ -33,15 +33,20 @@ import com.web.game.member.dao.Impl.MemberDaoImpl;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.model.MemberSigninBean;
 import com.web.game.member.service.MemberService;
+import com.web.game.withplay.service.WithService;
+import com.web.game.withplay.service.impl.WithServiceImpl;
 
 @Controller
 @RequestMapping("/member")
-@SessionAttributes({ "user" })
+@SessionAttributes({"user","withplayHost"})
 public class MemberControllerNoVerified {
 	String noImage = "/images/nopicture.jpg";
 
 	@Autowired
 	MemberService mService;
+	
+	@Autowired
+	WithService WithService;
 
 	public void setService(MemberService service) {
 		this.mService = service;
@@ -203,6 +208,7 @@ public class MemberControllerNoVerified {
 			status = SigninMB.getStatus();
 			if (status == true) {
 				model.addAttribute("user", SigninMB);
+				model.addAttribute("withplayHost", WithService.getaccount(sAccount));
 
 //--------新增cookie----------------------------------------------------
 			if(!rememberMe.equals("")) {
@@ -301,14 +307,15 @@ public class MemberControllerNoVerified {
 //	}
 
 	@PostMapping("/GoogleSignin")
-	public boolean GoogleSignin(Model model, String sAccount, String sPassword, String sNickname,
+	public boolean GoogleSignin(Model model,String sAccount, String sPassword, String sNickname,
 			@RequestParam(value = "googleEmail", required = false) String sEmail,
 			@RequestParam(value = "googleEname", required = false) String sEname, String sGender, String sPhone,
 			String sAddress, String sBirthday, HttpServletRequest request, HttpServletResponse response, String registerDate, boolean status) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		registerDate = sdf.format(new Date());
 		Integer iNo = null;
-		sAccount = sEmail;
+		sAccount = sEmail.split("@")[0];
+		 
 		System.out.println("sAccount=" + sAccount);
 		System.out.println("Ename=" + sEname);
 

@@ -72,7 +72,7 @@ public class ContestDAOImpl implements ContestDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ContestBean> selectUserContest(String user) {
-		String hql = "from ContestBean where sHost = :user";
+		String hql = "from ContestBean where sHost = :user order by dSignStart desc";
 		Session session = factory.getCurrentSession();
 		return session.createQuery(hql).setParameter("user", user).getResultList();
 	}
@@ -100,8 +100,8 @@ public class ContestDAOImpl implements ContestDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, Integer scrollInt) {
-		String hql = "from ContestBean where (sName like '%" + sSearch + "%' or sLocation like '%" + sSearch + "%') and sGame like '%" + sGame + "%'" + sSignDate +" order by dSignStart desc";
+	public List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, String sCompSystem, Integer scrollInt) {
+		String hql = "from ContestBean where (sName like '%" + sSearch + "%' or sLocation like '%" + sSearch + "%') and sGame like '%" + sGame + "%' " + sSignDate + sCompSystem +" order by dSignStart desc";
 		System.out.println(hql);
 		Session session = factory.getCurrentSession();
 		return session.createQuery(hql)
@@ -118,11 +118,12 @@ public class ContestDAOImpl implements ContestDAO {
 	}
 
 	@Override
-	public Boolean saveSchsduleImage(Integer iNo, Blob bimageSchedule) {
+	public Boolean saveSchsduleImage(Integer iNo, Blob bRematchImage, Blob bPreliminariesImage) {
 		Session session = factory.getCurrentSession();
 		try {
 			ContestBean cContestBean = session.get(ContestBean.class, iNo);
-			cContestBean.setbScheduleImage(bimageSchedule);
+			cContestBean.setbRematchImage(bRematchImage);
+			cContestBean.setbPreliminariesImage(bPreliminariesImage);
 			return true;
 		}catch (Exception e) {
 			return false;

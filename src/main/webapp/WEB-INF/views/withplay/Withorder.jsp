@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <%@ include file="../Link.jsp"%>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -25,117 +27,130 @@ response.setContentType("text/html;charset=UTF-8");
 	margin-right: auto;
 	margin-left: auto;
 }
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 </style>
 <body >
 	<%@ include file="../Header.jsp"%>
 	<div class="container">
-		<div style="background-color:lightgrey;border-radius: 15px;">
+		<div style="background-color:#FFFAF4;border-radius: 15px;">
 			<div
-				style="background-color:lightgrey; margin: 25px; height: 700px;padding-top:20px;padding-bottom:20px">
+				style="margin: 25px; height: 700px;padding-top:20px;padding-bottom:20px">
 				<h2 style="padding-top:15px">確認訂單</h2>
-				<div style="background-color: rgb(180, 230, 173);  height: 600px; width: 775px;float:left;">
-					<div style="float:left;hegiht:300px;width:775px;border:blue solid 5px;padding-top:20px;padding-bottom:20px;display:  flex; align-items: center; justify-content:  center;">
+				<div style="height: 600px; width: 775px;float:left;">
+				<hr>
+					<div style="float:left;hegiht:300px;width:775px;padding-bottom:20px;display:  flex; align-items: center; justify-content:  center;">
 						<div style="float:left;height: 200px; width: 200px;display: flex; align-items: center; justify-content:  center;" >
 						<img width=150px height=150px src='${pageContext.request.contextPath}/withplay/picture/${With.iId}' />
 						</div>
-						<div style="display:inline;float:left;border:red solid 5px;height: 200px; width: 565px;margin-top:20px;margin-bottom:20px;line-height:190px;">
-							<p style="float:left;width:150px">1</p>
-							<p style="float:left;width:100px">2</p>
-							<p style="float:right;width:150px">50
-								<span >幣/一小時</span>
+						<div style="display:inline;float:left;height: 200px; width: 565px;margin-top:20px;margin-bottom:20px;line-height:190px;">
+							<p style="float:left;width:150px;font-size:150%;">${With.sNickname}</p>
+							<p style="float:left;width:100px;font-size:150%;">${With.sGame}</p>
+							<p style="float:right;width:150px;font-weight:bold;font-size:150%;">
+								<span id="t4">${With.iPrice}元/局</span>
 							</p>
 							
-						<div style="float:left;width:150px;height:200px;display: flex; align-items: center; justify-content:  center;">
-						<div style="border:black solid 1px;border-radius:5px;">
-						<div style="float:left;"><i class="fa fa-minus-square-o fa-2x"></i></div>
-						<input typer=number style="height:30;width:40px;float:left;border:none;border-radius:5px;">
-						<div style="float:left;"><i class="fa fa-plus-square-o fa-2x" ></i></div>
+						<div style="float:left;width:150px;height:200px;display: flex; align-items: center; justify-content:center;">
+						<div style="display: flex; align-items: center; justify-content:center;">
+						<input id="min" name="" type="button" value="-" style="color:black;border:none;border-radius:5px 0 0 5px;height:30px;width:40px;line-height:0.5;color:red;font-family:fantasy;fantasy;font-size:35px;">
+						<input type=number id="quantity" style="height:30px;width:40px;border:none;line-height:1.5;text-align: center;font-weight:bold;font-size:20px;background-color:fefcfb;" value="1" max="15" min="1" oninput="validity.valid|| 
+    (value=1);">
+						<input id="add" name="" type="button" value="+" style="width:40px;height:30px;border:none;border-radius:0 5px 5px 0;line-height:0.5;color:red;font-family:fantasy;font-size:30px;">
+						
 						</div>
 						</div>
 						</div>
 						
 					</div>
 					<div>
-						<h3>付款方式</h3>
+						<h3 style="font-weight:bold;">付款方式</h3>
 					</div>
 						<div>7</div>
 				</div>
-				<div style=" border: rgb(212, 0, 255) solid 3px; height: 200px; width: 310px;float:right;padding:15px">
+				<div style="height: 200px; width: 310px;float:right;padding:15px;margin-top:30px;background-color:fefcfb;border-radius:15px">
 					<div>
 						<div>
-						<div style="height:30px;background-color:yellow;margin-bbottom:20px;">
-						<span style="float:left;">2</span>
-						<span style="float:right;">3</span>
+						<div style="height:30px;margin-bbottom:20px;">
+						<span style="float:left;" id="t1" >總價（局 * 1）</span>
+						<span style="float:right;" id="t2">${With.iPrice}元</span>
 						</div>
-						<div style="margin-top:20px; margin-bbottom:20px;height:40px;">
-						<span>44</span>
-						<span style="float:right;">55</span>
+						<hr>
+						<div style="margin-top:20px; margin-bbottom:20px;height:40px;font-size:150%;">
+						<span>實付</span>
+						<span style="float:right;" id="iPrice" >${With.iPrice}元</span>
 						</div>
 						</div>
 					</div>
+					<form action="<c:url value='/withplay/Orderlist'/>" method="post">
+				<input type="hidden" id="total" value="${With.iPrice}" name="total"/>
+				<input type="hidden"  value="${user.iNo}" name="usAccount"/>
+				<input type="hidden"  value="${With.iId}" name="wsAccount"/>
+				<input type="hidden"  value="${With.sGame}" name="sGame"/>
 					<div style="padding-top:20px">
-					<button type="button" class="btn btn-danger" style="width:274px;">送出訂單</button>
+					<button type="submit" class="btn btn-danger" style="width:274px;">送出訂單</button>
 					</div>
+						</form>
 				</div>
 			</div>
 		</div>
-		<!-- 	<div align="center" > -->
-
-		<!-- 		<table border="1" > -->
-		<!-- 			<tr> -->
-		<!-- 				<th>帳號</th> -->
-		<!-- 				<th >姓名</th> -->
-		<!-- 				<th >暱稱</th> -->
-		<!-- 				<th>ID</th> -->
-		<!-- 				<th>性別</th> -->
-		<!-- 				<th >遊戲</th> -->
-		<!-- 				<th>照片</th> -->
-		<!-- 				<th >自我介紹</th> -->
-		<!-- 				<th>價格</th> -->
-		<!-- 				<th>功能</th> -->
-		<!-- 			</tr> -->
-		<%-- <%-- 			<c:forEach items="${With}" var="With" varStatus="status"> --%>
-		<!-- 				<tr> -->
-
-		<%-- 					<td>${With.sAccount}</td> --%>
-		<%-- 					<td >${With.sName}</td> --%>
-		<%-- 					<td>${With.sNickname}</td> --%>
-		<%-- 					<td>${With.sIdcode}</td> --%>
-		<%-- 					<td>${With.sGender == 'F' ? "女" : "男" }</td> --%>
-		<%-- 					<td>${With.sGame}</td> --%>
-		<!-- 					<td><img width='200' height='200' -->
-		<%-- 						src='${pageContext.request.contextPath}/withplay/picture/${With.iId}' /></td> --%>
-		<%-- 					<td style="word-break: break-all; width:400px" >${With.sComment}</td> --%>
-		<%-- 					<td>${With.iPrice}</td> --%>
-		<!-- 					<td><a -->
-		<%-- 						href="${pageContext.request.contextPath}/withplay/edit/${With.iId}">Edit</a> --%>
-		<!-- 						&nbsp;&nbsp;  -->
-		<!-- 						<a class='deletelink' -->
-		<%-- 						href="${pageContext.request.contextPath}/withplay/delete/${With.iId}">Delete</a> --%>
-		<!-- 					</td> -->
-		<!-- 				</tr> -->
-		<%-- <%-- 			</c:forEach> --%>
-		<!-- 		</table> -->
-		<!-- 	</div> -->
+	
 	</div>
-
-
+<%-- 	<form action="<c:url value='/withplay/Orderlist'/>" method="post"> --%>
+<%-- 			<input type="hidden" id="total" value="${With.iPrice}"/> --%>
+<%-- 			<input type="hidden"  value="${user}" id="usAccount"/> --%>
+<%-- 			<input type="hidden"  value="${With.iId}" id="wsAccount"/> --%>
+<%-- 			<input type="hidden"  value="${With.sGame}" id="sGame"/> --%>
+			
+<%-- 	</form> --%>
 	<div align="center">
 		<a href="${pageContext.servletContext.contextPath}/withplay/Index">陪玩首頁</a>
 	</div>
-
 	<%@ include file="../Foot.jsp"%>
 </body>
 <script>
-	$(document).ready(function() {
-		$('.deletelink').click(function() {
-			if (confirm('確定刪除此筆紀錄? ')) {
-				var href = $(this).attr('href');
-				$('form').attr('action', href).submit();
-			}
-			return false;
+$(function(){
+	var t = $("#quantity");
+	var t1=$("#t1");
+	var t2=$("#t2");
+	var t3=$("#iPrice");
+	var t4=$("#t4").html().split("元")[0];
+	var t5=$("#total");
 
-		});
-	});
+	$("#add").click(function(){
+		t.val(parseInt(t.val())+1).attr("value", t.val());
+		t1.html("總價（局 * " + t.val() + "）");
+		t2.html(parseInt(t.val())*parseInt(t4) + "元");
+		t3.html(t2.html());
+		t5.val(parseInt(t.val())*parseInt(t4))
+		t5.val(parseInt(t.val())*parseInt(t4)).attr("value",t5.val());
+		$("#min").removeAttr("disabled");//當按加1時，解除$("#min")不可讀狀態
+		if(parseInt(t.val())>=15){
+			$("#add").attr("disabled","disabled")
+		}
+
+	})
+	$("#min").click(function(){
+               if (parseInt(t.val())>1||parseInt(t.val())>=15) {                     //判斷數量值大於1時才可以減少
+                t.val(parseInt(t.val())-1).attr("value", t.val());
+                t1.html("總價（局 * " + t.val() + "）");
+        		t2.html(parseInt(t.val())*parseInt(t4) + "元");
+        		t3.html(t2.html());
+        		t5.val(parseInt(t.val())*parseInt(t4))
+        		t5.val(parseInt(t.val())*parseInt(t4)).attr("value",t5.val());
+                $("#add").removeAttr("disabled");
+                }else{
+                $("#min").attr("disabled","disabled")        //當$("#min")為1時，$("#min")不可讀狀態
+               }
+
+	})
+
+	
+})
+
+
 </script>
 </html>

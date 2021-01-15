@@ -42,7 +42,8 @@
 
 <div class="container">
 
-<h1 class="mt-4 mb-3">${sContestConfirm}比賽
+<h1 class="mt-4 mb-3">
+<%-- ${sContestConfirm}比賽 --%>
 <!--       <small>XXXXX</small> -->
     </h1>
 
@@ -50,8 +51,9 @@
       <li class="breadcrumb-item">
         <a href="<c:url value='/'/>">Home</a>
       </li>
-      <li class="breadcrumb-item active">賽事</li>
-    </ol>
+      <li class="breadcrumb-item active"><a href="<c:url value='/contest/Index'/>">賽事</a></li>
+		<li class="breadcrumb-item active">新增比賽<span style="color:red">*所有選項都必填</span></li>
+	</ol>
 	
 		<form:form class="dark-matter" method="POST" modelAttribute="cContestBean" enctype="multipart/form-data">
 			<div>
@@ -67,6 +69,58 @@
             </form:select>
             <form:errors path="sGame"/>
             <label></label>
+        </div>
+        <div>
+            <label style="width:82.14px;text-align:right" for="iPeople">隊伍數: </label> <form:input type="number" min="2" max="100"
+                 id="iPeople" path="iPeople"/>
+                 <form:errors path="iPeople" class="error"/>
+            <label class="error"></label>
+        </div>
+        <div>
+            <label>隊伍組成: </label>
+            <c:choose>
+            	<c:when test="${cContestBean.iTeamMemberCount == 1 || empty cContestBean.iTeamMemberCount}">
+            		<label><input type="radio" name="sTeamMode" id="individual" value="individual" checked/>單人</label>
+            		<label><input type="radio" name="sTeamMode" id="group" value="group"/>團體</label>
+					<label id="teamCountSelect" style="margin:0"></label>
+					<input type="hidden" id="iTeamMemberCount" name="iTeamMemberCount" value="1">
+            	</c:when>
+            	<c:otherwise>
+		            <label><input type="radio" name="sTeamMode" id="individual" value="individual"/>單人</label>
+		            <label><input type="radio" name="sTeamMode" id="group" value="group" checked/>團體</label>
+					<label id="teamCountSelect" style="margin:0">
+						<input type="number" min="2" max="100" id="teamMemberCount" style="width:60px;margin:0" value="${cContestBean.iTeamMemberCount}">人一組
+					</label>
+					<input type="hidden" id="iTeamMemberCount" name="iTeamMemberCount" value="${cContestBean.iTeamMemberCount}">
+            	</c:otherwise>
+            </c:choose>
+        </div>
+        <div>
+            <label style="width:82.14px;text-align:right">預賽: </label>
+            
+             <c:choose>
+            	<c:when test="${cContestBean.sPreliminary == 'none' || empty cContestBean.sPreliminary}">
+		            <label><input type="radio" name="preliminaries" id="Npreliminaries" value="false" checked/>無預賽</label>
+		            <label><input type="radio" name="preliminaries" id="Ypreliminaries" value="true"/>有預賽</label>
+		            <label id="preliminariesCountSelect" style="margin:0"></label>
+		            <input type="hidden" id="sPreliminary" name="sPreliminary" value="none">
+            	</c:when>
+            	<c:otherwise>
+            		<c:set var="sPreliminary" value="${fn:split(cContestBean.sPreliminary,'-')}"/>
+            		<label>${sPreliminary[0]}-${sPreliminary[1]}-${sPreliminary[2]}</label>
+		            <label><input type="radio" name="preliminaries" id="Npreliminaries" value="false"/>無預賽</label>
+		            <label><input type="radio" name="preliminaries" id="Ypreliminaries" value="true" checked/>有預賽</label>
+		            <label id="preliminariesCountSelect" style="margin:0"></label>
+		            <input type="hidden" id="sPreliminary" name="sPreliminary" value="${sPreliminary[0]}-${sPreliminary[1]}-${sPreliminary[2]}">
+            	</c:otherwise>
+            </c:choose>
+            
+        </div>
+        <div>
+            <label>比賽形式: </label>
+            <form:radiobutton path="sRematchMode" id="knockout" value="knockout" label="淘汰賽"/>
+            <form:radiobutton path="sRematchMode" id="ground" value="ground" label="循環賽"/>
+            <form:radiobutton path="sRematchMode" id="free" value="free" label="自由對戰"/>
         </div>
         <div>
         	<c:set var="sSignStart" value="${cContestBean.dSignStart}"/>
@@ -120,12 +174,6 @@
             <label class="error"></label>
         </div>
         <div>
-            <label for="iPeople">人數限制: </label> <form:input type="number" min="2" max="100"
-                 id="iPeople" path="iPeople"/>
-                 <form:errors path="iPeople" class="error"/>
-            <label class="error"></label>
-        </div>
-        <div>
             <label>宣傳圖片: </label>
             <form:input type="file" id="fImage" path="fImage" accept="image/*"/>
             <form:errors path="fImage" class="error"/>
@@ -156,7 +204,127 @@
 
 	$(function(){
 		
-		console.log("file: " + $("#fImage").val());
+		if($("#iPeople").val() != ""){
+			let preliminaries = $("#sPreliminary").val().split('-');
+			$("#preliminariesCountSelect").append("<select id=\"preliminariesCount1\" style=\"margin:0;width:50px\"></select>取<select id=\"preliminariesCount2\" style=\"margin:0;width:50px\"></select>剩餘取<select id=\"preliminariesCount3\" style=\"margin:0;;width:30px\"><option value=\"0\">0</option></select>");;
+			for(let i=2; i<=$("#iPeople").val(); i++) {
+				$("#preliminariesCount1").append("<option value=" + i + ">" + i);
+			}
+			$("#preliminariesCount1").val(preliminaries[0]);
+			for(let i=1; i<=preliminaries[0]; i++){
+				$("#preliminariesCount2").append("<option value=" + i + ">" + i + "</option>")
+			}
+			$("#preliminariesCount2").val(preliminaries[1]);
+			if($("#iPeople").val() % $("#preliminariesCount1").val() != 0){
+				$("#preliminariesCount3").empty();
+				for(let i=1; i<=$("#iPeople").val() - $("#preliminariesCount1").val()*Math.floor($("#iPeople").val()/$("#preliminariesCount1").val()); i++){
+					$("#preliminariesCount3").append("<option value=" + i + ">" + i);
+				}
+				$("#preliminariesCount3").val(preliminaries[2]);
+			}
+			
+		}
+		
+		if($("#ground:checked").length > 0){
+			$("#ground").attr("checked", "true");
+		}else if($("#free:checked").length > 0){
+			$("#free").attr("checked", "true");
+		}else{
+			$("#knockout").attr("checked", "true");
+		}
+		
+		
+		
+		$("#group").on("focus",function(){
+			if($("#iPeople").val() == ""){
+				$("#teamCountSelect").html("<label style=\"color:red\">請先選擇隊伍數");
+				$("#iTeamMemberCount").val("1");
+			}else{
+	        	$("#teamCountSelect").html("<input type=\"number\" min=\"2\" max=\"100\" id=\"teamMemberCount\" style=\"width:60px;margin:0\" value=\"2\">人一組");
+				$("#iTeamMemberCount").val($("#teamMemberCount").val());
+			}
+// 			console.log("人數 " + $("#iTeamMemberCount").val())
+		});
+		
+		$(document).on("change", "#teamMemberCount", function(){
+			$("#iTeamMemberCount").val($("#teamMemberCount").val());
+// 			console.log("人數 " + $("#iTeamMemberCount").val())
+		});
+		
+		$("#individual").on("focus",function(){
+			$("#teamCountSelect").empty();
+			if($("#Ypreliminaries:checked").length > 0){
+				if($("#iPeople").val() == ""){
+					$("#preliminariesCountSelect").html("<label style=\"color:red\">請先選擇隊伍數");
+				}else{
+					$("#preliminariesCountSelect").empty();
+					preliminariesCount();
+				}
+			}
+			$("#iTeamMemberCount").val("1");
+// 			console.log("人數 " + $("#iTeamMemberCount").val())
+		});
+		
+		$("#iPeople").on("change", function(){
+			console.log("change")
+			if($("#Ypreliminaries:checked").length > 0){
+				$("#preliminariesCountSelect").empty();
+				preliminariesCount();
+			}
+
+		});
+		
+		$("#Ypreliminaries").on("focus", function(){
+			if($("#Ypreliminaries:checked").length == 0){
+				if($("#iPeople").val() == ""){
+					$("#preliminariesCountSelect").append("<label style=\"color:red\">請先選擇隊伍數");
+				}else{
+					console.log("有執行這行")
+					preliminariesCount();
+				}
+			}
+		});
+		
+		$("#Npreliminaries").on("focus",function(){
+			$("#preliminariesCountSelect").empty();
+			$("#sPreliminary").val("none");
+// 			console.log("字串 " + $("#sPreliminary").val());
+		});
+		
+		function preliminariesCount(){
+		    let iPlayer = $("#iPeople").val();
+	        $("#preliminariesCountSelect").append("<select id=\"preliminariesCount1\" style=\"margin:0;width:50px\"></select>");
+			for(let i=2; i<=iPlayer; i++) {
+				$("#preliminariesCount1").append("<option value=" + i + ">" + i);
+			}
+			$("#preliminariesCountSelect").append("取<select id=\"preliminariesCount2\" style=\"margin:0;width:50px\"><option value=\"1\">1</option><option value=\"2\">2</option></select>剩餘取<select id=\"preliminariesCount3\" style=\"margin:0;;width:30px\"><option value=\"0\">0</option></select>");
+			$("#sPreliminary").val($("#preliminariesCount1").val() + "-" + $("#preliminariesCount2").val() + "-" + $("#preliminariesCount3").val());
+// 			console.log("字串 " + $("#sPreliminary").val());
+		}
+		
+		$(document).on("change", "#preliminariesCount1", function(){
+			$("#preliminariesCount2").empty();
+			for(let i=1; i<=$(this).val(); i++){
+				$("#preliminariesCount2").append("<option value=" + i + ">" + i + "</option>")
+			}
+			let iPlayer = $("#iPeople").val();
+			if(iPlayer % $("#preliminariesCount1").val() != 0){
+				$("#preliminariesCount3").empty();
+				for(let i=1; i<=iPlayer - $("#preliminariesCount1").val()*Math.floor(iPlayer/$("#preliminariesCount1").val()); i++){
+					$("#preliminariesCount3").append("<option value=" + i + ">" + i);
+				}
+			}else{
+				$("#preliminariesCount3").empty().append("<option value=0>0");
+			}
+			
+	    });
+		
+		$(document).on("change", "#preliminariesCount1,#preliminariesCount2,#preliminariesCount3", function(){
+			$("#sPreliminary").val($("#preliminariesCount1").val() + "-" + $("#preliminariesCount2").val() + "-" + $("#preliminariesCount3").val());
+// 			console.log("字串 " + $("#sPreliminary").val());
+		})
+		
+// 		console.log("file: " + $("#fImage").val());
 		
 		$("#imagePreview").hide();
 		$("#previewLabel").hide();
