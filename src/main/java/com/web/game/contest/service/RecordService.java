@@ -12,4 +12,6 @@ public interface RecordService {
 	
 	List<RecordBean> selectContestRecord(Integer contestNo);
 	
+	void addScore(Integer contestNo, Integer groupNo, List<String> sWinPlayers);
+	
 }

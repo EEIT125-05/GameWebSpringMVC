@@ -33,6 +33,12 @@ public class RecordServiceImpl implements RecordService {
 	public List<RecordBean> selectContestRecord(Integer contestNo) {
 		return rDAO.selectContestRecord(contestNo);
 	}
+
+	@Transactional
+	@Override
+	public void addScore(Integer contestNo, Integer groupNo, List<String> sWinPlayers) {
+		rDAO.addScore(contestNo, groupNo, sWinPlayers);
+	}
 	
 	
 

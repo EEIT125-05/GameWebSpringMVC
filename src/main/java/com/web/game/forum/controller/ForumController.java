@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -115,19 +114,34 @@ public class ForumController {
 	}
 	
 	@DeleteMapping("/Edit/{forumNo}")
-	public String forumDelete(
+	public @ResponseBody Map<String, String> forumDelete(
 							@PathVariable Integer forumNo,
 							Model model) {
-		String nextPage = null;
-		ForumBean fForumBean = fService.selectOneForum(forumNo);
-		if(fService.deleteForum(fForumBean)) {
-			model.addAttribute("sForumConfirm", "刪除");	
-			nextPage = "redirect:/forum/Thanks";
-		}else {
-			nextPage = "redirect:/forum/Error";
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			fService.deleteForum(forumNo);
+			map.put("status", "success");
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			map.put("status", "sqlError");
 		}
-		return nextPage;
+		return map;
 	}
+	
+//	@DeleteMapping("/Edit/{forumNo}")
+//	public String forumDelete(
+//			@PathVariable Integer forumNo,
+//			Model model) {
+//		String nextPage = null;
+//		ForumBean fForumBean = fService.selectOneForum(forumNo);
+//		if(fService.deleteForum(fForumBean)) {
+//			model.addAttribute("sForumConfirm", "刪除");	
+//			nextPage = "redirect:/forum/Thanks";
+//		}else {
+//			nextPage = "redirect:/forum/Error";
+//		}
+//		return nextPage;
+//	}
 
 	@PostMapping("/Reply")
 	public String replyCreate(
@@ -150,35 +164,67 @@ public class ForumController {
 		return nextPage;
 	}
 	
-	@PutMapping("/EditReply")
-	public String replyUpdate(
-							@RequestParam Integer forumNo,
+	@PostMapping("/EditReply")
+	public @ResponseBody Map<String, String> replyUpdate(
 							@RequestParam Integer replyNo,
 							@RequestParam String newText,
 							Model model) {
 		System.out.println("回覆更新" + replyNo + newText);
+		Map<String, String> map = new HashMap<String, String>();
 		ReplyBean rReplyBean = rService.selectOneReply(replyNo);
 		rReplyBean.setsText(newText);
 		if(rService.updateReply(rReplyBean)) {
-			return "redirect:/forum/Detail/" + forumNo;
+			map.put("status", "success");
 		}else {
-			return "redirect:/forum/Error";
+			map.put("status", "sqlError");
 		}
+		return map;
 	}
 	
-	@DeleteMapping("/EditReply")
-	public String replyDelete(
-							@RequestParam Integer forumNo,
-							@RequestParam Integer replyNo,
+//	@PutMapping("/EditReply")
+//	public String replyUpdate(
+//			@RequestParam Integer forumNo,
+//			@RequestParam Integer replyNo,
+//			@RequestParam String newText,
+//			Model model) {
+//		System.out.println("回覆更新" + replyNo + newText);
+//		ReplyBean rReplyBean = rService.selectOneReply(replyNo);
+//		rReplyBean.setsText(newText);
+//		if(rService.updateReply(rReplyBean)) {
+//			return "redirect:/forum/Detail/" + forumNo;
+//		}else {
+//			return "redirect:/forum/Error";
+//		}
+//	}
+	
+	@DeleteMapping("/EditReply/{replyNo}")
+	public @ResponseBody Map<String, String> replyDelete(
+							@PathVariable Integer replyNo,
 							Model model) {
 		System.out.println("回覆刪除" + replyNo);
+		Map<String, String> map = new HashMap<String, String>();
 		ReplyBean rReplyBean = rService.selectOneReply(replyNo);
 		if(rService.deleteReply(rReplyBean)) {
-			return "redirect:/forum/Detail/" + forumNo;
+			map.put("status", "success");
 		}else {
-			return "redirect:/forum/Error";
+			map.put("status", "sqlError");
 		}
+		return map;
 	}
+	
+//	@DeleteMapping("/EditReply")
+//	public String replyDelete(
+//			@RequestParam Integer forumNo,
+//			@RequestParam Integer replyNo,
+//			Model model) {
+//		System.out.println("回覆刪除" + replyNo);
+//		ReplyBean rReplyBean = rService.selectOneReply(replyNo);
+//		if(rService.deleteReply(rReplyBean)) {
+//			return "redirect:/forum/Detail/" + forumNo;
+//		}else {
+//			return "redirect:/forum/Error";
+//		}
+//	}
 	
 	
 	

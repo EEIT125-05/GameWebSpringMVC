@@ -392,13 +392,11 @@ public class ContestController {
 					rService.deleteRecord(contestNo);//先把舊的戰績刪掉
 					for(List<String> list2: groupList) {
 						iGroupCount++;
-						Integer iGroupMemberCount = 0;
 						System.out.println("---------------------");
 						for(String sPlayer: list2) {
-							iGroupMemberCount++;
 							System.out.println("參賽者: " + sPlayer);
 							//再新增戰績進資料庫
-							if(rService.insertRecord(new RecordBean(null, contestNo, iGroupCount, iGroupMemberCount, null, sPlayer, 0))) {
+							if(rService.insertRecord(new RecordBean(null, contestNo, iGroupCount, null, sPlayer, 0))) {
 								map.put("status", "success");
 							}else {//新增戰績有問題
 								map.put("status", "sqlError");
@@ -409,7 +407,7 @@ public class ContestController {
 				}else {//存圖片有問題
 					map.put("status", "sqlError");
 				}
-			}else {//沒預賽
+			}else {//沒預賽 直接存複賽資料
 				System.out.println("沒有預賽");
 				if(cService.saveSchsduleImage(contestNo, bRematchImage, null)) {
 					
@@ -421,7 +419,7 @@ public class ContestController {
 							iRematchMemberCount++;
 							System.out.println("參賽者: " + sPlayer);
 							//再新增戰績進資料庫
-							if(rService.insertRecord(new RecordBean(null, contestNo, null, null, iRematchMemberCount, sPlayer, 0))) {
+							if(rService.insertRecord(new RecordBean(null, contestNo, null, iRematchMemberCount, sPlayer, 0))) {
 								map.put("status", "success");
 							}else {//新增戰績有問題
 								map.put("status", "sqlError");
@@ -447,7 +445,7 @@ public class ContestController {
 	public @ResponseBody Map<String, String> saveRecord(
 						@RequestParam Integer contestNo,
 						@RequestParam Integer groupNo,
-						@RequestParam(value = "win[]") List<String> win,
+						@RequestParam(value = "win[]") List<String> sWinPlayers,
 						Model model
 						){
 		Map<String, String> map = new HashMap<String, String>();
@@ -455,28 +453,41 @@ public class ContestController {
 //		for(String winPlayer: win) {
 //			System.out.println("勝方: " + winPlayer);
 //		}
-//		ContestBean cContestBean = cService.selectOneContest(contestNo);
 		List<RecordBean> lRecordList = rService.selectContestRecord(contestNo);
 		//有空思考用資料庫找出來
 		List<RecordBean> groupRecord = new ArrayList<RecordBean>();
 		for(RecordBean rRecordBean: lRecordList) {
 			if(rRecordBean.getiGroupNo() == groupNo) {
+				rRecordBean.setiWinCount(rRecordBean.getiWinCount()+1);
 				groupRecord.add(rRecordBean);
 			}
 		}
 		
-		Integer winCount = 0;
+		
 		Boolean success = true;
-		for(int i=0; i<groupRecord.size(); i++) {
-//			System.out.println("這一組的人: " + groupRecord.get(i).getsPlayers());
+		try {//如果更新勝場數抓的資料不是一筆(先檢查)
+			rService.addScore(contestNo, groupNo, sWinPlayers);
+		} catch (RuntimeException e) {
+			success = false;
+		}
+		
 			
-			for(int j=i+1; j<groupRecord.size(); j++) {
-//				System.out.println("對戰: " + groupRecord.get(i).getsPlayers() + " vs " + groupRecord.get(j).getsPlayers());
-				if(!rdService.insertRecordDetail(new RecordDetailBean(null, contestNo, groupNo, null,
-						groupRecord.get(i).getsPlayers(), groupRecord.get(j).getsPlayers(), win.get(winCount)))){
-					success = false;
+		if(success) {
+			
+		Integer winCount = 0;
+			for(int i=0; i<groupRecord.size(); i++) {
+		//			System.out.println("這一組的人: " + groupRecord.get(i).getsPlayers());
+				
+				for(int j=i+1; j<groupRecord.size(); j++) {
+		//				System.out.println("對戰: " + groupRecord.get(i).getsPlayers() + " vs " + groupRecord.get(j).getsPlayers());
+					if(!rdService.insertRecordDetail(new RecordDetailBean(null, contestNo, groupNo, null,
+							groupRecord.get(i).getsPlayers(), groupRecord.get(j).getsPlayers(), sWinPlayers.get(winCount)))){
+		//					insert成功,要更新RedordBean的資料(win+1)
+						
+						success = false;
+					}
+					winCount++;
 				}
-				winCount++;
 			}
 		}
 		
