@@ -152,7 +152,6 @@ public class ChangeGameController {
 		System.out.println(chChangeHistory);
 		System.out.println("submitOut");
 		return result;
-		
 	}
 	
 	

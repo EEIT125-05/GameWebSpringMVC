@@ -31,7 +31,7 @@ public class WishHistoryBean {
 	@JoinColumn(name="FK_partyB")
 	private MemberBean partyB;
 	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name="FK_mygamebean")
+	@JoinColumn(name="FK_mygamebean_id")
 	private MyGameBean mygamebean;
 	
 	public Integer getNo() {
@@ -86,6 +86,9 @@ public class WishHistoryBean {
 		this.demandgamebean = demandgamebean;
 		this.partyB = partyB;
 		this.mygamebean = mygamebean;
+	}
+	public WishHistoryBean() {
+		super();
 	}
 	
 	
