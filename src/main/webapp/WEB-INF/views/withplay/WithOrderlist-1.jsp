@@ -8,6 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src='//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js'></script>
 <link rel='stylesheet' href='https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css'>
 <link rel="stylesheet" href="../css/WithGame.css">
@@ -59,7 +60,6 @@
 				<th >消費金額</th>
 				<th>狀態</th>
 				<th >自我介紹</th>
-				<th>價格</th>
 			</tr>
 			</thead>
 			<c:forEach items="${WithOrder}" var="Order" varStatus="status">
@@ -73,18 +73,17 @@
 					<td>${Order.iPrice}</td>
 					<td>
 						<c:choose>
-						<c:when test="${Order.member.sAccount == user.sAccount }">
+						<c:when test="${Order.member.sAccount == user.sAccount&& Order.iStatus == 1 }">
 						等待確認
 						</c:when>
-						<c:when test="${Order.with.sAccount == user.sAccount }">
-						尚未確認
+						<c:when test="${Order.member.sAccount == user.sAccount&& Order.iStatus == 2 }">
+						確認成功
 						</c:when>
 						<c:otherwise>
 						</c:otherwise>						
 						</c:choose>        	
 					</td>
 					<td>${With.iPrice}</td>
-					<td >${With.sComment}</td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -128,17 +127,33 @@
 					<td>${withOrder.iPrice}</td>
 					<td>
 						<c:choose>
-						<c:when test="${withOrder.member.sAccount == user.sAccount }">
-						等待確認
+						<c:when test="${withOrder.with.sAccount == user.sAccount && withOrder.iStatus == 1}">
+						尚未回覆
 						</c:when>
-						<c:when test="${withOrder.with.sAccount == user.sAccount }">
-						尚未確認
+						<c:when test="${withOrder.with.sAccount == user.sAccount && withOrder.iStatus == 2}">
+						成功
+						<bR>
+						尚未執行
 						</c:when>
+						
 						<c:otherwise>
 						</c:otherwise>						
 						</c:choose>        	
 					</td>
-					<td >${With.sComment}</td>
+					<td >
+					<c:choose>	
+					<c:when test="${ withOrder.iStatus == 1}">
+					<button  class="btn btn-primary" onclick="Ok(${withOrder.iNo})" >接受</button>
+					<HR>									
+					<button  class="btn btn-primary"  onclick="Reject(${withOrder.iNo})" >拒絕</button>					
+					</c:when>
+					<c:otherwise>
+					<button  class="btn btn-primary" disabled="disabled" onclick="Ok(${withOrder.iNo})" >接受</button>
+					<HR>									
+					<button  class="btn btn-primary" disabled="disabled" onclick="Reject(${withOrder.iNo})" >拒絕</button>	
+					</c:otherwise>				
+					</c:choose>
+					</td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -157,7 +172,44 @@
 
 </body>
 <script>
+function Ok(iNo){
+	 Swal.fire({
+		  title: '確定接受訂單?',
+		  text: "接受訂單後，請務必配合會員時間進行遊戲",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: '確定',
+		  cancelButtonText:'取消',
+		  closeOnCancel: true
+		}).then((result) => {
+		  if (result.isConfirmed) {
+		    window.location.href="<c:url value='WithorderOklist?iNO="+iNo+"'/>"
+		  }
+		return false;
+		})
+	}
 
+function Reject(iNo){
+	 Swal.fire({
+		  title: '確定刪除資料?',
+		  text: "刪除後不可回復，請確定操作!",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: '刪除',
+		  cancelButtonText:'取消',
+		  closeOnCancel: true
+		}).then((result) => {
+		  if (result.isConfirmed) {
+		    window.location.href="<c:url value='WithorderReject?iNO="+iNo+"'/>"
+		  }
+			return false;
+		})
+	}
+	
 $(document).ready(function() {
 	
 	$(function(){
@@ -222,6 +274,7 @@ $(document).ready(function() {
 		
 	})
 	
+
 // 	$('.deletelink').click(function() {
 // 		if (confirm('確定刪除此筆紀錄? ')) {
 // 			var href = $(this).attr('href');

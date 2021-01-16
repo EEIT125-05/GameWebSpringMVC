@@ -35,5 +35,6 @@
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="emailsource/javax.mail.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

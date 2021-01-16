@@ -258,6 +258,19 @@ public class WithController {
 				
 	}
 	
+	@GetMapping("/withplay/WithorderOklist")
+	public String OK(@RequestParam Integer iNO,Model model) {
+		model.addAttribute("WithOrder",withOrderService.updateWithOrderSubmit(iNO));
+		return "redirect:/withplay/Withorderlist";
+		
+	}
+	@GetMapping("/withplay/WithorderReject")
+	public String Reject(@RequestParam Integer iNO,Model model) {
+		model.addAttribute("WithOrder",withOrderService.updateWithOrderReject(iNO));
+		return "redirect:/withplay/Withorderlist";
+		
+	}
+	
 	
 	
 	
@@ -277,7 +290,7 @@ public class WithController {
 		gameMap.put("絕地求生", "絕地求生");
 		gameMap.put("原神", "原神");
 		gameMap.put("糖豆人", "糖豆人");
-		gameMap.put("灌籃高手 SLAM DUNK", "灌籃高手 SLAM DUNK");
+		gameMap.put("灌籃高手 ", "灌籃高手 ");
 		model.addAttribute("sGameMap", gameMap);
 
 	}

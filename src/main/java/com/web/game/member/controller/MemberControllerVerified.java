@@ -5,16 +5,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Blob;
-
 import javax.servlet.ServletContext;
 //import java.util.List;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.Cookie;
+//import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+//import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
@@ -33,9 +31,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
-
-//import org.springframework.web.multipart.MultipartFile;
-//
 //import com.fasterxml.jackson.databind.ser.std.StdArraySerializers.FloatArraySerializer;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
@@ -85,14 +80,21 @@ public class MemberControllerVerified {
 		return "member/MemberGetAll";
 	}
 
-	@GetMapping("/Update/{sAccount}")
-	public String UpDateOneMember(@PathVariable("sAccount") String sAccount, Model model) {
+//	@GetMapping("/Update/{sAccount}")
+//	public String UpDateOneMember(@PathVariable("sAccount") String sAccount, Model model) {
+//		MemberBean OneMember = mService.Selectmember(sAccount);
+//		model.addAttribute("OneMember", OneMember);
+//		return "member/GameBarGMUpdate";
+//	}
+
+	@GetMapping("/Update")
+	public String UpDateOneMember(@RequestParam("sAccount") String sAccount, Model model) {
 		MemberBean OneMember = mService.Selectmember(sAccount);
 		model.addAttribute("OneMember", OneMember);
 		return "member/GameBarGMUpdate";
 	}
 
-	@PostMapping("/{iNo}")
+	@PostMapping("/GameBar")
 	public String GameBarUpDate(Model model, @RequestParam Integer iNo, @RequestParam String sAccount,
 			@RequestParam String sPassword, @RequestParam String sNickname, @RequestParam String sEmail,
 			@RequestParam String sEname, @RequestParam String sPhone, @RequestParam String sAddress,
@@ -100,7 +102,6 @@ public class MemberControllerVerified {
 		MemberBean GameBarUpDate = mService.Selectmember(sAccount);
 		GameBarUpDate.setsNickname(sNickname);
 		GameBarUpDate.setsEname(sEname);
-		GameBarUpDate.setsEmail(sEmail);
 		GameBarUpDate.setsPhone(sPhone);
 		GameBarUpDate.setsAddress(sAddress);
 		mService.UpdateMember(GameBarUpDate);
@@ -144,30 +145,32 @@ public class MemberControllerVerified {
 		Update.setsGender(sGender);
 		Update.setsBirthday(sBirthday);
 		Update.setsAddress(sAddress);
-//		Update.setProductImage(productImage);
-//		MultipartFile picture = Update.getProductImage();
-//		String originalFilename = picture.getOriginalFilename();
-//		
-//		String ext = "";
-//		if (originalFilename.lastIndexOf(".") > -1) {
-//			ext = originalFilename.substring(originalFilename.lastIndexOf("."));
-//		}
-//
-//		if (originalFilename.length() > 0 && originalFilename.lastIndexOf(".") > -1) {
-//			Update.setFileName(originalFilename);
-//		}
-//
-//		if (picture != null && !picture.isEmpty()) {
-//			try {
-//				byte[] b = picture.getBytes();
-//				Blob blob = new SerialBlob(b);
-//				Update.setImage(blob);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				throw new RuntimeException("檔案上傳發生異常: " + e.getMessage());
-//			}
-//		}
+		Update.setProductImage(productImage);
+		MultipartFile picture = Update.getProductImage();
+		String originalFilename = picture.getOriginalFilename();
+		
+		String ext = "";
+		if (originalFilename.lastIndexOf(".") > -1) {
+			ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+		}
+
+		if (originalFilename.length() > 0 && originalFilename.lastIndexOf(".") > -1) {
+			Update.setFileName(originalFilename);
+		}
+
+		if (picture != null && !picture.isEmpty()) {
+			try {
+				byte[] b = picture.getBytes();
+				Blob blob = new SerialBlob(b);
+				Update.setImage(blob);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("檔案上傳發生異常: " + e.getMessage());
+			}
+		}
+		System.out.println("originalFilename="+originalFilename);
 		mService.UpdateMember(Update);
+		System.out.println("圖片是否有上傳????");
 		model.addAttribute("user", Update);
 		return "member/MemberGoogleData";
 	}
@@ -182,36 +185,36 @@ public class MemberControllerVerified {
 		Update.setsPassword(sPassword);
 		Update.setsNickname(sNickname);
 		Update.setsAddress(sAddress);
-//			Update.setProductImage(productImage);
-//			MultipartFile picture = Update.getProductImage();
-//			String originalFilename = picture.getOriginalFilename();
-//			String ext = "";
-//			if (originalFilename.lastIndexOf(".") > -1) {
-//				ext = originalFilename.substring(originalFilename.lastIndexOf("."));
-//			}
-//
-//			if (originalFilename.length() > 0 && originalFilename.lastIndexOf(".") > -1) {
-//				Update.setFileName(originalFilename);
-//			}
-//
-//			if (picture != null && !picture.isEmpty()) {
-//				try {
-//					byte[] b = picture.getBytes();
-//					Blob blob = new SerialBlob(b);
-//					Update.setImage(blob);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//					throw new RuntimeException("檔案上傳發生異常: " + e.getMessage());
-//				}
-//			}
+		Update.setProductImage(productImage);
+			MultipartFile picture = Update.getProductImage();
+			String originalFilename = picture.getOriginalFilename();
+			String ext = "";
+			if (originalFilename.lastIndexOf(".") > -1) {
+				ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+			}
+
+			if (originalFilename.length() > 0 && originalFilename.lastIndexOf(".") > -1) {
+				Update.setFileName(originalFilename);
+			}
+
+			if (picture != null && !picture.isEmpty()) {
+				try {
+					byte[] b = picture.getBytes();
+					Blob blob = new SerialBlob(b);
+					Update.setImage(blob);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new RuntimeException("檔案上傳發生異常: " + e.getMessage());
+				}
+			}
 		mService.UpdateMember(Update);
 		model.addAttribute("user", Update);
 		return "member/MemberData";
 
 	}
 
-	@GetMapping("/picture/{sAccount}")
-	public ResponseEntity<byte[]> getPicture(Model model,@PathVariable("sAccount") String sAccount) {
+	@GetMapping("/picture/getall/{sAccount}")
+	public ResponseEntity<byte[]> getallPicture(Model model, @PathVariable("sAccount") String sAccount) {
 		InputStream is = null;
 		OutputStream os = null;
 		String fileName = null;
@@ -221,10 +224,72 @@ public class MemberControllerVerified {
 		HttpHeaders headers = new HttpHeaders();
 		MediaType mediaType = null;
 		Blob blob = null;
-		System.out.println("???????????????????????????????");
 		try {
+			System.out.println("進去service之前的"+sAccount);
 			MemberBean bean = mService.queryMember(sAccount);
-			System.out.println("sAccount=" + sAccount);
+			System.out.println("抓圖片的資料=" + sAccount);
+			if (bean != null) {
+				blob = bean.getImage();
+				if (blob != null) {
+					is = blob.getBinaryStream();
+				}
+				fileName = bean.getFileName();
+			}
+
+			if (is == null) {
+				fileName = "NoImage.png";
+				is = context.getResourceAsStream("/images/" + fileName);
+			}
+
+			mimeType = context.getMimeType(fileName);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			int len = 0;
+			byte[] bytes = new byte[8192];
+
+			while ((len = is.read(bytes)) != -1) {
+				baos.write(bytes, 0, len);
+			}
+			media = baos.toByteArray();
+			mediaType = MediaType.valueOf(mimeType);
+			headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+			headers.setContentType(mediaType);
+			responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			throw new RuntimeException("發生Exception: " + ex.getMessage());
+		} finally {
+			try {
+				if (is != null)
+					is.close();
+			} catch (IOException e) {
+				;
+			}
+			try {
+				if (os != null)
+					os.close();
+			} catch (IOException e) {
+				;
+			}
+		}
+		return responseEntity;
+	}
+	
+	@GetMapping("/picture")
+	public ResponseEntity<byte[]> getPicture(Model model, @RequestParam("sAccount") String sAccount) {
+		System.out.println("有抓到圖片嗎??"+sAccount);
+		InputStream is = null;
+		OutputStream os = null;
+		String fileName = null;
+		String mimeType = null;
+		byte[] media = null;
+		ResponseEntity<byte[]> responseEntity = null;
+		HttpHeaders headers = new HttpHeaders();
+		MediaType mediaType = null;
+		Blob blob = null;
+		try {
+			System.out.println("進去service之前的"+sAccount);
+			MemberBean bean = mService.queryMember(sAccount);
+			System.out.println("抓圖片的資料=" + sAccount);
 			if (bean != null) {
 				blob = bean.getImage();
 				if (blob != null) {
@@ -276,7 +341,6 @@ public class MemberControllerVerified {
 			HttpServletResponse response) {
 		MemberBean StatusChange = mService.Selectmember(sAccount);
 		status = StatusChange.getStatus();
-		System.out.println("有無進來2222222222222");
 		if (sAccount.equals("game20200922")) {
 			;
 		} else if (status == true) {
@@ -289,6 +353,5 @@ public class MemberControllerVerified {
 		model.addAttribute("users", mService.getAllMembers());
 		return "member/MemberGetAll";
 	}
-
 
 }

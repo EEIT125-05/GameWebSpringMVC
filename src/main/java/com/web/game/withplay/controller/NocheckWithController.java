@@ -58,7 +58,6 @@ public class NocheckWithController {
 		model.addAttribute("Withlist",withService.list());
 		model.addAttribute("GameList",ListService.selectGameList());
 		model.addAttribute("OrderList",withOrderService.list());
-		System.out.println(withOrderService.list());
 		
 //		
 //		WithPlay test = withService.get(1);

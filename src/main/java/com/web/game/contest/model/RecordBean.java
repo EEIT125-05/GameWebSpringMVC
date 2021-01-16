@@ -1,5 +1,6 @@
 package com.web.game.contest.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,8 +16,9 @@ public class RecordBean {
 	private Integer iNo;
 	private Integer iContestNo;
 	private Integer iGroupNo;
-	private Integer iGroupMemberNo;
+//	private Integer iGroupMemberNo;
 	private Integer iRematchNo;
+	@Column(columnDefinition = "nvarchar(MAX)")
 	private String sPlayers;
 	private Integer iWinCount;
 	
@@ -24,13 +26,13 @@ public class RecordBean {
 		super();
 	}
 
-	public RecordBean(Integer iNo, Integer iContestNo, Integer iGroupNo, Integer iGroupMemberNo,
+	public RecordBean(Integer iNo, Integer iContestNo, Integer iGroupNo,
 			Integer iRematchNo, String sPlayers, Integer iWinCount) {
 		
 		this.iNo = iNo;
 		this.iContestNo = iContestNo;
 		this.iGroupNo = iGroupNo;
-		this.iGroupMemberNo = iGroupMemberNo;
+//		this.iGroupMemberNo = iGroupMemberNo;
 		this.iRematchNo = iRematchNo;
 		this.sPlayers = sPlayers;
 		this.iWinCount = iWinCount;
@@ -60,13 +62,13 @@ public class RecordBean {
 		this.iGroupNo = iGroupNo;
 	}
 
-	public Integer getiGroupMemberNo() {
-		return iGroupMemberNo;
-	}
-
-	public void setiGroupMemberNo(Integer iGroupMemberNo) {
-		this.iGroupMemberNo = iGroupMemberNo;
-	}
+//	public Integer getiGroupMemberNo() {
+//		return iGroupMemberNo;
+//	}
+//
+//	public void setiGroupMemberNo(Integer iGroupMemberNo) {
+//		this.iGroupMemberNo = iGroupMemberNo;
+//	}
 
 	public Integer getiRematchNo() {
 		return iRematchNo;

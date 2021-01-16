@@ -102,8 +102,7 @@ input {
 						value='${param.sAccount}' />
 				</h3>
 				<h3>
-					使用的信箱:${user.sEmail}<input type="hidden" name="sEmail"
-						value='${param.sEmail}' />
+					<input type="hidden" name="sEmail" value='${param.sEmail}' />
 				</h3>
 				<h3>
 					真實姓名:${user.sEname}<input type="hidden" name="sEname"
@@ -156,7 +155,7 @@ input {
 					生年月日:<input type="date" id="Birthday" name="sBirthday">
 				</h3>
 				<h3>
-					請選擇上傳照片:<input type="file" name="productImage"/>
+					請選擇上傳照片:<input type="file" name="productImage" />
 				</h3>
 				<%-- 			<h3><img type="hidden" name="image" value='${param.image}'/></h3> --%>
 				<h3>建立日期:${user.registerDate}</h3>

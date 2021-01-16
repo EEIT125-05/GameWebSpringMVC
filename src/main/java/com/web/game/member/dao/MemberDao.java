@@ -29,4 +29,6 @@ public interface MemberDao {
 
 	MemberBean get(String sAccount);
 
+	MemberBean SearchMail(String sEmail);
+
 }

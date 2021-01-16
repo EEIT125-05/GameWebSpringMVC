@@ -43,7 +43,7 @@ public class MemberBean {
 	@Column(columnDefinition = "nvarchar(Max)")
 	private String registerDate;
 	@Column(columnDefinition = "bit")
-	private boolean status = false;
+	private boolean status = true;
 	
 	Blob image;
 	String fileName;

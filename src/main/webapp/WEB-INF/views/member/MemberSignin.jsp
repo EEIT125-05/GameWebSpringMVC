@@ -23,6 +23,7 @@ input {
 }
 </style>
 <title>會員登入</title>
+
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script type="text/javascript"
@@ -191,6 +192,7 @@ input {
 						});//end gapi.load
 	}//end GoogleClientInit function
 </script>
+
 <script type="text/javascript">
 	function changeimg() {
 		var myimg = document.getElementById("code");
@@ -253,15 +255,15 @@ input {
 	<hr>
 	<%@ include file="../Header.jsp"%>
 	<div align='center'>
-		<form action="<c:url value='/member/SignIn'/>" method="post">
-			<div align='center'
-				style='border: 3px solid gray; width: 500; height: 550; border-radius: 5px;'>
-				<h3 style='padding-top: 30px;' align='left'>
+		<div align='center'
+			style='border: 3px solid gray; width: 500; height: 550; border-radius: 5px; background-color: #272727; color: white;'>
+			<form action="<c:url value='/member/SignIn'/>" method="post">
+				<h3 style='padding-top: 30px; padding-left: 30px;' align='left'>
 					帳號:<input type="text" name="sAccount" minlength="6" maxlength="20"
 						placeholder="請輸入帳號" required
-						value="${requestScope.user}${param.sAccount}">
+						value="${requestScope.sAccount}${param.sAccount}">
 				</h3>
-				<h3 style='padding-top: 30px;' align='left'>
+				<h3 style='padding-top: 30px; padding-left: 30px;' align='left'>
 					密碼:<input type="password" id="Password" name="sPassword"
 						placeholder="請輸入密碼" minlength="8" maxlength="16" required
 						value="${requestScope.password}${param.sPassword}"> <input
@@ -280,36 +282,57 @@ input {
 						value="true">自動登入</label><a href="<c:url value='/member/Forget'/>">忘記密碼</a><br>
 				</h4>
 				<h4 style='padding-top: 10px;'>
-					驗證碼:<input type="text" id="input1" style="width: 110px" /><input
+					驗證碼:<input type="text" id="input1" style="width: 150px" /><input
 						type="button" id="checkCode" class="code"
 						style="width: 90px; margin: 0px 10px;" onClick="createCode()" /><input
 						id="Button1" onClick="validate();" type="button" value="按這裡驗證" /><br>
 					<span id="check"></span>
 				</h4>
 
-				<input id="Signin" name="Signin" type="submit" value="會員登入"
+				<button id="Signin" name="Signin" type="submit"
 					style='width: 350; height: 50; font-size: 30; margin-top: 15; background-color: yellow; color: purple'>
-		</form>
-		<div>
+					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+						fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+					<path
+						d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+					</svg>
+					會員登入
+				</button>
+			</form>
 			<div>
-				<form action="<c:url value='/member/GameBarGMSignin'/>"
-					method="post">
-					<div style='padding-top: 10px;'>
-						<input type="submit"
-							style='width: 350; height: 50; font-size: 30; margin-top: 15; background-color: red; color: limegreen;'
-							value="管理者登入">
-					</div>
-				</form>
-				<button type="button" id="btnSignIn"
-					style='width: 350; height: 50; font-size: 30; margin-top: 15; border-radius: 10px; background-color: blue; color: Orange'>Google登入</button>
-				<!-- 					<button type="button" id="btnDisconnect">斷連Google App</button> -->
+				<div>
+					<form action="<c:url value='/member/GameBarGMSignin'/>"
+						method="post">
+						<div style='padding-top: 10px;'>
+							<button type="submit"
+								style='width: 350; height: 50; font-size: 30; margin-top: 10; background-color: red; color: limegreen;'>
+								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+									fill="currentColor" class="bi bi-person-fill"
+									viewBox="0 0 16 16"> <path
+									d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+								</svg>
+								管理者登入
+							</button>
+						</div>
+					</form>
+					<button type="button" id="btnSignIn"
+						style='width: 350; height: 50; font-size: 30; margin-top: 10; background-color: blue; color: Orange'>
+						<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+							fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+						<path
+							d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+						</svg>
+						Google登入
+					</button>
+					<!-- 					<button type="button" id="btnDisconnect">斷連Google App</button> -->
+				</div>
 				<div id="content"></div>
 			</div>
 		</div>
 	</div>
-	</div>
-	<form id="Google" type="submit"
-		action="<c:url value='/member/GameIndex'/>"></form>
+
+	<form id="Google" action="<c:url value='/member/GameIndex'/>"></form>
+
 	<%@ include file="../Foot.jsp"%>
 </body>
 </html>

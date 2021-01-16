@@ -4,18 +4,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Base64.Decoder;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
-import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
@@ -36,8 +31,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.game.contest.model.ContestBean;
+import com.web.game.contest.model.RecordBean;
+import com.web.game.contest.model.RecordDetailBean;
 import com.web.game.contest.service.ContestService;
 import com.web.game.contest.service.GameListService;
+import com.web.game.contest.service.RecordDetailService;
+import com.web.game.contest.service.RecordService;
 
 @Controller
 @RequestMapping("/contest")
@@ -53,6 +52,12 @@ public class NoCheckContestController {
 	
 	@Autowired
 	GameListService gService;
+	
+	@Autowired
+	RecordService rService;
+	
+	@Autowired
+	RecordDetailService rdService;
 	
 	@GetMapping("Index")
 	public String contestIndex(Model model) {
@@ -74,6 +79,48 @@ public class NoCheckContestController {
 			nextPage = "redirect:/contest/Error";
 		}else {
 			model.addAttribute("cContestBean", cContestBean);
+			
+			//取戰績資料->先做好分類(有預賽)  要改到service
+			List<RecordBean> lRecordList = rService.selectContestRecord(contestNo);
+			if(lRecordList.size() > 0) {//如果沒紀錄,下方會跑不出來
+				
+				List<List<RecordBean>> finalList = new ArrayList<List<RecordBean>>();
+				for(int i=1; i<=lRecordList.get(cContestBean.getiPeople()-1).getiGroupNo(); i++) {
+//					System.out.println("第" + i + "組");
+					List<RecordBean> toFinalList = new ArrayList<RecordBean>();
+					for(RecordBean rRecordBean: lRecordList) {
+						if(rRecordBean.getiGroupNo() == i) {
+//							System.out.println("第" + i + "組" + rRecordBean.getsPlayers());
+							toFinalList.add(rRecordBean);
+						}
+					}
+					finalList.add(toFinalList);
+				}
+				model.addAttribute("lGroupRecord", finalList);
+//				System.out.println("完成 " + finalList);
+				
+				//有儲存過戰績的話->分類
+				List<RecordDetailBean> lRecordDetail = rdService.selectContestRecordDetail(contestNo);
+				if(lRecordDetail.size() > 0) {
+					List<List<RecordDetailBean>> detailFinalList = new ArrayList<List<RecordDetailBean>>();
+					for(int i=1; i<=lRecordList.get(cContestBean.getiPeople()-1).getiGroupNo(); i++) {
+//						System.out.println("第" + i + "組");
+						List<RecordDetailBean> toFinalList = new ArrayList<RecordDetailBean>();
+						for(RecordDetailBean rRecordDetailBean: lRecordDetail) {
+							if(rRecordDetailBean.getiGroupNo() == i) {
+//								System.out.println("第" + i + "組" + rRecordBean.getsPlayers());
+								toFinalList.add(rRecordDetailBean);
+							}
+						}
+						detailFinalList.add(toFinalList);
+					}
+					model.addAttribute("lGroupRecordDetail", detailFinalList);
+//					System.out.println("完成 " + finalList);
+				}
+				
+				
+				
+			}
 		}
 		return nextPage;
 	}
@@ -100,19 +147,6 @@ public class NoCheckContestController {
 		map.put("lContestList", cService.searchContests(sSearch, sGame, sSignDate, sSign, sCompSystem, scrollInt));
 		return map;
 	}
-	
-	@PostMapping("/FastAjax")
-	public @ResponseBody List<ContestBean> fastSearch(
-					@RequestParam String sGame,
-					@RequestParam String sCompSystem){
-		List<ContestBean> lContestBean = new ArrayList<ContestBean>();
-		
-		
-		
-		
-		return lContestBean;
-	}
-	
 	
 	@GetMapping("/ConfirmImage")
 	public ResponseEntity<byte[]> confirmImage(Model model){
@@ -202,77 +236,6 @@ public class NoCheckContestController {
 		return playerList;
 	}
 
-	
-	@PostMapping("/ScheduleImage")
-	public @ResponseBody List<String> saveScheduleImage(
-							@RequestParam String treeImage64,
-							@RequestParam String drowImage64,
-							@RequestParam Integer contestNo
-//							@RequestParam String schedule,
-//							@RequestParam String groupPlayer
-							) {
-		List<String> list = new ArrayList<String>();
-
-//		System.out.println("表籤內容: " + groupPlayer);
-//		
-//		List<List<String>> groupList = new ArrayList<List<String>>();
-//		for(int i=0; i<groupPlayer.split("]").length; i++) {
-////			System.out.println("a: " + groupPlayer.split("]")[i]);	
-//			List<String> groupMember = new ArrayList<String>();
-//			for(int j=0; j<groupPlayer.split("]")[i].split(",").length; j++) {
-////				System.out.println("j: " + j);
-////				System.out.println("b: " + groupPlayer.split("]")[i].split(",")[j]);
-//				for(int k=0; k<groupPlayer.split("]")[i].split(",")[j].split("\"").length; k++) {
-////					System.out.println("k: " + k);
-//					String player = groupPlayer.split("]")[i].split(",")[j].split("\"")[k];
-////					System.out.println("c: @" + player + "@");
-//					if(!player.equals("") && !player.equals("[") && !player.equals("[[")) {
-//						groupMember.add(player);
-//					}
-//				}
-//			}
-//			groupList.add(groupMember);
-//		}
-//		
-//		for(List<String> list2: groupList) {
-//			System.out.println("---------------------");
-//			for(String s: list2) {
-//				System.out.println("參賽者: " + s);
-//			}
-//		}
-			
-		try {
-			Decoder decoder = Base64.getDecoder();
-			
-			treeImage64 = treeImage64.split(",")[1];
-			byte[] bTreeImage = decoder.decode(treeImage64);
-			Blob bRematchImage = new SerialBlob(bTreeImage);
-			
-			if(!drowImage64.equals("")) {
-				
-				drowImage64 = drowImage64.split(",")[1];
-				byte[] bDrowImage = decoder.decode(drowImage64);
-				Blob bPreliminariesImage = new SerialBlob(bDrowImage);
-				
-				if(cService.saveSchsduleImage(contestNo, bRematchImage, bPreliminariesImage)) {
-					list.add("賽程儲存完成");
-				}
-			}else {//沒預賽
-				System.out.println("沒有預賽");
-				if(cService.saveSchsduleImage(contestNo, bRematchImage, null)) {
-					list.add("賽程儲存完成");
-				}
-			}
-			
-		} catch (SerialException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
-	
 	@GetMapping("/RematchImageLoading/{iNo}")
 	public ResponseEntity<byte[]> rematchLoading(
 								@PathVariable Integer iNo){

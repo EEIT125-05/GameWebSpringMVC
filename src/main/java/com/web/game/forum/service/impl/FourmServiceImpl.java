@@ -27,8 +27,8 @@ public class FourmServiceImpl implements ForumService {
 
 	@Transactional
 	@Override
-	public Boolean deleteForum(ForumBean fForumBean) {
-		return fDAO.deleteForum(fForumBean);
+	public void deleteForum(Integer iNo) {
+		fDAO.deleteForum(iNo);
 	}
 
 	@Override
