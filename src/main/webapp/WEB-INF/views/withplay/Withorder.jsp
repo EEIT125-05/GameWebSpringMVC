@@ -49,7 +49,7 @@ input[type=number]::-webkit-inner-spin-button {
 						</div>
 						<div style="display:inline;float:left;height: 200px; width: 565px;margin-top:20px;margin-bottom:20px;line-height:190px;">
 							<p style="float:left;width:150px;font-size:150%;">${With.sNickname}</p>
-							<p style="float:left;width:100px;font-size:150%;">${With.sGame}</p>
+							<p style="float:left;width:100px;font-size:20px;"><span>${With.sGame}</span></p>
 							<p style="float:right;width:150px;font-weight:bold;font-size:150%;">
 								<span id="t4">${With.iPrice}元/局</span>
 							</p>
@@ -57,8 +57,8 @@ input[type=number]::-webkit-inner-spin-button {
 						<div style="float:left;width:150px;height:200px;display: flex; align-items: center; justify-content:center;">
 						<div style="display: flex; align-items: center; justify-content:center;">
 						<input id="min" name="" type="button" value="-" style="color:black;border:none;border-radius:5px 0 0 5px;height:30px;width:40px;line-height:0.5;color:red;font-family:fantasy;fantasy;font-size:35px;">
-						<input type=number id="quantity" style="height:30px;width:40px;border:none;line-height:1.5;text-align: center;font-weight:bold;font-size:20px;background-color:fefcfb;" value="1" max="15" min="1" oninput="validity.valid|| 
-    (value=1);">
+						<input type=number id="quantity" style="height:30px;width:40px;border:none;line-height:1.5;text-align: center;font-weight:bold;font-size:20px;background-color:fefcfb;" value="1"
+						 max="15" min="1" oninput="validity.valid||(value=1);">
 						<input id="add" name="" type="button" value="+" style="width:40px;height:30px;border:none;border-radius:0 5px 5px 0;line-height:0.5;color:red;font-family:fantasy;font-size:30px;">
 						
 						</div>

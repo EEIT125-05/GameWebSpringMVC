@@ -8,9 +8,9 @@ import com.web.game.withplay.model.WithOrder;
 
 public interface WithOrderService {
 	
-	public boolean updateWithOrderSubmit(WithOrder Order);
+	public boolean updateWithOrderSubmit(Integer iNO);
 	
-	public boolean updateWithOrderReject(WithOrder Order);
+	public boolean updateWithOrderReject(Integer iNO);
 	
 	public boolean insertWithOrder(WithOrder Order);
 

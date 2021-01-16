@@ -98,7 +98,7 @@ response.setContentType("text/html;charset=UTF-8");
 											</a>
 											<div>${With.sGame}</div>
 											<div>${With.sNickname}</div>
-
+											<hr>
 											<form action="<c:url value='/withplay/Reply'/>" method="post">
 
 
@@ -122,6 +122,7 @@ response.setContentType("text/html;charset=UTF-8");
 															<c:otherwise>
 																<c:set var="timeString"
 																	value="${reply.dDate} ${reply.tTime}" />
+																	
 															</c:otherwise>
 														</c:choose>
 														<label>${reply.sAuthor}</label>
@@ -133,18 +134,43 @@ response.setContentType("text/html;charset=UTF-8");
 
 												<hr>
 												<div>
+												<c:if test="${fn:length(OrderList) == 0 }">
+<%-- 													<c:set var="onePrint" value="1"/> --%>
+													回覆: <input type="text" id="Reply${With.iId}" name="sText" required>
+													<button type="submit" id="replySubmit${With.iId}" name="withNo"
+														value="${With.iId}" class="btn btn-primary"  disabled="disabled">送出</button>	
+												</c:if>
+												<c:set var="orderListSize" value="${fn:length(OrderList)}"/>
+												<c:set var="hasOrder" value="0"/>
+												<c:forEach var="Order" items="${OrderList}">
+												<c:set var="orderListSize" value="${orderListSize-1}"/>
 												<c:choose>
-												<c:when test="${OrderList[user.iNo-1].member.iNo == user.iNo}">
-													回覆: <input type="text" id="Reply${With.iId}" name="sText" required>
-													<button type="submit" id="replySubmit${With.iId}" name="withNo"
-														value="${With.iId}" class="btn btn-primary" >送出</button>
+												<c:when test="${Order.member.iNo == user.iNo}">
+													<c:choose>
+														<c:when test="${Order.with.iId == With.iId}">
+															<c:set var="hasOrder" value="1"/>
+															<c:set var="onePrint" value="1"/>
+															回覆: <input type="text" id="Reply${With.iId}" name="sText" required>
+															<button type="submit" id="replySubmit${With.iId}" name="withNo"
+																value="${With.iId}" class="btn btn-primary" >送出</button>
+														</c:when>
+														<c:when test="${orderListSize == 0 && hasOrder != 1}">
+															<c:set var="onePrint" value="1"/>
+															回覆: <input type="text" id="Reply${With.iId}" name="sText" required>
+															<button type="submit" id="replySubmit${With.iId}" name="withNo"
+																value="${With.iId}" class="btn btn-primary"  disabled="disabled">送出</button>	
+														</c:when>
+													</c:choose>	
+												
 												</c:when>
-												<c:otherwise>
-													回覆: <input type="text" id="Reply${With.iId}" name="sText" required>
-													<button type="submit" id="replySubmit${With.iId}" name="withNo"
-														value="${With.iId}" class="btn btn-primary"  disabled="disabled">送出</button>
-												</c:otherwise>						
-												</c:choose> 
+																	
+												</c:choose>
+													</c:forEach>
+<%-- 												<c:if test="${fn:length(OrderList) == 0 }"> --%>
+<%-- 													回覆: <input type="text" id="Reply${With.iId}" name="sText" required> --%>
+<%-- 													<button type="submit" id="replySubmit${With.iId}" name="withNo" --%>
+<%-- 														value="${With.iId}" class="btn btn-primary"  disabled="disabled">送出</button>	 --%>
+<%-- 												</c:if> --%>
 												</div>
 											</form>
 
