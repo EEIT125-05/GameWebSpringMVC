@@ -73,12 +73,12 @@ input {
 <title>會員資料更新</title>
 <%-- <script src="<c:url value='../js/MemberUpdate.js'/>"></script> --%>
 <script>
-	let passwordflag = false;
-	let nicknameflag = true;
-	let nameflag = true;
-	let addressflag = true;
-	let emailflag = true;
-	let phoneflag = true;
+// 	let passwordflag = false;
+// 	let nicknameflag = true;
+// 	let nameflag = true;
+// 	let addressflag = true;
+// 	let emailflag = true;
+// 	let phoneflag = true;
 
 	function checkPassword() {
 		let password = document.getElementById("Password");
@@ -86,18 +86,16 @@ input {
 		let c = document.getElementById("idpasswordConfirm");
 		if (passwordConfirm.value == "") {
 			c.innerHTML = ("<font color='red'>請輸入密碼</font>");
-			passwordflag = false;
 		} else {
 			if (password.value == passwordConfirm.value) {
 				c.innerHTML = "<font color='green'>OK</font>";
-				passwordflag = true;
 			} else {
 				c.innerHTML = "<font color='red'>密碼不相同</font>";
-				passwordflag = false;
 			}
 		}
-		check();
+		
 	}
+	
 	window.onload = function() {
 		var btn = document.getElementById("btn");
 		var psw = document.getElementById("Password");
@@ -136,76 +134,85 @@ input {
 		check();
 	}
 
-	function checkEmail() {
-		let email = document.getElementById("Email").value;
-		let idemail = document.getElementById("idemail");
-		if (email == "") {
-			idemail.innerHTML = "<font color='red'>請輸入信箱</font>";
-			emailflag = false;
-		} else {
-			idemail.innerHTML = "";
-			emailflag = true;
-		}
-		check();
-	}
+// 	function checkEmail() {
+// 		let email = document.getElementById("Email").value;
+// 		let idemail = document.getElementById("idemail");
+// 		if (email == "") {
+// 			idemail.innerHTML = "<font color='red'>請輸入信箱</font>";
+// 			emailflag = false;
+// 		} else {
+// 			idemail.innerHTML = "";
+// 			emailflag = true;
+// 		}
+// 		check();
+// 	}
 
-	function checkName() {
-		let ename = document.getElementById("Ename").value;
-		let enameLen = ename.length;
-		let idname = document.getElementById("idname");
-		let nameError = false;
-		if (ename == "") {
-			idname.innerHTML = "<font color='red'>請輸入姓名</font>";
-			nameflag = false;
-		} else if (enameLen >= 2) {
-			for (let idname = 0; idname < enameLen; idname++) {
-				if (ename.charCodeAt(idname) < 0x4E00
-						|| ename.charCodeAt(idname) > 0x9FA5) {
-					nameError = true;
-					if (nameError) {
-						break;
-					}
-				}
-			}
-			if (nameError) {
-				idname.innerHTML = "<font color='red'>請輸入中文</font>";
-				nameflag = false;
-			} else {
-				idname.innerHTML = "<font color='green'>OK</font>";
-				nameflag = true;
-			}
-		} else {
-			idname.innerHTML = "<font color='red'>至少兩個字</font>";
-			nameflag = false;
-		}
-		check();
-	}
-	function checkPhone() {
-		let phone = document.getElementById("Phone").value;
-		let phoneLen = phone.length;
-		let idphone = document.getElementById("idphone");
-		let phoneCheck = false;
-		let reg = /^[0]{1}[9]{1}\d{8}$/;
-		if (phone == "") {
-			idphone.innerHTML = "<font color='red'>請輸入手機號碼</font>";
-			phoneflag = false;
-		} else if (phoneLen >= 10) {
-			if (reg.test(phone)) {
-				phoneCheck = true;
-			}
-			if (phoneCheck) {
-				idphone.innerHTML = "<font color='green'>OK</font>";
-				phoneflag = true;
-			} else {
-				idphone.innerHTML = "<font color='red'>格式錯誤請輸入正確電話號碼</font>";
-				phoneflag = false;
-			}
-		} else {
-			idphone.innerHTML = "<font color='red'>至少輸入10位號碼</font>";
-			phoneflag = false;
-		}
-		check();
-	}
+// 	function checkName() {
+// 		let ename = document.getElementById("Ename").value;
+// 		let enameLen = ename.length;
+// 		let idname = document.getElementById("idname");
+// 		let nameError = false;
+// 		if (ename == "") {
+// 			idname.innerHTML = "<font color='red'>請輸入姓名</font>";
+// 			nameflag = false;
+// 		} else if (enameLen >= 2) {
+// 			for (let idname = 0; idname < enameLen; idname++) {
+// 				if (ename.charCodeAt(idname) < 0x4E00
+// 						|| ename.charCodeAt(idname) > 0x9FA5) {
+// 					nameError = true;
+// 					if (nameError) {
+// 						break;
+// 					}
+// 				}
+// 			}
+// 			if (nameError) {
+// 				idname.innerHTML = "<font color='red'>請輸入中文</font>";
+// 				nameflag = false;
+// 			} else {
+// 				idname.innerHTML = "<font color='green'>OK</font>";
+// 				nameflag = true;
+// 			}
+// 		} else {
+// 			idname.innerHTML = "<font color='red'>至少兩個字</font>";
+// 			nameflag = false;
+// 		}
+// 		check();
+// 	}
+	
+// 	function checkPhone() {
+// 		var sPhone = document.getElementById("sPhone").value.trim();
+// 		var phoneLen = sPhone.length;
+// 		var idphone = document.getElementById("idphone");
+// 		var phoneCheck = false;
+// 		var regular = /^[0]{1}[9]{1}\d{8}$/;
+// 		if (sPhone == "") {
+// 			idphone.innerHTML = "<font color='red'>請輸入手機號碼</font>";
+// 		} else if (phoneLen < 10) {
+// 			idphone.innerHTML = "<font color='red'>請輸入10位號碼</font>";
+// 		} else if (!sPhone.match(regular)) {
+// 			idphone.innerHTML = "<font color='red'>請輸入09開頭電話號碼</font>";
+// 		} else {
+// 			var xhr = new XMLHttpRequest();
+// 			xhr.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
+// 							true);
+// 			xhr.setRequestHeader("Content-Type",
+// 					"application/x-www-form-urlencoded");
+// 			xhr.send("sPhone=" + sPhone);
+// 			xhr.onreadystatechange = function() {
+// 				if (xhr.readyState == 4 && xhr.status == 200) {
+// 					console.log("sPhone=" + sPhone);
+// 					var result = JSON.parse(xhr.responseText);
+// 					if (result.sPhone.length == 0) {
+// 						idphone.innerHTML = "<font color='green'>電話可用</font>";
+// 						phoneflag = true;
+// 					} else {
+// 						idphone.innerHTML = "<font color='red'>電話已被使用，請重新輸入電話</font>";
+// 						phoneflag = false;
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
 
 	function checkAddress() {
 		let address = document.getElementById("Address").value;
@@ -220,14 +227,14 @@ input {
 		check();
 	}
 
-	function check() {
-		if (passwordflag && nicknameflag && nameflag && addressflag
-				&& emailflag && phoneflag) {
-			document.getElementById("submit").disabled = false;
-		} else {
-			document.getElementById("submit").disabled = true;
-		}
-	}
+// 	function check() {
+// 		if (passwordflag && nicknameflag && nameflag && addressflag
+// 				&& emailflag && phoneflag) {
+// 			document.getElementById("submit").disabled = false;
+// 		} else {
+// 			document.getElementById("submit").disabled = true;
+// 		}
+// 	}
 </script>
 </head>
 <body>
@@ -273,17 +280,21 @@ input {
 						value="${user.sAccount}" readonly></td>
 				<tr class="b">
 					<td>更改密碼</td>
-					<td>:<input id="Password" type="password" minlength="8"
+					<td>:<input id="Password" type="password" name="password" minlength="8"
 						required maxlength="16" onblur="checkPassword();"
 						value="${user.sPassword}"><input id="btn" type="button"
 						class="material-icons" style="font-size: 25px" value="visibility"></td>
 				<tr class="b">
 					<td>再次確認密碼</td>
 					<td>:<input id="passwordConfirm" type="password"
-						name="sPassword" minlength="8" placeholder="修改前請再次輸入密碼" required
+						name="sPassword" minlength="8" placeholder="修改前請再次輸入密碼" 
 						maxlength="16" onblur="checkPassword();"><span
 						id="idpasswordConfirm"></span>
 					</td>
+					<tr class="b">
+						<td></td>
+						<td style='color: red;'>${showError}</td>
+					</tr>
 				<tr class="b">
 					<td>更改暱稱</td>
 					<td>:<input type="text" id="Nickname" name="sNickname"
@@ -355,8 +366,9 @@ input {
 						name="registerDate" value="${user.registerDate}" readonly></td>
 				</tr>
 			</table>
+			
 			<H2 align='center'>
-				<button id="submit" name="submit" type="submit" disabled
+				<button id="submit" name="submit" type="submit" 
 					style="background-color: #D0D0D0; color: black; margin-top: 30; font-weight: 900; border-radius: 10px;">
 					<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
 						fill="currentColor" class="bi bi-cloud-arrow-up-fill"

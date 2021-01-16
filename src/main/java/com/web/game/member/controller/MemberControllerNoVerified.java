@@ -108,8 +108,21 @@ public class MemberControllerNoVerified {
 	}
 
 	@PostMapping("/MemberCheck")
-	public String MemberLogin(Model model) {
-		return "member/MemberCheck";
+	public String MemberLogin(Model model, String sAccount, String sEmail,
+			 String sPhone) {
+		try {
+			String Account = mService.Checkmember(sAccount);
+			String Phone = mService.CheckPhone(sPhone);
+			String Email = mService.CheckEmail(sEmail);
+			if(Account==""&&Phone==""&&Email=="") {
+				return "member/MemberCheck";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "member/MemberCheck";
+		}
+		model.addAttribute("showError", "請確認帳號、電話或信箱是否有重複");
+		return "member/MemberLogin";
 	}
 
 	@PostMapping("/MemberThanks")
@@ -117,8 +130,7 @@ public class MemberControllerNoVerified {
 			@RequestParam String sNickname, @RequestParam String sEmail, @RequestParam String sEname,
 			@RequestParam String sPhone, @RequestParam String sAddress, @RequestParam String sGender,
 			@RequestParam String sBirthday, @RequestParam String registerDate, @RequestParam Integer status,
-			@RequestParam MultipartFile productImage, SessionStatus Status,
-			HttpServletResponse response) {
+			@RequestParam MultipartFile productImage, SessionStatus Status, HttpServletResponse response) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		registerDate = sdf.format(new Date());
 		Integer iNo = null;
@@ -164,7 +176,6 @@ public class MemberControllerNoVerified {
 
 	@PostMapping("/MemberLogin")
 	public ResponseEntity<Map<String, String>> Checkmember(@RequestParam("sAccount") String sAccount) {
-		System.out.println("sAccount=" + sAccount);
 		Map<String, String> map = new HashMap<>();
 		String Account = mService.Checkmember(sAccount);
 		map.put("sAccount", Account);
@@ -285,7 +296,6 @@ public class MemberControllerNoVerified {
 
 //---------------------------------------------------------------------------------
 
-
 	@SuppressWarnings("unused")
 	private void processCookies(MemberSigninBean bean, HttpServletRequest request, HttpServletResponse response) {
 		Cookie cookieUser = null;
@@ -294,7 +304,7 @@ public class MemberControllerNoVerified {
 		String sAccount = bean.getsAccount();
 		String sPassword = bean.getsPassword();
 		Boolean rm = bean.isRememberMe();
-		System.out.println("rm="+rm);
+		System.out.println("rm=" + rm);
 
 		if (bean.isRememberMe()) {
 			System.out.println("有沒有存進來");

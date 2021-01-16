@@ -177,10 +177,20 @@ public class MemberControllerVerified {
 
 	@PostMapping("/MemberData")
 	public String UpdateMember(Model model, @RequestParam Integer iNo, @RequestParam String sAccount,
-			@RequestParam String sPassword, @RequestParam String sNickname, @RequestParam String sEmail,
+			@RequestParam String sPassword,@RequestParam String password, @RequestParam String sNickname, @RequestParam String sEmail,
 			@RequestParam String sEname, @RequestParam String sPhone, @RequestParam String sAddress,
 			@RequestParam String sGender, @RequestParam String sBirthday, @RequestParam String registerDate,
 			@RequestParam MultipartFile productImage) {
+		System.out.println("原來的密碼="+password);
+		System.out.println("要一樣的密碼="+sPassword);
+		if(sPassword.equals("")) {
+			System.out.println("密碼是空的");
+			return "member/MemberData";
+		}else if(!sPassword.equals(password)) {
+			System.out.println("密碼不一樣");
+			model.addAttribute("showError", "密碼不一致更改失敗");
+			return "member/MemberUpdate";
+		}
 		MemberBean Update = mService.Selectmember(sAccount);
 		Update.setsPassword(sPassword);
 		Update.setsNickname(sNickname);
