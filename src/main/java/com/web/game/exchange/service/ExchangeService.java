@@ -49,6 +49,11 @@ public class ExchangeService {
 	}
 	//------------------------demand
 	@Transactional
+	public Integer getDemandPage(String str) {
+		return demandDAO.getDemandPage(str);
+	}
+	
+	@Transactional
 	public List<DemandGameBean> changeDemandPage(int page){
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		return list = demandDAO.changeDemandPage(page);

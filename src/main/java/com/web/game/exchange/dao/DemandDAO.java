@@ -57,6 +57,22 @@ public class DemandDAO {
 		
 		return list;
 	}
+	@SuppressWarnings("unchecked")
+	public Integer getDemandPage(String str){
+		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
+		Session session =factory.getCurrentSession();
+		String queryAll = "FROM DemandGameBean WHERE status = 0 "+str;
+		list = (List<DemandGameBean>) session.createQuery(queryAll)
+				.getResultList();
+		
+//		if(list.size() % count ==0 ) {
+//			p=(list.size()/count);
+//		}else {
+//		p=(list.size()/count)+1;
+//		}
+		
+		return list.size();
+	}
 	
 	public boolean insertDemandGame(DemandGameBean dgb) {
 		int count = 0;

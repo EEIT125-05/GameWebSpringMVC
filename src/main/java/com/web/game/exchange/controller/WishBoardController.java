@@ -68,7 +68,9 @@ public class WishBoardController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		String sHql = "AND "+ condition+ " like '%" + str + "%'";
+		Integer totalPage = exchangeService.getDemandPage(sHql);
 		list = exchangeService.changeDemandByFilter(page, sHql);
+		map.put("totalPage",totalPage);
 		map.put("list",list);
 		System.out.println(list.size());
 		map.put("mbUser",mbUser);
