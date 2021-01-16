@@ -11,7 +11,11 @@ public interface RecordService {
 	void deleteRecord(Integer contestNo);
 	
 	List<RecordBean> selectContestRecord(Integer contestNo);
+
+	List<RecordBean> selectContestPreliminaryRecord(Integer contestNo);
 	
-	void addScore(Integer contestNo, Integer groupNo, List<String> sWinPlayers);
+	List<RecordBean> selectContestRematchRecord(Integer contestNo);
+	
+	void updateWinner(Integer contestNo, String sWinner);
 	
 }

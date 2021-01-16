@@ -36,10 +36,24 @@ public class RecordServiceImpl implements RecordService {
 
 	@Transactional
 	@Override
-	public void addScore(Integer contestNo, Integer groupNo, List<String> sWinPlayers) {
-		rDAO.addScore(contestNo, groupNo, sWinPlayers);
+	public List<RecordBean> selectContestPreliminaryRecord(Integer contestNo) {
+		return rDAO.selectContestPreliminaryRecord(contestNo);
 	}
 	
+	@Transactional
+	@Override
+	public List<RecordBean> selectContestRematchRecord(Integer contestNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Transactional
+	@Override
+	public void updateWinner(Integer contestNo, String sWinner) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }

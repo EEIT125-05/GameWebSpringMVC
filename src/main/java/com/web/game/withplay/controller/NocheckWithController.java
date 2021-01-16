@@ -6,8 +6,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.web.game.contest.service.GameListService;
+import com.web.game.withplay.model.WithOrder;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithOrderService;
 import com.web.game.withplay.service.WithReplyService;
@@ -58,6 +61,15 @@ public class NocheckWithController {
 		model.addAttribute("Withlist",withService.list());
 		model.addAttribute("GameList",ListService.selectGameList());
 		model.addAttribute("OrderList",withOrderService.list());
+//		List<WithOrder> OrderList = withOrderService.list(user);
+		
+//		Set<Integer> set = new HashSet<Integer>();
+//		for(WithOrder wo:OrderList) {
+//			set.add(wo.getWith().getiId());
+//		}
+//		
+//		model.addAttribute("UserOrderList",set);
+		
 		
 //		
 //		WithPlay test = withService.get(1);

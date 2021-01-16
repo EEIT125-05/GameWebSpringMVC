@@ -2,9 +2,6 @@ package com.web.game.contest.dao.impl;
 
 import java.util.List;
 
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,27 +43,27 @@ public class RecordDAOImpl implements RecordDAO {
 		return session.createQuery(hql).setParameter("contstNo", contestNo).getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void addScore(Integer contestNo, Integer groupNo, List<String> sWinPlayers) {
-		String hql = "from RecordBean where iContestNo = :contestNo and iGroupNo = :groupNo and sPlayers = :sWinPlayer";
+	public List<RecordBean> selectContestPreliminaryRecord(Integer contestNo) {
+		String hql = "from RecordBean where iContestNo = :contestNo and sType = '預賽'";
 		Session session = factory.getCurrentSession();
-		try {
-			for(String sWinPlayer:sWinPlayers) {
-				RecordBean rRecordBean = (RecordBean)session.createQuery(hql)
-						.setParameter("contestNo", contestNo)
-						.setParameter("groupNo", groupNo)
-						.setParameter("sWinPlayer", sWinPlayer)
-						.getSingleResult();
-				rRecordBean.setiWinCount(rRecordBean.getiWinCount()+1);
-			}
-		} catch (NoResultException e) {
-			e.printStackTrace();
-			throw new RuntimeException();
-		}catch (NonUniqueResultException e) {
-			e.printStackTrace();
-			throw new RuntimeException();
-		}
+		return session.createQuery(hql).setParameter("contestNo", contestNo).getResultList();
 	}
+
+	@Override
+	public List<RecordBean> selectContestRematchRecord(Integer contestNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateWinner(Integer contestNo, String sWinner) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 	
 	
 

@@ -21,15 +21,20 @@
 .item{
 	margin-top:10px
 }
-table, th, td {
-  border: 1px solid black;
-  text-align:center;
-}
-table {
-  width: 50%;
-}
+/* table, th, td { */
+/*   border: 1px solid black; */
+/*   text-align:center; */
+/* } */
+/* table { */
+/*   width: 50%; */
+/*   table-layout:fixed; */
+/*   word-wrap:break-word; */
+/* } */
 
 </style>
+
+<script src='//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js'></script>
+<link rel='stylesheet' href='https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css'>
 </head>
 <body>
 <%@ include file="../Header.jsp"%>
@@ -53,7 +58,14 @@ table {
 			<label class="btn btn-primary item itemChoose">總覽</label>
 			<label class="btn btn-primary item">參賽者</label>
 			<label class="btn btn-primary item">賽程</label>
-			<label class="btn btn-primary item">戰績</label>
+			<c:choose>
+	    		<c:when test="${cContestBean.sHost == user.sAccount}">
+					<label class="btn btn-primary item">更新戰績</label>
+	    		</c:when>
+	    		<c:otherwise>
+					<label class="btn btn-primary item">戰績</label>
+	    		</c:otherwise>
+	    	</c:choose>
 			<c:set var="joinStatus" value="true"/>
 			
 <!-- 				團體賽要從參加組別拆自串比對 -->
@@ -122,6 +134,7 @@ table {
 			</c:choose>
 		</div>
 		
+		<hr>
 		<div id="總覽" class="hiddenDiv">
 			<c:if test="${cContestBean.sHost == user.sAccount }">
             	<fmt:formatDate var="dTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd"/>
@@ -305,81 +318,137 @@ table {
 			</c:choose>
 		</div>
 
-		<div id="戰績" class="hiddenDiv" style="display:none">
-<!-- 			<p>比賽未開始,暫無戰績內容</p> -->
-<!-- 			<p>冠軍:</p> -->
-<!-- 			<p>亞軍:</p> -->
-<!-- 			<p>季軍:</p> -->
-<!-- 			<p>殿軍:</p> -->
-<!-- 			<hr> -->
-
-<!-- 			<p>round(n)</p> -->
-<!-- 			<hr> -->
+		<c:choose>
+    		<c:when test="${cContestBean.sHost == user.sAccount}">
+				<div id="更新戰績" class="hiddenDiv" style="display:none">
+    		</c:when>
+    		<c:otherwise>
+				<div id="戰績" class="hiddenDiv" style="display:none">
+    		</c:otherwise>
+    	</c:choose>
 			
-<!-- 			<p>預賽圖</p> -->
-			<hr>
+			<a class="btn btn-primary" data-toggle="collapse" href="#preliminaryCollapse" role="button" aria-expanded="false" aria-controls="collapseExample">預賽戰績</a>
 			
-			<p>預賽戰績處理:</p>
+			<div class="collapse show" id="preliminaryCollapse" style="margin-top:20px;margin-bottom:20px">
+	  			<div class="card card-body">	
+					<table border="1" id="preliminaryTable" style="text-align:center;">
+		
+						<thead>
+						<tr>
+							<th>組別</th>
+							<th>參賽者1</th>
+							<th>參賽者2</th>
+							<th>勝方</th>
+						</tr>
+						</thead>
+<!-- 						<thead class="downOption"> -->
+<!-- 						<tr> -->
+<!-- 							<th>組別2</th> -->
+<!-- 							<th>參賽者12</th> -->
+<!-- 							<th>參賽者22</th> -->
+<!-- 							<th>勝方2</th> -->
+<!-- 						</tr> -->
+<!-- 						</thead> -->
+						<tfoot>
+				            <tr>
+				                <th>組別</th>
+				                <th>參賽者1</th>
+				                <th>參賽者2</th>
+				                <th>勝方</th>
+				            </tr>
+				        </tfoot>
+				        <tbody>
+							<c:forEach var="record" items="${lPreliminaryRecord}">
+								<tr>	
+									<td>${record.iGroundNo}</td>
+									<td>${record.sPlayers1}</td>
+									<td>${record.sPlayers2}</td>
+<%-- 									<td><button class="btn btn-primary">${record.sPlayers1}</button></td> --%>
+<%-- 									<td><button class="btn btn-primary">${record.sPlayers2}</button></td> --%>
+									<td>${record.sWinner}</td>
+								</tr>
+							</c:forEach>
+				        </tbody>
+					</table>
+				</div>
+			</div>
 			
-			<c:forEach var="recordListCount" begin="1" end="${fn:length(lGroupRecord)}">
-				<label>第${recordListCount}組:</label>
-				<c:forEach var="record" items="${lGroupRecord[recordListCount-1]}">
-					<label>&nbsp;${record.sPlayers}</label>
-				</c:forEach>
-				<c:choose>
-					<c:when test="${empty lGroupRecordDetail[recordListCount-1]}">
-						<button class="btn btn-primary savePreliminaryRecord" value="${recordListCount}">儲存第${recordListCount}組紀錄</button>
-					</c:when>
-					<c:otherwise>
-						<button class="btn btn-primary savePreliminaryRecord" value="${recordListCount}" disabled>儲存第${recordListCount}組紀錄</button>
-					</c:otherwise>
-				</c:choose>
-				<br>
-				 <c:set var="count" value="0"/>
-<!-- 				 算win位置要用的計數器 -->
-				<c:forEach var="recordCount" begin="1" end="${fn:length(lGroupRecord[recordListCount-1])}">
+			
+			
+			
+			
+<%-- 			<c:forEach var="recordListCount" begin="1" end="${fn:length(lGroupRecord)}"> --%>
+<%-- 				<label>第${recordListCount}組:</label> --%>
+<%-- 				<c:forEach var="record" items="${lGroupRecord[recordListCount-1]}"> --%>
+<%-- 					<label>&nbsp;${record.sPlayers}</label> --%>
+<%-- 				</c:forEach> --%>
+				
+<%-- 				<c:if test="${cContestBean.sHost == user.sAccount}"> --%>
+<%-- 					<c:choose> --%>
+<%-- 						<c:when test="${empty lGroupRecordDetail[recordListCount-1]}"> --%>
+<%-- 							<button class="btn btn-primary savePreliminaryRecord" value="${recordListCount}">儲存第${recordListCount}組紀錄</button> --%>
+<%-- 						</c:when> --%>
+<%-- 						<c:otherwise> --%>
+<%-- 							<button class="btn btn-primary savePreliminaryRecord" value="${recordListCount}" disabled>儲存第${recordListCount}組紀錄</button> --%>
+<%-- 						</c:otherwise> --%>
+<%-- 					</c:choose> --%>
+<%-- 				</c:if> --%>
+				
+<!-- 				<br> -->
+<%-- 				 <c:set var="count" value="0"/> --%>
+<!-- <!-- 				 算win位置要用的計數器 --> 
+<%-- 				<c:forEach var="recordCount" begin="1" end="${fn:length(lGroupRecord[recordListCount-1])}"> --%>
 					
-					<c:forEach var="matchCount" begin="${recordCount+1}" end="${fn:length(lGroupRecord[recordListCount-1])}">
-						<label>對戰:</label><br>
-						<table>
-							<tr>
-								<th style="width:20%">勝方</th>
-								<c:choose>
-									<c:when test="${empty lGroupRecordDetail[recordListCount-1]}">
-										<th style="width:40%" colspan="2" class="win group${recordListCount}"></th>
-									</c:when>
-									<c:otherwise>
-										<th style="width:40%" colspan="2" class="win group${recordListCount}">${lGroupRecordDetail[recordListCount-1][count].sWin}</th>
-										 <c:set var="count" value="${count+1}"/>
-									</c:otherwise>
-								</c:choose>
-							</tr>
-							<tr>
-								<td style="width:20%">參賽者</td>
+<%-- 					<c:forEach var="matchCount" begin="${recordCount+1}" end="${fn:length(lGroupRecord[recordListCount-1])}"> --%>
+<!-- 						<label>對戰:</label><br> -->
+<!-- 						<table> -->
+<!-- 							<tr> -->
+<!-- 								<th style="width:20%">勝方</th> -->
+<%-- 								<c:choose> --%>
+<%-- 									<c:when test="${empty lGroupRecordDetail[recordListCount-1]}"> --%>
+<%-- 										<th style="width:40%" colspan="2" class="win group${recordListCount}"></th> --%>
+<%-- 									</c:when> --%>
+<%-- 									<c:otherwise> --%>
+<%-- 										<th style="width:40%" colspan="2" class="win group${recordListCount}">${lGroupRecordDetail[recordListCount-1][count].sWin}</th> --%>
+<%-- 										 <c:set var="count" value="${count+1}"/> --%>
+<%-- 									</c:otherwise> --%>
+<%-- 								</c:choose> --%>
+<!-- 							</tr> -->
+<!-- 							<tr> -->
+<!-- 								<td style="width:20%">參賽者</td> -->
 								
-								<c:choose>
-									<c:when test="${empty lGroupRecordDetail[recordListCount-1]}">
-										<td style="width:40%"><button class="btn btn-primary choosePlayer">${lGroupRecord[recordListCount-1][recordCount-1].sPlayers}</button></td>
-										<td style="width:40%"><button class="btn btn-primary choosePlayer">${lGroupRecord[recordListCount-1][matchCount-1].sPlayers}</button></td>
-									</c:when>
-									<c:otherwise>
-										<td style="width:40%"><button class="btn btn-primary choosePlayer" disabled>${lGroupRecord[recordListCount-1][recordCount-1].sPlayers}</button></td>
-										<td style="width:40%"><button class="btn btn-primary choosePlayer" disabled>${lGroupRecord[recordListCount-1][matchCount-1].sPlayers}</button></td>
-									</c:otherwise>
-								</c:choose>
-								
-								
-								
-							</tr>
-						</table>
-						
-					</c:forEach>
-				
-				</c:forEach>
-				
-				
-				<hr>
-			</c:forEach>
+<%-- 								<c:choose> --%>
+<%-- 									<c:when test="${cContestBean.sHost == user.sAccount}"> --%>
+<%-- 										<c:choose> --%>
+<%-- 											<c:when test="${empty lGroupRecordDetail[recordListCount-1]}"> --%>
+<%-- 												<td style="width:40%"><button class="btn btn-primary choosePlayer">${lGroupRecord[recordListCount-1][recordCount-1].sPlayers}</button></td> --%>
+<%-- 												<td style="width:40%"><button class="btn btn-primary choosePlayer">${lGroupRecord[recordListCount-1][matchCount-1].sPlayers}</button></td> --%>
+<%-- 											</c:when> --%>
+<%-- 											<c:otherwise> --%>
+<%-- 												<td style="width:40%"><button class="btn btn-primary choosePlayer" disabled>${lGroupRecord[recordListCount-1][recordCount-1].sPlayers}</button></td> --%>
+<%-- 												<td style="width:40%"><button class="btn btn-primary choosePlayer" disabled>${lGroupRecord[recordListCount-1][matchCount-1].sPlayers}</button></td> --%>
+<%-- 											</c:otherwise> --%>
+<%-- 										</c:choose> --%>
+<%-- 									</c:when> --%>
+<%-- 									<c:otherwise> --%>
+<%-- 										<td style="width:40%">${lGroupRecord[recordListCount-1][recordCount-1].sPlayers}aaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbb</td> --%>
+<%-- 										<td style="width:40%">${lGroupRecord[recordListCount-1][matchCount-1].sPlayers}aaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbb</td> --%>
+<%-- 									</c:otherwise> --%>
+<%-- 								</c:choose> --%>
+<!-- 							</tr> -->
+<!-- 						</table> -->
+<%-- 					</c:forEach> --%>
+<%-- 				</c:forEach> --%>
+<!-- 				<hr> -->
+<%-- 			</c:forEach> --%>
+
+
+
+			<hr>
+			<p>複賽戰績:</p>
+			
+
+
 
 		</div>
 		
@@ -389,6 +458,79 @@ table {
 <%@ include file="../Foot.jsp"%>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		
+		$('#preliminaryTable').DataTable({
+			"fixedHeader": true,
+			fixedColumns:   {
+		        leftColumns: 5 //左側要固定的欄目數，如果右側需要固定可以用 rightColunms
+		    },
+			language: {
+    		    "lengthMenu": "顯示_MENU_筆資料",
+    		    "sProcessing": "處理中...",
+    		    "sZeroRecords": "没有符合的資料",
+    		    "sInfo": "目前有_MAX_筆資料",
+    		    "sInfoEmpty": "目前共有 0 筆紀錄",
+    		    "sInfoFiltered": " ",
+    		    "sInfoPostFix": "",
+    		    "sSearch": "尋找:",
+    		    "sUrl": "",
+    		    "sEmptyTable": "尚未有資料紀錄存在",
+    		    "sLoadingRecords": "載入資料中...",
+    		    "sInfoThousands": ",",
+    		    "oPaginate": {
+    		        "sFirst": "首頁",
+    		        "sPrevious": "上一頁",
+    		        "sNext": "下一頁",
+    		        "sLast": "末頁"
+    		    },
+    		    "order": [[0, "desc"]],
+    		    "oAria": {
+    		        "sSortAscending": ": 以升序排列此列",
+    		        "sSortDescending": ": 以降序排列此列"
+    		    }
+    		},
+			initComplete: function () {
+	            var api = this.api();
+	            api.columns().indexes().flatten().each( function ( i ) {
+	                var column = api.column( i );
+	                var select = $('<select><option value=""></option></select>')
+	                    .appendTo( $(column.footer()).empty() )
+	                    .on( 'change', function () {
+	                        var val = $.fn.dataTable.util.escapeRegex(
+	                            $(this).val()
+	                        );
+	                        column
+	                            .search( val ? '^'+val+'$' : '', true, false )
+	                            .draw();
+	                    } );
+	                column.data().unique().sort().each( function ( d, j ) {
+// 	                    select.append( '<option value="123">'+"123"+'</option>' )
+						console.log("d " + d);
+	                    select.append( '<option value="'+d+'">'+d+'</option>' )
+	                } );
+	            } );
+	        }
+		
+		
+		});
+		
+		
+// 		var table = $('#preliminaryTable').DataTable();
+		 
+// 		table
+// 		    .column( 1 )
+// 		    .data()
+// 		    .each( function ( value, index ) {
+		    	
+// 		        console.log( 'Data in index: '+index+' is: '+value.split(">")[1].split("<")[0] );
+// 		    } );
+		
+		
+		
+	});
+</script>
 <script>
 	$(function(){
 		$("#rule").on("click","a",function(){
@@ -735,99 +877,98 @@ table {
 			this.target = "_blank";
 		});
 		
-		$(".choosePlayer").on("click", function(){
-			$(this).parent().parent().prev().find(".win").text($(this).text());
-		});
+// 		$(".choosePlayer").on("click", function(){
+// 			$(this).parent().parent().prev().find(".win").text($(this).text());
+// 		});
 		
-		$(".savePreliminaryRecord").on("click", function(){
+// 		$(".savePreliminaryRecord").on("click", function(){
 			
-			let win = [];
-			let catchSpace = false;
-			$.each($(".group" + $(this).val()), function(key, value){
-				win.push(value.innerHTML);
-				console.log(value.innerHTML);
-				if(value.innerHTML == ""){
-					catchSpace = true;
-				}
-			});
-			if(catchSpace){
-				Swal.fire({
-					  title: "發生錯誤!",
-					  text: "不能儲存空白勝方,請更改",
-					  icon: 'error',
-					showClass: {
-					    popup: 'animate__animated animate__fadeInDown'
-					  },
-						hideClass: {
-						    popup: 'animate__animated animate__fadeOutUp'
-						  }
-					})
-			}else{
-				Swal.fire({
-					  title: '確定儲存戰績?',
-					  text: "儲存之後將不能更改,請再三檢查",
-					  icon: 'warning',
-					  showCancelButton: true,
-					  confirmButtonColor: '#d33',
-					  cancelButtonColor: '#3085d6',
-					  confirmButtonText: '儲存',
-				      cancelButtonText: '取消',
-					  showClass: {
-					    popup: 'animate__animated animate__fadeInDown'
-					  },
-					  hideClass: {
-						popup: 'animate__animated animate__fadeOutUp'
-					  }
-					}).then((result) => {
-						  if (result.isConfirmed) {
-							  $.ajax({
-									type: "post",
-									url: "<c:url value='/contest/SaveRecord'/>",
-									dataType: "json",
-									data: {
-											"contestNo": $("#delete").val(),//借來用
-											"groupNo": $(this).val(),
-											"win": win
-									},
-									success: function(result){
-										if(result.status == "success"){
-											Swal.fire({
-													      title:"儲存成功!",
-														  icon:"success",
-														  hideClass: {
-														    popup: 'animate__animated animate__fadeOutUp'
-														  }
-													  }).then(function(){
-														window.setTimeout(function(){location.reload();},500);
+// 			let win = [];
+// 			let catchSpace = false;
+// 			$.each($(".group" + $(this).val()), function(key, value){
+// 				win.push(value.innerHTML);
+// 				console.log(value.innerHTML);
+// 				if(value.innerHTML == ""){
+// 					catchSpace = true;
+// 				}
+// 			});
+// 			if(catchSpace){
+// 				Swal.fire({
+// 					  title: "發生錯誤!",
+// 					  text: "不能儲存空白勝方,請更改",
+// 					  icon: 'error',
+// 					showClass: {
+// 					    popup: 'animate__animated animate__fadeInDown'
+// 					  },
+// 						hideClass: {
+// 						    popup: 'animate__animated animate__fadeOutUp'
+// 						  }
+// 					})
+// 			}else{
+// 				Swal.fire({
+// 					  title: '確定儲存戰績?',
+// 					  text: "儲存之後將不能更改,請再三檢查",
+// 					  icon: 'warning',
+// 					  showCancelButton: true,
+// 					  confirmButtonColor: '#d33',
+// 					  cancelButtonColor: '#3085d6',
+// 					  confirmButtonText: '儲存',
+// 				      cancelButtonText: '取消',
+// 					  showClass: {
+// 					    popup: 'animate__animated animate__fadeInDown'
+// 					  },
+// 					  hideClass: {
+// 						popup: 'animate__animated animate__fadeOutUp'
+// 					  }
+// 					}).then((result) => {
+// 						  if (result.isConfirmed) {
+// 							  $.ajax({
+// 									type: "post",
+// 									url: "<c:url value='/contest/SaveRecord'/>",
+// 									dataType: "json",
+// 									data: {
+// 											"contestNo": $("#delete").val(),//借來用
+// 											"groupNo": $(this).val(),
+// 											"win": win
+// 									},
+// 									success: function(result){
+// 										if(result.status == "success"){
+// 											Swal.fire({
+// 													      title:"儲存成功!",
+// 														  icon:"success",
+// 														  hideClass: {
+// 														    popup: 'animate__animated animate__fadeOutUp'
+// 														  }
+// 													  }).then(function(){
+// 														window.setTimeout(function(){location.reload();},500);
 														
-													})
-										}else if(result.status == "sqlError"){
-											Swal.fire(
-													  '資料庫發生錯誤!',
-													  '請聯繫管理員',
-													  'error'
-													)
-										}
-									},
-									error: function(err){
-										Swal.fire(
-												  '網頁發生錯誤!',
-												  '請聯繫管理員',
-												  'error'
-												)
-									}
+// 													})
+// 										}else if(result.status == "sqlError"){
+// 											Swal.fire(
+// 													  '資料庫發生錯誤!',
+// 													  '請聯繫管理員',
+// 													  'error'
+// 													)
+// 										}
+// 									},
+// 									error: function(err){
+// 										Swal.fire(
+// 												  '網頁發生錯誤!',
+// 												  '請聯繫管理員',
+// 												  'error'
+// 												)
+// 									}
 									
-								});		
-						  }
-						});
-			}
+// 								});		
+// 						  }
+// 						});
+// 			}
 			
-			
-			
-			
-			
-			
-		});
+// 		});
+		
+		
+		
+		
 		
 	
 	});

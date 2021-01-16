@@ -35,11 +35,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.web.game.contest.model.ContestBean;
 import com.web.game.contest.model.ParticipateBean;
 import com.web.game.contest.model.RecordBean;
-import com.web.game.contest.model.RecordDetailBean;
 import com.web.game.contest.service.ContestService;
 import com.web.game.contest.service.GameListService;
 import com.web.game.contest.service.ParticipateService;
-import com.web.game.contest.service.RecordDetailService;
 import com.web.game.contest.service.RecordService;
 import com.web.game.contest.validators.ContestValidator;
 import com.web.game.contest.validators.dateAndTimeValidator;
@@ -65,9 +63,6 @@ public class ContestController {
 	
 	@Autowired
 	RecordService rService;
-	
-	@Autowired
-	RecordDetailService rdService;
 	
 	@Autowired
 	MemberService mService;
@@ -165,30 +160,47 @@ public class ContestController {
 		return "contest/ContestConfirm";
 	}
 	
+	@SuppressWarnings("unlikely-arg-type")
 	@PostMapping("/Confirm")
 	public @ResponseBody Map<String, String> contestToDB(
 			@ModelAttribute("cContestBean") ContestBean cContestBean,
 			@ModelAttribute("sContestConfirm") String sContestConfirm,
 			Model model) {
-		
 		Map<String, String> map = new HashMap<String, String>();
+		
+		Boolean success = true;
 		if(sContestConfirm.equals("更新")){
 			if(cService.updateContest(cContestBean)) {
-				map.put("status", "success");
 				map.put("successMessage", "更新成功");
-				map.put("contestNo", Integer.toString(cContestBean.getiNo()));
 			}else {
-				map.put("status", "sqlError");
+				success = false;
 			}
 		}else {
 			if(cService.insertContest(cContestBean)) {
-				map.put("status", "success");
 				map.put("successMessage", "新增成功");
-				map.put("contestNo", Integer.toString(cContestBean.getiNo()));
 			}else {
-				map.put("status", "sqlError");
+				success = false;
 			}
 		}
+		
+		if(success) {
+			if(cContestBean.getsPreliminary().equals("none") && cContestBean.getsRematchMode().equals("free")) {
+				//無預賽-自由對戰 在這裡直接建好資料表
+				rService.deleteRecord(cContestBean.getiNo());
+				if(rService.insertRecord(new RecordBean(null, cContestBean.getiNo(), "自由對戰", null, null, null, null))) {
+					map.put("status", "success");
+					map.put("contestNo", Integer.toString(cContestBean.getiNo()));
+				}else {
+					map.put("status", "sqlError");
+				}
+			}else {
+				map.put("status", "success");
+				map.put("contestNo", Integer.toString(cContestBean.getiNo()));
+			}
+		}else {
+			map.put("status", "sqlError");
+		}
+		
 		return map;
 	}
 	
@@ -375,6 +387,15 @@ public class ContestController {
 		
 		
 		ContestBean cContestBean = cService.selectOneContest(contestNo);//找出比賽類型
+		//先算出複賽總共場次
+		Integer iTotal;
+		Integer iOneGroup;
+		Integer iGroupUp;
+		Integer iLast;
+		Integer iTotalUp;
+		Integer iRematchTotal;
+		
+		Boolean success = true;
 		try {
 			Decoder decoder = Base64.getDecoder();
 			
@@ -388,44 +409,101 @@ public class ContestController {
 				Blob bPreliminariesImage = new SerialBlob(bDrowImage);
 				
 				if(cService.saveSchsduleImage(contestNo, bRematchImage, bPreliminariesImage)) {//先存圖片
+					
+					
 					Integer iGroupCount = 0;
 					rService.deleteRecord(contestNo);//先把舊的戰績刪掉
-					for(List<String> list2: groupList) {
+					for(List<String> list: groupList) {
 						iGroupCount++;
-						System.out.println("---------------------");
-						for(String sPlayer: list2) {
-							System.out.println("參賽者: " + sPlayer);
-							//再新增戰績進資料庫
-							if(rService.insertRecord(new RecordBean(null, contestNo, iGroupCount, null, sPlayer, 0))) {
-								map.put("status", "success");
-							}else {//新增戰績有問題
-								map.put("status", "sqlError");
+						for(int i=0; i<list.size(); i++) {
+							for(int j=i+1; j<list.size(); j++) {
+//								System.out.println("對戰: " + list.get(i) + "-" + list.get(j));
+								if(!rService.insertRecord(new RecordBean(null, contestNo, "預賽", iGroupCount, null, list.get(i), list.get(j)))) {
+									success = false;
+								}
 							}
 						}
 					}
+					
+					if(success) {//先把複賽的資料表建好
+						iTotal = cContestBean.getiPeople();
+						iOneGroup = Integer.valueOf(cContestBean.getsPreliminary().split("-")[0]);
+						iGroupUp = Integer.valueOf(cContestBean.getsPreliminary().split("-")[1]);
+						iLast = Integer.valueOf(cContestBean.getsPreliminary().split("-")[2]);
+						iTotalUp = (iTotal/iOneGroup) * iGroupUp + iLast;
+						iRematchTotal = iTotalUp * 2 - 1;
+	//					System.out.println("全部: " + iTotal);
+	//					System.out.println("一組: " + iOneGroup);
+	//					System.out.println("晉級: " + iGroupUp);
+	//					System.out.println("剩下: " + iLast);
+	//					System.out.println("晉級人數: " + iTotalUp);
+						
+						if(cContestBean.getsRematchMode().equals("knockout")) {//淘汰賽
+							for(int i=1; i<=iRematchTotal; i++) {
+								if(!rService.insertRecord(new RecordBean(null, contestNo, "淘汰賽", null, i, null, null))) {
+									success = false;
+								}
+							}
+						}else if(cContestBean.getsRematchMode().equals("ground")) {//循環賽
+							for(int i=0; i<iTotalUp; i++) {
+								for(int j=i+1; j<iTotalUp; j++) {
+									if(!rService.insertRecord(new RecordBean(null, contestNo, "循環賽", 1, null, null, null))) {
+										success = false;
+									}
+								}
+							}
+						}else {//自由對戰
+							if(!rService.insertRecord(new RecordBean(null, contestNo, "自由對戰", null, null, null, null))) {
+								success = false;
+							}
+						}
+					}
+					
+					if(success) {	
+						map.put("status", "success");
+					}else {
+						map.put("status", "sqlError");
+					}
+					
 //					list.add("賽程儲存完成");
 				}else {//存圖片有問題
 					map.put("status", "sqlError");
 				}
-			}else {//沒預賽 直接存複賽資料
+			}else {//沒預賽 直接存複賽資料 要再判斷自由對戰
 				System.out.println("沒有預賽");
 				if(cService.saveSchsduleImage(contestNo, bRematchImage, null)) {
 					
 					rService.deleteRecord(contestNo);//先把舊的戰績刪掉
-					for(List<String> list2: groupList) {
-						Integer iRematchMemberCount = 0;
-						System.out.println("---------------------");
-						for(String sPlayer: list2) {
-							iRematchMemberCount++;
-							System.out.println("參賽者: " + sPlayer);
-							//再新增戰績進資料庫
-							if(rService.insertRecord(new RecordBean(null, contestNo, null, iRematchMemberCount, sPlayer, 0))) {
-								map.put("status", "success");
-							}else {//新增戰績有問題
-								map.put("status", "sqlError");
+					iRematchTotal = cContestBean.getiPeople() * 2 - 1;
+					
+					if(cContestBean.getsRematchMode().equals("knockout")) {//淘汰賽
+						for(int i=1; i<=iRematchTotal; i++) {
+							String iPlayer1 = null;
+							if(i >= cContestBean.getiPeople()) {
+								iPlayer1 = groupList.get(0).get(i-cContestBean.getiPeople());
+							}
+							
+							if(!rService.insertRecord(new RecordBean(null, contestNo, "淘汰賽", null, i, iPlayer1, null))) {
+								success = false;
+							}
+							
+						}
+					}else if(cContestBean.getsRematchMode().equals("ground")) {//循環賽
+						for(int i=0; i<cContestBean.getiPeople(); i++) {
+							for(int j=i+1; j<cContestBean.getiPeople(); j++) {
+								if(!rService.insertRecord(new RecordBean(null, contestNo, "循環賽", 1, null, groupList.get(0).get(i), groupList.get(0).get(j)))) {
+									success = false;
+								}
 							}
 						}
+					}//無預賽-自由對戰不會進到這
+					
+					if(success) {	
+						map.put("status", "success");
+					}else {
+						map.put("status", "sqlError");
 					}
+					
 				}else {//存圖片有問題
 					map.put("status", "sqlError");
 				}
@@ -455,47 +533,47 @@ public class ContestController {
 //		}
 		List<RecordBean> lRecordList = rService.selectContestRecord(contestNo);
 		//有空思考用資料庫找出來
-		List<RecordBean> groupRecord = new ArrayList<RecordBean>();
-		for(RecordBean rRecordBean: lRecordList) {
-			if(rRecordBean.getiGroupNo() == groupNo) {
-				rRecordBean.setiWinCount(rRecordBean.getiWinCount()+1);
-				groupRecord.add(rRecordBean);
-			}
-		}
-		
-		
-		Boolean success = true;
-		try {//如果更新勝場數抓的資料不是一筆(先檢查)
-			rService.addScore(contestNo, groupNo, sWinPlayers);
-		} catch (RuntimeException e) {
-			success = false;
-		}
-		
-			
-		if(success) {
-			
-		Integer winCount = 0;
-			for(int i=0; i<groupRecord.size(); i++) {
-		//			System.out.println("這一組的人: " + groupRecord.get(i).getsPlayers());
-				
-				for(int j=i+1; j<groupRecord.size(); j++) {
-		//				System.out.println("對戰: " + groupRecord.get(i).getsPlayers() + " vs " + groupRecord.get(j).getsPlayers());
-					if(!rdService.insertRecordDetail(new RecordDetailBean(null, contestNo, groupNo, null,
-							groupRecord.get(i).getsPlayers(), groupRecord.get(j).getsPlayers(), sWinPlayers.get(winCount)))){
-		//					insert成功,要更新RedordBean的資料(win+1)
-						
-						success = false;
-					}
-					winCount++;
-				}
-			}
-		}
-		
-		if(success) {
-			map.put("status", "success");
-		}else {
-			map.put("status", "sqlError");
-		}
+////		List<RecordBean> groupRecord = new ArrayList<RecordBean>();
+////		for(RecordBean rRecordBean: lRecordList) {
+////			if(rRecordBean.getiGroupNo() == groupNo) {
+////				rRecordBean.setiWinCount(rRecordBean.getiWinCount()+1);
+////				groupRecord.add(rRecordBean);
+////			}
+////		}
+////		
+////		
+////		Boolean success = true;
+////		try {//如果更新勝場數抓的資料不是一筆(先檢查)
+////			rService.addScore(contestNo, groupNo, sWinPlayers);
+////		} catch (RuntimeException e) {
+////			success = false;
+////		}
+//		
+//			
+//		if(success) {
+//			
+//		Integer winCount = 0;
+//			for(int i=0; i<groupRecord.size(); i++) {
+//		//			System.out.println("這一組的人: " + groupRecord.get(i).getsPlayers());
+//				
+//				for(int j=i+1; j<groupRecord.size(); j++) {
+//		//				System.out.println("對戰: " + groupRecord.get(i).getsPlayers() + " vs " + groupRecord.get(j).getsPlayers());
+//					if(!rdService.insertRecordDetail(new RecordDetailBean(null, contestNo, groupNo, null,
+//							groupRecord.get(i).getsPlayers(), groupRecord.get(j).getsPlayers(), sWinPlayers.get(winCount)))){
+//		//					insert成功,要更新RedordBean的資料(win+1)
+//						
+//						success = false;
+//					}
+//					winCount++;
+//				}
+//			}
+//		}
+//		
+//		if(success) {
+//			map.put("status", "success");
+//		}else {
+//			map.put("status", "sqlError");
+//		}
 		
 		return map;
 	}

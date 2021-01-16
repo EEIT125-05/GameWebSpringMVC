@@ -12,5 +12,9 @@ public interface RecordDAO {
 
 	List<RecordBean> selectContestRecord(Integer contestNo);
 	
-	public void addScore(Integer contestNo, Integer groupNo, List<String> sWinPlayers);
+	List<RecordBean> selectContestPreliminaryRecord(Integer contestNo);
+	
+	List<RecordBean> selectContestRematchRecord(Integer contestNo);
+	
+	void updateWinner(Integer contestNo, String sWinner);
 }

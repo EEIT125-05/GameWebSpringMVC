@@ -260,12 +260,12 @@
 		
 		$(document).on("click", ".submitNewReply", function(){
 			$.ajax({
-				type: "post",
-				url: "<c:url value='/forum/EditReply/'/>",
+				type: "put",
+				url: "<c:url value='/forum/EditReply/" + $(this).parent().prev().find(".replyUpdate").val() + "/" + $(this).prev().val() + "'/>",
 				dataType: "json",
 				data: {
-						"replyNo": $(this).parent().prev().find(".replyUpdate").val(),
-						"newText": $(this).prev().val()
+// 						"replyNo": $(this).parent().prev().find(".replyUpdate").val(),
+// 						"newText": $(this).prev().val()
 				},
 				success: function(result){
 					if(result.status == "success"){

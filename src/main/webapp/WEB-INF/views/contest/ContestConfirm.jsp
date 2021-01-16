@@ -28,6 +28,37 @@
     
 		<p>比賽名稱: ${cContestBean.sName}</p>
 		<p>比賽遊戲: ${cContestBean.sGame}</p>
+		
+		<c:choose>
+    		<c:when test="${cContestBean.iTeamMemberCount == 1}">
+    			<c:set var="iTeamMemberCount" value="個人"/>
+    		</c:when>
+    		<c:otherwise>
+    			<c:set var="iTeamMemberCount" value="團體"/>
+    		</c:otherwise>
+    	</c:choose>
+		<c:if test="${cContestBean.sRematchMode == 'knockout'}">
+   			<c:set var="sRematchMode" value="淘汰賽"/>
+    	</c:if>
+    	<c:if test="${cContestBean.sRematchMode == 'ground'}">
+   			<c:set var="sRematchMode" value="循環賽"/>
+    	</c:if>
+    	<c:if test="${cContestBean.sRematchMode == 'free'}">
+   			<c:set var="sRematchMode" value="自由對戰"/>
+    	</c:if>
+    	<c:choose>
+    		<c:when test="${cContestBean.sPreliminary == 'none'}">
+    			<c:set var="sPreliminary" value="無預賽"/>
+    		</c:when>
+    		<c:otherwise>
+    			<c:set var="sPreliminary" value="有預賽"/>
+    		</c:otherwise>
+    	</c:choose>
+    	
+		<p>賽制: ${iTeamMemberCount}-${sRematchMode}-${sPreliminary}</p>
+		
+		
+		
 		<p>報名時間: ${cContestBean.dSignStart}~${cContestBean.dSignEnd}</p>
 		<fmt:formatDate var="sTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd HH:mm"/>
 		<p>比賽時間: ${sTime} </p>
