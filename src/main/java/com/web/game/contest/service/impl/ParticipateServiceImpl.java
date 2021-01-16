@@ -25,8 +25,8 @@ public class ParticipateServiceImpl implements ParticipateService {
 	
 	@Transactional
 	@Override
-	public Boolean deleteParticipate(Integer contestNo, String sPlayer) {
-		return pDAO.deleteParticipate(contestNo, sPlayer);
+	public void deleteParticipate(Integer contestNo, String sPlayer) {
+		pDAO.deleteParticipate(contestNo, sPlayer);
 	}
 
 

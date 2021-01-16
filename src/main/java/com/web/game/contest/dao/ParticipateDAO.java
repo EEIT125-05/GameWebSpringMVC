@@ -8,7 +8,7 @@ public interface ParticipateDAO {
 	
 	Boolean insertParticipate(ParticipateBean pParticipateBean);
 	
-	Boolean deleteParticipate(Integer contestNo, String sPlayer);
+	void deleteParticipate(Integer contestNo, String sPlayer);
 	
 	List<ParticipateBean> selectParticipate(String user);
 

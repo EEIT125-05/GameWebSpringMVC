@@ -46,7 +46,7 @@ public class ReplyDAOImpl implements ReplyDAO{
 		try {
 			session.delete(rReplyBean);
 			return true;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
