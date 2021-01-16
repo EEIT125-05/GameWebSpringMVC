@@ -64,14 +64,13 @@ public class DemandDAO {
 		String queryAll = "FROM DemandGameBean WHERE status = 0 "+str;
 		list = (List<DemandGameBean>) session.createQuery(queryAll)
 				.getResultList();
+		int count = 6;
+		if(list.size() % count ==0 ) {
+			return (list.size()/count);
+		}else {
+			return (list.size()/count)+1;
+		}
 		
-//		if(list.size() % count ==0 ) {
-//			p=(list.size()/count);
-//		}else {
-//		p=(list.size()/count)+1;
-//		}
-		
-		return list.size();
 	}
 	
 	public boolean insertDemandGame(DemandGameBean dgb) {

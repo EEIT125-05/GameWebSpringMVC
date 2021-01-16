@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,43 +28,76 @@ import com.web.game.member.model.MemberBean;
 public class PrepareExchangeController {
 
 	@Autowired
-	ExchangeService service;
+	ExchangeService exchangeService;
 	
 	@GetMapping("/wishBoard")
-	public String initWishBoard(Model model,
-			@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "searchparams", required = false)String searchParam) {
-		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
-		int count=6;//每頁幾筆
-		int p = 0;//共幾頁
-		System.out.println("wishBoardIn");
-			list = service.changeDemandPage(page);
-			if(list.size() % count ==0 ) {
-				p=(list.size()/count);
-			}else {
-			p=(list.size()/count)+1;
-			}
-		model.addAttribute("searchparams", searchParam);
-		model.addAttribute("changepageparams", searchParam);
-		model.addAttribute("list", list);
-		model.addAttribute("p",p);
-		System.out.println("page"+p);
-		System.out.println("list"+list.size());
-		
-		
+	public String initWishBoard(Model model) {
 		return "exchange/EXCWishBoard";
 	}
 
 	@GetMapping({"/preparehomepage","/Index"})
-	public String search(Model model, @RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "search", defaultValue = "all") String search,
-			@RequestParam(value = "searchparams", required = false) String searchparams) {
+	public String addSupportFilter(Model model,
+			@RequestParam(required = false) String str,
+			@RequestParam(required = false) String condition,
+			@RequestParam(required = false) Integer nowPage
+			) {
 		
-		MemberBean user = (MemberBean) model.getAttribute("user");
-		System.out.println("account"+user.getsAccount());
-		List<MyGameBean> myGameBeansOption = (List<MyGameBean>) service.getMemberGamesName(user.getsAccount());
-		System.out.println("list"+myGameBeansOption);
-		model.addAttribute("myGameBeans",myGameBeansOption);
+//		MemberBean user = (MemberBean) model.getAttribute("user");
+//		System.out.println("account"+user.getsAccount());
+//		List<MyGameBean> myGameBeansOption = (List<MyGameBean>) service.getMemberGamesName(user.getsAccount());
+//		System.out.println("list"+myGameBeansOption);
+//		model.addAttribute("myGameBeans",myGameBeansOption);
+		System.out.println("addSupportFilterIn");
+		System.out.println("str"+str);
+		System.out.println("condition"+condition);
+		Integer page = 1;
+		System.out.println("testNowPage"+nowPage);
+		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> sessionMap = new HashMap<String, Object>();
+		Integer totalPage;
+		if(nowPage != null) {
+			System.out.println("nowPage!=null");
+			sessionMap = (Map<String, Object>) model.getAttribute("sessionMap");
+			totalPage = (Integer) sessionMap.get("totalPage");
+			String sHQL = (String) sessionMap.get("str");
+			list = exchangeService.changeSupportByFilter(nowPage);
+		}else {
+			System.out.println("nowPage=null");
+			page=1;
+			String sHql;
+			if(condition.equals("all")) {
+				sHql="";
+			}else {
+				sHql = "AND "+ condition+ " like '%" + str + "%'";
+			}
+			totalPage = exchangeService.getSupportPage(sessionMap)
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -73,7 +107,7 @@ public class PrepareExchangeController {
 		System.out.println("IndexIn");
 		if (searchparams == null) {
 			System.out.println("searchparams==null");
-			list = service.changePage(page);
+			list = exchangeService.changePage(page);
 			if(list.size() % count ==0 ) {
 				p=(list.size()/count);
 			}else {
@@ -83,12 +117,12 @@ public class PrepareExchangeController {
 		} else{
 			System.out.println("searchparams!=null");
 			System.out.println("searchparams" + searchparams);
-			list = service.changePageByParam(page, search, searchparams);
-//			if(list.size() % count ==0 ) {
-//				p=(list.size()/count);
-//			}else {
+			list = exchangeService.changePageByParam(page, search, searchparams);
+			if(list.size() % count ==0 ) {
+				p=(list.size()/count);
+			}else {
 			p=(list.size()/count)+1;
-//			}
+			}
 		}
 		model.addAttribute("searchparams", searchparams);
 		model.addAttribute("changepageparams", searchparams);
@@ -120,9 +154,9 @@ public class PrepareExchangeController {
 		System.out.println("sChangePageParams"+sChangePageParams);
 		System.out.println("user");
 		if(sSearch.equals("all")) {
-			list = service.changePage(iPage);
+			list = exchangeService.changePage(iPage);
 		}else {
-			list = service.changePageByParam(iPage, sSearch, sChangePageParams);
+			list = exchangeService.changePageByParam(iPage, sSearch, sChangePageParams);
 		}
 		supportGame.put("myGameBeans",myGameBean);
 		supportGame.put("mbUser",mbUser);
@@ -133,5 +167,15 @@ public class PrepareExchangeController {
 		
 		return supportGame;
 	}
+	
+	@ModelAttribute("myGamesBeans")
+	public List<MyGameBean> getMemberGamesName(Model model){
+		MemberBean user = (MemberBean) model.getAttribute("user");
+		System.out.println("account"+user.getsAccount());
+		List<MyGameBean> myGameBeansOption = (List<MyGameBean>) exchangeService.getMemberGamesName(user.getsAccount());
+		System.out.println("list"+myGameBeansOption);
+		return myGameBeansOption;
+	}
+	
 	
 }
