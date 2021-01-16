@@ -89,4 +89,10 @@ public class MemberServiceImpl implements MemberService {
 		mb = dao.queryMember(sAccount);
 		return mb;
 	}
+
+	@Override
+	public MemberBean SearchMail(String sEmail) {
+		return dao.SearchMail(sEmail);
+	}
+
 }

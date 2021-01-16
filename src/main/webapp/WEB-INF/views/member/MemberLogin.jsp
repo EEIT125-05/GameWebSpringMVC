@@ -18,9 +18,10 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
 <style>
-.h3{
-	padding-left:10px;
+.h3 {
+	padding-left: 10px;
 }
+
 input {
 	border-radius: 10px;
 }
@@ -72,6 +73,7 @@ input {
 	}
 
 	window.onload = function() {
+		var sGender = document.getElementById('sGender').checked = false ;
 		var Check = document.getElementById("accountCheck");
 		var idaccount = document.getElementById("idaccount");
 		Check.onclick = function() {
@@ -127,7 +129,8 @@ input {
 		PhoneCheck.onclick = function() {
 			var sPhone = document.getElementById("sPhone").value.trim();
 			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
+			xhr
+					.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
 							true);
 			xhr.setRequestHeader("Content-Type",
 					"application/x-www-form-urlencoded");
@@ -149,7 +152,7 @@ input {
 		}
 
 		var btn = document.getElementById("btn");
-		var psw = document.getElementById("Password");
+		var psw = document.getElementById("sPassword");
 		btn.onclick = function() {
 			if (psw.getAttribute('type') == 'password') {
 				psw.setAttribute('type', 'text');
@@ -159,10 +162,11 @@ input {
 				btn.value = "visibility";
 			}
 		}
+
 	}
 
 	function checkPassword() {
-		let password = document.getElementById("Password").value.trim();
+		let password = document.getElementById("sPassword").value.trim();
 		let passLen = password.length;
 		let idpassword = document.getElementById("idpassword");
 		if (password == "") {
@@ -179,7 +183,7 @@ input {
 	}
 
 	function checkNickname() {
-		let nickname = document.getElementById("Nickname").value.trim();
+		let nickname = document.getElementById("sNickname").value.trim();
 		let idnickname = document.getElementById("idnickname");
 		if (nickname == "") {
 			idnickname.innerHTML = "<font color='red'>請輸入暱稱</font>";
@@ -207,7 +211,7 @@ input {
 	}
 
 	function checkName() {
-		let ename = document.getElementById("Ename").value.trim();
+		let ename = document.getElementById("sEname").value.trim();
 		let enameLen = ename.length;
 		let idname = document.getElementById("idname");
 		let nameCheck = false;
@@ -289,6 +293,30 @@ input {
 			document.getElementById("submit").disabled = true;
 		}
 	}
+
+	function OneLogin() {
+		var sAccount = document.getElementById("sAccount");
+		var sEmail = document.getElementById("sEmail");
+		var sPhone = document.getElementById("sPhone");
+		var sPassword = document.getElementById("sPassword");
+		var sEname = document.getElementById("sEname");
+		var sNickname = document.getElementById("sNickname");
+		var sAddress = document.getElementById("sAddress").options[5].selected=true;
+// 		var sGender = document.getElementById("sGender");
+		var sGender = document.getElementById('sGender').checked = true ;
+		var sBirthday = document.getElementById("sBirthday");
+		
+		sAccount.value = "year780818";
+		sEmail.value = "year780818@gmail.com";
+		sPhone.value = "0956175060";
+		sPassword.value = "year1989";
+		sEname.value = "顏廷亙";
+		sNickname.value = "奶茶糾齁拎";
+		sAddress;
+		sGender;
+		sBirthday.value = "1989-08-18";
+
+	}
 </script>
 </head>
 <body>
@@ -297,46 +325,48 @@ input {
 	<%@ include file="../Header.jsp"%>
 	<form action="<c:url value='/member/MemberCheck'/>" method="post">
 		<div align='center'>
-			<div align='left' 
-				style="border: 3px solid gray; width: 650; height: 710; border-radius: 5px;padding-left:20;">
+			<div align='left'
+				style="border: 3px solid gray; width: 650; height: 900; border-radius: 5px; padding-left: 20;">
 				<h3 style='padding-top: 10px;'>
-					設定的帳號:<input pattern="[a-zA-Z0-9]{6,}" type="text" id="sAccount" name="sAccount"
-						minlength="6" maxlength="20" required onblur="checkAccount();">
-					<input type="button" id='accountCheck' value="檢查" disabled><br>
-					<span id="idaccount"></span>
+					設定的帳號:<input pattern="[a-zA-Z0-9]{6,}" type="text" id="sAccount"
+						name="sAccount" minlength="6" maxlength="20" required
+						onblur="checkAccount();"> <input type="button"
+						id='accountCheck' value="檢查" disabled><br> <span
+						id="idaccount"></span>
 				</h3>
 				<h3>
 					使用的信箱:<input type="email" id="sEmail" name="sEmail" maxlength="30"
 						required onblur="checkEmail();"
 						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$">
-					<input type="button" id='emailCheck' value="檢查" disabled><br> <span
-						id="idemail"></span>
+					<input type="button" id='emailCheck' value="檢查" disabled><br>
+					<span id="idemail"></span>
 				</h3>
 				<h3>
 					手機號碼:<input type="text" id="sPhone" name="sPhone" maxlength="10"
 						required onblur="checkPhone();" pattern="[0]{1}[9]{1}\d{8}" /> <input
-						type="button" id='PhoneCheck' value="檢查" disabled><br> <span
-						id="idphone"></span>
+						type="button" id='PhoneCheck' value="檢查" disabled><br>
+					<span id="idphone"></span>
 				</h3>
 				<h3>
-					設定的密碼:<input type="password" id="Password" name="sPassword"
-						minlength="8" maxlength="16" required onblur="checkPassword();">
-					<input id="btn" type="button" class="material-icons"
-						style="font-size: 25px" value="visibility"> <br><span
-						id="idpassword"></span>
+					設定的密碼:<input pattern="[a-z0-9]{8,}" type="password" id="sPassword"
+						name="sPassword" minlength="8" maxlength="16" required
+						onblur="checkPassword();"> <input id="btn" type="button"
+						class="material-icons" style="font-size: 25px" value="visibility">
+					<br> <span id="idpassword"></span>
 				</h3>
 				<h3>
-					真實姓名:<input type="text" id="Ename" name="sEname" required
+					真實姓名:<input type="text" id="sEname" name="sEname" required
 						onblur="checkName();" pattern="^[\u4e00-\u9fa5]+$" minlength="2"
 						maxlength="4"><span id="idname"></span>
 				</h3>
 				<h3>
-					使用的暱稱:<input type="text" id="Nickname" name="sNickname" required
+					使用的暱稱:<input type="text" id="sNickname" name="sNickname" required
 						maxlength="10" onblur="checkNickname();"> <span
 						id="idnickname"></span>
 				</h3>
 				<h3>
-					居住城市:<select id="Address" name="sAddress" onblur="checkAddress();">
+					居住城市:<select id="sAddress" name="sAddress"
+						onblur="checkAddress();" value="臺南市">
 						<option>請挑選</option>
 						<option>臺北市</option>
 						<option>新北市</option>
@@ -363,25 +393,27 @@ input {
 					</select><span id="idaddress"></span>
 				</h3>
 				<h3>
-					性別:<label><input type="radio" name="sGender" value="男"
-						required>男</label> <label><input type="radio"
-						name="sGender" value="女" required>女</label></span>
+					性別:<input id="sGender" type="radio" name="sGender"
+						value="男" checked required>男<input id="sGender" type="radio"
+						name="sGender" value="女" required>女
 				</h3>
 				<h3>
-					生年月日:<input type="date" id="Birthday" name="sBirthday" required>
+					生年月日:<input type="date" id="sBirthday" name="sBirthday" required>
 				</h3>
+				<!-- 				<h3> -->
+				<!-- 					請選擇上傳照片:<input type="file" name="productImage" required /> -->
+				<!-- 				</h3> -->
 				<h3>
 					<input type="hidden" name="registerDate">
 				</h3>
 				<h3 align='center'>
 					<button id="submit" type="submit" name="submit" value="確認" disabled
-						style='width: 350; height: 50; font-size: 30; margin-top: 15;border-radius: 10px;'>確認</button>
+						style='width: 350; height: 50; font-size: 30; margin-top: 15; border-radius: 10px;'>確認</button>
 				</h3>
 				<h3 align='center'>
-					<a href="<c:url value='########'/>"><input id="GoogleLogin"
-						type="button" value="一鍵輸入"
-						style='width: 350; height: 50; font-size: 30;
-						background-color: green; color:'></a>
+					<input type="button" value="一鍵輸入" onclick="OneLogin();"
+						style="width: 350; height: 50; font-size: 30; background-color: green;" />
+
 				</h3>
 			</div>
 		</div>
