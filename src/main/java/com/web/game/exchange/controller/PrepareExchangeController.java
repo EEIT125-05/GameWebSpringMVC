@@ -33,18 +33,22 @@ public class PrepareExchangeController {
 	public String initWishBoard(Model model,
 			@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "searchparams", required = false)String searchParam) {
-		System.out.println("01140931");
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		int count=6;//每頁幾筆
 		int p = 0;//共幾頁
 		System.out.println("wishBoardIn");
 			list = service.changeDemandPage(page);
+			if(list.size() % count ==0 ) {
+				p=(list.size()/count);
+			}else {
 			p=(list.size()/count)+1;
+			}
 		model.addAttribute("searchparams", searchParam);
 		model.addAttribute("changepageparams", searchParam);
 		model.addAttribute("list", list);
 		model.addAttribute("p",p);
 		System.out.println("page"+p);
+		System.out.println("list"+list.size());
 		
 		
 		return "exchange/EXCWishBoard";
@@ -70,13 +74,21 @@ public class PrepareExchangeController {
 		if (searchparams == null) {
 			System.out.println("searchparams==null");
 			list = service.changePage(page);
+//			if(list.size() % count ==0 ) {
+//				p=(list.size()/count);
+//			}else {
 			p=(list.size()/count)+1;
+//			}
 			search ="all";
 		} else{
 			System.out.println("searchparams!=null");
 			System.out.println("searchparams" + searchparams);
 			list = service.changePageByParam(page, search, searchparams);
+//			if(list.size() % count ==0 ) {
+//				p=(list.size()/count);
+//			}else {
 			p=(list.size()/count)+1;
+//			}
 		}
 		model.addAttribute("searchparams", searchparams);
 		model.addAttribute("changepageparams", searchparams);
@@ -84,6 +96,7 @@ public class PrepareExchangeController {
 		model.addAttribute("list", list);
 		model.addAttribute("p",p);
 		System.out.println("page"+p);
+		System.out.println("list"+list.size());
 
 //		return "exchange/EXCHomePageGameList";
 		return "exchange/testhomepage";

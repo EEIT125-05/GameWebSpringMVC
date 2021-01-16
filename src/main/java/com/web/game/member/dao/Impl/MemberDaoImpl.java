@@ -192,6 +192,22 @@ public class MemberDaoImpl implements MemberDao {
 			mb = beans.get(0);
 		}
 		return mb;
-
 	}
+
+	@Override
+	public MemberBean SearchMail(String sEmail) {
+		System.out.println("進來這裡的Mail是????="+sEmail);
+		try {
+			String hql = "FROM MemberBean WHERE sEmail = :sEmail";
+			Session session = getSession();
+			MemberBean SearchMail = (MemberBean) session.createQuery(hql).setParameter("sEmail", sEmail).getSingleResult();
+			System.out.println("有找到Email");
+			return SearchMail;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("沒有找到Mail");
+		return null;
+	}
+
 }

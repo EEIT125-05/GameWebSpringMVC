@@ -33,10 +33,10 @@ input {
 					<div>
 						<!-- 						style="border: 1px solid gray; width: 202; height: 202"> -->
 						<img style="width: 250; height: 175;"
-							src="<c:url value='/member/picture/${user.sAccount}'/>">
+							src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>">
 					</div>
 				</div>
-				<hr>
+				<hr style="color: white; border: 1px solid;">
 				<input type="hidden" name="iNo" ${user.iNo} readonly>
 				<h3>
 					設定的帳號:${user.sAccount}<input type="hidden" name="sAccount"

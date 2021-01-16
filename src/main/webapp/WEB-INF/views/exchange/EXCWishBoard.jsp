@@ -36,8 +36,17 @@
 
 				<input type="hidden" id="search" value="${search}">
 				<!-- 藏參數 -->
-	</form>
-
+	
+	<br>
+	<div>
+<%-- 	<a class="btn btn-secondary" href='<c:url value="/exchange/addFilter?gamename=刺客"/>' onclick="changeCondition('刺客');">刺客</a> --%>
+	<a class="btn btn-secondary" onclick="changeCondition('刺客','gamename');">刺客</a>
+	<a class="btn btn-secondary" onclick="changeCondition('戰神','gamename');">戰神</a>
+	<a class="btn btn-secondary" onclick="changeCondition('薩爾達','gamename');">薩爾達</a>
+	<a class="btn btn-secondary" onclick="changeCondition('台北市','area');">台北市</a>
+	<a class="btn btn-secondary" onclick="changeCondition('新北市','area');">新北市</a>
+	</div>
+	<br>
 	<div class="row" id="bigdiv">
 
 
@@ -50,7 +59,11 @@
 					alt="">
 				<div class="overlay"></div>
 				<div class="work-content">
-					<span>遊戲名稱:${g.gamename}</span><span>玩家名稱:${g.gamer}</span>
+					<span>遊戲名稱:${g.gamename}</span>
+					<span>遊戲所在地:${g.area}</span>
+					<span>遊戲平台:${g.console}</span>
+					<span>玩家名稱:${g.gamer}</span>
+					<span>備註:${g.remark}</span>
 					<div class="work-link" style="margin: auto;">
 
 						<div data-toggle="modal" data-target="#exampleModal">
@@ -93,9 +106,9 @@
 
 									<label for="gamename">您的遊戲</label> <input type="text"
 										name="supportGame" value="${g.console }-${g.gamename}"
-										style="width: 260px;" class="fixedlen" id="Supportgamebean"
-										readonly /> <input type="hidden" name="supportGameNo"
-										id="supportGameNo${vs.index }" value="${g.no }" /> <span
+										style="width: 260px;" class="fixedlen" id="demandgamebean"
+										readonly /> <input type="hidden" name="demandGameNo"
+										id="demandGameNo${vs.index }" value="${g.no }" /> <span
 										id="gamenamespan"></span>
 
 								</div>
@@ -136,7 +149,7 @@
 
 		</c:forEach>
 	</div>
-	<div>
+	<div id="pagediv">
 		<c:if test="${p > 1}">
 			<c:forEach var="num" begin="1" end="${p }" step="1">
 				<a class="page"><i>${num}</i></a>
@@ -145,8 +158,82 @@
 	</div>
 	</div>
 	</div>
+	</form>
 	<%@ include file="../Foot.jsp"%>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
+	
+	function changeCondition(a,b){
+		console.log(a)
+		console.log(b)
+		var xhr3 =new XMLHttpRequest();
+		let divout = document.getElementById("bigdiv")
+		xhr3.open('GET','<c:url value="/exchange/addFilter?str='+a+'&condition='+b+'"/>',true)
+		xhr3.send();
+		xhr3.onload=function(){
+			if(xhr3.readyState ===4 && xhr3.status ===200){
+				let t = JSON.parse(xhr3.responseText)
+				console.log("success")
+				divout.innerHTML ="";
+				for (let i = 0; i < t.list.length; i++) {
+						console.log("!````!")
+						divout.innerHTML += "<div class='col-md-4 col-xs-6 work'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/images/"+t.list[i].gamename+".jpg' alt=''>"
+								+ "<div class='overlay'></div><div class='work-content'><span>遊戲名稱:"
+								+ t.list[i].gamename
+								+ "</span>"
+								+ "<span>遊戲所在地:"
+								+ t.list[i].area
+								+ "</span>"
+								+ "<span>主機平台:"
+								+ t.list[i].console
+								+ "</span>"
+								+ "<span>玩家名稱:"
+								+ t.list[i].gamer
+								+ "</span>"
+								+ "<span>備註:"
+								+ t.list[i].remark
+								+ "</span>"
+								+ "<div class='work-link' style='margin: auto;'>"
+								+ "<div data-toggle='modal' data-target='#exampleModal'>"
+								+ "<button type='button' class='btn btn-primary' data-toggle='modal'"
+								+ "data-target=\"#exampleModalLong"+i+"\" onclick=\"selectChange('"+t.list[i].gamename+"','"+t.list[i].gamer+"','"+i+"');\" >"
+								+ "<i class='fa fa-exchange'></i></button>"
+								+ "</div></div></div></div>"
+								+ "<div class='modal fade' id='exampleModalLong"+i+"' tabindex='-1'"
+								+ "role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
+								+ "<div class='modal-dialog' role='document'>"
+								+ "<div class='modal-content'>"
+								+ "<div class='modal-header'>"
+								+ "<h5 class='modal-title' id='exampleModalLongTitle'>交換申請</h5>"
+								+ "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+								+ "<span aria-hidden='true'>&times;</span></button></div>"
+								+ "<div class='modal-body'><fieldset><div><label for='partyA'>甲方　　</label> <input type='text' name='partyA' value='"+t.mbUser.sAccount+"' style='width: 260px;'"
+								+ " class='fixedlen' id='partyA"+i+"'  readonly/>"
+								+ "<span id='console1span'></span></div><div><label for='gamename'>您的遊戲</label><input type='text' name='supportGame' value='"+t.list[i].console+"-"+t.list[i].gamename
+								+ "'style='width: 260px;' class='fixedlen' id='demandgamebean' readonly />"
+								+ "<input type='hidden' name='demandGameNo' id='demandGameNo"+i+"' value='"+t.list[i].no+"' /><span id='gamenamespan'></span>"		
+								+ "</div><div><label for='partyB'>乙方　　</label> <input type='text'"	
+								+ "name='partyB' value='"+t.list[i].gamer
+								+ "'style='width: 260px;' class='fixedlen' id='partyB"+i+"' readonly/>"
+								+ "<span id='qtyspan'></span></div><div>"
+								+ "<label for='gamename'>對方遊戲</label> <select style='width: 260px;' class='fixedlen' name='myGameNo'"
+								+ "id='myGame"+i+"' onblur='resetSelect("+i+");'>"
+								+ "</select><span id='gamenamespan"+i+"'></span>"
+								+ "</div></fieldset></div><div class='modal-footer'>"
+								+ "<div id='submit"+i+"'>"
+								+ "<button type='botton' class='btn btn-secondary'"
+								+ " data-dismiss='modal' >返回</button>"
+								+ "<a class='btn btn-primary appforsubmit ' id='button"+i+"' onclick='checksubmit("+i+");'>申請</a>"
+								+ "</div>"
+								+ "</div>"
+								+ "</div></div></div>"
+					}
+				divout.innerHTML += "</div>"
+			}
+		}
+		
+		
+	}
 	
 	function selectChange(gamename,gamer,no){
 		console.log(gamename)
@@ -206,17 +293,17 @@
 	function checksubmit(a){
 		if($("#myGame"+a).val()!= "對方的遊戲庫"){
 		var myGameval = $("#myGame"+a).val()
-		var supportGameNoval = $("#supportGameNo"+a).val()
+		var demandGameNoval = $("#demandGameNo"+a).val()
 		var partyAval = $("#partyA"+a).val()
 		var partyBval = $("#partyB"+a).val()
-		console.log(myGameval+supportGameNoval+partyAval+partyBval)
+		console.log(myGameval+demandGameNoval+partyAval+partyBval)
 		var xhr1 = new XMLHttpRequest();
 		
-		xhr1.open('POST', '<c:url value="/exchange/applyForAjax" />'
-				+ '?partyA=' + partyAval 
-				+ '&partyB='+ partyBval
+		xhr1.open('POST', '<c:url value="/exchange/applyForWishAjax" />'
+				+ '?PartyA=' + partyAval 
+				+ '&PartyB='+ partyBval
 				+'&myGameNo='+myGameval
-				+ '&demandGameNo='+supportGameNoval
+				+ '&demandGameNo='+demandGameNoval
 				, true);
 		xhr1.send();
 		xhr1.onload = function() {
@@ -242,7 +329,7 @@
 		
 		
 		var pages = document.querySelectorAll(".page");
-		var divout = document.getElementById("bigdiv")
+		let divout = document.getElementById("bigdiv")
 		var search = document.getElementById("search").value
 		var searchDOM = document.getElementById("search")
 

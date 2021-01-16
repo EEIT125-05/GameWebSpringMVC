@@ -92,17 +92,24 @@
 	</form>
 	<hr>
 
+	<c:if test="${fForumBean.sAuthor == user.sAccount}">
+		<input type="hidden" name="_method"  id='putOrDelete${forum[0]}'   value="" >
+		<a class="btn btn-primary update" href="<c:url value='/forum/Update/${fForumBean.iNo}'/>">修改</a>
+		<button id="delete" class="btn btn-primary" value="${fForumBean.iNo}">刪除</button>
+	</c:if>
+
+
 	<h3>[${fForumBean.sCategory}]${fForumBean.sTitle}</h3>
 	<span>${fForumBean.dDate} ${fForumBean.tTime}</span><br>
 	<div>${fForumBean.sText}</div>
 	<hr>
 	
-	<form id="editReply" action="<c:url value='/forum/EditReply'/>" method="POST" >
-		<input type="hidden" name="forumNo" value="${fForumBean.iNo}" >
-		<input type="hidden" name="_method" value="" >
-		<input type="hidden" name="replyNo" value="" >
-		<input type="hidden" name="newText" value="" >
-	</form>
+<%-- 	<form id="editReply" action="<c:url value='/forum/EditReply'/>" method="POST" > --%>
+<%-- 		<input type="hidden" name="forumNo" value="${fForumBean.iNo}" > --%>
+<!-- 		<input type="hidden" name="_method" value="" > -->
+<!-- 		<input type="hidden" name="replyNo" value="" > -->
+<!-- 		<input type="hidden" name="newText" value="" > -->
+<!-- 	</form> -->
 	
 	<div  style="position:relative">
 		<jsp:useBean id="nowDate" class="java.util.Date"/>
@@ -187,27 +194,185 @@
 
 <script>
 	$(function(){
+		
+		$("#delete").on("click", function(){
+			Swal.fire({
+				showClass: {
+				    popup: 'animate__animated animate__fadeInDown'
+				  },
+				  title: '確定刪除此則貼文?',
+				  text: "刪除之後將不能復原",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#d33',
+				  cancelButtonColor: '#3085d6',
+				  confirmButtonText: '刪除',
+			      cancelButtonText: '取消',
+					hideClass: {
+					    popup: 'animate__animated animate__fadeOutUp'
+					  }
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+							type: "delete",
+							url: "<c:url value='/forum/Edit/" + $(this).val() + "'/>",
+							dataType: "json",
+							data: {},
+							success: function(result){
+								if(result.status == "success"){
+									Swal.fire({
+											      title:"刪除成功!",
+												  icon:"success",
+												  hideClass: {
+												    popup: 'animate__animated animate__fadeOutUp'
+												  }
+											  }).then(function(){
+												window.setTimeout(function(){$(location).attr("href", "<c:url value='/forum/Index'/>");},500);
+												
+											})
+								}else if(result.status == "sqlError"){
+									Swal.fire(
+											  '資料庫發生錯誤!',
+											  '請聯繫管理員',
+											  'error'
+											)
+								}
+							},
+							error: function(err){
+								Swal.fire(
+										  '網頁發生錯誤!',
+										  '請聯繫管理員',
+										  'error'
+										)
+							}
+							
+						});		
+				  }
+				});
+		});
+		
+		
+		
 		$(".replyUpdate").on("click",function(){
 			let text = $("#oldText"+$(this).val()).val();
 			$("#newText"+$(this).val()).html("<input type=\"text\" value=\"" + text + "\"> <button class=\"btn btn-primary submitNewReply\">送出");
 		});
 		
 		$(document).on("click", ".submitNewReply", function(){
-			$("input[name=_method]").val("PUT");
-			$("input[name=replyNo]").val($(this).parent().prev().find(".replyUpdate").val());
-			$("input[name=newText]").val($(this).prev().val());
-			$("#editReply").submit();	
+			$.ajax({
+				type: "post",
+				url: "<c:url value='/forum/EditReply/'/>",
+				dataType: "json",
+				data: {
+						"replyNo": $(this).parent().prev().find(".replyUpdate").val(),
+						"newText": $(this).prev().val()
+				},
+				success: function(result){
+					if(result.status == "success"){
+						Swal.fire({
+								      title:"更改成功!",
+									  icon:"success",
+									  hideClass: {
+									    popup: 'animate__animated animate__fadeOutUp'
+									  }
+								  }).then(function(){
+									  window.setTimeout(function(){location.reload();},500);
+								})
+					}else if(result.status == "sqlError"){
+						Swal.fire(
+								  '資料庫發生錯誤!',
+								  '請聯繫管理員',
+								  'error'
+								)
+					}
+				},
+				error: function(err){
+					Swal.fire(
+							  '網頁發生錯誤!',
+							  '請聯繫管理員',
+							  'error'
+							)
+				}
+				
+			});		
+			
+			
+			
+			
+			
+			
+			
+// 			$("input[name=_method]").val("PUT");
+// 			$("input[name=replyNo]").val($(this).parent().prev().find(".replyUpdate").val());
+// 			$("input[name=newText]").val($(this).prev().val());
+// 			$("#editReply").submit();	
 		});
 	
 		
 		
 		$(".replyDelete").on("click", function(){
-		  let result = confirm("確定刪除此筆記錄?");
-		  if (result) {
-			  $("input[name=_method]").val("DELETE");
-			  $("input[name=replyNo]").val($(this).val());
-			  $("#editReply").submit();			  
-		  }
+			Swal.fire({
+				showClass: {
+				    popup: 'animate__animated animate__fadeInDown'
+				  },
+				  title: '確定刪除此則留言?',
+				  text: "刪除之後將不能復原",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#d33',
+				  cancelButtonColor: '#3085d6',
+				  confirmButtonText: '刪除',
+			      cancelButtonText: '取消',
+					hideClass: {
+					    popup: 'animate__animated animate__fadeOutUp'
+					  }
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+							type: "delete",
+							url: "<c:url value='/forum/EditReply/" + $(this).val() + "'/>",
+							dataType: "json",
+							data: {
+// 								"forumNo": $("#replySubmit").val(), //借來用
+// 								"replyNo": $(this).val()
+							},
+							success: function(result){
+								if(result.status == "success"){
+									Swal.fire({
+											      title:"刪除成功!",
+												  icon:"success",
+												  hideClass: {
+												    popup: 'animate__animated animate__fadeOutUp'
+												  }
+											  }).then(function(){
+												  window.setTimeout(function(){location.reload();},500);
+											})
+								}else if(result.status == "sqlError"){
+									Swal.fire(
+											  '資料庫發生錯誤!',
+											  '請聯繫管理員',
+											  'error'
+											)
+								}
+							},
+							error: function(err){
+								Swal.fire(
+										  '網頁發生錯誤!',
+										  '請聯繫管理員',
+										  'error'
+										)
+							}
+							
+						});		
+				  }
+				});
+			
+// 		  let result = confirm("確定刪除此筆記錄?");
+// 		  if (result) {
+// 			  $("input[name=_method]").val("DELETE");
+// 			  $("input[name=replyNo]").val($(this).val());
+// 			  $("#editReply").submit();			  
+// 		  }
 		});
 
 	});

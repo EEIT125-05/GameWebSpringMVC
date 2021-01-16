@@ -12,35 +12,33 @@
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
-	<form method="post" action="<c:url value="/exchange/ApplyForSubmit"/>">
 		<div class="container">
 			<fieldset>
 				<legend>交換申請</legend>
 				<div>
 					<label>您的帳號</label> <input type="text"
-						value="${changeHistoryBean.partyA.sAccount }" readonly />
+						value="${changeHistoryBean.partyA.sAccount }${wishhistorybean.partyB.sAccount}" readonly />
 				</div>
 				<div>
 					<label>您的遊戲</label> <input type="text"
-						value="${changeHistoryBean.supportgamebean.gamename }" readonly />
+						value="${changeHistoryBean.supportgamebean.gamename }${wishhistorybean.mygamebean.gamename}" readonly />
 				</div>
 				<div>
 					<label>對方帳號</label> <input type="text"
-						value="${changeHistoryBean.partyB.sAccount }" readonly />
+						value="${changeHistoryBean.partyB.sAccount }${wishhistorybean.partyA.sAccount}" readonly />
 				</div>
 				<div>
 					<label>對方遊戲</label> <input type="text"
-						value="${changeHistoryBean.mygamebean.gamename }" readonly />
+						value="${changeHistoryBean.mygamebean.gamename }${wishhistorybean.demandgamebean.gamename}" readonly />
 				</div>
 				<div>
 					<a class="btn btn-primary" onclick="applyFor('Submit');">確認</a> <a
 						class="btn btn-primary" onclick="applyFor('Reject');" />駁回</a>
-					<input type="hidden" id="ChangeHistoryNo"
-						value="${changeHistoryBean.no }" />
+					<input type="hidden" id="HistoryNo"
+						value="${changeHistoryBean.no }${wishhistorybean.no}" />
 				</div>
 			</fieldset>
 		</div>
-	</form>
 	<script
 		src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 	<script>
@@ -69,8 +67,8 @@ function applyFor(x){
 }).then((result) => {
   if (result.isConfirmed) {
 	 	var xhr = new XMLHttpRequest();
-	 	var no = document.getElementById("ChangeHistoryNo").value
-	 	xhr.open('GET','<c:url value="/exchange/ApplyFor'+x+'" />'+'?no='+no,true);
+	 	var no = document.getElementById("HistoryNo").value
+	 	xhr.open('GET','<c:url value="/exchange/${Demand}ApplyFor'+x+'" />'+'?no='+no,true);
 	 	xhr.send();
 	 	xhr.onload = function(){
 	 		if(xhr.readyState===4 && xhr.status ===200){

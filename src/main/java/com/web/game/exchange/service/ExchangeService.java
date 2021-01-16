@@ -54,9 +54,21 @@ public class ExchangeService {
 		return list = demandDAO.changeDemandPage(page);
 	}
 	@Transactional
+	public List<DemandGameBean> changeDemandByFilter(int page,String sHql){
+		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
+		return list = demandDAO.changeDemandByFilter(page,sHql);
+	}
+	@Transactional
 	public List<DemandGameBean> GetMemberDemand(String account){
 		List<DemandGameBean> list = new ArrayList<>();
 		list = demandDAO.GetMemberDemand(account);
+		return list;
+	}
+	
+	@Transactional
+	public List<DemandGameBean> GetMemberDemandPending(String account){
+		List<DemandGameBean> list = new ArrayList<>();
+		list = demandDAO.GetMemberDemandPending(account);
 		return list;
 	}
 	
@@ -76,6 +88,11 @@ public class ExchangeService {
 		boolean result = false;
 		result = demandDAO.insertDemandGame(dgb);
 		return result;
+	}
+	
+	@Transactional
+	public boolean updateDemandGema(DemandGameBean demandgamebean) {
+		return demandDAO.updateDemandGame(demandgamebean);
 	}
 	//-------------------------
 //	@Transactional
@@ -218,23 +235,90 @@ public class ExchangeService {
 	//------------------------wishhistory
 	@Transactional
 	public boolean insertWishHistory(WishHistoryBean WHB) {
+		System.out.println("insertWishHistoryServiceIn");
 		Integer status = 2;
+		WHB.getDemandgamebean().getMygamebean().setStatus(status);
+		WHB.getMygamebean().setStatus(status);
 		WHB.getDemandgamebean().setStatus(status);
+		if(mygamesDAO.updateGameToSupport(WHB.getDemandgamebean().getMygamebean())) {
+			if(mygamesDAO.updateGameToSupport(WHB.getMygamebean())) {
+				if(demandDAO.updateDemandGame(WHB.getDemandgamebean())) {
+					return wishDAO.insertWishHistory(WHB);
+				}
+			}
+		}
+		return false;
+	}
+	@Transactional
+	public WishHistoryBean getWishHistory(int iNo) {
+		return wishDAO.getWishHistory(iNo);
+	}
+
+	@Transactional
+	public boolean updateWishHistorySubmit(WishHistoryBean WHB) {
+		System.out.println("updateWishHistoryServiceIn");
+		boolean result = false;
+		MyGameBean partyAgamebean=new MyGameBean(
+				null,WHB.getDemandgamebean().getGamename(),WHB.getDemandgamebean().getConsole(),WHB.getPartyB().getsAccount(),0);
+		MyGameBean partyBgamebean=new MyGameBean(
+				null,WHB.getMygamebean().getGamename(),WHB.getMygamebean().getConsole(),WHB.getPartyA().getsAccount(),0);
+		Integer status = 1;
+		WHB.getDemandgamebean().getMygamebean().setStatus(status);
+		WHB.getMygamebean().setStatus(status);
 		WHB.getDemandgamebean().setStatus(status);
-		return wishDAO.insertWishHistory(WHB);
-		
-		
+		if(mygamesDAO.updateGameToSupport(WHB.getDemandgamebean().getMygamebean())) {
+			if(mygamesDAO.updateGameToSupport(WHB.getMygamebean())) {
+				if(demandDAO.updateDemandGame(WHB.getDemandgamebean())) {
+					WHB.setStatus(status);
+					if(wishDAO.updateWishHistory(WHB)) {
+						mygamesDAO.insertMyGame(partyAgamebean);
+						mygamesDAO.insertMyGame(partyBgamebean);
+						result = true;
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
+	@Transactional
+	public boolean updateWishHistoryReject(WishHistoryBean WHB) {
+		System.out.println("deleteWishHistoryRejectServiceIn");
+		Integer status = 0;
+		System.out.println("WishHistoryBean"+WHB);
+		WHB.getDemandgamebean().getMygamebean().setStatus(status);
+		System.out.println("1");
+		WHB.getMygamebean().setStatus(status);
+		System.out.println("2");
+		WHB.getDemandgamebean().setStatus(status);
+		System.out.println("3");
+		System.out.println("4");
+		System.out.println(WHB.getDemandgamebean().getMygamebean());
+		if(mygamesDAO.updateGameToSupport(WHB.getDemandgamebean().getMygamebean())) {
+			System.out.println("5");
+			if(mygamesDAO.updateGameToSupport(WHB.getMygamebean())) {
+				System.out.println("6");
+				if(demandDAO.updateDemandGame(WHB.getDemandgamebean())) {
+					WHB.getDemandgamebean().setMygamebean(null);
+					System.out.println("deleteWishHistoryServiceOut");
+					return wishDAO.deleteWishHistory(WHB);
+				}
+			}
+		}
+		System.out.println("7");
+		return false;
 	}
 	
 	//------------------------mygames
+	
 	@Transactional
 	public boolean insertMyGame(MyGameBean mygame) {
 		return mygamesDAO.insertMyGame(mygame);
 	}
-//	@Transactional
-//	public MyGameBean getMyGameByAccount(String gamename,String account) {
-//		return mygamesDAO.getMyGameByAccount(gamename,account);
-//	}
+	@Transactional
+	public List<MyGameBean> getMyGameByAccount(String gamename,String account) {
+		return mygamesDAO.getMyGameByAccount(gamename,account);
+	}
 	
 	@Transactional
 	public boolean checkMyGameBean(String account,String gamename) {
@@ -248,6 +332,11 @@ public class ExchangeService {
 	public List<MyGameBean> getMemberGames(String account) {
 		System.out.println("ServiceIn");
 		return mygamesDAO.getMemberGames(account);
+	}
+	@Transactional
+	public List<MyGameBean> getMemberGamesWithoutSupport(String account) {
+		System.out.println("ServiceIn");
+		return mygamesDAO.getMemberGamesWithoutSupport(account);
 	}
 	@Transactional
 	public MyGameBean getMyGame(Integer no) {

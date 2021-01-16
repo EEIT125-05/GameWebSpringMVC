@@ -26,7 +26,7 @@
     我要換/共${fn:length(MemberSupport)}筆
   </a>
   <c:if test="${not empty MemberPending}">
-  	<span id="warningSpan" style="color:red;">您有${fn:length(MemberPending)}筆交換待確認！</span>
+  	<span id="warningSpanSupport" style="color:red;">您有${fn:length(MemberPending)}筆交換待確認！</span>
   </c:if>
   
 </p>
@@ -117,6 +117,9 @@
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1">
     	我要徵 /共${fn:length(MemberDemand)}筆
   </a>
+  <c:if test="${not empty MemberDemandPending}">
+  	<span id="warningSpanDemand" style="color:red;">您有${fn:length(MemberDemandPending)}筆交換待確認！</span>
+  </c:if>
 </p>
 <div class="collapse" id="collapseExample1">
   <div class="card card-body">
@@ -152,17 +155,21 @@
 										<td><a class="btn btn-primary btn-sm"
 											href="<c:url value="/exchange/deleteDemand?deleteindex=${d.no}"/>">刪除</a></td>
 									</c:when>
-									<c:when test="${d.status == 1}">
+									<c:when test="${d.status == 1 || d.status ==2}">
 										<td><a class="btn btn-primary disabled btn-sm">刪除</a></td>
 									</c:when>
 								</c:choose>
 
 								<td><c:choose>
-										<c:when test="${d.status == 0}">
+								<c:when test="${d.status == 0}">
     							未徵得
     							</c:when>
-										<c:when test="${d.status == 1}">
+								<c:when test="${d.status == 1}">
     							已徵得
+    							</c:when>
+								<c:when test="${d.status == 2}">
+    								<a class="btn btn-primary btn-sm" style="background-color: green;" href='<c:url value="showDemandApplyFor?no=${d.wishhistorybean.no }"/>' >待審核</a>
+    							(來自${d.wishhistorybean.partyA.sAccount }的交換請求)
     							</c:when>
 									</c:choose></td>
 
@@ -204,7 +211,8 @@
 								<c:choose>
 							<c:when test="${g.status==2 }">
 								<td>	
-								待換中(申請交換 <span style="color:green">${g.changehistorybean.supportgamebean.gamename }</span> 等待 <span style="color:green">${g.changehistorybean.partyA.sAccount }</span> 的同意)
+								待換中(申請交換 <span style="color:green">${g.changehistorybean.supportgamebean.gamename }${g.wishhistorybean.demandgamebean.gamename }${g.demandgamebean.wishhistorybean.mygamebean.gamename }</span>
+								 等待 <span style="color:green">${g.changehistorybean.partyA.sAccount }${g.wishhistorybean.partyB.sAccount }${g.demandgamebean.wishhistorybean.partyB.sAccount }</span> 的同意)
 								</td>
 							</c:when>
 							<c:when test="${g.supportgamebean==null }">
@@ -237,7 +245,7 @@ if(${not empty MemberPending}){
 let t = window.setInterval(change,1000)
 var x = true;
 function change(){
-	let i = document.getElementById("warningSpan")
+	let i = document.getElementById("warningSpanSupport")
 	if(x==true){
 		console.log("white")
 	i.style.color="#FFFFFF"
@@ -247,9 +255,25 @@ function change(){
 	i.style.color="#FF0000"
 	x= true
 	}
-	
 }
 }
+if(${not empty MemberDemandPending}){
+let t = window.setInterval(change,1000)
+var x = true;
+function change(){
+	let i = document.getElementById("warningSpanDemand")
+	if(x==true){
+		console.log("white")
+	i.style.color="#FFFFFF"
+	x =false
+	}else{
+		console.log("red")
+	i.style.color="#FF0000"
+	x= true
+	}
+}
+}
+
 </script>					
 </body>
 </html>

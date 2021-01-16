@@ -30,4 +30,6 @@ public interface MemberService {
 
 	MemberBean get(String sAccount);
 
+	MemberBean SearchMail(String sEmail);
+
 }

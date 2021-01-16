@@ -2,11 +2,18 @@ package com.web.game.contest.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Base64.Decoder;
 
 import javax.servlet.ServletContext;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
@@ -27,9 +34,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.game.contest.model.ContestBean;
 import com.web.game.contest.model.ParticipateBean;
+import com.web.game.contest.model.RecordBean;
+import com.web.game.contest.model.RecordDetailBean;
 import com.web.game.contest.service.ContestService;
 import com.web.game.contest.service.GameListService;
 import com.web.game.contest.service.ParticipateService;
+import com.web.game.contest.service.RecordDetailService;
+import com.web.game.contest.service.RecordService;
 import com.web.game.contest.validators.ContestValidator;
 import com.web.game.contest.validators.dateAndTimeValidator;
 import com.web.game.member.model.MemberBean;
@@ -51,6 +62,12 @@ public class ContestController {
 	
 	@Autowired
 	ParticipateService pService;
+	
+	@Autowired
+	RecordService rService;
+	
+	@Autowired
+	RecordDetailService rdService;
 	
 	@Autowired
 	MemberService mService;
@@ -255,7 +272,7 @@ public class ContestController {
 				break;
 			}
 			for(ParticipateBean pParticipateBean: cContestBean.getlParticipateBeans()) {
-				for(String playersString: pParticipateBean.getsPlayer().split("/")) {
+				for(String playersString: pParticipateBean.getsPlayer().split(",")) {
 					if(playersString.equals(player)) {
 						chechAnswer = false;
 						break;
@@ -263,7 +280,7 @@ public class ContestController {
 				}
 			}
 			
-			toDBPlayers.append("/" + player);
+			toDBPlayers.append("," + player);
 		}
 		if(!toDB) {
 			map.put("status", "noUserError");
@@ -294,9 +311,10 @@ public class ContestController {
 							@PathVariable Integer contestNo,
 							Model model) {
 		Map<String, String> map = new HashMap<String, String>();
-		if(pService.deleteParticipate(contestNo, ((MemberBean)model.getAttribute("user")).getsAccount())) {
+		try {
+			pService.deleteParticipate(contestNo, ((MemberBean)model.getAttribute("user")).getsAccount());
 			map.put("status", "success");
-		}else {
+		}catch (RuntimeException e) {
 			map.put("status", "sqlError");
 		}
 		return map;
@@ -323,6 +341,165 @@ public class ContestController {
 		
 		return nextPage;
 	}
+	
+	@PostMapping("/ScheduleImage")
+	public @ResponseBody Map<String, String> saveScheduleImage(
+							@RequestParam String treeImage64,
+							@RequestParam String drowImage64,
+							@RequestParam Integer contestNo,
+							@RequestParam String groupPlayer,
+							Model model
+							) {
+		Map<String, String> map = new HashMap<String, String>();
+
+		System.out.println("表籤內容: " + groupPlayer);
+		
+		List<List<String>> groupList = new ArrayList<List<String>>();
+		for(int i=0; i<groupPlayer.split("]").length; i++) {
+//			System.out.println("a: " + groupPlayer.split("]")[i]);	
+			List<String> groupMember = new ArrayList<String>();
+			for(int j=0; j<groupPlayer.split("]")[i].split(",").length; j++) {
+//				System.out.println("j: " + j);
+//				System.out.println("b: " + groupPlayer.split("]")[i].split(",")[j]);
+				for(int k=0; k<groupPlayer.split("]")[i].split(",")[j].split("\"").length; k++) {
+//					System.out.println("k: " + k);
+					String player = groupPlayer.split("]")[i].split(",")[j].split("\"")[k];
+//					System.out.println("c: @" + player + "@");
+					if(!player.equals("") && !player.equals("[") && !player.equals("[[")) {
+						groupMember.add(player);
+					}
+				}
+			}
+			groupList.add(groupMember);
+		}
+		
+		
+		ContestBean cContestBean = cService.selectOneContest(contestNo);//找出比賽類型
+		try {
+			Decoder decoder = Base64.getDecoder();
+			
+			treeImage64 = treeImage64.split(",")[1];
+			byte[] bTreeImage = decoder.decode(treeImage64);
+			Blob bRematchImage = new SerialBlob(bTreeImage);
+			
+			if(!cContestBean.getsPreliminary().equals("none")) {//有預賽
+				drowImage64 = drowImage64.split(",")[1];
+				byte[] bDrowImage = decoder.decode(drowImage64);
+				Blob bPreliminariesImage = new SerialBlob(bDrowImage);
+				
+				if(cService.saveSchsduleImage(contestNo, bRematchImage, bPreliminariesImage)) {//先存圖片
+					Integer iGroupCount = 0;
+					rService.deleteRecord(contestNo);//先把舊的戰績刪掉
+					for(List<String> list2: groupList) {
+						iGroupCount++;
+						System.out.println("---------------------");
+						for(String sPlayer: list2) {
+							System.out.println("參賽者: " + sPlayer);
+							//再新增戰績進資料庫
+							if(rService.insertRecord(new RecordBean(null, contestNo, iGroupCount, null, sPlayer, 0))) {
+								map.put("status", "success");
+							}else {//新增戰績有問題
+								map.put("status", "sqlError");
+							}
+						}
+					}
+//					list.add("賽程儲存完成");
+				}else {//存圖片有問題
+					map.put("status", "sqlError");
+				}
+			}else {//沒預賽 直接存複賽資料
+				System.out.println("沒有預賽");
+				if(cService.saveSchsduleImage(contestNo, bRematchImage, null)) {
+					
+					rService.deleteRecord(contestNo);//先把舊的戰績刪掉
+					for(List<String> list2: groupList) {
+						Integer iRematchMemberCount = 0;
+						System.out.println("---------------------");
+						for(String sPlayer: list2) {
+							iRematchMemberCount++;
+							System.out.println("參賽者: " + sPlayer);
+							//再新增戰績進資料庫
+							if(rService.insertRecord(new RecordBean(null, contestNo, null, iRematchMemberCount, sPlayer, 0))) {
+								map.put("status", "success");
+							}else {//新增戰績有問題
+								map.put("status", "sqlError");
+							}
+						}
+					}
+				}else {//存圖片有問題
+					map.put("status", "sqlError");
+				}
+			}
+			
+		} catch (SerialException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return map;
+	}
+	
+	
+	@PostMapping("/SaveRecord")
+	public @ResponseBody Map<String, String> saveRecord(
+						@RequestParam Integer contestNo,
+						@RequestParam Integer groupNo,
+						@RequestParam(value = "win[]") List<String> sWinPlayers,
+						Model model
+						){
+		Map<String, String> map = new HashMap<String, String>();
+//		System.out.println("第" + groupNo + "組");
+//		for(String winPlayer: win) {
+//			System.out.println("勝方: " + winPlayer);
+//		}
+		List<RecordBean> lRecordList = rService.selectContestRecord(contestNo);
+		//有空思考用資料庫找出來
+		List<RecordBean> groupRecord = new ArrayList<RecordBean>();
+		for(RecordBean rRecordBean: lRecordList) {
+			if(rRecordBean.getiGroupNo() == groupNo) {
+				rRecordBean.setiWinCount(rRecordBean.getiWinCount()+1);
+				groupRecord.add(rRecordBean);
+			}
+		}
+		
+		
+		Boolean success = true;
+		try {//如果更新勝場數抓的資料不是一筆(先檢查)
+			rService.addScore(contestNo, groupNo, sWinPlayers);
+		} catch (RuntimeException e) {
+			success = false;
+		}
+		
+			
+		if(success) {
+			
+		Integer winCount = 0;
+			for(int i=0; i<groupRecord.size(); i++) {
+		//			System.out.println("這一組的人: " + groupRecord.get(i).getsPlayers());
+				
+				for(int j=i+1; j<groupRecord.size(); j++) {
+		//				System.out.println("對戰: " + groupRecord.get(i).getsPlayers() + " vs " + groupRecord.get(j).getsPlayers());
+					if(!rdService.insertRecordDetail(new RecordDetailBean(null, contestNo, groupNo, null,
+							groupRecord.get(i).getsPlayers(), groupRecord.get(j).getsPlayers(), sWinPlayers.get(winCount)))){
+		//					insert成功,要更新RedordBean的資料(win+1)
+						
+						success = false;
+					}
+					winCount++;
+				}
+			}
+		}
+		
+		if(success) {
+			map.put("status", "success");
+		}else {
+			map.put("status", "sqlError");
+		}
+		
+		return map;
+	}
+	
 	
 //	@GetMapping("先放這這段程式碼")
 //	public ResponseEntity<String> 隨便(){

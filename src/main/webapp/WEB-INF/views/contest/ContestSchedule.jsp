@@ -575,7 +575,7 @@ $(function(){
 	    //						console.log("-" + $(".drop").eq(j).find("label").text() + "-");
 	     					let string = "";
 	     					for(let k=0; k<$(".drop").eq(j).find("span").length; k++){
-	     						string = string + ($(".drop").eq(j).find("span").eq(k).text() + "-");
+	     						string = string + ($(".drop").eq(j).find("span").eq(k).text());
 	     					}
 	     					groupPlayer.push(string);
 	     	        	}
@@ -589,7 +589,7 @@ $(function(){
 	     			for(let i=0; i<$(".drop").length; i++){
 	     				let string = "";
 	     				for(let j=0; j<$(".drop").eq(i).find("span").length; j++){
-	     					string = string + ($(".drop").eq(i).find("span").eq(j).text() + "-");
+	     					string = string + ($(".drop").eq(i).find("span").eq(j).text());
 	     				}
 	     				groupPlayer.push(string);
 	     			}
@@ -606,18 +606,26 @@ $(function(){
 		 				"groupPlayer": JSON.stringify(groupPlayer)
 					},
 					success: function(result){
-						Swal.fire({
-							  title: result[0] + "!",
-							  icon: "success",
-							  showClass: {
-								    popup: 'animate__animated animate__fadeInDown'
-								  },
-							  hideClass: {
-								    popup: 'animate__animated animate__fadeOutUp'
-								  }
-						}).then(function(){
-									window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Information?contestNo=" + $("#contestNo").val() + "'/>");},500);
-								})
+						if(result.status == "success"){
+							Swal.fire({
+								  title: "賽程儲存完成!",
+								  icon: "success",
+								  showClass: {
+									    popup: 'animate__animated animate__fadeInDown'
+									  },
+								  hideClass: {
+									    popup: 'animate__animated animate__fadeOutUp'
+									  }
+							}).then(function(){
+										window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Information?contestNo=" + $("#contestNo").val() + "'/>");},500);
+							})
+						}else if(result.status == "sqlError"){
+							Swal.fire(
+									  '資料庫發生錯誤!',
+									  '請聯繫管理員',
+									  'error'
+									)
+						}
 						
 					},
 					error: function(err){

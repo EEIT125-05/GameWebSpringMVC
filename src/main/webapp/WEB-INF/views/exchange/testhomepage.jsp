@@ -168,18 +168,6 @@
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 
-// 		function applyclick(){
-// 			swal("Good job!",
-// 					  "You clicked the button!",
-// 					  "success").then(function(){
-// 			apply.submit();
-// 					  })
-// 		}
-// 		$("button").click(function(){
-//     	$("form").submit();
-//   		}); 
-	
-	
 	
 		function resetSelect(e){
 			

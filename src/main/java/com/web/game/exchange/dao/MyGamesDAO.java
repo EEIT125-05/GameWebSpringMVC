@@ -50,6 +50,17 @@ public class MyGamesDAO {
 		return list;
 		
 	}
+	public List<MyGameBean> getMemberGamesWithoutSupport(String account){
+		System.out.println("getMemberGamesIn");
+		List<MyGameBean> list = new ArrayList<>();
+		Session session = factory.getCurrentSession();
+		System.out.println("account"+account);
+		String hql = "FROM MyGameBean g WHERE g.gamer = :account AND g.status = 0 AND g.supportgamebean = NULL";
+		list = session.createQuery(hql).setParameter("account", account).getResultList();
+		System.out.println("MemberGameslist"+list.size());
+		return list;
+		
+	}
 	
 	public MyGameBean getMyGame(Integer no) {
 		MyGameBean mygame = new MyGameBean();
@@ -63,7 +74,7 @@ public class MyGamesDAO {
 	public boolean checkMyGameBean(String account,String gamename) {
 		Session session = factory.getCurrentSession();
 		List<MyGameBean> list = new ArrayList<MyGameBean>(); 
-		String hql = "FROM MyGameBean g WHERE g.gamer = :account AND g.gamename = :gamename AND g.status = 0";
+		String hql = "FROM MyGameBean g WHERE g.gamer = :account AND g.gamename = :gamename AND g.status = 0 AND g.supportgamebean = NULL";
 		list = session.createQuery(hql)
 				.setParameter("account", account)
 				.setParameter("gamename", gamename)
@@ -75,25 +86,32 @@ public class MyGamesDAO {
 		return false;
 	}
 	
-//	public MyGameBean getMyGameByAccount(String gamename , String account) {
-//		MyGameBean MGB = new MyGameBean();
-//		Session session = factory.getCurrentSession();
-//		System.out.println(gamename+account);
-//		String HQL = "FROM MyGameBean WHERE gamer = :account AND gamename = :gamename";
-//		MGB = (MyGameBean) session.createQuery(HQL).setParameter("account", account).setParameter("gamename", gamename).getSingleResult();
-//		System.out.println("out");
-//		return MGB;
-//	}
+	public List<MyGameBean> getMyGameByAccount(String gamename , String account) {
+		MyGameBean MGB = new MyGameBean();
+		Session session = factory.getCurrentSession();
+		List<MyGameBean> list = new ArrayList<MyGameBean>();
+		System.out.println(gamename+account);
+		String hql = "FROM MyGameBean g WHERE g.gamer = :account AND g.gamename = :gamename AND g.status = 0 AND g.supportgamebean = NULL";
+		list = session.createQuery(hql)
+				.setParameter("account", account)
+				.setParameter("gamename", gamename)
+				.getResultList();
+		System.out.println("out");
+		return list;
+	}
 
 	public boolean updateGameToSupport(MyGameBean mygame) {
+		System.out.println("updateGameToSupportDAOIn");
 		Session session = factory.getCurrentSession();
 		int count = 0;
 		boolean result = false;
+		System.out.println("mygame"+mygame);
 		session.update(mygame);
 		count++;
 		if (count > 0) {
 			result = true;
 		}
+		System.out.println("updateGameToSupportDAOOut");
 		return result;
 		
 	}
