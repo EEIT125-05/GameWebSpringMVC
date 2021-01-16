@@ -23,11 +23,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.web.game.forum.model.ForumBean;
-import com.web.game.forum.model.ReplyBean;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
 import com.web.game.withplay.model.WithOrder;

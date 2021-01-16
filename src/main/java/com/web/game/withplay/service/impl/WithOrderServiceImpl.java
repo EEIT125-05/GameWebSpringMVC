@@ -75,8 +75,8 @@ public class WithOrderServiceImpl implements WithOrderService {
 	}
 
 	@Override
-	public List<WithOrder> list() {
-		return oDAO.list();
+	public List<WithOrder> list(Integer useriNo) {
+		return oDAO.list(useriNo);
 	}
 	
 	
