@@ -64,10 +64,13 @@ public class NocheckWithController {
 		if(model.getAttribute("user")!=null) {
 		List<WithOrder> OrderList = withOrderService.list(((MemberBean)model.getAttribute("user")).getiNo());
 		  Set<Integer> set = new HashSet<Integer>();
+		  Set<Integer> set1 = new HashSet<Integer>();
 		  for(WithOrder wo:OrderList) {
 		   set.add(wo.getWith().getiId());
+		   set1.add(wo.getiStatus());
 		  }
 		  model.addAttribute("UserOrderList",set);
+		  model.addAttribute("UserOrdercheckList",set1);
 		  }
 		
 		
@@ -89,7 +92,7 @@ public class NocheckWithController {
 //	}
 	
 	@PostMapping("/withplay/IDCheck")
-	public ResponseEntity<Map<String, String>> CheckPhone(@RequestParam("sIdcode") String sIdcode) {
+	public ResponseEntity<Map<String, String>> CheckID(@RequestParam("sIdcode") String sIdcode) {
 		Map<String, String> map = new HashMap<>();
 		String Idcode = withService.CheckID(sIdcode);
 		map.put("sIdcode", Idcode);

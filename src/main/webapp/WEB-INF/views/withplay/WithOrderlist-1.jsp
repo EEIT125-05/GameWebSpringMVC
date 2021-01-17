@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../Link.jsp"%>
 
 <html>
@@ -59,7 +60,6 @@
 				<th>遊戲</th>
 				<th >消費金額</th>
 				<th>狀態</th>
-				<th >自我介紹</th>
 			</tr>
 			</thead>
 			<c:forEach items="${WithOrder}" var="Order" varStatus="status">
@@ -74,16 +74,21 @@
 					<td>
 						<c:choose>
 						<c:when test="${Order.member.sAccount == user.sAccount&& Order.iStatus == 1 }">
-						等待確認
+						<span style="font-weight:bold;font-size:20px;">等待確認</span>						
 						</c:when>
 						<c:when test="${Order.member.sAccount == user.sAccount&& Order.iStatus == 2 }">
-						確認成功
+						<span style="font-weight:bold;font-size:20px;">確認成功</span>
+						</c:when>
+						<c:when test="${Order.member.sAccount == user.sAccount&& Order.iStatus == 3 }">
+						<span style="font-weight:bold;font-size:20px;">該筆訂單未成立</span>
+						</c:when>
+						<c:when test="${Order.member.sAccount == user.sAccount&& Order.iStatus == 4 }">
+						<span style="font-weight:bold;font-size:20px;">訂單完成</span>
 						</c:when>
 						<c:otherwise>
 						</c:otherwise>						
 						</c:choose>        	
 					</td>
-					<td>${With.iPrice}</td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -117,6 +122,9 @@
 			</tr>
 			</thead>
 			<c:forEach items="${WithOrder2}" var="withOrder" varStatus="status">
+			<jsp:useBean id="nowDate" class="java.util.Date" />
+			<fmt:formatDate var="dateString" value="${nowDate}"	pattern="yyyy-MM-dd" />
+			<fmt:parseDate var="Date" value="${dateString}"		pattern="yyyy-MM-dd" />
 				<tr>	
 					<td>${status.count}</td>
 					<td><img style="width:150px;height:150px;"class="img1" src='${pageContext.request.contextPath}/withplay/picture/${withOrder.member.iNo}'>
@@ -128,12 +136,19 @@
 					<td>
 						<c:choose>
 						<c:when test="${withOrder.with.sAccount == user.sAccount && withOrder.iStatus == 1}">
-						尚未回覆
+						<span style="font-weight:bold;font-size:20px;">尚未回覆</span>
 						</c:when>
 						<c:when test="${withOrder.with.sAccount == user.sAccount && withOrder.iStatus == 2}">
-						成功
-						<bR>
-						尚未執行
+						<span style="font-weight:bold;font-size:20px;">尚未執行</span>	
+						<HR>				
+						<button  class="btn btn-primary" onclick="Okfinish(${withOrder.iNo})" >完成該筆訂單</button>
+						</c:when>
+						<c:when test="${withOrder.with.sAccount == user.sAccount && withOrder.iStatus == 3}">
+					
+						<span style="font-weight:bold;font-size:20px;">該筆訂單遭您拒絕</span>							
+						</c:when>
+						<c:when test="${withOrder.with.sAccount == user.sAccount && withOrder.iStatus == 4}">
+						<span style="font-weight:bold;font-size:20px;">已完成該筆訂單</span>							
 						</c:when>
 						
 						<c:otherwise>
@@ -190,16 +205,35 @@ function Ok(iNo){
 		return false;
 		})
 	}
-
-function Reject(iNo){
+	
+function Okfinish(iNo){
 	 Swal.fire({
-		  title: '確定刪除資料?',
-		  text: "刪除後不可回復，請確定操作!",
+		  title: '請再三確認該筆訂單完成',
+		  text: "確認無誤，按下確認",
 		  icon: 'warning',
 		  showCancelButton: true,
 		  confirmButtonColor: '#3085d6',
 		  cancelButtonColor: '#d33',
-		  confirmButtonText: '刪除',
+		  confirmButtonText: '確認',
+		  cancelButtonText:'取消',
+		  closeOnCancel: true
+		}).then((result) => {
+		  if (result.isConfirmed) {
+		    window.location.href="<c:url value='WithorderOklist?iNO="+iNo+"'/>"
+		  }
+		return false;
+		})
+	}
+
+function Reject(iNo){
+	 Swal.fire({
+		  title: '確定拒絕訂單??',
+		  text: "請再三思考是否拒絕此筆訂單",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: '拒絕訂單',
 		  cancelButtonText:'取消',
 		  closeOnCancel: true
 		}).then((result) => {
