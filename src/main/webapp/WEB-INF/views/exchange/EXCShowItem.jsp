@@ -90,6 +90,7 @@
     							</c:when>
 								<c:when test="${s.status == 2}">
 								<a class="btn btn-primary btn-sm" style="background-color: green;" href='<c:url value="showApplyFor?no=${s.changehistorybean.no }"/>' >待審核</a>
+
     							(來自${s.changehistorybean.partyB.sAccount }的交換請求)
     							</c:when>
     							<c:when test="${s.status == 3}">
@@ -210,9 +211,28 @@
 								<td>${g.console}</td>
 								<c:choose>
 							<c:when test="${g.status==2 }">
-								<td>	
-								待換中(申請交換 <span style="color:green">${g.changehistorybean.supportgamebean.gamename }${g.wishhistorybean.demandgamebean.gamename }${g.demandgamebean.wishhistorybean.mygamebean.gamename }</span>
-								 等待 <span style="color:green">${g.changehistorybean.partyA.sAccount }${g.wishhistorybean.partyB.sAccount }${g.demandgamebean.wishhistorybean.partyB.sAccount }</span> 的同意)
+								<td>
+								<c:choose>
+									<c:when test="${g.changehistorybean.supportgamebean.gamename != null}">
+										<a class="btn btn-primary btn-sm btn-danger"  onclick="applyFor('','${g.changehistorybean.no }')" >取消交換申請</a>
+										待換中(您申請交換 <span style="color:green">${g.changehistorybean.supportgamebean.gamename }</span>
+								 		等待 <span style="color:green">${g.changehistorybean.partyA.sAccount }</span> 的同意)
+									</c:when>
+									<c:when test="${g.wishhistorybean.demandgamebean.gamename !=null}">
+										待換中(申請交換 <span style="color:green">${g.wishhistorybean.demandgamebean.gamename }</span>
+										 等待 <span style="color:green">${g.wishhistorybean.partyB.sAccount }</span> 的同意)
+									</c:when>
+									<c:when test="${g.demandgamebean.wishhistorybean.mygamebean.gamename !=null}">
+										<a class="btn btn-primary btn-sm btn-danger"   onclick="applyFor('Demand','${g.demandgamebean.wishhistorybean.no }')" >取消交換申請</a>
+										待換中(您申請交換 <span style="color:green">${g.demandgamebean.wishhistorybean.mygamebean.gamename }</span>
+										 等待 <span style="color:green">${g.demandgamebean.wishhistorybean.partyB.sAccount }</span> 的同意)
+									</c:when>
+								</c:choose>
+
+<%-- 																<a class="btn btn-primary btn-sm" style="background-color: green;" href='<c:url value="showApplyFor?no=${s.changehistorybean.no }"/>' >待審核</a> --%>
+<%-- 								待換中(申請交換 <span style="color:green">${g.changehistorybean.supportgamebean.gamename }${g.wishhistorybean.demandgamebean.gamename }${g.demandgamebean.wishhistorybean.mygamebean.gamename }</span> --%>
+<%-- 								 等待 <span style="color:green">${g.changehistorybean.partyA.sAccount }${g.wishhistorybean.partyB.sAccount }${g.demandgamebean.wishhistorybean.partyB.sAccount }</span> 的同意) --%>
+								
 								</td>
 							</c:when>
 							<c:when test="${g.supportgamebean==null }">
@@ -304,6 +324,39 @@ function deleteCheck(a,b){
 		  			}	
 			 	}
 			})
+}
+
+function applyFor(a,b){
+	var str = "取消"
+	var str1 = "您取消申請"
+		
+	Swal.fire({
+  title: "你確定要"+str+"?",
+//   text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: '確定',
+  cancelButtonText:'返回'
+}).then((result) => {
+  if (result.isConfirmed) {
+	 	var xhr = new XMLHttpRequest();
+	 	xhr.open('GET','<c:url value="/exchange/'+a+'ApplyForReject" />?no='+b,true);
+	 	xhr.send();
+	 	xhr.onload = function(){
+	 		if(xhr.readyState===4 && xhr.status ===200){
+	 			Swal.fire(
+	 				      'OK',
+	 				      str1,
+	 				      'success'
+	 				    ).then(function(){
+	 				   location.href='./management'
+	 				    })
+	 			}
+  			}	
+	 	}
+	})
 }
 
 </script>					
