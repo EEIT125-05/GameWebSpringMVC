@@ -21,20 +21,105 @@
 .item{
 	margin-top:10px
 }
-/* table, th, td { */
-/*   border: 1px solid black; */
-/*   text-align:center; */
-/* } */
-/* table { */
-/*   width: 50%; */
-/*   table-layout:fixed; */
-/*   word-wrap:break-word; */
-/* } */
+
+.tdPlayer:hover{
+    color: #007bff;
+    cursor: pointer;
+}
+.tdPlayer:active{
+    color: #0000FF;
+}
+
+table, th, td {
+  border: 1px solid black;
+  text-align:center;
+}
+table {
+	width: 100%;
+    table-layout:fixed;
+    word-wrap:break-word;
+}
+td{
+	height:2em;
+}
+
+*{
+	margin:0;
+	padding:0;
+}
+
+body{
+	padding-left:20px;
+	padding-top:76px;
+}
+
+#tree{
+ 	    overflow: auto;  
+	position: relative;
+}
+
+.tree ul{
+	padding-top:20px;
+	position: relative;
+}
+.tree li{
+	float:left;
+	list-style: none;
+	text-align: center;
+	position: relative;
+	padding:20px 5px 0 5px;
+}
+.tree li::before,.tree li::after{
+	content:"";
+	position: absolute;
+	top:0;
+	right:50%;
+	width:50%;
+	height:20px;
+	border-top:2px solid black;
+}
+.tree li:after{
+	right:auto;
+	left:50%;
+	border-left:2px solid black;
+}
+.tree li:first-child::before,.tree li:last-child::after{
+	border:0 none;
+}
+.tree li:last-child::after{
+	border-left:2px solid black;
+}
+
+.tree li:only-child::before,.tree li:only-child::after{
+	border:none;
+}
+.tree li:only-child{
+	padding-top:0;
+}
+
+.tree ul ul::before{
+	content:"";
+	position: absolute;
+	top:0;
+	left:50%;
+	border-left:2px solid black;
+	width:0;
+	height:20px;
+}
+
+.tree label{
+	display: inline-block;
+	border:2px solid black;
+	text-decoration: none;
+	width:96px;
+	height:36px;
+	margin:0;
+}
+
+
 
 </style>
 
-<script src='//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js'></script>
-<link rel='stylesheet' href='https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css'>
 </head>
 <body>
 <%@ include file="../Header.jsp"%>
@@ -326,126 +411,69 @@
 				<div id="戰績" class="hiddenDiv" style="display:none">
     		</c:otherwise>
     	</c:choose>
+    	
+			<a class="btn btn-primary" data-toggle="collapse" href="#preliminaryCollapse" role="button" aria-expanded="false" aria-controls="#preliminaryCollapse">預賽戰績</a>
 			
-			<a class="btn btn-primary" data-toggle="collapse" href="#preliminaryCollapse" role="button" aria-expanded="false" aria-controls="collapseExample">預賽戰績</a>
-			
-			<div class="collapse show" id="preliminaryCollapse" style="margin-top:20px;margin-bottom:20px">
+			<div class="collapse" id="preliminaryCollapse" style="margin-top:20px;margin-bottom:20px">
 	  			<div class="card card-body">	
-					<table border="1" id="preliminaryTable" style="text-align:center;">
-		
-						<thead>
-						<tr>
-							<th>組別</th>
-							<th>參賽者1</th>
-							<th>參賽者2</th>
-							<th>勝方</th>
-						</tr>
-						</thead>
-<!-- 						<thead class="downOption"> -->
-<!-- 						<tr> -->
-<!-- 							<th>組別2</th> -->
-<!-- 							<th>參賽者12</th> -->
-<!-- 							<th>參賽者22</th> -->
-<!-- 							<th>勝方2</th> -->
-<!-- 						</tr> -->
-<!-- 						</thead> -->
-						<tfoot>
-				            <tr>
-				                <th>組別</th>
-				                <th>參賽者1</th>
-				                <th>參賽者2</th>
-				                <th>勝方</th>
-				            </tr>
-				        </tfoot>
-				        <tbody>
-							<c:forEach var="record" items="${lPreliminaryRecord}">
-								<tr>	
-									<td>${record.iGroundNo}</td>
-									<td>${record.sPlayers1}</td>
-									<td>${record.sPlayers2}</td>
-<%-- 									<td><button class="btn btn-primary">${record.sPlayers1}</button></td> --%>
-<%-- 									<td><button class="btn btn-primary">${record.sPlayers2}</button></td> --%>
-									<td>${record.sWinner}</td>
+	  			
+	  			<c:if test="${cContestBean.sHost == user.sAccount}">
+		  			<div style="margin-bottom:10px">
+		  				<button id="savePreliminaryRecord" class="btn btn-success" value="${cContestBean.iNo}">暫存戰績</button>
+		  				<button id="createRematch" class="btn btn-success" value="${cContestBean.iNo}">產生複賽賽程</button>
+		  			</div>
+	  			</c:if>
+	  			<c:forEach varStatus="vs" var="lRecords" items="${lGroupRecord }">
+	  				
+	  				<div>
+	  					<a class="btn btn-primary" data-toggle="collapse" href="#preliminaryTable${vs.count}" role="button" aria-expanded="false" aria-controls="#preliminaryTable${vs.count}">第${vs.count}組</a>
+	  				</div>
+	  				<div id="preliminaryTable${vs.count}" class="collapse">
+						<table>
+							<thead>
+								<tr>
+									<th>組別</th>
+									<th>參賽者1</th>
+									<th>參賽者2</th>
+									<th>勝方</th>
 								</tr>
-							</c:forEach>
-				        </tbody>
-					</table>
+							</thead>
+					        <tbody>
+								<c:forEach var="record" items="${lRecords}">
+									<tr>	
+										<td>${record.iGroundNo}</td>
+										<c:choose>
+											<c:when test="${cContestBean.sHost == user.sAccount}">
+												<td class="tdPlayer">${record.sPlayers1}</td>
+												<td class="tdPlayer">${record.sPlayers2}</td>
+												<td class="tdWinner">${record.sWinner}</td>
+											</c:when>
+											<c:otherwise>
+												<td>${record.sPlayers1}</td>
+												<td>${record.sPlayers2}</td>
+												<td>${record.sWinner}</td>
+											</c:otherwise>
+										</c:choose>
+									</tr>
+								</c:forEach>
+					        </tbody>
+						</table>
+	  				</div>
+					<br>
+				</c:forEach>
+					
+					
 				</div>
 			</div>
 			
+			<div id="tree" class="tree"></div>
 			
 			
 			
 			
-<%-- 			<c:forEach var="recordListCount" begin="1" end="${fn:length(lGroupRecord)}"> --%>
-<%-- 				<label>第${recordListCount}組:</label> --%>
-<%-- 				<c:forEach var="record" items="${lGroupRecord[recordListCount-1]}"> --%>
-<%-- 					<label>&nbsp;${record.sPlayers}</label> --%>
-<%-- 				</c:forEach> --%>
-				
-<%-- 				<c:if test="${cContestBean.sHost == user.sAccount}"> --%>
-<%-- 					<c:choose> --%>
-<%-- 						<c:when test="${empty lGroupRecordDetail[recordListCount-1]}"> --%>
-<%-- 							<button class="btn btn-primary savePreliminaryRecord" value="${recordListCount}">儲存第${recordListCount}組紀錄</button> --%>
-<%-- 						</c:when> --%>
-<%-- 						<c:otherwise> --%>
-<%-- 							<button class="btn btn-primary savePreliminaryRecord" value="${recordListCount}" disabled>儲存第${recordListCount}組紀錄</button> --%>
-<%-- 						</c:otherwise> --%>
-<%-- 					</c:choose> --%>
-<%-- 				</c:if> --%>
-				
-<!-- 				<br> -->
-<%-- 				 <c:set var="count" value="0"/> --%>
-<!-- <!-- 				 算win位置要用的計數器 --> 
-<%-- 				<c:forEach var="recordCount" begin="1" end="${fn:length(lGroupRecord[recordListCount-1])}"> --%>
-					
-<%-- 					<c:forEach var="matchCount" begin="${recordCount+1}" end="${fn:length(lGroupRecord[recordListCount-1])}"> --%>
-<!-- 						<label>對戰:</label><br> -->
-<!-- 						<table> -->
-<!-- 							<tr> -->
-<!-- 								<th style="width:20%">勝方</th> -->
-<%-- 								<c:choose> --%>
-<%-- 									<c:when test="${empty lGroupRecordDetail[recordListCount-1]}"> --%>
-<%-- 										<th style="width:40%" colspan="2" class="win group${recordListCount}"></th> --%>
-<%-- 									</c:when> --%>
-<%-- 									<c:otherwise> --%>
-<%-- 										<th style="width:40%" colspan="2" class="win group${recordListCount}">${lGroupRecordDetail[recordListCount-1][count].sWin}</th> --%>
-<%-- 										 <c:set var="count" value="${count+1}"/> --%>
-<%-- 									</c:otherwise> --%>
-<%-- 								</c:choose> --%>
-<!-- 							</tr> -->
-<!-- 							<tr> -->
-<!-- 								<td style="width:20%">參賽者</td> -->
-								
-<%-- 								<c:choose> --%>
-<%-- 									<c:when test="${cContestBean.sHost == user.sAccount}"> --%>
-<%-- 										<c:choose> --%>
-<%-- 											<c:when test="${empty lGroupRecordDetail[recordListCount-1]}"> --%>
-<%-- 												<td style="width:40%"><button class="btn btn-primary choosePlayer">${lGroupRecord[recordListCount-1][recordCount-1].sPlayers}</button></td> --%>
-<%-- 												<td style="width:40%"><button class="btn btn-primary choosePlayer">${lGroupRecord[recordListCount-1][matchCount-1].sPlayers}</button></td> --%>
-<%-- 											</c:when> --%>
-<%-- 											<c:otherwise> --%>
-<%-- 												<td style="width:40%"><button class="btn btn-primary choosePlayer" disabled>${lGroupRecord[recordListCount-1][recordCount-1].sPlayers}</button></td> --%>
-<%-- 												<td style="width:40%"><button class="btn btn-primary choosePlayer" disabled>${lGroupRecord[recordListCount-1][matchCount-1].sPlayers}</button></td> --%>
-<%-- 											</c:otherwise> --%>
-<%-- 										</c:choose> --%>
-<%-- 									</c:when> --%>
-<%-- 									<c:otherwise> --%>
-<%-- 										<td style="width:40%">${lGroupRecord[recordListCount-1][recordCount-1].sPlayers}aaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbb</td> --%>
-<%-- 										<td style="width:40%">${lGroupRecord[recordListCount-1][matchCount-1].sPlayers}aaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbb</td> --%>
-<%-- 									</c:otherwise> --%>
-<%-- 								</c:choose> --%>
-<!-- 							</tr> -->
-<!-- 						</table> -->
-<%-- 					</c:forEach> --%>
-<%-- 				</c:forEach> --%>
-<!-- 				<hr> -->
-<%-- 			</c:forEach> --%>
-
-
-
+			
 			<hr>
-			<p>複賽戰績:</p>
+			<a class="btn btn-primary" data-toggle="collapse" href="#" role="button" aria-expanded="false" aria-controls="#">複賽戰績</a>
 			
 
 
@@ -458,76 +486,327 @@
 <%@ include file="../Foot.jsp"%>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="<c:url value='/js/jquery-ui.js'/>"></script>
+<script src="<c:url value='/js/html2canvas.js'/>"></script>
 <script type="text/javascript">
 	$(function(){
 		
-		$('#preliminaryTable').DataTable({
-			"fixedHeader": true,
-			fixedColumns:   {
-		        leftColumns: 5 //左側要固定的欄目數，如果右側需要固定可以用 rightColunms
-		    },
-			language: {
-    		    "lengthMenu": "顯示_MENU_筆資料",
-    		    "sProcessing": "處理中...",
-    		    "sZeroRecords": "没有符合的資料",
-    		    "sInfo": "目前有_MAX_筆資料",
-    		    "sInfoEmpty": "目前共有 0 筆紀錄",
-    		    "sInfoFiltered": " ",
-    		    "sInfoPostFix": "",
-    		    "sSearch": "尋找:",
-    		    "sUrl": "",
-    		    "sEmptyTable": "尚未有資料紀錄存在",
-    		    "sLoadingRecords": "載入資料中...",
-    		    "sInfoThousands": ",",
-    		    "oPaginate": {
-    		        "sFirst": "首頁",
-    		        "sPrevious": "上一頁",
-    		        "sNext": "下一頁",
-    		        "sLast": "末頁"
-    		    },
-    		    "order": [[0, "desc"]],
-    		    "oAria": {
-    		        "sSortAscending": ": 以升序排列此列",
-    		        "sSortDescending": ": 以降序排列此列"
-    		    }
-    		},
-			initComplete: function () {
-	            var api = this.api();
-	            api.columns().indexes().flatten().each( function ( i ) {
-	                var column = api.column( i );
-	                var select = $('<select><option value=""></option></select>')
-	                    .appendTo( $(column.footer()).empty() )
-	                    .on( 'change', function () {
-	                        var val = $.fn.dataTable.util.escapeRegex(
-	                            $(this).val()
-	                        );
-	                        column
-	                            .search( val ? '^'+val+'$' : '', true, false )
-	                            .draw();
-	                    } );
-	                column.data().unique().sort().each( function ( d, j ) {
-// 	                    select.append( '<option value="123">'+"123"+'</option>' )
-						console.log("d " + d);
-	                    select.append( '<option value="'+d+'">'+d+'</option>' )
-	                } );
-	            } );
-	        }
+// 		$('#preliminaryTable').DataTable({
+// 			language: {
+//     		    "lengthMenu": "顯示_MENU_筆資料",
+//     		    "sProcessing": "處理中...",
+//     		    "sZeroRecords": "没有符合的資料",
+//     		    "sInfo": "目前有_MAX_筆資料",
+//     		    "sInfoEmpty": "目前共有 0 筆紀錄",
+//     		    "sInfoFiltered": " ",
+//     		    "sInfoPostFix": "",
+//     		    "sSearch": "尋找:",
+//     		    "sUrl": "",
+//     		    "sEmptyTable": "尚未有資料紀錄存在",
+//     		    "sLoadingRecords": "載入資料中...",
+//     		    "sInfoThousands": ",",
+//     		    "oPaginate": {
+//     		        "sFirst": "首頁",
+//     		        "sPrevious": "上一頁",
+//     		        "sNext": "下一頁",
+//     		        "sLast": "末頁"
+//     		    },
+//     		    "order": [[0, "desc"]],
+//     		    "oAria": {
+//     		        "sSortAscending": ": 以升序排列此列",
+//     		        "sSortDescending": ": 以降序排列此列"
+//     		    }
+//     		},
+// 			initComplete: function () {
+// 	            var api = this.api();
+// 	            api.columns().indexes().flatten().each( function ( i ) {
+// 	                var column = api.column( i );
+// 	                var select = $('<select><option value=""></option></select>')
+// 	                    .appendTo( $(column.footer()).empty() )
+// 	                    .on( 'change', function () {
+// 	                        var val = $.fn.dataTable.util.escapeRegex(
+// 	                            $(this).val()
+// 	                        );
+// 	                        column
+// 	                            .search( val ? '^'+val+'$' : '', true, false )
+// 	                            .draw();
+// 	                    } );
+// 	                column.data().unique().sort().each( function ( d, j ) {
+// 	                    select.append( '<option value="'+d+'">'+d+'</option>' )
+// 	                } );
+// 	            } );
+// 	        }
+// 		});
 		
 		
+		$(".tdPlayer").on("click", function(){
+// 			console.log($(this).text());
+			let winner = $(this).text();
+			let tdWinner = $(this).parent().find(".tdWinner");
+			if(tdWinner.text() == winner){
+				tdWinner.text("");
+			}else{
+				tdWinner.text(winner);
+			}
+			
+		})
+		
+		$("#savePreliminaryRecord").on("click", function(){
+			
+			let winners = [];
+			$.each($(".tdWinner"), function(key, value){
+				winners.push(value.innerHTML);
+			});
+			
+			$.ajax({
+				type: "post",
+				url: "<c:url value='/contest/SavePreliminaryRecord'/>",
+				dataType: "json",
+				data: {
+						"contestNo": $(this).val(),
+						"winners": winners
+				},
+				success: function(result){
+					if(result.status == "success"){
+						Swal.fire({
+								      title:"儲存成功!",
+									  icon:"success",
+									  hideClass: {
+									    popup: 'animate__animated animate__fadeOutUp'
+									  }
+								  })
+					}else if(result.status == "sqlError"){
+						Swal.fire(
+								  '資料庫發生錯誤!',
+								  '請聯繫管理員',
+								  'error'
+								)
+					}
+				},
+				error: function(err){
+					Swal.fire(
+							  '網頁發生錯誤!',
+							  '請聯繫管理員',
+							  'error'
+							)
+				}
+			
+			});		
+			
 		});
 		
 		
-// 		var table = $('#preliminaryTable').DataTable();
-		 
-// 		table
-// 		    .column( 1 )
-// 		    .data()
-// 		    .each( function ( value, index ) {
-		    	
-// 		        console.log( 'Data in index: '+index+' is: '+value.split(">")[1].split("<")[0] );
-// 		    } );
-		
-		
+		$("#createRematch").on("click", function(){
+			
+			let winners = [];
+			let save = true;
+			$.each($(".tdWinner"), function(key, value){
+				winners.push(value.innerHTML);
+				if(value.innerHTML == ""){
+					save = false;
+					Swal.fire(
+							  '無法產生複賽賽程!',
+							  '勝方不能有空白',
+							  'error'
+							)				
+				}
+			});
+			
+			if(save){
+				//先儲存預賽戰績
+				$.ajax({
+					type: "post",
+					url: "<c:url value='/contest/SavePreliminaryRecord'/>",
+					dataType: "json",
+					data: {
+							"contestNo": $(this).val(),
+							"winners": winners
+					},
+					success: function(result){
+						if(result.status == "success"){
+							//儲存成功算戰績
+							$.ajax({
+								type: "post",
+								url: "<c:url value='/contest/CreateRematch'/>",
+								dataType: "json",
+								data: {
+										"contestNo": $("#createRematch").val(),
+										"winners": winners
+								},
+								success: function(result){
+									$.each(result.promoteList,function(key, value){
+										console.log(value);
+									});
+									
+									let a = result.promoteList.length;
+						        	$("#tree").width((a*96+(2*a)*10+20) + "px");
+							        let pow = a.toString(2).length;
+							        let max = Math.pow(2,pow);
+							        if((max-a) == a){
+							            pow = a.toString(2).length - 1;
+							            max = Math.pow(2,pow);
+							        }
+
+							        $("#tree").append("<ul class=\"layer1\">");
+							        $(".layer1").append("<li class=\"text1\"><label>冠軍</label>");
+							        
+							        for(let i=1; i<=pow; i++){
+							            let j = i + 1;
+							            let className;
+							            if(i != a.toString(2).length){
+							                className = "class=\"text" + j + "\"";
+							            }else{
+							                className = "class=\"bottom\"";
+							            }
+							            $(".text" + i).append("<ul class=\"layer" + j + "\">");
+							            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
+							            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
+							        }
+							        
+							        for(let i=0; i<max; i++){
+							            $(".bottom").eq(i).children().attr("id", "編號"+i);
+							        } 
+							        if((max-a) == 0){
+							            $(".text" + (pow+1)).attr("class", "bottom");
+							        }
+							     
+							        for(let i=0; i<(max-a); i++){
+							            let str = i.toString(2);
+							            while(str.length < pow-1){
+							                str = "0" + str;
+							            }
+							            let eqNumber = 0;
+							            for(let j=0; j<pow-1; j++){
+							                eqNumber += str.split("")[j]*Math.pow(2,j+1);
+							            }
+							            console.log("eq的值: " + eqNumber);
+							            $("#編號" + eqNumber).parent().parent().prev().before("<ul>").before("<ul>").before("<ul>").before("<ul>").parent().attr("class", "bottom");
+							            $("#編號" + eqNumber).parent().parent().remove();
+							        }
+										
+									let test = [];
+									let count = 0;
+									let bottomLabel = $(".bottom").find("label")
+									console.log("幾個 " + bottomLabel.length);
+							        for(let i=0; i<bottomLabel.length; i++){
+							        	count++;
+							        	test.push(bottomLabel.eq(i));
+							        	bottomLabel.eq(i).text(result.promoteList[i]);
+							        }
+// 						        	bottomLabel.closest("ul").prev().text("最近" + i);
+									
+									for(let i=pow+1; i>1; i--){
+										let promoteUp = $(".layer" + i);
+										for(let j=0; j<promoteUp.length; j++){
+											count++;
+											test.push(promoteUp.eq(j).prev());
+// 											promoteUp.eq(j).prev().addClass("順序" + count).text("最近" + i + "," + (j+1));
+										}
+									}
+									
+// 									for(let i=0; i<test.length; i++){
+// 										test[i].text(i+1);
+// 									}
+									
+									window.pageYOffset = 0;
+							        document.documentElement.scrollTop = 0
+							        document.body.scrollTop = 0
+							        let treeImage64;
+							        let drowImage64;
+//							         document.getElementById('tree').parentNode.style.overflow = 'visible';
+							        html2canvas(document.getElementById("tree"), { useCORS: true, scale:2 }).then(function (canvas) {
+//							 			document.getElementById('tree').parentNode.style.overflow = 'hidden'; 
+							            treeImage64 = canvas.toDataURL("image/jpeg", 1.0);
+
+							    		$.ajax({
+											type:"post",
+											url:"<c:url value='/contest/UpdateRematchImage'/>",
+											dataType:"json",
+											data:{
+												"treeImage64": treeImage64,
+												"contestNo": $("#createRematch").val(),
+											},
+											success: function(result){
+												if(result.status == "success"){
+													Swal.fire({
+														  title: "複賽賽程產生完成!",
+														  icon: "success",
+														  showClass: {
+															    popup: 'animate__animated animate__fadeInDown'
+															  },
+														  hideClass: {
+															    popup: 'animate__animated animate__fadeOutUp'
+															  }
+													}).then(function(){
+																window.setTimeout(function(){location.reload();},500);
+													})
+												}else if(result.status == "sqlError"){
+													Swal.fire(
+															  '資料庫發生錯誤!',
+															  '請聯繫管理員',
+															  'error'
+															)
+												}
+												
+											},
+											error: function(err){
+												Swal.fire({
+													  title: '網頁發生錯誤!',
+													  text: '請聯繫管理員',
+													  icon: 'error',
+													  showClass: {
+														    popup: 'animate__animated animate__fadeInDown'
+														  },
+													  hideClass: {
+														    popup: 'animate__animated animate__fadeOutUp'
+														  }
+												});
+											}
+										});
+								        
+							        });
+									
+									
+									
+								},error: function(err){
+									
+								}
+							});
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+						}else if(result.status == "sqlError"){
+							Swal.fire(
+									  '資料庫發生錯誤!',
+									  '請聯繫管理員',
+									  'error'
+									)
+						}
+					},
+					error: function(err){
+						Swal.fire(
+								  '網頁發生錯誤!',
+								  '請聯繫管理員',
+								  'error'
+								)
+					}
+				
+				});		
+				
+				
+				
+			}
+			
+		});
 		
 	});
 </script>

@@ -126,6 +126,7 @@ public class ContestDAOImpl implements ContestDAO {
 			cContestBean.setbPreliminariesImage(bPreliminariesImage);
 			return true;
 		}catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}

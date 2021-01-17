@@ -165,10 +165,10 @@ public class ForumController {
 		return nextPage;
 	}
 	
-	@PutMapping("/EditReply/{replyNo}/{newText}")
+	@PostMapping("/EditReply")
 	public @ResponseBody Map<String, String> replyUpdate(
-							@PathVariable Integer replyNo,
-							@PathVariable String newText,
+							@RequestParam Integer replyNo,
+							@RequestParam String newText,
 							Model model) {
 		System.out.println("回覆更新" + replyNo + newText);
 		Map<String, String> map = new HashMap<String, String>();

@@ -30,6 +30,12 @@ public class RecordServiceImpl implements RecordService {
 
 	@Transactional
 	@Override
+	public Boolean updateRecords(RecordBean rRecordBean) {
+		return rDAO.updateRecords(rRecordBean);
+	}
+
+	@Transactional
+	@Override
 	public List<RecordBean> selectContestRecord(Integer contestNo) {
 		return rDAO.selectContestRecord(contestNo);
 	}
@@ -49,10 +55,25 @@ public class RecordServiceImpl implements RecordService {
 
 	@Transactional
 	@Override
-	public void updateWinner(Integer contestNo, String sWinner) {
-		// TODO Auto-generated method stub
-		
+	public List<Object[]> promoteRecmatch(Integer contestNo, Integer groupNo, Integer promoteNumber) {
+		return rDAO.promoteRecmatch(contestNo, groupNo, promoteNumber);
 	}
+	
+	
+
+//	@Transactional
+//	@Override
+//	public void updatePreliminaryWinner(Integer contestNo, String sWinner) {
+//		rDAO.updatePreliminaryWinner(contestNo, sWinner);
+//	}
+//
+//	@Override
+//	public void updateRematchWinner(Integer contestNo, String sWinner) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+
+	
 
 	
 

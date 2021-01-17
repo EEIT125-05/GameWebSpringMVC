@@ -418,18 +418,18 @@ $(function(){
 	            if(i != a.toString(2).length){
 	                className = "class=\"text" + j + "\"";
 	            }else{
-	                className = "class=\"buttom\"";
+	                className = "class=\"bottom\"";
 	            }
 	            $(".text" + i).append("<ul class=\"layer" + j + "\">");
 	            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
 	            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
 	        }
 	        for(let i=0; i<max; i++){
-	            $(".buttom").eq(i).children().attr("id", "編號"+i);
-//		            $(".buttom").eq(i).children().attr("id", "編號"+i).attr("class", "drop");
+	            $(".bottom").eq(i).children().attr("id", "編號"+i);
+//		            $(".bottom").eq(i).children().attr("id", "編號"+i).attr("class", "drop");
 	        } 
 	        if((max-a) == 0){
-	            $(".text" + (pow+1)).attr("class", "buttom");
+	            $(".text" + (pow+1)).attr("class", "bottom");
 	        }
 	     
 	        for(let i=0; i<(max-a); i++){
@@ -447,15 +447,15 @@ $(function(){
 	                eqNumber += str.split("")[j]*Math.pow(2,j+1);
 	            }
 //		            console.log("eq的值: " + eqNumber);
-	            $("#編號" + eqNumber).parent().parent().prev().before("<ul>").before("<ul>").before("<ul>").before("<ul>").parent().attr("class", "buttom");
+	            $("#編號" + eqNumber).parent().parent().prev().before("<ul>").before("<ul>").before("<ul>").before("<ul>").parent().attr("class", "bottom");
 	            $("#編號" + eqNumber).parent().parent().remove();
 	        }
 			
 	        //統一設定高度?
 	        
-	        //沒預賽統一給.buttom加上.drop
+	        //沒預賽統一給.bottom加上.drop
 	        if(preliminary == "none"){
-		        $(".buttom").find("label").attr("class", "drop")
+		        $(".bottom").find("label").attr("class", "drop")
 		        							.css("border-color","green")
 		        							.css("height", (40*$(".playerNone").length/$(".drop").length) + "px");
 	        }

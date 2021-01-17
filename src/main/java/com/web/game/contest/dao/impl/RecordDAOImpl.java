@@ -34,6 +34,18 @@ public class RecordDAOImpl implements RecordDAO {
 		Session session = factory.getCurrentSession();
 		session.createQuery(hql).setParameter("contstNo", contestNo).executeUpdate();
 	}
+	
+	@Override
+	public Boolean updateRecords(RecordBean rRecordBean) {
+		Session session = factory.getCurrentSession();
+		try {
+			session.update(rRecordBean);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -57,14 +69,34 @@ public class RecordDAOImpl implements RecordDAO {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void updateWinner(Integer contestNo, String sWinner) {
-		// TODO Auto-generated method stub
-		
+	public List<Object[]> promoteRecmatch(Integer contestNo, Integer groupNo, Integer promoteNumber) {
+		String hql = "select sWinner,count(sWinner) from RecordBean where iContestNo = :contestNo and iGroundNo = :groupNo and sType = '預賽' group by sWinner order by count(sWinner) desc";
+		Session session = factory.getCurrentSession();
+		return session.createQuery(hql).setParameter("contestNo", contestNo)
+										.setParameter("groupNo", groupNo)
+										.setMaxResults(promoteNumber)
+										.getResultList();
 	}
 
 	
 	
-	
+//	@Override
+//	public void updatePreliminaryWinner(Integer contestNo, List<String> sWinners) {
+////		String hql = "update RecordBean set sWinner = :sWinner where iContestNo = :contestNo and sType = '預賽'";
+////		Session session = factory.getCurrentSession();
+////		
+////		Integer result = session.createQuery(hql).setParameter("sWinner", "").setParameter("contestNo", contestNo).executeUpdate();
+////		if(result != 1) {
+////			throw new RuntimeException();
+////		}
+//	}
+//
+//	@Override
+//	public void updateRematchWinner(Integer contestNo, List<String> sWinners) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 }
