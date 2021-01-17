@@ -18,25 +18,25 @@ public class DemandDAO {
 	@Autowired
 	SessionFactory factory;
 	
-	@SuppressWarnings("unchecked")
-	public List<DemandGameBean> changeDemandPage(int page){
-		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
-		Session session =factory.getCurrentSession();
-		String queryAll = "FROM DemandGameBean WHERE status = 0";
-		
-		int counts = 6;
-		int start = 0;
-		if (page == 1) {
-			start = 0;
-		} else {
-			page = page - 1;
-			start = page * counts;
-		}
-		list = (List<DemandGameBean>) session.createQuery(queryAll).setFirstResult(start).setMaxResults(counts)
-				.getResultList();
-		
-		return list;
-	}
+//	@SuppressWarnings("unchecked")
+//	public List<DemandGameBean> changeDemandPage(int page){
+//		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
+//		Session session =factory.getCurrentSession();
+//		String queryAll = "FROM DemandGameBean WHERE status = 0";
+//		
+//		int counts = 6;
+//		int start = 0;
+//		if (page == 1) {
+//			start = 0;
+//		} else {
+//			page = page - 1;
+//			start = page * counts;
+//		}
+//		list = (List<DemandGameBean>) session.createQuery(queryAll).setFirstResult(start).setMaxResults(counts)
+//				.getResultList();
+//		
+//		return list;
+//	}
 
 	@SuppressWarnings("unchecked")
 	public List<DemandGameBean> changeDemandByFilter(int page,String str){

@@ -336,8 +336,6 @@ function changeConditionByPage(a){
 			}, 600);
 		}
 		
-		
-// 		$(window).scrollTop("0")
 	}
 	
 	

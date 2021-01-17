@@ -31,7 +31,7 @@ import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
 
 @Controller
-@SessionAttributes({"user","sessionMap"})
+@SessionAttributes({"user","sessionDemandMap"})
 @RequestMapping("/exchange")
 public class WishBoardController {
 	
@@ -68,13 +68,13 @@ public class WishBoardController {
 		System.out.println("testNowPage"+nowPage);
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		Map<String, Object> map = new HashMap<String, Object>();
-		Map<String, Object> sessionMap = new HashMap<String, Object>();
+		Map<String, Object> sessionDemandMap = new HashMap<String, Object>();
 		Integer totalPage;
 		if(nowPage != null) {
 			System.out.println("nowPage!=null");
-			sessionMap = (Map<String, Object>) model.getAttribute("sessionMap");
-			totalPage = (Integer) sessionMap.get("totalPage");
-			String sHQL = (String) sessionMap.get("str");
+			sessionDemandMap = (Map<String, Object>) model.getAttribute("sessionDemandMap");
+			totalPage = (Integer) sessionDemandMap.get("totalPage");
+			String sHQL = (String) sessionDemandMap.get("str");
 			list = exchangeService.changeDemandByFilter(nowPage, sHQL);
 		}else {
 			System.out.println("nowPage=null");
@@ -89,12 +89,12 @@ public class WishBoardController {
 			if(totalPage > 1) {
 				System.out.println("setPageSuccess");
 				map.put("totalPage",totalPage);
-				sessionMap.put("totalPage", totalPage);
+				sessionDemandMap.put("totalPage", totalPage);
 			}
 			list = exchangeService.changeDemandByFilter(page, sHql);
 			System.out.println("totalPage"+totalPage);
-			sessionMap.put("str",sHql);
-			model.addAttribute("sessionMap",sessionMap);
+			sessionDemandMap.put("str",sHql);
+			model.addAttribute("sessionDemandMap",sessionDemandMap);
 		}
 		MemberBean mbUser = (MemberBean) model.getAttribute("user");
 		map.put("list",list);

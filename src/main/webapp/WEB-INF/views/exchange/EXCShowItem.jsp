@@ -71,7 +71,7 @@
 						<c:choose>
 							<c:when test="${s.status == 0}">
 								<td><a class="btn btn-primary btn-sm"
-									href="<c:url value="/exchange/deleteSupport?deleteindex=${s.no}"/>">刪除</a></td>
+								 onclick="deleteCheck('Support','${s.no}');">刪除</a></td>
 								<td><a class="btn btn-primary btn-sm"
 									href="<c:url value="/exchange/update?updateindex=${vs.index}"/>">修改</a></td>
 							</c:when>
@@ -153,7 +153,7 @@
 								<c:choose>
 									<c:when test="${d.status == 0}">
 										<td><a class="btn btn-primary btn-sm"
-											href="<c:url value="/exchange/deleteDemand?deleteindex=${d.no}"/>">刪除</a></td>
+											onclick="deleteCheck('Demand','${d.no}');"/>刪除</a></td>
 									</c:when>
 									<c:when test="${d.status == 1 || d.status ==2}">
 										<td><a class="btn btn-primary disabled btn-sm">刪除</a></td>
@@ -240,6 +240,7 @@
 					<a class="btn btn-primary" style="background-color: red;" href="<c:url value="/exchange/Index"/>">返回主頁</a>
 </div>
 					<%@ include file="../Foot.jsp"%>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 <script>
 if(${not empty MemberPending}){
 let t = window.setInterval(change,1000)
@@ -272,6 +273,37 @@ function change(){
 	x= true
 	}
 }
+}
+
+function deleteCheck(a,b){
+	
+	Swal.fire({
+		  title: "你確定要刪除這筆資料?",
+		//   text: "You won't be able to revert this!",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: '確定',
+		  cancelButtonText:'返回'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			 	var xhr = new XMLHttpRequest();
+			 	xhr.open('DELETE','<c:url value="/exchange/delete'+a+'" />'+'?deleteindex='+b,true);
+			 	xhr.send();
+			 	xhr.onload = function(){
+			 		if(xhr.readyState===4 && xhr.status ===200){
+			 			Swal.fire(
+			 				      'OK',
+			 				      '刪除成功',
+			 				      'success'
+			 				    ).then(function(){
+			 				   location.href='./management'
+			 				    })
+			 			}
+		  			}	
+			 	}
+			})
 }
 
 </script>					
