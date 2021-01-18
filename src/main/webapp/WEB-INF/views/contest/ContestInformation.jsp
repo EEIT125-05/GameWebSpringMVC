@@ -500,9 +500,18 @@ body{
 								<c:forEach var="record" items="${lRematchRecords}">
 									<tr>	
 										<c:choose>
-											<c:when test="${cContestBean.sHost == user.sAccount && record.sPlayers1 != 'none'}">
-												<td class="tdPlayerR">${record.sPlayers1}</td>
-												<td class="tdPlayerR">${record.sPlayers2}</td>
+											<c:when test="${cContestBean.sHost == user.sAccount}">
+												<td>${record.iKnockoutNo}</td>
+												<c:choose>
+													<c:when test="${record.sPlayers1 != 'none'}">
+														<td class="tdPlayerR">${record.sPlayers1}</td>
+														<td class="tdPlayerR">${record.sPlayers2}</td>
+													</c:when>
+													<c:otherwise>
+														<td>${record.sPlayers1}</td>
+														<td>${record.sPlayers2}</td>
+													</c:otherwise>
+												</c:choose>
 												<td class="tdWinnerR">${record.sWinner}</td>
 											</c:when>
 											<c:otherwise>
@@ -526,9 +535,9 @@ body{
 		</div>
 		
 		
+</div>
 		<div id="tree" class="tree"></div>
 <!-- 		畫圖用 不讓使用者看的 -->
-</div>
 <%@ include file="../Foot.jsp"%>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -541,17 +550,6 @@ body{
 // 			console.log($(this).text());
 			let winner = $(this).text();
 			let tdWinner = $(this).parent().find(".tdWinner");
-			if(tdWinner.text() == winner){
-				tdWinner.text("");
-			}else{
-				tdWinner.text(winner);
-			}
-			
-		})
-		
-		$(".tdPlayerR").on("click", function(){
-			let winner = $(this).text();
-			let tdWinner = $(this).parent().find(".tdWinnerR");
 			if(tdWinner.text() == winner){
 				tdWinner.text("");
 			}else{
@@ -693,13 +691,13 @@ body{
 							            $("#編號" + eqNumber).parent().parent().remove();
 							        }
 										
-									let test = [];
+									let labels = [];
 									let count = 0;
 									let bottomLabel = $(".bottom").find("label")
 									console.log("幾個 " + bottomLabel.length);
 							        for(let i=0; i<bottomLabel.length; i++){
 							        	count++;
-							        	test.push(bottomLabel.eq(i));
+							        	labels.push(bottomLabel.eq(i));
 							        	bottomLabel.eq(i).text(result.promoteList[i]);
 							        }
 // 						        	bottomLabel.closest("ul").prev().text("最近" + i);
@@ -708,13 +706,13 @@ body{
 										let promoteUp = $(".layer" + i);
 										for(let j=0; j<promoteUp.length; j++){
 											count++;
-											test.push(promoteUp.eq(j).prev());
+											labels.push(promoteUp.eq(j).prev());
 // 											promoteUp.eq(j).prev().addClass("順序" + count).text("最近" + i + "," + (j+1));
 										}
 									}
 									
-// 									for(let i=0; i<test.length; i++){
-// 										test[i].text(i+1);
+// 									for(let i=0; i<labels.length; i++){
+// 										labels[i].text(i+1);
 // 									}
 									
 									window.pageYOffset = 0;
@@ -759,20 +757,17 @@ body{
 												
 											},
 											error: function(XMLHttpRequest, textStatus, errorThrown){
-												console.log("1. " + XMLHttpRequest.readyState + "/" + XMLHttpRequest.status + "/" + XMLHttpRequest.statusText)
-												console.log("2. " + textStatus)
-												console.log("3. " + errorThrown)
-// 												Swal.fire({
-// 													  title: '網頁發生錯誤!',
-// 													  text: '請聯繫管理員',
-// 													  icon: 'error',
-// 													  showClass: {
-// 														    popup: 'animate__animated animate__fadeInDown'
-// 														  },
-// 													  hideClass: {
-// 														    popup: 'animate__animated animate__fadeOutUp'
-// 														  }
-// 												});
+												Swal.fire({
+													  title: '網頁發生錯誤!',
+													  text: '請聯繫管理員',
+													  icon: 'error',
+													  showClass: {
+														    popup: 'animate__animated animate__fadeInDown'
+														  },
+													  hideClass: {
+														    popup: 'animate__animated animate__fadeOutUp'
+														  }
+												});
 											}
 										});
 								        
@@ -781,20 +776,13 @@ body{
 									
 									
 								},error: function(err){
-									
+									Swal.fire(
+											  '網頁發生錯誤!',
+											  '請聯繫管理員',
+											  'error'
+											)
 								}
 							});
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							
 						}else if(result.status == "sqlError"){
 							Swal.fire(
@@ -814,9 +802,212 @@ body{
 				
 				});		
 				
-				
-				
 			}
+			
+		});
+		
+		$(".tdPlayerR").on("click", function(){
+			let winner = $(this).text();
+			let tdWinner = $(this).parent().find(".tdWinnerR");
+			if(tdWinner.text() == winner){
+				tdWinner.text("");
+			}else{
+				tdWinner.text(winner);
+			}
+			
+		});
+		
+		$("#saveRematchRecord").on("click", function(){
+			
+			let winners = [];
+			$.each($(".tdWinnerR"), function(key, value){
+				winners.push(value.innerHTML);
+			});
+			
+			$.ajax({
+				type: "post",
+				url: "<c:url value='/contest/SaveRematchRecord'/>",
+				dataType: "json",
+				data: {
+						"contestNo": $(this).val(),
+						"winners": winners
+				},
+				success: function(result){
+					if(result.status == "success"){
+						let successMessage = result.successMessage;
+						//要更新賽程表
+						let a = result.firstRound;
+						console.log("a " + a);
+			        	$("#tree").width((a*96+(2*a)*10+20) + "px");
+				        let pow = a.toString(2).length;
+				        let max = Math.pow(2,pow);
+				        if((max-a) == a){
+				            pow = a.toString(2).length - 1;
+				            max = Math.pow(2,pow);
+				        }
+
+				        $("#tree").append("<ul class=\"layer1\">");
+				        $(".layer1").append("<li class=\"text1\"><label>冠軍</label>");
+				        
+				        for(let i=1; i<=pow; i++){
+				            let j = i + 1;
+				            let className;
+				            if(i != a.toString(2).length){
+				                className = "class=\"text" + j + "\"";
+				            }else{
+				                className = "class=\"bottom\"";
+				            }
+				            $(".text" + i).append("<ul class=\"layer" + j + "\">");
+				            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
+				            $(".layer" + j).append("<li " + className + "><label>&nbsp;</label>");
+				        }
+				        
+				        for(let i=0; i<max; i++){
+				            $(".bottom").eq(i).children().attr("id", "編號"+i);
+				        } 
+				        if((max-a) == 0){
+				            $(".text" + (pow+1)).attr("class", "bottom");
+				        }
+				     
+				        for(let i=0; i<(max-a); i++){
+				            let str = i.toString(2);
+				            while(str.length < pow-1){
+				                str = "0" + str;
+				            }
+				            let eqNumber = 0;
+				            for(let j=0; j<pow-1; j++){
+				                eqNumber += str.split("")[j]*Math.pow(2,j+1);
+				            }
+				            console.log("eq的值: " + eqNumber);
+				            $("#編號" + eqNumber).parent().parent().prev().before("<ul>").before("<ul>").before("<ul>").before("<ul>").parent().attr("class", "bottom");
+				            $("#編號" + eqNumber).parent().parent().remove();
+				        }
+							
+						let labels = [];
+						let count = 0;
+						let bottomLabel = $(".bottom").find("label")
+						console.log("幾個 " + bottomLabel.length);
+				        for(let i=0; i<bottomLabel.length; i++){
+				        	count++;
+				        	labels.push(bottomLabel.eq(i));
+				        }
+						
+						for(let i=pow+1; i>1; i--){
+							let promoteUp = $(".layer" + i);
+							for(let j=0; j<promoteUp.length; j++){
+								count++;
+								labels.push(promoteUp.eq(j).prev());
+							}
+						}
+						
+// 						for(let i=0; i<labels.length; i++){
+// 							labels[i].text(i+1);
+// 						}
+						
+						for(let i=0; i<result.winnerList.length; i++){
+							labels[i].text(result.winnerList[i]);
+						}
+						
+						window.pageYOffset = 0;
+				        document.documentElement.scrollTop = 0
+				        document.body.scrollTop = 0
+				        let treeImage64;
+				        let drowImage64;
+				        html2canvas(document.getElementById("tree"), { useCORS: true, scale:2 }).then(function (canvas) {
+				            treeImage64 = canvas.toDataURL("image/jpeg", 1.0);
+							
+				    		$.ajax({
+								type:"post",
+								url:"<c:url value='/contest/UpdateRematchImage'/>",
+								dataType:"json",
+								data:{
+									"treeImage64": treeImage64,
+									"contestNo": $("#createRematch").val(),
+								},
+								success: function(result){
+									if(result.status == "success"){
+										
+										if(successMessage){
+											Swal.fire({
+											      title:"冠軍產生!",
+												  text: '網頁將更新賽程表',
+												  icon:"success",
+												  showClass: {
+													    popup: 'animate__animated animate__fadeInDown'
+													  },
+												  hideClass: {
+												    popup: 'animate__animated animate__fadeOutUp'
+												  }
+											  }).then(function(){
+					 									window.setTimeout(function(){location.reload();},500);
+					 								});
+										}else{
+											Swal.fire({
+											      title:"更新成功!",
+												  text: '網頁將更新賽程表',
+												  icon:"success",
+												  showClass: {
+													    popup: 'animate__animated animate__fadeInDown'
+													  },
+												  hideClass: {
+												    popup: 'animate__animated animate__fadeOutUp'
+												  }
+											  }).then(function(){
+				 									window.setTimeout(function(){location.reload();},500);
+				 								});
+										}
+										
+										
+									
+									
+									
+									
+									}else if(result.status == "sqlError"){
+										Swal.fire(
+												  '資料庫發生錯誤!',
+												  '請聯繫管理員',
+												  'error'
+												)
+									}
+									
+								},
+								error: function(XMLHttpRequest, textStatus, errorThrown){
+									Swal.fire({
+										  title: '網頁發生錯誤!',
+										  text: '請聯繫管理員',
+										  icon: 'error',
+										  showClass: {
+											    popup: 'animate__animated animate__fadeInDown'
+											  },
+										  hideClass: {
+											    popup: 'animate__animated animate__fadeOutUp'
+											  }
+									});
+								}
+							});
+					        
+				        });
+							
+						
+						
+					}else if(result.status == "sqlError"){
+						Swal.fire(
+								  '資料庫發生錯誤!',
+								  '請聯繫管理員',
+								  'error'
+								)
+					}
+				},
+				error: function(err){
+					Swal.fire(
+							  '網頁發生錯誤!',
+							  '請聯繫管理員',
+							  'error'
+							)
+				}
+			
+			});		
+			
 			
 		});
 		
@@ -1167,99 +1358,6 @@ body{
 		$("#showOption").on("click", function(){
 			this.target = "_blank";
 		});
-		
-// 		$(".choosePlayer").on("click", function(){
-// 			$(this).parent().parent().prev().find(".win").text($(this).text());
-// 		});
-		
-// 		$(".savePreliminaryRecord").on("click", function(){
-			
-// 			let win = [];
-// 			let catchSpace = false;
-// 			$.each($(".group" + $(this).val()), function(key, value){
-// 				win.push(value.innerHTML);
-// 				console.log(value.innerHTML);
-// 				if(value.innerHTML == ""){
-// 					catchSpace = true;
-// 				}
-// 			});
-// 			if(catchSpace){
-// 				Swal.fire({
-// 					  title: "發生錯誤!",
-// 					  text: "不能儲存空白勝方,請更改",
-// 					  icon: 'error',
-// 					showClass: {
-// 					    popup: 'animate__animated animate__fadeInDown'
-// 					  },
-// 						hideClass: {
-// 						    popup: 'animate__animated animate__fadeOutUp'
-// 						  }
-// 					})
-// 			}else{
-// 				Swal.fire({
-// 					  title: '確定儲存戰績?',
-// 					  text: "儲存之後將不能更改,請再三檢查",
-// 					  icon: 'warning',
-// 					  showCancelButton: true,
-// 					  confirmButtonColor: '#d33',
-// 					  cancelButtonColor: '#3085d6',
-// 					  confirmButtonText: '儲存',
-// 				      cancelButtonText: '取消',
-// 					  showClass: {
-// 					    popup: 'animate__animated animate__fadeInDown'
-// 					  },
-// 					  hideClass: {
-// 						popup: 'animate__animated animate__fadeOutUp'
-// 					  }
-// 					}).then((result) => {
-// 						  if (result.isConfirmed) {
-// 							  $.ajax({
-// 									type: "post",
-// 									url: "<c:url value='/contest/SaveRecord'/>",
-// 									dataType: "json",
-// 									data: {
-// 											"contestNo": $("#delete").val(),//借來用
-// 											"groupNo": $(this).val(),
-// 											"win": win
-// 									},
-// 									success: function(result){
-// 										if(result.status == "success"){
-// 											Swal.fire({
-// 													      title:"儲存成功!",
-// 														  icon:"success",
-// 														  hideClass: {
-// 														    popup: 'animate__animated animate__fadeOutUp'
-// 														  }
-// 													  }).then(function(){
-// 														window.setTimeout(function(){location.reload();},500);
-														
-// 													})
-// 										}else if(result.status == "sqlError"){
-// 											Swal.fire(
-// 													  '資料庫發生錯誤!',
-// 													  '請聯繫管理員',
-// 													  'error'
-// 													)
-// 										}
-// 									},
-// 									error: function(err){
-// 										Swal.fire(
-// 												  '網頁發生錯誤!',
-// 												  '請聯繫管理員',
-// 												  'error'
-// 												)
-// 									}
-									
-// 								});		
-// 						  }
-// 						});
-// 			}
-			
-// 		});
-		
-		
-		
-		
 		
 	
 	});

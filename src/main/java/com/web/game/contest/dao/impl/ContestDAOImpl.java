@@ -124,11 +124,9 @@ public class ContestDAOImpl implements ContestDAO {
 			ContestBean cContestBean = session.get(ContestBean.class, iNo);
 			cContestBean.setbRematchImage(bRematchImage);
 			cContestBean.setbPreliminariesImage(bPreliminariesImage);
-			System.out.println("dao回應是");
 			return true;
 		}catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("dao回應否");
 			return false;
 		}
 	}
