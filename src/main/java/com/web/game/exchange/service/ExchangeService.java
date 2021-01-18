@@ -42,17 +42,22 @@ public class ExchangeService {
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
 		return list = supportDAO.changePage(page);
 	}
-	@Transactional
-	public List<SupportGameBean> changePageByParam(int page,String search,String param){
-		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
-		return list = supportDAO.changePageByParam(page, search, param);
-	}
+//	@Transactional
+//	public List<SupportGameBean> changePageByParam(int page,String search,String param){
+//		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
+//		return list = supportDAO.changePageByParam(page, search, param);
+//	}
 	//------------------------demand
 	@Transactional
-	public List<DemandGameBean> changeDemandPage(int page){
-		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
-		return list = demandDAO.changeDemandPage(page);
+	public Integer getDemandPage(String str) {
+		return demandDAO.getDemandPage(str);
 	}
+	
+//	@Transactional
+//	public List<DemandGameBean> changeDemandPage(int page){
+//		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
+//		return list = demandDAO.changeDemandPage(page);
+//	}
 	@Transactional
 	public List<DemandGameBean> changeDemandByFilter(int page,String sHql){
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
@@ -117,6 +122,16 @@ public class ExchangeService {
 		list = supportDAO.getMemberPending(account);
 		System.out.println("serviceOut");
 		return list;
+	}
+	
+	@Transactional
+	public List<SupportGameBean> changeSupportByFilter(int nowPage,String sHQL){
+		List<SupportGameBean> list = new ArrayList<>();
+		return supportDAO.changeSupportByFilter(nowPage, sHQL);
+	}
+	@Transactional
+	public Integer getSupportPage(String sHQL){
+		return supportDAO.getSupportPage(sHQL);
 	}
 	
 	

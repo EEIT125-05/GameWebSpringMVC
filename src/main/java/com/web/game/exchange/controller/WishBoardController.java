@@ -31,7 +31,7 @@ import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
 
 @Controller
-@SessionAttributes("user")
+@SessionAttributes({"user","sessionDemandMap"})
 @RequestMapping("/exchange")
 public class WishBoardController {
 	
@@ -55,22 +55,49 @@ public class WishBoardController {
 		return "exchange/see";
 	}
 	
-	@GetMapping("/addFilter")
-	public @ResponseBody Map<String, Object> addFilter(Model model,
-							@RequestParam String str,
-							@RequestParam String condition
+	@GetMapping("/addDemandFilter")
+	public @ResponseBody Map<String, Object> addDemandFilter(Model model,
+							@RequestParam(required = false) String str,
+							@RequestParam(required = false) String condition,
+							@RequestParam(required = false) Integer nowPage
 			) {
-		System.out.println("addFilterIn");
+		System.out.println("addDemandFilterIn");
 		System.out.println("str"+str);
 		System.out.println("condition"+condition);
 		Integer page = 1;  
-		MemberBean mbUser = (MemberBean) model.getAttribute("user");
-		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println("testNowPage"+nowPage);
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
-		String sHql = "AND "+ condition+ " like '%" + str + "%'";
-		list = exchangeService.changeDemandByFilter(page, sHql);
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> sessionDemandMap = new HashMap<String, Object>();
+		Integer totalPage;
+		if(nowPage != null) {
+			System.out.println("nowPage!=null");
+			sessionDemandMap = (Map<String, Object>) model.getAttribute("sessionDemandMap");
+			totalPage = (Integer) sessionDemandMap.get("totalPage");
+			String sHQL = (String) sessionDemandMap.get("str");
+			list = exchangeService.changeDemandByFilter(nowPage, sHQL);
+		}else {
+			System.out.println("nowPage=null");
+			page = 1;
+			String sHql;
+			if(condition.equals("all")) {
+				sHql = "";
+			}else {
+				sHql = "AND "+ condition+ " like '%" + str + "%'";
+			}
+			totalPage = exchangeService.getDemandPage(sHql);
+			if(totalPage > 1) {
+				System.out.println("setPageSuccess");
+				map.put("totalPage",totalPage);
+				sessionDemandMap.put("totalPage", totalPage);
+			}
+			list = exchangeService.changeDemandByFilter(page, sHql);
+			System.out.println("totalPage"+totalPage);
+			sessionDemandMap.put("str",sHql);
+			model.addAttribute("sessionDemandMap",sessionDemandMap);
+		}
+		MemberBean mbUser = (MemberBean) model.getAttribute("user");
 		map.put("list",list);
-		System.out.println(list.size());
 		map.put("mbUser",mbUser);
 		System.out.println(mbUser);
 		System.out.println("addFilterOut");

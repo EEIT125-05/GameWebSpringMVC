@@ -47,5 +47,9 @@ public class HomeController {
 		}
 		return "GameIndex";
 	}
-
+	
+	@GetMapping("/backstage")
+	public String gameBackStage() {
+		return "Backstage";
+	}
 }

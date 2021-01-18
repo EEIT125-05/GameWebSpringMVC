@@ -14,11 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -34,51 +36,62 @@ import com.web.game.member.model.MemberBean;
 public class UDSupportGameController {
 
 	@Autowired
-	ExchangeService service;
+	ExchangeService exchangeService;
 
 	@GetMapping("/management")
 	public String ManageSupportGame(Model model) {
 		return "exchange/EXCShowItem";
 	}
-
-//	@GetMapping("/deleteSupport")
-//	public String DeleteSupportGame(Model model, RedirectAttributes attr, @RequestParam Integer deleteindex) {
-//
-//		// ------重定向
-//		String sAction = "刪除";
+	
+	@PostMapping("/update")
+	public String ConfirmUpdateSupportGame(Model model,
+			@ModelAttribute(value = "gamebean") SupportGameBean gamebean) {
+		System.out.println(gamebean.getStatus());
+		System.out.println(gamebean.getConsole());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String sTimeString = sdf.format(new Date());
+		Timestamp tTime = Timestamp.valueOf(sTimeString);
+		gamebean.setDate(tTime);
+		// ------重定向
+		String sAction = "更新";
 //		String sPath = null;
-//		if(service.FindsupportGame(deleteindex).getMygamebean()!=null) {
-//			MyGameBean mygamebean = service.FindsupportGame(deleteindex).getMygamebean();
-//			mygamebean.setSupportgamebean(null);
-//			System.out.println("test"+mygamebean.getSupportgamebean());
-//			service.updateGameToSupport(mygamebean);
-//			
-//		}
-//		if (service.DeleteSupportGame(deleteindex)) {
+		if (exchangeService.UpdateSupportGame(gamebean)) {
 //			sPath = "EXCThanks";
-//		} else {
+			System.out.println("insertSuccess");
+		} else {
 //			sPath = "EXCFail";
-//		}
-//		attr.addAttribute("action", sAction);
-//		attr.addAttribute("path", sPath);
-//		return "redirect:/exchange/Result";
-//	}
+			System.out.println("insertFail");
+		}
+		model.addAttribute("action", sAction);
+		return "exchange/EXCShowItem";
+	}
+	
+	
 
-//	@GetMapping("/deleteDemand")
-//	public String DeleteDemandGame(Model model, RedirectAttributes attr, @RequestParam Integer deleteindex) {
-//		
-//		// ------重定向
-//		String sAction = "刪除";
-//		String sPath = null;
-//		if (service.DeleteDemandGame(deleteindex)) {
-//			sPath = "EXCThanks";
-//		} else {
-//			sPath = "EXCFail";
-//		}
-//		attr.addAttribute("action", sAction);
-//		attr.addAttribute("path", sPath);
-//		return "redirect:/exchange/Result";
-//	}
+	@DeleteMapping("/deleteSupport")
+	public @ResponseBody boolean DeleteSupportGame(Model model,@RequestParam Integer deleteindex) {
+
+		boolean result = false;
+		if(exchangeService.FindsupportGame(deleteindex).getMygamebean()!=null) {
+			MyGameBean mygamebean = exchangeService.FindsupportGame(deleteindex).getMygamebean();
+			mygamebean.setSupportgamebean(null);
+			System.out.println("test"+mygamebean.getSupportgamebean());
+			exchangeService.updateGameToSupport(mygamebean);
+		}
+		if (exchangeService.DeleteSupportGame(deleteindex)) {
+			result = true;
+		} 
+		return result;
+	}
+
+	@DeleteMapping("/deleteDemand")
+	public @ResponseBody boolean DeleteDemandGame(Model model,@RequestParam Integer deleteindex) {
+		boolean result = false;
+		if (exchangeService.DeleteDemandGame(deleteindex)) {
+			result = true;
+		} 
+		return result;
+	}
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/update")
@@ -122,7 +135,7 @@ public class UDSupportGameController {
 //		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
 		System.out.println("MemberSupportIn");
-		list = service.GetMemberSupport(sMemberaccount);
+		list = exchangeService.GetMemberSupport(sMemberaccount);
 		System.out.println("MemberSupportOut");
 		return list;
 	}
@@ -134,7 +147,7 @@ public class UDSupportGameController {
 		String sMemberaccount = member.getsAccount();//整合後打開
 //		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
-		list = service.GetMemberDemand(sMemberaccount);
+		list = exchangeService.GetMemberDemand(sMemberaccount);
 		System.out.println("MemberDemand");
 		return list;
 	}
@@ -146,7 +159,7 @@ public class UDSupportGameController {
 		String sMemberaccount = member.getsAccount();//整合後打開
 //		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
 		List<MyGameBean> list = new ArrayList<MyGameBean>();
-		list = service.getMemberGames(sMemberaccount);
+		list = exchangeService.getMemberGames(sMemberaccount);
 		System.out.println("controllerlist"+list.size());
 		return list;
 	}
@@ -158,7 +171,7 @@ public class UDSupportGameController {
 //		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
 		System.out.println("MemberSupportIn");
-		list = service.getMemberPending(sMemberaccount);
+		list = exchangeService.getMemberPending(sMemberaccount);
 		System.out.println("MemberSupportOut");
 		return list;
 	}
@@ -170,7 +183,7 @@ public class UDSupportGameController {
 //		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		System.out.println("MemberDemandIn");
-		list = service.GetMemberDemandPending(sMemberaccount);
+		list = exchangeService.GetMemberDemandPending(sMemberaccount);
 		System.out.println("MemberDemandOut");
 		return list;
 	}
@@ -178,7 +191,7 @@ public class UDSupportGameController {
 	@ModelAttribute("initOption")
 	public Map<String, Object> initOptionList(HttpServletRequest req,Model model){
 		Map<String, Object> initOptionMap = new HashMap<String, Object>();
-		return service.initOption();
+		return exchangeService.initOption();
 	}
 	
 }

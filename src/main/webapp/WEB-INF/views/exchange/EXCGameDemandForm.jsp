@@ -45,7 +45,7 @@ div {
 </HEAD>
 <BODY>
 	<%@ include file="../Header.jsp"%>
-
+<br>
 	<form:form method="post" modelAttribute="DemandGameBean" class="dark-matter com">
 		<div class="container">
 		<fieldset>
@@ -93,14 +93,28 @@ div {
 				<form:input class="fixedlen" type="text" path="remark" />
 			</div>
 			<div style="margin-top: 20px;">
-				<button type="submit" name="submit" id="submit" class="button" disabled>送出</button>
+				<button type="button"  name="submit" id="submitButton" onclick="checkSubmit();" class="button" disabled>送出</button>
 				<button type="reset" class="button">清除</button>
 			</div>
 		</fieldset>
 		</div>
 	</form:form>
-
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 	<script>
+	
+	function checkSubmit(){
+		swal.fire("${action}成功",
+				  "",
+				  "success")
+				  .then(function(){
+					 $('form').submit()
+					  console.log("success")
+				  })
+	}
+	
+	
+	
+	
 	$("#gamer").attr("readonly", true);
 	
 	
@@ -146,9 +160,9 @@ div {
 		function checkall() {
 			if (flag1 && flag2 && flag3) {
 
-				$("#submit").attr("disabled", false);
+				$("#submitButton").attr("disabled", false);
 			} else {
-				$("#submit").attr("disabled", true);
+				$("#submitButton").attr("disabled", true);
 			}
 		}
 	</script>

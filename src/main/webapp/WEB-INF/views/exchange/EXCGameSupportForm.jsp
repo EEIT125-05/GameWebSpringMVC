@@ -39,7 +39,7 @@ div {
 <BODY>
 
 	<%@ include file="../Header.jsp"%>
-
+<br>
 	<form:form method="post" modelAttribute="gamebean"
 		enctype='multipart/form-data' class="dark-matter com">
 		<fieldset>
@@ -137,10 +137,10 @@ div {
 				<input type="hidden" name="decisions" value="wish">
 				<c:choose>
 					<c:when test="${update != null }">
-						<button type="submit" class="button"  id="submit" >送出</button>
+						<button type="button" class="button" id="submitButton" onclick="checkSubmit();">送出</button>
 					</c:when>
 					<c:otherwise>
-						<button type="submit" class="button"  id="submit" disabled>送出</button>
+						<button type="button" class="button" id="submitButton" onclick="checkSubmit();" disabled>送出</button>
 					</c:otherwise>
 				</c:choose>
 				<button type="reset" class="button"  >清除</button>
@@ -151,8 +151,19 @@ div {
 		</c:if>
 		
 	</form:form>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 	<script>
+		
+		function checkSubmit(){
+			swal.fire("${action}成功",
+					  "",
+					  "success")
+					  .then(function(){
+						 $('form').submit()
+						  console.log("success")
+					  })
+		}
+		
 		$("#delivery").attr("readonly", true);
 		$("#gamer").attr("readonly", true);
 	
@@ -252,9 +263,9 @@ div {
 		function checkall() {
 			if (flag1 && flag2 && flag3 && flag4 && flag5) {
 
-				$("#submit").attr("disabled", false);
+				$("#submitButton").attr("disabled", false);
 			} else {
-				$("#submit").attr("disabled", true);
+				$("#submitButton").attr("disabled", true);
 			}
 		}
 		

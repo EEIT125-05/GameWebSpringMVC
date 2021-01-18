@@ -113,7 +113,7 @@
               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">我的遊戲庫</a>
               <a class="dropdown-item" href="<c:url value="/exchange/memberHistoryList"/>">我的交換歷史清單</a>
               <a class="dropdown-item" href="<c:url value="/exchange/wishBoard"/>">許願池</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/testWish"/>">測試中</a>
+              <a class="dropdown-item" href="<c:url value="/backstage"/>">後台測試中</a>
             </div>
           </li>
           
