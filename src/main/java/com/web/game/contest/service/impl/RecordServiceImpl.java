@@ -24,8 +24,14 @@ public class RecordServiceImpl implements RecordService {
 
 	@Transactional
 	@Override
-	public void deleteRecord(Integer contestNo) {
-		rDAO.deleteRecord(contestNo);
+	public void deleteContestRecord(Integer contestNo) {
+		rDAO.deleteContestRecord(contestNo);
+	}
+
+	@Transactional
+	@Override
+	public Boolean updateRecords(RecordBean rRecordBean) {
+		return rDAO.updateRecords(rRecordBean);
 	}
 
 	@Transactional
@@ -36,10 +42,38 @@ public class RecordServiceImpl implements RecordService {
 
 	@Transactional
 	@Override
-	public void addScore(Integer contestNo, Integer groupNo, List<String> sWinPlayers) {
-		rDAO.addScore(contestNo, groupNo, sWinPlayers);
+	public List<RecordBean> selectContestPreliminaryRecord(Integer contestNo) {
+		return rDAO.selectContestPreliminaryRecord(contestNo);
 	}
 	
+	@Transactional
+	@Override
+	public List<RecordBean> selectContestRematchRecord(Integer contestNo) {
+		return rDAO.selectContestRematchRecord(contestNo);
+	}
+
+	@Transactional
+	@Override
+	public List<Object[]> promoteRecmatch(Integer contestNo, Integer groupNo, Integer promoteNumber) {
+		return rDAO.promoteRecmatch(contestNo, groupNo, promoteNumber);
+	}
+	
+	
+
+//	@Transactional
+//	@Override
+//	public void updatePreliminaryWinner(Integer contestNo, String sWinner) {
+//		rDAO.updatePreliminaryWinner(contestNo, sWinner);
+//	}
+//
+//	@Override
+//	public void updateRematchWinner(Integer contestNo, String sWinner) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+
+	
+
 	
 
 }

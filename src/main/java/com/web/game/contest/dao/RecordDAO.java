@@ -8,9 +8,23 @@ public interface RecordDAO {
 	
 	Boolean insertRecord(RecordBean rRecordBean);
 	
-	void deleteRecord(Integer contestNo);
+	Boolean updateRecords(RecordBean rRecordBean);
+	
+	void deleteContestRecord(Integer contestNo);
 
 	List<RecordBean> selectContestRecord(Integer contestNo);
 	
-	public void addScore(Integer contestNo, Integer groupNo, List<String> sWinPlayers);
+	List<RecordBean> selectContestPreliminaryRecord(Integer contestNo);
+	
+	List<RecordBean> selectContestRematchRecord(Integer contestNo);
+	
+	List<Object[]> promoteRecmatch(Integer contestNo, Integer groupNo, Integer promoteNumber);
+
+	
+//	void updatePreliminaryWinner(Integer contestNo, String sWinner);
+//	
+//	void updateRematchWinner(Integer contestNo, String sWinner);
+//	void updatePreliminaryWinner(Integer contestNo, List<String> sWinners);
+//	
+//	void updateRematchWinner(Integer contestNo, List<String> sWinners);
 }

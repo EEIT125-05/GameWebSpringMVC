@@ -58,7 +58,7 @@ input[type=number]::-webkit-inner-spin-button {
 						<div style="display: flex; align-items: center; justify-content:center;">
 						<input id="min" name="" type="button" value="-" style="color:black;border:none;border-radius:5px 0 0 5px;height:30px;width:40px;line-height:0.5;color:red;font-family:fantasy;fantasy;font-size:35px;">
 						<input type=number id="quantity" style="height:30px;width:40px;border:none;line-height:1.5;text-align: center;font-weight:bold;font-size:20px;background-color:fefcfb;" value="1"
-						 max="15" min="1" oninput="validity.valid||(value=1);">
+						>
 						<input id="add" name="" type="button" value="+" style="width:40px;height:30px;border:none;border-radius:0 5px 5px 0;line-height:0.5;color:red;font-family:fantasy;font-size:30px;">
 						
 						</div>
@@ -112,40 +112,87 @@ input[type=number]::-webkit-inner-spin-button {
 	<%@ include file="../Foot.jsp"%>
 </body>
 <script>
+$('#quantity').change(function(){
+	   //變更值(手動輸入)
+	    if($(this).val() > 0){     
+	    	if(parseInt($(this).val()) > 15){
+		       $(this).val($(this).attr("value"));		     
+		    }
+		     else{
+		      $(this).attr("value", $(this).val());
+		      allchange();
+		     }
+	    }
+	    else{
+	     $(this).val($(this).attr("value"))
+	    }
+	    
+// 	     Swal.fire({
+// 	       title: '輸入單位至少為1?',
+// 	       text: "",
+// 	       icon: 'question',
+// 	       showCancelButton: true,
+// 	       confirmButtonColor: '#3085d6',
+// 	       cancelButtonColor: '#d33',
+// 	       cancelButtonText: '取消',
+// 	       confirmButtonText: '確定'
+// 	     }).then((result) => {
+// 	       if (result.isConfirmed) {
+// 	         Swal.fire(
+// 	           '商品已刪除',
+// 	           '',
+// 	           'success'
+// 	         )
+// 	      buylist.splice(0, buylist.length);
+// 	      productId = $(this).parent().parent().attr("id");
+// 	      $("table").html("").parent().css("height", "auto").css("overflow", "");
+// 	      deleteFromShopCar();
+// 	       }
+// 	      else{
+// 	     }
+// 	     })
+	   
+	  })
+
+function allchange(){
+	let t = $("#quantity");
+	let t1=$("#t1");
+	let t2=$("#t2");
+	let t3=$("#iPrice");
+	let t4=$("#t4").html().split("元")[0];
+	let t5=$("#total");
+	
+	t1.html("總價（局 * " + t.val() + "）");
+	t2.html(parseInt(t.val())*parseInt(t4) + "元");
+	t3.html(t2.html());
+	t5.val(parseInt(t.val())*parseInt(t4));
+	t5.val(parseInt(t.val())*parseInt(t4)).attr("value",t5.val());
+	if(t.val()==1){
+		$("#min").attr("disabled","disabled");
+	}
+	
+	else if(t.val()==15){
+		$("#add").attr("disabled","disabled");
+	}
+	else{
+		$("#min").removeAttr("disabled");
+		$("#add").removeAttr("disabled");
+	}
+}
+
 $(function(){
-	var t = $("#quantity");
-	var t1=$("#t1");
-	var t2=$("#t2");
-	var t3=$("#iPrice");
-	var t4=$("#t4").html().split("元")[0];
-	var t5=$("#total");
 
 	$("#add").click(function(){
-		t.val(parseInt(t.val())+1).attr("value", t.val());
-		t1.html("總價（局 * " + t.val() + "）");
-		t2.html(parseInt(t.val())*parseInt(t4) + "元");
-		t3.html(t2.html());
-		t5.val(parseInt(t.val())*parseInt(t4))
-		t5.val(parseInt(t.val())*parseInt(t4)).attr("value",t5.val());
-		$("#min").removeAttr("disabled");//當按加1時，解除$("#min")不可讀狀態
-		if(parseInt(t.val())>=15){
-			$("#add").attr("disabled","disabled")
+		if($("#quantity").val()<15){
+			$("#quantity").val(parseInt($("#quantity").val())+1).attr("value",$("#quantity").val());
+			allchange();
 		}
-
 	})
 	$("#min").click(function(){
-               if (parseInt(t.val())>1||parseInt(t.val())>=15) {                     //判斷數量值大於1時才可以減少
-                t.val(parseInt(t.val())-1).attr("value", t.val());
-                t1.html("總價（局 * " + t.val() + "）");
-        		t2.html(parseInt(t.val())*parseInt(t4) + "元");
-        		t3.html(t2.html());
-        		t5.val(parseInt(t.val())*parseInt(t4))
-        		t5.val(parseInt(t.val())*parseInt(t4)).attr("value",t5.val());
-                $("#add").removeAttr("disabled");
-                }else{
-                $("#min").attr("disabled","disabled")        //當$("#min")為1時，$("#min")不可讀狀態
-               }
-
+		if($("#quantity").val()>0){
+			$("#quantity").val(parseInt($("#quantity").val())-1).attr("value",$("#quantity").val());
+			allchange();
+		}
 	})
 
 	

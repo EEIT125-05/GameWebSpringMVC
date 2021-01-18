@@ -62,9 +62,18 @@ input {
 	font-size: 30;
 	font-weight: 900;
 }
-
 .b:hover {
 	color: #00FFFF;
+}
+button{
+	background-color: white;
+	color:black;
+	font-weight: 900;
+}
+button:hover{
+	background-color: #00FFFF;
+	color:black;
+	font-weight: 900;
 }
 </style>
 </head>
@@ -104,55 +113,55 @@ input {
 			<input type="hidden" name="iNo" ${user.iNo} readonly>
 			<table>
 				<tr class="b">
-					<td>設定的帳號</td>
+					<td>我的帳號</td>
 					<td>:${user.sAccount}<input type="hidden" name="sAccount"
 						value="${user.sAccount}" readonly> <input type="hidden"
 						name="sPassword" value="${user.sPassword}" readonly></td>
 				</tr>
 				<tr class="b">
-					<td>使用的信箱</td>
+					<td>我的信箱</td>
 					<td>:${user.sEmail}<input type="hidden" name="sEmail"
 						value="${user.sEmail}" readonly></td>
 				</tr>
 				<tr class="b">
-					<td>真實姓名</td>
+					<td>我的姓名</td>
 					<td>:${user.sEname}<input type="hidden" name="sEname"
 						value="${user.sEname}" readonly></td>
 				</tr>
 				<tr class="b">
-					<td>使用的暱稱</td>
+					<td>我的暱稱</td>
 					<td>:${user.sNickname}<input type="hidden" name="sNickname"
 						value="${user.sNickname}" readonly></td>
 				</tr>
 				<tr class="b">
-					<td>手機號碼</td>
+					<td>我的手機號碼</td>
 					<td>:${user.sPhone}<input type="hidden" name="sPhone"
 						value="${user.sPhone}" readonly></td>
 				</tr>
 				<tr class="b">
-					<td>居住城市</td>
+					<td>我的城市</td>
 					<td>:${user.sAddress}<input type="hidden" name="sAddress"
 						value="${user.sAddress}" readonly></td>
 				</tr>
 				<tr class="b">
-					<td>性別</td>
+					<td>我的性別</td>
 					<td>:${user.sGender}<input type="hidden" name="sGender"
 						value="${user.sGender}" readonly></td>
 				</tr>
 				<tr class="b">
-					<td>生年月日</td>
+					<td>我的生日</td>
 					<td>:${user.sBirthday}<input type="hidden" name="sBirthday"
 						value="${user.sBirthday}" readonly></td>
 				</tr>
 				<tr class="b">
-					<td>建立日期</td>
+					<td>帳號建立日期</td>
 					<td>:${user.registerDate}<input type="hidden"
 						name="registerDate" value="${user.registerDate}" readonly></td>
 				</tr>
 			</table>
 			<H2 align='center'>
 				<button type="submit" name="button"
-					style="background-color: #D0D0D0; color: black; margin-top: 30; font-weight: 900;">
+					style=" margin-top: 30; font-weight: 900;">
 					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
 						fill="currentColor" class="bi bi-pencil-square"
 						viewBox="0 0 16 16"> <path

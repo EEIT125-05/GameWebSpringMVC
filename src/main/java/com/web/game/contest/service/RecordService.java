@@ -8,10 +8,23 @@ public interface RecordService {
 	
 	Boolean insertRecord(RecordBean rRecordBean);
 
-	void deleteRecord(Integer contestNo);
+	Boolean updateRecords(RecordBean rRecordBean);
+	
+	void deleteContestRecord(Integer contestNo);
 	
 	List<RecordBean> selectContestRecord(Integer contestNo);
+
+	List<RecordBean> selectContestPreliminaryRecord(Integer contestNo);
 	
-	void addScore(Integer contestNo, Integer groupNo, List<String> sWinPlayers);
+	List<RecordBean> selectContestRematchRecord(Integer contestNo);
 	
+	List<Object[]> promoteRecmatch(Integer contestNo, Integer groupNo, Integer promoteNumber);
+	
+	
+//	void updatePreliminaryWinner(Integer contestNo, String sWinners);
+//	
+//	void updateRematchWinner(Integer contestNo, String sWinners);
+//	void updatePreliminaryWinner(Integer contestNo, List<String> sWinners);
+//	
+//	void updateRematchWinner(Integer contestNo, List<String> sWinners);
 }

@@ -25,10 +25,31 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 input {
 	border-radius: 10px;
 }
+
+.b {
+	background-color: #272727;
+	color: white;
+	font-size: 30;
+	font-weight: 900;
+}
 </style>
 <title>會員註冊</title>
 <%-- <script src="<c:url value='/js/MemberLogin.js'/>"></script> --%>
 <script>
+	window.onload = function() {
+		var sGender = document.getElementById('sGender').checked = false;
+		var btn = document.getElementById("btn");
+		var psw = document.getElementById("sPassword");
+		btn.onclick = function() {
+			if (psw.getAttribute('type') == 'password') {
+				psw.setAttribute('type', 'text');
+				btn.value = "visibility_off";
+			} else if (psw.getAttribute('type') == 'text') {
+				psw.setAttribute('type', 'password');
+				btn.value = "visibility";
+			}
+		}
+	}
 	let accountflag = false;
 	let passwordflag = false;
 	let nicknameflag = false;
@@ -38,46 +59,17 @@ input {
 	let phoneflag = false;
 
 	function checkAccount() {
-		let sAccount = document.getElementById("sAccount").value.trim();
-		let accLen = sAccount.length;
-		let idaccount = document.getElementById("idaccount");
-		let accError = false;
+		var sAccount = document.getElementById("sAccount").value.trim();
+		var accLen = sAccount.length;
+		var idaccount = document.getElementById("idaccount");
+		var regular = /[a-zA-Z]{1}[a-zA-Z0-9]{5,19}/;
 		if (sAccount == "") {
-			document.getElementById("accountCheck").disabled = true;
 			idaccount.innerHTML = "<font color='red'>請輸入帳號</font>";
-			accountflag = false;
 		} else if (accLen <= 5) {
 			idaccount.innerHTML = "<font color='red'>請輸入至少6個字元</font>";
-			document.getElementById("accountCheck").disabled = true;
-			accountflag = false;
-		} else if (accLen >= 6) {
-			document.getElementById("accountCheck").disabled = false;
-			for (let idaccount = 0; idaccount < accLen; idaccount++) {
-				let ACCOUNT = sAccount.charCodeAt(idaccount);
-				if (ACCOUNT >= 0x4e00 && ACCOUNT <= 0x9fff) {
-					accError = true;
-					if (accError) {
-						break;
-					}
-				}
-			}
-			if (accError) {
-				document.getElementById("accountCheck").disabled = true;
-				idaccount.innerHTML = "<font color='red'>不能輸入中文</font>";
-				accountflag = false;
-			} else {
-				idaccount.innerHTML = "<font color='blue'>請驗證帳號</font>";
-				accountflag = false;
-			}
-		}
-	}
-
-	window.onload = function() {
-		var sGender = document.getElementById('sGender').checked = false ;
-		var Check = document.getElementById("accountCheck");
-		var idaccount = document.getElementById("idaccount");
-		Check.onclick = function() {
-			var sAccount = document.getElementById("sAccount").value.trim();
+		} else if (!sAccount.match(regular)) {
+			idaccount.innerHTML = "<font color='red'>格式錯誤</font>";
+		} else {
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", "<c:url value='/member/MemberLogin' />", true);
 			xhr.setRequestHeader("Content-Type",
@@ -96,12 +88,19 @@ input {
 					}
 				}
 			}
-			check();
 		}
+	}
 
-		var emailCheck = document.getElementById("emailCheck");
-		emailCheck.onclick = function() {
-			var sEmail = document.getElementById("sEmail").value.trim();
+	function checkEmail() {
+		var sEmail = document.getElementById("sEmail").value.trim();
+		var emailLen = sEmail.length;
+		var idemail = document.getElementById("idemail");
+		var regular = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$/;
+		if (sEmail == "") {
+			idemail.innerHTML = "<font color='red'>請輸入信箱</font>";
+		} else if (!sEmail.match(regular)) {
+			idemail.innerHTML = "<font color='red'>信箱格式錯誤</font>";
+		} else {
 			var xhr = new XMLHttpRequest();
 			xhr
 					.open("POST", "<c:url value='/member/MemberemailCheck' />",
@@ -122,12 +121,22 @@ input {
 					}
 				}
 			}
-			check();
 		}
+	}
 
-		var PhoneCheck = document.getElementById("PhoneCheck");
-		PhoneCheck.onclick = function() {
-			var sPhone = document.getElementById("sPhone").value.trim();
+	function checkPhone() {
+		var sPhone = document.getElementById("sPhone").value.trim();
+		var phoneLen = sPhone.length;
+		var idphone = document.getElementById("idphone");
+		var phoneCheck = false;
+		var regular = /^[0]{1}[9]{1}\d{8}$/;
+		if (sPhone == "") {
+			idphone.innerHTML = "<font color='red'>請輸入手機號碼</font>";
+		} else if (phoneLen < 10) {
+			idphone.innerHTML = "<font color='red'>請輸入10位號碼</font>";
+		} else if (!sPhone.match(regular)) {
+			idphone.innerHTML = "<font color='red'>請輸入09開頭電話號碼</font>";
+		} else {
 			var xhr = new XMLHttpRequest();
 			xhr
 					.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
@@ -148,38 +157,25 @@ input {
 					}
 				}
 			}
-			check();
-		}
-
-		var btn = document.getElementById("btn");
-		var psw = document.getElementById("sPassword");
-		btn.onclick = function() {
-			if (psw.getAttribute('type') == 'password') {
-				psw.setAttribute('type', 'text');
-				btn.value = "visibility_off";
-			} else if (psw.getAttribute('type') == 'text') {
-				psw.setAttribute('type', 'password');
-				btn.value = "visibility";
-			}
 		}
 
 	}
 
 	function checkPassword() {
-		let password = document.getElementById("sPassword").value.trim();
-		let passLen = password.length;
-		let idpassword = document.getElementById("idpassword");
-		if (password == "") {
+		var sPassword = document.getElementById("sPassword").value.trim();
+		var passLen = sPassword.length;
+		var idpassword = document.getElementById("idpassword");
+		var regular = /[a-zA-Z0-9]{8,16}/;
+		if (sPassword == "") {
 			idpassword.innerHTML = "<font color='red'>請輸入密碼</font>";
 			passwordflag = false;
-		} else if (passLen >= 8) {
-			idpassword.innerHTML = "<font color='green'>OK</font>";
-			passwordflag = true;
-		} else {
+		} else if (passLen < 8) {
 			idpassword.innerHTML = "<font color='red'>請輸入至少8個字元</font>";
-			passwordflag = false;
+		} else if (!sPassword.match(regular)) {
+			idpassword.innerHTML = "<font color='red'>請輸入正確字元</font>";
+		} else {
+			idpassword.innerHTML = "<font color='green'>OK</font>";
 		}
-		check();
 	}
 
 	function checkNickname() {
@@ -191,22 +187,6 @@ input {
 		} else {
 			idnickname.innerHTML = "<font color='green'>OK</font>";
 			nicknameflag = true;
-		}
-		check();
-	}
-
-	function checkEmail() {
-		let email = document.getElementById("sEmail").value.trim();
-		let emailLen = email.length;
-		let idemail = document.getElementById("idemail");
-		if (email == "") {
-			idemail.innerHTML = "<font color='red'>請輸入信箱</font>";
-			document.getElementById("emailCheck").disabled = true;
-			emailflag = false;
-		} else {
-			idemail.innerHTML = "<font color='blue'>確認信箱驗證</font>";
-			document.getElementById("emailCheck").disabled = false;
-			emailflag = false;
 		}
 	}
 
@@ -241,35 +221,6 @@ input {
 		check();
 	}
 
-	function checkPhone() {
-		let phone = document.getElementById("sPhone").value.trim();
-		let phoneLen = phone.length;
-		let idphone = document.getElementById("idphone");
-		let phoneCheck = false;
-		let reg = /^[0]{1}[9]{1}\d{8}$/;
-		if (phone == "") {
-			idphone.innerHTML = "<font color='red'>請輸入手機號碼</font>";
-			document.getElementById("PhoneCheck").disabled = true;
-			phoneflag = false;
-		} else if (phoneLen >= 10) {
-			if (reg.test(phone)) {
-				document.getElementById("PhoneCheck").disabled = false;
-				phoneCheck = true;
-			}
-			if (phoneCheck) {
-				idphone.innerHTML = "<font color='blue'>請檢查號碼</font>";
-				phoneflag = false;
-			} else {
-				idphone.innerHTML = "<font color='red'>請輸入09開頭電話號碼</font>";
-				phoneflag = false;
-			}
-		} else {
-			idphone.innerHTML = "<font color='red'>請輸入10位號碼</font>";
-			phoneflag = false;
-		}
-
-	}
-
 	function checkAddress() {
 		let address = document.getElementById("Address").value.trim();
 		let idaddress = document.getElementById("idaddress");
@@ -301,21 +252,21 @@ input {
 		var sPassword = document.getElementById("sPassword");
 		var sEname = document.getElementById("sEname");
 		var sNickname = document.getElementById("sNickname");
-		var sAddress = document.getElementById("sAddress").options[5].selected=true;
-// 		var sGender = document.getElementById("sGender");
-		var sGender = document.getElementById('sGender').checked = true ;
+		var sAddress = document.getElementById("sAddress").options[5].selected = true;
+		// 		var sGender = document.getElementById("sGender");
+		var sGender = document.getElementById('sGender').checked = true;
 		var sBirthday = document.getElementById("sBirthday");
-		
+
 		sAccount.value = "year780818";
 		sEmail.value = "year780818@gmail.com";
 		sPhone.value = "0956175060";
-		sPassword.value = "year1989";
+		sPassword.value = "year780818";
 		sEname.value = "顏廷亙";
 		sNickname.value = "奶茶糾齁拎";
 		sAddress;
 		sGender;
 		sBirthday.value = "1989-08-18";
-
+		document.getElementById("submit").disabled = false;
 	}
 </script>
 </head>
@@ -326,93 +277,154 @@ input {
 	<form action="<c:url value='/member/MemberCheck'/>" method="post">
 		<div align='center'>
 			<div align='left'
-				style="border: 3px solid gray; width: 650; height: 900; border-radius: 5px; padding-left: 20;">
-				<h3 style='padding-top: 10px;'>
-					設定的帳號:<input pattern="[a-zA-Z0-9]{6,}" type="text" id="sAccount"
-						name="sAccount" minlength="6" maxlength="20" required
-						onblur="checkAccount();"> <input type="button"
-						id='accountCheck' value="檢查" disabled><br> <span
-						id="idaccount"></span>
-				</h3>
-				<h3>
-					使用的信箱:<input type="email" id="sEmail" name="sEmail" maxlength="30"
-						required onblur="checkEmail();"
-						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$">
-					<input type="button" id='emailCheck' value="檢查" disabled><br>
-					<span id="idemail"></span>
-				</h3>
-				<h3>
-					手機號碼:<input type="text" id="sPhone" name="sPhone" maxlength="10"
-						required onblur="checkPhone();" pattern="[0]{1}[9]{1}\d{8}" /> <input
-						type="button" id='PhoneCheck' value="檢查" disabled><br>
-					<span id="idphone"></span>
-				</h3>
-				<h3>
-					設定的密碼:<input pattern="[a-z0-9]{8,}" type="password" id="sPassword"
-						name="sPassword" minlength="8" maxlength="16" required
-						onblur="checkPassword();"> <input id="btn" type="button"
-						class="material-icons" style="font-size: 25px" value="visibility">
-					<br> <span id="idpassword"></span>
-				</h3>
-				<h3>
-					真實姓名:<input type="text" id="sEname" name="sEname" required
-						onblur="checkName();" pattern="^[\u4e00-\u9fa5]+$" minlength="2"
-						maxlength="4"><span id="idname"></span>
-				</h3>
-				<h3>
-					使用的暱稱:<input type="text" id="sNickname" name="sNickname" required
-						maxlength="10" onblur="checkNickname();"> <span
-						id="idnickname"></span>
-				</h3>
-				<h3>
-					居住城市:<select id="sAddress" name="sAddress"
-						onblur="checkAddress();" value="臺南市">
-						<option>請挑選</option>
-						<option>臺北市</option>
-						<option>新北市</option>
-						<option>桃園市</option>
-						<option>臺中市</option>
-						<option>臺南市</option>
-						<option>高雄市</option>
-						<option>基隆市</option>
-						<option>新竹市</option>
-						<option>嘉義市</option>
-						<option>新竹縣</option>
-						<option>苗栗縣</option>
-						<option>彰化縣</option>
-						<option>南投縣</option>
-						<option>雲林縣</option>
-						<option>嘉義縣</option>
-						<option>屏東縣</option>
-						<option>宜蘭縣</option>
-						<option>花蓮縣</option>
-						<option>臺東縣</option>
-						<option>澎湖縣</option>
-						<option>金門縣</option>
-						<option>連江縣</option>
-					</select><span id="idaddress"></span>
-				</h3>
-				<h3>
-					性別:<input id="sGender" type="radio" name="sGender"
-						value="男" checked required>男<input id="sGender" type="radio"
-						name="sGender" value="女" required>女
-				</h3>
-				<h3>
-					生年月日:<input type="date" id="sBirthday" name="sBirthday" required>
-				</h3>
+				style="border: 3px solid gray; width: 650; height: 900; border-radius: 5px; padding-left: 20; background-color: #272727; color: white;">
+				<table>
+					<tr class="b">
+						<td>設定的帳號</td>
+						<td>: <input pattern="[a-zA-Z]{1}[a-zA-Z0-9]{5,19}"
+							type="text" id="sAccount" name="sAccount" minlength="6"
+							maxlength="20" required onblur="checkAccount();"> <input
+							type="button" id='accountCheck' value="檢查" disabled> <br>
+						</td>
+					</tr>
+					<tr class="b">
+						<td></td>
+						<td><span id="idaccount"></span></td>
+					</tr>
+					<tr class="b">
+						<td>使用的信箱</td>
+						<td>: <input type="email" id="sEmail" name="sEmail"
+							maxlength="30" required onblur="checkEmail();"
+							pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$">
+							<input type="button" id='emailCheck' value="檢查" disabled>
+							<br>
+						</td>
+					</tr>
+					<tr class="b">
+						<td></td>
+						<td><span id="idemail"></span></td>
+					</tr>
+					<tr class="b">
+						<td>手機號碼</td>
+						<td>: <input type="text" id="sPhone" name="sPhone"
+							maxlength="10" required onblur="checkPhone();"
+							pattern="[0]{1}[9]{1}\d{8}" /> <input type="button"
+							id='PhoneCheck' value="檢查" disabled> <br>
+						</td>
+					</tr>
+					<tr class="b">
+						<td></td>
+						<td><span id="idphone"></span></td>
+					</tr>
+					<tr class="b">
+						<td>設定的密碼</td>
+						<td>: <input pattern="[a-z0-9]{8,16}" type="password"
+							id="sPassword" name="sPassword" minlength="8" maxlength="16"
+							required onblur="checkPassword();"> <input id="btn"
+							type="button" class="material-icons" style="font-size: 25px"
+							value="visibility"> <br>
+						</td>
+					</tr>
+					<tr class="b">
+						<td></td>
+						<td><span id="idpassword"></span></td>
+					</tr>
+					<tr class="b">
+						<td>真實姓名</td>
+						<td>: <input type="text" id="sEname" name="sEname" required
+							onblur="checkName();" pattern="^[\u4e00-\u9fa5{2,4}]+$"
+							minlength="2" maxlength="4"> <br>
+						</td>
+					</tr>
+					<tr class="b">
+						<td></td>
+						<td><span id="idname"></span></td>
+					</tr>
+					<tr class="b">
+						<td>使用的暱稱</td>
+						<td>: <input type="text" id="sNickname" name="sNickname"
+							required maxlength="10" onblur="checkNickname();"><br>
+						</td>
+					</tr>
+					<tr class="b">
+						<td></td>
+						<td><span id="idnickname"></span></td>
+					</tr>
+					<tr class="b">
+						<td>居住城市</td>
+						<td>: <select id="sAddress" name="sAddress"
+							onblur="checkAddress();">
+								<option>請挑選</option>
+								<option>臺北市</option>
+								<option>新北市</option>
+								<option>桃園市</option>
+								<option>臺中市</option>
+								<option>臺南市</option>
+								<option>高雄市</option>
+								<option>基隆市</option>
+								<option>新竹市</option>
+								<option>嘉義市</option>
+								<option>新竹縣</option>
+								<option>苗栗縣</option>
+								<option>彰化縣</option>
+								<option>南投縣</option>
+								<option>雲林縣</option>
+								<option>嘉義縣</option>
+								<option>屏東縣</option>
+								<option>宜蘭縣</option>
+								<option>花蓮縣</option>
+								<option>臺東縣</option>
+								<option>澎湖縣</option>
+								<option>金門縣</option>
+								<option>連江縣</option>
+						</select><br>
+						</td>
+					</tr>
+					<tr class="b">
+						<td></td>
+						<td><span id="idaddress"></span></td>
+					</tr>
+					<tr class="b">
+						<td>性別</td>
+						<td>: <input id="sGender" type="radio" name="sGender"
+							value="男" checked required>男 <input id="sGender"
+							type="radio" name="sGender" value="女" required>女
+						</td>
+					</tr>
+					<tr class="b">
+						<td>生年月日</td>
+						<td>: <input type="date" id="sBirthday" name="sBirthday"
+							required></td>
+					</tr>
+				</table>
 				<!-- 				<h3> -->
 				<!-- 					請選擇上傳照片:<input type="file" name="productImage" required /> -->
 				<!-- 				</h3> -->
 				<h3>
 					<input type="hidden" name="registerDate">
 				</h3>
+				<h6 align='center' style='color: red;'>${showError}</h6>
 				<h3 align='center'>
-					<button id="submit" type="submit" name="submit" value="確認" disabled
-						style='width: 350; height: 50; font-size: 30; margin-top: 15; border-radius: 10px;'>確認</button>
+					<button id="submit" type="submit" name="submit" disabled
+						style='width: 350; height: 50; font-size: 30; margin-top: 15;'>
+						<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+							fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
+						<path
+							d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z" />
+						<path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /> </svg>
+						確認資料
+					</button>
 				</h3>
 				<h3 align='center'>
-					<input type="button" value="一鍵輸入" onclick="OneLogin();"
-						style="width: 350; height: 50; font-size: 30; background-color: green;" />
+					<button type="button" onclick="OneLogin();"
+						style="width: 350; height: 50; font-size: 30; background-color: white;">
+						<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+							fill="currentColor" class="bi bi-hand-index" viewBox="0 0 16 16">
+						<path
+							d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 1 0 1 0V6.435a4.9 4.9 0 0 1 .106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 0 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.035a.5.5 0 0 1-.416-.223l-1.433-2.15a1.5 1.5 0 0 1-.243-.666l-.345-3.105a.5.5 0 0 1 .399-.546L5 8.11V9a.5.5 0 0 0 1 0V1.75A.75.75 0 0 1 6.75 1zM8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v5.34l-1.2.24a1.5 1.5 0 0 0-1.196 1.636l.345 3.106a2.5 2.5 0 0 0 .405 1.11l1.433 2.15A1.5 1.5 0 0 0 6.035 16h6.385a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5.114 5.114 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.632 2.632 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046l-.048.002zm2.094 2.025z" />
+						</svg>
+						一鍵輸入
+					</button>
 
 				</h3>
 			</div>

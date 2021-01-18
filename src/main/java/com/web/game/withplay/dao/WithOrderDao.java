@@ -18,5 +18,5 @@ public interface WithOrderDao {
 
 	public List<WithOrder> getWithOrderwithList(Integer id);
 	
-	public List<WithOrder> list();
+	public List<WithOrder> list(Integer useriNo);
 }

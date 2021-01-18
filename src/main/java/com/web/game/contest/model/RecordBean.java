@@ -15,27 +15,31 @@ public class RecordBean {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer iNo;
 	private Integer iContestNo;
-	private Integer iGroupNo;
-//	private Integer iGroupMemberNo;
-	private Integer iRematchNo;
+	@Column(columnDefinition = "nvarchar(10)")
+	private String sType;//預賽複賽
+	private Integer iGroundNo;
+	private Integer iKnockoutNo;
 	@Column(columnDefinition = "nvarchar(MAX)")
-	private String sPlayers;
-	private Integer iWinCount;
+	private String sPlayers1;
+	@Column(columnDefinition = "nvarchar(MAX)")
+	private String sPlayers2;
+	@Column(columnDefinition = "nvarchar(MAX)")
+	private String sWinner;
 	
 	public RecordBean() {
 		super();
 	}
 
-	public RecordBean(Integer iNo, Integer iContestNo, Integer iGroupNo,
-			Integer iRematchNo, String sPlayers, Integer iWinCount) {
-		
+	public RecordBean(Integer iNo, Integer iContestNo, String sType, Integer iGroundNo, Integer iKnockoutNo,
+			String sPlayers1, String sPlayers2) {
+		super();
 		this.iNo = iNo;
 		this.iContestNo = iContestNo;
-		this.iGroupNo = iGroupNo;
-//		this.iGroupMemberNo = iGroupMemberNo;
-		this.iRematchNo = iRematchNo;
-		this.sPlayers = sPlayers;
-		this.iWinCount = iWinCount;
+		this.sType = sType;
+		this.iGroundNo = iGroundNo;
+		this.iKnockoutNo = iKnockoutNo;
+		this.sPlayers1 = sPlayers1;
+		this.sPlayers2 = sPlayers2;
 	}
 
 	public Integer getiNo() {
@@ -54,44 +58,52 @@ public class RecordBean {
 		this.iContestNo = iContestNo;
 	}
 
-	public Integer getiGroupNo() {
-		return iGroupNo;
+	public String getsType() {
+		return sType;
 	}
 
-	public void setiGroupNo(Integer iGroupNo) {
-		this.iGroupNo = iGroupNo;
+	public void setsType(String sType) {
+		this.sType = sType;
 	}
 
-//	public Integer getiGroupMemberNo() {
-//		return iGroupMemberNo;
-//	}
-//
-//	public void setiGroupMemberNo(Integer iGroupMemberNo) {
-//		this.iGroupMemberNo = iGroupMemberNo;
-//	}
-
-	public Integer getiRematchNo() {
-		return iRematchNo;
+	public Integer getiGroundNo() {
+		return iGroundNo;
 	}
 
-	public void setiRematchNo(Integer iRematchNo) {
-		this.iRematchNo = iRematchNo;
+	public void setiGroundNo(Integer iGroundNo) {
+		this.iGroundNo = iGroundNo;
 	}
 
-	public String getsPlayers() {
-		return sPlayers;
+	public Integer getiKnockoutNo() {
+		return iKnockoutNo;
 	}
 
-	public void setsPlayers(String sPlayers) {
-		this.sPlayers = sPlayers;
+	public void setiKnockoutNo(Integer iKnockoutNo) {
+		this.iKnockoutNo = iKnockoutNo;
 	}
 
-	public Integer getiWinCount() {
-		return iWinCount;
+	public String getsPlayers1() {
+		return sPlayers1;
 	}
 
-	public void setiWinCount(Integer iWinCount) {
-		this.iWinCount = iWinCount;
+	public void setsPlayers1(String sPlayers1) {
+		this.sPlayers1 = sPlayers1;
 	}
-	
+
+	public String getsPlayers2() {
+		return sPlayers2;
+	}
+
+	public void setsPlayers2(String sPlayers2) {
+		this.sPlayers2 = sPlayers2;
+	}
+
+	public String getsWinner() {
+		return sWinner;
+	}
+
+	public void setsWinner(String sWinner) {
+		this.sWinner = sWinner;
+	}
+
 }

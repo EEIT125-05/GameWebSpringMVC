@@ -261,7 +261,7 @@
 		$(document).on("click", ".submitNewReply", function(){
 			$.ajax({
 				type: "post",
-				url: "<c:url value='/forum/EditReply/'/>",
+				url: "<c:url value='/forum/EditReply'/>",
 				dataType: "json",
 				data: {
 						"replyNo": $(this).parent().prev().find(".replyUpdate").val(),
