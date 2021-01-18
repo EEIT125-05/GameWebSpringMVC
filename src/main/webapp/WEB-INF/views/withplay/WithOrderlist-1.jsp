@@ -141,7 +141,7 @@
 						<c:when test="${withOrder.with.sAccount == user.sAccount && withOrder.iStatus == 2}">
 						<span style="font-weight:bold;font-size:20px;">尚未執行</span>	
 						<HR>				
-						<button  class="btn btn-primary" onclick="Okfinish(${withOrder.iNo})" >完成該筆訂單</button>
+						<button  class="btn btn-primary" onclick="Okfinish(${withOrder.iNo})" >完成訂單</button>
 						</c:when>
 						<c:when test="${withOrder.with.sAccount == user.sAccount && withOrder.iStatus == 3}">
 					

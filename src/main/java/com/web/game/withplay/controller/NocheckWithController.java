@@ -1,6 +1,5 @@
 package com.web.game.withplay.controller;
 
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -29,14 +28,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.web.game.contest.service.GameListService;
-import com.web.game.home.aspect.userAspect;
 import com.web.game.member.model.MemberBean;
 import com.web.game.withplay.model.WithOrder;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithOrderService;
 import com.web.game.withplay.service.WithService;
 
-@SessionAttributes("user")
+@SessionAttributes("user,withplayHost")
 @Controller
 public class NocheckWithController {
 
@@ -58,7 +56,6 @@ public class NocheckWithController {
 	
 	@GetMapping("/withplay/Index")
 	public String WithplayIndex(Model model) {
-//		model.addAttribute("Withsearch", withService.search("", ""));
 		model.addAttribute("Withlist",withService.list());
 		model.addAttribute("GameList",ListService.selectGameList());		
 		if(model.getAttribute("user")!=null) {
