@@ -70,48 +70,34 @@ input {
 
 	function GoogleLogin() {
 		let auth2 = gapi.auth2.getAuthInstance();//取得GoogleAuth物件
-		auth2
-				.signIn()
-				.then(
-						function(GoogleUser) {
+		auth2.signIn().then(function(GoogleUser) {
 							console.log("Google登入成功");
 							let user_id = GoogleUser.getId();//取得user id，不過要發送至Server端的話，為了資安請使用id_token，本人另一篇文章有範例：https://dotblogs.com.tw/shadow/2019/01/31/113026
 							console.log("user_id=" + user_id);
 							let AuthResponse = GoogleUser.getAuthResponse(true);//true會回傳包含access token ，false則不會
 							let id_token = AuthResponse.id_token;//取得id_token
 							//people.get方法參考：https://developers.google.com/people/api/rest/v1/people/get
-							gapi.client.people.people
-									.get(
-											{
-												'resourceName' : 'people/me',
+							gapi.client.people.people.get(
+											{'resourceName' : 'people/me',
 												//通常你會想要知道的用戶個資↓
 												'personFields' : 'names,phoneNumbers,emailAddresses,addresses,residences,genders,birthdays,occupations',
-											})
-									.then(
-											function(res) {
+											}).then(function(res) {
 
 												//success
-												let str = JSON
-														.stringify(res.result);//將物件列化成string，方便顯示結果在畫面上
+												let str = JSON.stringify(res.result);//將物件列化成string，方便顯示結果在畫面上
 												//顯示授權你網站存取的用戶個資
 												// 												document.getElementById('content').innerHTML = str;
-												console
-														.log("res="
+												console.log("res="
 																+ res.result.names[0].displayName);
-												console
-														.log("res="
+												console.log("res="
 																+ res.result.emailAddresses[0].value);
 												//↑通常metadata標記primary:true的個資就是你該抓的資料
 												var googleEname = res.result.names[0].displayName;
 												var googleEmail = res.result.emailAddresses[0].value;
 												var xhr = new XMLHttpRequest();
-												xhr
-														.open(
-																"POST",
-																"<c:url value='/member/GoogleSignin' />",
+												xhr.open("POST","<c:url value='/member/GoogleSignin' />",
 																true);
-												xhr
-														.setRequestHeader(
+												xhr.setRequestHeader(
 																"Content-Type",
 																"application/x-www-form-urlencoded");
 												xhr.send("googleEname="
@@ -121,21 +107,17 @@ input {
 												xhr.onreadystatechange = function() {
 													if (xhr.readyState == 4
 															&& xhr.status == 200) {
-														console
-																.log("登入成功xhr.readyState="
+														console.log("登入成功xhr.readyState="
 																		+ xhr.readyState);
-														console
-																.log("登入成功xhr.status="
+														console.log("登入成功xhr.status="
 																		+ xhr.status);
 														alert("恭喜登入成功");
 														$('#Google').submit();
 														return true;
 													} else {
-														console
-																.log("登入失敗xhr.readyState="
+														console.log("登入失敗xhr.readyState="
 																		+ xhr.readyState);
-														console
-																.log("登入失敗xhr.status="
+														console.log("登入失敗xhr.status="
 																		+ xhr.status);
 														// 														alert("登入失敗");
 													}
@@ -175,12 +157,8 @@ input {
 	}
 
 	function GoogleClientInit() {
-		gapi
-				.load(
-						'client',
-						function() {
-							gapi.client
-									.init({
+		gapi.load('client',function() {
+							gapi.client.init({
 										//client_id 和 scope 兩者參數必填
 										clientId : CLIENT_ID,
 										//scope參考：https://developers.google.com/people/api/rest/v1/people/get
