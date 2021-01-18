@@ -27,22 +27,41 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="active ">
+          <li class="active "> <!-- 自己的主頁加上.active -->
+            <a href="javascript:;"><!-- 連結 -->
+              <i class="nc-icon nc-bank"></i><!-- 左邊的小logo,也可到範例的icons.html找自己要的 -->
+              <p>會員系統</p>
+            </a>
+          </li>
+          <li>
             <a href="javascript:;">
               <i class="nc-icon nc-bank"></i>
-              <p>First Item</p>
+              <p>商城系統</p>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:;">
+              <i class="nc-icon nc-bank"></i>
+              <p>陪玩系統</p>
             </a>
           </li>
           <li>
             <a href="javascript:;">
               <i class="nc-icon nc-diamond"></i>
-              <p>Second Item</p>
+              <p>賽是系統</p>
+            </a>
+          </li>
+          <li>
+          <li>
+            <a href="javascript:;">
+              <i class="nc-icon nc-diamond"></i>
+              <p>論壇系統</p>
             </a>
           </li>
           <li>
             <a href="javascript:;">
               <i class="nc-icon nc-pin-3"></i>
-              <p>Third Item</p>
+              <p>交換系統</p>
             </a>
           </li>
         </ul>
@@ -99,7 +118,7 @@
       <!-- End Navbar -->
       <div class="content">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-12"><!-- 右邊的大區塊自己div東西都放這裡面 -->
             <h3 class="description">Your content here</h3>
 
           </div>

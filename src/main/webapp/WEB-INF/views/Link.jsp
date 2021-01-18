@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/font-awesome.min.css">
  <!-- Custom stlylesheet --> 
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/portfoliostyle.css" />
-<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/paper-dashboard.css" />
+<%-- <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/paper-dashboard.css" /> --%>
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/demo.css" />
 
 
