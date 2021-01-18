@@ -107,12 +107,12 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
               <a class="dropdown-item" href="<c:url value='/exchange/Index'/>">交換版</a>
+              <a class="dropdown-item" href="<c:url value="/exchange/wishBoard"/>">許願池</a>
               <a class="dropdown-item" href="<c:url value="/exchange/insertSupportGame"/>">我要換</a>
               <a class="dropdown-item" href="<c:url value="/exchange/insertDemandGame"/>">我要徵</a>
               <a class="dropdown-item" href="<c:url value="/exchange/insertMyGame"/>">新增我的遊戲庫</a>
               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">我的遊戲庫</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/memberHistoryList"/>">我的交換歷史清單</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/wishBoard"/>">許願池</a>
+              <a class="dropdown-item" href="<c:url value="/exchange/gotoMemberData"/>">我的交易紀錄(會員中心)</a>
               <a class="dropdown-item" href="<c:url value="/exchange/backStage"/>">後台測試中</a>
             </div>
           </li>

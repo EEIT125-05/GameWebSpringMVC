@@ -2,13 +2,16 @@ package com.web.game.exchange.dao;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.web.game.exchange.model.ChangeHistoryBean;
 import com.web.game.exchange.model.DemandGameBean;
 import com.web.game.exchange.model.MyGameBean;
 import com.web.game.exchange.model.WishHistoryBean;
@@ -19,6 +22,18 @@ public class WishDao {
 
 	@Autowired
 	SessionFactory factory;
+	
+	@SuppressWarnings("unchecked")
+	public List<WishHistoryBean> getMemberWishHistory(int id) {
+		
+		Session session = factory.getCurrentSession();
+		System.out.println("id"+id);
+		List<WishHistoryBean> listPartyA = new ArrayList<WishHistoryBean>();
+		String HQLPartyA = "FROM WishHistoryBean WHERE FK_partyA = :idA OR FK_partyB = :idB AND status = 1";
+		listPartyA = (List<WishHistoryBean>) session.createQuery(HQLPartyA).setParameter("idA", id).setParameter("idB", id).getResultList();
+		return listPartyA;
+		
+	}
 	
 	public boolean insertWishHistory(WishHistoryBean WHB) {
 		System.out.println("insertWishHistoryDAOIn");

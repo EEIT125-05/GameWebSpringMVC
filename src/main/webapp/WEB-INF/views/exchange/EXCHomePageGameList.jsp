@@ -35,7 +35,7 @@
 				<label>依名稱搜尋: </label>
 				<div class="input-group">
 					<input type="text" class="form-control" name="searchparams" id="searchparams"
-						value="${ searchparams}">
+						value="${ searchparams}" onchange="searchCondition();">
 						<select id="search" >
 						<option value="gamename">遊戲名稱</option> 
 						<option value="gamelocation">地區</option> 

@@ -76,6 +76,16 @@ public class SupportDAO {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<SupportGameBean> getAllSupportList(){
+		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
+		Session session =factory.getCurrentSession();
+		String queryAll = "FROM SupportGameBean WHERE status in(0,5)";
+		list = (List<SupportGameBean>) session.createQuery(queryAll)
+				.getResultList();
+		return list;
+	}
+	
 	
 	// -------------------------------------------------
 
