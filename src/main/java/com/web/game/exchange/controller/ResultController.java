@@ -23,6 +23,10 @@ public class ResultController {
 		return "/exchange/"+path;
 		}
 		
+		@GetMapping("/backStage")
+		public String gotoExchagneBackStage() {
+			return "/exchange/EXCBackStage";
+		}
 		
 		
 		
