@@ -19,6 +19,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 input {
 	border-radius: 10px;
 }
+
 #DIV1 {
 	width: 350px;
 	line-height: 50px;
@@ -27,6 +28,7 @@ input {
 	margin-left: 50;
 	float: left;
 }
+
 #DIV2 {
 	background-color: #272727;
 	color: white;
@@ -36,12 +38,14 @@ input {
 	padding: 20px;
 	border: 5px gray solid;
 }
+
 .b {
 	background-color: #272727;
 	color: white;
 	font-size: 30;
 	font-weight: 900;
 }
+
 .a {
 	width: 450px;
 	height: 80px;
@@ -57,8 +61,19 @@ input {
 	background-color: white;
 	color: black;
 }
+
 .b:hover {
 	color: #00FFFF;
+}
+button{
+	background-color: white;
+	color:black;
+	font-weight: 900;
+}
+button:hover{
+	background-color: #00FFFF;
+	color:black;
+	font-weight: 900;
 }
 </style>
 </head>
@@ -99,86 +114,94 @@ input {
 				<hr style="color: white; border: 1px solid;">
 				<input type="hidden" name="iNo" ${user.iNo} readonly>
 				<table>
-				<tr class="b">
-					<td>Google帳號</td><td>:${user.sAccount}<input type="hidden" name="sAccount"
-						value="${user.sAccount}" readonly> <input type="hidden"
-						name="sPassword" value="${user.sPassword}" readonly> <input
-						type="hidden" name="sPassword" value="${user.sPassword}" readonly></td>
-				</tr>
-				<tr class="b">
-					<input type="hidden" name="sEmail" value="${user.sEmail}" readonly>
-				</tr>
-				<tr class="b">
-					<td>真實姓名</td><td>:${user.sEname}<input type="hidden" name="sEname"
-						value="${user.sEname}" readonly></td>
-				</tr>
-				<tr class="b">
-					<c:choose>
-						<c:when test="${empty user.sPhone}">
-							<input type="hidden" name="sPhone" value="${user.sPhone}">
-						</c:when>
-						<c:otherwise>
-						<td>電話</td><td>:${user.sPhone}<input type="hidden" name="sPhone"
-								value="${user.sPhone}"></td>
-						</c:otherwise>
-					</c:choose>
-				</tr>
-				<tr class="b">
-					<c:choose>
-						<c:when test="${empty user.sNickname}">
-							<input type="hidden" name="sNickname" value="${user.sNickname}">
-						</c:when>
-						<c:otherwise>
-							<td>暱稱</td><td>:${user.sNickname}<input type="hidden" name="sNickname"
-								value="${user.sNickname}" readonly></td>
-						</c:otherwise>
-					</c:choose>
-				</tr>
-				<tr class="b">
-					<input type="hidden" name="sAddress" value="${user.sAddress}">
-				</tr>
-				<tr class="b">
-					<c:choose>
-						<c:when test="${empty user.sGender}">
-							<input type="hidden" name="sGender" value="${user.sGender}">
-						</c:when>
-						<c:otherwise>
-						<td>性別</td><td>:${user.sGender}<input type="hidden" name="sGender"
-								value="${user.sGender}"></td>
-						</c:otherwise>
-					</c:choose>
-				</tr>
-				<tr class="b">
-					<c:choose>
-						<c:when test="${empty user.sAddress}">
-							<input type="hidden" name="sAddress" value="${user.sAddress}"
-								readonly>
-						</c:when>
-						<c:otherwise><td>居住城市</td><td>:${user.sAddress}<input
-								type="hidden" name="sAddress" value="${user.sAddress}" readonly></td>
-						</c:otherwise>
-					</c:choose>
-				</tr>
-				<tr class="b">
-					<c:choose>
-						<c:when test="${empty user.sBirthday}">
-							<input type="hidden" name="sBirthday" value="${user.sBirthday}">
-						</c:when>
-						<c:otherwise>
-							<td>生日</td><td>:${user.sBirthday}<input type="hidden" name="sBirthday"
-								value="${user.sBirthday}"></td>
-						</c:otherwise>
+					<tr class="b">
+						<td>Google帳號</td>
+						<td>:${user.sAccount}<input type="hidden" name="sAccount"
+							value="${user.sAccount}" readonly> <input type="hidden"
+							name="sPassword" value="${user.sPassword}" readonly> <input
+							type="hidden" name="sPassword" value="${user.sPassword}" readonly></td>
+					</tr>
+					<tr class="b">
+						<input type="hidden" name="sEmail" value="${user.sEmail}" readonly>
+					</tr>
+					<tr class="b">
+						<td>真實姓名</td>
+						<td>:${user.sEname}<input type="hidden" name="sEname"
+							value="${user.sEname}" readonly></td>
+					</tr>
+					<tr class="b">
+						<c:choose>
+							<c:when test="${empty user.sPhone}">
+								<input type="hidden" name="sPhone" value="${user.sPhone}">
+							</c:when>
+							<c:otherwise>
+								<td>電話</td>
+								<td>:${user.sPhone}<input type="hidden" name="sPhone"
+									value="${user.sPhone}"></td>
+							</c:otherwise>
+						</c:choose>
+					</tr>
+					<tr class="b">
+						<c:choose>
+							<c:when test="${empty user.sNickname}">
+								<input type="hidden" name="sNickname" value="${user.sNickname}">
+							</c:when>
+							<c:otherwise>
+								<td>暱稱</td>
+								<td>:${user.sNickname}<input type="hidden" name="sNickname"
+									value="${user.sNickname}" readonly></td>
+							</c:otherwise>
+						</c:choose>
+					</tr>
+					<tr class="b">
+						<input type="hidden" name="sAddress" value="${user.sAddress}">
+					</tr>
+					<tr class="b">
+						<c:choose>
+							<c:when test="${empty user.sGender}">
+								<input type="hidden" name="sGender" value="${user.sGender}">
+							</c:when>
+							<c:otherwise>
+								<td>性別</td>
+								<td>:${user.sGender}<input type="hidden" name="sGender"
+									value="${user.sGender}"></td>
+							</c:otherwise>
+						</c:choose>
+					</tr>
+					<tr class="b">
+						<c:choose>
+							<c:when test="${empty user.sAddress}">
+								<input type="hidden" name="sAddress" value="${user.sAddress}"
+									readonly>
+							</c:when>
+							<c:otherwise>
+								<td>居住城市</td>
+								<td>:${user.sAddress}<input type="hidden" name="sAddress"
+									value="${user.sAddress}" readonly></td>
+							</c:otherwise>
+						</c:choose>
+					</tr>
+					<tr class="b">
+						<c:choose>
+							<c:when test="${empty user.sBirthday}">
+								<input type="hidden" name="sBirthday" value="${user.sBirthday}">
+							</c:when>
+							<c:otherwise>
+								<td>生日</td>
+								<td>:${user.sBirthday}<input type="hidden" name="sBirthday"
+									value="${user.sBirthday}"></td>
+							</c:otherwise>
 
-					</c:choose>
-				</tr>
-				<tr class="b">
-					<td>建立日期</td><td>:${user.registerDate}<input type="hidden" name="registerDate"
-						value="${user.registerDate}"></td>
-				</tr>
+						</c:choose>
+					</tr>
+					<tr class="b">
+						<td>建立日期</td>
+						<td>:${user.registerDate}<input type="hidden"
+							name="registerDate" value="${user.registerDate}"></td>
+					</tr>
 				</table>
-				<H3 align='center'>
-					<button type="submit" name="submit"
-						style='background-color: skyblue'>
+				<H3 align='center' style='padding-top: 20;'>
+					<button type="submit" name="submit">
 						<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
 							fill="currentColor" class="bi bi-pencil-square"
 							viewBox="0 0 16 16"> <path

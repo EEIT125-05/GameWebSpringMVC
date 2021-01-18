@@ -59,9 +59,18 @@ input {
 	font-size: 30;
 	font-weight: 900;
 }
-
 .b:hover {
 	color: #00FFFF;
+}
+button{
+	background-color: white;
+	color:black;
+	font-weight: 900;
+}
+button:hover{
+	background-color: #00FFFF;
+	color:black;
+	font-weight: 900;
 }
 </style>
 
@@ -275,7 +284,7 @@ input {
 			<input name="iNo" type="hidden" value="${user.iNo}" readonly>
 			<table>
 				<tr class="b">
-					<td>會員帳號</td>
+					<td>我的帳號</td>
 					<td>:${user.sAccount}<input type="hidden" name="sAccount"
 						value="${user.sAccount}" readonly></td>
 				<tr class="b">
@@ -296,12 +305,12 @@ input {
 						<td style='color: red;'>${showError}</td>
 					</tr>
 				<tr class="b">
-					<td>更改暱稱</td>
+					<td>我的暱稱</td>
 					<td>:<input type="text" id="Nickname" name="sNickname"
 						onblur="checkNickname();" required maxlength="10"
 						value="${user.sNickname}"><span id="idnickname"></span></td>
 				<tr class="b">
-					<td>居住城市</td>
+					<td>我的城市</td>
 					<td>:<select id="Address" name="sAddress">
 							<option>${user.sAddress}</option>
 							<option>臺北市</option>
@@ -329,14 +338,14 @@ input {
 					</select></td>
 				</tr>
 				<tr class="b">
-					<td>更改真實姓名</td>
+					<td>我的姓名</td>
 					<td>:${user.sEname}<input type="hidden" id="Ename"
 						name="sEname" required onblur="checkName();"
 						pattern="^[\u4e00-\u9fa5]+$" minlength="2" maxlength="4"
 						value="${user.sEname}" readonly><span id="idname"></span></td>
 				</tr>
 				<tr class="b">
-					<td>更改信箱</td>
+					<td>我的信箱</td>
 					<td>:${user.sEmail}<input type="hidden" id="Email"
 						name="sEmail" required
 						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$"
@@ -344,19 +353,19 @@ input {
 						id="idemail"></span></td>
 				</tr>
 				<tr class="b">
-					<td>更改手機號碼</td>
+					<td>我的手機號碼</td>
 					<td>:${user.sPhone}<input type="hidden" id="Phone"
 						name="sPhone" maxlength="10" pattern="[0]{1}[9]{1}\d{8}"
 						onblur="checkPhone();" value="${user.sPhone}"><span
 						id="idphone"></span></td>
 				</tr>
 				<tr class="b">
-					<td>性別</td>
+					<td>我的性別</td>
 					<td>:${user.sGender}<input type="hidden" name="sGender"
 						value="${user.sGender}" readonly></td>
 				</tr>
 				<tr class="b">
-					<td>生日年月日</td>
+					<td>我的生日</td>
 					<td>:${user.sBirthday}<input type="hidden" name="sBirthday"
 						value="${user.sBirthday}" readonly></td>
 				</tr>
@@ -369,7 +378,7 @@ input {
 			
 			<H2 align='center'>
 				<button id="submit" name="submit" type="submit" 
-					style="background-color: #D0D0D0; color: black; margin-top: 30; font-weight: 900; border-radius: 10px;">
+					style=" margin-top: 30; font-weight: 900; border-radius: 10px;">
 					<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
 						fill="currentColor" class="bi bi-cloud-arrow-up-fill"
 						viewBox="0 0 16 16"> <path
@@ -378,7 +387,7 @@ input {
 					修改
 				</button>
 				<a href="<c:url value='/member/Data'/>"><button type="button"
-						style="background-color: #D0D0D0; color: black; margin-top: 30; font-weight: 900; border-radius: 10px;">
+						style=" margin-top: 30; font-weight: 900; border-radius: 10px;">
 						<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
 							fill="currentColor" class="bi bi-backspace-fill"
 							viewBox="0 0 16 16"> <path

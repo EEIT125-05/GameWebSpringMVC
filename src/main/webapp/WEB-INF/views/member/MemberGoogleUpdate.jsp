@@ -34,7 +34,6 @@ input {
 	margin-left: 100;
 	padding: 20px;
 	border: 5px gray solid;
-	
 }
 
 .a {
@@ -59,9 +58,18 @@ input {
 	font-size: 30;
 	font-weight: 900;
 }
-
 .b:hover {
 	color: #00FFFF;
+}
+button{
+	background-color: white;
+	color:black;
+	font-weight: 900;
+}
+button:hover{
+	background-color: #00FFFF;
+	color:black;
+	font-weight: 900;
 }
 </style>
 <head>
@@ -79,9 +87,9 @@ input {
 	// 	let emailflag = true;
 	// 	let phoneflag = true;
 
-		window.onload = function() {
-			document.getElementById("submit").disabled = false;
-		}
+	window.onload = function() {
+		document.getElementById("submit").disabled = false;
+	}
 	// 		var btn = document.getElementById("btn");
 	// 		var psw = document.getElementById("Password");
 	// 		var pswC = document.getElementById("passwordConfirm");
@@ -136,7 +144,8 @@ input {
 			document.getElementById("submit").disabled = true;
 		} else {
 			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
+			xhr
+					.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
 							true);
 			xhr.setRequestHeader("Content-Type",
 					"application/x-www-form-urlencoded");
@@ -374,9 +383,8 @@ input {
 							name="registerDate" value="${user.registerDate}"></td>
 					</tr>
 				</table>
-				<H3 align='center'>
-					<button id="submit" name="submit" type="submit"
-						style='background-color: skyblue' disabled>
+				<H3 align='center' style='padding-top: 20;'>
+					<button id="submit" name="submit" type="submit" disabled>
 						<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
 							fill="currentColor" class="bi bi-cloud-arrow-up-fill"
 							viewBox="0 0 16 16"> <path
@@ -384,8 +392,7 @@ input {
 						</svg>
 						新增/修改
 					</button>
-					<a href="<c:url value='/member/Data'/>"><button type="button"
-							style='background-color: skyblue'>
+					<a href="<c:url value='/member/Data'/>"><button type="button">
 							<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
 								fill="currentColor" class="bi bi-backspace-fill"
 								viewBox="0 0 16 16"> <path

@@ -260,7 +260,7 @@ input {
 		sAccount.value = "year780818";
 		sEmail.value = "year780818@gmail.com";
 		sPhone.value = "0956175060";
-		sPassword.value = "year1989";
+		sPassword.value = "year780818";
 		sEname.value = "顏廷亙";
 		sNickname.value = "奶茶糾齁拎";
 		sAddress;
