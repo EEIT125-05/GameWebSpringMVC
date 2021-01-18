@@ -75,22 +75,22 @@ public class NoCheckContestController {
 		}else {
 			model.addAttribute("cContestBean", cContestBean);
 			
-			List<RecordBean> lRecordBeans = rService.selectContestPreliminaryRecord(contestNo);
+			List<RecordBean> lPreliminary = rService.selectContestPreliminaryRecord(contestNo);
 			
-			if(lRecordBeans.size() > 0) {//如果沒紀錄,下方會跑不出來
+			if(lPreliminary.size() > 0) {//如果沒紀錄,下方會跑不出來
 				List<List<RecordBean>> lGroupRecords = new ArrayList<>();
-				Integer iGroupMax = lRecordBeans.get(lRecordBeans.size()-1).getiGroundNo();
+				Integer iGroupMax = lPreliminary.get(lPreliminary.size()-1).getiGroundNo();
 				for(int i=1; i<=iGroupMax; i++) {
 					List<RecordBean> toGroupRecords = new ArrayList<>();
-					for(RecordBean rRecordBean: lRecordBeans) {
+					for(RecordBean rRecordBean: lPreliminary) {
 						if(rRecordBean.getiGroundNo() == i) {
 							toGroupRecords.add(rRecordBean);
 						}
 					}
 					lGroupRecords.add(toGroupRecords);
 				}
-				
-				model.addAttribute("lGroupRecord", lGroupRecords);
+				model.addAttribute("lGroupRecords", lGroupRecords);
+				model.addAttribute("lRematchRecords", rService.selectContestRematchRecord(contestNo));
 			}
 			
 		}

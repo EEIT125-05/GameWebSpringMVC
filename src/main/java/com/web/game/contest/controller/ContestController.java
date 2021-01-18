@@ -186,7 +186,7 @@ public class ContestController {
 		if(success) {
 			if(cContestBean.getsPreliminary().equals("none") && cContestBean.getsRematchMode().equals("free")) {
 				//無預賽-自由對戰 在這裡直接建好資料表
-				rService.deleteRecord(cContestBean.getiNo());
+				rService.deleteContestRecord(cContestBean.getiNo());
 				if(rService.insertRecord(new RecordBean(null, cContestBean.getiNo(), "自由對戰", null, null, null, null))) {
 					map.put("status", "success");
 					map.put("contestNo", Integer.toString(cContestBean.getiNo()));
@@ -412,7 +412,7 @@ public class ContestController {
 					
 					
 					Integer iGroupCount = 0;
-					rService.deleteRecord(contestNo);//先把舊的戰績刪掉
+					rService.deleteContestRecord(contestNo);//先把舊的戰績刪掉
 					for(List<String> list: groupList) {
 						iGroupCount++;
 						for(int i=0; i<list.size(); i++) {
@@ -473,7 +473,7 @@ public class ContestController {
 				System.out.println("沒有預賽");
 				if(cService.saveSchsduleImage(contestNo, bRematchImage, null)) {
 					
-					rService.deleteRecord(contestNo);//先把舊的戰績刪掉
+					rService.deleteContestRecord(contestNo);//先把舊的戰績刪掉
 					iRematchTotal = cContestBean.getiPeople() * 2 - 1;
 					
 					if(cContestBean.getsRematchMode().equals("knockout")) {//淘汰賽
@@ -632,11 +632,12 @@ public class ContestController {
 //				System.out.println("第" + i + ": " + rematchPlayer[i]);
 //			}
 			
-			
+			Integer count2 = 0;
 			for(int i=0; i<max.intValue(); i+=2) {
-				RecordBean rRecordBean = new RecordBean(null, contestNo, "淘汰賽", null, null, rematchPlayer[i], rematchPlayer[i+1]);
+				count2++;
+				RecordBean rRecordBean = new RecordBean(null, contestNo, "淘汰賽", null, count2, rematchPlayer[i], rematchPlayer[i+1]);
 				if(rematchPlayer[i].equals("none")) {
-					rRecordBean.setsWinner(rematchPlayer[i]);
+					rRecordBean.setsWinner(rematchPlayer[i+1]);
 				}
 				rService.insertRecord(rRecordBean);
 			}
@@ -658,7 +659,7 @@ public class ContestController {
 	}
 	
 	@PostMapping("/UpdateRematchImage")
-	public Map<String, String> updateRematchImage(
+	public @ResponseBody Map<String, String> updateRematchImage(
 							@RequestParam String treeImage64,
 							@RequestParam Integer contestNo,
 							Model model){
@@ -684,6 +685,9 @@ public class ContestController {
 			e.printStackTrace();
 			map.put("status", "sqlError");
 		}
+		
+		
+		System.out.println("map結果 " + map.get("status"));
 		
 		return map;
 	}

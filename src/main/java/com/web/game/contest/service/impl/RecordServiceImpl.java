@@ -24,8 +24,8 @@ public class RecordServiceImpl implements RecordService {
 
 	@Transactional
 	@Override
-	public void deleteRecord(Integer contestNo) {
-		rDAO.deleteRecord(contestNo);
+	public void deleteContestRecord(Integer contestNo) {
+		rDAO.deleteContestRecord(contestNo);
 	}
 
 	@Transactional
@@ -49,8 +49,7 @@ public class RecordServiceImpl implements RecordService {
 	@Transactional
 	@Override
 	public List<RecordBean> selectContestRematchRecord(Integer contestNo) {
-		// TODO Auto-generated method stub
-		return null;
+		return rDAO.selectContestRematchRecord(contestNo);
 	}
 
 	@Transactional

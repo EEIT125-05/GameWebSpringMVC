@@ -30,6 +30,14 @@
     color: #0000FF;
 }
 
+.tdPlayerR:hover{
+    color: #007bff;
+    cursor: pointer;
+}
+.tdPlayerR:active{
+    color: #0000FF;
+}
+
 table, th, td {
   border: 1px solid black;
   text-align:center;
@@ -419,11 +427,11 @@ body{
 	  			
 	  			<c:if test="${cContestBean.sHost == user.sAccount}">
 		  			<div style="margin-bottom:10px">
-		  				<button id="savePreliminaryRecord" class="btn btn-success" value="${cContestBean.iNo}">暫存戰績</button>
+		  				<button id="savePreliminaryRecord" class="btn btn-success" value="${cContestBean.iNo}">更新戰績</button>
 		  				<button id="createRematch" class="btn btn-success" value="${cContestBean.iNo}">產生複賽賽程</button>
 		  			</div>
 	  			</c:if>
-	  			<c:forEach varStatus="vs" var="lRecords" items="${lGroupRecord }">
+	  			<c:forEach varStatus="vs" var="lRecords" items="${lGroupRecords }">
 	  				
 	  				<div>
 	  					<a class="btn btn-primary" data-toggle="collapse" href="#preliminaryTable${vs.count}" role="button" aria-expanded="false" aria-controls="#preliminaryTable${vs.count}">第${vs.count}組</a>
@@ -466,22 +474,60 @@ body{
 				</div>
 			</div>
 			
-			<div id="tree" class="tree"></div>
-			
-			
-			
-			
 			
 			<hr>
-			<a class="btn btn-primary" data-toggle="collapse" href="#" role="button" aria-expanded="false" aria-controls="#">複賽戰績</a>
+			<a class="btn btn-primary" data-toggle="collapse" href="#rematchCollapse" role="button" aria-expanded="false" aria-controls="#rematchCollapse">複賽戰績</a>
 			
+			<div class="collapse" id="rematchCollapse" style="margin-top:20px;margin-bottom:20px">
+	  			<div class="card card-body">	
+	  			
+		  			<c:if test="${cContestBean.sHost == user.sAccount}">
+			  			<div style="margin-bottom:10px">
+			  				<button id="saveRematchRecord" class="btn btn-success" value="${cContestBean.iNo}">更新戰績</button>
+			  			</div>
+		  			</c:if>
+	  				
+						<table>
+							<thead>
+								<tr>
+									<th>場次</th>
+									<th>參賽者1</th>
+									<th>參賽者2</th>
+									<th>勝方</th>
+								</tr>
+							</thead>
+					        <tbody>
+								<c:forEach var="record" items="${lRematchRecords}">
+									<tr>	
+										<c:choose>
+											<c:when test="${cContestBean.sHost == user.sAccount && record.sPlayers1 != 'none'}">
+												<td class="tdPlayerR">${record.sPlayers1}</td>
+												<td class="tdPlayerR">${record.sPlayers2}</td>
+												<td class="tdWinnerR">${record.sWinner}</td>
+											</c:when>
+											<c:otherwise>
+												<td>${record.iKnockoutNo}</td>
+												<td>${record.sPlayers1}</td>
+												<td>${record.sPlayers2}</td>
+												<td>${record.sWinner}</td>
+											</c:otherwise>
+										</c:choose>
+									</tr>
+								</c:forEach>
+					        </tbody>
+						</table>
+					<br>
+					
+				</div>
+			</div>
 
 
 
 		</div>
 		
 		
-		
+		<div id="tree" class="tree"></div>
+<!-- 		畫圖用 不讓使用者看的 -->
 </div>
 <%@ include file="../Foot.jsp"%>
 
@@ -491,58 +537,21 @@ body{
 <script type="text/javascript">
 	$(function(){
 		
-// 		$('#preliminaryTable').DataTable({
-// 			language: {
-//     		    "lengthMenu": "顯示_MENU_筆資料",
-//     		    "sProcessing": "處理中...",
-//     		    "sZeroRecords": "没有符合的資料",
-//     		    "sInfo": "目前有_MAX_筆資料",
-//     		    "sInfoEmpty": "目前共有 0 筆紀錄",
-//     		    "sInfoFiltered": " ",
-//     		    "sInfoPostFix": "",
-//     		    "sSearch": "尋找:",
-//     		    "sUrl": "",
-//     		    "sEmptyTable": "尚未有資料紀錄存在",
-//     		    "sLoadingRecords": "載入資料中...",
-//     		    "sInfoThousands": ",",
-//     		    "oPaginate": {
-//     		        "sFirst": "首頁",
-//     		        "sPrevious": "上一頁",
-//     		        "sNext": "下一頁",
-//     		        "sLast": "末頁"
-//     		    },
-//     		    "order": [[0, "desc"]],
-//     		    "oAria": {
-//     		        "sSortAscending": ": 以升序排列此列",
-//     		        "sSortDescending": ": 以降序排列此列"
-//     		    }
-//     		},
-// 			initComplete: function () {
-// 	            var api = this.api();
-// 	            api.columns().indexes().flatten().each( function ( i ) {
-// 	                var column = api.column( i );
-// 	                var select = $('<select><option value=""></option></select>')
-// 	                    .appendTo( $(column.footer()).empty() )
-// 	                    .on( 'change', function () {
-// 	                        var val = $.fn.dataTable.util.escapeRegex(
-// 	                            $(this).val()
-// 	                        );
-// 	                        column
-// 	                            .search( val ? '^'+val+'$' : '', true, false )
-// 	                            .draw();
-// 	                    } );
-// 	                column.data().unique().sort().each( function ( d, j ) {
-// 	                    select.append( '<option value="'+d+'">'+d+'</option>' )
-// 	                } );
-// 	            } );
-// 	        }
-// 		});
-		
-		
 		$(".tdPlayer").on("click", function(){
 // 			console.log($(this).text());
 			let winner = $(this).text();
 			let tdWinner = $(this).parent().find(".tdWinner");
+			if(tdWinner.text() == winner){
+				tdWinner.text("");
+			}else{
+				tdWinner.text(winner);
+			}
+			
+		})
+		
+		$(".tdPlayerR").on("click", function(){
+			let winner = $(this).text();
+			let tdWinner = $(this).parent().find(".tdWinnerR");
 			if(tdWinner.text() == winner){
 				tdWinner.text("");
 			}else{
@@ -717,7 +726,7 @@ body{
 							        html2canvas(document.getElementById("tree"), { useCORS: true, scale:2 }).then(function (canvas) {
 //							 			document.getElementById('tree').parentNode.style.overflow = 'hidden'; 
 							            treeImage64 = canvas.toDataURL("image/jpeg", 1.0);
-
+										
 							    		$.ajax({
 											type:"post",
 											url:"<c:url value='/contest/UpdateRematchImage'/>",
@@ -749,18 +758,21 @@ body{
 												}
 												
 											},
-											error: function(err){
-												Swal.fire({
-													  title: '網頁發生錯誤!',
-													  text: '請聯繫管理員',
-													  icon: 'error',
-													  showClass: {
-														    popup: 'animate__animated animate__fadeInDown'
-														  },
-													  hideClass: {
-														    popup: 'animate__animated animate__fadeOutUp'
-														  }
-												});
+											error: function(XMLHttpRequest, textStatus, errorThrown){
+												console.log("1. " + XMLHttpRequest.readyState + "/" + XMLHttpRequest.status + "/" + XMLHttpRequest.statusText)
+												console.log("2. " + textStatus)
+												console.log("3. " + errorThrown)
+// 												Swal.fire({
+// 													  title: '網頁發生錯誤!',
+// 													  text: '請聯繫管理員',
+// 													  icon: 'error',
+// 													  showClass: {
+// 														    popup: 'animate__animated animate__fadeInDown'
+// 														  },
+// 													  hideClass: {
+// 														    popup: 'animate__animated animate__fadeOutUp'
+// 														  }
+// 												});
 											}
 										});
 								        

@@ -29,7 +29,7 @@ public class RecordDAOImpl implements RecordDAO {
 	}
 
 	@Override
-	public void deleteRecord(Integer contestNo) {
+	public void deleteContestRecord(Integer contestNo) {
 		String hql = "delete from RecordBean where iContestNo = : contstNo";
 		Session session = factory.getCurrentSession();
 		session.createQuery(hql).setParameter("contstNo", contestNo).executeUpdate();
@@ -62,18 +62,23 @@ public class RecordDAOImpl implements RecordDAO {
 		Session session = factory.getCurrentSession();
 		return session.createQuery(hql).setParameter("contestNo", contestNo).getResultList();
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<RecordBean> selectContestRematchRecord(Integer contestNo) {
-		// TODO Auto-generated method stub
-		return null;
+		String hql = "from RecordBean where iContestNo = :contestNo and sType != '預賽'";
+		Session session = factory.getCurrentSession();
+		return session.createQuery(hql).setParameter("contestNo", contestNo).getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object[]> promoteRecmatch(Integer contestNo, Integer groupNo, Integer promoteNumber) {
+		String clear = "delete RecordBean where iContestNo = :contestNo and sType != '預賽'";
 		String hql = "select sWinner,count(sWinner) from RecordBean where iContestNo = :contestNo and iGroundNo = :groupNo and sType = '預賽' group by sWinner order by count(sWinner) desc";
 		Session session = factory.getCurrentSession();
+		//清除舊的複賽資料
+		session.createQuery(clear).setParameter("contestNo", contestNo).executeUpdate();
 		return session.createQuery(hql).setParameter("contestNo", contestNo)
 										.setParameter("groupNo", groupNo)
 										.setMaxResults(promoteNumber)

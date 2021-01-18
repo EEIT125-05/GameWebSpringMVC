@@ -8,9 +8,9 @@ public interface RecordService {
 	
 	Boolean insertRecord(RecordBean rRecordBean);
 
-	void deleteRecord(Integer contestNo);
-	
 	Boolean updateRecords(RecordBean rRecordBean);
+	
+	void deleteContestRecord(Integer contestNo);
 	
 	List<RecordBean> selectContestRecord(Integer contestNo);
 
@@ -19,6 +19,7 @@ public interface RecordService {
 	List<RecordBean> selectContestRematchRecord(Integer contestNo);
 	
 	List<Object[]> promoteRecmatch(Integer contestNo, Integer groupNo, Integer promoteNumber);
+	
 	
 //	void updatePreliminaryWinner(Integer contestNo, String sWinners);
 //	

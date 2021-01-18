@@ -8,9 +8,9 @@ public interface RecordDAO {
 	
 	Boolean insertRecord(RecordBean rRecordBean);
 	
-	void deleteRecord(Integer contestNo);
-	
 	Boolean updateRecords(RecordBean rRecordBean);
+	
+	void deleteContestRecord(Integer contestNo);
 
 	List<RecordBean> selectContestRecord(Integer contestNo);
 	
