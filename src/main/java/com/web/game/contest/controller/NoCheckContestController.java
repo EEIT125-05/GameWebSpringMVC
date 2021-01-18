@@ -32,10 +32,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.game.contest.model.ContestBean;
 import com.web.game.contest.model.RecordBean;
-import com.web.game.contest.model.RecordDetailBean;
 import com.web.game.contest.service.ContestService;
 import com.web.game.contest.service.GameListService;
-import com.web.game.contest.service.RecordDetailService;
 import com.web.game.contest.service.RecordService;
 
 @Controller
@@ -55,9 +53,6 @@ public class NoCheckContestController {
 	
 	@Autowired
 	RecordService rService;
-	
-	@Autowired
-	RecordDetailService rdService;
 	
 	@GetMapping("Index")
 	public String contestIndex(Model model) {
@@ -80,47 +75,24 @@ public class NoCheckContestController {
 		}else {
 			model.addAttribute("cContestBean", cContestBean);
 			
-			//取戰績資料->先做好分類(有預賽)  要改到service
-			List<RecordBean> lRecordList = rService.selectContestRecord(contestNo);
-			if(lRecordList.size() > 0) {//如果沒紀錄,下方會跑不出來
-				
-				List<List<RecordBean>> finalList = new ArrayList<List<RecordBean>>();
-				for(int i=1; i<=lRecordList.get(cContestBean.getiPeople()-1).getiGroupNo(); i++) {
-//					System.out.println("第" + i + "組");
-					List<RecordBean> toFinalList = new ArrayList<RecordBean>();
-					for(RecordBean rRecordBean: lRecordList) {
-						if(rRecordBean.getiGroupNo() == i) {
-//							System.out.println("第" + i + "組" + rRecordBean.getsPlayers());
-							toFinalList.add(rRecordBean);
+			List<RecordBean> lPreliminary = rService.selectContestPreliminaryRecord(contestNo);
+			
+			if(lPreliminary.size() > 0) {//如果沒紀錄,下方會跑不出來
+				List<List<RecordBean>> lGroupRecords = new ArrayList<>();
+				Integer iGroupMax = lPreliminary.get(lPreliminary.size()-1).getiGroundNo();
+				for(int i=1; i<=iGroupMax; i++) {
+					List<RecordBean> toGroupRecords = new ArrayList<>();
+					for(RecordBean rRecordBean: lPreliminary) {
+						if(rRecordBean.getiGroundNo() == i) {
+							toGroupRecords.add(rRecordBean);
 						}
 					}
-					finalList.add(toFinalList);
+					lGroupRecords.add(toGroupRecords);
 				}
-				model.addAttribute("lGroupRecord", finalList);
-//				System.out.println("完成 " + finalList);
-				
-				//有儲存過戰績的話->分類
-				List<RecordDetailBean> lRecordDetail = rdService.selectContestRecordDetail(contestNo);
-				if(lRecordDetail.size() > 0) {
-					List<List<RecordDetailBean>> detailFinalList = new ArrayList<List<RecordDetailBean>>();
-					for(int i=1; i<=lRecordList.get(cContestBean.getiPeople()-1).getiGroupNo(); i++) {
-//						System.out.println("第" + i + "組");
-						List<RecordDetailBean> toFinalList = new ArrayList<RecordDetailBean>();
-						for(RecordDetailBean rRecordDetailBean: lRecordDetail) {
-							if(rRecordDetailBean.getiGroupNo() == i) {
-//								System.out.println("第" + i + "組" + rRecordBean.getsPlayers());
-								toFinalList.add(rRecordDetailBean);
-							}
-						}
-						detailFinalList.add(toFinalList);
-					}
-					model.addAttribute("lGroupRecordDetail", detailFinalList);
-//					System.out.println("完成 " + finalList);
-				}
-				
-				
-				
+				model.addAttribute("lGroupRecords", lGroupRecords);
+				model.addAttribute("lRematchRecords", rService.selectContestRematchRecord(contestNo));
 			}
+			
 		}
 		return nextPage;
 	}
