@@ -74,7 +74,7 @@ div {
 			</div>
 			
 			<div style="margin-top: 20px;">
-				<button type="button"  class="button" id="submitButton" onclick="checkSubmit();" disabled>送出</button>
+				<button type="button"  class="button" name="submit" id="submitButton" onclick="checkSubmit();" disabled>送出</button>
 				<button type="reset" class="button">清除</button>
 			</div>
 		</fieldset>
