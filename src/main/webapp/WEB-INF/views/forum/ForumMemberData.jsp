@@ -60,9 +60,6 @@
 	color: #00FFFF;
 }
 
-table{
-	text-align:center;
-}
 </style>
 </head>
 <body>
@@ -77,7 +74,7 @@ table{
 				<td class="a"><a href="####">商城記錄</a></td>
 			</tr>
 			<tr>
-				<td class="a"><a href="/forum/gotoMemberData">討論區記錄</a></td>
+				<td class="a"><a href="<c:url value="/forum/gotoMemberData"/>">討論區記錄</a></td>
 			</tr>
 			<tr>
 				<td class="a"><a href="####">陪玩記錄</a></td>

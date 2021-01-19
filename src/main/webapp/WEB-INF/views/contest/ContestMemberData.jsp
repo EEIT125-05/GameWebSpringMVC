@@ -60,9 +60,6 @@
 	color: #00FFFF;
 }
 
-table{
-	text-align:center;
-}
 </style>
 </head>
 <body>
