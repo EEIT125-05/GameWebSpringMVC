@@ -205,6 +205,7 @@ td {
 				console.log("success")
 			})
 		}
+		
 		$(function() {
 
 			console.log("file: " + $("#fImage").val());
