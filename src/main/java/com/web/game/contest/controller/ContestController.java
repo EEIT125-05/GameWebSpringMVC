@@ -517,6 +517,16 @@ public class ContestController {
 		return map;
 	}
 	
+	@GetMapping("/gotoMemberData")
+	public String gotoMemberData(Model model) {
+		
+		model.addAttribute("lContestHostList", cService.selectUserContest(((MemberBean)model.getAttribute("user")).getsAccount()));
+		model.addAttribute("lParticipateList", pService.selectParticipate(((MemberBean)model.getAttribute("user")).getsAccount()));
+		
+		
+		return "contest/ContestMemberData";
+	}
+	
 	
 //	@GetMapping("先放這這段程式碼")
 //	public ResponseEntity<String> 隨便(){
