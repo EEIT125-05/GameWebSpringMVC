@@ -8,7 +8,8 @@ public interface ForumService {
 
 	public Boolean insertOrUpdateForum(ForumBean fForumBean);
 
-	public Boolean deleteForum(ForumBean fForumBean);
+	public void deleteForum(Integer iNo);
+//	public Boolean deleteForum(ForumBean fForumBean);
 	
 	public Boolean updateForum(ForumBean fForumBean);
 	

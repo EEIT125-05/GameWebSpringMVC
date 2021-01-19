@@ -2,8 +2,18 @@ package com.web.game.contest.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Base64.Decoder;
 
 import javax.servlet.ServletContext;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
@@ -17,17 +27,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.game.contest.model.ContestBean;
 import com.web.game.contest.model.ParticipateBean;
+import com.web.game.contest.model.RecordBean;
 import com.web.game.contest.service.ContestService;
 import com.web.game.contest.service.GameListService;
 import com.web.game.contest.service.ParticipateService;
+import com.web.game.contest.service.RecordService;
 import com.web.game.contest.validators.ContestValidator;
 import com.web.game.contest.validators.dateAndTimeValidator;
 import com.web.game.member.model.MemberBean;
+import com.web.game.member.service.MemberService;
 
 @Controller
 @RequestMapping("/contest")
@@ -47,10 +62,18 @@ public class ContestController {
 	ParticipateService pService;
 	
 	@Autowired
+	RecordService rService;
+	
+	@Autowired
+	MemberService mService;
+	
+	@Autowired
 	ContestValidator cValidator;
 	
 	@Autowired
 	dateAndTimeValidator dValidator;
+	
+	private final static String ERROR_PAGE = "redirect:/contest/Error";
 	
 	@GetMapping("/Create")
 	public String createOrUpdateContest(
@@ -71,10 +94,14 @@ public class ContestController {
 					@RequestParam(required = false, defaultValue = "1970-01-01 00:00") String sTime,
 					@RequestParam(required = false, defaultValue = "false") Boolean afterSignStart,
 					@RequestParam(required = false, defaultValue = "false") Boolean afterSignEnd,
+					@RequestParam Integer iTeamMemberCount,
+					@RequestParam String sPreliminary,
 					@PathVariable(required = false) Integer contestNo,
 					BindingResult result,
 					Model model) {
 		cService.setTime(cContestBean, sSignStart, sSignEnd, sTime);//處理時間
+		cContestBean.setiTeamMemberCount(iTeamMemberCount);
+		cContestBean.setsPreliminary(sPreliminary);
 		
 		MultipartFile fImage = cContestBean.getfImage();
 		String contentType = fImage.getContentType();
@@ -134,35 +161,46 @@ public class ContestController {
 	}
 	
 	@PostMapping("/Confirm")
-	public String contestToDB(
-					@ModelAttribute("cContestBean") ContestBean cContestBean,
-					@ModelAttribute("sContestConfirm") String sContestConfirm,
-					Model model) {
-		String nextPage = null;
+	public @ResponseBody Map<String, String> contestToDB(
+			@ModelAttribute("cContestBean") ContestBean cContestBean,
+			@ModelAttribute("sContestConfirm") String sContestConfirm,
+			Model model) {
+		Map<String, String> map = new HashMap<String, String>();
+		
+		Boolean success = true;
 		if(sContestConfirm.equals("更新")){
 			if(cService.updateContest(cContestBean)) {
-				nextPage = "redirect:/contest/Thanks";
+				map.put("successMessage", "更新成功");
 			}else {
-				nextPage = "redirect:/contest/Error";
+				success = false;
 			}
 		}else {
 			if(cService.insertContest(cContestBean)) {
-				nextPage = "redirect:/contest/Thanks";
+				map.put("successMessage", "新增成功");
 			}else {
-				nextPage = "redirect:/contest/Error";
+				success = false;
 			}
 		}
-		return nextPage;
-	}
-	
-	@GetMapping("/Thanks")
-	public String thanks() {
-		return "contest/ContestThanks";
-	}
-	
-	@GetMapping("/Error")
-	public String error(){
-		return "contest/ContestError";
+		
+		if(success) {
+			if(cContestBean.getsPreliminary().equals("none") && cContestBean.getsRematchMode().equals("free")) {
+				//無預賽-自由對戰 在這裡直接建好資料表
+				rService.deleteContestRecord(cContestBean.getiNo());
+				if(rService.insertRecord(new RecordBean(null, cContestBean.getiNo(), "自由對戰", null, null, null, null))) {
+					map.put("status", "success");
+					map.put("contestNo", Integer.toString(cContestBean.getiNo()));
+				}else {
+					map.put("status", "sqlError");
+				}
+			}else {
+				map.put("status", "success");
+				map.put("contestNo", Integer.toString(cContestBean.getiNo()));
+			}
+		}else {
+			map.put("status", "sqlError");
+		}
+		
+		return map;
 	}
 	
 	@GetMapping("/Management")
@@ -171,88 +209,322 @@ public class ContestController {
 		return "contest/ContestManagement";
 	}
 	
-	@GetMapping("/Schedule/{contestNo}")
-	public String contestSchedule(
-					@PathVariable Integer contestNo,
-					Model model) {
-		String nextPage = null;
-		ContestBean cContestBean = cService.selectOneContest(contestNo);
-		if(cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {//驗證
-			model.addAttribute("cContestBean", cContestBean);
-			nextPage = "contest/ContestSchedule";
-		}else {
-			model.addAttribute("errorMessage","(使用者錯誤)");
-			nextPage = "contest/ContestError";
-		}
-		return nextPage;
-	}
-	
 	@GetMapping("/Update/{contestNo}")
 	public String contestUpdate(
 						@PathVariable Integer contestNo,
+						RedirectAttributes ra,
 						Model model) {
 		String nextPage = null;
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
-		if(cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {
+		if(cContestBean == null) {
+			ra.addFlashAttribute("errorMessage", "(這場比賽並不存在)");
+			nextPage = ERROR_PAGE;
+		}else if(!cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {
 			//驗證&進入更改頁面
+			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
+			nextPage = ERROR_PAGE;
+		}else {
 			model.addAttribute("cContestBean", cContestBean);
 			model.addAttribute("sContestConfirm", "更新");
 			model.addAttribute("lGameList", gService.selectGameList());
 			model.addAttribute("originSignStart", cService.selectOneContest(contestNo).getdSignStart());
 			model.addAttribute("originSignEnd", cService.selectOneContest(contestNo).getdSignEnd());
 			nextPage = "contest/ContestCreateOrUpdate";
-		}else {
-			model.addAttribute("errorMessage","(使用者錯誤)");
-			nextPage = "contest/ContestError";
 		}
 		return nextPage;
 	}
 	
 	@DeleteMapping("/Edit/{contestNo}")
-	public String contestDelete(
+	public @ResponseBody Map<String, String> contestDelete(
 							@PathVariable Integer contestNo,
+//							RedirectAttributes ra,
 							Model model) {
-		String nextPage = null;
+		Map<String, String> map = new HashMap<String, String>();
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
-		if(cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {//驗證
-			if(cService.deleteContest(cContestBean)) {
-				model.addAttribute("sContestConfirm", "刪除");	
-				nextPage = "redirect:/contest/Thanks";
-			}else {
-				nextPage = "redirect:/contest/Error";
-			}
+		if(cService.deleteContest(cContestBean)) {
+			map.put("status", "success");
 		}else {
-			model.addAttribute("errorMessage","(使用者錯誤)");
-			nextPage = "contest/ContestError";
+			map.put("status", "sqlError");
 		}
-		return nextPage;
+		return map;
 	}
 		
 	@PostMapping("/Join")
-	public String joinContest(
-					@ModelAttribute("cContestBean") ContestBean cContestBean,
-					@RequestParam String sGameId,
-					Model model) {
-		String nextPage = null;
+	public @ResponseBody Map<String, String> joinContest(
+			@ModelAttribute("cContestBean") ContestBean cContestBean,
+//			RedirectAttributes ra,
+			Model model) {
+		Map<String, String> map = new HashMap<String, String>();
 		String user = ((MemberBean)model.getAttribute("user")).getsAccount();
-		if(pService.checkPlayer(cContestBean.getiNo(), user)) {
-			if(pService.insertParticipate(new ParticipateBean(null, user, sGameId, cContestBean))) {
-				model.addAttribute("sContestConfirm", "報名");
-				nextPage = "redirect:/contest/Thanks";
-			}else {
-				nextPage = "redirect:/contest/Error";
-			}
+		if(pService.insertParticipate(new ParticipateBean(null, user, cContestBean))) {
+			map.put("status", "success");
 		}else {
-			model.addAttribute("errorMessage","(您已參加本次賽事,無法重複報名)");
-			nextPage = "contest/ContestError";
+			map.put("status", "sqlError");
 		}
-		return nextPage;
+		return map;
 	}
+	
+	@PostMapping("/MultiJoin")
+	public @ResponseBody Map<String, String> multiJoinContest(
+					@RequestParam Integer contestNo,
+					@RequestParam(value="players[]") List<String> players,		
+					Model model) {
+		Map<String, String> map = new HashMap<String, String>();
+		ContestBean cContestBean = cService.selectOneContest(contestNo);
+		Boolean toDB = true;
+		Boolean chechAnswer = true;
+		StringBuilder toDBPlayers = new StringBuilder();
+		for(String player:players) {
+//			System.out.println("players: " + player);
+			String sAccount = mService.Checkmember(player);
+//			System.out.println("account: " + sAccount);
+			if(sAccount.equals("")) {
+				toDB = false;
+				break;
+			}
+			for(ParticipateBean pParticipateBean: cContestBean.getlParticipateBeans()) {
+				for(String playersString: pParticipateBean.getsPlayer().split(",")) {
+					if(playersString.equals(player)) {
+						chechAnswer = false;
+						break;
+					}
+				}
+			}
+			
+			toDBPlayers.append("," + player);
+		}
+		if(!toDB) {
+			map.put("status", "noUserError");
+		}else if(!chechAnswer){
+			map.put("status", "playerError");
+		}else {
+//			System.out.println("和資料庫處理");
+			toDBPlayers.delete(0, 1);
+			if(pService.insertParticipate(new ParticipateBean(null, toDBPlayers.toString(), cContestBean))) {
+				map.put("status", "success");
+			}else {
+				map.put("status", "sqlError");
+			}
+		}
+		
+		return map;
+	}
+	
 	
 	@GetMapping("/Participate")
 	public String selectParticipate(Model model) {
 		model.addAttribute("lParticipateList", pService.selectParticipate(((MemberBean)model.getAttribute("user")).getsAccount()));
 		return "contest/ContestParticipate";
+	}
+	
+	@DeleteMapping("/Quit/{contestNo}")
+	public @ResponseBody Map<String, String> quitContest(
+							@PathVariable Integer contestNo,
+							Model model) {
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			pService.deleteParticipate(contestNo, ((MemberBean)model.getAttribute("user")).getsAccount());
+			map.put("status", "success");
+		}catch (RuntimeException e) {
+			map.put("status", "sqlError");
+		}
+		return map;
+	}
+	
+	@GetMapping("/Schedule/{contestNo}")
+	public String test(
+				@PathVariable Integer contestNo,
+				RedirectAttributes ra,
+				Model model) {
+		String nextPage = null;
+		ContestBean cContestBean = cService.selectOneContest(contestNo);
+		if(cContestBean == null) {
+			ra.addFlashAttribute("errorMessage", "(這場比賽並不存在)");
+			nextPage = ERROR_PAGE;
+		}else if(!cContestBean.getsHost().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {
+			//驗證&進入更改頁面
+			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
+			nextPage = ERROR_PAGE;
+		}else {
+			model.addAttribute("cContestBean", cService.selectOneContest(contestNo));
+			nextPage = "contest/ContestSchedule";
+		}
+		
+		return nextPage;
+	}
+	
+	@PostMapping("/ScheduleImage")
+	public @ResponseBody Map<String, String> saveScheduleImage(
+							@RequestParam String treeImage64,
+							@RequestParam String drowImage64,
+							@RequestParam Integer contestNo,
+							@RequestParam String groupPlayer,
+							Model model
+							) {
+		Map<String, String> map = new HashMap<String, String>();
+
+		System.out.println("表籤內容: " + groupPlayer);
+		
+		List<List<String>> groupList = new ArrayList<List<String>>();
+		for(int i=0; i<groupPlayer.split("]").length; i++) {
+//			System.out.println("a: " + groupPlayer.split("]")[i]);	
+			List<String> groupMember = new ArrayList<String>();
+			for(int j=0; j<groupPlayer.split("]")[i].split(",").length; j++) {
+//				System.out.println("j: " + j);
+//				System.out.println("b: " + groupPlayer.split("]")[i].split(",")[j]);
+				for(int k=0; k<groupPlayer.split("]")[i].split(",")[j].split("\"").length; k++) {
+//					System.out.println("k: " + k);
+					String player = groupPlayer.split("]")[i].split(",")[j].split("\"")[k];
+//					System.out.println("c: @" + player + "@");
+					if(!player.equals("") && !player.equals("[") && !player.equals("[[")) {
+						groupMember.add(player);
+					}
+				}
+			}
+			groupList.add(groupMember);
+		}
+		
+		
+		ContestBean cContestBean = cService.selectOneContest(contestNo);//找出比賽類型
+		//先算出複賽總共場次
+		Integer iTotal;
+		Integer iOneGroup;
+		Integer iGroupUp;
+		Integer iLast;
+		Integer iTotalUp;
+		Integer iRematchTotal;
+		
+		Boolean success = true;
+		try {
+			Decoder decoder = Base64.getDecoder();
+			
+			treeImage64 = treeImage64.split(",")[1];
+			byte[] bTreeImage = decoder.decode(treeImage64);
+			Blob bRematchImage = new SerialBlob(bTreeImage);
+			
+			if(!cContestBean.getsPreliminary().equals("none")) {//有預賽
+				drowImage64 = drowImage64.split(",")[1];
+				byte[] bDrowImage = decoder.decode(drowImage64);
+				Blob bPreliminariesImage = new SerialBlob(bDrowImage);
+				
+				if(cService.saveSchsduleImage(contestNo, bRematchImage, bPreliminariesImage)) {//先存圖片
+					
+					
+					Integer iGroupCount = 0;
+					rService.deleteContestRecord(contestNo);//先把舊的戰績刪掉
+					for(List<String> list: groupList) {
+						iGroupCount++;
+						for(int i=0; i<list.size(); i++) {
+							for(int j=i+1; j<list.size(); j++) {
+//								System.out.println("對戰: " + list.get(i) + "-" + list.get(j));
+								if(!rService.insertRecord(new RecordBean(null, contestNo, "預賽", iGroupCount, null, list.get(i), list.get(j)))) {
+									success = false;
+								}
+							}
+						}
+					}
+					
+//					if(success) {//先把複賽的資料表建好
+//						iTotal = cContestBean.getiPeople();
+//						iOneGroup = Integer.valueOf(cContestBean.getsPreliminary().split("-")[0]);
+//						iGroupUp = Integer.valueOf(cContestBean.getsPreliminary().split("-")[1]);
+//						iLast = Integer.valueOf(cContestBean.getsPreliminary().split("-")[2]);
+//						iTotalUp = (iTotal/iOneGroup) * iGroupUp + iLast;
+//						iRematchTotal = iTotalUp * 2 - 1;
+//	//					System.out.println("全部: " + iTotal);
+//	//					System.out.println("一組: " + iOneGroup);
+//	//					System.out.println("晉級: " + iGroupUp);
+//	//					System.out.println("剩下: " + iLast);
+//	//					System.out.println("晉級人數: " + iTotalUp);
+//						
+//						if(cContestBean.getsRematchMode().equals("knockout")) {//淘汰賽
+//							for(int i=1; i<=iRematchTotal; i++) {
+//								if(!rService.insertRecord(new RecordBean(null, contestNo, "淘汰賽", null, i, null, null))) {
+//									success = false;
+//								}
+//							}
+//						}else if(cContestBean.getsRematchMode().equals("ground")) {//循環賽
+//							for(int i=0; i<iTotalUp; i++) {
+//								for(int j=i+1; j<iTotalUp; j++) {
+//									if(!rService.insertRecord(new RecordBean(null, contestNo, "循環賽", 1, null, null, null))) {
+//										success = false;
+//									}
+//								}
+//							}
+//						}else {//自由對戰
+//							if(!rService.insertRecord(new RecordBean(null, contestNo, "自由對戰", null, null, null, null))) {
+//								success = false;
+//							}
+//						}
+//					}
+					
+					if(success) {	
+						map.put("status", "success");
+					}else {
+						map.put("status", "sqlError");
+					}
+					
+//					list.add("賽程儲存完成");
+				}else {//存圖片有問題
+					map.put("status", "sqlError");
+				}
+			}else {//沒預賽 直接存複賽資料 要再判斷自由對戰
+				System.out.println("沒有預賽");
+				if(cService.saveSchsduleImage(contestNo, bRematchImage, null)) {
+					
+					rService.deleteContestRecord(contestNo);//先把舊的戰績刪掉
+					iRematchTotal = cContestBean.getiPeople() * 2 - 1;
+					
+					if(cContestBean.getsRematchMode().equals("knockout")) {//淘汰賽
+						for(int i=1; i<=iRematchTotal; i++) {
+							String iPlayer1 = null;
+							if(i >= cContestBean.getiPeople()) {
+								iPlayer1 = groupList.get(0).get(i-cContestBean.getiPeople());
+							}
+							
+							if(!rService.insertRecord(new RecordBean(null, contestNo, "淘汰賽", null, i, iPlayer1, null))) {
+								success = false;
+							}
+							
+						}
+					}else if(cContestBean.getsRematchMode().equals("ground")) {//循環賽
+						for(int i=0; i<cContestBean.getiPeople(); i++) {
+							for(int j=i+1; j<cContestBean.getiPeople(); j++) {
+								if(!rService.insertRecord(new RecordBean(null, contestNo, "循環賽", 1, null, groupList.get(0).get(i), groupList.get(0).get(j)))) {
+									success = false;
+								}
+							}
+						}
+					}//無預賽-自由對戰不會進到這
+					
+					if(success) {	
+						map.put("status", "success");
+					}else {
+						map.put("status", "sqlError");
+					}
+					
+				}else {//存圖片有問題
+					map.put("status", "sqlError");
+				}
+			}
+			
+		} catch (SerialException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return map;
+	}
+	
+	@GetMapping("/gotoMemberData")
+	public String gotoMemberData(Model model) {
+		
+		model.addAttribute("lContestHostList", cService.selectUserContest(((MemberBean)model.getAttribute("user")).getsAccount()));
+		model.addAttribute("lParticipateList", pService.selectParticipate(((MemberBean)model.getAttribute("user")).getsAccount()));
+		
+		
+		return "contest/ContestMemberData";
 	}
 	
 	

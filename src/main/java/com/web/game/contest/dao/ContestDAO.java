@@ -21,10 +21,10 @@ public interface ContestDAO {
 	
 	List<ContestBean> selectPageContest(Integer pageNo);
 	
-	List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, Integer scrollInt);
+	List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, String sCompSystem, Integer scrollInt);
 	
 	Integer getTotalPages();
 	
-	Boolean saveSchsduleImage(Integer iNo, Blob bimageSchedule);
+	Boolean saveSchsduleImage(Integer iNo, Blob bRematchImage, Blob bPreliminariesImage);
 
 }

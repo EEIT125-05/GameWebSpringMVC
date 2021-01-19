@@ -2,17 +2,12 @@ package com.web.game.forum.model;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -36,8 +31,8 @@ public class ForumBean {
 	@Column(columnDefinition = "nvarchar(MAX)")
 	private String sText;
 	
-	@OneToMany(mappedBy = "fForumBean", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	public List<ReplyBean> sReplyBeans = new ArrayList<>();
+//	@OneToMany(mappedBy = "fForumBean", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//	public List<ReplyBean> sReplyBeans = new ArrayList<>();
 	
 	public ForumBean() {
 		super();
@@ -110,12 +105,12 @@ public class ForumBean {
 		this.sText = sText;
 	}
 
-	public List<ReplyBean> getsReplyBeans() {
-		return sReplyBeans;
-	}
-
-	public void setsReplyBeans(List<ReplyBean> sReplyBeans) {
-		this.sReplyBeans = sReplyBeans;
-	}
+//	public List<ReplyBean> getsReplyBeans() {
+//		return sReplyBeans;
+//	}
+//
+//	public void setsReplyBeans(List<ReplyBean> sReplyBeans) {
+//		this.sReplyBeans = sReplyBeans;
+//	}
 
 }

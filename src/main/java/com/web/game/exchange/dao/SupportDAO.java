@@ -13,11 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.web.game.exchange.model.SupportGameBean;
+import com.web.game.exchange.model.SupportGameBean;
 
 
 @Repository
 public class SupportDAO {
-
+	
+	static int counts = 9;
+	
 	@Autowired
 	SessionFactory factory;
 
@@ -28,7 +31,6 @@ public class SupportDAO {
 		Session session = factory.getCurrentSession();
 		String queryAll = "FROM SupportGameBean WHERE status = 0";
 
-		int counts = 6;
 		int start = 0;
 		if (page == 1) {
 			start = 0;
@@ -42,20 +44,11 @@ public class SupportDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<SupportGameBean> changePageByParam(int page, String search, String param) {
+	public List<SupportGameBean> changeSupportByFilter(int page, String str) {
 		List<SupportGameBean> list = new ArrayList<>();
 		Session session = factory.getCurrentSession();
-		String hql = null;
-		String queryGamename = "FROM SupportGameBean WHERE status = 0 AND gamename like '%" + param + "%'";
-		String queryArea = "FROM SupportGameBean WHERE status = 0 AND gamelocation like '%" + param + "%'";
-		System.out.println("dao param" + param);
-		if (search.equals("gamename")) {
-			hql = queryGamename;
-		} else if (search.equals("area")) {
-			hql = queryArea;
-		}
+		String queryAll = "FROM SupportGameBean WHERE status = 0 "+str;;
 
-		int counts = 6;
 		int start = 0;
 		if (page == 1) {
 			start = 0;
@@ -63,10 +56,36 @@ public class SupportDAO {
 			page = page - 1;
 			start = page * counts;
 		}
-		list = (List<SupportGameBean>) session.createQuery(hql).setFirstResult(start).setMaxResults(counts).getResultList();
+		list = (List<SupportGameBean>) session.createQuery(queryAll).setFirstResult(start).setMaxResults(counts).getResultList();
 		return list;
 	}
 
+	@SuppressWarnings("unchecked")
+	public Integer getSupportPage(String str){
+		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
+		Session session =factory.getCurrentSession();
+		String queryAll = "FROM SupportGameBean WHERE status = 0 "+str;
+		list = (List<SupportGameBean>) session.createQuery(queryAll)
+				.getResultList();
+		if(list.size() % counts ==0 ) {
+			return (list.size()/counts);
+		}else {
+			return (list.size()/counts)+1;
+		}
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<SupportGameBean> getAllSupportList(){
+		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
+		Session session =factory.getCurrentSession();
+		String queryAll = "FROM SupportGameBean WHERE status in(0,5)";
+		list = (List<SupportGameBean>) session.createQuery(queryAll)
+				.getResultList();
+		return list;
+	}
+	
+	
 	// -------------------------------------------------
 
 //	public List<SupportGameBean> GetAllSupport() {
@@ -85,11 +104,18 @@ public class SupportDAO {
 		Session session = factory.getCurrentSession();
 		String hql = "FROM SupportGameBean g WHERE g.gamer = :account";
 		list = session.createQuery(hql).setParameter("account", account).getResultList();
-
 		return list;
-
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<SupportGameBean> getMemberPending(String account) {
+		List<SupportGameBean> list = new ArrayList<>();
+		Session session = factory.getCurrentSession();
+		String hql = "FROM SupportGameBean g WHERE g.gamer = :account AND g.status = 2";
+		list = session.createQuery(hql).setParameter("account", account).getResultList();
+		return list;
+	}
+	
 	// 傳回特定物件值
 	public SupportGameBean selectSupportGame(int pno) {// 暫時沒用到
 		SupportGameBean gb = null;

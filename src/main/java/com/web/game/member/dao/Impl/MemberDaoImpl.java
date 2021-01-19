@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.web.game.member.dao.MemberDao;
 import com.web.game.member.model.MemberBean;
 
+
 @Repository
 public class MemberDaoImpl implements MemberDao {
 
@@ -25,6 +26,7 @@ public class MemberDaoImpl implements MemberDao {
 	public Boolean InsertMember(MemberBean InsertMB) {
 		Session session = getSession();
 		session.save(InsertMB);
+		System.out.println("成功儲存");
 		return true;
 	}
 
@@ -68,18 +70,43 @@ public class MemberDaoImpl implements MemberDao {
 			return false;
 		}
 	}
-
+	
+//	@Override
+//	public MemberBean get(Integer id) {
+//		return factory.getCurrentSession().get(Member.class, id);
+//	}
+	
 	@Override
-	public MemberBean Selectmember(String sAccount) {
-		MemberBean SelectMB = null;
+	public MemberBean get(String sAccount) {
+		System.out.println("DAO的sAccount=" + sAccount);
 		try {
 			String hql = "FROM MemberBean WHERE sAccount = :sAccount";
-			Session session = getSession();
-			SelectMB = (MemberBean) session.createQuery(hql).setParameter("sAccount", sAccount).getSingleResult();
+			MemberBean SelectMB = ((Session) factory.getCurrentSession().createQuery(hql)).get(MemberBean.class, sAccount);
+			System.out.println("有正常找到資料");
+			return SelectMB;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return SelectMB;
+		System.out.println("沒找到資料才會跑這裡");
+		System.out.println("DAO找到的sAccount=" + sAccount);
+		return null;
+	}
+
+	@Override
+	public MemberBean Selectmember(String sAccount) {
+		System.out.println("DAO的sAccount=" + sAccount);
+		try {
+			String hql = "FROM MemberBean WHERE sAccount = :sAccount";
+			Session session = getSession();
+			MemberBean SelectMB = (MemberBean) session.createQuery(hql).setParameter("sAccount", sAccount).getSingleResult();
+			System.out.println("有正常找到資料");
+			return SelectMB;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("沒找到資料才會跑這裡");
+		System.out.println("DAO找到的sAccount=" + sAccount);
+		return null;
 	}
 
 	@Override
@@ -152,4 +179,35 @@ public class MemberDaoImpl implements MemberDao {
 		}
 		return Phone;
 	}
+
+	@Override
+	public MemberBean queryMember(String sAccount) {
+		MemberBean mb = null;
+		Session session = factory.getCurrentSession();
+		String hql = "FROM MemberBean WHERE sAccount = :sAccount";
+		@SuppressWarnings("unchecked")
+		List<MemberBean> beans = (List<MemberBean>) session.createQuery(hql).setParameter("sAccount", sAccount)
+				.getResultList();
+		if (beans.size() > 0) {
+			mb = beans.get(0);
+		}
+		return mb;
+	}
+
+	@Override
+	public MemberBean SearchMail(String sEmail) {
+		System.out.println("進來這裡的Mail是????="+sEmail);
+		try {
+			String hql = "FROM MemberBean WHERE sEmail = :sEmail";
+			Session session = getSession();
+			MemberBean SearchMail = (MemberBean) session.createQuery(hql).setParameter("sEmail", sEmail).getSingleResult();
+			System.out.println("有找到Email");
+			return SearchMail;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("沒有找到Mail");
+		return null;
+	}
+
 }

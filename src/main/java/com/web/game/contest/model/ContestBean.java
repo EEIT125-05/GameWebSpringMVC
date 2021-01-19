@@ -45,7 +45,13 @@ public class ContestBean {
 	private String sRule;
 	private String sImage;
 	@JsonIgnore
-	private Blob bScheduleImage;
+	private Blob bRematchImage;
+	@JsonIgnore
+	private Blob bPreliminariesImage;
+	
+	private Integer iTeamMemberCount;
+	private String sPreliminary;
+	private String sRematchMode;
 	
 	@OneToMany(mappedBy = "cContestBean",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<ParticipateBean> lParticipateBeans = new ArrayList<>();
@@ -58,7 +64,8 @@ public class ContestBean {
 	}
 	
 	public ContestBean(Integer iNo, String sName, String sGame, Date dSignStart, Date dSignEnd, Timestamp tTime,
-			String sLocation, Integer iPeople, String sHost, String sRule, String sImage) {
+			String sLocation, Integer iPeople, String sHost, String sRule, String sImage, Integer iTeamMemberCount, 
+			String sPreliminary, String sRematchMode) {
 		super();
 		this.iNo = iNo;
 		this.sName = sName;
@@ -71,6 +78,10 @@ public class ContestBean {
 		this.sHost = sHost;
 		this.sRule = sRule;
 		this.sImage = sImage;
+		this.iTeamMemberCount = iTeamMemberCount;
+		this.sPreliminary = sPreliminary;
+		this.sRematchMode = sRematchMode;
+		
 	}
 
 	public Integer getiNo() {
@@ -177,12 +188,46 @@ public class ContestBean {
 		this.fImage = fImage;
 	}
 
-	public Blob getbScheduleImage() {
-		return bScheduleImage;
+	public Blob getbRematchImage() {
+		return bRematchImage;
 	}
+
+	public void setbRematchImage(Blob bRematchImage) {
+		this.bRematchImage = bRematchImage;
+	}
+
+	public Blob getbPreliminariesImage() {
+		return bPreliminariesImage;
+	}
+
+	public void setbPreliminariesImage(Blob bPreliminariesImage) {
+		this.bPreliminariesImage = bPreliminariesImage;
+	}
+
+	public Integer getiTeamMemberCount() {
+		return iTeamMemberCount;
+	}
+
+	public void setiTeamMemberCount(Integer iTeamMemberCount) {
+		this.iTeamMemberCount = iTeamMemberCount;
+	}
+
+	public String getsPreliminary() {
+		return sPreliminary;
+	}
+
+	public void setsPreliminary(String sPreliminary) {
+		this.sPreliminary = sPreliminary;
+	}
+
+	public String getsRematchMode() {
+		return sRematchMode;
+	}
+
+	public void setsRematchMode(String sRematchMode) {
+		this.sRematchMode = sRematchMode;
+	}
+
 	
-	public void setbScheduleImage(Blob bScheduleImage) {
-		this.bScheduleImage = bScheduleImage;
-	}
 	
 }

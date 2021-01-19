@@ -14,6 +14,11 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>管理員登入</title>
+<style>
+input {
+	border-radius: 10px;
+}
+</style>
 </head>
 <body>
 	<h1 align='center'>GameBar管理員登入</h1>
@@ -23,7 +28,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 		<form action="<c:url value='/member/GameBarSignin'/>" method="post">
 
 			<div align='center'
-				style='border: 3px solid gray; width: 450; height: 300;'>
+				style='border: 3px solid gray; width: 450; height: 300;border-radius: 5px;'>
 				<h3 style='padding-top: 30px;'>
 					帳號:<input type="text" name="sAccount" minlength="6" maxlength="20"
 						placeholder="請輸入帳號" required="required">
@@ -33,7 +38,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 						minlength="8" maxlength="16" required="required">
 				</h3>
 		 <input id="Signin" name="Signin" type="submit" value="登入"
-			style='width: 350; height: 50; font-size: 30;margin-top:30; '>
+			style='width: 350; height: 50; font-size: 30;margin-top:30;background-color:red '>
 	</div>
 	</div>
 	</form>
