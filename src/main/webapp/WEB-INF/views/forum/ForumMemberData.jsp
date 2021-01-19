@@ -60,6 +60,9 @@
 	color: #00FFFF;
 }
 
+table{
+	text-align:center;
+}
 </style>
 </head>
 <body>
@@ -74,7 +77,7 @@
 				<td class="a"><a href="####">商城記錄</a></td>
 			</tr>
 			<tr>
-				<td class="a"><a href="<c:url value="/forum/gotoMemberData"/>">討論區記錄</a></td>
+				<td class="a"><a href="/forum/gotoMemberData">討論區記錄</a></td>
 			</tr>
 			<tr>
 				<td class="a"><a href="####">陪玩記錄</a></td>
@@ -111,14 +114,13 @@
 							</c:when>
 							<c:otherwise>
 								
-								<table border="1" id="tableForum" class="table table-hover" style="font-size: 12px; border:3px">
+								<table border="1" id="tableHost" class="table table-hover" style="font-size: 12px; border:3px">
 									<thead>
 									<tr>
 										<th>編號</th>
 										<th>分類</th>
 										<th>標題</th>
 										<th>時間</th>
-										<th>編輯</th>
 									</tr>
 									</thead>
 									<c:forEach var="forum" items="${lForumAuthorList}">
@@ -127,10 +129,6 @@
 											<td>${forum.sCategory}</td>
 											<td><a href="<c:url value='/forum/Detail/${forum.iNo}'/>">${forum.sTitle}</a></td>
 											<td>${forum.dDate} ${forum.tTime}</td>
-											<td>
-												<a class="btn btn-primary update" href="<c:url value='/forum/Update/${forum.iNo}'/>">修改</a>
-												<button class="btn btn-primary delete" value="${forum.iNo}">刪除</button>
-											</td>
 										</tr>
 									</c:forEach>
 								
@@ -164,7 +162,7 @@
 							</c:when>
 							<c:otherwise>
 								
-								<table border="1" id="tableReply" class="table table-hover" style="font-size: 12px; border:3px">
+								<table border="1" id="tableParticipate" class="table table-hover" style="font-size: 12px; border:3px">
 									<thead>
 									<tr>
 										<th>編號</th>
@@ -213,12 +211,12 @@
 			this.target = "_blank";
 		});	
 		
-		$(".delete").on("click", function(){
+		$("#delete").on("click", function(){
 			Swal.fire({
 				showClass: {
 				    popup: 'animate__animated animate__fadeInDown'
 				  },
-				  title: '確定刪除此則貼文?',
+				  title: '確定刪除此筆紀錄?',
 				  text: "刪除之後將不能復原",
 				  icon: 'warning',
 				  showCancelButton: true,
@@ -233,7 +231,7 @@
 				  if (result.isConfirmed) {
 					  $.ajax({
 							type: "delete",
-							url: "<c:url value='/forum/Edit/" + $(this).val() + "'/>",
+							url: "<c:url value='/contest/Edit/" + $(this).val() + "'/>",
 							dataType: "json",
 							data: {},
 							success: function(result){
@@ -267,10 +265,11 @@
 						});		
 				  }
 				});
+
 		});
 		
 		
-		$('#tableForum').DataTable({
+		$('#tableHost').DataTable({
 			language: {
     		    "lengthMenu": "顯示_MENU_筆資料",
     		    "sProcessing": "處理中...",
@@ -299,7 +298,7 @@
 		});
 		
 	
-		$('#tableReply').DataTable({
+		$('#tableParticipate').DataTable({
 			language: {
     		    "lengthMenu": "顯示_MENU_筆資料",
     		    "sProcessing": "處理中...",
