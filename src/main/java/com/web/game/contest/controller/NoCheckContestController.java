@@ -4,17 +4,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Base64.Decoder;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
-import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
@@ -32,10 +28,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.game.contest.model.ContestBean;
+import com.web.game.contest.model.RecordBean;
 import com.web.game.contest.service.ContestService;
 import com.web.game.contest.service.GameListService;
+import com.web.game.contest.service.RecordService;
 
 @Controller
 @RequestMapping("/contest")
@@ -52,10 +51,13 @@ public class NoCheckContestController {
 	@Autowired
 	GameListService gService;
 	
+	@Autowired
+	RecordService rService;
+	
 	@GetMapping("Index")
 	public String contestIndex(Model model) {
 //		model.addAttribute("lContestList", cService.selectAllContest());
-		model.addAttribute("lContestList", cService.searchContests("", "", "", "", 0));
+		model.addAttribute("lContestList", cService.searchContests("", "", "", "", "", 0));
 		model.addAttribute("lGameList", gService.selectGameList());
 		return "contest/ContestIndex";
 	}
@@ -63,16 +65,46 @@ public class NoCheckContestController {
 	@GetMapping("/Information")
 	public String informationContest(
 					@RequestParam Integer contestNo,
+					RedirectAttributes ra,
 					Model model) {
 		String nextPage = "contest/ContestInformation";
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
 		if(cContestBean == null) {
-			model.addAttribute("errorMessage", "(這場比賽並不存在)");
-			nextPage = "contest/ContestError";
+			ra.addFlashAttribute("errorMessage", "(這場比賽並不存在)");
+			nextPage = "redirect:/contest/Error";
 		}else {
 			model.addAttribute("cContestBean", cContestBean);
+			
+			List<RecordBean> lPreliminary = rService.selectContestPreliminaryRecord(contestNo);
+			
+			if(lPreliminary.size() > 0) {//如果沒紀錄,下方會跑不出來
+				List<List<RecordBean>> lGroupRecords = new ArrayList<>();
+				Integer iGroupMax = lPreliminary.get(lPreliminary.size()-1).getiGroundNo();
+				for(int i=1; i<=iGroupMax; i++) {
+					List<RecordBean> toGroupRecords = new ArrayList<>();
+					for(RecordBean rRecordBean: lPreliminary) {
+						if(rRecordBean.getiGroundNo() == i) {
+							toGroupRecords.add(rRecordBean);
+						}
+					}
+					lGroupRecords.add(toGroupRecords);
+				}
+				model.addAttribute("lGroupRecords", lGroupRecords);
+				model.addAttribute("lRematchRecords", rService.selectContestRematchRecord(contestNo));
+			}
+			
 		}
 		return nextPage;
+	}
+	
+	@GetMapping("/Thanks")
+	public String thanks() {
+		return "contest/ContestThanks";
+	}
+	
+	@GetMapping("/Error")
+	public String error(){
+		return "contest/ContestError";
 	}
 	
 	@PostMapping(value = "/IndexAjax", produces = "application/json; charset=utf-8")
@@ -81,9 +113,10 @@ public class NoCheckContestController {
 					@RequestParam String sGame,
 					@RequestParam String sSignDate,
 					@RequestParam String sSign,
+					@RequestParam String sCompSystem,
 					@RequestParam(defaultValue = "0") Integer scrollInt){
 		Map< String, List<ContestBean>> map = new HashMap<>();
-		map.put("lContestList", cService.searchContests(sSearch, sGame, sSignDate, sSign, scrollInt));
+		map.put("lContestList", cService.searchContests(sSearch, sGame, sSignDate, sSign, sCompSystem, scrollInt));
 		return map;
 	}
 	
@@ -165,38 +198,23 @@ public class NoCheckContestController {
 		return responseEntity;
 	}
 	
-	@PostMapping("/ScheduleImage")
-	public @ResponseBody List<String> saveScheduleImage(
-							@RequestParam String image64,
-							@RequestParam Integer contestNo) {
-		image64 = image64.split(",")[1];
-		List<String> list = new ArrayList<String>();
-		
-		Decoder decoder = Base64.getDecoder();
-		byte[] bImage = decoder.decode(image64);
-		
-		Blob bimageSchedule = null;
-		try {
-			bimageSchedule = new SerialBlob(bImage);
-			if(cService.saveSchsduleImage(contestNo, bimageSchedule)) {
-				list.add("賽程儲存完成");
-			}
-		} catch (SerialException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return list;
+	@PostMapping("/Random")
+	public @ResponseBody List<String> randomList(
+							@RequestParam(value = "playerList[]") List<String> playerList){
+		Collections.shuffle(playerList);
+//		for(String s: playerList) {
+//			System.out.println("參賽者: " + s);
+//		}
+		return playerList;
 	}
-	
-	@GetMapping("/ScheduleLoading/{iNo}")
-	public ResponseEntity<byte[]> schdeuleLoading(
+
+	@GetMapping("/RematchImageLoading/{iNo}")
+	public ResponseEntity<byte[]> rematchLoading(
 								@PathVariable Integer iNo){
 		ContestBean cContestBean = cService.selectOneContest(iNo);
-		Blob bScheduleImage = cContestBean.getbScheduleImage();
+		Blob bRematchImage = cContestBean.getbRematchImage();
 		byte[] bImage = null;
-		try (InputStream is = bScheduleImage.getBinaryStream(); 
+		try (InputStream is = bRematchImage.getBinaryStream(); 
 			 ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
 			byte[] b = new byte[819200];
 			int len = 0;
@@ -215,6 +233,32 @@ public class NoCheckContestController {
 		headers.setContentType(mediaType);
 		ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(bImage, headers, HttpStatus.OK);
 		
+		return responseEntity;
+	}
+	
+	@GetMapping("/PreliminariesImageLoading/{iNo}")
+	public ResponseEntity<byte[]> preliminariesLoading(
+								@PathVariable Integer iNo){
+		ContestBean cContestBean = cService.selectOneContest(iNo);
+		Blob bPreliminariesImage = cContestBean.getbPreliminariesImage();
+		byte[] bImage = null;
+		try (InputStream is = bPreliminariesImage.getBinaryStream(); 
+			 ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
+			byte[] b = new byte[819200];
+			int len = 0;
+			while ((len = is.read(b)) != -1) {
+				baos.write(b, 0, len);
+			}
+			bImage = baos.toByteArray();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String mimeType = "image/jpeg";
+		MediaType mediaType = MediaType.valueOf(mimeType);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+		headers.setContentType(mediaType);
+		ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(bImage, headers, HttpStatus.OK);
 		return responseEntity;
 	}
 }

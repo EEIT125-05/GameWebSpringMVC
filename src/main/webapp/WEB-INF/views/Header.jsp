@@ -33,6 +33,9 @@
               </c:choose>
               <a class="dropdown-item" href="<c:url value='/member/Login'/>">註冊</a>
               <a class="dropdown-item" href="<c:url value='/member/Data'/>">會員資料</a>
+              <c:if test="${user.sAccount == 'game20200922'}">
+              	<a class="dropdown-item" href="<c:url value="/backstage/Member"/>">後台測試中</a>
+              </c:if>
             </div>
           </li>
         
@@ -66,10 +69,28 @@
               陪玩
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-              <a class="dropdown-item" href="<c:url value='/withplay/Index'/>">找人陪玩</a>
-              <a class="dropdown-item" href="<c:url value='/withplay/new'/>">當陪玩主</a>
-              <a class="dropdown-item" href="<c:url value='/withplay/update'/>">修改資料</a>
-              <a class="dropdown-item" href="<c:url value='/withplay/With'/>">管理</a>
+              <c:choose>
+	              <c:when test="${empty user}">
+	              	<a class="dropdown-item" href="<c:url value='/withplay/Index'/>">找人陪玩</a>
+	              </c:when>  
+	              <c:otherwise> 
+	              	<a class="dropdown-item" href="<c:url value='/withplay/Index'/>">找人陪玩</a>
+		              <c:choose>
+		              <c:when test="${empty withplayHost.sAccount}">
+		              	<a class="dropdown-item" href="<c:url value='/withplay/new'/>">當陪玩主</a>
+	             	<a class="dropdown-item" href="<c:url value='/withplay/Withorderlist'/>">我的訂單</a>
+	             	<a class="dropdown-item" href="<c:url value='/withplay/With'/>">管理</a>
+		              </c:when>  
+		              <c:otherwise>              
+		              	<a class="dropdown-item" href="<c:url value='/withplay/update'/>">修改資料</a>
+		              	<a class="dropdown-item" href="<c:url value='/withplay/Withorderlist'/>">我的訂單</a>
+	             		<a class="dropdown-item" href="<c:url value='/withplay/With'/>">管理</a>
+		              </c:otherwise>              
+		              </c:choose>              
+	              </c:otherwise>
+              </c:choose>
+               
+              
             </div>
           </li>
           
@@ -91,13 +112,13 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
               <a class="dropdown-item" href="<c:url value='/exchange/Index'/>">交換版</a>
+              <a class="dropdown-item" href="<c:url value="/exchange/wishBoard"/>">許願池</a>
               <a class="dropdown-item" href="<c:url value="/exchange/insertSupportGame"/>">我要換</a>
               <a class="dropdown-item" href="<c:url value="/exchange/insertDemandGame"/>">我要徵</a>
               <a class="dropdown-item" href="<c:url value="/exchange/insertMyGame"/>">新增我的遊戲庫</a>
               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">我的遊戲庫</a>
-<%--               <a class="dropdown-item" href="<c:url value="/exchange/memberHistoryList"/>">我的changehistoryList(趕工中)</a> --%>
-<%--               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">許願池(趕工中)</a> --%>
-<%--               <a class="dropdown-item" href="<c:url value="/exchange/preparehomepage"/>">測試中</a> --%>
+              <a class="dropdown-item" href="<c:url value="/exchange/gotoMemberData"/>">我的交易紀錄(會員中心)</a>
+              
             </div>
           </li>
           

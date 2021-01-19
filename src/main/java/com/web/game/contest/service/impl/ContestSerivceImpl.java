@@ -124,9 +124,9 @@ public class ContestSerivceImpl implements ContestService {
 
 	@Transactional
 	@Override
-	public List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, String sSign, Integer scrollInt) {
+	public List<ContestBean> searchContests(String sSearch, String sGame, String sSignDate, String sSign,  String sCompSystem, Integer scrollInt) {
 		
-		List<ContestBean> lContestList = cDao.searchContests(sSearch, sGame, sSignDate, scrollInt);
+		List<ContestBean> lContestList = cDao.searchContests(sSearch, sGame, sSignDate, sCompSystem, scrollInt);
 		List<ContestBean> lContestListCheck = new ArrayList<ContestBean>();
 		
 		for(ContestBean cContestBean : lContestList) {
@@ -162,8 +162,9 @@ public class ContestSerivceImpl implements ContestService {
 
 	@Transactional
 	@Override
-	public Boolean saveSchsduleImage(Integer iNo, Blob bimageSchedule) {
-		return cDao.saveSchsduleImage(iNo, bimageSchedule);
+	public Boolean saveSchsduleImage(Integer iNo, Blob bRematchImage, Blob bPreliminariesImage) {
+		return cDao.saveSchsduleImage(iNo, bRematchImage, bPreliminariesImage);
+//		return cDao.saveSchsduleImage(iNo, bRematchImage, bPreliminariesImage);
 	}
 
 	

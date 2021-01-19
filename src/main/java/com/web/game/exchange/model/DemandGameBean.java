@@ -3,11 +3,16 @@ package com.web.game.exchange.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SuppressWarnings("serial")
 @Entity
@@ -25,7 +30,29 @@ public class DemandGameBean implements Serializable{
 	private String image; //對照gamename系統直接給路徑
 	private String remark; 
 	private Integer status;
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name="FK_mygamebean")
+	private MyGameBean mygamebean;
+	@OneToOne(mappedBy = "demandgamebean")
+	@JsonIgnore
+	private WishHistoryBean wishhistorybean;
 	
+	public WishHistoryBean getWishhistorybean() {
+		return wishhistorybean;
+	}
+
+	public void setWishhistorybean(WishHistoryBean wishhistorybean) {
+		this.wishhistorybean = wishhistorybean;
+	}
+
+	public MyGameBean getMygamebean() {
+		return mygamebean;
+	}
+	
+	public void setMygamebean(MyGameBean mygamebean) {
+		this.mygamebean = mygamebean;
+	}
+
 	public DemandGameBean() {
 		super();
 	}

@@ -20,18 +20,18 @@
 
  
 
-
-<p >
+<!--  class="text-danger" -->
+<p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" >
     我要換/共${fn:length(MemberSupport)}筆
   </a>
-<!--   <span class="text-success"  > -->
-<%--     我要換/共${fn:length(MemberSupport)}筆 --%>
-<!--   </span> -->
+  <c:if test="${not empty MemberPending}">
+  	<span id="warningSpanSupport" style="color:red;">您有${fn:length(MemberPending)}筆交換待確認！</span>
+  </c:if>
   
 </p>
 
-<div class="collapse" id="collapseExample">
+<div class="collapse show" id="collapseExample">
   <div class="card card-body">
   
   
@@ -45,7 +45,6 @@
 				<tr>
 					<th>編號</th>
 					<th>遊戲名稱</th>
-<!-- 					<th>數量</th> -->
 					<th>商品位置</th>
 					<th>運送方式</th>
 					<th>主機平台</th>
@@ -62,7 +61,6 @@
 					<tr>
 						<td>${vs.count}</td>
 						<td>${s.gamename}</td>
-<%-- 						<td>${s.qty}</td> --%>
 						<td>${s.gamelocation}</td>
 						<td>${s.delivery}</td>
 						<td>${s.console}</td>
@@ -73,11 +71,11 @@
 						<c:choose>
 							<c:when test="${s.status == 0}">
 								<td><a class="btn btn-primary btn-sm"
-									href="<c:url value="/exchange/deleteSupport?deleteindex=${s.no}"/>">刪除</a></td>
+								 onclick="deleteCheck('Support','${s.no}');">刪除</a></td>
 								<td><a class="btn btn-primary btn-sm"
 									href="<c:url value="/exchange/update?updateindex=${vs.index}"/>">修改</a></td>
 							</c:when>
-							<c:when test="${s.status == 1 || s.status ==2 ||s.status ==3 || s.status ==4}">
+							<c:when test="${s.status == 1 || s.status ==2 ||s.status ==3 || s.status ==4 || s.status ==5}">
 								<td><a class="btn btn-primary disabled btn-sm">刪除</a></td>
 								<td><a class="btn btn-primary disabled btn-sm">修改</a></td>
 							</c:when>
@@ -92,6 +90,7 @@
     							</c:when>
 								<c:when test="${s.status == 2}">
 								<a class="btn btn-primary btn-sm" style="background-color: green;" href='<c:url value="showApplyFor?no=${s.changehistorybean.no }"/>' >待審核</a>
+
     							(來自${s.changehistorybean.partyB.sAccount }的交換請求)
     							</c:when>
     							<c:when test="${s.status == 3}">
@@ -99,6 +98,9 @@
     							</c:when>
     							<c:when test="${s.status == 4}">
     							已向 ${s.mygamebean.changehistorybean.partyA.sAccount } 提出交換申請
+    							</c:when>
+    							<c:when test="${s.status == 5}">
+    							<span class="text-danger">已被管理員暫時下架</span>
     							</c:when>
 							</c:choose></td>
 					</tr>
@@ -115,16 +117,13 @@
   <br>
   
 </div>
-
-
-
-
-
-
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1">
     	我要徵 /共${fn:length(MemberDemand)}筆
   </a>
+  <c:if test="${not empty MemberDemandPending}">
+  	<span id="warningSpanDemand" style="color:red;">您有${fn:length(MemberDemandPending)}筆交換待確認！</span>
+  </c:if>
 </p>
 <div class="collapse" id="collapseExample1">
   <div class="card card-body">
@@ -158,19 +157,26 @@
 								<c:choose>
 									<c:when test="${d.status == 0}">
 										<td><a class="btn btn-primary btn-sm"
-											href="<c:url value="/exchange/deleteDemand?deleteindex=${d.no}"/>">刪除</a></td>
+											onclick="deleteCheck('Demand','${d.no}');"/>刪除</a></td>
 									</c:when>
-									<c:when test="${d.status == 1}">
+									<c:when test="${d.status == 1 || d.status ==2 ||d.status ==5}">
 										<td><a class="btn btn-primary disabled btn-sm">刪除</a></td>
 									</c:when>
 								</c:choose>
 
 								<td><c:choose>
-										<c:when test="${d.status == 0}">
+								<c:when test="${d.status == 0}">
     							未徵得
     							</c:when>
-										<c:when test="${d.status == 1}">
+								<c:when test="${d.status == 1}">
     							已徵得
+    							</c:when>
+								<c:when test="${d.status == 2}">
+    								<a class="btn btn-primary btn-sm" style="background-color: green;" href='<c:url value="showDemandApplyFor?no=${d.wishhistorybean.no }"/>' >待審核</a>
+    							(來自${d.wishhistorybean.partyA.sAccount }的交換請求)
+    							</c:when>
+								<c:when test="${d.status == 5}">
+    							<span class="text-danger">已被管理員暫時下架</span>
     							</c:when>
 									</c:choose></td>
 
@@ -179,16 +185,10 @@
 						</c:forEach>
 						</c:when>
 						</c:choose>
-
 					</table>
-  
   </div>
   <br>
 </div>
-			
-			
-			 
-
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
     我的遊戲庫 /共${fn:length(MemberGames)}筆
@@ -196,8 +196,6 @@
 </p>
 <div class="collapse" id="collapseExample2">
   <div class="card card-body">
-  
-  
   <c:choose>
 				<c:when test="${empty MemberGames}">
 		目前遊戲庫無任何遊戲<br>
@@ -219,8 +217,28 @@
 								<td>${g.console}</td>
 								<c:choose>
 							<c:when test="${g.status==2 }">
-								<td>	
-								待換中(申請交換 <span style="color:green">${g.changehistorybean.supportgamebean.gamename }</span> 等待 <span style="color:green">${g.changehistorybean.partyA.sAccount }</span> 的同意)
+								<td>
+								<c:choose>
+									<c:when test="${g.changehistorybean.supportgamebean.gamename != null}">
+										<a class="btn btn-primary btn-sm btn-danger"  onclick="applyFor('','${g.changehistorybean.no }')" >取消交換申請</a>
+										待換中(您申請交換 <span style="color:green">${g.changehistorybean.supportgamebean.gamename }</span>
+								 		等待 <span style="color:green">${g.changehistorybean.partyA.sAccount }</span> 的同意)
+									</c:when>
+									<c:when test="${g.wishhistorybean.demandgamebean.gamename !=null}">
+										待換中(申請交換 <span style="color:green">${g.wishhistorybean.demandgamebean.gamename }</span>
+										 等待 <span style="color:green">${g.wishhistorybean.partyB.sAccount }</span> 的同意)
+									</c:when>
+									<c:when test="${g.demandgamebean.wishhistorybean.mygamebean.gamename !=null}">
+										<a class="btn btn-primary btn-sm btn-danger"   onclick="applyFor('Demand','${g.demandgamebean.wishhistorybean.no }')" >取消交換申請</a>
+										待換中(您申請交換 <span style="color:green">${g.demandgamebean.wishhistorybean.mygamebean.gamename }</span>
+										 等待 <span style="color:green">${g.demandgamebean.wishhistorybean.partyB.sAccount }</span> 的同意)
+									</c:when>
+								</c:choose>
+
+<%-- 																<a class="btn btn-primary btn-sm" style="background-color: green;" href='<c:url value="showApplyFor?no=${s.changehistorybean.no }"/>' >待審核</a> --%>
+<%-- 								待換中(申請交換 <span style="color:green">${g.changehistorybean.supportgamebean.gamename }${g.wishhistorybean.demandgamebean.gamename }${g.demandgamebean.wishhistorybean.mygamebean.gamename }</span> --%>
+<%-- 								 等待 <span style="color:green">${g.changehistorybean.partyA.sAccount }${g.wishhistorybean.partyB.sAccount }${g.demandgamebean.wishhistorybean.partyB.sAccount }</span> 的同意) --%>
+								
 								</td>
 							</c:when>
 							<c:when test="${g.supportgamebean==null }">
@@ -245,11 +263,108 @@
   </div>
   <br>
 </div>
-			
-			
 					<a class="btn btn-primary" style="background-color: red;" href="<c:url value="/exchange/Index"/>">返回主頁</a>
 </div>
 					<%@ include file="../Foot.jsp"%>
-					
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
+<script>
+if(${not empty MemberPending}){
+let t = window.setInterval(change,1000)
+var x = true;
+function change(){
+	let i = document.getElementById("warningSpanSupport")
+	if(x==true){
+		console.log("white")
+	i.style.color="#FFFFFF"
+	x =false
+	}else{
+		console.log("red")
+	i.style.color="#FF0000"
+	x= true
+	}
+}
+}
+if(${not empty MemberDemandPending}){
+let t = window.setInterval(change,1000)
+var x = true;
+function change(){
+	let i = document.getElementById("warningSpanDemand")
+	if(x==true){
+		console.log("white")
+	i.style.color="#FFFFFF"
+	x =false
+	}else{
+		console.log("red")
+	i.style.color="#FF0000"
+	x= true
+	}
+}
+}
+
+function deleteCheck(a,b){
+	
+	Swal.fire({
+		  title: "你確定要刪除這筆資料?",
+		//   text: "You won't be able to revert this!",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: '確定',
+		  cancelButtonText:'返回'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			 	var xhr = new XMLHttpRequest();
+			 	xhr.open('DELETE','<c:url value="/exchange/delete'+a+'" />'+'?deleteindex='+b,true);
+			 	xhr.send();
+			 	xhr.onload = function(){
+			 		if(xhr.readyState===4 && xhr.status ===200){
+			 			Swal.fire(
+			 				      'OK',
+			 				      '刪除成功',
+			 				      'success'
+			 				    ).then(function(){
+			 				   location.href='./management'
+			 				    })
+			 			}
+		  			}	
+			 	}
+			})
+}
+
+function applyFor(a,b){
+	var str = "取消"
+	var str1 = "您取消申請"
+		
+	Swal.fire({
+  title: "你確定要"+str+"?",
+//   text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: '確定',
+  cancelButtonText:'返回'
+}).then((result) => {
+  if (result.isConfirmed) {
+	 	var xhr = new XMLHttpRequest();
+	 	xhr.open('GET','<c:url value="/exchange/'+a+'ApplyForReject" />?no='+b,true);
+	 	xhr.send();
+	 	xhr.onload = function(){
+	 		if(xhr.readyState===4 && xhr.status ===200){
+	 			Swal.fire(
+	 				      'OK',
+	 				      str1,
+	 				      'success'
+	 				    ).then(function(){
+	 				   location.href='./management'
+	 				    })
+	 			}
+  			}	
+	 	}
+	})
+}
+
+</script>					
 </body>
 </html>

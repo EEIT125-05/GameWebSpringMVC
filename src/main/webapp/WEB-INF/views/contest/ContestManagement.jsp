@@ -38,10 +38,10 @@
 	
       <div class="col-lg-4 col-sm-6 portfolio-item">
         <div class="card h-100">
-          <a href="<c:url value='/contest/Schedule/${cContest.iNo}'/>"><img class="card-img-top" src="<c:url value='/contest/ImageLoading?iNo=${cContest.iNo}'/>" alt=""></a>
+          <a href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>"><img class="card-img-top" src="<c:url value='/contest/ImageLoading?iNo=${cContest.iNo}'/>" alt=""></a>
           <div class="card-body">
             <h4 class="card-title">
-              <a href="<c:url value='/contest/Schedule/${cContest.iNo}'/>">${cContest.sName}</a>
+              <a href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>">${cContest.sName}</a>
             </h4>
             <fmt:formatDate var="sTime" value="${cContest.tTime}"
 							pattern="yyyy-MM-dd HH:mm" />

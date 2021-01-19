@@ -10,6 +10,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="MyGames_Table")
 public class MyGameBean {
@@ -23,10 +25,35 @@ public class MyGameBean {
 	private Integer status;
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="FK_supportgamebean_id")
+	@JsonIgnore
 	private SupportGameBean supportgamebean;
 	@OneToOne(mappedBy = "mygamebean")
+	@JsonIgnore
 	private ChangeHistoryBean changehistorybean;
+	@OneToOne(mappedBy = "mygamebean")
+	@JsonIgnore
+	private WishHistoryBean wishhistorybean;
+	@OneToOne(mappedBy = "mygamebean")
+	@JsonIgnore
+	private DemandGameBean demandgamebean;
 	
+	
+	public WishHistoryBean getWishhistorybean() {
+		return wishhistorybean;
+	}
+
+	public void setWishhistorybean(WishHistoryBean wishhistorybean) {
+		this.wishhistorybean = wishhistorybean;
+	}
+
+	public DemandGameBean getDemandgamebean() {
+		return demandgamebean;
+	}
+
+	public void setDemandgamebean(DemandGameBean demandgamebean) {
+		this.demandgamebean = demandgamebean;
+	}
+
 	public ChangeHistoryBean getChangehistorybean() {
 		return changehistorybean;
 	}

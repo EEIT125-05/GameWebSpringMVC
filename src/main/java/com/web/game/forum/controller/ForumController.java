@@ -1,5 +1,10 @@
 package com.web.game.forum.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,9 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.game.forum.model.ForumBean;
 import com.web.game.forum.model.ReplyBean;
@@ -30,7 +38,7 @@ public class ForumController {
 
 	@Autowired
 	ReplyService rService;
-
+	
 	@Autowired
 	ForumValidator validator;
 
@@ -55,27 +63,31 @@ public class ForumController {
 		return "forum/ForumConfirm";
 	}
 
-	@PostMapping("/Confrim")
-	public String forumToDB(@ModelAttribute("fForumBean") ForumBean fForumBean,
+//	@PostMapping("/Confrim")
+//	public String forumToDB(@ModelAttribute("fForumBean") ForumBean fForumBean,
+//			@ModelAttribute("sForumConfirm") String sForumConfirm, Model model) {
+//		String nextPage = null;
+//		fService.setTime(fForumBean);
+//		if (fService.insertOrUpdateForum(fForumBean)) {
+//			nextPage = "redirect:/forum/Thanks";
+//		} else {
+//			nextPage = "redirect:/forum/Error";
+//		}
+//		return nextPage;
+//	}
+	
+	@PostMapping("/Confirm")
+	public @ResponseBody Map<String, String> forumToDB(@ModelAttribute("fForumBean") ForumBean fForumBean,
 			@ModelAttribute("sForumConfirm") String sForumConfirm, Model model) {
-		String nextPage = null;
+		Map<String, String> map = new HashMap<String, String>();
 		fService.setTime(fForumBean);
 		if (fService.insertOrUpdateForum(fForumBean)) {
-			nextPage = "redirect:/forum/Thanks";
+			map.put("status", "success");
+			map.put("successMessage", model.getAttribute("sForumConfirm") + "成功");
 		} else {
-			nextPage = "redirect:/forum/Error";
+			map.put("status", "sqlError");
 		}
-		return nextPage;
-	}
-
-	@GetMapping("/Thanks")
-	public String thanks() {
-		return "forum/ForumThanks";
-	}
-
-	@GetMapping("/Error")
-	public String error() {
-		return "forum/ForumError";
+		return map;
 	}
 
 //	@GetMapping("/Management")
@@ -88,6 +100,7 @@ public class ForumController {
 	@GetMapping("/Update/{forumNo}")
 	public String forumUpdate(
 			@PathVariable Integer forumNo,
+			RedirectAttributes ra,
 			Model model) {
 		String nextPage = null;
 		ForumBean fForumBean = fService.selectOneForum(forumNo);
@@ -97,47 +110,140 @@ public class ForumController {
 			model.addAttribute("sForumConfirm", "更新");
 			nextPage = "forum/ForumCreateOrUpdate";
 		}else {
-			model.addAttribute("errorMessage","(使用者錯誤)");
-			nextPage = "forum/ForumError";
+			ra.addFlashAttribute("errorMessage", "(使用者錯誤)");
+			nextPage = "redirect:/forum/Error";
 		}
 		return nextPage;
 	}
 	
 	@DeleteMapping("/Edit/{forumNo}")
-	public String contestDelete(
+	public @ResponseBody Map<String, String> forumDelete(
 							@PathVariable Integer forumNo,
 							Model model) {
-		String nextPage = null;
-		ForumBean fForumBean = fService.selectOneForum(forumNo);
-		if(fForumBean.getsAuthor().equals(((MemberBean)model.getAttribute("user")).getsAccount())) {//驗證
-			if(fService.deleteForum(fForumBean)) {
-				model.addAttribute("sForumConfirm", "刪除");	
-				nextPage = "redirect:/forum/Thanks";
-			}else {
-				nextPage = "redirect:/forum/Error";
-			}
-		}else {
-			model.addAttribute("errorMessage","(使用者錯誤)");
-			nextPage = "forum/ForumError";
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			fService.deleteForum(forumNo);
+			map.put("status", "success");
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			map.put("status", "sqlError");
 		}
-		return nextPage;
+		return map;
 	}
+	
+//	@DeleteMapping("/Edit/{forumNo}")
+//	public String forumDelete(
+//			@PathVariable Integer forumNo,
+//			Model model) {
+//		String nextPage = null;
+//		ForumBean fForumBean = fService.selectOneForum(forumNo);
+//		if(fService.deleteForum(fForumBean)) {
+//			model.addAttribute("sForumConfirm", "刪除");	
+//			nextPage = "redirect:/forum/Thanks";
+//		}else {
+//			nextPage = "redirect:/forum/Error";
+//		}
+//		return nextPage;
+//	}
 
 	@PostMapping("/Reply")
-	public String reply(
-//			@ModelAttribute("fForumBean") ForumBean fForumBean,
+	public String replyCreate(
 			@RequestParam String sText,
 			@RequestParam Integer forumNo,
+			@RequestParam(defaultValue = "") Integer parentReplyNo,
 			Model model) {
 		String nextPage = null;
-		ReplyBean rReplyBean = rService.newBean(sText, fService.selectOneForum(forumNo));
+		ReplyBean rReplyBean = rService.newBean(sText, forumNo);
+		if(parentReplyNo != null) {
+			ReplyBean rParentReplyBean = rService.selectOneReply(parentReplyNo);
+			rReplyBean.setrReplyBean(rParentReplyBean);
+		}
 		rReplyBean.setsAuthor(((MemberBean) model.getAttribute("user")).getsAccount());
 		if (rService.insertReply(rReplyBean)) {
 			nextPage = "redirect:/forum/Detail/" + forumNo;
 		} else {
-			nextPage = "forum/ForumError";
+			nextPage = "redirect:/forum/Error";
 		}
 		return nextPage;
 	}
-
+	
+	@PostMapping("/EditReply")
+	public @ResponseBody Map<String, String> replyUpdate(
+							@RequestParam Integer replyNo,
+							@RequestParam String newText,
+							Model model) {
+		System.out.println("回覆更新" + replyNo + newText);
+		Map<String, String> map = new HashMap<String, String>();
+		ReplyBean rReplyBean = rService.selectOneReply(replyNo);
+		rReplyBean.setsText(newText);
+		if(rService.updateReply(rReplyBean)) {
+			map.put("status", "success");
+		}else {
+			map.put("status", "sqlError");
+		}
+		return map;
+	}
+	
+//	@PutMapping("/EditReply")
+//	public String replyUpdate(
+//			@RequestParam Integer forumNo,
+//			@RequestParam Integer replyNo,
+//			@RequestParam String newText,
+//			Model model) {
+//		System.out.println("回覆更新" + replyNo + newText);
+//		ReplyBean rReplyBean = rService.selectOneReply(replyNo);
+//		rReplyBean.setsText(newText);
+//		if(rService.updateReply(rReplyBean)) {
+//			return "redirect:/forum/Detail/" + forumNo;
+//		}else {
+//			return "redirect:/forum/Error";
+//		}
+//	}
+	
+	@DeleteMapping("/EditReply/{replyNo}")
+	public @ResponseBody Map<String, String> replyDelete(
+							@PathVariable Integer replyNo,
+							Model model) {
+		System.out.println("回覆刪除" + replyNo);
+		Map<String, String> map = new HashMap<String, String>();
+		ReplyBean rReplyBean = rService.selectOneReply(replyNo);
+		if(rService.deleteReply(rReplyBean)) {
+			map.put("status", "success");
+		}else {
+			map.put("status", "sqlError");
+		}
+		return map;
+	}
+	
+	@GetMapping("/gotoMemberData")
+	public String gotoMemberData(Model model) {
+		
+		model.addAttribute("lForumAuthorList", fService.selectUserForum(((MemberBean)model.getAttribute("user")).getsAccount()));
+		List<ReplyBean> lReplys = rService.selectUserReply(((MemberBean)model.getAttribute("user")).getsAccount());
+		model.addAttribute("lReplyList", lReplys);
+		List<String> lReplyForumTitleList = new ArrayList<String>();
+		for(ReplyBean r: lReplys) {
+			lReplyForumTitleList.add(fService.selectOneForum(r.getiForumNo()).getsTitle());
+		}
+		model.addAttribute("lReplyForumTitleList", lReplyForumTitleList);
+		
+		return "forum/ForumMemberData";
+	}
+	
+//	@DeleteMapping("/EditReply")
+//	public String replyDelete(
+//			@RequestParam Integer forumNo,
+//			@RequestParam Integer replyNo,
+//			Model model) {
+//		System.out.println("回覆刪除" + replyNo);
+//		ReplyBean rReplyBean = rService.selectOneReply(replyNo);
+//		if(rService.deleteReply(rReplyBean)) {
+//			return "redirect:/forum/Detail/" + forumNo;
+//		}else {
+//			return "redirect:/forum/Error";
+//		}
+//	}
+	
+	
+	
 }

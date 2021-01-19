@@ -35,7 +35,7 @@ import com.web.game.member.model.MemberBean;
 public class UploadGameController {
 
 	@Autowired
-	ExchangeService service;
+	ExchangeService exchangeService;
 	
 
 	
@@ -44,10 +44,10 @@ public class UploadGameController {
 		SupportGameBean gamebean = new SupportGameBean();
 		MemberBean user = (MemberBean) model.getAttribute("user");
 		gamebean.setGamer(user.getsAccount());//整合後開啟
-//		gamebean.setGamer("henryxoooo");//測試用
 		gamebean.setDlc("否");//預設值
 		model.addAttribute("gamebean",gamebean);
 		model.addAttribute("insert","我要換");
+		model.addAttribute("action", "新增");
 		return "exchange/EXCGameSupportForm";
 	}
 	
@@ -86,32 +86,29 @@ public class UploadGameController {
 		String sAction = "新增";
 		String sPath = null;
 		System.out.println("beforeInsert");
-			if(service.InsertSupportGame(gamebean)) {
+			if(exchangeService.InsertSupportGame(gamebean)) {
 				if(mygameid != null) {
 					System.out.println("mygamid"+mygameid);
-					MyGameBean mygame = service.getMyGame(mygameid);
+					MyGameBean mygame = exchangeService.getMyGame(mygameid);
 					mygame.setSupportgamebean(gamebean);
-					if(service.updateGameToSupport(mygame)) {
+					if(exchangeService.updateGameToSupport(mygame)) {
 						System.out.println("gametoSupport成功");
 					}
 				}
 				System.out.println("success");
-				sPath = "EXCThanks";
 			} else {
 				System.out.println("fail");
-				sPath = "EXCFail";
+//				sPath = "EXCFail";
 			}
-		attr.addAttribute("action", sAction);
-		attr.addAttribute("path",sPath);
-		return "redirect:/exchange/Result";
+			return "redirect:/exchange/management";
 	}
+	
 	
 	@GetMapping("/insertDemandGame")
 	public String GetNewDemandGame(Model model) {
 		DemandGameBean demandgamebean = new DemandGameBean();
 		MemberBean user = (MemberBean) model.getAttribute("user");
 		demandgamebean.setGamer(user.getsAccount());//整合後開啟
-//		demandgamebean.setGamer("henryxoooo");測試時使用
 		model.addAttribute("DemandGameBean",demandgamebean);
 		return "exchange/EXCGameDemandForm";
 	}
@@ -132,15 +129,16 @@ public class UploadGameController {
 		demandgamebean.setDate(time);
 		
 		String sAction = "新增";
-		String sPath = null;
-			if(service.InsertDemandGame(demandgamebean)) {	
-				sPath = "EXCThanks";
+//		String sPath = null;
+			if(exchangeService.InsertDemandGame(demandgamebean)) {	
+				System.out.println("insertDemandSuccess");
+//				sPath = "EXCThanks";
 			} else {
-				sPath = "EXCFail";
+				System.out.println("insertDemandFail");
+//				sPath = "EXCFail";
 			}
-		attr.addAttribute("action", sAction);
-		attr.addAttribute("path",sPath);
-		return "redirect:/exchange/Result";
+		model.addAttribute("action", sAction);
+		return "redirect:/exchange/management";
 		
 	}
 	
@@ -148,7 +146,7 @@ public class UploadGameController {
 	public String myGameToSupportGame(@RequestParam Integer no,
 									  Model model) {
 		SupportGameBean gamebean = new SupportGameBean();
-		MyGameBean mygame = service.getMyGame(no);
+		MyGameBean mygame = exchangeService.getMyGame(no);
 		System.out.println("no"+no);
 		System.out.println("mygame.getConsole()"+mygame.getConsole());
 		System.out.println("mygame.getGamename()"+mygame.getGamename());
@@ -172,7 +170,6 @@ public class UploadGameController {
 		model.addAttribute("mygamebean",mygamebean);
 		return "exchange/EXCMyGamesForm";
 	}
-	
 	@PostMapping("/insertMyGame")
 	public String insertMyGame(@ModelAttribute("mygamebean") MyGameBean mygamebean,
 								   Model model,
@@ -183,23 +180,23 @@ public class UploadGameController {
 		mygamebean.setStatus(status);
 		
 		String sAction = "新增";
-		String sPath = null;
-			if(service.insertMyGame(mygamebean)) {	
-				sPath = "EXCThanks";
+//		String sPath = null;
+			if(exchangeService.insertMyGame(mygamebean)) {	
+				System.out.println("insertMyGameSuccess");
+//				sPath = "EXCThanks";
 			} else {
-				sPath = "EXCFail";
+				System.out.println("insertMyGameFail");
+//				sPath = "EXCFail";
 			}
-		attr.addAttribute("action", sAction);
-		attr.addAttribute("path",sPath);
-		return "redirect:/exchange/Result";
-		
+		model.addAttribute("action", sAction);
+		return "redirect:/exchange/management";
 	}
 	
 	
 	@ModelAttribute("initOption")
 	public Map<String, Object> initOptionList(HttpServletRequest req,Model model){
 		Map<String, Object> initOptionMap = new HashMap<String, Object>();
-		return service.initOption();
+		return exchangeService.initOption();
 	}
 	
 }

@@ -25,17 +25,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.web.game.forum.model.ForumBean;
-import com.web.game.forum.model.ReplyBean;
 import com.web.game.member.model.MemberBean;
+import com.web.game.member.service.MemberService;
+import com.web.game.withplay.model.WithOrder;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.model.WithReplyBean;
+import com.web.game.withplay.service.WithOrderService;
 import com.web.game.withplay.service.WithReplyService;
 import com.web.game.withplay.service.WithService;
 import com.web.game.withplay.validators.WithValidator;
 
 
-@SessionAttributes("user")
+@SessionAttributes({"user","withplayHost"})
 @Controller
 public class WithController {
 	
@@ -52,6 +53,11 @@ public class WithController {
 	@Autowired
 	WithReplyService ReplyService;
 		
+	@Autowired
+	MemberService memberService;
+	
+	@Autowired
+	WithOrderService withOrderService;
 		
 	@GetMapping("/withplay/With")
 	public String list(Model model) {
@@ -114,12 +120,12 @@ public class WithController {
 			result.rejectValue("account", "", "請通知系統人員...");
 			return "withplay/With_form";
 		}
-		
+		model.addAttribute("withplayHost", With);
 		return "redirect:/withplay/Index";
 
 	}
 	@DeleteMapping(value = "/withplay/delete/{iId}")
-	public String delete(@PathVariable("iId") Integer iId) {
+	public String delete(@PathVariable("iId") Integer iId,Model model) {
 		if(ReplyService.delete(iId)) {
 			withService.delete(iId);
 		}
@@ -214,6 +220,59 @@ public class WithController {
 		return nextPage;
 	}
 	
+	@PostMapping("/withplay/Order")
+	 public String order(
+	    @RequestParam Integer orderNo,
+	    Model model) {
+	  WithPlay withPlay = withService.get(orderNo);
+	  model.addAttribute("With", withPlay);
+	  return "withplay/Withorder";
+
+	 }
+	
+	@PostMapping("/withplay/Orderlist")
+	public String order(
+				@RequestParam Integer usAccount,
+				@RequestParam Integer wsAccount,
+				@RequestParam String sGame,
+				@RequestParam Integer total,
+				Model model) {
+		WithPlay withPlay = withService.get(wsAccount);
+		MemberBean member=memberService.get(usAccount);
+		WithOrder order=new WithOrder(null, null, null, null, total, sGame, member, withPlay);
+		withOrderService.insertWithOrder(order);
+		model.addAttribute("Order", order);
+		return "redirect:/withplay/Index";
+
+	}
+	
+	
+	@GetMapping("/withplay/Withorderlist")
+	public String PersonOrder(Model model) {
+		model.addAttribute("WithOrder",withOrderService.getWithOrderList(((MemberBean) model.getAttribute("user")).getiNo()));
+		model.addAttribute("WithOrder2",withOrderService.getWithOrderwithList(((MemberBean) model.getAttribute("user")).getiNo()));
+		return "withplay/WithOrderlist-1";
+				
+	}
+	
+	@GetMapping("/withplay/WithorderOklist")
+	public String OK(@RequestParam Integer iNO,Model model) {
+		model.addAttribute("WithOrder",withOrderService.updateWithOrderSubmit(iNO));
+		return "redirect:/withplay/Withorderlist";
+		
+	}
+	@GetMapping("/withplay/WithorderReject")
+	public String Reject(@RequestParam Integer iNO,Model model) {
+		model.addAttribute("WithOrder",withOrderService.updateWithOrderReject(iNO));
+		return "redirect:/withplay/Withorderlist";
+		
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	@ModelAttribute
@@ -228,7 +287,7 @@ public class WithController {
 		gameMap.put("絕地求生", "絕地求生");
 		gameMap.put("原神", "原神");
 		gameMap.put("糖豆人", "糖豆人");
-		gameMap.put("灌籃高手 SLAM DUNK", "灌籃高手 SLAM DUNK");
+		gameMap.put("灌籃高手 ", "灌籃高手 ");
 		model.addAttribute("sGameMap", gameMap);
 
 	}

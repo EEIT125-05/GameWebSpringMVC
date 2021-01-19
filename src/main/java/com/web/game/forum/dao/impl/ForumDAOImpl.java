@@ -29,14 +29,15 @@ public class ForumDAOImpl implements ForumDAO {
 	}
 
 	@Override
-	public Boolean deleteForum(ForumBean fForumBean) {
+	public void deleteForum(Integer iNo) {//reply要跟著刪
+		String forumHql = "delete ForumBean where iNo = :iNo";
+		String replyHql = "delete ReplyBean where iForumNo = :iNo";
 		Session session = factory.getCurrentSession();
-		try {
-			session.delete(fForumBean);
-			return true;
-		}catch (Exception e) {
-			e.printStackTrace();
-			return false;
+		Integer result = session.createQuery(forumHql).setParameter("iNo", iNo).executeUpdate();
+		if(result == 1) {
+			session.createQuery(replyHql).setParameter("iNo", iNo).executeUpdate();
+		}else {
+			throw new RuntimeException();
 		}
 	}
 

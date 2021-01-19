@@ -1,13 +1,18 @@
 package com.web.game.member.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.Blob;
 import javax.servlet.ServletContext;
 //import java.util.List;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.Cookie;
+//import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+//import javax.servlet.http.HttpSession;
+import javax.sql.rowset.serial.SerialBlob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
@@ -25,20 +30,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-//import org.springframework.web.multipart.MultipartFile;
-//
+import org.springframework.web.multipart.MultipartFile;
 //import com.fasterxml.jackson.databind.ser.std.StdArraySerializers.FloatArraySerializer;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
 
 @Controller
 @RequestMapping("/member")
-@SessionAttributes({ "user" })
+@SessionAttributes({ "user"})
 public class MemberControllerVerified {
 
 	@Autowired
 	MemberService mService;
-	
+
 	@Autowired
 	ServletContext context;
 
@@ -47,55 +51,69 @@ public class MemberControllerVerified {
 	}
 
 	@GetMapping("/Data")
-	public String SigninToData(Model model, String sAccount ,HttpServletResponse response, SessionStatus Status) {
+	public String SigninToData(Model model, String sAccount, String sPassword, String sPhone, String sNickname,
+			String sGender, String sAddress, String sBirthday, HttpServletResponse response, SessionStatus Status) {
 		MemberBean Signin = (MemberBean) model.getAttribute("user");
 		sAccount = Signin.getsAccount();
+		sPassword = Signin.getsPassword();
+		sPhone = Signin.getsPhone();
+		sNickname = Signin.getsNickname();
+		sGender = Signin.getsGender();
+		sAddress = Signin.getsAddress();
+		sBirthday = Signin.getsBirthday();
 		if (sAccount.equals("game20200922")) {
-			Status.setComplete();
-			// cookie砍掉
-			Cookie cUser = new Cookie("user", "");
-			cUser.setPath("/GameWebSpringMVC");
-			cUser.setMaxAge(0);
-			response.addCookie(cUser);
-			return "redirect:/";
-		} else  {
-			;
+			model.addAttribute("users", mService.getAllMembers());
+			return "/member/MemberGetAll";
+		} else if (sPassword == null) {
+			return "/member/MemberGoogleData";
+		} else if (sPassword.equals("")) {
+			return "/member/MemberGoogleData";
+		} else {
+			return "/member/MemberData";
 		}
-		return "member/MemberData";
+
 	}
-	
-	@GetMapping("/GameBarGetAll")
+
+	@PostMapping("/GameBarGetAll")
 	public String GameBarGetAll(Model model) {
 		model.addAttribute("users", mService.getAllMembers());
 		return "member/MemberGetAll";
 	}
 
-	@RequestMapping("/Update/{sAccount}")
-	public String UpDateOneMember(@PathVariable("sAccount") String sAccount, Model model) {
+//	@GetMapping("/Update/{sAccount}")
+//	public String UpDateOneMember(@PathVariable("sAccount") String sAccount, Model model) {
+//		MemberBean OneMember = mService.Selectmember(sAccount);
+//		model.addAttribute("OneMember", OneMember);
+//		return "member/GameBarGMUpdate";
+//	}
+
+	@GetMapping("/Update")
+	public String UpDateOneMember(@RequestParam("sAccount") String sAccount, Model model) {
 		MemberBean OneMember = mService.Selectmember(sAccount);
 		model.addAttribute("OneMember", OneMember);
 		return "member/GameBarGMUpdate";
 	}
 
-	@PostMapping("/{iNo}")
+	@PostMapping("/GameBar")
 	public String GameBarUpDate(Model model, @RequestParam Integer iNo, @RequestParam String sAccount,
 			@RequestParam String sPassword, @RequestParam String sNickname, @RequestParam String sEmail,
 			@RequestParam String sEname, @RequestParam String sPhone, @RequestParam String sAddress,
 			@RequestParam String sGender, @RequestParam String sBirthday, @RequestParam String registerDate) {
 		MemberBean GameBarUpDate = mService.Selectmember(sAccount);
+		GameBarUpDate.setsNickname(sNickname);
 		GameBarUpDate.setsEname(sEname);
-		GameBarUpDate.setsEmail(sEmail);
 		GameBarUpDate.setsPhone(sPhone);
+		GameBarUpDate.setsAddress(sAddress);
 		mService.UpdateMember(GameBarUpDate);
 		model.addAttribute("users", mService.getAllMembers());
 		return "member/MemberGetAll";
 	}
 
 	@RequestMapping("/delete/{iNo}")
-	public String Delete(@PathVariable("iNo") Integer iNo,Model model) {
-		if(iNo.equals("46")) {
+	public String Delete(@PathVariable("iNo") Integer iNo, Model model) {
+		if (iNo.equals("46")) {
 			;
-		}else {
+		} else {
 			mService.DeleteMember(iNo);
 		}
 		model.addAttribute("users", mService.getAllMembers());
@@ -103,89 +121,247 @@ public class MemberControllerVerified {
 	}
 
 	@PostMapping("/Update")
-	public String MemberData(Model model, @RequestParam String sAccount) {
+	public String MemberData(Model model, @RequestParam String sAccount, String sPassword) {
 		MemberBean Data = mService.Selectmember(sAccount);
 		model.addAttribute("user", Data);
 		return "member/MemberUpdate";
 	}
 
-	@PostMapping("/MemberData")
-	public String UpdateMember(Model model, @RequestParam Integer iNo, @RequestParam String sAccount,
-			@RequestParam String sPassword, @RequestParam String sNickname, @RequestParam String sEmail,
-			@RequestParam String sEname, @RequestParam String sPhone, @RequestParam String sAddress,
-			@RequestParam String sGender, @RequestParam String sBirthday, @RequestParam String registerDate) {
-//,MultipartFile Image
-		MemberBean mb = mService.Selectmember(sAccount);
-		mb.setsPassword(sPassword);
-		mb.setsNickname(sNickname);
-		mb.setsAddress(sAddress);
-//		mb.setImage(Image);
-		mService.UpdateMember(mb);
-		model.addAttribute("user", mb);
-		return "member/MemberData";
+	@PostMapping("/GoogleUpdate")
+	public String GoogleData(Model model, @RequestParam String sAccount) {
+		MemberBean Data = mService.Selectmember(sAccount);
+		model.addAttribute("user", Data);
+		return "member/MemberGoogleUpdate";
 	}
 
-	@GetMapping("/picture/{iNo}")
-	public ResponseEntity<byte[]> getPicture(@PathVariable("iNo") Integer iNo) {
-		byte[] body = null;
-		ResponseEntity<byte[]> re = null;
-		MediaType mediaType = null;
-		HttpHeaders headers = new HttpHeaders();
-		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-
-		MemberBean MBPicture = mService.get(iNo);
-		if (MBPicture == null) {
-			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
+	@PostMapping("/GoogleData")
+	public String GoogleUpdate(Model model, @RequestParam Integer iNo, @RequestParam String sAccount,
+			@RequestParam String sNickname, @RequestParam String sPhone, @RequestParam String sAddress,
+			@RequestParam String sGender, @RequestParam String sBirthday, @RequestParam String registerDate,
+			@RequestParam MultipartFile productImage) {
+		MemberBean Update = mService.Selectmember(sAccount);
+		Update.setsPhone(sPhone);
+		Update.setsNickname(sNickname);
+		Update.setsGender(sGender);
+		Update.setsBirthday(sBirthday);
+		Update.setsAddress(sAddress);
+		Update.setProductImage(productImage);
+		MultipartFile picture = Update.getProductImage();
+		String originalFilename = picture.getOriginalFilename();
+		
+		String ext = "";
+		if (originalFilename.lastIndexOf(".") > -1) {
+			ext = originalFilename.substring(originalFilename.lastIndexOf("."));
 		}
-		String filename = MBPicture.getFileName();
-		if (filename != null) {
-			if (filename.toLowerCase().endsWith("jfif")) {
-				mediaType = MediaType.valueOf(context.getMimeType("dummy.jpeg"));
-			} else {
-				mediaType = MediaType.valueOf(context.getMimeType(filename));
-				headers.setContentType(mediaType);
+
+		if (originalFilename.length() > 0 && originalFilename.lastIndexOf(".") > -1) {
+			Update.setFileName(originalFilename);
+		}
+
+		if (picture != null && !picture.isEmpty()) {
+			try {
+				byte[] b = picture.getBytes();
+				Blob blob = new SerialBlob(b);
+				Update.setImage(blob);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("檔案上傳發生異常: " + e.getMessage());
 			}
 		}
-		return re;
+		System.out.println("originalFilename="+originalFilename);
+		mService.UpdateMember(Update);
+		System.out.println("圖片是否有上傳????");
+		model.addAttribute("user", Update);
+		return "member/MemberGoogleData";
+	}
+
+	@PostMapping("/MemberData")
+	public String UpdateMember(Model model, @RequestParam Integer iNo, @RequestParam String sAccount,
+			@RequestParam String sPassword,@RequestParam String password, @RequestParam String sNickname, @RequestParam String sEmail,
+			@RequestParam String sEname, @RequestParam String sPhone, @RequestParam String sAddress,
+			@RequestParam String sGender, @RequestParam String sBirthday, @RequestParam String registerDate,
+			@RequestParam MultipartFile productImage) {
+		System.out.println("原來的密碼="+password);
+		System.out.println("要一樣的密碼="+sPassword);
+		if(sPassword.equals("")) {
+			System.out.println("密碼是空的");
+			return "member/MemberData";
+		}else if(!sPassword.equals(password)) {
+			System.out.println("密碼不一樣");
+			model.addAttribute("showError", "密碼不一致更改失敗");
+			return "member/MemberUpdate";
+		}
+		MemberBean Update = mService.Selectmember(sAccount);
+		Update.setsPassword(sPassword);
+		Update.setsNickname(sNickname);
+		Update.setsAddress(sAddress);
+		Update.setProductImage(productImage);
+			MultipartFile picture = Update.getProductImage();
+			String originalFilename = picture.getOriginalFilename();
+			String ext = "";
+			if (originalFilename.lastIndexOf(".") > -1) {
+				ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+			}
+
+			if (originalFilename.length() > 0 && originalFilename.lastIndexOf(".") > -1) {
+				Update.setFileName(originalFilename);
+			}
+
+			if (picture != null && !picture.isEmpty()) {
+				try {
+					byte[] b = picture.getBytes();
+					Blob blob = new SerialBlob(b);
+					Update.setImage(blob);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new RuntimeException("檔案上傳發生異常: " + e.getMessage());
+				}
+			}
+		mService.UpdateMember(Update);
+		model.addAttribute("user", Update);
+		return "member/MemberData";
+
+	}
+
+	@GetMapping("/picture/getall/{sAccount}")
+	public ResponseEntity<byte[]> getallPicture(Model model, @PathVariable("sAccount") String sAccount) {
+		InputStream is = null;
+		OutputStream os = null;
+		String fileName = null;
+		String mimeType = null;
+		byte[] media = null;
+		ResponseEntity<byte[]> responseEntity = null;
+		HttpHeaders headers = new HttpHeaders();
+		MediaType mediaType = null;
+		Blob blob = null;
+		try {
+			System.out.println("進去service之前的"+sAccount);
+			MemberBean bean = mService.queryMember(sAccount);
+			System.out.println("抓圖片的資料=" + sAccount);
+			if (bean != null) {
+				blob = bean.getImage();
+				if (blob != null) {
+					is = blob.getBinaryStream();
+				}
+				fileName = bean.getFileName();
+			}
+
+			if (is == null) {
+				fileName = "NoImage.png";
+				is = context.getResourceAsStream("/images/" + fileName);
+			}
+
+			mimeType = context.getMimeType(fileName);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			int len = 0;
+			byte[] bytes = new byte[8192];
+
+			while ((len = is.read(bytes)) != -1) {
+				baos.write(bytes, 0, len);
+			}
+			media = baos.toByteArray();
+			mediaType = MediaType.valueOf(mimeType);
+			headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+			headers.setContentType(mediaType);
+			responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			throw new RuntimeException("發生Exception: " + ex.getMessage());
+		} finally {
+			try {
+				if (is != null)
+					is.close();
+			} catch (IOException e) {
+				;
+			}
+			try {
+				if (os != null)
+					os.close();
+			} catch (IOException e) {
+				;
+			}
+		}
+		return responseEntity;
 	}
 	
+	@GetMapping("/picture")
+	public ResponseEntity<byte[]> getPicture(Model model, @RequestParam("sAccount") String sAccount) {
+		System.out.println("有抓到圖片嗎??"+sAccount);
+		InputStream is = null;
+		OutputStream os = null;
+		String fileName = null;
+		String mimeType = null;
+		byte[] media = null;
+		ResponseEntity<byte[]> responseEntity = null;
+		HttpHeaders headers = new HttpHeaders();
+		MediaType mediaType = null;
+		Blob blob = null;
+		try {
+			System.out.println("進去service之前的"+sAccount);
+			MemberBean bean = mService.queryMember(sAccount);
+			System.out.println("抓圖片的資料=" + sAccount);
+			if (bean != null) {
+				blob = bean.getImage();
+				if (blob != null) {
+					is = blob.getBinaryStream();
+				}
+				fileName = bean.getFileName();
+			}
+
+			if (is == null) {
+				fileName = "NoImage.png";
+				is = context.getResourceAsStream("/images/" + fileName);
+			}
+
+			mimeType = context.getMimeType(fileName);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			int len = 0;
+			byte[] bytes = new byte[8192];
+
+			while ((len = is.read(bytes)) != -1) {
+				baos.write(bytes, 0, len);
+			}
+			media = baos.toByteArray();
+			mediaType = MediaType.valueOf(mimeType);
+			headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+			headers.setContentType(mediaType);
+			responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			throw new RuntimeException("發生Exception: " + ex.getMessage());
+		} finally {
+			try {
+				if (is != null)
+					is.close();
+			} catch (IOException e) {
+				;
+			}
+			try {
+				if (os != null)
+					os.close();
+			} catch (IOException e) {
+				;
+			}
+		}
+		return responseEntity;
+	}
+
 	@RequestMapping("/Change/{sAccount}")
-	public String StatusChange(Model model,@PathVariable("sAccount") String sAccount ,boolean status,HttpServletResponse response ) {
+	public String StatusChange(Model model, @PathVariable("sAccount") String sAccount, boolean status,
+			HttpServletResponse response) {
 		MemberBean StatusChange = mService.Selectmember(sAccount);
 		status = StatusChange.getStatus();
 		if (sAccount.equals("game20200922")) {
 			;
-		}else if(status == true) {
+		} else if (status == true) {
 			StatusChange.setStatus(status = false);
 			mService.UpdateMember(StatusChange);
-		}else if (status == false) {
+		} else if (status == false) {
 			StatusChange.setStatus(status = true);
 			mService.UpdateMember(StatusChange);
 		}
 		model.addAttribute("users", mService.getAllMembers());
 		return "member/MemberGetAll";
 	}
-
-//------登出---------------------------------------------------------------------------
-
-	@GetMapping("/Logout")
-	public String logout(
-			SessionStatus Status,
-			HttpSession session,
-			HttpServletResponse response) {
-		//從session中拿掉uri
-//		request.getSession(true).removeAttribute("requestURI");
-		Status.setComplete();
-		session.invalidate();
-		// cookie砍掉
-		Cookie cUser = new Cookie("user", "");
-		cUser.setPath("/GameWebSpringMVC");
-		cUser.setMaxAge(0);
-		response.addCookie(cUser);
-		System.out.println("砍掉cookie");
-		return "redirect:/";
-	}
-
-//---------------------------------------------------------------------------------
 
 }

@@ -50,6 +50,11 @@ public class MemberServiceImpl implements MemberService {
 	public MemberBean Selectmember(String sAccount) {
 		return dao.Selectmember(sAccount);
 	}
+	
+	@Override
+	public MemberBean get(String sAccount) {
+		return dao.get(sAccount);
+	}
 
 	@Override
 	public List<MemberBean> getAllMembers() {
@@ -77,4 +82,17 @@ public class MemberServiceImpl implements MemberService {
 	public MemberBean get(Integer iNo) {
 		return dao.get( iNo);
 	}
+
+	@Override
+	public MemberBean queryMember(String sAccount) {
+		MemberBean mb = null;
+		mb = dao.queryMember(sAccount);
+		return mb;
+	}
+
+	@Override
+	public MemberBean SearchMail(String sEmail) {
+		return dao.SearchMail(sEmail);
+	}
+
 }

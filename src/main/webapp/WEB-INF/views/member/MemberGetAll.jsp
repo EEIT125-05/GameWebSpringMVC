@@ -13,9 +13,15 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+
 <style>
-table, th, td {
-	border: 3px solid gray;
+td {
+	border: 2px solid gray;
+	background-color: #272727;
+	color: white;
 }
 </style>
 <title>管理會員資料</title>
@@ -23,6 +29,7 @@ table, th, td {
 <%@ include file="../Header.jsp"%>
 <body>
 	<H1 align='center'>會員後台管理</H1>
+	<br>
 	<hr>
 	<form>
 		<input type='hidden' name='_method' value='DELETE'>
@@ -33,45 +40,53 @@ table, th, td {
 			</c:when>
 
 			<c:otherwise>
-				<table style="text-align: center;">
-					<tr>
-						<th width='30'>編號</th>
+				<table id='tablee' style="text-align: center;width:80%;"><thead>
+					<tr style='background-color: limegreen;height:72;' >
+						<th width='40' type="">編號</th>
 						<th width='30'>照片</th>
 						<th width='30'>帳號</th>
 						<th width='30'>暱稱</th>
-						<th width='30'>姓名</th>
+						<th width='10'>姓名</th>
 						<th width='30'>信箱</th>
+						<th width='30'>居住地</th>
 						<th width='30'>手機號碼</th>
-						<th width='30'>性別</th>
+						<th width='40'>性別</th>
 						<th width='30'>生日</th>
 						<th width='30'>建立日期</th>
 						<th width='30'>狀態</th>
-						<th width='30'>資料維護</th>
-					</tr>
+						<th width='70'>資料維護</th>
+					</tr></thead><tbody>
 					<c:forEach var='user' items='${users}'>
 						<tr>
 							<td>${user.iNo}</td>
-							<td><img width='60' height='72'
-								src="<c:url value='/member/picture/${user.iNo}'/>"></td>
+							<td><img width='60' height='80'
+								src="<c:url value='/member/picture/getall/${user.sAccount}'/>"></td>
 							<%-- 							<td><a href="<c:url value='/member/${user.iNo}'/>" --%>
 							<%-- 								method="post">${user.iNo}</a></td> --%>
-							<td><a href="<c:url value='/member/Update/${user.sAccount}'/>">
-									<input type="button" value="${user.sAccount}"></a></td>
+							<td><a
+								href="<c:url value='/member/Update?sAccount=${user.sAccount}'/>"> <input
+									type="button" value="${user.sAccount}"
+									style='background-color: skyblue; width: 100%; height: 100%;'></a></td>
 							<%-- 							<td>${user.sAccount}</td> --%>
 							<td>${user.sNickname}</td>
 							<td>${user.sEname}</td>
 							<td>${user.sEmail}</td>
+							<td>${user.sAddress}</td>
 							<td>${user.sPhone}</td>
 							<td>${user.sGender}</td>
 							<td>${user.sBirthday}</td>
 							<td>${user.registerDate}</td>
 							<td><a
-								href="<c:url value='/member/Change/${user.sAccount}'/>">
-								<input type="button" value="${user.status}"></a></td>
+								href="<c:url value='/member/Change/${user.sAccount}'/>"> <input
+									type="button" value="${user.status}"
+									style='background-color: orange; width: 100%; height: 100%;'></a></td>
 							<td><a class='deletelink'
-								href="<c:url value='/member/delete/${user.iNo}'/>">刪除</a></td>
+								href="<c:url value='/member/delete/${user.iNo}'/>"><input
+									type="button"
+									style='background-color: red; width: 100%; height: 100%;'
+									value='刪除'></a></td>
 						</tr>
-					</c:forEach>
+					</c:forEach></tbody>
 				</table>
 			</c:otherwise>
 		</c:choose>
@@ -87,37 +102,23 @@ table, th, td {
 			});
 		})
 
-// 		window.onload = function() {
-// 			var Status = document.getElementById("Status");
-// 			Status.onclick = function() {
-// 				var status = document.getElementById("Status").value.trim();
-// 				var xhr = new XMLHttpRequest();
-// 				xhr.open("POST", "<c:url value='/member/${user.sAccount}' />",
-// 						true);
-// 				xhr.setRequestHeader("Content-Type",
-// 						"application/x-www-form-urlencoded");
-// 				xhr.send("status=" + status);
-// 				xhr.onreadystatechange = function() {
-// 					if (xhr.readyState == 4 && xhr.status == 200) {
-// 						if (Status.getAttribute('value') == 'true') {
-// 							Status.setAttribute('value', 'false')
-// 						} else if (Status.getAttribute('value') == 'false') {
-// 							Status.setAttribute('value', 'true')
-// 						}
-// 					}
-// 				}
-// 			}
-// 		}
-		// 			var xhr = new XMLHttpRequest();
-		// 			xhr.open("POST", "<c:url value='/member/${user.sAccount}' />",true);
-		// 			xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-		// 			xhr.send("Status=" + Status);
-		// 			xhr.onreadystatechange = function() {
-		// 				if (xhr.readyState == 4 && xhr.status == 200) {
-		// 					console.log("2222222222222222222222222222");
-		// 					var result = JSON.parse(xhr.responseText);
-		// 					console.log("xxxxxxxxxxxxxxxxx");
+		$().ready(function() {
+			$('#tablee').DataTable({});
+		});
 
+		// 		window.onload = function() {
+		// 			var Status = document.getElementById("Status");
+		// 			Status.onclick = function() {
+		// 				var status = document.getElementById("Status").value.trim();
+		// 				var xhr = new XMLHttpRequest();
+		// 				xhr.open("POST", "<c:url value='/member/${user.sAccount}' />",
+		// 						true);
+		// 				xhr.setRequestHeader("Content-Type",
+		// 						"application/x-www-form-urlencoded");
+		// 				xhr.send("status=" + status);
+		// 				xhr.onreadystatechange = function() {
+		// 				}
+		// 			}
 		// 		}
 	</script>
 </body>

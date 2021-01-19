@@ -1,13 +1,14 @@
 package com.web.game.withplay.controller;
 
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 
@@ -27,11 +28,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.web.game.contest.service.GameListService;
+import com.web.game.member.model.MemberBean;
+import com.web.game.withplay.model.WithOrder;
 import com.web.game.withplay.model.WithPlay;
-import com.web.game.withplay.service.WithReplyService;
+import com.web.game.withplay.service.WithOrderService;
 import com.web.game.withplay.service.WithService;
 
-@SessionAttributes("user")
+@SessionAttributes("user,withplayHost")
 @Controller
 public class NocheckWithController {
 
@@ -48,17 +51,26 @@ public class NocheckWithController {
 	@Autowired
 	GameListService ListService;
 	
-	
+	@Autowired
+	WithOrderService withOrderService;
 	
 	@GetMapping("/withplay/Index")
 	public String WithplayIndex(Model model) {
-		model.addAttribute("Withsearch", withService.search("", ""));
 		model.addAttribute("Withlist",withService.list());
-		model.addAttribute("GameList",ListService.selectGameList());
-//		
-//		WithPlay test = withService.get(1);
-//		System.out.println("test: " + test.getsComment());
-//		System.out.println("test: " + test.get);
+		model.addAttribute("GameList",ListService.selectGameList());		
+		if(model.getAttribute("user")!=null) {
+		List<WithOrder> OrderList = withOrderService.list(((MemberBean)model.getAttribute("user")).getiNo());
+		  Set<Integer> set = new HashSet<Integer>();
+		  Set<Integer> set1 = new HashSet<Integer>();
+		  for(WithOrder wo:OrderList) {
+		   set.add(wo.getWith().getiId());
+		   set1.add(wo.getiStatus());
+		  }
+		  model.addAttribute("UserOrderList",set);
+		  model.addAttribute("UserOrdercheckList",set1);
+		  }
+		
+		
 		return "withplay/WithplayIndex";
 	}
 	
@@ -77,7 +89,7 @@ public class NocheckWithController {
 //	}
 	
 	@PostMapping("/withplay/IDCheck")
-	public ResponseEntity<Map<String, String>> CheckPhone(@RequestParam("sIdcode") String sIdcode) {
+	public ResponseEntity<Map<String, String>> CheckID(@RequestParam("sIdcode") String sIdcode) {
 		Map<String, String> map = new HashMap<>();
 		String Idcode = withService.CheckID(sIdcode);
 		map.put("sIdcode", Idcode);

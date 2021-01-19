@@ -117,13 +117,13 @@ a.delete{
 							</div>
 						</a>
 					</div>
-					<c:if test="${forum[5] == user.sAccount}">
-						<form action="<c:url value='/forum/Edit/${forum[0]}'/>" method="POST" >
-							<input type="hidden" name="_method"  id='putOrDelete${forum[0]}'   value="" >
-							<a class="btn btn-primary update" href="<c:url value='/forum/Update/${forum[0]}'/>">修改</a>
-							<button type="submit" class="btn btn-primary delete" value="${forum[0]}">刪除</button>
-						</form>
-					</c:if>
+<%-- 					<c:if test="${forum[5] == user.sAccount}"> --%>
+<%-- 						<form action="<c:url value='/forum/Edit/${forum[0]}'/>" method="POST" > --%>
+<%-- 							<input type="hidden" name="_method"  id='putOrDelete${forum[0]}'   value="" > --%>
+<%-- 							<a class="btn btn-primary update" href="<c:url value='/forum/Update/${forum[0]}'/>">修改</a> --%>
+<%-- 							<button type="submit" class="btn btn-primary delete" value="${forum[0]}">刪除</button> --%>
+<!-- 						</form> -->
+<%-- 					</c:if> --%>
 			</div>
 			<hr>
 		</c:forEach>
@@ -156,18 +156,18 @@ a.delete{
 			search = $("#search").val();
 		}
 
-		$(document).on("click", ".delete", function(){
-			return confirmDelete($(this).val());
-		});
+// 		$(document).on("click", ".delete", function(){
+// 			return confirmDelete($(this).val());
+// 		});
 
-		function confirmDelete(iNo){
-		  var result = confirm("確定刪除此則文章?");
-		  if (result) {
-			  $("#putOrDelete" + iNo).val("DELETE");
-		      return true;
-		  }
-		  return false;
-		}
+// 		function confirmDelete(iNo){
+// 		  var result = confirm("確定刪除此則文章?");
+// 		  if (result) {
+// 			  $("#putOrDelete" + iNo).val("DELETE");
+// 		      return true;
+// 		  }
+// 		  return false;
+// 		}
 		
 		
 		$("#submit").on("click",function(){
@@ -226,14 +226,14 @@ a.delete{
 						$("#point").append("<p>無貼文符合您搜尋的條件</p>")							
 					}
 					$.each(result ,function(key,value){
-						let button = "";
-						if(value[5] == $("#sAccount").val()){
-							button = "<form action=\"<c:url value='/forum/Edit/" + value[0] + "'/>\" method=\"POST\" >"+
-										"<input type=\"hidden\" name=\"_method\"  id='putOrDelete" + value[0] + "'   value=\"\" >"+
-										"<a class=\"btn btn-primary update\" href=\"<c:url value='/forum/Update/" + value[0] + "'/>\">修改</a>"+
-										"<button type=\"submit\" class=\"btn btn-primary delete\" value=\"" + value[0] + "\">刪除</button>"+
-									"</form>";
-						}
+// 						let button = "";
+// 						if(value[5] == $("#sAccount").val()){
+// 							button = "<form action=\"<c:url value='/forum/Edit/" + value[0] + "'/>\" method=\"POST\" >"+
+// 										"<input type=\"hidden\" name=\"_method\"  id='putOrDelete" + value[0] + "'   value=\"\" >"+
+// 										"<a class=\"btn btn-primary update\" href=\"<c:url value='/forum/Update/" + value[0] + "'/>\">修改</a>"+
+// 										"<button type=\"submit\" class=\"btn btn-primary delete\" value=\"" + value[0] + "\">刪除</button>"+
+// 									"</form>";
+// 						}
 						$("#point").append("<div class=\"row\">"+
 									"<div class=\"col-md-10\">"+
 									"<a class=\"enterDetail\" href=\"<c:url value='/forum/Detail/" + value[0] + "'/>\">"+
@@ -245,7 +245,7 @@ a.delete{
 									"</div>"+
 									"</a>"+
 									"</div>"+
-									button +
+// 									button +
 									"</div>"+
 									"<hr>");
 					});

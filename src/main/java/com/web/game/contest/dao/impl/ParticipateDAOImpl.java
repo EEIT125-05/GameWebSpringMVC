@@ -28,6 +28,21 @@ public class ParticipateDAOImpl implements ParticipateDAO {
 		}
 	}
 
+	@Override
+	public void deleteParticipate(Integer contestNo, String sPlayer) {
+		String hql = "delete from ParticipateBean where contestNo = :contestNo and sPlayer like '%" + sPlayer + "%'";
+		Session session = factory.getCurrentSession();
+		Integer result = session.createQuery(hql)
+								.setParameter("contestNo", contestNo)
+								.executeUpdate();
+		if(result != 1) {
+			System.out.println("result " + result);
+			throw new RuntimeException();
+		}
+	}
+
+
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ParticipateBean> selectParticipate(String user) {

@@ -24,7 +24,8 @@ response.setContentType("text/html;charset=UTF-8");
 	<%@ include file="../Header.jsp"%>
 
 	<div class="container">
-
+	<input type="hidden" id="userNow" value="${user.sAccount}">
+	<input type="hidden" id="userNo" value="${user.iNo}">
 		<h1 class="mt-4 mb-3">
 			陪玩 <small>Play</small>
 		</h1>
@@ -32,18 +33,17 @@ response.setContentType("text/html;charset=UTF-8");
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a>
 			</li>
+			<li class="breadcrumb-item active">陪玩</li>
 		</ol>
 
 
 		<%-- 		<form action='${pageContext.request.contextPath}/withplay/select'> --%>
-		<div class="input-group">
-			<label>依暱稱搜尋: </label> <input type="text" name="sNickname"
-				class="form-control" id="sNickname"> <span
-				class="input-group-append"> <input type="button" value="搜尋"
-				class="btn btn-secondary" id="submit">
-			</span>
-		</div>
-		<label>進階條件: </label><br> <label>遊戲</label> <select id="sGame"
+		<div class="input-group" style="width:600px;text-align:center;">
+			<input type="text"  placeholder="輸入暱稱" name="sNickname" class="form-control input-lg" id="sNickname" style="width:200px"> 
+				<span class="input-group-btn"> 
+				<input type="button" value="搜尋" class="btn btn-secondary" id="submit">
+			</span>&emsp;&emsp;
+		<label style="font-weight: 900;">進階條件: </label><label style="font-weight: 900;">遊戲</label> <select id="sGame"
 			class="form-control" name="sGame"
 			style="width: 130px; display: inline">
 			<option value="">全部</option>
@@ -51,14 +51,29 @@ response.setContentType("text/html;charset=UTF-8");
 				<option value="${sGame}">${sGame}</option>
 			</c:forEach>
 		</select>
-		<%-- 		</form> --%>
+		</div>
+
+		
+<div style="margin:10px">
+<label style="font-weight: 900;">熱門遊戲</label>
+	    <button class="btn btn-outline-dark fast game" value="英雄聯盟">英雄聯盟</button>
+	    <button class="btn btn-outline-dark fast game" value="魔物獵人">魔物獵人</button>
+	    <button class="btn btn-outline-dark fast game" value="鬥陣特攻">鬥陣特攻</button>
+	    <button class="btn btn-outline-dark fast game" value="傳說對決">傳說對決</button>
+	    <button class="btn btn-outline-dark fast game" value="絕地求生">絕地求生</button>
+	    <button class="btn btn-outline-dark fast game" value="跑跑卡丁車">跑跑卡丁車</button>
+	    <button class="btn btn-outline-dark fast game" value="爐石戰記">爐石戰記</button>
+	    <button class="btn btn-outline-dark fast game" value="星海爭霸">星海爭霸</button>
+	    <button class="btn btn-outline-dark fast game" value="原神">原神</button>
+	    <button class="btn btn-outline-dark fast game" value="APEX">APEX</button>
+</div>
 
 		<c:if test="${empty Withlist}">
-			<p>目前無資料</p>
+			<p  style="font-weight:bold;font-size:50px;">目前無資料</p>
 		</c:if>
 		<div class="row" id="point">
 			<c:forEach var="With" items="${Withlist}">
-				<div class="col col-6 col-sm-4 col-md-4 col-lg-4">
+				<div class="col col-12 col-sm-6 col-md-6 col-lg-3">
 					<div data-toggle="modal" data-target="#exampleModal${With.iId}">
 						<div class="div1">
 							<div class="fi1">
@@ -66,10 +81,10 @@ response.setContentType("text/html;charset=UTF-8");
 									src='${pageContext.request.contextPath}/withplay/picture/${With.iId}'>
 								</a>
 								<!-- 								<a> -->
-								<div>${With.sNickname}</div>
-								<div>${With.sGame}</div>
+								<div style="font-family:Microsoft JhengHei;font-size:16px;"><span>${With.sNickname}</span></div>
+								<div style="font-size:14px;"><span>評價(${fn:length(With.sReplyBeans)})</span></div>
 								<div>
-									<p>
+									<p style="color:#FA006E;font-weight:bold;font-size:21px;">
 										<span>$</span> <span>${With.iPrice}</span> <span>/局</span>
 									</p>
 								</div>
@@ -84,7 +99,7 @@ response.setContentType("text/html;charset=UTF-8");
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+									<h5 class="modal-title" id="exampleModalLabel"><img src='${pageContext.request.contextPath}/withplay/picture/${With.iId}' class="rounded-circle" alt="Cinque Terre" width="32px" height="32px">${With.sNickname} </h5>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
@@ -93,22 +108,28 @@ response.setContentType("text/html;charset=UTF-8");
 								<div class="modal-body">
 									<div class="container-fluid">
 										<div class="row">
-											<a> <img class="img1"
+										<div class="col-md-6 ml"><a> <img style="width:200px;height:200px;border-radius: 20px;"
 												src='${pageContext.request.contextPath}/withplay/picture/${With.iId}'>
-											</a>
-											<div>${With.sGame}</div>
-											<div>${With.sNickname}</div>
-
+											</a></div>
+											<div class="col-md-6 ml-auto">
+											<div ><span style="font-weight:bold;font-size:24px;">${With.sGame}</span></div>
+											<div><span style="font-size:14px;">接單次</span></div>
+											<div>
+													<p style="color:#D87901;font-weight:bold;font-size:21px;">
+														<span>$</span> <span>${With.iPrice}</span> <span>/局</span>
+													</p>
+												</div>
+											<div><span style="font-weight:bold;">介紹</span><span style="font-size:14px;">介紹</span></div>
+											</div>
+											</div>											
+											<hr>
+											<div class="row" >
 											<form action="<c:url value='/withplay/Reply'/>" method="post">
-
-
-												<hr>
-												<div style="position: relative">
+												<div style="width:466px">
 													<c:forEach var="reply" items="${With.sReplyBeans}">
 														<jsp:useBean id="nowDate" class="java.util.Date" />
 														<fmt:formatDate var="dateString" value="${nowDate}"
 															pattern="yyyy-MM-dd" />
-														<%-- 										<fmt:formatDate var="timeString" value="${nowDate}" pattern="HH:mm:ss"/> 先留著 要做XX分內可以拿來用 --%>
 														<fmt:parseDate var="Date" value="${dateString}"
 															pattern="yyyy-MM-dd" />
 														<fmt:parseDate var="replyDate" value="${reply.dDate}"
@@ -123,34 +144,72 @@ response.setContentType("text/html;charset=UTF-8");
 															<c:otherwise>
 																<c:set var="timeString"
 																	value="${reply.dDate} ${reply.tTime}" />
+																	
 															</c:otherwise>
 														</c:choose>
-														<label>${reply.sAuthor}</label>
-														<label> : ${reply.sText}</label>
-														<label style="position: absolute; right: 0">${timeString}</label>
+														<label style="word-break: break-all;width:466px">${user.sNickname}: ${reply.sText}<span style="float:right;">${timeString}</span></label>														
 														<br>
 													</c:forEach>
 												</div>
-
 												<hr>
+												<div>							
+												<c:set var="showReply" value="false"/>
+												<c:forEach var="Order" items="${UserOrderList}">
+													<c:if test="${Order == With.iId}">
+														<c:set var="showReply" value="true"/>
+													</c:if>
+												</c:forEach>												
+												<c:choose> 
+													<c:when test="${showReply == 'true' ||user.sAccount==With.sAccount}">
+														回覆: <input type="text" id="Reply${With.iId}" name="sText" required>
+																<button type="submit" id="replySubmit${With.iId}" name="withNo"
+																	value="${With.iId}" class="btn btn-primary" >送出</button>
+													</c:when>
+													<c:otherwise>
+														回覆: <input type="text" id="Reply${With.iId}" name="sText" required>
+														<button type="submit" id="replySubmit${With.iId}" name="withNo"
+															value="${With.iId}" class="btn btn-primary"  disabled="disabled">送出</button>	
+													</c:otherwise>
+																		
+												</c:choose> 
 
-												<div>
-													回覆: <input type="text" id="Reply${With.iId}" name="sText" required>
-													<button type="submit" id="replySubmit${With.iId}" name="withNo"
-														value="${With.iId}">送出</button>
+														
 												</div>
 											</form>
+											</div>
 
-
-										</div>
 									</div>
 								</div>
+								<form action="<c:url value='/withplay/Order'/>" method="post">
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
-										data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary">Save
-										changes</button>
+										data-dismiss="modal">關閉</button>
+										<c:set var="showOrder" value="false"/>
+												<c:forEach var="Ordercheck" items="${UserOrdercheckList}">
+													<c:if test="${Ordercheck == 1 || Ordercheck == 2}">
+														<c:set var="showOrder" value="true"/>
+													</c:if>
+										</c:forEach>
+									<c:choose>
+									<c:when test="${user!=null}">
+									<c:choose>								
+									<c:when test="${user.sAccount == With.sAccount || showOrder == 'true'}">									
+									<button type="submit" class="btn btn-primary " disabled="disabled" name="orderNo" value="${With.iId}">立即下單</button>
+									</c:when>
+									<c:otherwise>
+									<button type="submit" class="btn btn-primary "  name="orderNo" value="${With.iId}">立即下單</button>
+									</c:otherwise>
+									</c:choose>	
+									</c:when>
+									<c:otherwise>
+									<c:if test="${user==null}">
+									<button type="submit" class="btn btn-primary" disabled="disabled" name="orderNo" value="${With.iId}">立即下單</button>									
+									</c:if>
+									</c:otherwise>
+									</c:choose>								
 								</div>
+								</form>
+								
 							</div>
 						</div>
 					</div>
@@ -161,12 +220,6 @@ response.setContentType("text/html;charset=UTF-8");
 	</div>
 	<%@ include file="../Foot.jsp"%>
 	<script>
-				$(function() {
-					$('#myModal').on('shown.bs.modal', function() {
-						$('#myInput').trigger('focus')
-					})
-				});
-
 		$("#submit").on("click",function() {
 			$("#point").empty();
 							let xhr = new XMLHttpRequest();
@@ -183,11 +236,20 @@ response.setContentType("text/html;charset=UTF-8");
 													$("#point").append(
 															"<p>無符合您搜尋的條件</p>");
 												}
+												let user = $("#userNow").val();
+												let checkString;
+												let checksAccount;
 												$.each(obj,function(key,value) {
+													if(value.sAccount == user || user==null){
+														checkString = "<button type=\"submit\" class=\"btn btn-primary \" disabled=\"disabled\" name=\"orderNo\" value=\"" + value.iId + "\">立即下單</button>"
+													}else{
+														checkString = "<button type=\"submit\" class=\"btn btn-primary \" name=\"orderNo\" value=\"" + value.iId + "\">立即下單</button>"
+													
+													}
 													
 													$("#point").append(
 // 																					"<div class='row' id='point'>"
-																							 "<div class='col col-6 col-sm-4 col-md-4 col-lg-4'>"
+																							 "<div class='col col-12 col-sm-6 col-md-6 col-lg-3'>"
 																							+ "<div data-toggle='modal' data-target='#exampleModal" + value.iId + "'>"
 																							+ "<div class='div1'>"
 																							+ "<div class='fi1'>"
@@ -246,7 +308,7 @@ response.setContentType("text/html;charset=UTF-8");
 
 																							+"<div>"
 																								+"回覆: <input type='text' id='reply' name='sText' required>"
-																								+"<button type='submit' id='replySubmit' name='withNo'"
+																								+"<button type='submit' id='replySubmit' class='btn btn-primary' name='withNo'"
 																									+"value='" + value.iId + "'>送出</button>"
 																							+"</div>"
 																						+"</form>"
@@ -254,13 +316,14 @@ response.setContentType("text/html;charset=UTF-8");
 																							
 																							+ "</div>"
 																							+ "</div>"
-																							+ "</div>"
-																							+ "<div class='modal-footer'>"
-																							+ "<button type='button' class='btn btn-secondary'"
-																+"data-dismiss='modal'>Close</button>"
-																							+ "<button type='button' class='btn btn-primary'>Save"
-																							+ "changes</button>"
-																							+ "</div>"
+																							+ "</div>"						
+																							+"<form action='<c:url value='/withplay/Order'/>' method='post'>"
+																								+"<div class='modal-footer'>"
+																									+"<button type='button' class='btn btn-secondary'"
+																										+"data-dismiss='modal'>關閉</button>"																																			
+																									+ checkString
+																								+"</div>"
+																								+"</form>"																							
 																							+ "</div>"
 																							+ "</div>"
 																							+ "</div>"
@@ -311,62 +374,160 @@ response.setContentType("text/html;charset=UTF-8");
 							}
 						});
 
-		// 	$(".div1").each(function(){
-		// 		$(this).click(function(){
-		// 			console.log("123")
-		// 			.ajax({
+	$(".game").on("click", function(){
+		game = $(this).val();
+		$("#point").empty();
+		let xhr = new XMLHttpRequest();
+		if (xhr != null) {
 
-		// 			})
-		// 		})
-		// 	})
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4) {
+					if (xhr.status === 200) {
+						console.log(JSON.parse(xhr.responseText));
+						let type = xhr.getResponseHeader("Content-Type");
+						if (type.indexOf("application/json") === 0) {
+							let obj = JSON.parse(xhr.responseText);
+							if (obj.length == 0) {
+								$("#point").append(
+										"<p>無符合您搜尋的條件</p>");
+							}
+							let user = $("#userNow").val();
+							let checkString;
+							$.each(obj,function(key,value) {
+								if(value.sAccount == user){
+									checkString = "<button type=\"submit\" class=\"btn btn-primary \" disabled=\"disabled\" name=\"orderNo\" value=\"" + value.iId + "\">立即下單</button>"
+								}else{
+									checkString = "<button type=\"submit\" class=\"btn btn-primary \" name=\"orderNo\" value=\"" + value.iId + "\">立即下單</button>"
 
-		// 	$(".div1").on("click",function(){	
-		// 			console.log("123")
-		// // 			.ajax({
+								}
+								$("#point").append(
+//																	"<div class='row' id='point'>"
+																		 "<div class='col col-12 col-sm-6 col-md-6 col-lg-3'>"
+																		+ "<div data-toggle='modal' data-target='#exampleModal" + value.iId + "'>"
+																		+ "<div class='div1'>"
+																		+ "<div class='fi1'>"
+																		+ "<a href='#'> <img class='img1' src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'></a>"
+																		+ "<a>"
+																		+ "<div>"
+																		+ value.sNickname
+																		+ "</div>"
+																		+ "<div>"
+																		+ value.sGame
+																		+ "</div>"
+																		+ "<div>"
+																		+ "<p>"
+																		+ "<span>$</span>"
+																		+ "<span>"
+																		+ value.iPrice
+																		+ "</span>"
+																		+ "<span>/局</span>"
+																		+ "</p>"
+																		+ "</div>"
+																		+ "</a>"
 
-		// // 			})
+																		+ "</div>"
+																		+ "</div>"
+																		+ "</div>"
+																		+ "<div class='modal fade' id='exampleModal" + value.iId + "' tabindex='-1' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
+																		+ "<div class='modal-dialog' role='document'>"
+																		+ "<div class='modal-content'>"
+																		+ "<div class='modal-header'>"
+																		+ "<h5 class='modal-title' id='exampleModalLabel'>Modal title</h5>"
+																		+ "<button type='button' class='close' data-dismiss='modal' aria-label='Close'> <span aria-hidden='true'>&times;</span> </button>"
+																		+ "</div>"
+																		+ "<div class='modal-body'>"
+																		+ "<div class='container-fluid'>"
+																		+ "<div class='row'>"
+																		+ "<a> <img class='img1'"
+											+"src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'>"
+																		+ "</a>"
+																		+ "<div>"
+																		+ value.sGame
+																		+ "</div>"
+																		+ "<div>"
+																		+ value.sNickname
+																		+ "</div>"
 
-		// 	})
+																		
+																		+"<form action='<c:url value='/withplay/Reply'/>' method='post'>"
 
-		// $(document).ready(function(){
-		// // 	$(".div1").each(function(){
-		// 		$(".div1").click(function(){
-		// 			console.log("123")
-		// 			console.log($("#point").text());
 
-		// 			$.ajax({
-		// 				type:"post",
-		// 				url: "<c:url value='/withplay/IndexAjax'/>",
-		// 				dataType:"json",
-		// 				data:{"iId": $(this).find("img").attr("src").split("/")[4]},
-		// 				success: function(result) {	
-		// 					console.log("成功");
-		// 					$("#point").empty();
-		// 					if(result.length == 0){
-		// 						$("#point").append("<p>無貼文符合您搜尋的條件</p>")							
-		// 					}else{
-		// 						$("#point").append("<table style=\"border:2px solid red\">"+
-		// 									"<thead>"+
-		// 									"<tr><th>分類</th><th>標題</th><th>樓主</th><th>發文時間</th><th>留言數</th>"+
-		// 									"</tr>"+
-		// 									"</thead>"+
-		// 									"<tbody></tbody></table>");
-		// 					}
-		// 					console.log("123")
+																		+"<hr>"
+																		+"<div id='reply" + value.iId + "' style='position: relative'>"
+																			
+																		+"</div>"
 
-		// 					$.each(result ,function(key,value){
-		// 						$("tbody").append("<tr><td>"+value.sName+"</td>"+
-		// 								"<td>"+value.sIdcode+"</td><td>"+" "+value.sGame+"</td>"+
-		// 								"<td>"+value.sComment+"</td></tr>");
-		// 					});
-		// 	            },
-		// 	            error:function (err) {
-		// 	                alert("發生錯誤!");
-		// 	            }		
-		// 			})
-		// 		})						
-		// // 	})	
-		// })
+																		+"<hr>"
+
+																		+"<div>"
+																			+"回覆: <input type='text' id='reply' name='sText' required>"
+																			+"<button type='submit' id='replySubmit' class='btn btn-primary' name='withNo'"
+																				+"value='" + value.iId + "'>送出</button>"
+																		+"</div>"
+																	+"</form>"
+																		
+																		
+																		+ "</div>"
+																		+ "</div>"
+																		+ "</div>"						
+																		+"<form action='<c:url value='/withplay/Order'/>' method='post'>"
+																			+"<div class='modal-footer'>"
+																				+"<button type='button' class='btn btn-secondary'"
+																					+"data-dismiss='modal'>關閉</button>"																																			
+																				+ checkString
+																			+"</div>"
+																			+"</form>"																							
+																		+ "</div>"
+																		+ "</div>"
+																		+ "</div>"
+																		+ "</div>" )
+//																			+ "</div>" )
+								let author ="";
+								let text = "";
+								let date = "";
+								let time = "";
+								let id = value.iId			
+								let d = new Date();
+								$.each(value.sReplyBeans,function(key,value) {
+									author = value.sAuthor;
+									text = value.sText;
+									date = $.format.date(new Date(value.dDate), 'yyyy-MM-dd');
+									if(d.getTime() - value.dDate <= 86400000){
+										date = "今日";
+									}else if(d.getTime() - Date.parse(date) > 86400000 && d.getTime() - Date.parse(date) <= 86400000*2){
+										date = "昨日";
+									}
+									time = value.tTime;
+									
+									$("#reply"+id).append("<label>" + author + "</label>"
+											+"<label> : " + text + "</label>"
+											+"<label style='position: absolute; right: 0'>" + date + " " + time + "</label>"
+											+"<br>")
+								});				
+							});
+						};
+					} else {
+						alert("發生錯誤: readyState="
+								+ xhr.readyState
+								+ "status=" + xhr.status);
+					}
+				}
+			}
+
+			xhr.open("POST",
+					"<c:url value='/withplay/IndexAjax'/>",
+					true);
+			xhr.setRequestHeader("Content-Type",
+					"application/x-www-form-urlencoded");
+			xhr.send("sNickname=" + $("#sNickname").val()
+					+ "&sGame=" + game);
+
+		} else {
+			alert("您的瀏覽器不支援Ajax");
+		}
+	});
+						
+						
 	</script>
 </body>
 </html>
