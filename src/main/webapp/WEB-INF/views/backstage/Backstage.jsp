@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>後台管理</title>
-<%@ include file="Link.jsp"%>
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/paper-dashboard.css" />
+<%@ include file="../Link.jsp"%>
 </head>
 <body class="">
+<%@ include file="../Header.jsp"%>
   <div class="wrapper ">
     <div class="sidebar" data-color="white" data-active-color="danger">
       <div class="logo">
@@ -48,18 +50,18 @@
           <li>
             <a href="javascript:;">
               <i class="nc-icon nc-diamond"></i>
-              <p>賽是系統</p>
+              <p>賽事系統</p>
             </a>
           </li>
           <li>
           <li>
             <a href="javascript:;">
               <i class="nc-icon nc-diamond"></i>
-              <p>論壇系統</p>
+              <p>討論區</p>
             </a>
           </li>
           <li>
-            <a href="javascript:;">
+            <a href="<c:url value='/backstage/Exchange'/>">
               <i class="nc-icon nc-pin-3"></i>
               <p>交換系統</p>
             </a>
@@ -124,25 +126,28 @@
           </div>
         </div>
       </div>
-      <footer class="footer" style="position: absolute; bottom: 0; width: -webkit-fill-available;">
-        <div class="container-fluid">
-          <div class="row">
-            <nav class="footer-nav">
-              <ul>
-                <li><a href="https://www.creative-tim.com" target="_blank">Creative Tim</a></li>
-                <li><a href="https://www.creative-tim.com/blog" target="_blank">Blog</a></li>
-                <li><a href="https://www.creative-tim.com/license" target="_blank">Licenses</a></li>
-              </ul>
-            </nav>
-            <div class="credits ml-auto">
-              <span class="copyright">
-                © 2020, made with <i class="fa fa-heart heart"></i> by Creative Tim
-              </span>
-            </div>
-          </div>
-        </div>
-      </footer>
+<!--       <footer class="footer" style="position: absolute; bottom: 0; width: -webkit-fill-available;"> -->
+<!--         <div class="container-fluid"> -->
+<!--           <div class="row"> -->
+<!--             <nav class="footer-nav"> -->
+<!--               <ul> -->
+<!--                 <li><a href="https://www.creative-tim.com" target="_blank">Creative Tim</a></li> -->
+<!--                 <li><a href="https://www.creative-tim.com/blog" target="_blank">Blog</a></li> -->
+<!--                 <li><a href="https://www.creative-tim.com/license" target="_blank">Licenses</a></li> -->
+<!--               </ul> -->
+<!--             </nav> -->
+<!--             <div class="credits ml-auto"> -->
+<!--               <span class="copyright"> -->
+<!--                 © 2020, made with <i class="fa fa-heart heart"></i> by Creative Tim -->
+<!--               </span> -->
+<!--             </div> -->
+<!--           </div> -->
+<!--         </div> -->
+<!--       </footer> -->
     </div>
   </div>
+  
+  
+<%@ include file="../Foot.jsp"%>
 </body>
 </html>
