@@ -94,7 +94,7 @@ input.qtyminus {
 
 				</td>
 				<td align="right"><%=aCartItem.getPrice() * aCartItem.getQtyOrdered()%></td>
-				<td><input type="submit" value="刪除"></td>
+				<td><input class="btn btn-danger" type="submit" value="刪除"></td>
 			</form>
 		</tr>
 		<%
@@ -113,9 +113,9 @@ input.qtyminus {
 
 <%-- 	<form action="<c:url value="/mall/Shopping"/>" --%>
 <!-- 				method="get"> -->
-				<a href="<c:url value="/mall/Shopping?todocart=checkout"/>">結帳</a>
+				<a class="btn btn-warning" href="<c:url value="/mall/Shopping?todocart=checkout"/>">結帳</a>
 <!-- 		<button class="Checkout" type="submit" name="todocart" value="checkout">結帳</button> -->
-				<a href="<c:url value="/mall/gotoshoppingnew"/>">繼續購物</a>
+				<a class="btn btn-secondary" href="<c:url value="/mall/gotoshoppingnew"/>">繼續購物</a>
 
 <!-- 		<button class="Continue" type="submit" name="todocart" value="gohome">繼續購物</button> -->
 <!-- 	</form> -->
