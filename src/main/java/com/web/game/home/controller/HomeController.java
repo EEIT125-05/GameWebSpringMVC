@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.web.game.contest.service.ContestService;
+import com.web.game.exchange.service.ExchangeService;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
 import com.web.game.withplay.service.WithService;
@@ -23,6 +25,12 @@ public class HomeController {
 	
 	@Autowired
 	WithService WithService;
+	
+	@Autowired
+	ExchangeService exchangeService;
+	
+	@Autowired
+	ContestService cService;
 	
 	@GetMapping("/")
 	public String gameIndex(@CookieValue(required = false) String JSESSIONID,
@@ -50,6 +58,56 @@ public class HomeController {
 	
 	@GetMapping("/backstage")
 	public String gameBackStage() {
-		return "Backstage";
+		return "backstage/Backstage";
+	}
+	
+	@GetMapping("/backstage/Member")
+	public String gotoMemberBackStage(Model model) {
+		
+		
+		
+		return "backstage/Member";
+	}
+	
+	@GetMapping("/backstage/Mall")
+	public String gotoMallBackStage(Model model) {
+		
+		
+		
+		return "backstage/Mall";
+	}
+	
+	@GetMapping("/backstage/Withplay")
+	public String gotoWithplayBackStage(Model model) {
+		
+		
+		
+		return "backstage/Withplay";
+	}
+	
+	@GetMapping("/backstage/Contest")
+	public String gotoContestBackStage(Model model) {
+		model.addAttribute("allContest", cService.selectAllContest());
+		
+		
+		return "backstage/Contest";
+	}
+	
+	@GetMapping("/backstage/Forum")
+	public String gotoForumBackStage(Model model) {
+		
+		
+		
+		return "backstage/Forum";
+	}
+	
+	@GetMapping("/backstage/Exchange")
+	public String gotoExchagneBackStage(Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("change",exchangeService.getAllChangeHistory());
+		map.put("support",exchangeService.getAllSupportList());
+		map.put("demand",exchangeService.getAllDemandList());
+		model.addAttribute("AllListMap",map);
+		return "backstage/Exchange";
 	}
 }
