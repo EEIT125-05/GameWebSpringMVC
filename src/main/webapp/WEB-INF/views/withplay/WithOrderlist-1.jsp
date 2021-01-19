@@ -63,6 +63,7 @@
 			</tr>
 			</thead>
 			<c:forEach items="${WithOrder}" var="Order" varStatus="status">
+	
 				<tr>	
 					<td>${status.count}</td>
 					<td><img style="width:150px;height:150px;"class="img1" src='${pageContext.request.contextPath}/withplay/picture/${Order.with.iId}'>
@@ -124,7 +125,7 @@
 			<c:forEach items="${WithOrder2}" var="withOrder" varStatus="status">
 			<jsp:useBean id="nowDate" class="java.util.Date" />
 			<fmt:formatDate var="dateString" value="${nowDate}"	pattern="yyyy-MM-dd" />
-			<fmt:parseDate var="Date" value="${dateString}"		pattern="yyyy-MM-dd" />
+<%-- 			<fmt:parseDate var="Date" value="${dateString}"		pattern="yyyy-MM-dd" /> --%>
 				<tr>	
 					<td>${status.count}</td>
 					<td><img style="width:150px;height:150px;"class="img1" src='${pageContext.request.contextPath}/withplay/picture/${withOrder.member.iNo}'>

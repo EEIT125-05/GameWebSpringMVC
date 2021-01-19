@@ -113,7 +113,7 @@ response.setContentType("text/html;charset=UTF-8");
 											</a></div>
 											<div class="col-md-6 ml-auto">
 											<div ><span style="font-weight:bold;font-size:24px;">${With.sGame}</span></div>
-											<div><span style="font-size:14px;">接單次</span></div>
+											<div><span style="font-size:14px;">接${With.iCount }單次</span></div>
 											<div>
 													<p style="color:#D87901;font-weight:bold;font-size:21px;">
 														<span>$</span> <span>${With.iPrice}</span> <span>/局</span>

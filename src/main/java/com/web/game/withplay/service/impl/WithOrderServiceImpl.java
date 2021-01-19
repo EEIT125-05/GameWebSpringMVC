@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.web.game.withplay.dao.WithOrderDao;
 import com.web.game.withplay.model.WithOrder;
+import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithOrderService;
 
 @Transactional
@@ -43,6 +44,7 @@ public class WithOrderServiceImpl implements WithOrderService {
 		WithOrder order=oDAO.getWithOrder(iNO);
 		if(order.getiStatus()==1) {
 			 status = 2; //ok
+		order.getWith().setiCount( order.getWith().getiCount() + 1);
 		}else {
 			status =4;//執行訂單完畢
 		}

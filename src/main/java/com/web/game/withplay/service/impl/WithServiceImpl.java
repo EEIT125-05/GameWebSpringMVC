@@ -1,8 +1,6 @@
 package com.web.game.withplay.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +17,10 @@ public class WithServiceImpl implements WithService {
 	WithDao withDao;
 	@Override
 	public void save(WithPlay Wp) {
+		Integer count = 0;
+		Integer Status = 0;
+		Wp.setiStatus(Status);
+		Wp.setiCount(count);
 		withDao.save(Wp);
 		
 	}
