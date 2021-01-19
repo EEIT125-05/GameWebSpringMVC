@@ -149,5 +149,21 @@ public class ChangeGameController {
 	}
 	
 	
+	@GetMapping("/memberHistoryList")
+	public String getMemberHistoryList(Model model) {
+		System.out.println("memberHistoryIn");
+		List<ChangeHistoryBean> list = new ArrayList<ChangeHistoryBean>();
+		MemberBean user = (MemberBean) model.getAttribute("user");
+		Integer iUserid = user.getiNo();
+		list = exchangeService.getHistoryList(iUserid);
+		System.out.println("HistotyList"+list.size());
+		model.addAttribute("HistotyList",list);
+		
+		System.out.println("memberHistoryIn");
+		
+		return "exchange/NewFile";
+		
+	}
+	
 	
 }

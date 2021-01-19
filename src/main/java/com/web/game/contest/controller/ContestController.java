@@ -6,6 +6,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -517,15 +518,180 @@ public class ContestController {
 		return map;
 	}
 	
-	@GetMapping("/gotoMemberData")
-	public String gotoMemberData(Model model) {
+	
+	@PostMapping("/SavePreliminaryRecord")
+	public @ResponseBody Map<String, String> saveRecord(
+						@RequestParam Integer contestNo,
+						@RequestParam(value = "winners[]") List<String> sWinners,
+						Model model
+						){
+		Map<String, String> map = new HashMap<String, String>();
 		
-		model.addAttribute("lContestHostList", cService.selectUserContest(((MemberBean)model.getAttribute("user")).getsAccount()));
-		model.addAttribute("lParticipateList", pService.selectParticipate(((MemberBean)model.getAttribute("user")).getsAccount()));
+		List<RecordBean> lRecordList = rService.selectContestPreliminaryRecord(contestNo);
 		
+		Boolean success = true;
+		if(sWinners.size() == lRecordList.size()) {
+			for(int i=0; i<sWinners.size(); i++) {
+				RecordBean rRecordBean = lRecordList.get(i);
+				String sWinner = sWinners.get(i);
+				String sNewWinner = null;
+				if(!sWinner.equals("")) {
+					sNewWinner = sWinners.get(i);
+				}
+				rRecordBean.setsWinner(sNewWinner);
+				if(!rService.updateRecords(rRecordBean)) {
+					success = false;
+				}
+			}
+		}else {
+			success = false;
+		}
 		
-		return "contest/ContestMemberData";
+		if(success) {	
+			map.put("status", "success");
+		}else {
+			map.put("status", "sqlError");
+		}
+		
+		return map;
 	}
+	
+	@PostMapping("/CreateRematch")
+	public @ResponseBody Map<String, List<String>> promoteRematch(
+						@RequestParam Integer contestNo,
+						Model model){
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
+		ContestBean cContestBean = cService.selectOneContest(contestNo);
+		Integer iTotal = cContestBean.getiPeople();
+		Integer iOneGroup = Integer.valueOf(cContestBean.getsPreliminary().split("-")[0]);
+		Integer iGroupUp = Integer.valueOf(cContestBean.getsPreliminary().split("-")[1]);
+		Integer iLast = Integer.valueOf(cContestBean.getsPreliminary().split("-")[2]);
+		Integer iTotalUp = (iTotal/iOneGroup) * iGroupUp + iLast;
+		Integer iRematchTotal = iTotalUp * 2 - 1;
+		
+		List<String> lPromoteList = new ArrayList<String>();
+		for(int i=1; i<=(iTotal/iOneGroup)+1; i++) {
+			List<Object[]> lGroupPromote = null;
+			if(iLast !=0 && i == iTotal/iOneGroup) {
+				lGroupPromote = rService.promoteRecmatch(contestNo, i, iLast);
+			}else {
+				lGroupPromote = rService.promoteRecmatch(contestNo, i, iGroupUp);
+			}
+			for(Object[] r: lGroupPromote) {
+				lPromoteList.add((String)r[0]);
+			}
+		}
+		
+//		for(String s: lPromoteList) {
+//			System.out.println("晉級 " + s);
+//		}
+		Collections.shuffle(lPromoteList);//打亂順序
+		map.put("promoteList", lPromoteList);
+		for(String s: lPromoteList) {
+			System.out.println("比對:　 " + s);
+		}
+		
+		//建複賽進資料庫
+		if(cContestBean.getsRematchMode().equals("knockout")) {//淘汰賽
+			
+			Integer a = iTotalUp;
+			Integer pow = Integer.toBinaryString(a).length();
+	        Double max = Math.pow(2, pow);
+	        if((max-a) == a){
+	            pow = Integer.toBinaryString(a).length() - 1;
+	            max = Math.pow(2,pow);
+	        }
+			System.out.println("max=" + max);
+			
+			String[] rematchPlayer = new String[max.intValue()];
+			
+			for(int i=0; i<(max-a); i++){
+	            String str = Integer.toBinaryString(i);
+	            while(str.length() < pow-1){
+	                str = "0" + str;
+	            }
+	            Integer eqNumber = 0;
+	            for(int j=0; j<pow-1; j++){
+	            	Double mpow = Math.pow(2,j+1);
+	                eqNumber += Integer.valueOf(str.split("")[j]) * mpow.intValue();
+	            }
+//	            System.out.println("eqNumber " + eqNumber);
+	            rematchPlayer[eqNumber] = "none";
+	        }
+			
+			Integer count = 0;
+			for(int i=0; i<max.intValue(); i++) {
+				if(rematchPlayer[i] != null) {
+					continue;
+				}
+				rematchPlayer[i] = lPromoteList.get(count);
+				count++;
+			}
+			
+//			for(int i=0; i<rematchPlayer.length; i++) {
+//				System.out.println("第" + i + ": " + rematchPlayer[i]);
+//			}
+			
+			Integer count2 = 0;
+			for(int i=0; i<max.intValue(); i+=2) {
+				count2++;
+				RecordBean rRecordBean = new RecordBean(null, contestNo, "淘汰賽", null, count2, rematchPlayer[i], rematchPlayer[i+1]);
+				if(rematchPlayer[i].equals("none")) {
+					rRecordBean.setsWinner(rematchPlayer[i+1]);
+				}
+				rService.insertRecord(rRecordBean);
+			}
+		}else if(cContestBean.getsRematchMode().equals("ground")) {//循環賽
+			for(int i=0; i<iTotalUp; i++) {
+				for(int j=i+1; j<iTotalUp; j++) {
+					if(!rService.insertRecord(new RecordBean(null, contestNo, "循環賽", 1, null, null, null))) {
+						
+					}
+				}
+			}
+		}else {//自由對戰
+			if(!rService.insertRecord(new RecordBean(null, contestNo, "自由對戰", null, null, null, null))) {
+				
+			}
+		}
+		
+		return map;
+	}
+	
+	@PostMapping("/UpdateRematchImage")
+	public @ResponseBody Map<String, String> updateRematchImage(
+							@RequestParam String treeImage64,
+							@RequestParam Integer contestNo,
+							Model model){
+		Map<String, String> map = new HashMap<String, String>();
+		
+		try {
+			Decoder decoder = Base64.getDecoder();
+			
+			treeImage64 = treeImage64.split(",")[1];
+			byte[] bTreeImage = decoder.decode(treeImage64);
+			Blob bRematchImage = new SerialBlob(bTreeImage);
+			
+			ContestBean cContestBean = cService.selectOneContest(contestNo);
+			if(cService.saveSchsduleImage(contestNo, bRematchImage, cContestBean.getbPreliminariesImage())) {
+				map.put("status", "success");
+			}else {
+				map.put("status", "sqlError");
+			}
+		} catch (SerialException e) {
+			e.printStackTrace();
+			map.put("status", "sqlError");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			map.put("status", "sqlError");
+		}
+		
+		
+		System.out.println("map結果 " + map.get("status"));
+		
+		return map;
+	}
+	
 	
 	
 //	@GetMapping("先放這這段程式碼")

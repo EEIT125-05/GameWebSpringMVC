@@ -1,5 +1,9 @@
 package com.web.game.mall.shop;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 
 
@@ -22,11 +26,11 @@ public class MallDB {
 	}
 
 	public static float getPrices(int iCno) {
-		return prices[iCno-1];
+		return prices[iCno - 1];
 	}
 
 	public static String getName(int iCno) {
-		return name[iCno-1];
+		return name[iCno - 1];
 	}
 
 }

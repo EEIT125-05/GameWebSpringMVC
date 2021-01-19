@@ -105,14 +105,4 @@ public class ChangeDAO {
 		return listPartyA;
 		
 	}
-	@SuppressWarnings("unchecked")
-	public List<ChangeHistoryBean> getAllChangeHistory() {
-		
-		Session session = factory.getCurrentSession();
-		List<ChangeHistoryBean> allList = new ArrayList<ChangeHistoryBean>();
-		String HQLPartyA = "FROM ChangeHistoryBean";
-		allList = (List<ChangeHistoryBean>) session.createQuery(HQLPartyA).getResultList();
-		return allList;
-		
-	}
 }

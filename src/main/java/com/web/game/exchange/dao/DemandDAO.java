@@ -15,11 +15,28 @@ import com.web.game.exchange.model.SupportGameBean;
 @Repository
 public class DemandDAO {
 
-	static int counts = 9;
-	
 	@Autowired
 	SessionFactory factory;
 	
+//	@SuppressWarnings("unchecked")
+//	public List<DemandGameBean> changeDemandPage(int page){
+//		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
+//		Session session =factory.getCurrentSession();
+//		String queryAll = "FROM DemandGameBean WHERE status = 0";
+//		
+//		int counts = 6;
+//		int start = 0;
+//		if (page == 1) {
+//			start = 0;
+//		} else {
+//			page = page - 1;
+//			start = page * counts;
+//		}
+//		list = (List<DemandGameBean>) session.createQuery(queryAll).setFirstResult(start).setMaxResults(counts)
+//				.getResultList();
+//		
+//		return list;
+//	}
 
 	@SuppressWarnings("unchecked")
 	public List<DemandGameBean> changeDemandByFilter(int page,String str){
@@ -27,6 +44,7 @@ public class DemandDAO {
 		Session session =factory.getCurrentSession();
 		String queryAll = "FROM DemandGameBean WHERE status = 0 "+str;
 		
+		int counts = 6;
 		int start = 0;
 		if (page == 1) {
 			start = 0;
@@ -46,10 +64,11 @@ public class DemandDAO {
 		String queryAll = "FROM DemandGameBean WHERE status = 0 "+str;
 		list = (List<DemandGameBean>) session.createQuery(queryAll)
 				.getResultList();
-		if(list.size() % counts ==0 ) {
-			return (list.size()/counts);
+		int count = 6;
+		if(list.size() % count ==0 ) {
+			return (list.size()/count);
 		}else {
-			return (list.size()/counts)+1;
+			return (list.size()/count)+1;
 		}
 		
 	}
@@ -72,14 +91,6 @@ public class DemandDAO {
 		Session session = factory.getCurrentSession();
 		String hql = "FROM DemandGameBean g WHERE g.gamer = :account AND g.status in(0,2)";
 		list = session.createQuery(hql).setParameter("account", account).getResultList();
-		return list;
-	}
-	@SuppressWarnings("unchecked")
-	public List<DemandGameBean> getAllDemandList() {
-		List<DemandGameBean> list = new ArrayList<>();
-		Session session = factory.getCurrentSession();
-		String hql = "FROM DemandGameBean g WHERE g.status in(0,5)";
-		list = session.createQuery(hql).getResultList();
 		return list;
 	}
 	@SuppressWarnings("unchecked")

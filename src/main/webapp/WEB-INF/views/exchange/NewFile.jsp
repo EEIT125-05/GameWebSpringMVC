@@ -11,6 +11,12 @@
 </head>
 <body>
 <%@ include file="../Header.jsp"%>
+<%-- ${changehistorybean.no } --%>
+<%-- ${changehistorybean.partyA.sAccount } --%>
+<%-- ${changehistorybean.mygamebean.gamename } --%>
+<%-- ${changehistorybean.partyB.sAccount } --%>
+<%-- ${changehistorybean.supportgamebean.gamename } --%>
+<%-- ${HistotyList } --%>
 
 <div class="container">
 
@@ -18,11 +24,11 @@
 
 
 <c:choose>
-				<c:when test='${empty ChangeHistotyList}'>
+				<c:when test='${empty HistotyList}'>
 			查無資料<br>
 				</c:when>
 
-				<c:when test="${not empty ChangeHistotyList}">
+				<c:when test="${not empty HistotyList}">
 				
 				
 				<table border="1" class="table table-hover" style="font-size: 12px; border:3px">

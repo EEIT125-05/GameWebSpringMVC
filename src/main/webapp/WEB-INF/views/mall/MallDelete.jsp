@@ -40,10 +40,8 @@
             </table>
         </div>
         <center>
-        <br>
-        <hr>
-            <input class="btn btn-danger" type="submit" name="strike" value="送出">
-            <a  class="btn btn-warning" href="MallInquire.jsp" >查詢</a></div>
+            <input type="submit" name="strike" value="送出">
+            <a class="InquireDelete" href="MallInquire.jsp" >查詢</a></div>
         </center>
     </form>
     </div>

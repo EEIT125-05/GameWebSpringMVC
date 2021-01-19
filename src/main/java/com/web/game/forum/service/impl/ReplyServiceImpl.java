@@ -61,13 +61,6 @@ public class ReplyServiceImpl implements ReplyService {
 	public ReplyBean selectOneReply(Integer iNo) {
 		return rDAO.selectOneReply(iNo);
 	}
-
-	@Transactional
-	@Override
-	public List<ReplyBean> selectUserReply(String sAccount) {
-		return rDAO.selectUserReply(sAccount);
-	}
-	
 	
 	
 }

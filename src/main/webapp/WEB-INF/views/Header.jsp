@@ -33,9 +33,6 @@
               </c:choose>
               <a class="dropdown-item" href="<c:url value='/member/Login'/>">註冊</a>
               <a class="dropdown-item" href="<c:url value='/member/Data'/>">會員資料</a>
-              <c:if test="${user.sAccount == 'game20200922'}">
-              	<a class="dropdown-item" href="<c:url value="/backstage/Member"/>">後台測試中</a>
-              </c:if>
             </div>
           </li>
         
@@ -45,8 +42,6 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
               <a class="dropdown-item" href="<c:url value='/mall/Index'/>">商城</a>
-              <a class="dropdown-item" href="<c:url value='/mall/MallDL'/>">訂單查詢</a>
-              <a class="dropdown-item" href="<c:url value='/mall/Addshop'/>">我的購物車</a>   
               <a class="dropdown-item" href="<c:url value='/mall/New'/>">新增商品</a>
               <a class="dropdown-item" href="<c:url value='/mall/Inquire'/>">查詢商品</a>
               <a class="dropdown-item" href="<c:url value='/mall/Delete'/>">刪除商品</a>
@@ -112,13 +107,13 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
               <a class="dropdown-item" href="<c:url value='/exchange/Index'/>">交換版</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/wishBoard"/>">許願池</a>
               <a class="dropdown-item" href="<c:url value="/exchange/insertSupportGame"/>">我要換</a>
               <a class="dropdown-item" href="<c:url value="/exchange/insertDemandGame"/>">我要徵</a>
               <a class="dropdown-item" href="<c:url value="/exchange/insertMyGame"/>">新增我的遊戲庫</a>
               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">我的遊戲庫</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/gotoMemberData"/>">我的交易紀錄(會員中心)</a>
-              
+              <a class="dropdown-item" href="<c:url value="/exchange/memberHistoryList"/>">我的交換歷史清單</a>
+              <a class="dropdown-item" href="<c:url value="/exchange/wishBoard"/>">許願池</a>
+              <a class="dropdown-item" href="<c:url value="/backstage"/>">後台測試中</a>
             </div>
           </li>
           

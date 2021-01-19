@@ -1,10 +1,6 @@
 package com.web.game.home.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.web.game.exchange.service.ExchangeService;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
 import com.web.game.withplay.service.WithService;
@@ -30,9 +23,6 @@ public class HomeController {
 	
 	@Autowired
 	WithService WithService;
-	
-	@Autowired
-	ExchangeService exchangeService;
 	
 	@GetMapping("/")
 	public String gameIndex(@CookieValue(required = false) String JSESSIONID,
@@ -58,95 +48,8 @@ public class HomeController {
 		return "GameIndex";
 	}
 	
-	@PostMapping("/demo")
-	public String demoSignin(
-					@RequestParam String demoAccount,
-					Model model,
-					HttpServletRequest request,
-					HttpServletResponse response) {
-		
-		MemberBean SigninMB = mService.Selectmember(demoAccount);
-		model.addAttribute("user", SigninMB);
-		model.addAttribute("withplayHost", WithService.getaccount(demoAccount));
-		
-		Cookie cUser = new Cookie("user", SigninMB.getsAccount());
-		cUser.setPath("/GameWebSpringMVC");
-		cUser.setMaxAge(86400 * 7);
-		response.addCookie(cUser);
-		
-		String nextPage = (String) request.getSession(true).getAttribute("requestURI");
-		if (nextPage == null || nextPage.split("/")[1].equals("member")) {
-			nextPage = "/";
-		} else {
-			nextPage = "/" + nextPage.split("/")[1] + "/Index";
-		}
-
-		return "redirect:" + nextPage;// 登入成功回該系統的首頁
-		
-	}
-	
-	
-	
 	@GetMapping("/backstage")
 	public String gameBackStage() {
-		return "backstage/Backstage";
+		return "Backstage";
 	}
-	
-	@GetMapping("/backstage/Member")
-	public String gotoMemberBackStage(Model model) {
-		
-		
-		
-		return "backstage/Member";
-	}
-	
-	@GetMapping("/backstage/Mall")
-	public String gotoMallBackStage(Model model) {
-		
-		
-		
-		return "backstage/Mall";
-	}
-	
-	@GetMapping("/backstage/Withplay")
-	public String gotoWithplayBackStage(Model model) {
-		
-		
-		
-		return "backstage/Withplay";
-	}
-	
-	@GetMapping("/backstage/Contest")
-	public String gotoContestBackStage(Model model) {
-		
-		
-		
-		return "backstage/Contest";
-	}
-	
-	@GetMapping("/backstage/Forum")
-	public String gotoForumBackStage(Model model) {
-		
-		
-		
-		return "backstage/Forum";
-	}
-	
-	@GetMapping("/backstage/Exchange")
-	public String gotoExchagneBackStage(Model model) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("change",exchangeService.getAllChangeHistory());
-		map.put("support",exchangeService.getAllSupportList());
-		map.put("demand",exchangeService.getAllDemandList());
-		model.addAttribute("AllListMap",map);
-		return "backstage/Exchange";
-	}
-	
-	
-	
-	
-	
-	
-	
-	
 }

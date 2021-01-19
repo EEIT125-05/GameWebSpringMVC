@@ -1,8 +1,6 @@
 package com.web.game.forum.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -213,21 +211,6 @@ public class ForumController {
 			map.put("status", "sqlError");
 		}
 		return map;
-	}
-	
-	@GetMapping("/gotoMemberData")
-	public String gotoMemberData(Model model) {
-		
-		model.addAttribute("lForumAuthorList", fService.selectUserForum(((MemberBean)model.getAttribute("user")).getsAccount()));
-		List<ReplyBean> lReplys = rService.selectUserReply(((MemberBean)model.getAttribute("user")).getsAccount());
-		model.addAttribute("lReplyList", lReplys);
-		List<String> lReplyForumTitleList = new ArrayList<String>();
-		for(ReplyBean r: lReplys) {
-			lReplyForumTitleList.add(fService.selectOneForum(r.getiForumNo()).getsTitle());
-		}
-		model.addAttribute("lReplyForumTitleList", lReplyForumTitleList);
-		
-		return "forum/ForumMemberData";
 	}
 	
 //	@DeleteMapping("/EditReply")

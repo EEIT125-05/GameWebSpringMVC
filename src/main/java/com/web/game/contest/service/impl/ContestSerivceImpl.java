@@ -163,7 +163,9 @@ public class ContestSerivceImpl implements ContestService {
 	@Transactional
 	@Override
 	public Boolean saveSchsduleImage(Integer iNo, Blob bRematchImage, Blob bPreliminariesImage) {
-		return cDao.saveSchsduleImage(iNo, bRematchImage, bPreliminariesImage);
+		Boolean b = cDao.saveSchsduleImage(iNo, bRematchImage, bPreliminariesImage);
+		System.out.println("是否 " + b);
+		return b;
 //		return cDao.saveSchsduleImage(iNo, bRematchImage, bPreliminariesImage);
 	}
 
