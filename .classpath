@@ -25,10 +25,13 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="emailsource/javax.mail.jar"/>
+<<<<<<< HEAD
 	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+=======
+>>>>>>> parent of cb503d4... 202101200730
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
