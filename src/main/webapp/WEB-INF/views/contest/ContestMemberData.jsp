@@ -144,7 +144,7 @@ table{
 														<a class="btn btn-primary" href="<c:url value='/contest/Update/${contest.iNo}'/>">更改</a>
 													</c:otherwise>
 												</c:choose>
-												<button class="btn btn-primary" type="submit" id="delete" value="${contest.iNo}">刪除</button>
+												<button class="btn btn-primary delete" type="submit" value="${contest.iNo}">刪除</button>
 											</td>
 										</tr>
 									</c:forEach>
@@ -235,7 +235,7 @@ table{
 			this.target = "_blank";
 		});	
 		
-		$("#delete").on("click", function(){
+		$(".delete").on("click", function(){
 			Swal.fire({
 				showClass: {
 				    popup: 'animate__animated animate__fadeInDown'
