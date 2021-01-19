@@ -268,10 +268,10 @@ input {
 		}
 	}
 
-// 	function GameBarSubmit() {
-// 		console.log("????");
-// 		$('#GameBar').submit()
-// 	}
+	// 	function GameBarSubmit() {
+	// 		console.log("????");
+	// 		$('#GameBar').submit()
+	// 	}
 	function checkSubmit() {
 		$('#submitSignin').submit()
 	}
@@ -329,14 +329,28 @@ input {
 					會員登入
 				</button>
 			</form>
+			<form action="<c:url value='/demo'/>" method="post"
+				style="margin-top: 20px">
+				<select name="demoAccount">
+					<option value="aaa">廷亙</option>
+					<option value="bbb">駿宏</option>
+					<option value="ccc">昌孝1</option>
+					<option value="ddd">昌孝2</option>
+					<option value="Jack1234">嵩謙</option>
+					<option value="hernycccc">冠惟1</option>
+					<option value="benchang">冠惟2</option>
+				</select>
+				<button type="submit">DEMO</button>
+			</form>
 			<div>
 				<div>
 					<form action="<c:url value='/member/GameBarGMSignin'/>"
 						method="post" id="GameBar">
 						<div style='padding-top: 10px;'>
-							<button type="submit" style='width: 350; height: 50; font-size: 30; margin-top: 10; background-color: red; color: limegreen;'>
-<!-- 							onclick="GameBarSubmit();" id="GameBar" -->
-								
+							<button type="submit"
+								style='width: 350; height: 50; font-size: 30; margin-top: 10; background-color: red; color: limegreen;'>
+								<!-- 							onclick="GameBarSubmit();" id="GameBar" -->
+
 								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
 									fill="currentColor" class="bi bi-person-fill"
 									viewBox="0 0 16 16"> <path
@@ -356,6 +370,10 @@ input {
 						Google登入
 					</button>
 					<!-- 					<button type="button" id="btnDisconnect">斷連Google App</button> -->
+
+
+
+
 				</div>
 				<div id="content"></div>
 			</div>
