@@ -34,7 +34,7 @@ import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithOrderService;
 import com.web.game.withplay.service.WithService;
 
-@SessionAttributes("user,withplayHost")
+@SessionAttributes({"user", "withplayHost"})
 @Controller
 public class NocheckWithController {
 
@@ -62,9 +62,12 @@ public class NocheckWithController {
 		List<WithOrder> OrderList = withOrderService.list(((MemberBean)model.getAttribute("user")).getiNo());
 		  Set<Integer> set = new HashSet<Integer>();
 		  Set<Integer> set1 = new HashSet<Integer>();
+		  
 		  for(WithOrder wo:OrderList) {
 		   set.add(wo.getWith().getiId());
-		   set1.add(wo.getiStatus());
+		   if(wo.getiStatus() == 1 ||wo.getiStatus() == 2) {
+			   set1.add(wo.getWith().getiId());
+		   }
 		  }
 		  model.addAttribute("UserOrderList",set);
 		  model.addAttribute("UserOrdercheckList",set1);

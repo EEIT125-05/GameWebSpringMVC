@@ -160,7 +160,7 @@ response.setContentType("text/html;charset=UTF-8");
 													</c:if>
 												</c:forEach>												
 												<c:choose> 
-													<c:when test="${showReply == 'true' ||user.sAccount==With.sAccount}">
+													<c:when test="${showReply == 'true' && user.sAccount != With.sAccount}">
 														回覆: <input type="text" id="Reply${With.iId}" name="sText" required>
 																<button type="submit" id="replySubmit${With.iId}" name="withNo"
 																	value="${With.iId}" class="btn btn-primary" >送出</button>
@@ -186,25 +186,25 @@ response.setContentType("text/html;charset=UTF-8");
 										data-dismiss="modal">關閉</button>
 										<c:set var="showOrder" value="false"/>
 												<c:forEach var="Ordercheck" items="${UserOrdercheckList}">
-													<c:if test="${Ordercheck == 1 || Ordercheck == 2}">
+													<c:if test="${Ordercheck == With.iId}">
 														<c:set var="showOrder" value="true"/>
 													</c:if>
 										</c:forEach>
 									<c:choose>
-									<c:when test="${user!=null}">
-									<c:choose>								
-									<c:when test="${user.sAccount == With.sAccount || showOrder == 'true'}">									
-									<button type="submit" class="btn btn-primary " disabled="disabled" name="orderNo" value="${With.iId}">立即下單</button>
+									<c:when test="${not empty user}">
+										<c:choose>								
+											<c:when test="${user.sAccount == With.sAccount || showOrder == 'true'}">									
+												<button type="submit" class="btn btn-primary " disabled="disabled" name="orderNo" value="${With.iId}">立即下單</button>
+											</c:when>
+											<c:otherwise>
+												<button type="submit" class="btn btn-primary "  name="orderNo" value="${With.iId}">立即下單</button>
+											</c:otherwise>
+										</c:choose>	
 									</c:when>
 									<c:otherwise>
-									<button type="submit" class="btn btn-primary "  name="orderNo" value="${With.iId}">立即下單</button>
-									</c:otherwise>
-									</c:choose>	
-									</c:when>
-									<c:otherwise>
-									<c:if test="${user==null}">
-									<button type="submit" class="btn btn-primary" disabled="disabled" name="orderNo" value="${With.iId}">立即下單</button>									
-									</c:if>
+<%-- 									<c:if test="${user==null}"> --%>
+										<button type="submit" class="btn btn-primary" disabled="disabled" name="orderNo" value="${With.iId}">立即下單</button>									
+<%-- 									</c:if> --%>
 									</c:otherwise>
 									</c:choose>								
 								</div>
