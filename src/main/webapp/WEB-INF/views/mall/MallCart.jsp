@@ -33,11 +33,6 @@ input.qtyminus {
   border: 1px solid #aaa;
   background: #f8f8f8;
 }
-mark.yellow {
-	background: linear-gradient(transparent 40%,rgba(255,255,255,0) 40%, #FFF176 90%,transparent 95%);	
-    padding: 2px 1px;
-}
-
 </style>
 </head>
 <body>
@@ -98,9 +93,8 @@ mark.yellow {
 
 
 				</td>
-				
 				<td align="right"><%=aCartItem.getPrice() * aCartItem.getQtyOrdered()%></td>
-				<td><input class="btn btn-danger" type="submit" value="刪除"></td>
+				<td><input type="submit" value="刪除"></td>
 			</form>
 		</tr>
 		<%
@@ -108,18 +102,20 @@ mark.yellow {
 		}
 		%>
 		<tr>
-			<td align="right" colspan="5"><mark class="yellow">總額:<%=totprice%></mark></td>
-			
-			
+			<td></td>
+			<td></td>
+			<td></td>
+			<td><%=totprice%></td>
+			<td></td>
 		</tr>
 	</table>
 	<br />
 
 <%-- 	<form action="<c:url value="/mall/Shopping"/>" --%>
 <!-- 				method="get"> -->
-				<a class="btn btn-warning" href="<c:url value="/mall/Shopping?todocart=checkout"/>">結帳</a>
+				<a href="<c:url value="/mall/Shopping?todocart=checkout"/>">結帳</a>
 <!-- 		<button class="Checkout" type="submit" name="todocart" value="checkout">結帳</button> -->
-				<a class="btn btn-secondary" href="<c:url value="/mall/gotoshoppingnew"/>">繼續購物</a>
+				<a href="<c:url value="/mall/gotoshoppingnew"/>">繼續購物</a>
 
 <!-- 		<button class="Continue" type="submit" name="todocart" value="gohome">繼續購物</button> -->
 <!-- 	</form> -->

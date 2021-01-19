@@ -8,13 +8,6 @@
 <link rel=stylesheet type="text/css" href="css/LeftMall.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>E-BookShop Checkout</title>
-<style>
-mark.yellow {
-	background: linear-gradient(transparent 40%,rgba(255,255,255,0) 40%, #FFF176 90%,transparent 95%);	
-    padding: 2px 1px;
-}
-
-</style>
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
@@ -39,7 +32,7 @@ mark.yellow {
 			<th>遊戲名稱</th>
 			<th>價錢</th>
 			<th>數量</th>
-			
+			<th align="right" colspan="2">總額</th>
 			
 		</tr>
 		<%
@@ -51,19 +44,17 @@ mark.yellow {
 			<td ><%=item.getName()%></td>
 			<td align="right">$<%=item.getPrice()%></td>
 			<td align="right"><%=item.getQtyOrdered()%></td>
-			
-			
-			
+			<td align="right">$<%=request.getAttribute("totalPrice")%></td>
 		</tr>
 		<%
 			} // for
 		%>
-		<tr> 
- 			<th align="right" colspan="2">總額</th>
- 			<th  align="right"><mark class="yellow">$<%=request.getAttribute("totalPrice")%></mark></th> 
+<!-- 		<tr> -->
+<!-- 			<th  align="right" colspan="2">Total</th> -->
+<%-- 			<th  align="right">$<%=request.getAttribute("totalPrice")%></th> --%>
 			
 			
-		</tr> 
+<!-- 		</tr> -->
 	</table>
 	<br />
 	<%
