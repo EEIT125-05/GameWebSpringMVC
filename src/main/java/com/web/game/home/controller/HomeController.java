@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+<<<<<<< HEAD
 import com.web.game.exchange.service.ExchangeService;
+=======
+>>>>>>> parent of 76f98ae... Merge branch 'SungChain'
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
 import com.web.game.withplay.service.WithService;
@@ -25,9 +28,12 @@ public class HomeController {
 	@Autowired
 	WithService WithService;
 	
+<<<<<<< HEAD
 	@Autowired
 	ExchangeService exchangeService;
 	
+=======
+>>>>>>> parent of 76f98ae... Merge branch 'SungChain'
 	@GetMapping("/")
 	public String gameIndex(@CookieValue(required = false) String JSESSIONID,
 							@CookieValue(required = false) String user,
@@ -54,6 +60,7 @@ public class HomeController {
 	
 	@GetMapping("/backstage")
 	public String gameBackStage() {
+<<<<<<< HEAD
 		return "backstage/Backstage";
 	}
 	
@@ -105,5 +112,8 @@ public class HomeController {
 		map.put("demand",exchangeService.getAllDemandList());
 		model.addAttribute("AllListMap",map);
 		return "backstage/Exchange";
+=======
+		return "Backstage";
+>>>>>>> parent of 76f98ae... Merge branch 'SungChain'
 	}
 }
