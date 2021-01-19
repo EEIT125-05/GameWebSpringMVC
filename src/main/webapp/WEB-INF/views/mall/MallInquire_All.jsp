@@ -28,9 +28,13 @@ table tr:nth-child(odd) {
 table tr:nth-child(even) {
   background-color: #ffffff;
 }
+mark.yellow {
+	background: linear-gradient(transparent 40%,rgba(255,255,255,0) 40%, #FFF176 90%,transparent 95%);	
+    padding: 2px 1px;
+}
 </style>
 
-</style>
+
 </head>
 
 <body>
@@ -54,8 +58,8 @@ table tr:nth-child(even) {
 			<tr>
 				<th style="background-color: rgb(242, 189, 189);"><span
 					style="color: black;">請輸入欲修改之編號：</span></th>
-				<td><input type="text" name="search" id="search1"
-					onblur=checkconsole() /> <input class="btn btn-secondary" type="submit" id="submit"
+				<td><mark class="yellow"><input type="text" placeholder="No.?" name="search" id="search1"
+					onblur=checkconsole() /></mark> <input class="btn btn-secondary" type="submit" id="submit"
 					name="updateto" value="更改" disabled /> 
 					<span id="search1span"></span>
 				</div></td>
@@ -84,7 +88,7 @@ table tr:nth-child(even) {
 
 			<c:forEach var="row" items="${rs.rows}">
 				<tr>
-					<td>${row.no}</td>
+					<td><mark class="yellow">${row.no}</mark></td>
 					<td>${row.name}</td>
 					<td>${row.type}</td>
 					<td>${row.host}</td>
@@ -94,7 +98,9 @@ table tr:nth-child(even) {
 					<td>${row.pay}</td>
 					<td>${row.deilvery}</td>
 					<td>${row.size}</td>
-					<td>${row.origin}</td>
+					<td><img 
+					src="${pageContext.request.contextPath }/${row.origin}"
+					style="width: 150; height: 220;" alt="" /></td>
 					<td>${row.item}</td>
 					<td>${row.contentment}</td>
 
