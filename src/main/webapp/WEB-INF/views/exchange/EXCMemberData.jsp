@@ -523,7 +523,7 @@ function applyFor(a,b){
 	 				      str1,
 	 				      'success'
 	 				    ).then(function(){
-	 				    	window.location.reload(false)
+	 				   location.href='./management'
 	 				    })
 	 			}
   			}	

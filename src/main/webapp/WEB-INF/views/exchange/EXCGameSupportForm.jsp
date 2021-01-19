@@ -118,15 +118,9 @@ div {
 				<form:input class="fixedlen" type="text" path="remark" />
 			</div>
 			<c:if test="${insert != null }">
-				<div >
+				<div class="showImage">
 					<label for="image">圖片 </label> <span id="imagespan"></span> <br>
-					<input type="file" name="file" id="uploadFile"/>
-					<br>
-					<br>
-					<div style="width:300px;height:300px" class="showImage">
-						<img src='${pageContext.request.contextPath }/images/NoImage.png' height='300' width='300' id='showImage'/>
-					</div>
-					
+					<input type="file" name="file" id="uploadFile" onchange="ajax();" />
 				</div>
 			</c:if>
 			<c:if test="${update != null }">
@@ -160,30 +154,10 @@ div {
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 	<script>
 		
-	 $(function(){  
-	        function getObjectURL(file){    
-	            var url=null     
-	            if(window.createObjectURL!=undefined){ // basic    
-	                url=window.createObjectURL(file)    
-	            }else if(window.URL!=undefined){ // mozilla(firefox)    
-	                url=window.URL.createObjectURL(file)    
-	            }else if(window.webkitURL!=undefined){ // webkit or chrome    
-	                url=window.webkitURL.createObjectURL(file)    
-	            }    
-	            return url  ;  
-	        }    
-	        $("#uploadFile").change(function(){    
-	            var objUrl=getObjectURL(this.files[0]);    
-	            var size=this.files[0].size;    
-	            if(size>=1024000*10){
-	            	bottomTip("圖片超過10M了哦",0)
-	            }else{    
-	                if(objUrl){    
-	                    $("#showImage").attr("src",objUrl);  
-	                }    
-	            }     
-	        });  
-	    })  
+		function ajax(){
+			console.log($('#uploadFile'))
+			$('#uploadFile').val()
+		}
 		
 		function checkSubmit(){
 			swal.fire("${action}成功",
