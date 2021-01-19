@@ -191,14 +191,15 @@ td{
 	
 	<%@ include file="../Foot.jsp" %>
 	<script>
-	$(function(){
+		function checkSubmit() {
+			swal.fire("成功", "", "success").then(function() {
+				$('form').submit()
+				console.log("success")
+			})
+		}
 		
-		console.log("file: " + $("#fImage").val());
-		
-		$("#imagePreview").hide();
-		$("#previewLabel").hide();
-		
-		$("#fImage").on("change",function(){
+		$(function() {
+
 			console.log("file: " + $("#fImage").val());
             let fileReader = new FileReader();
             let imageFile = this.files[0];

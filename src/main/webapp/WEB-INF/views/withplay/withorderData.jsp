@@ -1,32 +1,105 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../Link.jsp"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<html>
+<%
+response.setContentType("text/html;charset=UTF-8");
+response.setHeader("Cache-Control", "no-cache"); // HTTP 1.1
+response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
+%>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>會員資料</title>
+
 <script src='//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js'></script>
 <link rel='stylesheet' href='https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css'>
-<link rel="stylesheet" href="../css/WithGame.css">
-<title>訂單管理</title>
-<!-- <script src="../js/With.js"></script> -->
+<style>
+/* input { */
+/* 	border-radius: 5px; */
+/* } */
 
+#DIV1 {
+	width: 350px;
+	line-height: 50px; 
+	padding: 10px;
+	border: 5px gray solid;
+	margin-left: 50;
+	float: left;
+}
+
+#DIV2 {
+	background-color: #272727;
+/* 	color: white; */
+/* 	width: 600px; */
+/* 	line-height: 50px; */
+ 	margin-left: 100;
+ 	padding: 20px;
+ 	border: 5px gray solid; 
+ 	float: left; 
+}
+
+.a {
+	width: 450px;
+	height: 80px;
+	border: 2px solid black;
+	background-color: #272727;
+	margin: auto;
+	margin-bottom: 100px;
+	font-size: 50;
+	font-weight: 900;
+}
+
+.a:hover {
+	background-color: white;
+	color: black;
+}
+
+.b {
+	background-color: #272727;
+/* 	color: white; */
+	font-size: 30;
+	font-weight: 900;
+}
+
+.b:hover {
+	color: #00FFFF;
+}
+</style>
 </head>
 <body>
+	<H1 align='center'>會員資料管理</H1>
+	<hr>
 	<%@ include file="../Header.jsp"%>
-<div class="container">
-
-<ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <a href="<c:url value='/'/>">Home</a>
-      </li>
-      <li class="breadcrumb-item active">我的訂單</li>
-    </ol>
+	<div id="DIV1">
+		<H1>相關記錄</H1>
+		<table>
+			<tr>
+				<td class="a"><a href="####">商城記錄</a></td>
+			</tr>
+			<tr>
+				<td class="a"><a href="<c:url value="/forum/gotoMemberData"/>">討論區記錄</a></td>
+			</tr>
+			<tr>
+				<td class="a"><a href="<c:url value="/withplay/gotoMemberData"/>">陪玩記錄</a></td>
+			</tr>
+			<tr>
+				<td class="a"><a href="<c:url value="/contest/gotoMemberData"/>">賽事記錄</a></td>
+			</tr>
+			<tr>
+				<td class="a"><a href="<c:url value="/exchange/gotoMemberData"/>">交換記錄</a></td>
+			</tr>
+		</table>
+	</div>
+	<div class="container" id="DIV2" style='margin-bottom: 30;'>
+		
+	<h1 class="text-warning">${user.sAccount }的遊戲庫</h1>
+		
 
 	<div align="center" >
 		<form method='POST'>
@@ -123,8 +196,7 @@
 			</tr>
 			</thead>
 			<c:forEach items="${WithOrder2}" var="withOrder" varStatus="status">
-			<jsp:useBean id="nowDate" class="java.util.Date" />
-			<fmt:formatDate var="dateString" value="${nowDate}"	pattern="yyyy-MM-dd" />
+			
 <%-- 			<fmt:parseDate var="Date" value="${dateString}"		pattern="yyyy-MM-dd" /> --%>
 				<tr>	
 					<td>${status.count}</td>
@@ -142,7 +214,7 @@
 						<c:when test="${withOrder.with.sAccount == user.sAccount && withOrder.iStatus == 2}">
 						<span style="font-weight:bold;font-size:20px;">尚未執行</span>	
 						<HR>				
-						<button  class="btn btn-primary" onclick="Okfinish(${withOrder.iNo})" >完成該筆訂單</button>
+						<button  class="btn btn-primary" onclick="Okfinish(${withOrder.iNo})" >完成訂單</button>
 						</c:when>
 						<c:when test="${withOrder.with.sAccount == user.sAccount && withOrder.iStatus == 3}">
 					
@@ -184,10 +256,16 @@
 	<div align="center">
 		<a href="${pageContext.servletContext.contextPath}/withplay/Index">陪玩首頁</a>
 	</div>
-	<%@ include file="../Foot.jsp"%>
+		
+		
+		
+		
+	<div style="clear: both;"></div>
 
+	<%@ include file="../Foot.jsp"%>
 </body>
 <script>
+
 function Ok(iNo){
 	 Swal.fire({
 		  title: '確定接受訂單?',
@@ -250,30 +328,30 @@ $(document).ready(function() {
 	$(function(){
 		$('#table1').DataTable({
 			language: {
-    		    "lengthMenu": "顯示_MENU_筆資料",
-    		    "sProcessing": "處理中...",
-    		    "sZeroRecords": "没有匹配结果",
-    		    "sInfo": "目前有_MAX_筆資料",
-    		    "sInfoEmpty": "目前共有 0 筆紀錄",
-    		    "sInfoFiltered": " ",
-    		    "sInfoPostFix": "",
-    		    "sSearch": "尋找:",
-    		    "sUrl": "",
-    		    "sEmptyTable": "尚未有資料紀錄存在",
-    		    "sLoadingRecords": "載入資料中...",
-    		    "sInfoThousands": ",",
-    		    "oPaginate": {
-    		        "sFirst": "首頁",
-    		        "sPrevious": "上一頁",
-    		        "sNext": "下一頁",
-    		        "sLast": "末頁"
-    		    },
-    		    "order": [[0, "desc"]],
-    		    "oAria": {
-    		        "sSortAscending": ": 以升序排列此列",
-    		        "sSortDescending": ": 以降序排列此列"
-    		    }
-    		}
+   		    "lengthMenu": "顯示_MENU_筆資料",
+   		    "sProcessing": "處理中...",
+   		    "sZeroRecords": "没有匹配结果",
+   		    "sInfo": "目前有_MAX_筆資料",
+   		    "sInfoEmpty": "目前共有 0 筆紀錄",
+   		    "sInfoFiltered": " ",
+   		    "sInfoPostFix": "",
+   		    "sSearch": "尋找:",
+   		    "sUrl": "",
+   		    "sEmptyTable": "尚未有資料紀錄存在",
+   		    "sLoadingRecords": "載入資料中...",
+   		    "sInfoThousands": ",",
+   		    "oPaginate": {
+   		        "sFirst": "首頁",
+   		        "sPrevious": "上一頁",
+   		        "sNext": "下一頁",
+   		        "sLast": "末頁"
+   		    },
+   		    "order": [[0, "desc"]],
+   		    "oAria": {
+   		        "sSortAscending": ": 以升序排列此列",
+   		        "sSortDescending": ": 以降序排列此列"
+   		    }
+   		}
 		});
 		
 	})
@@ -281,36 +359,36 @@ $(document).ready(function() {
 		$(function(){
 		$('#table2').DataTable({
 			language: {
-    		    "lengthMenu": "顯示_MENU_筆資料",
-    		    "sProcessing": "處理中...",
-    		    "sZeroRecords": "没有匹配结果",
-    		    "sInfo": "目前有_MAX_筆資料",
-    		    "sInfoEmpty": "目前共有 0 筆紀錄",
-    		    "sInfoFiltered": " ",
-    		    "sInfoPostFix": "",
-    		    "sSearch": "尋找:",
-    		    "sUrl": "",
-    		    "sEmptyTable": "尚未有資料紀錄存在",
-    		    "sLoadingRecords": "載入資料中...",
-    		    "sInfoThousands": ",",
-    		    "oPaginate": {
-    		        "sFirst": "首頁",
-    		        "sPrevious": "上一頁",
-    		        "sNext": "下一頁",
-    		        "sLast": "末頁"
-    		    },
-    		    "order": [[0, "desc"]],
-    		    "oAria": {
-    		        "sSortAscending": ": 以升序排列此列",
-    		        "sSortDescending": ": 以降序排列此列"
-    		    }
-    		}
+   		    "lengthMenu": "顯示_MENU_筆資料",
+   		    "sProcessing": "處理中...",
+   		    "sZeroRecords": "没有匹配结果",
+   		    "sInfo": "目前有_MAX_筆資料",
+   		    "sInfoEmpty": "目前共有 0 筆紀錄",
+   		    "sInfoFiltered": " ",
+   		    "sInfoPostFix": "",
+   		    "sSearch": "尋找:",
+   		    "sUrl": "",
+   		    "sEmptyTable": "尚未有資料紀錄存在",
+   		    "sLoadingRecords": "載入資料中...",
+   		    "sInfoThousands": ",",
+   		    "oPaginate": {
+   		        "sFirst": "首頁",
+   		        "sPrevious": "上一頁",
+   		        "sNext": "下一頁",
+   		        "sLast": "末頁"
+   		    },
+   		    "order": [[0, "desc"]],
+   		    "oAria": {
+   		        "sSortAscending": ": 以升序排列此列",
+   		        "sSortDescending": ": 以降序排列此列"
+   		    }
+   		}
 		});
 		
 	})
 	
-
 	
 });
+
 </script>
 </html>

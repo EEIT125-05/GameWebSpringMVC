@@ -91,7 +91,7 @@ button:hover{
 				<td class="a"><a href="####">討論區記錄</a></td>
 			</tr>
 			<tr>
-				<td class="a"><a href="####">陪玩記錄</a></td>
+				<td class="a"><a href="<c:url value="/withplay/gotoMemberData"/>">陪玩記錄</a></td>
 			</tr>
 			<tr>
 				<td class="a"><a href="####">賽事記錄</a></td>
