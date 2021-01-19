@@ -121,105 +121,31 @@
 		<div class="row">
 			<c:forEach var="row" items="${rs.rows}">
 				<!-- 				 <div style="display:inline"> -->
-
-				<div class="col-md-6 col-lg-4 mb-1">
-					<div class="portfolio-item mx-auto" data-toggle="modal"
-						data-target="#portfolioModal${row.no }">
-						<div
-							class="portfolio-item-caption d-flex align-items-center justify-content-center ">
-							<div
-								class="portfolio-item-caption-content text-center text-white">
-								<i class="fas fa-plus fa-3x"></i>
-							</div>
-						</div>
-						<img class="img-fluid"
-							src="${pageContext.request.contextPath }/${row.origin}"
-							style="width: 380; height: 250;" alt="" />
-						<center>
-							<span>${row.name}</span>
-						</center>
-					</div>
+			<div style="border: 2px solid red; width: 350px; height: 250px;margin-left: 20px; margin-bottom: 35px;">
+				<div style="border: 2px solid red; width: 150px;height: 200; margin: 20px 20px 35px 15px ; float: left;">
+					<img 
+					src="${pageContext.request.contextPath }/${row.origin}"
+					style="width: 150; height: 200;" alt="" />
 				</div>
+				<div style=" width: 125px;height: 200; margin: 20px 20px 10px 10px ; float: right;">
+				<p>名稱: ${row.name}</p>
+				<p>分類: ${row.level}</p>
+				<p>平台: ${row.host}</p>
+				<p>類型: ${row.type}</p>
+				
+				<b style="font-size: 15px;color: red;">$:${row.money}</b>
+				
+				<P><button class="btn btn-danger" type="submit" name="todo"
+					value="${row.no}">加到購物車</button>
 
-
-
-
-
-				<div class="portfolio-modal modal fade"
-					id="portfolioModal${row.no }" tabindex="-1" role="dialog"
-					aria-labelledby="portfolioModal1Label" aria-hidden="true">
-					<div class="modal-dialog modal-xl" role="document">
-						<div class="modal-content">
-
-							<div class="modal-body text-center">
-								<div class="container">
-									<div class="row justify-content-center">
-										<div class="col-lg-8">
-											<h2
-												class="portfolio-modal-title text-secondary text-uppercase mb-0"
-												id="portfolioModal1Label">${row.name}</h2>
-											<div class="divider-custom">
-												<div class="divider-custom-line"></div>
-
-												<div class="divider-custom-line"></div>
-											</div>
-											<img class="img-fluid rounded mb-5"
-												src="${pageContext.request.contextPath }/${row.origin}"
-												style="float:left;" alt="" />
-											<p class="mb-5">
-											<table>
-												<thead>
-													<tr>
-														<th class="td_1">名稱</th>
-														<th>${row.name}</th>
-
-													</tr>
-
-													<tr>
-														<td class="td_1">簡介</td>
-														<td>${row.item}</td>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td class="td_1">類型</td>
-														<td>${row.type}</td>
-													</tr>
-													<tr>
-														<td class="td_1">平台</td>
-														<td>${row.host}</td>
-													</tr>
-													<tr>
-														<td class="td_1">分類</td>
-														<td>${row.level}</td>
-													</tr>
-													<tr>
-														<td class="td_1">價錢</td>
-														<td style="color: red;">${row.money}</td>
-													</tr>
-
-													<tr>
-														<td class="td_1">評分</td>
-														<td>${row.contentment}</td>
-													</tr>
-												</tbody>
-											</table>
-											</p>
-											<button class="btn btn-danger" type="submit" name="todo"
-												value="${row.no}">加到購物車</button>
-
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
+				</button></P>
+				
 				</div>
+			
+			</div>
 
 			</c:forEach>
-
+</div>
 		</div>
 		</div>
 	</form>
