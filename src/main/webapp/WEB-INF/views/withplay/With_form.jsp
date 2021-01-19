@@ -192,12 +192,16 @@ td{
 	<%@ include file="../Foot.jsp" %>
 	<script>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 71138c6... Revert "Merge branch 'shwan'"
 		function checkSubmit() {
 			swal.fire("成功", "", "success").then(function() {
 				$('form').submit()
 				console.log("success")
 			})
 		}
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 		
@@ -214,6 +218,11 @@ td{
 		
 		$("#fImage").on("change",function(){
 >>>>>>> parent of d077689... Revert "Merge branch 'Yen'"
+=======
+		
+		$(function() {
+
+>>>>>>> parent of 71138c6... Revert "Merge branch 'shwan'"
 			console.log("file: " + $("#fImage").val());
             let fileReader = new FileReader();
             let imageFile = this.files[0];
