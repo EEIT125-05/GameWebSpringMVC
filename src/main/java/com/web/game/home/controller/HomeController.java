@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+<<<<<<< HEAD
+=======
+import com.web.game.contest.service.ContestService;
+>>>>>>> parent of b5807e1... Revert "Merge branch 'SungChain'"
 import com.web.game.exchange.service.ExchangeService;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
@@ -34,6 +38,12 @@ public class HomeController {
 	@Autowired
 	ExchangeService exchangeService;
 	
+<<<<<<< HEAD
+=======
+	@Autowired
+	ContestService cService;
+	
+>>>>>>> parent of b5807e1... Revert "Merge branch 'SungChain'"
 	@GetMapping("/")
 	public String gameIndex(@CookieValue(required = false) String JSESSIONID,
 							@CookieValue(required = false) String user,
@@ -118,7 +128,11 @@ public class HomeController {
 	
 	@GetMapping("/backstage/Contest")
 	public String gotoContestBackStage(Model model) {
+<<<<<<< HEAD
 		
+=======
+		model.addAttribute("allContest", cService.selectAllContest());
+>>>>>>> parent of b5807e1... Revert "Merge branch 'SungChain'"
 		
 		
 		return "backstage/Contest";

@@ -479,6 +479,7 @@ body{
 			<a class="btn btn-primary" data-toggle="collapse" href="#rematchCollapse" role="button" aria-expanded="false" aria-controls="#rematchCollapse">複賽戰績</a>
 			
 			<div class="collapse" id="rematchCollapse" style="margin-top:20px;margin-bottom:20px">
+<<<<<<< HEAD
 	  			<div class="card card-body">	
 	  			
 		  			<c:if test="${cContestBean.sHost == user.sAccount}">
@@ -528,6 +529,68 @@ body{
 					<br>
 					
 				</div>
+=======
+			
+			
+				<c:choose>
+					<c:when test="${empty lRematchRecords}"> 
+						<p>複賽賽程尚未安排</p>
+					</c:when>
+					<c:otherwise>
+						
+			  			<div class="card card-body">	
+			  			
+				  			<c:if test="${cContestBean.sHost == user.sAccount}">
+					  			<div style="margin-bottom:10px">
+					  				<button id="saveRematchRecord" class="btn btn-success" value="${cContestBean.iNo}">更新戰績</button>
+					  			</div>
+				  			</c:if>
+			  				
+								<table>
+									<thead>
+										<tr>
+											<th>場次</th>
+											<th>參賽者1</th>
+											<th>參賽者2</th>
+											<th>勝方</th>
+										</tr>
+									</thead>
+							        <tbody>
+										<c:forEach var="record" items="${lRematchRecords}">
+											<tr>	
+												<c:choose>
+													<c:when test="${cContestBean.sHost == user.sAccount}">
+														<td>${record.iKnockoutNo}</td>
+														<c:choose>
+															<c:when test="${record.sPlayers1 != 'none'}">
+																<td class="tdPlayerR">${record.sPlayers1}</td>
+																<td class="tdPlayerR">${record.sPlayers2}</td>
+															</c:when>
+															<c:otherwise>
+																<td>${record.sPlayers1}</td>
+																<td>${record.sPlayers2}</td>
+															</c:otherwise>
+														</c:choose>
+														<td class="tdWinnerR">${record.sWinner}</td>
+													</c:when>
+													<c:otherwise>
+														<td>${record.iKnockoutNo}</td>
+														<td>${record.sPlayers1}</td>
+														<td>${record.sPlayers2}</td>
+														<td>${record.sWinner}</td>
+													</c:otherwise>
+												</c:choose>
+											</tr>
+										</c:forEach>
+							        </tbody>
+								</table>
+							<br>
+							
+						</div>
+				
+				</c:otherwise>
+				</c:choose>
+>>>>>>> parent of b5807e1... Revert "Merge branch 'SungChain'"
 			</div>
 
 
