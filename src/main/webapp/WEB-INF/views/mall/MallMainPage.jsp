@@ -121,11 +121,11 @@
 		<div class="row">
 			<c:forEach var="row" items="${rs.rows}">
 				<!-- 				 <div style="display:inline"> -->
-			<div style="border: 2px solid red; width: 350px; height: 250px;margin-left: 20px; margin-bottom: 35px;">
-				<div style="border: 2px solid red; width: 150px;height: 200; margin: 20px 20px 35px 15px ; float: left;">
+			<div style=" width: 350px; height: 250px;margin-left: 20px; margin-bottom: 35px;">
+				<div style=" width: 150px;height: 200; margin: 20px 20px 35px 15px ; float: left;">
 					<img 
 					src="${pageContext.request.contextPath }/${row.origin}"
-					style="width: 150; height: 200;" alt="" />
+					style="width: 150; height: 220;" alt="" />
 				</div>
 				<div style=" width: 125px;height: 200; margin: 20px 20px 10px 10px ; float: right;">
 				<p>名稱: ${row.name}</p>
