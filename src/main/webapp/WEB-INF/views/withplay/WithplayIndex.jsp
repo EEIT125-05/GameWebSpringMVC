@@ -81,10 +81,10 @@ response.setContentType("text/html;charset=UTF-8");
 									src='${pageContext.request.contextPath}/withplay/picture/${With.iId}'>
 								</a>
 								<!-- 								<a> -->
-								<div>${With.sNickname}</div>
-								<div>${With.sGame}</div>
+								<div style="font-family:Microsoft JhengHei;font-size:16px;"><span>${With.sNickname}</span></div>
+								<div style="font-size:14px;"><span>評價(${fn:length(With.sReplyBeans)})</span></div>
 								<div>
-									<p>
+									<p style="color:#FA006E;font-weight:bold;font-size:21px;">
 										<span>$</span> <span>${With.iPrice}</span> <span>/局</span>
 									</p>
 								</div>
@@ -99,7 +99,7 @@ response.setContentType("text/html;charset=UTF-8");
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+									<h5 class="modal-title" id="exampleModalLabel"><img src='${pageContext.request.contextPath}/withplay/picture/${With.iId}' class="rounded-circle" alt="Cinque Terre" width="32px" height="32px">${With.sNickname} </h5>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
@@ -108,17 +108,24 @@ response.setContentType("text/html;charset=UTF-8");
 								<div class="modal-body">
 									<div class="container-fluid">
 										<div class="row">
-											<a> <img class="img1"
+										<div class="col-md-6 ml"><a> <img style="width:200px;height:200px;border-radius: 20px;"
 												src='${pageContext.request.contextPath}/withplay/picture/${With.iId}'>
-											</a>
-											<div>${With.sGame}</div>
-											<div>${With.sNickname}</div>
+											</a></div>
+											<div class="col-md-6 ml-auto">
+											<div ><span style="font-weight:bold;font-size:24px;">${With.sGame}</span></div>
+											<div><span style="font-size:14px;">接單次</span></div>
+											<div>
+													<p style="color:#D87901;font-weight:bold;font-size:21px;">
+														<span>$</span> <span>${With.iPrice}</span> <span>/局</span>
+													</p>
+												</div>
+											<div><span style="font-weight:bold;">介紹</span><span style="font-size:14px;">介紹</span></div>
+											</div>
+											</div>											
 											<hr>
+											<div class="row" >
 											<form action="<c:url value='/withplay/Reply'/>" method="post">
-
-
-												<hr>
-												<div style="position: relative">
+												<div style="width:466px">
 													<c:forEach var="reply" items="${With.sReplyBeans}">
 														<jsp:useBean id="nowDate" class="java.util.Date" />
 														<fmt:formatDate var="dateString" value="${nowDate}"
@@ -140,13 +147,10 @@ response.setContentType("text/html;charset=UTF-8");
 																	
 															</c:otherwise>
 														</c:choose>
-														<label>${reply.sAuthor}</label>
-														<label> : ${reply.sText}</label>
-														<label style="position: absolute; right: 0">${timeString}</label>
+														<label style="word-break: break-all;width:466px">${user.sNickname}: ${reply.sText}<span style="float:right;">${timeString}</span></label>														
 														<br>
 													</c:forEach>
 												</div>
-
 												<hr>
 												<div>							
 												<c:set var="showReply" value="false"/>
@@ -172,9 +176,8 @@ response.setContentType("text/html;charset=UTF-8");
 														
 												</div>
 											</form>
+											</div>
 
-
-										</div>
 									</div>
 								</div>
 								<form action="<c:url value='/withplay/Order'/>" method="post">
