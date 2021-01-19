@@ -193,6 +193,9 @@ td{
 	<script>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 71138c6... Revert "Merge branch 'shwan'"
 =======
 >>>>>>> parent of 71138c6... Revert "Merge branch 'shwan'"
 		function checkSubmit() {
@@ -201,6 +204,7 @@ td{
 				console.log("success")
 			})
 		}
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -218,6 +222,11 @@ td{
 		
 		$("#fImage").on("change",function(){
 >>>>>>> parent of d077689... Revert "Merge branch 'Yen'"
+=======
+		
+		$(function() {
+
+>>>>>>> parent of 71138c6... Revert "Merge branch 'shwan'"
 =======
 		
 		$(function() {
