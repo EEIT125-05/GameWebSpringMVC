@@ -177,7 +177,7 @@ ul.pagination li a:hover:not(.active) { background-color: #ddd; }
 
 		</c:forEach>
 	</div>
-	<div id="pagediv">
+	<div id="pagediv" style="text-align: center;">
 		<ul id="pageul" class='pagination'>
 		</ul>
 	
