@@ -51,11 +51,11 @@
 										<p>商品評分 : ${row.name}</p>
 										<p>商品簡介 : ${row.item}</p>
 										
-										<p></p><input  class="form-control"  type="text" name="qty" >
-										<button class="btn btn-warning" type="submit" name="todo"
-										value="${todo}">購買數量</button>
+										<p></p><input placeholder="請輸入需要購買數量" class="form-control"  type="text" name="qty" >
+										<br><button class="btn btn-warning" type="submit" name="todo"
+										value="${todo}">確認加入購物車</button>
 									</p>
-									<p><a class="btn btn-secondary" href="<c:url value='/mall/Addshop'/>">我的購物車</a>
+									<p><a class="btn btn-secondary" href="<c:url value='/mall/Addshop'/>">回到我的購物車</a>
 									</p>
 
 

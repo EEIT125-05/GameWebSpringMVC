@@ -101,7 +101,7 @@ public class MallController {
 		model.addAttribute("reg_student", reg_student);
 
 		ms.UpdateStudent(reg_student);
-		return "/mall/MallInquire_All_Update";
+		return "/mall/MallInquire_All";
 	}
 ////新增資料
 	@GetMapping("/new")

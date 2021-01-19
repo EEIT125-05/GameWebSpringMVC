@@ -44,7 +44,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
                     <label>
 						
-						商品編號:<input type="text"   name="no" size="10" maxlength="10">
+						商品編號(預設):<input type="text"  placeholder="預設" value="111" name="no" size="10" maxlength="10">
 					
 					</label>
 

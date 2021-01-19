@@ -33,6 +33,11 @@ input.qtyminus {
   border: 1px solid #aaa;
   background: #f8f8f8;
 }
+mark.yellow {
+	background: linear-gradient(transparent 40%,rgba(255,255,255,0) 40%, #FFF176 90%,transparent 95%);	
+    padding: 2px 1px;
+}
+
 </style>
 </head>
 <body>
@@ -93,6 +98,7 @@ input.qtyminus {
 
 
 				</td>
+				
 				<td align="right"><%=aCartItem.getPrice() * aCartItem.getQtyOrdered()%></td>
 				<td><input class="btn btn-danger" type="submit" value="刪除"></td>
 			</form>
@@ -102,11 +108,9 @@ input.qtyminus {
 		}
 		%>
 		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td><%=totprice%></td>
-			<td></td>
+			<td align="right" colspan="5"><mark class="yellow">總額:<%=totprice%></mark></td>
+			
+			
 		</tr>
 	</table>
 	<br />
