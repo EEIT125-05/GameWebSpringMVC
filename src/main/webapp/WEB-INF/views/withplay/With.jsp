@@ -58,7 +58,7 @@
 						src='${pageContext.request.contextPath}/withplay/picture/${With.iId}' /></td>
 					<td style="word-break: break-all; width:300px" >${With.sComment}</td>
 					<td>${With.iPrice}</td>
-					<td><a
+					<td><a class='btn btn-outline-dark'
 						href="${pageContext.request.contextPath}/withplay/edit/${With.iId}">Edit</a>
 						&nbsp;&nbsp; 
 <!-- 						<a class='deletelink' -->

@@ -25,7 +25,7 @@ input {
 	<h1 align='center'>忘記密碼</h1>
 	<hr>
 	<form action="<c:url value='/member/JavaMail'/>" method="post">
-		<div align='center' style='padding-bottom:240;'>
+		<div align='center'>
 			<div align='center'
 				style="border: 3px solid gray; width: 450; height: 250;padding-top:15;background-color: #272727;color: white;">
 				<H3 align='center'>

@@ -10,6 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <title>With Play</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 <script>
 	let Commentflag = false;
 	function checkComment() {
@@ -122,7 +124,8 @@ td{
 					 pattern="^[\u4e00-\u9fa5]+$" minlength="6" placeholder="輸入中文六個字以上"/><span id="idname"></span></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type="submit" class="button"></td>
+					<td colspan="2" align="center"><button type="button"
+									class="button" onclick="checkSubmit()">送出</button></td>
 				</tr>
 				</tbody>
 			</table>
@@ -133,6 +136,14 @@ td{
 	
 	<%@ include file="../Foot.jsp" %>
 	<script>
+	
+	function checkSubmit() {
+		swal.fire("成功", "", "success").then(function() {
+			$('form').submit()
+			console.log("success")
+		})
+	}
+	
 	$(function(){
 		
 		console.log("file: " + $("#fImage").val());

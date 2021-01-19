@@ -95,11 +95,9 @@ button:hover{
 		let c = document.getElementById("idpasswordConfirm");
 		if (passwordConfirm.value == "") {
 			c.innerHTML = ("<font color='red'>請輸入密碼</font>");
-// 			document.getElementById("submit").disabled = true;
 		} else {
 			if (password.value == passwordConfirm.value) {
 				c.innerHTML = "<font color='green'>OK</font>";
-// 				document.getElementById("submit").disabled = false;
 			} else {
 				c.innerHTML = "<font color='red'>密碼不相同</font>";
 			}
@@ -132,18 +130,18 @@ button:hover{
 
 	}
 
-// 	function checkNickname() {
-// 		let nickname = document.getElementById("Nickname").value;
-// 		let idnickname = document.getElementById("idnickname");
-// 		if (nickname == "") {
-// 			idnickname.innerHTML = "<font color='red'>請輸入暱稱</font>";
-// 			nicknameflag = false;
-// 		} else {
-// 			idnickname.innerHTML = "<font color='green'>OK</font>";
-// 			nicknameflag = true;
-// 		}
-// 		check();
-// 	}
+	function checkNickname() {
+		let nickname = document.getElementById("Nickname").value;
+		let idnickname = document.getElementById("idnickname");
+		if (nickname == "") {
+			idnickname.innerHTML = "<font color='red'>請輸入暱稱</font>";
+			nicknameflag = false;
+		} else {
+			idnickname.innerHTML = "<font color='green'>OK</font>";
+			nicknameflag = true;
+		}
+		check();
+	}
 
 // 	function checkEmail() {
 // 		let email = document.getElementById("Email").value;
@@ -225,18 +223,18 @@ button:hover{
 // 		}
 // 	}
 
-// 	function checkAddress() {
-// 		let address = document.getElementById("Address").value;
-// 		let idaddress = document.getElementById("idaddress");
-// 		if (address == "") {
-// 			idaddress.innerHTML = "<font color='red'>請輸入地址</font>";
-// 			addressflag = false;
-// 		} else {
-// 			idaddress.innerHTML = "<font color='green'>OK</font>";
-// 			addressflag = true;
-// 		}
-// 		check();
-// 	}
+	function checkAddress() {
+		let address = document.getElementById("Address").value;
+		let idaddress = document.getElementById("idaddress");
+		if (address == "") {
+			idaddress.innerHTML = "<font color='red'>請輸入地址</font>";
+			addressflag = false;
+		} else {
+			idaddress.innerHTML = "<font color='green'>OK</font>";
+			addressflag = true;
+		}
+		check();
+	}
 
 // 	function check() {
 // 		if (passwordflag && nicknameflag && nameflag && addressflag
@@ -291,14 +289,14 @@ button:hover{
 						value="${user.sAccount}" readonly></td>
 				<tr class="b">
 					<td>更改密碼</td>
-					<td>:<input id="Password" type="password" name="sPassword" minlength="8"
-						 maxlength="16" onblur="checkPassword();"
+					<td>:<input id="Password" type="password" name="password" minlength="8"
+						required maxlength="16" onblur="checkPassword();"
 						value="${user.sPassword}"><input id="btn" type="button"
 						class="material-icons" style="font-size: 25px" value="visibility"></td>
 				<tr class="b">
 					<td>再次確認密碼</td>
 					<td>:<input id="passwordConfirm" type="password"
-						name="password" minlength="8" 
+						name="sPassword" minlength="8" placeholder="修改前請再次輸入密碼" 
 						maxlength="16" onblur="checkPassword();"><span
 						id="idpasswordConfirm"></span>
 					</td>
@@ -379,7 +377,7 @@ button:hover{
 			</table>
 			
 			<H2 align='center'>
-				<button id="submit" name="submit" type="submit"
+				<button id="submit" name="submit" type="submit" 
 					style=" margin-top: 30; font-weight: 900; border-radius: 10px;">
 					<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
 						fill="currentColor" class="bi bi-cloud-arrow-up-fill"

@@ -10,9 +10,32 @@
 <head>
 <meta charset="UTF-8">
 <title>交換版首頁</title>
+	<%@ include file="../Header.jsp"%>
+	<style>
+		ul.pagination li a.active {
+background-color: #4CAF50;
+color: white;
+}
+
+ul.pagination li a:hover:not(.active) { background-color: #ddd; }
+	
+		ul.pagination {
+		display: inline-block;
+		padding: 0;
+		margin: 0;
+		}
+		
+		ul.pagination li { display: inline; }
+		
+		ul.pagination li a {
+		color: black;
+		float: left;
+		padding: 8px 16px;
+		text-decoration: none;
+		}
+	</style>
 </head>
 <body>
-	<%@ include file="../Header.jsp"%>
 <%-- 	<form method='get' action='<c:url value="/exchange/preparehomepage"/>'> --%>
 
 
@@ -154,12 +177,10 @@
 
 		</c:forEach>
 	</div>
-	<div id="pagediv">
-		<c:if test="${p > 1}">
-			<c:forEach var="num" begin="1" end="${p }" step="1">
-				<a class="page"><i>${num}</i></a>
-			</c:forEach>
-		</c:if>
+	<div id="pagediv" style="text-align: center;">
+		<ul id="pageul" class='pagination'>
+		</ul>
+	
 	</div>
 	</div>
 	</div>
@@ -247,13 +268,14 @@
 								+ "</div>"
 								+ "</div>"
 								+ "</div></div></div>"
-					}
+				}
 				divout.innerHTML += "</div>"
-				pagediv.innerHTML = ""
+// 				pagediv.innerHTML = ""
+				$('#pageul').empty()
 				if(!t.totalPage == false){
 				for (let i = 1; i <= t.totalPage; i++) {
 					console.log(i)
-					pagediv.innerHTML += "<a onclick='changeConditionByPage("+i+");'>"+i+"</a>"
+					$('#pageul').append("<li><a onclick='changeConditionByPage("+i+");'>"+i+"</a></li>")
 				}
 				}
 			}

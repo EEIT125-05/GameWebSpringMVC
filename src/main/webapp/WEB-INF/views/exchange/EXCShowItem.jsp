@@ -21,7 +21,7 @@
  
 
 <!--  class="text-danger" -->
-<p >
+<p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" >
     我要換/共${fn:length(MemberSupport)}筆
   </a>
@@ -75,7 +75,7 @@
 								<td><a class="btn btn-primary btn-sm"
 									href="<c:url value="/exchange/update?updateindex=${vs.index}"/>">修改</a></td>
 							</c:when>
-							<c:when test="${s.status == 1 || s.status ==2 ||s.status ==3 || s.status ==4}">
+							<c:when test="${s.status == 1 || s.status ==2 ||s.status ==3 || s.status ==4 || s.status ==5}">
 								<td><a class="btn btn-primary disabled btn-sm">刪除</a></td>
 								<td><a class="btn btn-primary disabled btn-sm">修改</a></td>
 							</c:when>
@@ -98,6 +98,9 @@
     							</c:when>
     							<c:when test="${s.status == 4}">
     							已向 ${s.mygamebean.changehistorybean.partyA.sAccount } 提出交換申請
+    							</c:when>
+    							<c:when test="${s.status == 5}">
+    							<span class="text-danger">已被管理員暫時下架</span>
     							</c:when>
 							</c:choose></td>
 					</tr>
@@ -156,7 +159,7 @@
 										<td><a class="btn btn-primary btn-sm"
 											onclick="deleteCheck('Demand','${d.no}');"/>刪除</a></td>
 									</c:when>
-									<c:when test="${d.status == 1 || d.status ==2}">
+									<c:when test="${d.status == 1 || d.status ==2 ||d.status ==5}">
 										<td><a class="btn btn-primary disabled btn-sm">刪除</a></td>
 									</c:when>
 								</c:choose>
@@ -171,6 +174,9 @@
 								<c:when test="${d.status == 2}">
     								<a class="btn btn-primary btn-sm" style="background-color: green;" href='<c:url value="showDemandApplyFor?no=${d.wishhistorybean.no }"/>' >待審核</a>
     							(來自${d.wishhistorybean.partyA.sAccount }的交換請求)
+    							</c:when>
+								<c:when test="${d.status == 5}">
+    							<span class="text-danger">已被管理員暫時下架</span>
     							</c:when>
 									</c:choose></td>
 

@@ -23,9 +23,9 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public Boolean InsertMember(MemberBean insertMB) {
+	public Boolean InsertMember(MemberBean InsertMB) {
 		Session session = getSession();
-		session.save(insertMB);
+		session.save(InsertMB);
 		System.out.println("成功儲存");
 		return true;
 	}
@@ -145,7 +145,23 @@ public class MemberDaoImpl implements MemberDao {
 		}
 		return Email;
 	}
-	
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<MemberBean> getAllMembers() {
+		List<MemberBean> list = new ArrayList<MemberBean>();
+		String hql = "FROM MemberBean";
+		Session session = getSession();
+		Query<MemberBean> query = session.createQuery(hql);
+		list = query.getResultList();
+		return list;
+	}
+
+	@Override
+	public MemberBean get(Integer iNo) {
+		return factory.getCurrentSession().get(MemberBean.class, iNo);
+	}
+
 	@Override
 	public String CheckPhone(String sPhone) {
 		Session session = factory.getCurrentSession();
@@ -162,22 +178,6 @@ public class MemberDaoImpl implements MemberDao {
 			Phone = "Error: 資料庫異常，請檢查資料庫";
 		}
 		return Phone;
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<MemberBean> getAllMembers() {
-		List<MemberBean> list = new ArrayList<MemberBean>();
-		String hql = "FROM MemberBean";
-		Session session = getSession();
-		Query<MemberBean> query = session.createQuery(hql);
-		list = query.getResultList();
-		return list;
-	}
-
-	@Override
-	public MemberBean get(Integer iNo) {
-		return factory.getCurrentSession().get(MemberBean.class, iNo);
 	}
 
 	@Override

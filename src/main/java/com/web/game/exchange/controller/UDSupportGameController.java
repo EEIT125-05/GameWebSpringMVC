@@ -18,15 +18,19 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sun.mail.imap.protocol.Status;
+import com.web.game.exchange.model.ChangeHistoryBean;
 import com.web.game.exchange.model.DemandGameBean;
 import com.web.game.exchange.model.MyGameBean;
 import com.web.game.exchange.model.SupportGameBean;
+import com.web.game.exchange.model.WishHistoryBean;
 import com.web.game.exchange.service.ExchangeService;
 import com.web.game.member.model.MemberBean;
 
@@ -38,9 +42,41 @@ public class UDSupportGameController {
 	@Autowired
 	ExchangeService exchangeService;
 
+	@GetMapping("/gotoMemberData")
+	public String gotoMemberData(Model model) {
+		return "exchange/EXCMemberData";
+	}
+	
 	@GetMapping("/management")
 	public String ManageSupportGame(Model model) {
 		return "exchange/EXCShowItem";
+	}
+	
+	@PutMapping("/updateStatus")//停權用
+	public @ResponseBody boolean updateStatus(Model model,
+											  @RequestParam String type,
+											  @RequestParam Integer no,
+											  @RequestParam Integer status) {
+		boolean result = false;
+		if(status == 0) {
+			status = 5;
+		}else {
+			status = 0;
+		}
+		if(type.equals("support")) {
+			SupportGameBean supportGameBean = exchangeService.FindsupportGame(no);
+			supportGameBean.setStatus(status);
+			if(exchangeService.UpdateSupportGame(supportGameBean)) {
+			result =true;
+			}
+		}else {
+			DemandGameBean demandGameBean = exchangeService.getDemandGameBean(no);
+			demandGameBean.setStatus(status);
+			if(exchangeService.updateDemandGema(demandGameBean)) {
+				result= true;
+			}
+		}
+		return result;
 	}
 	
 	@PostMapping("/update")
@@ -105,27 +141,33 @@ public class UDSupportGameController {
 		return "exchange/EXCGameSupportForm";
 	}
 
-//	@PostMapping("/update")
-//	public String ConfirmUpdateSupportGame(Model model, RedirectAttributes attr,
-//			@ModelAttribute(value = "gamebean") SupportGameBean gamebean) {
-//		System.out.println(gamebean.getStatus());
-//		System.out.println(gamebean.getConsole());
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//		String sTimeString = sdf.format(new Date());
-//		Timestamp tTime = Timestamp.valueOf(sTimeString);
-//		gamebean.setDate(tTime);
-//		// ------重定向
-//		String sAction = "更新";
-//		String sPath = null;
-//		if (service.UpdateSupportGame(gamebean)) {
-//			sPath = "EXCThanks";
-//		} else {
-//			sPath = "EXCFail";
-//		}
-//		attr.addAttribute("action", sAction);
-//		attr.addAttribute("path", sPath);
-//		return "redirect:/exchange/Result";
-//	}
+	
+	
+	
+	@ModelAttribute("WishHistoryList")
+	public List<WishHistoryBean> getMemberWishHistory(Model model) {
+		System.out.println("memberHistoryIn");
+		List<WishHistoryBean> list = new ArrayList<WishHistoryBean>();
+		MemberBean user = (MemberBean) model.getAttribute("user");
+		Integer iUserid = user.getiNo();
+		list = exchangeService.getMemberWishHistory(iUserid);
+		System.out.println("HistotyList"+list.size());
+		System.out.println("memberHistoryOut");
+		return list;
+		
+	}
+	@ModelAttribute("ChangeHistoryList")
+	public List<ChangeHistoryBean> getMemberHistoryList(Model model) {
+		System.out.println("memberHistoryIn");
+		List<ChangeHistoryBean> list = new ArrayList<ChangeHistoryBean>();
+		MemberBean user = (MemberBean) model.getAttribute("user");
+		Integer iUserid = user.getiNo();
+		list = exchangeService.getHistoryList(iUserid);
+		System.out.println("HistotyList"+list.size());
+		System.out.println("memberHistoryOut");
+		return list;
+		
+	}
 
 	@ModelAttribute("MemberSupport")
 	public List<SupportGameBean> PackSupportGame(Model model) {
