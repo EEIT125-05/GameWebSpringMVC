@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.web.game.exchange.service.ExchangeService;
@@ -54,6 +57,35 @@ public class HomeController {
 		}
 		return "GameIndex";
 	}
+	
+	@PostMapping("/demo")
+	public String demoSignin(
+					@RequestParam String demoAccount,
+					Model model,
+					HttpServletRequest request,
+					HttpServletResponse response) {
+		
+		MemberBean SigninMB = mService.Selectmember(demoAccount);
+		model.addAttribute("user", SigninMB);
+		model.addAttribute("withplayHost", WithService.getaccount(demoAccount));
+		
+		Cookie cUser = new Cookie("user", SigninMB.getsAccount());
+		cUser.setPath("/GameWebSpringMVC");
+		cUser.setMaxAge(86400 * 7);
+		response.addCookie(cUser);
+		
+		String nextPage = (String) request.getSession(true).getAttribute("requestURI");
+		if (nextPage == null || nextPage.split("/")[1].equals("member")) {
+			nextPage = "/";
+		} else {
+			nextPage = "/" + nextPage.split("/")[1] + "/Index";
+		}
+
+		return "redirect:" + nextPage;// 登入成功回該系統的首頁
+		
+	}
+	
+	
 	
 	@GetMapping("/backstage")
 	public String gameBackStage() {
