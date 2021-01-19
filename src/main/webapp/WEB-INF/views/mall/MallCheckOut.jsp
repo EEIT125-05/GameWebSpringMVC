@@ -45,6 +45,8 @@
 			<td align="right">$<%=item.getPrice()%></td>
 			<td align="right"><%=item.getQtyOrdered()%></td>
 			<td align="right">$<%=request.getAttribute("totalPrice")%></td>
+			
+			
 		</tr>
 		<%
 			} // for
