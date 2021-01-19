@@ -85,6 +85,7 @@ public class PrepareExchangeController {
 		MemberBean mbUser = (MemberBean) model.getAttribute("user");
 		map.put("list",list);
 		map.put("mbUser",mbUser);
+		System.out.println(list.size());
 		System.out.println(mbUser);
 		System.out.println("addFilterOut");
 		return map;
