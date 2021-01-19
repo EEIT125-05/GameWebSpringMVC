@@ -122,6 +122,7 @@ div {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 				<div class="showImage">
 					<label for="image">圖片 </label> <span id="imagespan"></span> <br>
 					<input type="file" name="file" id="uploadFile" onchange="ajax();" />
@@ -145,6 +146,11 @@ div {
 					<label for="image">圖片 </label> <span id="imagespan"></span> <br>
 					<input type="file" name="file" id="uploadFile" onchange="ajax();" />
 >>>>>>> parent of cb503d4... 202101200730
+=======
+				<div>
+					<label for="image">圖片 </label> <span id="imagespan"></span> <br>
+					<input type="file" name="file" id="uploadFile" />
+>>>>>>> parent of 5fe28e4... Merge branch 'Henry'
 				</div>
 			</c:if>
 			<c:if test="${update != null }">
@@ -182,6 +188,7 @@ div {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> parent of cb503d4... 202101200730
 =======
@@ -191,6 +198,8 @@ div {
 			$('#uploadFile').val()
 		}
 		
+=======
+>>>>>>> parent of 5fe28e4... Merge branch 'Henry'
 =======
 >>>>>>> parent of 5fe28e4... Merge branch 'Henry'
 =======
