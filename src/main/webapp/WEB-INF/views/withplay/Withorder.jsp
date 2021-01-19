@@ -42,7 +42,7 @@ input[type=number]::-webkit-inner-spin-button {
 		<div style="background-color:#FFFAF4;border-radius: 15px;">
 			<div
 				style="margin: 25px; height: 700px;padding-top:20px;padding-bottom:20px">
-				<h2 style="padding-top:15px;font-weight:bold;">確認訂單</h2>
+				<h2 style="padding-top:15px">確認訂單</h2>
 				<div style="height: 600px; width: 775px;float:left;">
 				<hr>
 					<div style="float:left;hegiht:300px;width:775px;padding-bottom:20px;display:  flex; align-items: center; justify-content:  center;">
@@ -69,8 +69,9 @@ input[type=number]::-webkit-inner-spin-button {
 						
 					</div>
 					<div>
-						<h3 style="font-weight:bold;">注意事項:</h3>
+						<h3 style="font-weight:bold;">付款方式</h3>
 					</div>
+<<<<<<< HEAD
 						<div>
 						<ul style="list-style-type:decimal;font-size:20px;font-weight:bold;color:#7D7D7D;">
 						　<li>下單前建議先與陪玩師聯繫，彼此約定雙方適當時間，避免彼此產生交易糾紛。</li>
@@ -83,6 +84,9 @@ input[type=number]::-webkit-inner-spin-button {
 						</ul>
 						
 						</div>
+=======
+						<div>7</div>
+>>>>>>> parent of d077689... Revert "Merge branch 'Yen'"
 				</div>
 				<div style="height: 200px; width: 310px;float:right;padding:15px;margin-top:30px;background-color:fefcfb;border-radius:15px">
 					<div>
