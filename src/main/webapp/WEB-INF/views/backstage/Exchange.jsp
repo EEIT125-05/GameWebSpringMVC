@@ -7,9 +7,9 @@
 <meta charset="UTF-8">
 <title>後台管理</title>
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/paper-dashboard.css" />
+<%@ include file="../Link.jsp"%>
 <script src='//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js'></script>
 <link rel='stylesheet' href='https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css'>
-<%@ include file="../Link.jsp"%>
 <style>
 
 .checkinput[type=checkbox]{

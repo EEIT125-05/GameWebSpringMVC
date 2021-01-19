@@ -284,8 +284,8 @@ input {
 							<option value="ccc">昌孝1</option>
 							<option value="ddd">昌孝2</option>
 							<option value="Jack1234">嵩謙</option>
-							<option value="Mary5555">冠惟1</option>
-							<option value="fff">冠惟2</option>
+							<option value="hernycccc">冠惟1</option>
+							<option value="benchang">冠惟2</option>
 						</select>
 						<button type="submit">DEMO</button>
 					</form>
