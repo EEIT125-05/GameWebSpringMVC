@@ -205,6 +205,10 @@ td {
 				console.log("success")
 			})
 		}
+<<<<<<< HEAD
+=======
+		
+>>>>>>> parent of 71138c6... Revert "Merge branch 'shwan'"
 		$(function() {
 
 			console.log("file: " + $("#fImage").val());
