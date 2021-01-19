@@ -25,7 +25,7 @@
       <li class="breadcrumb-item">
         <a href="<c:url value='/'/>">Home</a>
       </li>
-      <li class="breadcrumb-item active">我的訂單</li>
+      <li class="breadcrumb-item active">管理資料</li>
     </ol>
 
 	<div align="center" >
@@ -55,7 +55,7 @@
 			<tr>
 				<th>編號</th>
 				<th>照片</th>
-				<th>陪玩師</th>
+				<th>陪玩主</th>
 				<th>訂單時間</th>
 				<th>遊戲</th>
 				<th >消費金額</th>
@@ -101,7 +101,7 @@
 
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
-    	陪玩師目前訂單${fn:length(WithOrder2)}筆
+    	我要徵共${fn:length(WithOrder2)}筆
   </a>
 </p>
 
@@ -310,6 +310,14 @@ $(document).ready(function() {
 	})
 	
 
+// 	$('.deletelink').click(function() {
+// 		if (confirm('確定刪除此筆紀錄? ')) {
+// 			var href = $(this).attr('href');
+// 			$('form').attr('action', href).submit();
+// 		}
+// 		return false;
+
+// 	});
 	
 });
 </script>
