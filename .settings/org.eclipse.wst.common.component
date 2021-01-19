@@ -7,6 +7,11 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
                 
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+<<<<<<< HEAD
+=======
+                
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+>>>>>>> parent of 5fe28e4... Merge branch 'Henry'
         <property name="context-root" value="GameWebSpringMVC"/>
                 
         <property name="java-output-path" value="/GameWebSpringMVC/target/classes"/>

@@ -118,9 +118,15 @@ div {
 				<form:input class="fixedlen" type="text" path="remark" />
 			</div>
 			<c:if test="${insert != null }">
+<<<<<<< HEAD
 				<div class="showImage">
 					<label for="image">圖片 </label> <span id="imagespan"></span> <br>
 					<input type="file" name="file" id="uploadFile" onchange="ajax();" />
+=======
+				<div>
+					<label for="image">圖片 </label> <span id="imagespan"></span> <br>
+					<input type="file" name="file" id="uploadFile" />
+>>>>>>> parent of 5fe28e4... Merge branch 'Henry'
 				</div>
 			</c:if>
 			<c:if test="${update != null }">
@@ -154,11 +160,14 @@ div {
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 	<script>
 		
+<<<<<<< HEAD
 		function ajax(){
 			console.log($('#uploadFile'))
 			$('#uploadFile').val()
 		}
 		
+=======
+>>>>>>> parent of 5fe28e4... Merge branch 'Henry'
 		function checkSubmit(){
 			swal.fire("${action}成功",
 					  "",
