@@ -112,8 +112,6 @@ public class HomeController {
 		map.put("demand",exchangeService.getAllDemandList());
 		model.addAttribute("AllListMap",map);
 		return "backstage/Exchange";
-=======
-		return "Backstage";
->>>>>>> parent of 76f98ae... Merge branch 'SungChain'
+
 	}
 }
