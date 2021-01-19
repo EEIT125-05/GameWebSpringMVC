@@ -71,7 +71,6 @@ input[type=number]::-webkit-inner-spin-button {
 					<div>
 						<h3 style="font-weight:bold;">付款方式</h3>
 					</div>
-
 						<div>
 						<ul style="list-style-type:decimal;font-size:20px;font-weight:bold;color:#7D7D7D;">
 						　<li>下單前建議先與陪玩師聯繫，彼此約定雙方適當時間，避免彼此產生交易糾紛。</li>
