@@ -71,42 +71,38 @@ input[type=number]::-webkit-inner-spin-button {
 					<div>
 						<h3 style="font-weight:bold;">付款方式</h3>
 					</div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of 71138c6... Revert "Merge branch 'shwan'"
-=======
->>>>>>> parent of 71138c6... Revert "Merge branch 'shwan'"
+
 						<div>
 						<ul style="list-style-type:decimal;font-size:20px;font-weight:bold;color:#7D7D7D;">
 						　<li>下單前建議先與陪玩師聯繫，彼此約定雙方適當時間，避免彼此產生交易糾紛。</li>
 						　<li>完成訂單後，若該筆訂單尚未完成，將不予以重複下單。</li>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 						　<li>若認為服務有疑慮，用戶可申請退款，若陪玩師未再24小回覆，退款則自動成立；若陪玩師否決退款，於7天內會完成該次訂單交易。。</li>
-=======
+
 						　<li>若認為服務有疑慮，用戶可申請退款，若陪玩師未再24小時回覆，退款則自動成立；若陪玩師否決退款，於7天內會完成該次訂單交易。</li>
->>>>>>> parent of 71138c6... Revert "Merge branch 'shwan'"
+
 						</ul>
 						
 						</div>
-=======
+
 						<div>7</div>
->>>>>>> parent of d077689... Revert "Merge branch 'Yen'"
-=======
+
+
 						　<li>若認為服務有疑慮，用戶可申請退款，若陪玩師未再24小時回覆，退款則自動成立；若陪玩師否決退款，於7天內會完成該次訂單交易。</li>
 						</ul>
 						
 						</div>
->>>>>>> parent of 71138c6... Revert "Merge branch 'shwan'"
-=======
+
 						　<li>若認為服務有疑慮，用戶可申請退款，若陪玩師未再24小時回覆，退款則自動成立；若陪玩師否決退款，於7天內會完成該次訂單交易。</li>
 						</ul>
 						
 						</div>
->>>>>>> parent of 71138c6... Revert "Merge branch 'shwan'"
+
+						　<li>若認為服務有疑慮，用戶可申請退款，若陪玩師未再24小時回覆，退款則自動成立；若陪玩師否決退款，於7天內會完成該次訂單交易。</li>
+						</ul>
+						
+						</div>
+
 				</div>
 				<div style="height: 200px; width: 310px;float:right;padding:15px;margin-top:30px;background-color:fefcfb;border-radius:15px">
 					<div>
