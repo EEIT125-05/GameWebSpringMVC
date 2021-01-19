@@ -24,7 +24,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
 <body>
 	<%@ include file="../Header.jsp"%>
-	<div class="container " style="background-color:#ffffff">
+	<div class="container">
 
 		<h1 class="mt-4 mb-3">
 			商品 <small>新增資料</small>
@@ -44,7 +44,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
                     <label>
 						
-						商品編號(預設):<input type="text"  placeholder="預設" value="111" name="no" size="10" maxlength="10">
+						商品編號:<input type="text"   name="no" size="10" maxlength="10">
 					
 					</label>
 
@@ -131,10 +131,8 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 						</select>
 					</label>
 					<label>
-					
-					商品尺寸:<input type="file" class="custom-file-input" id="inputGroupFile03" name="size">
-					       
-				
+					商品尺寸:<input type="text" name="size" maxlength="10">
+						
 					</label>
 					<label>
 						商品圖片:<input type="text" name="origin" maxlength="max">
