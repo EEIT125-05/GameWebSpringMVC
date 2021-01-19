@@ -12,81 +12,144 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 %>
 <head>
 <meta charset="UTF-8">
+<script
+	src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
-<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
-
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+	integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+	crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf8"
+	src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<canvas id="myChart" width="400" height="400"></canvas>
 <style>
 td {
 	border: 2px solid gray;
 	background-color: #272727;
 	color: white;
 }
+
+#DIV1 {
+	width: 400px;
+	line-height: 50px;
+	padding: 10px;
+	border: 5px gray solid;
+	margin-left: 50;
+	/* 	float: left; */
+}
+
+.a {
+	width: 450px;
+	height: 80px;
+	border: 2px solid black;
+	background-color: #272727;
+	margin: auto;
+	margin-bottom: 100px;
+	font-size: 50;
+	font-weight: 900;
+}
+
+.a:hover {
+	background-color: white;
+	color: black;
+}
 </style>
+
 <title>管理會員資料</title>
 </head>
 <%@ include file="../Header.jsp"%>
 <body>
 	<H1 align='center'>會員後台管理</H1>
 	<br>
-	<hr>
+	<hr style="color: black; border: 1px solid;">
+	<div id="DIV1">
+		<H1>GameBar後台管理</H1>
+		<table>
+			<tr>
+				<td class="a"><a href="####">後台會員管理</a></td>
+			</tr>
+			<tr>
+				<td class="a"><a href="####">後台商城管理</a></td>
+			</tr>
+			<tr>
+				<td class="a"><a href="####">後台討論區管理</a></td>
+			</tr>
+			<tr>
+				<td class="a"><a href="####">後台陪玩管理</a></td>
+			</tr>
+			<tr>
+				<td class="a"><a href="####">後台賽事管理</a></td>
+			</tr>
+			<tr>
+				<td class="a"><a href="####">後台交換管理</a></td>
+			</tr>
+		</table>
+	</div>
+
 	<form>
 		<input type='hidden' name='_method' value='DELETE'>
 	</form>
+	<hr style="color: black; border: 1px solid;">
 	<div align='center'>
 		<c:choose>
 			<c:when test="${empty users}">沒有任何會員資料<br>
 			</c:when>
 
 			<c:otherwise>
-				<table id='tablee' style="text-align: center;width:80%;"><thead>
-					<tr style='background-color: limegreen;height:72;' >
-						<th width='40' type="">編號</th>
-						<th width='30'>照片</th>
-						<th width='30'>帳號</th>
-						<th width='30'>暱稱</th>
-						<th width='10'>姓名</th>
-						<th width='30'>信箱</th>
-						<th width='30'>居住地</th>
-						<th width='30'>手機號碼</th>
-						<th width='40'>性別</th>
-						<th width='30'>生日</th>
-						<th width='30'>建立日期</th>
-						<th width='30'>狀態</th>
-						<th width='70'>資料維護</th>
-					</tr></thead><tbody>
-					<c:forEach var='user' items='${users}'>
-						<tr>
-							<td>${user.iNo}</td>
-							<td><img width='60' height='80'
-								src="<c:url value='/member/picture/getall/${user.sAccount}'/>"></td>
-							<%-- 							<td><a href="<c:url value='/member/${user.iNo}'/>" --%>
-							<%-- 								method="post">${user.iNo}</a></td> --%>
-							<td><a
-								href="<c:url value='/member/Update?sAccount=${user.sAccount}'/>"> <input
-									type="button" value="${user.sAccount}"
-									style='background-color: skyblue; width: 100%; height: 100%;'></a></td>
-							<%-- 							<td>${user.sAccount}</td> --%>
-							<td>${user.sNickname}</td>
-							<td>${user.sEname}</td>
-							<td>${user.sEmail}</td>
-							<td>${user.sAddress}</td>
-							<td>${user.sPhone}</td>
-							<td>${user.sGender}</td>
-							<td>${user.sBirthday}</td>
-							<td>${user.registerDate}</td>
-							<td><a
-								href="<c:url value='/member/Change/${user.sAccount}'/>"> <input
-									type="button" value="${user.status}"
-									style='background-color: orange; width: 100%; height: 100%;'></a></td>
-							<td><a class='deletelink'
-								href="<c:url value='/member/delete/${user.iNo}'/>"><input
-									type="button"
-									style='background-color: red; width: 100%; height: 100%;'
-									value='刪除'></a></td>
+				<table id='tablee' style="text-align: center; width: 80%;">
+					<thead>
+						<tr style='background-color: limegreen; height: 72;'>
+							<th width='40' type="">編號</th>
+							<th width='30'>照片</th>
+							<th width='30'>帳號</th>
+							<th width='30'>暱稱</th>
+							<th width='10'>姓名</th>
+							<th width='30'>信箱</th>
+							<th width='30'>居住地</th>
+							<th width='30'>手機號碼</th>
+							<th width='40'>性別</th>
+							<th width='30'>生日</th>
+							<th width='30'>建立日期</th>
+							<th width='30'>狀態</th>
+							<th width='70'>資料維護</th>
 						</tr>
-					</c:forEach></tbody>
+					</thead>
+					<tbody>
+						<c:forEach var='user' items='${users}'>
+							<tr>
+								<td>${user.iNo}</td>
+								<td><img width='60' height='80'
+									src="<c:url value='/member/picture/getall/${user.sAccount}'/>"></td>
+								<%-- 							<td><a href="<c:url value='/member/${user.iNo}'/>" --%>
+								<%-- 								method="post">${user.iNo}</a></td> --%>
+								<td><a
+									href="<c:url value='/member/Update?sAccount=${user.sAccount}'/>">
+										<input type="button" value="${user.sAccount}"
+										style='background-color: skyblue; width: 100%; height: 100%;'>
+								</a></td>
+								<%-- 							<td>${user.sAccount}</td> --%>
+								<td>${user.sNickname}</td>
+								<td>${user.sEname}</td>
+								<td>${user.sEmail}</td>
+								<td>${user.sAddress}</td>
+								<td>${user.sPhone}</td>
+								<td>${user.sGender}</td>
+								<td>${user.sBirthday}</td>
+								<td>${user.registerDate}</td>
+								<td><a
+									href="<c:url value='/member/Change/${user.sAccount}'/>"> <input
+										type="button" value="${user.status}"
+										style='background-color: orange; width: 100%; height: 100%;'></a></td>
+								<td><a class='deletelink'
+									href="<c:url value='/member/delete/${user.iNo}'/>"><button
+											type="button"
+											style='background-color: red; width: 100%; height: 100%;'>刪除</button></a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
 				</table>
 			</c:otherwise>
 		</c:choose>
