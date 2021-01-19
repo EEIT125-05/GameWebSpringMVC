@@ -15,6 +15,8 @@ import com.web.game.exchange.model.SupportGameBean;
 @Repository
 public class DemandDAO {
 
+	static int counts = 9;
+	
 	@Autowired
 	SessionFactory factory;
 	
@@ -25,7 +27,6 @@ public class DemandDAO {
 		Session session =factory.getCurrentSession();
 		String queryAll = "FROM DemandGameBean WHERE status = 0 "+str;
 		
-		int counts = 6;
 		int start = 0;
 		if (page == 1) {
 			start = 0;
@@ -45,11 +46,10 @@ public class DemandDAO {
 		String queryAll = "FROM DemandGameBean WHERE status = 0 "+str;
 		list = (List<DemandGameBean>) session.createQuery(queryAll)
 				.getResultList();
-		int count = 6;
-		if(list.size() % count ==0 ) {
-			return (list.size()/count);
+		if(list.size() % counts ==0 ) {
+			return (list.size()/counts);
 		}else {
-			return (list.size()/count)+1;
+			return (list.size()/counts)+1;
 		}
 		
 	}
