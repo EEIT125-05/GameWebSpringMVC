@@ -42,7 +42,7 @@ div {
 <BODY>
 	<%@ include file="../Header.jsp"%>
 <br>
-	<form:form method="post" modelAttribute="mygamebean" class="dark-matter com">
+	<form:form method="post" id="submitForm" modelAttribute="mygamebean" class="dark-matter com">
 		<fieldset>
 			<legend>新增我的遊戲庫</legend>
 			<div>
@@ -87,7 +87,7 @@ div {
 				  "",
 				  "success")
 				  .then(function(){
-					 $('form').submit()
+					 $('#submitForm').submit()
 					  console.log("success")
 				  })
 	}
