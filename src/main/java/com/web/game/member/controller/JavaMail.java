@@ -111,6 +111,54 @@ public class JavaMail {
 		}
 
 	}
+	
+//	 @SuppressWarnings("static-access")
+//	 public void SendContestMail(String sEmail, Integer iNo) {
+//		System.out.println("傳進來的iNo="+iNo);
+//		txt="請點選下面網址更改密碼<br><a href=\"" + "http://localhost:8080/GameWebSpringMVC/member/forget/PasswordSet?iNo="+iNo+"\">點擊我</a>";
+//		customer = sEmail ;
+//		Properties prop = new Properties();
+//		prop.setProperty("mail.transport.protocol", "smtp");
+//		prop.setProperty("mail.host", "smtp.gmail.com");
+//		prop.put("mail.smtp.port", "465");
+//		prop.put("mail.smtp.auth", "true");
+//		prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+//		prop.put("mail.smtp.socketFactory.port", "465");
+//		prop.put("mail.debug", "true");
+//
+//		// 一般Class
+//		Auth auth = new Auth(userName, password);
+//		Session session = Session.getDefaultInstance(prop, auth);
+//
+//		MimeMessage message = new MimeMessage(session);
+//
+//		try {
+//			// 寄件者
+////				message.setSender(new InternetAddress(userName));
+//
+//			InternetAddress sender = new InternetAddress(userName);
+//			message.setSender(sender);
+//
+//			// 收件者
+//			message.setRecipient(RecipientType.TO, new InternetAddress(customer));
+//			// 標題
+//			message.setSubject(subject);
+//			// 內容
+//			message.setContent(txt, "text/html;charset=utf-8");
+//
+//			Transport transport = session.getTransport();
+//			System.out.println("txt="+txt);
+//			transport.send(message);
+//			System.out.println("成功寄出");
+//			transport.close();
+//
+//		} catch (AddressException e) {
+//			e.printStackTrace();
+//		} catch (MessagingException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 	
 }

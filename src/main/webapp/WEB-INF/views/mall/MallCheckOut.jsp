@@ -18,13 +18,23 @@ mark.yellow {
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
+<div class="container">
+
+		<h1 class="mt-4 mb-3">
+			商城 <small>結算總額</small>
+		</h1>
+
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a>
+			</li>
+			<li class="breadcrumb-item active">購物總額</li>
+		</ol>
 
 
 
-
-	<img src="images/你已訂購以下遊戲.png" alt="">
+	
 	<table border="1" cellspacing="0" cellpadding="5"
-		style="border: 2px solid white; background-color: #B9B9FF;">
+		>
 		<tr>
 			<th>遊戲名稱</th>
 			<th>價錢</th>
@@ -60,7 +70,7 @@ mark.yellow {
 		request.getSession(true).removeAttribute("cart");
 	%>
 	<form action="<c:url value="/mall/gotoshop"/>" method="get">
-		<button type="submit" name="" value="">返回</button>
+		<button class="btn btn-warning" type="submit" name="" value="">返回商城</button>
 	</form>
 	<%@ include file="../Foot.jsp"%>
 </body>
