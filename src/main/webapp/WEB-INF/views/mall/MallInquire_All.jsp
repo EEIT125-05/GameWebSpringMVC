@@ -55,7 +55,7 @@ table tr:nth-child(even) {
 				<th style="background-color: rgb(242, 189, 189);"><span
 					style="color: black;">請輸入欲修改之編號：</span></th>
 				<td><input type="text" name="search" id="search1"
-					onblur=checkconsole() /> <input type="submit" id="submit"
+					onblur=checkconsole() /> <input class="btn btn-secondary" type="submit" id="submit"
 					name="updateto" value="更改" disabled /> 
 					<span id="search1span"></span>
 				</div></td>
@@ -74,7 +74,7 @@ table tr:nth-child(even) {
 			<th>付款方式</th>
 			<th>交貨方式</th>
 			<th>商品尺寸</th>
-			<th>商品產地</th>
+			<th>商品圖片</th>
 			<!-- 改成圖片 -->
 			<th>商品簡介</th>
 			<th>商品評價</th>
@@ -92,7 +92,7 @@ table tr:nth-child(even) {
 					<td>${row.level}</td>
 					<td>${row.money}</td>
 					<td>${row.pay}</td>
-					<td>${row.delivery}</td>
+					<td>${row.deilvery}</td>
 					<td>${row.size}</td>
 					<td>${row.origin}</td>
 					<td>${row.item}</td>

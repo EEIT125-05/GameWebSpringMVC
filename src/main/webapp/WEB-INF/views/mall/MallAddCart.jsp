@@ -74,11 +74,10 @@
 							<tr>
 								<td class="td_1"></td>
 								<td><input type="text" name="qty">
-						<button class="MoneyPo" type="submit" name="todo" value="${todo}">購買數量</button>
+						<button class="btn btn-warning"" type="submit" name="todo" value="${todo}">購買數量</button>
+					
 						
-						<form action="./MallCart.jsp" method="post">
-			<button class="MyShop" type="submit" name="gotomall">我的購物車</button>
-		</form>
+			<a class="btn btn-secondary" href="<c:url value='/mall/Addshop'/>">我的購物車</a>
 						
 						
 						</td>

@@ -18,7 +18,9 @@ import com.web.game.exchange.model.SupportGameBean;
 
 @Repository
 public class SupportDAO {
-
+	
+	static int counts = 9;
+	
 	@Autowired
 	SessionFactory factory;
 
@@ -29,7 +31,6 @@ public class SupportDAO {
 		Session session = factory.getCurrentSession();
 		String queryAll = "FROM SupportGameBean WHERE status = 0";
 
-		int counts = 6;
 		int start = 0;
 		if (page == 1) {
 			start = 0;
@@ -48,7 +49,6 @@ public class SupportDAO {
 		Session session = factory.getCurrentSession();
 		String queryAll = "FROM SupportGameBean WHERE status = 0 "+str;;
 
-		int counts = 6;
 		int start = 0;
 		if (page == 1) {
 			start = 0;
@@ -67,11 +67,10 @@ public class SupportDAO {
 		String queryAll = "FROM SupportGameBean WHERE status = 0 "+str;
 		list = (List<SupportGameBean>) session.createQuery(queryAll)
 				.getResultList();
-		int count = 6;
-		if(list.size() % count ==0 ) {
-			return (list.size()/count);
+		if(list.size() % counts ==0 ) {
+			return (list.size()/counts);
 		}else {
-			return (list.size()/count)+1;
+			return (list.size()/counts)+1;
 		}
 		
 	}

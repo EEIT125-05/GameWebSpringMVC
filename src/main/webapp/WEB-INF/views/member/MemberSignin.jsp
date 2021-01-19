@@ -234,7 +234,7 @@ input {
 	<%@ include file="../Header.jsp"%>
 	<div align='center'>
 		<div align='center'
-			style='border: 3px solid gray; width: 500; height: 550; border-radius: 5px; background-color: #272727; color: white;'>
+			style='border: 3px solid gray; width: 500;padding-bottom:20px; border-radius: 5px; background-color: #272727; color: white;'>
 			<form action="<c:url value='/member/SignIn'/>" method="post">
 				<h3 style='padding-top: 30px; padding-left: 30px;' align='left'>
 					帳號:<input type="text" name="sAccount" minlength="6" maxlength="20"
@@ -277,6 +277,18 @@ input {
 					會員登入
 				</button>
 			</form>
+					<form action="<c:url value='/demo'/>" method="post" style="margin-top:20px">
+						<select name="demoAccount">
+							<option value="aaa">廷亙</option>
+							<option value="bbb">駿宏</option>
+							<option value="ccc">昌孝1</option>
+							<option value="ddd">昌孝2</option>
+							<option value="Jack1234">嵩謙</option>
+							<option value="hernycccc">冠惟1</option>
+							<option value="benchang">冠惟2</option>
+						</select>
+						<button type="submit">DEMO</button>
+					</form>
 			<div>
 				<div>
 					<form action="<c:url value='/member/GameBarGMSignin'/>"
@@ -303,6 +315,10 @@ input {
 						Google登入
 					</button>
 					<!-- 					<button type="button" id="btnDisconnect">斷連Google App</button> -->
+					
+					
+					
+					
 				</div>
 				<div id="content"></div>
 			</div>
