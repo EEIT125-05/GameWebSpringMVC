@@ -74,6 +74,15 @@ public class ReplyDAOImpl implements ReplyDAO{
 		Session session = factory.getCurrentSession();
 		return session.get(ReplyBean.class, iNo);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReplyBean> selectUserReply(String sAccount) {
+		String hql = "from ReplyBean where sAuthor = :sAccount";
+		Session session = factory.getCurrentSession();
+		return session.createQuery(hql).setParameter("sAccount", sAccount).getResultList();
+	}
+	
 	
 	
 

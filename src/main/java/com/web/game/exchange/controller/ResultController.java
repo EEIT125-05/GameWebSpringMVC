@@ -36,28 +36,6 @@ public class ResultController {
 		return "/exchange/"+path;
 		}
 		
-		@GetMapping("/backStage")
-		public String gotoExchagneBackStage(Model model) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("change",exchangeService.getAllChangeHistory());
-			map.put("support",exchangeService.getAllSupportList());
-			map.put("demand",exchangeService.getAllDemandList());
-			model.addAttribute("AllListMap",map);
-			return "/exchange/EXCBackStage";
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		

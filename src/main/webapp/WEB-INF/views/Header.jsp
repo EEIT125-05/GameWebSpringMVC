@@ -33,6 +33,9 @@
               </c:choose>
               <a class="dropdown-item" href="<c:url value='/member/Login'/>">註冊</a>
               <a class="dropdown-item" href="<c:url value='/member/Data'/>">會員資料</a>
+              <c:if test="${user.sAccount == 'game20200922'}">
+              	<a class="dropdown-item" href="<c:url value="/backstage/Member"/>">後台測試中</a>
+              </c:if>
             </div>
           </li>
         
@@ -115,7 +118,7 @@
               <a class="dropdown-item" href="<c:url value="/exchange/insertMyGame"/>">新增我的遊戲庫</a>
               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">我的遊戲庫</a>
               <a class="dropdown-item" href="<c:url value="/exchange/gotoMemberData"/>">我的交易紀錄(會員中心)</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/backStage"/>">後台測試中</a>
+              
             </div>
           </li>
           

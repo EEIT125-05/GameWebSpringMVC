@@ -1,15 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>後台管理</title>
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/paper-dashboard.css" />
-<%@ include file="Link.jsp"%>
+<%@ include file="../Link.jsp"%>
 </head>
 <body class="">
-<%@ include file="./Header.jsp"%>
+<%@ include file="../Header.jsp"%>
   <div class="wrapper ">
     <div class="sidebar" data-color="white" data-active-color="danger">
       <div class="logo">
@@ -60,7 +61,7 @@
             </a>
           </li>
           <li>
-            <a href="javascript:;">
+            <a href="<c:url value='/backstage/Exchange'/>">
               <i class="nc-icon nc-pin-3"></i>
               <p>交換系統</p>
             </a>
@@ -147,6 +148,6 @@
   </div>
   
   
-<%@ include file="./Foot.jsp"%>
+<%@ include file="../Foot.jsp"%>
 </body>
 </html>

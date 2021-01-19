@@ -17,5 +17,7 @@ public interface ReplyService {
 	public List<ReplyBean> selectForumReply(Integer iForumNo);
 	
 	public ReplyBean selectOneReply(Integer iNo);
+	
+	public List<ReplyBean> selectUserReply(String sAccount);
 
 }
