@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.web.game.contest.service.ContestService;
 import com.web.game.exchange.service.ExchangeService;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
@@ -28,9 +27,6 @@ public class HomeController {
 	
 	@Autowired
 	ExchangeService exchangeService;
-	
-	@Autowired
-	ContestService cService;
 	
 	@GetMapping("/")
 	public String gameIndex(@CookieValue(required = false) String JSESSIONID,
@@ -87,7 +83,7 @@ public class HomeController {
 	
 	@GetMapping("/backstage/Contest")
 	public String gotoContestBackStage(Model model) {
-		model.addAttribute("allContest", cService.selectAllContest());
+		
 		
 		
 		return "backstage/Contest";
