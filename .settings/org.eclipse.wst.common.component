@@ -11,6 +11,9 @@
 =======
                 
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+<<<<<<< HEAD
+>>>>>>> parent of 5fe28e4... Merge branch 'Henry'
+=======
 >>>>>>> parent of 5fe28e4... Merge branch 'Henry'
         <property name="context-root" value="GameWebSpringMVC"/>
                 

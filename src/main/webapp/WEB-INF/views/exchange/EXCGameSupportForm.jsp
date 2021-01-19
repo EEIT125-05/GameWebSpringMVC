@@ -119,9 +119,15 @@ div {
 			</div>
 			<c:if test="${insert != null }">
 <<<<<<< HEAD
+<<<<<<< HEAD
 				<div class="showImage">
 					<label for="image">圖片 </label> <span id="imagespan"></span> <br>
 					<input type="file" name="file" id="uploadFile" onchange="ajax();" />
+=======
+				<div>
+					<label for="image">圖片 </label> <span id="imagespan"></span> <br>
+					<input type="file" name="file" id="uploadFile" />
+>>>>>>> parent of 5fe28e4... Merge branch 'Henry'
 =======
 				<div>
 					<label for="image">圖片 </label> <span id="imagespan"></span> <br>
@@ -161,11 +167,14 @@ div {
 	<script>
 		
 <<<<<<< HEAD
+<<<<<<< HEAD
 		function ajax(){
 			console.log($('#uploadFile'))
 			$('#uploadFile').val()
 		}
 		
+=======
+>>>>>>> parent of 5fe28e4... Merge branch 'Henry'
 =======
 >>>>>>> parent of 5fe28e4... Merge branch 'Henry'
 		function checkSubmit(){
