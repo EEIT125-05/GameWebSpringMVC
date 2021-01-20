@@ -78,6 +78,8 @@ td{
 				<tbody >
 				<form:hidden path="iId" />
 				<form:hidden path="sGender" items='${sGenderMap}' readonly="true" />
+				<form:hidden path="iCount"/>
+				<form:hidden path="iStatus"  />
 
 				<tr>
 					<td>帳號</td>

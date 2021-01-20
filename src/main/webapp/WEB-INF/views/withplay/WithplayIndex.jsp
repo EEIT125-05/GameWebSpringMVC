@@ -110,7 +110,7 @@ response.setContentType("text/html;charset=UTF-8");
 											</a></div>
 											<div class="col-md-6 ml-auto">
 											<div ><span style="font-weight:bold;font-size:24px;">${With.sGame}</span></div>
-											<div><span style="font-size:14px;">接${With.iCount}單次</span></div>
+											<div><span style="font-size:14px;">接單${With.iCount}次</span></div>
 											<div>
 													<p style="color:#D87901;font-weight:bold;font-size:21px;">
 														<span>$</span> <span>${With.iPrice}</span> <span>/局</span>
@@ -235,7 +235,7 @@ response.setContentType("text/html;charset=UTF-8");
 												}
 												let user = $("#userNow").val();
 												let checkString;
-												let checksAccount;
+												let checksAccount= ${fn:length(With.sReplyBeans)};
 												$.each(obj,function(key,value) {
 													if(value.sAccount == user || user==null){
 														checkString = "<button type=\"submit\" class=\"btn btn-primary \" disabled=\"disabled\" name=\"orderNo\" value=\"" + value.iId + "\">立即下單</button>"
@@ -255,7 +255,7 @@ response.setContentType("text/html;charset=UTF-8");
 																							+ value.sNickname
 																							+ "</span></div>"
 																							+ "<div style='font-size:14px;'><span>評價"
-																							+ "(${fn:length(value.sReplyBeans)}"
+																							+ "("+checksAccount+")"
 																							+ "</span></div>"
 																							+ "<div>"
 																							+ "<p style='color:#FA006E;font-weight:bold;font-size:21px;'>"
@@ -305,7 +305,7 @@ response.setContentType("text/html;charset=UTF-8");
 																							+	"<div class='row' >"																							
 																							+"<form action='<c:url value='/withplay/Reply'/>' method='post'>"
 																							+"<div style='width:466px'>"
-																							+"<div id='reply" + value.iId + "' style='position: relative'>"																								
+																							+"<div  id='reply" + value.iId + ">"																								
 																							+"</div>"
 																							+"</div>"
 																							+"<hr>"
@@ -350,10 +350,12 @@ response.setContentType("text/html;charset=UTF-8");
 														}
 														time = value.tTime;
 														
-														$("#reply"+id).append("<label>" + author + "</label>"
-																+"<label> : " + text + "</label>"
-																+"<label style='position: absolute; right: 0'>" + date + " " + time + "</label>"
-																+"<br>")
+														$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>");
+// 																+"<label> : " + text + "</label>"
+// 																+"<label style='position: absolute; right: 0'>" + date + " " + time + "</label>"
+// 																+"<br>")
+// 																<label style="word-break: break-all;width:466px">${user.sNickname}: ${reply.sText}<span style="float:right;">${timeString}</span></label>														
+													
 													});				
 												});
 											};
