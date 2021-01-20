@@ -255,14 +255,14 @@ response.setContentType("text/html;charset=UTF-8");
 																							+ "<div class='fi1'>"
 																							+ "<a href='#'> <img class='img1' src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'></a>"
 																							+ "<a>"
-																							+ "<div>"
+																							+ "<div style='font-family:Microsoft JhengHei;font-size:16px;'><span>"
 																							+ value.sNickname
-																							+ "</div>"
+																							+ "</span></div>"
+																							+ "<div style='font-size:14px;'><span>評價"
+																							+ "value.sGame (${fn:length(value.sReplyBeans)})"
+																							+ "</span></div>"
 																							+ "<div>"
-																							+ value.sGame
-																							+ "</div>"
-																							+ "<div>"
-																							+ "<p>"
+																							+ "<p style='color:#FA006E;font-weight:bold;font-size:21px;'>"
 																							+ "<span>$</span>"
 																							+ "<span>"
 																							+ value.iPrice
@@ -279,27 +279,35 @@ response.setContentType("text/html;charset=UTF-8");
 																							+ "<div class='modal-dialog' role='document'>"
 																							+ "<div class='modal-content'>"
 																							+ "<div class='modal-header'>"
-																							+ "<h5 class='modal-title' id='exampleModalLabel'>Modal title</h5>"
+																							+ "<h5 class='modal-title' id='exampleModalLabel'><img src='${pageContext.request.contextPath}/withplay/picture/'"+value.iId+"' class='rounded-circle' alt='Cinque Terre' width='32px' height='32px'></h5>"
 																							+ "<button type='button' class='close' data-dismiss='modal' aria-label='Close'> <span aria-hidden='true'>&times;</span> </button>"
 																							+ "</div>"
 																							+ "<div class='modal-body'>"
 																							+ "<div class='container-fluid'>"
 																							+ "<div class='row'>"
-																							+ "<a> <img class='img1'"
-																+"src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'>"
-																							+ "</a>"
-																							+ "<div>"
+																							+ "<div class='col-md-6 ml'>"
+																							+ "<a> <img style='width:200px;height:200px;border-radius: 20px;'"
+																							+"src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'>"
+																							+ "</a></div>"
+																							+ "<div class='col-md-6 ml-auto'>"
+																							+ "<div><span style='font-weight:bold;font-size:24px;'>"
 																							+ value.sGame
-																							+ "</div>"
-																							+ "<div>"
-																							+ value.sNickname
-																							+ "</div>"
-					
+																							+ "</span></div>"
+																							+ "<div><span style='font-size:14px;'>接$"
+																							+ value.iCount
+																							+ "單次</span></div>"
+																							<div>
+																								<p style="color:#D87901;font-weight:bold;font-size:21px;">
+																									<span>$</span> <span>${With.iPrice}</span> <span>/局</span>
+																								</p>
+																							</div>
+																								<div><span style="font-weight:bold;">介紹</span><br><span style="font-size:14px;">${With.sComment}</span></div>
+																								</div>
+																								</div>											
+																								<hr>
+																								<div class="row" >
 																							
 																							+"<form action='<c:url value='/withplay/Reply'/>' method='post'>"
-
-
-																							+"<hr>"
 																							+"<div id='reply" + value.iId + "' style='position: relative'>"
 																								
 																							+"</div>"
