@@ -42,7 +42,7 @@ div {
 <BODY>
 	<%@ include file="../Header.jsp"%>
 <br>
-	<form:form method="post" id="submitForm" modelAttribute="mygamebean" class="dark-matter com">
+	<form:form method="post" modelAttribute="mygamebean" class="dark-matter com">
 		<fieldset>
 			<legend>新增我的遊戲庫</legend>
 			<div>
@@ -74,7 +74,7 @@ div {
 			</div>
 			
 			<div style="margin-top: 20px;">
-				<button type="button"  class="button" id="submitButton" onclick="checkSubmit();" disabled>送出</button>
+				<button type="button"  class="button"  id="submitButton" onclick="checkSubmit();" disabled>送出</button>
 				<button type="reset" class="button">清除</button>
 			</div>
 		</fieldset>
@@ -87,7 +87,7 @@ div {
 				  "",
 				  "success")
 				  .then(function(){
-					$('#submitForm').submit()
+					 $('form').submit()
 					  console.log("success")
 				  })
 	}

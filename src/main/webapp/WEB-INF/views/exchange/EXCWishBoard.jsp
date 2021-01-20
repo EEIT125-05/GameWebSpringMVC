@@ -36,6 +36,8 @@ ul.pagination li a:hover:not(.active) { background-color: #ddd; }
 	</style>
 </head>
 <body>
+<%-- 	<form method='get' action='<c:url value="/exchange/preparehomepage"/>'> --%>
+
 
 		<div id="portfolio" class="section md-padding bg-grey">
 			<div class="container">
@@ -65,6 +67,7 @@ ul.pagination li a:hover:not(.active) { background-color: #ddd; }
 	
 	<br>
 	<div>
+<%-- 	<a class="btn btn-secondary" href='<c:url value="/exchange/addDemandFilter?gamename=刺客"/>' onclick="changeCondition('刺客');">刺客</a> --%>
 	<a class="btn btn-secondary" onclick="changeCondition('刺客','gamename');">刺客</a>
 	<a class="btn btn-secondary" onclick="changeCondition('戰神','gamename');">戰神</a>
 	<a class="btn btn-secondary" onclick="changeCondition('薩爾達','gamename');">薩爾達</a>
@@ -215,7 +218,7 @@ ul.pagination li a:hover:not(.active) { background-color: #ddd; }
 				divout.innerHTML ="";
 				for (let i = 0; i < t.list.length; i++) {
 						console.log("!````!")
-						divout.innerHTML += "<div class='col-md-4 col-xs-6 work animate__bounceIn'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/images/"+t.list[i].gamename+".jpg' alt=''>"
+						divout.innerHTML += "<div class='col-md-4 col-xs-6 work'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/images/"+t.list[i].gamename+".jpg' alt=''>"
 								+ "<div class='overlay'></div><div class='work-content'><span>遊戲名稱:"
 								+ t.list[i].gamename
 								+ "</span>"
@@ -296,7 +299,7 @@ function changeConditionByPage(a){
 				divout.innerHTML ="";
 				for (let i = 0; i < t.list.length; i++) {
 						console.log("!````!")
-						divout.innerHTML += "<div class='col-md-4 col-xs-6 work animate__bounceIn'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/images/"+t.list[i].gamename+".jpg' alt=''>"
+						divout.innerHTML += "<div class='col-md-4 col-xs-6 work'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/images/"+t.list[i].gamename+".jpg' alt=''>"
 								+ "<div class='overlay'></div><div class='work-content'><span>遊戲名稱:"
 								+ t.list[i].gamename
 								+ "</span>"
