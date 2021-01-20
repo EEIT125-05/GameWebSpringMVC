@@ -242,7 +242,13 @@ public class WithController {
 		WithOrder order=new WithOrder(null, null, null, null, total, sGame, member, withPlay);
 		withOrderService.insertWithOrder(order);
 		model.addAttribute("Order", order);
-		return "redirect:/withplay/Index";
+		model.addAttribute("ecpay",withOrderService.ecpay(total, sGame, withPlay, member));
+		JavaMail mail = new JavaMail();
+		mail.SendMail(total, sGame, withPlay, member);
+//		return "redirect:/withplay/Index";
+		 
+		return "withplay/WithplayIndex";
+
 
 	}
 	

@@ -122,7 +122,7 @@ td{
       <li class="breadcrumb-item">
         <a href="<c:url value='/'/>">Home</a>
       </li>
-      <li class="breadcrumb-item active">成為陪玩主</li>
+      <li class="breadcrumb-item active">成為陪玩師</li>
     </ol>
     
 	<div align="center">
@@ -200,7 +200,6 @@ td{
 
 		
 
-		$(function() {
 
 
 	$(function(){
@@ -211,20 +210,6 @@ td{
 		$("#previewLabel").hide();
 		
 		$("#fImage").on("change",function(){
-
-
-		
-		$(function() {
-
-
-
-		
-		$(function() {
-
-
-		
-		$(function() {
-
  
 			console.log("file: " + $("#fImage").val());
             let fileReader = new FileReader();
@@ -241,7 +226,7 @@ td{
             	$("#previewLabel").show();
             	$("#imagePreview").show();
             	$("#imagePreview").attr('src',e.target.result)
-            						.attr('style',"height:300px;width:346px;");
+            						.attr('style',"height:300px;width:279px;");
             }
 
 		});
