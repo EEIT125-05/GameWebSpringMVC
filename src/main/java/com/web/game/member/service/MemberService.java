@@ -6,7 +6,7 @@ import com.web.game.member.model.MemberBean;
 
 public interface MemberService {
 	
-	Boolean InsertMember(MemberBean insertMB);
+	Boolean InsertMember(MemberBean mMemberBean);
 	
 	Boolean DeleteMember(Integer iNo);
 	

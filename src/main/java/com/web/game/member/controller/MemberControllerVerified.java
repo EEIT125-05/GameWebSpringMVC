@@ -80,6 +80,13 @@ public class MemberControllerVerified {
 		return "member/MemberGetAll";
 	}
 
+//	@GetMapping("/Update/{sAccount}")
+//	public String UpDateOneMember(@PathVariable("sAccount") String sAccount, Model model) {
+//		MemberBean OneMember = mService.Selectmember(sAccount);
+//		model.addAttribute("OneMember", OneMember);
+//		return "member/GameBarGMUpdate";
+//	}
+
 	@GetMapping("/Update")
 	public String UpDateOneMember(@RequestParam("sAccount") String sAccount, Model model) {
 		MemberBean OneMember = mService.Selectmember(sAccount);
@@ -174,18 +181,17 @@ public class MemberControllerVerified {
 			@RequestParam String sEname, @RequestParam String sPhone, @RequestParam String sAddress,
 			@RequestParam String sGender, @RequestParam String sBirthday, @RequestParam String registerDate,
 			@RequestParam MultipartFile productImage) {
-		MemberBean Update = mService.Selectmember(sAccount);
-		System.out.println("原來的密碼="+sPassword);
-		System.out.println("要一樣的密碼="+password);
-		if(password.equals("")) {
-			System.out.println("要一樣的密碼是空的，什麼都不做進行下面動作");
+		System.out.println("原來的密碼="+password);
+		System.out.println("要一樣的密碼="+sPassword);
+		if(sPassword.equals("")) {
+			System.out.println("密碼是空的");
+			return "member/MemberData";
 		}else if(!sPassword.equals(password)) {
-			System.out.println("有輸入密碼且密碼不一樣，什麼都不做回會員資料");
+			System.out.println("密碼不一樣");
 			model.addAttribute("showError", "密碼不一致更改失敗");
 			return "member/MemberUpdate";
-		}else {
-			System.out.println("密碼輸入一致，進行修改動作");
 		}
+		MemberBean Update = mService.Selectmember(sAccount);
 		Update.setsPassword(sPassword);
 		Update.setsNickname(sNickname);
 		Update.setsAddress(sAddress);

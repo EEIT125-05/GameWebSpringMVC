@@ -1,7 +1,5 @@
 package com.web.game.member.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,12 +35,9 @@ import com.web.game.withplay.service.impl.WithServiceImpl;
 
 @Controller
 @RequestMapping("/member")
-
 @SessionAttributes({ "user", "withplayHost" })
 public class MemberControllerNoVerified {
 	String noImage = "/images/nopicture.jpg";
-
-	private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
 
 	@Autowired
 	MemberService mService;
@@ -60,8 +55,7 @@ public class MemberControllerNoVerified {
 	}
 
 	@GetMapping("/Login")
-	public String Login(Model model) {
-		model.addAttribute("memberBean", new MemberBean());
+	public String Login() {
 		return "member/MemberLogin";
 	}
 
@@ -113,25 +107,6 @@ public class MemberControllerNoVerified {
 		return "redirect:/";
 	}
 
-//	@PostMapping("/MemberCheck")
-//	public String MemberLogin(Model model, String sAccount, String sEmail,
-//			 String sPhone) {
-//		try {
-//			String Account = mService.Checkmember(sAccount);
-//			String Phone = mService.CheckPhone(sPhone);
-//			String Email = mService.CheckEmail(sEmail);
-//			if(Account==""&&Phone==""&&Email=="") {
-//				return "member/MemberCheck";
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return "member/MemberCheck";
-//		}
-//		model.addAttribute("showError", "請確認帳號、電話或信箱是否有重複");
-//		return "member/MemberLogin";
-//	}
-
-	// @PostMapping("/MemberCheck111")
 	@PostMapping("/MemberCheck")
 	public void MemberInsert(Model model, MemberBean insertMB,
 //			,@RequestParam String sNickname, @RequestParam String sEmail, @RequestParam String sEname,
@@ -174,20 +149,46 @@ public class MemberControllerNoVerified {
 			if (originalFilename.lastIndexOf(".") > -1) {
 				ext = originalFilename.substring(originalFilename.lastIndexOf("."));
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "member/MemberCheck";
+		}
+		model.addAttribute("showError", "請確認帳號、電話或信箱是否有重複");
+		return "member/MemberLogin";
+	}
 
-			if (originalFilename.length() > 0 && originalFilename.lastIndexOf(".") > -1) {
-				insertMB.setFileName(originalFilename);
-			}
+	@PostMapping("/MemberThanks")
+	public String MemberInsert(@RequestParam String sAccount, @RequestParam String sPassword,
+			@RequestParam String sNickname, @RequestParam String sEmail, @RequestParam String sEname,
+			@RequestParam String sPhone, @RequestParam String sAddress, @RequestParam String sGender,
+			@RequestParam String sBirthday, @RequestParam String registerDate, @RequestParam Integer status,
+			@RequestParam MultipartFile productImage, SessionStatus Status, HttpServletResponse response) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		registerDate = sdf.format(new Date());
+		Integer iNo = null;
+		MemberBean InsertMB = new MemberBean(iNo, sAccount, sPassword, sNickname, sEmail, sEname, sPhone, sAddress,
+				sGender, sBirthday, registerDate, true);
+		InsertMB.setProductImage(productImage);
+		MultipartFile picture = InsertMB.getProductImage();
+		String originalFilename = picture.getOriginalFilename();
 
-			if (picture != null && !picture.isEmpty()) {
-				try {
-					byte[] b = picture.getBytes();
-					Blob blob = new SerialBlob(b);
-					insertMB.setImage(blob);
-				} catch (Exception e) {
-					e.printStackTrace();
-					throw new RuntimeException("檔案上傳發生異常: " + e.getMessage());
-				}
+		String ext = "";
+		if (originalFilename.lastIndexOf(".") > -1) {
+			ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+		}
+
+		if (originalFilename.length() > 0 && originalFilename.lastIndexOf(".") > -1) {
+			InsertMB.setFileName(originalFilename);
+		}
+
+		if (picture != null && !picture.isEmpty()) {
+			try {
+				byte[] b = picture.getBytes();
+				Blob blob = new SerialBlob(b);
+				InsertMB.setImage(blob);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("檔案上傳發生異常: " + e.getMessage());
 			}
 			mService.InsertMember(insertMB);
 			Status.setComplete();
@@ -210,7 +211,19 @@ public class MemberControllerNoVerified {
 			model.addAttribute("showError", "發生錯誤");
 //			return "member/MemberLogin";
 		}
+		mService.InsertMember(InsertMB);
+		Status.setComplete();
+		// cookie砍掉
+		Cookie cUser = new Cookie("user", "");
+		cUser.setPath("/GameWebSpringMVC");
+		cUser.setMaxAge(0);
+		response.addCookie(cUser);
+		return "redirect:/";
+	}
 
+	@GetMapping("/Thanks")
+	public String Thanks() {
+		return "member/MemberSignin";
 	}
 
 	@PostMapping("/MemberLogin")
@@ -246,16 +259,6 @@ public class MemberControllerNoVerified {
 		MemberBean GameBarSignin = mService.Selectmember(sAccount);
 		model.addAttribute("user", GameBarSignin);
 		model.addAttribute("users", mService.getAllMembers());
-//		response.setContentType(CONTENT_TYPE);
-//		PrintWriter out = response.getWriter();
-//		out.print("<html><body>");
-//		out.print("<script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'></script>");
-//		out.print("<script>");
-//		out.print("Swal.fire({\r\n" + "  icon: 'success',\r\n" + "  title: '管理者你好，歡迎回來',\r\n"
-//				+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
-//				+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/GameBarGMSignin'\r\n" + "})");
-//		out.print("</script>");
-//		out.print("</html></body>");
 		return "member/MemberGetAll";
 	}
 
@@ -282,11 +285,9 @@ public class MemberControllerNoVerified {
 	}
 
 	@PostMapping("/SignIn")
-	public void SigninMember(Model model, @RequestParam String sAccount, @RequestParam String sPassword,
+	public String SigninMember(Model model, @RequestParam String sAccount, @RequestParam String sPassword,
 			@RequestParam(defaultValue = "") String rememberMe, boolean status, HttpServletRequest request,
-			HttpServletResponse response, SessionStatus Status) throws IOException {
-		response.setContentType(CONTENT_TYPE);
-		PrintWriter out = response.getWriter();
+			HttpServletResponse response, SessionStatus Status) {
 		if (mService.SigninMember(sAccount, sPassword)) {
 			MemberBean SigninMB = mService.Selectmember(sAccount);
 			status = SigninMB.getStatus();
@@ -310,47 +311,21 @@ public class MemberControllerNoVerified {
 					nextPage = "/" + nextPage.split("/")[1] + "/Index";
 //					System.out.println("要前往的位置3: " + nextPage);
 				}
-				// return "redirect:" + nextPage;// 登入成功回該系統的首頁
 
-				out.print("<html><body>");
-				out.print("<script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'></script>");
-				out.print("<script>");
-				out.print("Swal.fire({\r\n" + "  icon: 'success',\r\n" + "  title: '登入成功，回到首頁',\r\n"
-						+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
-						+ "window.location.href='http://localhost:8080/GameWebSpringMVC/'\r\n" + "})");
-				out.print("</script>");
-				out.print("</html></body>");
-
+				return "redirect:" + nextPage;// 登入成功回該系統的首頁
 			} else {
-//				model.addAttribute("showError", "帳號已遭鎖定，如有問題請洽詢客服");
+				model.addAttribute("showError", "帳號已遭鎖定，如有問題請洽詢客服");
 				Status.setComplete();
 //				// cookie砍掉
 				Cookie cUser = new Cookie("user", "");
 				cUser.setPath("/GameWebSpringMVC");
 				cUser.setMaxAge(0);
 				response.addCookie(cUser);
-				// return "member/MemberSignin";
-
-				out.print("<html><body>");
-				out.print("<script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'></script>");
-				out.print("<script>");
-				out.print("Swal.fire({\r\n" + "  icon: 'error',\r\n" + "  title: '帳號已遭鎖定，如有問題請洽詢客服',\r\n"
-						+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
-						+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/Sign'\r\n" + "})");
-				out.print("</script>");
-				out.print("</html></body>");
+				return "member/MemberSignin";
 			}
 		} else {
-//			model.addAttribute("showError", "帳號或密碼錯誤");
-			out.print("<html><body>");
-			out.print("<script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'></script>");
-			out.print("<script>");
-			out.print("Swal.fire({\r\n" + "  icon: 'error',\r\n" + "  title: '帳號或密碼錯誤，請重新輸入',\r\n"
-					+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
-					+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/Sign'\r\n" + "})");
-			out.print("</script>");
-			out.print("</html></body>");
-			// return "member/MemberSignin";
+			model.addAttribute("showError", "帳號或密碼錯誤");
+			return "member/MemberSignin";
 		}
 	}
 

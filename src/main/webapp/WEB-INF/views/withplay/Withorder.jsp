@@ -4,7 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-
 <%@ include file="../Link.jsp"%>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -15,8 +14,7 @@ response.setContentType("text/html;charset=UTF-8");
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
+
 <link rel="stylesheet" href="../css/WithGame.css">
 <title>With</title>
 <!-- <script src="../js/With.js"></script> -->
@@ -42,7 +40,7 @@ input[type=number]::-webkit-inner-spin-button {
 		<div style="background-color:#FFFAF4;border-radius: 15px;">
 			<div
 				style="margin: 25px; height: 700px;padding-top:20px;padding-bottom:20px">
-				<h2 style="padding-top:15px">確認訂單</h2>
+				<h2 style="padding-top:15px;font-weight:bold;">確認訂單</h2>
 				<div style="height: 600px; width: 775px;float:left;">
 				<hr>
 					<div style="float:left;hegiht:300px;width:775px;padding-bottom:20px;display:  flex; align-items: center; justify-content:  center;">
@@ -69,7 +67,7 @@ input[type=number]::-webkit-inner-spin-button {
 						
 					</div>
 					<div>
-						<h3 style="font-weight:bold;">付款方式</h3>
+						<h3 style="font-weight:bold;">注意事項:</h3>
 					</div>
 						<div>
 						<ul style="list-style-type:decimal;font-size:20px;font-weight:bold;color:#7D7D7D;">
@@ -111,8 +109,7 @@ input[type=number]::-webkit-inner-spin-button {
 				<input type="hidden"  value="${With.iId}" name="wsAccount"/>
 				<input type="hidden"  value="${With.sGame}" name="sGame"/>
 					<div style="padding-top:20px">
-<!-- 					<button type="submit" class="btn btn-danger" style="width:274px;">送出訂單</button> -->
-					<button type="button" class="btn btn-danger" onclick="checkSubmit()" style="width:274px;">送出訂單</button>
+					<button type="submit" class="btn btn-danger" style="width:274px;">送出訂單</button>
 					</div>
 						</form>
 				</div>
@@ -120,21 +117,19 @@ input[type=number]::-webkit-inner-spin-button {
 		</div>
 	
 	</div>
-
+<%-- 	<form action="<c:url value='/withplay/Orderlist'/>" method="post"> --%>
+<%-- 			<input type="hidden" id="total" value="${With.iPrice}"/> --%>
+<%-- 			<input type="hidden"  value="${user}" id="usAccount"/> --%>
+<%-- 			<input type="hidden"  value="${With.iId}" id="wsAccount"/> --%>
+<%-- 			<input type="hidden"  value="${With.sGame}" id="sGame"/> --%>
+			
+<%-- 	</form> --%>
 	<div align="center">
 		<a href="${pageContext.servletContext.contextPath}/withplay/Index">陪玩首頁</a>
 	</div>
 	<%@ include file="../Foot.jsp"%>
 </body>
 <script>
-
-function checkSubmit() {
-	swal.fire("成功", "", "success").then(function() {
-		$('form').submit()
-		console.log("success")
-	})
-}
-
 $('#quantity').change(function(){
 	   //變更值(手動輸入)
 	    if($(this).val() > 0){     
@@ -149,7 +144,32 @@ $('#quantity').change(function(){
 	    else{
 	     $(this).val($(this).attr("value"))
 	    }
-   	   
+	    
+// 	     Swal.fire({
+// 	       title: '輸入單位至少為1?',
+// 	       text: "",
+// 	       icon: 'question',
+// 	       showCancelButton: true,
+// 	       confirmButtonColor: '#3085d6',
+// 	       cancelButtonColor: '#d33',
+// 	       cancelButtonText: '取消',
+// 	       confirmButtonText: '確定'
+// 	     }).then((result) => {
+// 	       if (result.isConfirmed) {
+// 	         Swal.fire(
+// 	           '商品已刪除',
+// 	           '',
+// 	           'success'
+// 	         )
+// 	      buylist.splice(0, buylist.length);
+// 	      productId = $(this).parent().parent().attr("id");
+// 	      $("table").html("").parent().css("height", "auto").css("overflow", "");
+// 	      deleteFromShopCar();
+// 	       }
+// 	      else{
+// 	     }
+// 	     })
+	   
 	  })
 
 function allchange(){

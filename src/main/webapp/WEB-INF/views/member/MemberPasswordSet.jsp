@@ -86,9 +86,9 @@ input {
 	<h1 align='center'>忘記密碼</h1>
 	<hr>
 	<form action="<c:url value='/member/PasswordChange'/>" method="post">
-		<div align='center' style='padding-bottom:84;'>
+		<div align='center'>
 			<div align='left'
-				style="border: 3px solid gray; width: 450; height:400;padding-top:25;padding-left:25;background-color: #272727;color: white;">
+				style="border: 3px solid gray; padding-left: 20; padding-top: 20; width: 450; height: 450">
 				<h3>
 					<input type="hidden" name="iNo" value="${m.iNo}">
 				</h3>

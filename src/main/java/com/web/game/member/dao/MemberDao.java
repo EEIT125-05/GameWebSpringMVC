@@ -5,7 +5,7 @@ import com.web.game.member.model.MemberBean;
 
 public interface MemberDao {
 
-	Boolean InsertMember(MemberBean insertMB);
+	Boolean InsertMember(MemberBean InsertMB);
 	
 	Boolean DeleteMember(Integer iNo);
 	

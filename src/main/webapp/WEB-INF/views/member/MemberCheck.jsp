@@ -12,7 +12,6 @@ response.setDateHeader("Expires", -1);
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>註冊資料確認</title>
 <style>
@@ -66,53 +65,53 @@ button:hover {
 			<div id="DIV2" style='margin-bottom: 30;'>
 				<table>
 					<tr class="b">
-						<td>設定的帳號</td>
+						<td>註冊設定的帳號</td>
 						<td>:${param.sAccount}<input type="hidden" name="sAccount"
 							value='${param.sAccount}' /></td>
 					</tr>
 					<tr class="b">
-						<td>設定的信箱</td>
+						<td>註冊使用的信箱</td>
 						<td>:${param.sEmail}<input type="hidden" name="sEmail"
 							value='${param.sEmail}' /></td>
 					</tr>
 					<tr class="b">
-						<td>設定的號碼</td>
+						<td>註冊的手機號碼</td>
 						<td>:${param.sPhone}<input type="hidden" name="sPhone"
 							value='${param.sPhone}' /></td>
 					</tr>
 					<tr class="b">
-						<td>設定的密碼</td>
+						<td>註冊使用的密碼</td>
 						<td>:${param.sPassword}<input type="hidden" name="sPassword"
 							value='${param.sPassword}' /></td>
 					</tr>
 					<tr class="b">
-						<td>設定的暱稱</td>
+						<td>註冊使用的暱稱</td>
 						<td>:${param.sNickname}<input type="hidden" name="sNickname"
 							value='${param.sNickname}' /></td>
 					</tr>
 					<tr class="b">
-						<td>設定的姓名</td>
+						<td>註冊的真實姓名</td>
 						<td>:${param.sEname}<input type="hidden" name="sEname"
 							value='${param.sEname}' /></td>
 					</tr>
 					<tr class="b">
-						<td>設定的城市</td>
+						<td>註冊的居住城市</td>
 						<td>:${param.sAddress}<input type="hidden" name="sAddress"
 							value='${param.sAddress}' /></td>
 					</tr>
 					<tr class="b">
-						<td>設定的性別</td>
+						<td>註冊的性別</td>
 						<td>:${param.sGender}<input type="hidden" name="sGender"
 							value='${param.sGender}' /></td>
 					</tr>
 					<tr class="b">
-						<td>設定的生日</td>
+						<td>註冊的生日</td>
 						<td>:${param.sBirthday}<input type="hidden" name="sBirthday"
 							value='${param.sBirthday}' /></td>
 					</tr>
 					<tr class="b">
 						<td>請選擇上傳照片</td>
-						<td>:<input type="file" name="productImage" value="/GameWebSpringMVC/src/main/webapp/images/NoImage.png"/></td>
+						<td>:<input type="file" name="productImage" /></td>
 					</tr>
 				</table>
 				<!-- 				<h3> -->
@@ -125,7 +124,7 @@ button:hover {
 					value='${param.registerDate}'> <input type="hidden"
 					name="status">
 				<h3 align='center'>
-					<button type="submit" name="confirm"
+					<button type="submit" name="confirm" value="註冊"
 						style='width: 250; height: 50; font-size: 30; margin-top: 15;'>
 						<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
 							fill="currentColor" class="bi bi-person-check-fill"
