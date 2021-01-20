@@ -19,16 +19,6 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 input {
 	border-radius: 10px;
 }
-
-#DIV1 {
-	width: 350px;
-	line-height: 50px;
-	padding: 10px;
-	border: 5px gray solid;
-	margin-left: 50;
-	float: left;
-}
-
 #DIV2 {
 	background-color: #272727;
 	color: white;
@@ -81,26 +71,6 @@ button:hover{
 	<H1 align='center'>Google會員資料</H1>
 	<hr>
 	<%@ include file="../Header.jsp"%>
-	<div id="DIV1">
-		<H1>相關記錄</H1>
-		<table>
-			<tr>
-				<td class="a"><a href="####">商城記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a href="####">討論區記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a href="####">陪玩記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a href="####">賽事記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a href="####">交換記錄</a></td>
-			</tr>
-		</table>
-	</div>
 	<div align='center'>
 		<div id="DIV2" style='margin-bottom: 30;'>
 			<form action="<c:url value='/member/GoogleUpdate'/>" method="post">
