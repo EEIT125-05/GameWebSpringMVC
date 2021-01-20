@@ -41,6 +41,7 @@ import com.web.game.contest.service.ParticipateService;
 import com.web.game.contest.service.RecordService;
 import com.web.game.contest.validators.ContestValidator;
 import com.web.game.contest.validators.dateAndTimeValidator;
+import com.web.game.member.controller.JavaMail;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
 
@@ -177,6 +178,8 @@ public class ContestController {
 		}else {
 			if(cService.insertContest(cContestBean)) {
 				map.put("successMessage", "新增成功");
+				JavaMail mail = new JavaMail();
+				mail.SendContestMail(((MemberBean)model.getAttribute("user")).getsEmail(), cContestBean.getiNo(), "contest");
 			}else {
 				success = false;
 			}
@@ -255,9 +258,11 @@ public class ContestController {
 //			RedirectAttributes ra,
 			Model model) {
 		Map<String, String> map = new HashMap<String, String>();
-		String user = ((MemberBean)model.getAttribute("user")).getsAccount();
-		if(pService.insertParticipate(new ParticipateBean(null, user, cContestBean))) {
+		MemberBean user = ((MemberBean)model.getAttribute("user"));
+		if(pService.insertParticipate(new ParticipateBean(null, user.getsAccount(), cContestBean))) {
 			map.put("status", "success");
+			JavaMail mail = new JavaMail();
+			mail.SendContestMail(user.getsEmail(), cContestBean.getiNo(), "participate");
 		}else {
 			map.put("status", "sqlError");
 		}
@@ -272,7 +277,7 @@ public class ContestController {
 		Map<String, String> map = new HashMap<String, String>();
 		ContestBean cContestBean = cService.selectOneContest(contestNo);
 		Boolean toDB = true;
-		Boolean chechAnswer = true;
+		Boolean checkAnswer = true;
 		StringBuilder toDBPlayers = new StringBuilder();
 		for(String player:players) {
 //			System.out.println("players: " + player);
@@ -285,7 +290,7 @@ public class ContestController {
 			for(ParticipateBean pParticipateBean: cContestBean.getlParticipateBeans()) {
 				for(String playersString: pParticipateBean.getsPlayer().split(",")) {
 					if(playersString.equals(player)) {
-						chechAnswer = false;
+						checkAnswer = false;
 						break;
 					}
 				}
@@ -293,15 +298,23 @@ public class ContestController {
 			
 			toDBPlayers.append("," + player);
 		}
+		
 		if(!toDB) {
 			map.put("status", "noUserError");
-		}else if(!chechAnswer){
+		}else if(!checkAnswer){
 			map.put("status", "playerError");
 		}else {
 //			System.out.println("和資料庫處理");
 			toDBPlayers.delete(0, 1);
 			if(pService.insertParticipate(new ParticipateBean(null, toDBPlayers.toString(), cContestBean))) {
 				map.put("status", "success");
+				//確認進資料庫才寄信
+				for(String player:players) {
+					JavaMail mail = new JavaMail();
+					MemberBean mb = mService.get(player);
+					mail.SendContestMail(mb.getsEmail(), contestNo, "participate");
+				}
+				
 			}else {
 				map.put("status", "sqlError");
 			}
@@ -387,11 +400,11 @@ public class ContestController {
 		
 		ContestBean cContestBean = cService.selectOneContest(contestNo);//找出比賽類型
 		//先算出複賽總共場次
-		Integer iTotal;
-		Integer iOneGroup;
-		Integer iGroupUp;
-		Integer iLast;
-		Integer iTotalUp;
+//		Integer iTotal;
+//		Integer iOneGroup;
+//		Integer iGroupUp;
+//		Integer iLast;
+//		Integer iTotalUp;
 		Integer iRematchTotal;
 		
 		Boolean success = true;

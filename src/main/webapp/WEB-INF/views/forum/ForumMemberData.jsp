@@ -60,9 +60,6 @@
 	color: #00FFFF;
 }
 
-table{
-	text-align:center;
-}
 </style>
 </head>
 <body>
@@ -114,13 +111,14 @@ table{
 							</c:when>
 							<c:otherwise>
 								
-								<table border="1" id="tableHost" class="table table-hover" style="font-size: 12px; border:3px">
+								<table border="1" id="tableForum" class="table table-hover" style="font-size: 12px; border:3px">
 									<thead>
 									<tr>
 										<th>編號</th>
 										<th>分類</th>
 										<th>標題</th>
 										<th>時間</th>
+										<th>編輯</th>
 									</tr>
 									</thead>
 									<c:forEach var="forum" items="${lForumAuthorList}">
@@ -129,16 +127,16 @@ table{
 											<td>${forum.sCategory}</td>
 											<td><a href="<c:url value='/forum/Detail/${forum.iNo}'/>">${forum.sTitle}</a></td>
 											<td>${forum.dDate} ${forum.tTime}</td>
+											<td>
+												<a class="btn btn-primary" href="<c:url value='/forum/Update/${forum.iNo}'/>">更改</a>
+												<button class="btn btn-danger delete" value="${forum.iNo}">刪除</button>
+											</td>
 										</tr>
 									</c:forEach>
-								
-								
 								
 								</table>
 							</c:otherwise>
 						</c:choose>
-						
-						
 						
 					</div>
 				</div>
@@ -162,7 +160,7 @@ table{
 							</c:when>
 							<c:otherwise>
 								
-								<table border="1" id="tableParticipate" class="table table-hover" style="font-size: 12px; border:3px">
+								<table border="1" id="tableReply" class="table table-hover" style="font-size: 12px; border:3px">
 									<thead>
 									<tr>
 										<th>編號</th>
@@ -211,7 +209,7 @@ table{
 			this.target = "_blank";
 		});	
 		
-		$("#delete").on("click", function(){
+		$(".delete").on("click", function(){
 			Swal.fire({
 				showClass: {
 				    popup: 'animate__animated animate__fadeInDown'
@@ -231,7 +229,7 @@ table{
 				  if (result.isConfirmed) {
 					  $.ajax({
 							type: "delete",
-							url: "<c:url value='/contest/Edit/" + $(this).val() + "'/>",
+							url: "<c:url value='/forum/Edit/" + $(this).val() + "'/>",
 							dataType: "json",
 							data: {},
 							success: function(result){
@@ -269,7 +267,7 @@ table{
 		});
 		
 		
-		$('#tableHost').DataTable({
+		$('#tableForum').DataTable({
 			language: {
     		    "lengthMenu": "顯示_MENU_筆資料",
     		    "sProcessing": "處理中...",
@@ -298,7 +296,7 @@ table{
 		});
 		
 	
-		$('#tableParticipate').DataTable({
+		$('#tableReply').DataTable({
 			language: {
     		    "lengthMenu": "顯示_MENU_筆資料",
     		    "sProcessing": "處理中...",

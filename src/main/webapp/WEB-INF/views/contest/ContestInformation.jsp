@@ -232,7 +232,7 @@ body{
             	<fmt:formatDate var="dTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd"/>
 				<c:choose>
 					<c:when test="${dTime <= today}">
-						<span style="color:gray">更改</span>
+						<span style="color:gray;margin:0 12px">更改</span>
 					</c:when>
 					<c:otherwise>
 						<a class="btn btn-primary" href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>

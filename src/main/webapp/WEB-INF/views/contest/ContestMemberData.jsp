@@ -60,9 +60,6 @@
 	color: #00FFFF;
 }
 
-table{
-	text-align:center;
-}
 </style>
 </head>
 <body>
@@ -134,17 +131,18 @@ table{
 											<td>${sTime}</td>
 											<td>${fn:length(contest.lParticipateBeans)}/${contest.iPeople}</td>
 											<td>
-												<fmt:formatDate var="today" pattern="yyyy-MM-dd" value="${nowDate}" />
+												<jsp:useBean id="nowDate" class="java.util.Date"/>
+												<fmt:formatDate var="today" value="${nowDate}" pattern="yyyy-MM-dd"/>
 												<fmt:formatDate var="dTime" value="${contest.tTime}" pattern="yyyy-MM-dd"/>
 												<c:choose>
 													<c:when test="${dTime <= today}">
-														<span style="color:gray">更改</span>
+														<span style="color:gray;margin:0 17px">更改</span>
 													</c:when>
 													<c:otherwise>
 														<a class="btn btn-primary" href="<c:url value='/contest/Update/${contest.iNo}'/>">更改</a>
 													</c:otherwise>
 												</c:choose>
-												<button class="btn btn-primary" type="submit" id="delete" value="${contest.iNo}">刪除</button>
+												<button class="btn btn-danger delete" value="${contest.iNo}">刪除</button>
 											</td>
 										</tr>
 									</c:forEach>
@@ -235,7 +233,7 @@ table{
 			this.target = "_blank";
 		});	
 		
-		$("#delete").on("click", function(){
+		$(".delete").on("click", function(){
 			Swal.fire({
 				showClass: {
 				    popup: 'animate__animated animate__fadeInDown'
