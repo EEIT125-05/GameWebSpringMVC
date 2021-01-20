@@ -250,7 +250,14 @@ public class WithController {
 	@GetMapping("/withplay/Withorderlist")
 	public String dataOrder(Model model) {
 		model.addAttribute("WithOrder",withOrderService.getWithOrderList(((MemberBean) model.getAttribute("user")).getiNo()));
-		model.addAttribute("WithOrder2",withOrderService.getWithOrderwithList(((MemberBean) model.getAttribute("user")).getiNo()));
+		List<WithOrder> withorder2 = withOrderService.getWithOrderwithList(((WithPlay) model.getAttribute("withplayHost")).getiId());
+		model.addAttribute("WithOrder2",withorder2);
+		System.out.println("有進這個123");
+		System.out.println("有進這個123");
+		System.out.println("長度: " + withorder2.size());
+		for(WithOrder w: withorder2) {
+			System.out.println("123 " + w.getWith().getsNickname());
+		}
 		return "withplay/WithOrderlist-1";
 				
 	}
