@@ -114,7 +114,7 @@ td {
 							<th width='30'>生日</th>
 							<th width='30'>建立日期</th>
 							<th width='30'>權限狀態</th>
-<!-- 							<th width='70'>資料維護</th> -->
+							<!-- 							<th width='70'>資料維護</th> -->
 						</tr>
 					</thead>
 					<tbody>
@@ -128,7 +128,6 @@ td {
 								<td><a
 									href="<c:url value='/member/Update?sAccount=${user.sAccount}'/>">
 										<input type="button" value="${user.sAccount}"
-										
 										style='background-color: skyblue; width: 100%; height: 100%;'>
 								</a></td>
 								<%-- 							<td>${user.sAccount}</td> --%>
@@ -140,14 +139,14 @@ td {
 								<td>${user.sGender}</td>
 								<td>${user.sBirthday}</td>
 								<td>${user.registerDate}</td>
-								<td><a
-									href="<c:url value='/member/Change/${user.sAccount}'/>"> <input
-										type="button" value="${user.status}"
-										style='background-color: orange; width: 100%; height: 100%;'></a></td>
-<!-- 								<td><a class='deletelink' -->
-<%-- 									href="<c:url value='/member/delete/${user.iNo}'/>"><button --%>
-<!-- 											type="button" -->
-<!-- 											style='background-color: red; width: 100%; height: 100%;'>刪除</button></a></td> -->
+								<td><input id="'button'+'${user.iNo}'" type="submit"
+									onclick="abc('${user.sAccount}');"
+									style='background-color: orange; width: 100%; height: 100%;'
+									value='${user.status}'></td>
+								<!-- 								<td><a class='deletelink' -->
+								<%-- 									href="<c:url value='/member/delete/${user.iNo}'/>"><button --%>
+								<!-- 											type="button" -->
+								<!-- 											style='background-color: red; width: 100%; height: 100%;'>刪除</button></a></td> -->
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -170,20 +169,32 @@ td {
 			$('#tablee').DataTable({});
 		});
 
-		// 		window.onload = function() {
-		// 			var Status = document.getElementById("Status");
-		// 			Status.onclick = function() {
-		// 				var status = document.getElementById("Status").value.trim();
-		// 				var xhr = new XMLHttpRequest();
-		// 				xhr.open("POST", "<c:url value='/member/${user.sAccount}' />",
-		// 						true);
-		// 				xhr.setRequestHeader("Content-Type",
-		// 						"application/x-www-form-urlencoded");
-		// 				xhr.send("status=" + status);
-		// 				xhr.onreadystatechange = function() {
-		// 				}
-		// 			}
-		// 		}
+		function abc(sAccount) {
+			// 			console.log("sAcc"+sAccount);
+			// 			var Account = document.getElementById("sAccount");
+			var btn = document.getElementById("'button'+'${user.iNo}'"); 
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "<c:url value="/member/Change/"/>" + sAccount,
+					true);
+			xhr.setRequestHeader("Content-Type",
+					"application/x-www-form-urlencoded");
+			xhr.send("sAccount=" + sAccount);
+			xhr.onreadystatechange = function() {
+				console.log("sAccount=" + sAccount);
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					console.log("btn="+btn);
+					if (sAccount.value == 'true') {
+						sAccount.value == 'false';
+					} else if (sAccount.value == 'false') {
+						sAccount.value == 'true';
+					}
+				} else {
+					console.log("xhr.readyState=" + xhr.readyState);
+					console.log("xhr.status=" + xhr.status);
+					console.log("修改失敗");
+				}
+			}
+		}
 	</script>
 </body>
 <%@ include file="../Foot.jsp"%>

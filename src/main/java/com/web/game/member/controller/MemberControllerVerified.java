@@ -37,7 +37,7 @@ import com.web.game.member.service.MemberService;
 
 @Controller
 @RequestMapping("/member")
-@SessionAttributes({ "user"})
+@SessionAttributes({ "user" })
 public class MemberControllerVerified {
 
 	@Autowired
@@ -141,7 +141,7 @@ public class MemberControllerVerified {
 		Update.setProductImage(productImage);
 		MultipartFile picture = Update.getProductImage();
 		String originalFilename = picture.getOriginalFilename();
-		
+
 		String ext = "";
 		if (originalFilename.lastIndexOf(".") > -1) {
 			ext = originalFilename.substring(originalFilename.lastIndexOf("."));
@@ -161,7 +161,7 @@ public class MemberControllerVerified {
 				throw new RuntimeException("檔案上傳發生異常: " + e.getMessage());
 			}
 		}
-		System.out.println("originalFilename="+originalFilename);
+		System.out.println("originalFilename=" + originalFilename);
 		mService.UpdateMember(Update);
 		System.out.println("圖片是否有上傳????");
 		model.addAttribute("user", Update);
@@ -170,47 +170,47 @@ public class MemberControllerVerified {
 
 	@PostMapping("/MemberData")
 	public String UpdateMember(Model model, @RequestParam Integer iNo, @RequestParam String sAccount,
-			@RequestParam String sPassword,@RequestParam String password, @RequestParam String sNickname, @RequestParam String sEmail,
-			@RequestParam String sEname, @RequestParam String sPhone, @RequestParam String sAddress,
-			@RequestParam String sGender, @RequestParam String sBirthday, @RequestParam String registerDate,
-			@RequestParam MultipartFile productImage) {
+			@RequestParam String sPassword, @RequestParam String password, @RequestParam String sNickname,
+			@RequestParam String sEmail, @RequestParam String sEname, @RequestParam String sPhone,
+			@RequestParam String sAddress, @RequestParam String sGender, @RequestParam String sBirthday,
+			@RequestParam String registerDate, @RequestParam MultipartFile productImage) {
 		MemberBean Update = mService.Selectmember(sAccount);
-		System.out.println("原來的密碼="+sPassword);
-		System.out.println("要一樣的密碼="+password);
-		if(password.equals("")) {
+		System.out.println("原來的密碼=" + sPassword);
+		System.out.println("要一樣的密碼=" + password);
+		if (password.equals("")) {
 			System.out.println("要一樣的密碼是空的，什麼都不做進行下面動作");
-		}else if(!sPassword.equals(password)) {
+		} else if (!sPassword.equals(password)) {
 			System.out.println("有輸入密碼且密碼不一樣，什麼都不做回會員資料");
 			model.addAttribute("showError", "密碼不一致更改失敗");
 			return "member/MemberUpdate";
-		}else {
+		} else {
 			System.out.println("密碼輸入一致，進行修改動作");
 		}
 		Update.setsPassword(sPassword);
 		Update.setsNickname(sNickname);
 		Update.setsAddress(sAddress);
 		Update.setProductImage(productImage);
-			MultipartFile picture = Update.getProductImage();
-			String originalFilename = picture.getOriginalFilename();
-			String ext = "";
-			if (originalFilename.lastIndexOf(".") > -1) {
-				ext = originalFilename.substring(originalFilename.lastIndexOf("."));
-			}
+		MultipartFile picture = Update.getProductImage();
+		String originalFilename = picture.getOriginalFilename();
+		String ext = "";
+		if (originalFilename.lastIndexOf(".") > -1) {
+			ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+		}
 
-			if (originalFilename.length() > 0 && originalFilename.lastIndexOf(".") > -1) {
-				Update.setFileName(originalFilename);
-			}
+		if (originalFilename.length() > 0 && originalFilename.lastIndexOf(".") > -1) {
+			Update.setFileName(originalFilename);
+		}
 
-			if (picture != null && !picture.isEmpty()) {
-				try {
-					byte[] b = picture.getBytes();
-					Blob blob = new SerialBlob(b);
-					Update.setImage(blob);
-				} catch (Exception e) {
-					e.printStackTrace();
-					throw new RuntimeException("檔案上傳發生異常: " + e.getMessage());
-				}
+		if (picture != null && !picture.isEmpty()) {
+			try {
+				byte[] b = picture.getBytes();
+				Blob blob = new SerialBlob(b);
+				Update.setImage(blob);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("檔案上傳發生異常: " + e.getMessage());
 			}
+		}
 		mService.UpdateMember(Update);
 		model.addAttribute("user", Update);
 		return "member/MemberData";
@@ -229,7 +229,7 @@ public class MemberControllerVerified {
 		MediaType mediaType = null;
 		Blob blob = null;
 		try {
-			System.out.println("進去service之前的"+sAccount);
+			System.out.println("進去service之前的" + sAccount);
 			MemberBean bean = mService.queryMember(sAccount);
 			System.out.println("抓圖片的資料=" + sAccount);
 			if (bean != null) {
@@ -277,10 +277,10 @@ public class MemberControllerVerified {
 		}
 		return responseEntity;
 	}
-	
+
 	@GetMapping("/picture")
 	public ResponseEntity<byte[]> getPicture(Model model, @RequestParam("sAccount") String sAccount) {
-		System.out.println("有抓到圖片嗎??"+sAccount);
+		System.out.println("有抓到圖片嗎??" + sAccount);
 		InputStream is = null;
 		OutputStream os = null;
 		String fileName = null;
@@ -291,7 +291,7 @@ public class MemberControllerVerified {
 		MediaType mediaType = null;
 		Blob blob = null;
 		try {
-			System.out.println("進去service之前的"+sAccount);
+			System.out.println("進去service之前的" + sAccount);
 			MemberBean bean = mService.queryMember(sAccount);
 			System.out.println("抓圖片的資料=" + sAccount);
 			if (bean != null) {
@@ -341,21 +341,33 @@ public class MemberControllerVerified {
 	}
 
 	@RequestMapping("/Change/{sAccount}")
-	public String StatusChange(Model model, @PathVariable("sAccount") String sAccount, boolean status,
+	public boolean StatusChange(Model model, @PathVariable("sAccount") String sAccount, boolean status,
 			HttpServletResponse response) {
+		System.out.println("改變權限");
 		MemberBean StatusChange = mService.Selectmember(sAccount);
 		status = StatusChange.getStatus();
-		if (sAccount.equals("game20200922")) {
-			;
-		} else if (status == true) {
+		System.out.println("status="+status);
+		if (status == true) {
 			StatusChange.setStatus(status = false);
 			mService.UpdateMember(StatusChange);
-		} else if (status == false) {
+			return status;
+		} else {
 			StatusChange.setStatus(status = true);
 			mService.UpdateMember(StatusChange);
+			return status;
 		}
-		model.addAttribute("users", mService.getAllMembers());
-		return "member/MemberGetAll";
+		//		model.addAttribute("users", mService.getAllMembers());
+//		return "member/MemberGetAll";
 	}
+
+//	@PostMapping("/Change/status")
+//	public void StatusChange(Model model, @RequestParam("iNo") String iNo, boolean status,
+//			HttpServletResponse response) {
+//		System.out.println("更改權限");
+//		MemberBean StatusChange = mService.Selectmember(iNo);
+//		StatusChange.setStatus(status);
+//		mService.UpdateMember(StatusChange);
+//		model.addAttribute("users", mService.getAllMembers());
+//	}
 
 }
