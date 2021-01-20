@@ -516,13 +516,25 @@ body{
 										<c:forEach var="record" items="${lRematchRecords}">
 											<tr>	
 												<c:choose>
-													<c:when test="${record.sPlayers1 != 'none'}">
-														<td class="tdPlayerR">${record.sPlayers1}</td>
-														<td class="tdPlayerR">${record.sPlayers2}</td>
+													<c:when test="${cContestBean.sHost == user.sAccount}">
+														<td>${record.iKnockoutNo}</td>
+														<c:choose>
+															<c:when test="${record.sPlayers1 != 'none'}">
+																<td class="tdPlayerR">${record.sPlayers1}</td>
+																<td class="tdPlayerR">${record.sPlayers2}</td>
+															</c:when>
+															<c:otherwise>
+																<td>${record.sPlayers1}</td>
+																<td>${record.sPlayers2}</td>
+															</c:otherwise>
+														</c:choose>
+														<td class="tdWinnerR">${record.sWinner}</td>
 													</c:when>
 													<c:otherwise>
+														<td>${record.iKnockoutNo}</td>
 														<td>${record.sPlayers1}</td>
 														<td>${record.sPlayers2}</td>
+														<td>${record.sWinner}</td>
 													</c:otherwise>
 												</c:choose>
 											</tr>

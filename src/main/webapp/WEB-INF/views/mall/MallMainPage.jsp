@@ -73,7 +73,7 @@
 
 </style>
 </head>
-<body>
+<body >
 	<%@ include file="../Header.jsp"%>
 
 	<form action="<c:url value="/mall/minipage"/>" method="get">
@@ -83,7 +83,7 @@
 
 
 
-		<div class="container ">
+		<div class="container " style="background-color:#ffffff">
 			<h1 class="mt-4 mb-3">
 				商城 <small>首頁</small>
 			</h1>
@@ -135,7 +135,7 @@
 				
 				<b style="font-size: 15px;color: red;">$:${row.money}</b>
 				
-				<P><button class="btn btn-danger" type="submit" name="todo"
+				<P><button class="btn btn-dark" type="submit" name="todo"
 					value="${row.no}">加到購物車</button>
 
 				</button></P>

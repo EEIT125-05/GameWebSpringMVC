@@ -101,7 +101,7 @@ public class MallController {
 		model.addAttribute("reg_student", reg_student);
 
 		ms.UpdateStudent(reg_student);
-		return "/mall/MallInquire_All_Update";
+		return "/mall/MallInquire_All";
 	}
 ////新增資料
 	@GetMapping("/new")
@@ -139,14 +139,14 @@ public class MallController {
 		MallBean studentData = (MallBean) model.getAttribute("reg_student");
 		ms.insertStudent(studentData);
 		
-        return "/mall/MallThanks";
+		return "mall/MallMainPage";
 
 	}
 //刪除資料後 顯示以刪除的資訊
 	@GetMapping("/delete")
 	public String deleteMall(Model model, @RequestParam Integer no) {// 刪除
 		ms.deleteMall(no);
-		return "/mall/MallThanks";
+		return "mall/MallMainPage";
 	}
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

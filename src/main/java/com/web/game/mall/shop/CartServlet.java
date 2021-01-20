@@ -145,13 +145,13 @@ public class CartServlet extends HttpServlet {
 			model.addAttribute("totalPrice", sb.toString());
 			model.addAttribute("totalQtyOrdered", totalQtyOrdered + "");
 //		         List<CartItem> theCart = (List<CartItem>) session.getAttribute("cart");
-
+			 System.out.println("1111111111");
 			model.getAttribute("user");
 			MallBean member = new MallBean();
 			MemberBean member1 = (MemberBean) model.getAttribute("user");//整合時代入insertDeal
 		    String account = member1.getsAccount();// 未帶入會員帳號前測試用
 			ms.insertDeal(theCart, account);
-			
+			 System.out.println("222222");
 	}return "/mall/MallCheckOut";
 		}
 	

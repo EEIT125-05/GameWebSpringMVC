@@ -73,7 +73,7 @@
     
     
     
-    <div class="main-panel" style="height: 100vh;">
+    <div class="main-panel" style="height:100vh">
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
         <div class="container-fluid">
