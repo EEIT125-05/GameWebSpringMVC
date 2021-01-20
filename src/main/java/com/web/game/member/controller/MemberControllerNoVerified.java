@@ -133,13 +133,14 @@ public class MemberControllerNoVerified {
 
 	// @PostMapping("/MemberCheck111")
 	@PostMapping("/MemberCheck")
-	public String MemberInsert(Model model, MemberBean insertMB,
+	public void MemberInsert(Model model, MemberBean insertMB,
 //			,@RequestParam String sNickname, @RequestParam String sEmail, @RequestParam String sEname,
 //			@RequestParam String sPhone, @RequestParam String sAddress, @RequestParam String sGender,
 //			@RequestParam String sBirthday, @RequestParam String registerDate, @RequestParam Integer status,
 //			@RequestParam MultipartFile productImage 
-			SessionStatus Status, HttpServletResponse response) {
-
+			SessionStatus Status, HttpServletResponse response) throws IOException {
+		response.setContentType(CONTENT_TYPE);
+		PrintWriter out = response.getWriter();
 		try {
 			String Account = mService.Checkmember(insertMB.getsAccount());
 			String Phone = mService.CheckPhone(insertMB.getsPhone());
@@ -147,8 +148,17 @@ public class MemberControllerNoVerified {
 			if (Account == "" && Phone == "" && Email == "") {
 				System.out.println("資料庫沒有資料，進入insert階段");
 			} else {
+				out.print("<html><body>");
+				out.print("<script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'></script>");
+				out.print("<script>");
+				out.print("Swal.fire({\r\n" + "  icon: 'error',\r\n" + "  title: '註冊失敗',\r\n"
+						+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
+						+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/Login'\r\n" + "})");
+				out.print("</script>");
+				out.print("</html></body>");
+
 				model.addAttribute("showError", "請確認帳號、電話或信箱是否有重複");
-				return "member/MemberLogin";
+//				return "member/MemberLogin";
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String registerDate = sdf.format(new Date());
@@ -186,11 +196,19 @@ public class MemberControllerNoVerified {
 			cUser.setPath("/GameWebSpringMVC");
 			cUser.setMaxAge(0);
 			response.addCookie(cUser);
-			return "redirect:/";
+			out.print("<html><body>");
+			out.print("<script src='https://cdn.jsdelivr.net/npm/sweetalert2@10'></script>");
+			out.print("<script>");
+			out.print("Swal.fire({\r\n" + "  icon: 'success',\r\n" + "  title: '註冊成功，回到首頁',\r\n"
+					+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
+					+ "window.location.href='http://localhost:8080/GameWebSpringMVC/'\r\n" + "})");
+			out.print("</script>");
+			out.print("</html></body>");
+//			return "redirect:/";
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("showError", "發生錯誤");
-			return "member/MemberLogin";
+//			return "member/MemberLogin";
 		}
 
 	}

@@ -63,12 +63,11 @@ input {
 	}
 
 	let accountflag = false;
+	let emailflag = false;
+	let phoneflag = false;
 	let passwordflag = false;
 	let nicknameflag = false;
 	let nameflag = false;
-	let addressflag = false;
-	let emailflag = false;
-	let phoneflag = false;
 
 	function checkAccount() {
 		var sAccount = document.getElementById("sAccount").value.trim();
@@ -77,10 +76,13 @@ input {
 		var regular = /[a-zA-Z]{1}[a-zA-Z0-9]{5,19}/;
 		if (sAccount == "") {
 			idaccount.innerHTML = "<font color='red'>請輸入帳號</font>";
+			accountflag = false;
 		} else if (accLen <= 5) {
 			idaccount.innerHTML = "<font color='red'>請輸入至少6個字元</font>";
+			accountflag = false;
 		} else if (!sAccount.match(regular)) {
 			idaccount.innerHTML = "<font color='red'>格式錯誤</font>";
+			accountflag = false;
 		} else {
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", "<c:url value='/member/MemberLogin' />", true);
@@ -101,6 +103,7 @@ input {
 				}
 			}
 		}
+		check();
 	}
 
 	function checkEmail() {
@@ -110,8 +113,10 @@ input {
 		var regular = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$/;
 		if (sEmail == "") {
 			idemail.innerHTML = "<font color='red'>請輸入信箱</font>";
+			emailflag = false;
 		} else if (!sEmail.match(regular)) {
 			idemail.innerHTML = "<font color='red'>信箱格式錯誤</font>";
+			emailflag = false;
 		} else {
 			var xhr = new XMLHttpRequest();
 			xhr
@@ -134,6 +139,7 @@ input {
 				}
 			}
 		}
+		check();
 	}
 
 	function checkPhone() {
@@ -144,10 +150,13 @@ input {
 		var regular = /^[0]{1}[9]{1}\d{8}$/;
 		if (sPhone == "") {
 			idphone.innerHTML = "<font color='red'>請輸入手機號碼</font>";
+			phoneflag = false;
 		} else if (phoneLen < 10) {
 			idphone.innerHTML = "<font color='red'>請輸入10位號碼</font>";
+			phoneflag = false;
 		} else if (!sPhone.match(regular)) {
 			idphone.innerHTML = "<font color='red'>請輸入09開頭電話號碼</font>";
+			phoneflag = false;
 		} else {
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
@@ -169,7 +178,7 @@ input {
 				}
 			}
 		}
-
+		check();
 	}
 
 	function checkPassword() {
@@ -182,11 +191,15 @@ input {
 			passwordflag = false;
 		} else if (passLen < 8) {
 			idpassword.innerHTML = "<font color='red'>請輸入至少8個字元</font>";
+			passwordflag = false;
 		} else if (!sPassword.match(regular)) {
 			idpassword.innerHTML = "<font color='red'>請輸入正確字元</font>";
+			passwordflag = false;
 		} else {
 			idpassword.innerHTML = "<font color='green'>OK</font>";
+			passwordflag = true;
 		}
+		check();
 	}
 
 	function checkNickname() {
@@ -199,6 +212,7 @@ input {
 			idnickname.innerHTML = "<font color='green'>OK</font>";
 			nicknameflag = true;
 		}
+		check();
 	}
 
 	function checkName() {
@@ -208,6 +222,7 @@ input {
 		let nameCheck = false;
 		if (ename == "") {
 			idname.innerHTML = "<font color='red'>請輸入姓名</font>";
+			nameflag = false;
 		} else if (enameLen >= 2) {
 			for (let idname = 0; idname < enameLen; idname++) {
 				let ENAME = ename.charAt(idname);
@@ -237,22 +252,28 @@ input {
 		let idaddress = document.getElementById("idaddress");
 		if (address == "請挑選") {
 			idaddress.innerHTML = "<font color='red'>請選擇地址</font>";
-			let addressflag = false;
 		} else if (address !== "請挑選") {
 			idaddress.innerHTML = "<font color='green'>OK</font>";
-			let addressflag = true;
 		} else {
-			let addressflag = false;
+			;
 		}
-		check();
+	}
+	
+	function check() {
+		if (passwordflag && nicknameflag && nameflag && accountflag
+				&& emailflag && phoneflag) {
+			document.getElementById("submitDisable").disabled = false;
+		} else {
+			document.getElementById("submitDisable").disabled = true;
+		}
 	}
 
-	function checkSubmit() {
-				swal.fire("註冊成功", "回到首頁", "success").then(function() {
-					$('form').submit()
-					console.log("success")
-				})
-			} 
+// 	function checkSubmit() {
+// 				swal.fire("註冊成功", "回到首頁", "success").then(function() {
+// 					$('form').submit()
+// 					console.log("success")
+// 				})
+// 			} 
 
 	function OneLogin() {
 		var sAccount = document.getElementById("sAccount");
@@ -393,18 +414,18 @@ input {
 						<td><span id="idaddress"></span></td>
 					</tr>
 					<tr class="b">
-						<div class="radio">
+<!-- 						<div class="radio"> -->
 							<td>性別</td>
 							<td>: <form:radiobutton id="sGender" path="sGender"
-									value="男" checked="checked" required="true" />男 <form:radiobutton
-									id="sGender" path="sGender" value="女" required="true" />女
+									value="男" checked="checked" required="required" />男 <form:radiobutton
+									id="sGender" path="sGender" value="女" required="required" />女
 							</td>
-						</div>
+<!-- 						</div> -->
 					</tr>
 					<tr class="b">
 						<td>生年月日</td>
 						<td>: <form:input type="date" id="sBirthday" path="sBirthday"
-								required="true" /></td>
+								required="required" /></td>
 					</tr>
 					<tr class="b">
 						<td>請選擇上傳照片</td>
@@ -421,9 +442,8 @@ input {
 				</h3>
 				<h6 align='center' style='color: red;'>${showError}</h6>
 				<h3 align='center'>
-					<button id="submitDisable" type="button" name="submit555" disabled
-						style='width: 350; height: 50; font-size: 30; margin-top: 15;'
-						onclick="checkSubmit();">
+					<button id="submitDisable" type="submit" name="submit555" disabled
+						style='width: 350; height: 50; font-size: 30; margin-top: 15;'>
 						<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
 							fill="currentColor" class="bi bi-person-check-fill"
 							viewBox="0 0 16 16"> <path fill-rule="evenodd"

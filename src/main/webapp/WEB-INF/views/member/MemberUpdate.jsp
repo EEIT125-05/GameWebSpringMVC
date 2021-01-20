@@ -289,14 +289,14 @@ button:hover{
 						value="${user.sAccount}" readonly></td>
 				<tr class="b">
 					<td>更改密碼</td>
-					<td>:<input id="Password" type="password" name="password" minlength="8"
+					<td>:<input id="Password" type="password" name="sPassword" minlength="8"
 						required maxlength="16" onblur="checkPassword();"
 						value="${user.sPassword}"><input id="btn" type="button"
 						class="material-icons" style="font-size: 25px" value="visibility"></td>
 				<tr class="b">
 					<td>再次確認密碼</td>
 					<td>:<input id="passwordConfirm" type="password"
-						name="sPassword" minlength="8" placeholder="修改前請再次輸入密碼" 
+						name="password" minlength="8"
 						maxlength="16" onblur="checkPassword();"><span
 						id="idpasswordConfirm"></span>
 					</td>
