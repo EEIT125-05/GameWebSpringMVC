@@ -113,8 +113,8 @@ td {
 							<th width='40'>性別</th>
 							<th width='30'>生日</th>
 							<th width='30'>建立日期</th>
-							<th width='30'>狀態</th>
-							<th width='70'>資料維護</th>
+							<th width='30'>權限狀態</th>
+<!-- 							<th width='70'>資料維護</th> -->
 						</tr>
 					</thead>
 					<tbody>
@@ -128,6 +128,7 @@ td {
 								<td><a
 									href="<c:url value='/member/Update?sAccount=${user.sAccount}'/>">
 										<input type="button" value="${user.sAccount}"
+										
 										style='background-color: skyblue; width: 100%; height: 100%;'>
 								</a></td>
 								<%-- 							<td>${user.sAccount}</td> --%>
@@ -143,10 +144,10 @@ td {
 									href="<c:url value='/member/Change/${user.sAccount}'/>"> <input
 										type="button" value="${user.status}"
 										style='background-color: orange; width: 100%; height: 100%;'></a></td>
-								<td><a class='deletelink'
-									href="<c:url value='/member/delete/${user.iNo}'/>"><button
-											type="button"
-											style='background-color: red; width: 100%; height: 100%;'>刪除</button></a></td>
+<!-- 								<td><a class='deletelink' -->
+<%-- 									href="<c:url value='/member/delete/${user.iNo}'/>"><button --%>
+<!-- 											type="button" -->
+<!-- 											style='background-color: red; width: 100%; height: 100%;'>刪除</button></a></td> -->
 							</tr>
 						</c:forEach>
 					</tbody>
