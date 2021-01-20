@@ -40,58 +40,53 @@ td {
 			</c:when>
 
 			<c:otherwise>
-				<table id='tablee' style="text-align: center; width: 80%;">
-					<thead>
-						<tr style='background-color: limegreen; height: 72;'>
-							<th width='40' type="">編號</th>
-							<th width='30'>照片</th>
-							<th width='30'>帳號</th>
-							<th width='30'>暱稱</th>
-							<th width='10'>姓名</th>
-							<th width='30'>信箱</th>
-							<th width='30'>居住地</th>
-							<th width='30'>手機號碼</th>
-							<th width='40'>性別</th>
-							<th width='30'>生日</th>
-							<th width='30'>建立日期</th>
-							<th width='30'>權限狀態</th>
-<!-- 							<th width='70'>資料維護</th> -->
+				<table id='tablee' style="text-align: center;width:80%;"><thead>
+					<tr style='background-color: limegreen;height:72;' >
+						<th width='40' type="">編號</th>
+						<th width='30'>照片</th>
+						<th width='30'>帳號</th>
+						<th width='30'>暱稱</th>
+						<th width='10'>姓名</th>
+						<th width='30'>信箱</th>
+						<th width='30'>居住地</th>
+						<th width='30'>手機號碼</th>
+						<th width='40'>性別</th>
+						<th width='30'>生日</th>
+						<th width='30'>建立日期</th>
+						<th width='30'>狀態</th>
+						<th width='70'>資料維護</th>
+					</tr></thead><tbody>
+					<c:forEach var='user' items='${users}'>
+						<tr>
+							<td>${user.iNo}</td>
+							<td><img width='60' height='80'
+								src="<c:url value='/member/picture/getall/${user.sAccount}'/>"></td>
+							<%-- 							<td><a href="<c:url value='/member/${user.iNo}'/>" --%>
+							<%-- 								method="post">${user.iNo}</a></td> --%>
+							<td><a
+								href="<c:url value='/member/Update?sAccount=${user.sAccount}'/>"> <input
+									type="button" value="${user.sAccount}"
+									style='background-color: skyblue; width: 100%; height: 100%;'></a></td>
+							<%-- 							<td>${user.sAccount}</td> --%>
+							<td>${user.sNickname}</td>
+							<td>${user.sEname}</td>
+							<td>${user.sEmail}</td>
+							<td>${user.sAddress}</td>
+							<td>${user.sPhone}</td>
+							<td>${user.sGender}</td>
+							<td>${user.sBirthday}</td>
+							<td>${user.registerDate}</td>
+							<td><a
+								href="<c:url value='/member/Change/${user.sAccount}'/>"> <input
+									type="button" value="${user.status}"
+									style='background-color: orange; width: 100%; height: 100%;'></a></td>
+							<td><a class='deletelink'
+								href="<c:url value='/member/delete/${user.iNo}'/>"><input
+									type="button"
+									style='background-color: red; width: 100%; height: 100%;'
+									value='刪除'></a></td>
 						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var='user' items='${users}'>
-							<tr>
-								<td>${user.iNo}</td>
-								<td><img width='60' height='80'
-									src="<c:url value='/member/picture/getall/${user.sAccount}'/>"></td>
-								<%-- 							<td><a href="<c:url value='/member/${user.iNo}'/>" --%>
-								<%-- 								method="post">${user.iNo}</a></td> --%>
-								<td><a
-									href="<c:url value='/member/Update?sAccount=${user.sAccount}'/>">
-										<input type="button" value="${user.sAccount}"
-										
-										style='background-color: skyblue; width: 100%; height: 100%;'>
-								</a></td>
-								<%-- 							<td>${user.sAccount}</td> --%>
-								<td>${user.sNickname}</td>
-								<td>${user.sEname}</td>
-								<td>${user.sEmail}</td>
-								<td>${user.sAddress}</td>
-								<td>${user.sPhone}</td>
-								<td>${user.sGender}</td>
-								<td>${user.sBirthday}</td>
-								<td>${user.registerDate}</td>
-								<td><a
-									href="<c:url value='/member/Change/${user.sAccount}'/>"> <input
-										type="button" value="${user.status}"
-										style='background-color: orange; width: 100%; height: 100%;'></a></td>
-<!-- 								<td><a class='deletelink' -->
-<%-- 									href="<c:url value='/member/delete/${user.iNo}'/>"><button --%>
-<!-- 											type="button" -->
-<!-- 											style='background-color: red; width: 100%; height: 100%;'>刪除</button></a></td> -->
-							</tr>
-						</c:forEach>
-					</tbody>
+					</c:forEach></tbody>
 				</table>
 			</c:otherwise>
 		</c:choose>
