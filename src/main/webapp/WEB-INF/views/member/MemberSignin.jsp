@@ -281,8 +281,8 @@ input {
 						<select name="demoAccount">
 							<option value="aaa">廷亙</option>
 							<option value="bbb">駿宏</option>
-							<option value="ch102a6">昌孝1</option>
-							<option value="Jack1234">昌孝2</option>
+							<option value="Jack12345">昌孝1</option>
+							<option value="bts520">昌孝2</option>
 							<option value="Jack1234">嵩謙</option>
 							<option value="henryxcccc">冠惟1</option>
 							<option value="benchang">冠惟2</option>

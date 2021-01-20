@@ -33,6 +33,21 @@ input.qtyminus {
   border: 1px solid #aaa;
   background: #f8f8f8;
 }
+
+
+input.qtyplus {
+  width: 25px;
+  height: 35px;
+  border: 1px solid #aaa;
+  background: #f8f8f8;
+}
+
+input.qtyminus {
+  width: 25px;
+  height: 35px;
+  border: 1px solid #aaa;
+  background: #f8f8f8;
+}
 </style>
 </head>
 <body>

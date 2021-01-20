@@ -423,55 +423,64 @@ body{
 			<a class="btn btn-primary" data-toggle="collapse" href="#preliminaryCollapse" role="button" aria-expanded="false" aria-controls="#preliminaryCollapse">預賽戰績</a>
 			
 			<div class="collapse" id="preliminaryCollapse" style="margin-top:20px;margin-bottom:20px">
-	  			<div class="card card-body">	
 	  			
-	  			<c:if test="${cContestBean.sHost == user.sAccount}">
-		  			<div style="margin-bottom:10px">
-		  				<button id="savePreliminaryRecord" class="btn btn-success" value="${cContestBean.iNo}">更新戰績</button>
-		  				<button id="createRematch" class="btn btn-success" value="${cContestBean.iNo}">產生複賽賽程</button>
-		  			</div>
-	  			</c:if>
-	  			<c:forEach varStatus="vs" var="lRecords" items="${lGroupRecords }">
-	  				
-	  				<div>
-	  					<a class="btn btn-primary" data-toggle="collapse" href="#preliminaryTable${vs.count}" role="button" aria-expanded="false" aria-controls="#preliminaryTable${vs.count}">第${vs.count}組</a>
-	  				</div>
-	  				<div id="preliminaryTable${vs.count}" class="collapse">
-						<table>
-							<thead>
-								<tr>
-									<th>組別</th>
-									<th>參賽者1</th>
-									<th>參賽者2</th>
-									<th>勝方</th>
-								</tr>
-							</thead>
-					        <tbody>
-								<c:forEach var="record" items="${lRecords}">
-									<tr>	
-										<td>${record.iGroundNo}</td>
-										<c:choose>
-											<c:when test="${cContestBean.sHost == user.sAccount}">
-												<td class="tdPlayer">${record.sPlayers1}</td>
-												<td class="tdPlayer">${record.sPlayers2}</td>
-												<td class="tdWinner">${record.sWinner}</td>
-											</c:when>
-											<c:otherwise>
-												<td>${record.sPlayers1}</td>
-												<td>${record.sPlayers2}</td>
-												<td>${record.sWinner}</td>
-											</c:otherwise>
-										</c:choose>
+	  			<c:choose>
+					<c:when test="${empty lGroupRecords}"> 
+						<p>複賽賽程尚未安排</p>
+					</c:when>
+					<c:otherwise>
+	  			
+		  			<div class="card card-body">	
+		  			
+		  			<c:if test="${cContestBean.sHost == user.sAccount}">
+			  			<div style="margin-bottom:10px">
+			  				<button id="savePreliminaryRecord" class="btn btn-success" value="${cContestBean.iNo}">更新戰績</button>
+			  				<button id="createRematch" class="btn btn-success" value="${cContestBean.iNo}">產生複賽賽程</button>
+			  			</div>
+		  			</c:if>
+		  			<c:forEach varStatus="vs" var="lRecords" items="${lGroupRecords }">
+		  				
+		  				<div>
+		  					<a class="btn btn-primary" data-toggle="collapse" href="#preliminaryTable${vs.count}" role="button" aria-expanded="false" aria-controls="#preliminaryTable${vs.count}">第${vs.count}組</a>
+		  				</div>
+		  				<div id="preliminaryTable${vs.count}" class="collapse">
+							<table>
+								<thead>
+									<tr>
+										<th>組別</th>
+										<th>參賽者1</th>
+										<th>參賽者2</th>
+										<th>勝方</th>
 									</tr>
-								</c:forEach>
-					        </tbody>
-						</table>
-	  				</div>
-					<br>
-				</c:forEach>
-					
-					
-				</div>
+								</thead>
+						        <tbody>
+									<c:forEach var="record" items="${lRecords}">
+										<tr>	
+											<td>${record.iGroundNo}</td>
+											<c:choose>
+												<c:when test="${cContestBean.sHost == user.sAccount}">
+													<td class="tdPlayer">${record.sPlayers1}</td>
+													<td class="tdPlayer">${record.sPlayers2}</td>
+													<td class="tdWinner">${record.sWinner}</td>
+												</c:when>
+												<c:otherwise>
+													<td>${record.sPlayers1}</td>
+													<td>${record.sPlayers2}</td>
+													<td>${record.sWinner}</td>
+												</c:otherwise>
+											</c:choose>
+										</tr>
+									</c:forEach>
+						        </tbody>
+							</table>
+		  				</div>
+						<br>
+					</c:forEach>
+						
+						
+					</div>
+				</c:otherwise>
+				</c:choose>
 			</div>
 			
 			
@@ -479,29 +488,33 @@ body{
 			<a class="btn btn-primary" data-toggle="collapse" href="#rematchCollapse" role="button" aria-expanded="false" aria-controls="#rematchCollapse">複賽戰績</a>
 			
 			<div class="collapse" id="rematchCollapse" style="margin-top:20px;margin-bottom:20px">
-	  			<div class="card card-body">	
-	  			
-		  			<c:if test="${cContestBean.sHost == user.sAccount}">
-			  			<div style="margin-bottom:10px">
-			  				<button id="saveRematchRecord" class="btn btn-success" value="${cContestBean.iNo}">更新戰績</button>
-			  			</div>
-		  			</c:if>
-	  				
-						<table>
-							<thead>
-								<tr>
-									<th>場次</th>
-									<th>參賽者1</th>
-									<th>參賽者2</th>
-									<th>勝方</th>
-								</tr>
-							</thead>
-					        <tbody>
-								<c:forEach var="record" items="${lRematchRecords}">
-									<tr>	
-										<c:choose>
-											<c:when test="${cContestBean.sHost == user.sAccount}">
-												<td>${record.iKnockoutNo}</td>
+
+	  			<c:choose>
+					<c:when test="${empty lRematchRecords}"> 
+						<p>複賽賽程尚未安排</p>
+					</c:when>
+					<c:otherwise>
+						
+			  			<div class="card card-body">	
+			  			
+				  			<c:if test="${cContestBean.sHost == user.sAccount}">
+					  			<div style="margin-bottom:10px">
+					  				<button id="saveRematchRecord" class="btn btn-success" value="${cContestBean.iNo}">更新戰績</button>
+					  			</div>
+				  			</c:if>
+			  				
+								<table>
+									<thead>
+										<tr>
+											<th>場次</th>
+											<th>參賽者1</th>
+											<th>參賽者2</th>
+											<th>勝方</th>
+										</tr>
+									</thead>
+							        <tbody>
+										<c:forEach var="record" items="${lRematchRecords}">
+											<tr>	
 												<c:choose>
 													<c:when test="${record.sPlayers1 != 'none'}">
 														<td class="tdPlayerR">${record.sPlayers1}</td>
@@ -512,22 +525,19 @@ body{
 														<td>${record.sPlayers2}</td>
 													</c:otherwise>
 												</c:choose>
-												<td class="tdWinnerR">${record.sWinner}</td>
-											</c:when>
-											<c:otherwise>
-												<td>${record.iKnockoutNo}</td>
-												<td>${record.sPlayers1}</td>
-												<td>${record.sPlayers2}</td>
-												<td>${record.sWinner}</td>
-											</c:otherwise>
-										</c:choose>
-									</tr>
-								</c:forEach>
-					        </tbody>
-						</table>
-					<br>
-					
-				</div>
+											</tr>
+										</c:forEach>
+							        </tbody>
+								</table>
+							<br>
+							
+						</div>
+				
+				</c:otherwise>
+				</c:choose>
+			
+			
+				
 			</div>
 
 
