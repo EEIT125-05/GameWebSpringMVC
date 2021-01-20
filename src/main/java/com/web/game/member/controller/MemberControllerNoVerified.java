@@ -100,7 +100,6 @@ public class MemberControllerNoVerified {
 	@GetMapping("/forget/PasswordSet")
 	public String MemberPasswordSet(Model model, @RequestParam Integer iNo) {
 		MemberBean m = mService.get(iNo);
-		System.out.println("更改失敗後有進來這裡嗎??iNo="+iNo);
 		model.addAttribute("m", m);
 		return "member/MemberPasswordSet";
 	}
@@ -108,12 +107,10 @@ public class MemberControllerNoVerified {
 	@PostMapping("/PasswordChange")
 	public String PasswordChange(Model model, @RequestParam Integer iNo, @RequestParam String sPassword,
 			@RequestParam String password)  {
-//		response.setContentType(CONTENT_TYPE);
-//		PrintWriter out = response.getWriter();
 		MemberBean PasswordChange = mService.get(iNo);
 		if (!sPassword.equals(password)) {
 			model.addAttribute("showError", "密碼不一致請再次確認");
-			return "member/MemberPasswordSet";
+			return "redirect:/member/forget/PasswordSet?iNo="+iNo;
 		} else {
 			PasswordChange.setsPassword(sPassword);
 			mService.UpdateMember(PasswordChange);
