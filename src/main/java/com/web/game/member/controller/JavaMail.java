@@ -17,7 +17,7 @@ public class JavaMail {
 	private String userName = "GameBar20210128@gmail.com";
 	private String password = "gamebar20210128";
 	private String customer = "" ;
-	private String subject = "親愛的GameBar會員更改密碼通知";
+	private String subject = "親愛的GameBar會員您好，這是封更改密碼通知的信件";
 //	private String PasswordSet = "http://localhost:8080/GameWebSpringMVC/src/main/webapp/WEB-INF/views/member/MemberPasswordSet";
 //	private Integer No = null ;  
 //	private String txt = "請點選下面網址更改密碼<br><a href=\"" + "http://localhost:8080/GameWebSpringMVC/member/forget/PasswordSet?"+No + "\">點擊我</a>";

@@ -78,10 +78,10 @@ public class MemberControllerNoVerified {
 			iNo = Number.getiNo();
 			sPassword = Number.getsPassword();
 			if (sPassword == "") {
-				model.addAttribute("showError", "請使用Google帳號登入");
+				model.addAttribute("showError", "沒有登錄過的信箱");
 				return "member/MemberPasswordForget";
 			} else if (sPassword == null) {
-				model.addAttribute("showError", "請使用Google帳號登入");
+				model.addAttribute("showError", "沒有登錄過的信箱");
 				return "member/MemberPasswordForget";
 			}
 		} catch (Exception e) {
@@ -100,17 +100,26 @@ public class MemberControllerNoVerified {
 	@GetMapping("/forget/PasswordSet")
 	public String MemberPasswordSet(Model model, @RequestParam Integer iNo) {
 		MemberBean m = mService.get(iNo);
+		System.out.println("更改失敗後有進來這裡嗎??iNo="+iNo);
 		model.addAttribute("m", m);
 		return "member/MemberPasswordSet";
 	}
 
 	@PostMapping("/PasswordChange")
-	public String PasswordChange(Model model, @RequestParam Integer iNo, @RequestParam String sPassword) {
-		System.out.println("iNo=" + iNo);
+	public String PasswordChange(Model model, @RequestParam Integer iNo, @RequestParam String sPassword,
+			@RequestParam String password)  {
+//		response.setContentType(CONTENT_TYPE);
+//		PrintWriter out = response.getWriter();
 		MemberBean PasswordChange = mService.get(iNo);
-		PasswordChange.setsPassword(sPassword);
-		mService.UpdateMember(PasswordChange);
-		return "redirect:/";
+		if (!sPassword.equals(password)) {
+			model.addAttribute("showError", "密碼不一致請再次確認");
+			return "member/MemberPasswordSet";
+		} else {
+			PasswordChange.setsPassword(sPassword);
+			mService.UpdateMember(PasswordChange);
+			return "redirect:/";
+		}
+
 	}
 
 //	@PostMapping("/MemberCheck")
