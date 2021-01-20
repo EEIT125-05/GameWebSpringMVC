@@ -348,6 +348,7 @@
 				<thead>
 				<tr>
 					<th>編號</th>
+					<th>玩家</th>
 					<th>遊戲名稱</th>
 					<th>商品位置</th>
 					<th>運送方式</th>
@@ -363,6 +364,7 @@
 
 					<tr>
 						<td>${vs1.count}</td>
+						<td>${s.gamer}</td>
 						<td>${s.gamename}</td>
 						<td>${s.gamelocation}</td>
 						<td>${s.delivery}</td>
@@ -414,6 +416,7 @@
         <table border="1" class="table table-hover" style="font-size: 12px; border:3px">
 						<tr>
 							<th>編號</th>
+							<th>玩家</th>
 							<th>遊戲名稱</th>
 							<th>商品位置</th>
 							<th>主機平台</th>
@@ -426,6 +429,7 @@
 
 							<tr>
 								<td>${vs2.count}</td>
+								<td>${d.gamer}</td>
 								<td>${d.gamename}</td>
 								<td>${d.area}</td>
 								<td>${d.console}</td>
