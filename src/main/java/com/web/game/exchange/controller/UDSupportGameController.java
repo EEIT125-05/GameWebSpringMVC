@@ -42,6 +42,7 @@ public class UDSupportGameController {
 	@Autowired
 	ExchangeService exchangeService;
 
+	
 	@GetMapping("/gotoMemberData")
 	public String gotoMemberData(Model model) {
 		return "exchange/EXCMemberData";
