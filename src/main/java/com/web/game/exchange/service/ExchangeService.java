@@ -52,6 +52,10 @@ public class ExchangeService {
 	public Integer getDemandPage(String str) {
 		return demandDAO.getDemandPage(str);
 	}
+	@Transactional
+	public List<DemandGameBean> getAllDemandList() {
+		return demandDAO.getAllDemandList();
+	}
 	
 //	@Transactional
 //	public List<DemandGameBean> changeDemandPage(int page){
@@ -99,13 +103,16 @@ public class ExchangeService {
 	public boolean updateDemandGema(DemandGameBean demandgamebean) {
 		return demandDAO.updateDemandGame(demandgamebean);
 	}
-	//-------------------------
-//	@Transactional
-//	public List<SupportGameBean> GetAllSupport(){
-//		List<SupportGameBean> list = new ArrayList<>();
-//		list = supportDAO.GetAllSupport();
-//		return list;
-//	}
+	//-------------------------support
+	
+	@Transactional
+	public List<SupportGameBean> getAllSupportList(){
+		List<SupportGameBean> list = new ArrayList<>();
+		list = supportDAO.getAllSupportList();
+		return list;
+	}
+	
+	
 	
 	@Transactional
 	public List<SupportGameBean> GetMemberSupport(String account){
@@ -178,6 +185,12 @@ public class ExchangeService {
 //		result = changeDAO.createTransaction();
 //	return result;
 //	}
+	
+	@Transactional
+	public List<ChangeHistoryBean> getAllChangeHistory(){
+		return changeDAO.getAllChangeHistory();
+	}
+	
 	@Transactional
 	public boolean updateChangeHistorySubmit(ChangeHistoryBean CHB) {
 		boolean result = false;
@@ -267,6 +280,10 @@ public class ExchangeService {
 	@Transactional
 	public WishHistoryBean getWishHistory(int iNo) {
 		return wishDAO.getWishHistory(iNo);
+	}
+	@Transactional
+	public List<WishHistoryBean> getMemberWishHistory(int iNo) {
+		return wishDAO.getMemberWishHistory(iNo);
 	}
 
 	@Transactional

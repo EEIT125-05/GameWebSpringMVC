@@ -78,7 +78,7 @@ mark.yellow {
 			<th>付款方式</th>
 			<th>交貨方式</th>
 			<th>商品尺寸</th>
-			<th>商品產地</th>
+			<th>商品圖片</th>
 			<!-- 改成圖片 -->
 			<th>商品簡介</th>
 			<th>商品評價</th>
@@ -96,7 +96,7 @@ mark.yellow {
 					<td>${row.level}</td>
 					<td>${row.money}</td>
 					<td>${row.pay}</td>
-					<td>${row.delivery}</td>
+					<td>${row.deilvery}</td>
 					<td>${row.size}</td>
 					<td><img 
 					src="${pageContext.request.contextPath }/${row.origin}"

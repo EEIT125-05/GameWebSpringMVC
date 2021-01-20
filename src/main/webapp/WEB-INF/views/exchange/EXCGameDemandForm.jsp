@@ -93,7 +93,7 @@ div {
 				<form:input class="fixedlen" type="text" path="remark" />
 			</div>
 			<div style="margin-top: 20px;">
-				<button type="button" id="submitButton" onclick="checkSubmit();" class="button" disabled>送出</button>
+				<button type="button"   id="submitButton" onclick="checkSubmit();" class="button" disabled>送出</button>
 				<button type="reset" class="button">清除</button>
 			</div>
 		</fieldset>

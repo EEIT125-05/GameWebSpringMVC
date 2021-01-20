@@ -6,7 +6,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%
-	response.setContentType("text/html;charset=UTF-8");
+response.setContentType("text/html;charset=UTF-8");
 response.setHeader("Cache-Control", "no-cache"); // HTTP 1.1
 response.setHeader("Pragma", "no-cache"); // HTTP 1.0
 response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
@@ -94,10 +94,10 @@ button:hover{
 				<td class="a"><a href="<c:url value="/withplay/gotoMemberData"/>">陪玩記錄</a></td>
 			</tr>
 			<tr>
-				<td class="a"><a href="####">賽事記錄</a></td>
+				<td class="a"><a href="<c:url value="/contest/gotoMemberData"/>">賽事記錄</a></td>
 			</tr>
 			<tr>
-				<td class="a"><a href="####">交換記錄</a></td>
+				<td class="a"><a href="<c:url value="/exchange/gotoMemberData"/>">交換記錄</a></td>
 			</tr>
 		</table>
 	</div>

@@ -197,9 +197,35 @@ td{
 				console.log("success")
 			})
 		}
+
+		
+
+		$(function() {
+
+
+	$(function(){
+		
+		console.log("file: " + $("#fImage").val());
+		
+		$("#imagePreview").hide();
+		$("#previewLabel").hide();
+		
+		$("#fImage").on("change",function(){
+
+
 		
 		$(function() {
 
+
+
+		
+		$(function() {
+
+
+		
+		$(function() {
+
+ 
 			console.log("file: " + $("#fImage").val());
             let fileReader = new FileReader();
             let imageFile = this.files[0];

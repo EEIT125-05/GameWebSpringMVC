@@ -1,6 +1,10 @@
 package com.web.game.home.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-<<<<<<< HEAD
 import com.web.game.exchange.service.ExchangeService;
-=======
->>>>>>> parent of 76f98ae... Merge branch 'SungChain'
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
 import com.web.game.withplay.service.WithService;
@@ -28,12 +31,9 @@ public class HomeController {
 	@Autowired
 	WithService WithService;
 	
-<<<<<<< HEAD
 	@Autowired
 	ExchangeService exchangeService;
 	
-=======
->>>>>>> parent of 76f98ae... Merge branch 'SungChain'
 	@GetMapping("/")
 	public String gameIndex(@CookieValue(required = false) String JSESSIONID,
 							@CookieValue(required = false) String user,
@@ -58,9 +58,38 @@ public class HomeController {
 		return "GameIndex";
 	}
 	
+	@PostMapping("/demo")
+	public String demoSignin(
+					@RequestParam String demoAccount,
+					Model model,
+					HttpServletRequest request,
+					HttpServletResponse response) {
+		
+		MemberBean SigninMB = mService.Selectmember(demoAccount);
+		model.addAttribute("user", SigninMB);
+		model.addAttribute("withplayHost", WithService.getaccount(demoAccount));
+		
+		Cookie cUser = new Cookie("user", SigninMB.getsAccount());
+		cUser.setPath("/GameWebSpringMVC");
+		cUser.setMaxAge(86400 * 7);
+		response.addCookie(cUser);
+		
+		String nextPage = (String) request.getSession(true).getAttribute("requestURI");
+		if (nextPage == null || nextPage.split("/")[1].equals("member")) {
+			nextPage = "/";
+		} else {
+			nextPage = "/" + nextPage.split("/")[1] + "/Index";
+		}
+
+		return "redirect:" + nextPage;// 登入成功回該系統的首頁
+		
+	}
+	
+	
+	
 	@GetMapping("/backstage")
 	public String gameBackStage() {
-<<<<<<< HEAD
+
 		return "backstage/Backstage";
 	}
 	
@@ -90,9 +119,7 @@ public class HomeController {
 	
 	@GetMapping("/backstage/Contest")
 	public String gotoContestBackStage(Model model) {
-		
-		
-		
+		model.addAttribute("allContest", cService.selectAllContest());
 		return "backstage/Contest";
 	}
 	
@@ -114,4 +141,12 @@ public class HomeController {
 		return "backstage/Exchange";
 
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 }
