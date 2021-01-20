@@ -4,20 +4,16 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.web.game.member.model.MemberBean;
+
 import com.web.game.withplay.dao.WithOrderDao;
 import com.web.game.withplay.model.WithOrder;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithOrderService;
-
-import ecpay.payment.integration.AllInOne;
-import ecpay.payment.integration.domain.AioCheckOutOneTime;
 
 @Transactional
 @Service
@@ -92,20 +88,5 @@ public class WithOrderServiceImpl implements WithOrderService {
 		return oDAO.list(useriNo);
 	}
 	
-	public String ecpay(Integer total,String sGame,WithPlay wp,MemberBean mb) {
-		  AllInOne all=new AllInOne("");
-		  AioCheckOutOneTime obj = new AioCheckOutOneTime();
-		  obj.setMerchantTradeNo(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 20));
-		  obj.setMerchantTradeDate(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new java.util.Date()));
-		  obj.setTotalAmount(total.toString());
-		  obj.setTradeDesc(mb.getsEname()+"向"+wp.getsNickname()+"預定此款遊戲:"+sGame+"共玩");
-		  obj.setItemName(sGame);
-		        obj.setClientBackURL("http://localhost:8080/GameWebSpringMVC/withplay/Index");
-		  obj.setReturnURL("http://211.23.128.214:5000");
-		  obj.setNeedExtraPaidInfo("N");
-		  String form = all.aioCheckOut(obj, null);
-		  return form;
-		  //4311 9522 2222 2222   0130 
-		 }
 	
 }

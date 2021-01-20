@@ -15,7 +15,7 @@ response.setContentType("text/html;charset=UTF-8");
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>With</title>
+<title>WithIndex</title>
 <link rel="stylesheet" href="../css/WithGame.css">
 
 
@@ -29,12 +29,15 @@ response.setContentType("text/html;charset=UTF-8");
 		<h1 class="mt-4 mb-3">
 			陪玩 <small>Play</small>
 		</h1>
-			${ecpay}
+
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a>
 			</li>
 			<li class="breadcrumb-item active">陪玩</li>
 		</ol>
+
+
+		<%-- 		<form action='${pageContext.request.contextPath}/withplay/select'> --%>
 		<div class="input-group" style="width:600px;text-align:center;">
 			<input type="text"  placeholder="輸入暱稱" name="sNickname" class="form-control input-lg" id="sNickname" style="width:200px"> 
 				<span class="input-group-btn"> 

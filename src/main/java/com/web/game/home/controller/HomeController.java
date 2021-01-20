@@ -89,7 +89,6 @@ public class HomeController {
 	
 	@GetMapping("/backstage")
 	public String gameBackStage() {
-
 		return "backstage/Backstage";
 	}
 	
@@ -141,7 +140,6 @@ public class HomeController {
 		map.put("demand",exchangeService.getAllDemandList());
 		model.addAttribute("AllListMap",map);
 		return "backstage/Exchange";
-
 	}
 	
 	

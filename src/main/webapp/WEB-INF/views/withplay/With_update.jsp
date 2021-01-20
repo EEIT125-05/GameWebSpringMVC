@@ -68,7 +68,7 @@ td{
       <li class="breadcrumb-item">
         <a href="<c:url value='/'/>">Home</a>
       </li>
-      <li class="breadcrumb-item active">修改陪玩師個人資料</li>
+      <li class="breadcrumb-item active">修改陪玩主個人資料</li>
     </ol>
     
 	<div align="center">
@@ -167,7 +167,7 @@ td{
             	$("#previewLabel").show();
             	$("#imagePreview").show();
             	$("#imagePreview").attr('src',e.target.result)
-            						.attr('style',"height:300px;width:279px;");
+            						.attr('style',"height:300px;width:346px;");
             }
 
 		});
