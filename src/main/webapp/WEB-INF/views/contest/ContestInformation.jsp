@@ -125,7 +125,6 @@ body{
 }
 
 
-
 </style>
 
 </head>
@@ -135,14 +134,14 @@ body{
 <div class="container">
 	<input type="hidden" id="checkUser" value="${user}">
 <!-- 			按報名鈕檢查使用者是否登入用的 -->
-	<h1 class="mt-4 mb-3">
+<!-- 	<p class="mt-4 mb-3"> -->
 <!-- 		比賽詳細資料  -->
 <!-- 		<small>XXXXX</small> -->
-	</h1>
+<!-- 	</p> -->
 
-	<ol class="breadcrumb">
+	<ol class="breadcrumb" style="font-size:1.5em">
 		<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a></li>
-		<li class="breadcrumb-item active"><a href="<c:url value='/contest/Index'/>">賽事</a></li>
+		<li class="breadcrumb-item active" ><a href="<c:url value='/contest/Index'/>">賽事</a></li>
 		<li class="breadcrumb-item active">詳細資料</li>
 	</ol>
 
