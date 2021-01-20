@@ -242,7 +242,13 @@ public class WithController {
 		WithOrder order=new WithOrder(null, null, null, null, total, sGame, member, withPlay);
 		withOrderService.insertWithOrder(order);
 		model.addAttribute("Order", order);
-		return "redirect:/withplay/Index";
+		model.addAttribute("ecpay",withOrderService.ecpay(total, sGame, withPlay, member));
+		JavaMail mail = new JavaMail();
+		mail.SendMail(total, sGame, withPlay, member);
+//		return "redirect:/withplay/Index";
+		 
+		return "withplay/WithplayIndex";
+
 
 	}
 	
@@ -250,7 +256,13 @@ public class WithController {
 	@GetMapping("/withplay/Withorderlist")
 	public String PersonOrder(Model model) {
 		model.addAttribute("WithOrder",withOrderService.getWithOrderList(((MemberBean) model.getAttribute("user")).getiNo()));
-		model.addAttribute("WithOrder2",withOrderService.getWithOrderwithList(((MemberBean) model.getAttribute("user")).getiNo()));
+		List<WithOrder> withorder2 = withOrderService.getWithOrderwithList(((WithPlay) model.getAttribute("withplayHost")).getiId());
+		model.addAttribute("WithOrder2",withorder2);
+		System.out.println("有進這個123");
+		System.out.println("長度: " + withorder2.size());
+		for(WithOrder w: withorder2) {
+			System.out.println("123 " + w.getWith().getsNickname());
+		}
 		return "withplay/WithOrderlist-1";
 				
 	}

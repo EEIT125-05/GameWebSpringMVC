@@ -77,7 +77,7 @@
 	              	<a class="dropdown-item" href="<c:url value='/withplay/Index'/>">找人陪玩</a>
 		              <c:choose>
 		              <c:when test="${empty withplayHost.sAccount}">
-		              	<a class="dropdown-item" href="<c:url value='/withplay/new'/>">當陪玩主</a>
+		              	<a class="dropdown-item" href="<c:url value='/withplay/new'/>">當陪玩師</a>
 	             	<a class="dropdown-item" href="<c:url value='/withplay/Withorderlist'/>">我的訂單</a>
 	             	<a class="dropdown-item" href="<c:url value='/withplay/With'/>">管理</a>
 		              </c:when>  

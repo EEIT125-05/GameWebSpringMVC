@@ -114,85 +114,76 @@ td {
 </style>
 </head>
 <body>
-	<%@ include file="../Header.jsp"%>
-	<div class="container">
+<%@ include file="../Header.jsp" %>
+<div class="container">
 
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a>
-			</li>
-			<li class="breadcrumb-item active">成為陪玩主</li>
-		</ol>
+<ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="<c:url value='/'/>">Home</a>
+      </li>
+      <li class="breadcrumb-item active">成為陪玩師</li>
+    </ol>
+    
+	<div align="center">
+		<form:form method="post" modelAttribute="With"
+			enctype='multipart/form-data' class="dark-matter com">
+			<table style="cellpadding:5px">
+				<tbody >
+				<form:hidden path="iId" />
+				<form:hidden path="sGender" items='${sGenderMap}' readonly="true" />
 
-		<div align="center">
-			<form:form method="post" modelAttribute="With"
-				enctype='multipart/form-data' class="dark-matter com">
-				<table style="cellpadding: 5px">
-					<tbody>
-						<form:hidden path="iId" />
-						<form:hidden path="sGender" items='${sGenderMap}' readonly="true" />
+				<tr>
+					<td>帳號</td>
+					<td><form:input path="sAccount" readonly="true"/>&nbsp;<span style="color:red;"><form:errors path="sAccount"/></span></td>
+					
+					
+				</tr>
+				<tr>
+					<td>姓名</td>
+					<td><form:input path="sName" readonly="true"/>&nbsp;<form:errors path="sName"/></td>
+				</tr>
+				<tr>
+					<td>暱稱</td>
+					<td><form:input path="sNickname" /><span style="color:red;"><form:errors  path="sNickname"/></span></td>
+					
+				</tr>
+				<tr>
+					<td>身分證字號</td>
+					<td><form:input path="sIdcode" maxlength="10" id="sIdcode"  onblur="checkIdcode();"/>
+					<input type="button" id='IdcodeCheck' value="檢查"><br><span id="Idcode"></span>
+					</td>
+				</tr>
+				<tr>
+					<td>遊戲選項</td>
+					<td><span style="color:lightgrey;"><form:checkboxes path="sGame" items='${sGameMap}' /></span>&nbsp;<span style="color:red;"><form:errors path="sGame"/></span></td>
 
-						<tr>
-							<td>帳號</td>
-							<td><form:input path="sAccount" readonly="true" />&nbsp;<span
-								style="color: red;"><form:errors path="sAccount" /></span></td>
-
-
-						</tr>
-						<tr>
-							<td>姓名</td>
-							<td><form:input path="sName" readonly="true" />&nbsp;<form:errors
-									path="sName" /></td>
-						</tr>
-						<tr>
-							<td>暱稱</td>
-							<td><form:input path="sNickname" /><span
-								style="color: red;"><form:errors path="sNickname" /></span></td>
-
-						</tr>
-						<tr>
-							<td>身分證字號</td>
-							<td><form:input path="sIdcode" maxlength="10" id="sIdcode"
-									onblur="checkIdcode();" /> <input type="button"
-								id='IdcodeCheck' value="檢查"><br>
-							<span id="Idcode"></span></td>
-						</tr>
-						<tr>
-							<td>遊戲選項</td>
-							<td><span style="color: lightgrey;"><form:checkboxes
-										path="sGame" items='${sGameMap}' /></span>&nbsp;<span
-								style="color: red;"><form:errors path="sGame" /></span></td>
-
-						</tr>
-						<tr>
-							<td>照片<br>&nbsp;
-							</td>
-							<td><form:input path="mWithImage" type='file'
-									accept="image/*" id="fImage"
-									style="width:346px;overflow:hidden;" /> <label
-								id="previewLabel"></label><br> <img id="imagePreview">
-							</td>
-						</tr>
-
-						<tr>
-							<td>金額</td>
-							<td><form:input path="iPrice" placeholder="不得大於150元" />&nbsp;<span
-								style="color: yellow;"><form:errors path="iPrice" /></span></td>
-						</tr>
-						<tr>
-							<td>自我介紹</td>
-							<td><form:textarea path="sComment" id="Comment"
-									onblur="checkComment();" rows="6" cols="30"
-									pattern="^[\u4e00-\u9fa5]+$" minlength="6"
-									placeholder="輸入中文六個字以上" /><span id="idname"></span></td>
-						</tr>
-						<tr>
-							<td colspan="2" align="center"><button type="button"
-									class="button" onclick="checkSubmit()">送出</button></td>
-						</tr>
-					<tbody />
-				</table>
-
-			</form:form>
+				</tr>
+				<tr>
+					<td>照片<br>&nbsp;
+					</td>
+					<td >
+					<form:input path="mWithImage" type='file' accept="image/*" id="fImage" style="width:346px;overflow:hidden;"/>
+					<label id="previewLabel"></label><br>
+            		<img id="imagePreview">
+            		</td>
+				</tr>
+				
+				<tr>
+					<td>金額</td>
+					<td><form:input path="iPrice" />&nbsp;<span style="color:yellow;"><form:errors path="iPrice" placeholder="不得大於150元"/></span></td>
+				</tr>
+				<tr>
+					<td>自我介紹</td>
+					<td><form:textarea path="sComment" id="Comment"  onblur="checkComment();" rows="6" cols="30"
+					 pattern="^[\u4e00-\u9fa5]+$" minlength="6" placeholder="輸入中文六個字以上"/><span id="idname"></span></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center"><input type="submit" class="button"></td>
+				</tr>
+				<tbody/>
+			</table>
+				
+		</form:form>
 
 		</div>
 	</div>
@@ -208,7 +199,6 @@ td {
 
 		
 
-		$(function() {
 
 
 	$(function(){
@@ -219,22 +209,24 @@ td {
 		$("#previewLabel").hide();
 		
 		$("#fImage").on("change",function(){
-
-
-		
-		$(function() {
-
-
-
-		
-		$(function() {
-
-
-		
-		$(function() {
-
  
 			console.log("file: " + $("#fImage").val());
+            let fileReader = new FileReader();
+            let imageFile = this.files[0];
+            
+            if(typeof(imageFile) == "object"){
+	            fileReader.readAsDataURL(imageFile);
+            }else{
+	            $("#imagePreview").hide();
+	    		$("#previewLabel").hide();
+            }
+            
+            fileReader.onload = function(e) {
+            	$("#previewLabel").show();
+            	$("#imagePreview").show();
+            	$("#imagePreview").attr('src',e.target.result)
+            						.attr('style',"height:300px;width:279px;");
+            }
 
 			$("#imagePreview").hide();
 			$("#previewLabel").hide();
