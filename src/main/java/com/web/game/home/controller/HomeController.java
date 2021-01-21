@@ -120,12 +120,6 @@ public class HomeController {
 		return "backstage/Withplay";
 	}
 	
-	@GetMapping("/backstage/Contest")
-	public String gotoContestBackStage(Model model) {
-		model.addAttribute("allContest", cService.selectAllContest());
-		return "backstage/Contest";
-	}
-	
 	@GetMapping("/backstage/Forum")
 	public String gotoForumBackStage(Model model) {
 		
