@@ -33,7 +33,7 @@ input {
 						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$">
 				</H3>
 				<h6 style='color: red;'>${showError}</h6>
-				<h6 style='color: limegreen;'>${message}</h6>
+				<h6 style='color: green;'>${message}</h6>
 				<BR>
 				<H3>
 					<button type="submit">

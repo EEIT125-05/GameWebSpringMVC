@@ -72,37 +72,48 @@ input {
 					</tr>
 					<tr class="b">
 						<td>會員暱稱</td>
-						<td>:${OneMember.sNickname}<input type="hidden" id="Nickname"
-							name="sNickname" value="${OneMember.sNickname}"></td>
+						<td>:<input type="text" id="Nickname" name="sNickname"
+							value="${OneMember.sNickname}"></td>
 					</tr>
 					<tr class="b">
 						<td>會員真實姓名</td>
-						<td>:${OneMember.sEname}<input type="hidden" id="Ename"
-							name="sEname" pattern="^[\u4e00-\u9fa5]+$" minlength="2"
-							maxlength="4" value="${OneMember.sEname}"></td>
+						<td>:<input type="text" id="Ename" name="sEname"
+							pattern="^[\u4e00-\u9fa5]+$" minlength="2" maxlength="4"
+							value="${OneMember.sEname}"></td>
 					</tr>
 					<tr class="b">
 						<td>會員手機號碼</td>
-						<td>:${OneMember.sPhone}<input type="hidden" id="Phone"
-							name="sPhone" maxlength="10" pattern="[0]{1}[9]{1}\d{8}"
+						<td>:<input type="text" id="Phone" name="sPhone"
+							maxlength="10" pattern="[0]{1}[9]{1}\d{8}"
 							value="${OneMember.sPhone}"></td>
 					</tr>
 					<tr class="b">
 						<td>會員居住城市</td>
-						<td>:${user.sAddress} <!-- 						<select id="Address" name="sAddress"> -->
-							<%-- 								<option>${user.sAddress}</option> --%> <!-- 								<option>臺北市</option> -->
-							<!-- 								<option>新北市</option> --> <!-- 								<option>桃園市</option> -->
-							<!-- 								<option>臺中市</option> --> <!-- 								<option>臺南市</option> -->
-							<!-- 								<option>高雄市</option> --> <!-- 								<option>基隆市</option> -->
-							<!-- 								<option>新竹市</option> --> <!-- 								<option>嘉義市</option> -->
-							<!-- 								<option>新竹縣</option> --> <!-- 								<option>苗栗縣</option> -->
-							<!-- 								<option>彰化縣</option> --> <!-- 								<option>南投縣</option> -->
-							<!-- 								<option>雲林縣</option> --> <!-- 								<option>嘉義縣</option> -->
-							<!-- 								<option>屏東縣</option> --> <!-- 								<option>宜蘭縣</option> -->
-							<!-- 								<option>花蓮縣</option> --> <!-- 								<option>臺東縣</option> -->
-							<!-- 								<option>澎湖縣</option> --> <!-- 								<option>金門縣</option> -->
-							<!-- 								<option>連江縣</option> --> <!-- 						</select> -->
-						</td>
+						<td>:<select id="Address" name="sAddress">
+								<option>${user.sAddress}</option>
+								<option>臺北市</option>
+								<option>新北市</option>
+								<option>桃園市</option>
+								<option>臺中市</option>
+								<option>臺南市</option>
+								<option>高雄市</option>
+								<option>基隆市</option>
+								<option>新竹市</option>
+								<option>嘉義市</option>
+								<option>新竹縣</option>
+								<option>苗栗縣</option>
+								<option>彰化縣</option>
+								<option>南投縣</option>
+								<option>雲林縣</option>
+								<option>嘉義縣</option>
+								<option>屏東縣</option>
+								<option>宜蘭縣</option>
+								<option>花蓮縣</option>
+								<option>臺東縣</option>
+								<option>澎湖縣</option>
+								<option>金門縣</option>
+								<option>連江縣</option>
+						</select></td>
 					</tr>
 					<tr class="b">
 						<td>會員性別</td>

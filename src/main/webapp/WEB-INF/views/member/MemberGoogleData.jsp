@@ -51,6 +51,26 @@ input {
 	<H1 align='center'>Google會員資料</H1>
 	<hr>
 	<%@ include file="../Header.jsp"%>
+	<div id="DIV1">
+		<H1>相關記錄</H1>
+		<table>
+			<tr>
+				<td class="a"><a href="####">商城記錄</a></td>
+			</tr>
+			<tr>
+				<td class="a"><a href="####">討論區記錄</a></td>
+			</tr>
+			<tr>
+				<td class="a"><a href="####">陪玩記錄</a></td>
+			</tr>
+			<tr>
+				<td class="a"><a href="####">賽事記錄</a></td>
+			</tr>
+			<tr>
+				<td class="a"><a href="####">交換記錄</a></td>
+			</tr>
+		</table>
+	</div>
 	<div align='center'>
 		<div style='margin-bottom: 30;'>
 			<form action="<c:url value='/member/GoogleUpdate'/>" method="post" class="dark-matter com">

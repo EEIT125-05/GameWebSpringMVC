@@ -22,6 +22,7 @@ public class BusinessHistory {
     private Integer iNO;
     private String sAccount;
     private Timestamp tTime;
+    private String fMoney;
     
     @OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="fk_cartid",referencedColumnName = "iNo")
@@ -34,13 +35,26 @@ public class BusinessHistory {
 	
 	
 	
-	public BusinessHistory(Integer iNO, String sAccount, Timestamp tTime, Set<BusinessDetail> item) {
+	public BusinessHistory(Integer iNO, String sAccount, Timestamp tTime, Set<BusinessDetail> item,String sMoney) {
 		super();
 		this.iNO = iNO;
 		this.sAccount = sAccount;
 		this.tTime = tTime;
 		this.item = item;
+		this.fMoney=sMoney;
 	}
+
+
+	public String getfMoney() {
+		return fMoney;
+	}
+
+
+
+	public void setfMoney(String fMoney) {
+		this.fMoney = fMoney;
+	}
+
 
 
 	public Integer getiNO() {

@@ -14,6 +14,7 @@ import javax.persistence.Transient;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.org.apache.xml.internal.security.signature.SignedInfo;
 
 @Entity
@@ -45,6 +46,7 @@ public class MemberBean {
 	@Column(columnDefinition = "bit")
 	private boolean status = true;
 	
+	@JsonIgnore
 	Blob image;
 	String fileName;
 	@Transient
