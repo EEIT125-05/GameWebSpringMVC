@@ -244,7 +244,7 @@ ul.test:after {
 <%-- 					</c:choose> --%>
 <%-- 				</c:otherwise> --%>
 <%-- 			</c:choose> --%>
-<!-- 		</div> -->
+		</div>
 		
 		<ul class="nav nav-tabs test" id="myTab" role="tablist">
 			  <li class="nav-item">
@@ -596,8 +596,8 @@ ul.test:after {
 		</div>
 		
 		
-</div>
 		<div id="tree" class="tree"></div>
+</div>
 <!-- 		畫圖用 不讓使用者看的 -->
 <%@ include file="../Foot.jsp"%>
 
