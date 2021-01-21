@@ -49,7 +49,9 @@ table{
 	font-size: 20;
 	font-weight: 900;
 }
-
+.b:hover {
+	color: #00FFFF;
+}
 .leftBar {
 	width: 450px;
 	height: 80px;

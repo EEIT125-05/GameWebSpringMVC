@@ -35,7 +35,7 @@ input {
 #DIV4 {
 	color: white;
 	width: 450px;
-	height: 400px;
+	height: 450px;
 	margin: 15px;
 	border: 3px solid gray;
 	float: right;
@@ -49,7 +49,9 @@ table {
 	font-size: 20;
 	font-weight: 900;
 }
-
+.b:hover {
+	color: #00FFFF;
+}
 .leftBar {
 	width: 450px;
 	height: 80px;
@@ -288,9 +290,9 @@ table {
 				<form action="<c:url value='/member/MemberData'/>" method="post"
 					enctype="multipart/form-data">
 					<div id="DIV3">
-						<img style="width: 250; height: 250;"
+						<img style="width: 350; height: 300;"
 							src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>"><br>
-						點選換照片<input type="file" name="productImage" />
+						<h6>點選換照片<input type="file" name="productImage" /></h6>
 					</div>
 					<div id="DIV4">
 						<input name="iNo" type="hidden" value="${user.iNo}" readonly>
