@@ -213,7 +213,7 @@
           <div class="col-md-12">
             <div class="card ">
               <div class="card-header ">
-                <h5 class="card-title">每月新增會員</h5>
+                <h5 class="card-title">每周新增會員</h5>
                 <p class="card-category">2020/09月-2021/01月</p>
               </div>
               <div class="card-body ">
@@ -232,8 +232,8 @@
           <div class="col-md-6">
             <div class="card ">
               <div class="card-header ">
-                <h5 class="card-title">我要換</h5>
-                <p class="card-category">最多遊戲</p>
+                <h5 class="card-title">會員</h5>
+                <p class="card-category">性別</p>
               </div>
               <div class="card-body ">
                 <canvas id="chartEmail"></canvas>
@@ -256,8 +256,8 @@
           <div class="col-md-6">
             <div class="card ">
               <div class="card-header ">
-                <h5 class="card-title">許願池</h5>
-                <p class="card-category">最缺遊戲</p>
+                <h5 class="card-title">會員星座</h5>
+                <p class="card-category">十二星座</p>
               </div>
               <div class="card-body ">
                 <canvas id="chartEmail1"></canvas>
