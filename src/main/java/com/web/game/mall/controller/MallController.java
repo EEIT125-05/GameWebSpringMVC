@@ -56,6 +56,11 @@ public class MallController {
 		System.out.println("8888888888888");
 		return "/mall/MallCart";
 	}
+	@GetMapping("/MALLbat")
+	public String MALLbat() {
+		System.out.println("8888888888888");
+		return "/mall/Mall";
+	}
 	private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
 	private static final String CHARSET_CODE = "UTF-8";
 
@@ -139,14 +144,14 @@ public class MallController {
 		MallBean studentData = (MallBean) model.getAttribute("reg_student");
 		ms.insertStudent(studentData);
 		
-		return "mall/MallMainPage";
+		return "mall/Mall";
 
 	}
 //刪除資料後 顯示以刪除的資訊
 	@GetMapping("/delete")
 	public String deleteMall(Model model, @RequestParam Integer no) {// 刪除
 		ms.deleteMall(no);
-		return "mall/MallMainPage";
+		return "mall/Mall";
 	}
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
