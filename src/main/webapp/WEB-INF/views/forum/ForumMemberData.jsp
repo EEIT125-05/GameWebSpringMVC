@@ -177,28 +177,16 @@
 											<td>${reply.dDate} ${reply.tTime}</td>
 										</tr>
 									</c:forEach>
-								
-								
-								
 								</table>
 							</c:otherwise>
 						</c:choose>
-					
-					
-					
-					
 					</div>
 				</div>
 			</div>
-
-
-
 		</div>
-
 	</div>
 
 
-	<div style="clear: both;"></div>
 <!-- 	</div> -->
 	<%@ include file="../Foot.jsp"%>
 </body>

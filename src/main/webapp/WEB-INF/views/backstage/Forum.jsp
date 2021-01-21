@@ -218,7 +218,7 @@
 										<td>${forum[5]}</td>
 										<td>${forum[6]}</td>
 										<td>
-											<button class="btn btn-danger deleteContest" value="${forum[0]}">刪除</button>
+											<button class="btn btn-danger deleteForum" value="${forum[0]}">刪除</button>
 										</td>
 									</tr>
 								</c:forEach>
@@ -257,7 +257,7 @@
 										<td>${reply.sText}</td>
 										<td>${reply.sAuthor}</td>
 										<td>
-											<button class="btn btn-danger deleteParticipate" value="${reply.iNo}">刪除</button>
+											<button class="btn btn-danger deleteReply" value="${reply.iNo}">刪除</button>
 										</td>
 									</tr>
 								</c:forEach>
@@ -413,7 +413,7 @@
 	    myChart = new Chart(ctx, {
 	      type: 'bar', 
 	      data: {
-	        labels: ['英雄聯盟','魔物獵人','跑跑卡丁車','鬥陣特攻','絕地求生','爐石戰記','傳說對決'],
+	        labels: ['週五發售..','<魔物獵人..','頑皮狗釋..','<迪士尼..','英國男子..','從<X>到..','變種病毒..'],
 	        datasets: [{
 	          label: '瀏覽次數',
 	          data: [120, 149, 81, 59, 102, 97, 76], 
@@ -506,6 +506,125 @@
 	    		}
 			});
 	    
+	    $(".row").on("click","a",function(){
+			this.target = "_blank";
+		});	
+	    
+	    $(".row").on("click",".deleteForum", function(){
+	    	let tr = $(this).closest("tr");
+			Swal.fire({
+				showClass: {
+				    popup: 'animate__animated animate__fadeInDown'
+				  },
+				  title: '確定刪除此則貼文?',
+				  text: "刪除之後將不能復原",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#d33',
+				  cancelButtonColor: '#3085d6',
+				  confirmButtonText: '刪除',
+			      cancelButtonText: '取消',
+					hideClass: {
+					    popup: 'animate__animated animate__fadeOutUp'
+					  }
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+							type: "delete",
+							url: "<c:url value='/forum/Edit/" + $(this).val() + "'/>",
+							dataType: "json",
+							data: {},
+							success: function(result){
+								if(result.status == "success"){
+									Swal.fire({
+											      title:"刪除成功!",
+												  icon:"success",
+												  hideClass: {
+												    popup: 'animate__animated animate__fadeOutUp'
+												  }
+											  }).then(function(){
+												window.setTimeout(function(){tr.remove();},500);
+												
+											})
+								}else if(result.status == "sqlError"){
+									Swal.fire(
+											  '資料庫發生錯誤!',
+											  '請聯繫管理員',
+											  'error'
+											)
+								}
+							},
+							error: function(err){
+								Swal.fire(
+										  '網頁發生錯誤!',
+										  '請聯繫管理員',
+										  'error'
+										)
+							}
+							
+						});		
+				  }
+				});
+
+		});
+	    
+	    $(".row").on("click", ".deleteReply", function(){
+	    	let tr = $(this).closest("tr");
+			Swal.fire({
+				showClass: {
+				    popup: 'animate__animated animate__fadeInDown'
+				  },
+				  title: '確定刪除此筆留言?',
+				  text: "刪除之後將不能復原",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#d33',
+				  cancelButtonColor: '#3085d6',
+				  confirmButtonText: '刪除',
+			      cancelButtonText: '取消',
+					hideClass: {
+					    popup: 'animate__animated animate__fadeOutUp'
+					  }
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+							type: "delete",
+							url: "<c:url value='/forum/EditReply/" + $(this).val() + "'/>",
+							dataType: "json",
+							data: {},
+							success: function(result){
+								if(result.status == "success"){
+									Swal.fire({
+											      title:"刪除成功!",
+												  icon:"success",
+												  hideClass: {
+												    popup: 'animate__animated animate__fadeOutUp'
+												  }
+											  }).then(function(){
+												window.setTimeout(function(){tr.remove();},500);
+												
+											})
+								}else if(result.status == "sqlError"){
+									Swal.fire(
+											  '資料庫發生錯誤!',
+											  '請聯繫管理員',
+											  'error'
+											)
+								}
+							},
+							error: function(err){
+								Swal.fire(
+										  '網頁發生錯誤!',
+										  '請聯繫管理員',
+										  'error'
+										)
+							}
+							
+						});		
+				  }
+				});
+
+		});
 	    
 	    
 	    
