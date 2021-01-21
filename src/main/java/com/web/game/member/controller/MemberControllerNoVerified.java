@@ -270,7 +270,7 @@ public class MemberControllerNoVerified {
 //				+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/GameBarGMSignin'\r\n" + "})");
 //		out.print("</script>");
 //		out.print("</html></body>");
-		return "member/MemberGetAll";
+		return "/backstage/Member";
 	}
 
 	@GetMapping("/SignIn")

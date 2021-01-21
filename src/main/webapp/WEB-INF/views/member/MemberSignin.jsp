@@ -328,7 +328,8 @@ input {
 				<br> <span id="check"></span>
 			</h4>
 
-			<button id="submitSignin" name="submit555" type="button" class="button"
+			<button id="submitSignin" name="submit555" type="button"
+				class="button"
 				style='width: 350; height: 50; font-size: 30; margin-top: 15;'
 				onclick="checkSubmit();">
 				<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
