@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -341,7 +342,7 @@ public class MemberControllerVerified {
 	}
 
 	@RequestMapping("/Change/{sAccount}")
-	public boolean StatusChange(Model model, @PathVariable("sAccount") String sAccount, boolean status,
+	public @ResponseBody boolean StatusChange(Model model, @PathVariable("sAccount") String sAccount, boolean status,
 			HttpServletResponse response) {
 		System.out.println("改變權限");
 		MemberBean StatusChange = mService.Selectmember(sAccount);
