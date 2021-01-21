@@ -128,19 +128,15 @@
 											<td><a href="<c:url value='/forum/Detail/${forum.iNo}'/>">${forum.sTitle}</a></td>
 											<td>${forum.dDate} ${forum.tTime}</td>
 											<td>
-												<a class="btn btn-primary update" href="<c:url value='/forum/Update/${forum.iNo}'/>">修改</a>
-												<button class="btn btn-primary delete" value="${forum.iNo}">刪除</button>
+												<a class="btn btn-primary" href="<c:url value='/forum/Update/${forum.iNo}'/>">更改</a>
+												<button class="btn btn-danger delete" value="${forum.iNo}">刪除</button>
 											</td>
 										</tr>
 									</c:forEach>
 								
-								
-								
 								</table>
 							</c:otherwise>
 						</c:choose>
-						
-						
 						
 					</div>
 				</div>

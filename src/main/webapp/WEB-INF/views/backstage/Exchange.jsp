@@ -62,7 +62,6 @@
 /* 	height: 100vh; */
 /* } */
 
-
 </style>
 </head>
 <body class="">
@@ -73,7 +72,8 @@
     
     
     
-    <div class="main-panel" style="height:100vh">
+    <div class="main-panel" >
+<!--     <div class="test"> -->
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
         <div class="container-fluid">
@@ -484,7 +484,7 @@
       
     </div>
   </div>
-<%@ include file="../Foot.jsp"%>
+<%-- <%@ include file="../Foot.jsp"%> --%>
 </body>
  <script>
  

@@ -164,7 +164,7 @@
         </div>
         <div>
             <label>比賽時間: </label> 
-            <input type="datetime-local" id="sTime" name="sTime" value="${sTime}"/>
+            <input type="datetime-local" id="sTime" name="sTime" value="${sTime}" />
             <form:errors path="tTime" class="error"/>
             <label class="error"></label>
         </div>
@@ -204,7 +204,7 @@
 
 	$(function(){
 		
-		if($("#iPeople").val() != ""){
+		if($("#iPeople").val() != "" && $("#sPreliminary").val() != 'none'){
 			let preliminaries = $("#sPreliminary").val().split('-');
 			$("#preliminariesCountSelect").append("<select id=\"preliminariesCount1\" style=\"margin:0;width:50px\"></select>取<select id=\"preliminariesCount2\" style=\"margin:0;width:50px\"></select>剩餘取<select id=\"preliminariesCount3\" style=\"margin:0;;width:30px\"><option value=\"0\">0</option></select>");;
 			for(let i=2; i<=$("#iPeople").val(); i++) {
