@@ -57,7 +57,7 @@ public class MallDAOImpl {
 
 	}
 
-	public boolean insertDeal(List<CartItem> List, String account) {
+	public boolean insertDeal(List<CartItem> List, String account,String money) {
 
 		Session session = Factory.getCurrentSession();
 		Set<BusinessDetail> details = new HashSet<BusinessDetail>();
@@ -71,7 +71,7 @@ public class MallDAOImpl {
 			details.add(bd);
 		}
 
-		BusinessHistory bh = new BusinessHistory(null, account, tTime, details);
+		BusinessHistory bh = new BusinessHistory(null, account, tTime, details,money);
 		session.save(bh);
 		return false;
 	}

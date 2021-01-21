@@ -56,10 +56,10 @@ public class MallserviceImpl {
 	}
 
 	@Transactional
-	public boolean insertDeal(List<CartItem> List, String account) {
+	public boolean insertDeal(List<CartItem> List, String account,String sbString) {
 
 		boolean mm = false;
-		mm = dao.insertDeal(List, account);
+		mm = dao.insertDeal(List, account,sbString);
 		return mm;
 	}
 
