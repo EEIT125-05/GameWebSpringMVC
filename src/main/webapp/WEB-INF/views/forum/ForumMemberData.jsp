@@ -115,7 +115,7 @@
 									<thead>
 									<tr>
 										<th>編號</th>
-										<th>分類</th>
+										<th>子版</th>
 										<th>標題</th>
 										<th>時間</th>
 										<th>編輯</th>

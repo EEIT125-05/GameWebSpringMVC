@@ -17,4 +17,7 @@ public interface ReplyDAO {
 	public ReplyBean selectOneReply(Integer iNo);
 	
 	public List<ReplyBean> selectUserReply(String sAccount);
+	
+	public List<ReplyBean> selectAllReply();
+	
 }

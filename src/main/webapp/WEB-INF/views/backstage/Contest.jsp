@@ -20,7 +20,7 @@
   	<%@ include file="./SideBar.jsp"%>
   
   
-    <div class="main-panel" style="height: 100vh;">
+    <div class="main-panel">
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
         <div class="container-fluid">
@@ -191,6 +191,7 @@
 	           </div>
 	         </div>
           </div>
+          
 			<div class="row" id="accordion">
 				<div class="card col-md-12">
 					<div class="card-header" id="headingOne">
@@ -202,47 +203,90 @@
 					<div id="collapseAllContest" class="collapse"
 						aria-labelledby="headingOne" data-parent="#accordion">
 						<div class="card-body">
-							
-							<c:choose>
-								<c:when test="${empty allContest}">
-									<span>查無資料</span>
-								</c:when>
-								<c:otherwise>
-									
-									<table border="1" id="tableAllContest" class="table table-hover" style="font-size: 12px; border:3px">
-										<thead>
+						
+							<table border="1" id="tableAllContest" class="table table-hover" style="font-size: 12px; border:3px">
+								<thead>
+								<tr>
+									<th>編號</th>
+									<th>比賽名稱</th>
+									<th>比賽遊戲</th>
+									<th>主辦人</th>
+									<th>比賽時間</th>
+									<th>報名狀況</th>
+									<th>刪除</th>
+								</tr>
+								</thead>
+								<c:forEach var="contest" items="${allContest}">
+									<tr>
+										<td>${contest.iNo}</td>
+										<td><a href="<c:url value='/contest/Information?contestNo=${contest.iNo}'/>">${contest.sName}</a></td>
+										<td>${contest.sGame}</td>
+										<td>${contest.sHost}</td>
+										<fmt:formatDate var="sTime" value="${contest.tTime}" pattern="yyyy-MM-dd HH:mm"/>
+										<td>${sTime}</td>
+										<td>${fn:length(contest.lParticipateBeans)}/${contest.iPeople}</td>
+										<td>
+											<button class="btn btn-danger deleteContest" value="${contest.iNo}">刪除</button>
+										</td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row" id="accordion">
+				<div class="card col-md-12">
+					<div class="card-header" id="headingTwo">
+						<h5 class="mb-0">
+							<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseAllParticipate" aria-expanded="false" aria-controls="collapseAllParticipate">所有參賽者</button>
+						</h5>
+					</div>
+	
+					<div id="collapseAllParticipate" class="collapse"
+						aria-labelledby="headingOne" data-parent="#accordion">
+						<div class="card-body">
+						
+							<table border="1" id="tableAllParticipate" class="table table-hover" style="font-size: 12px; border:3px">
+								<thead>
+								<tr>
+									<th>編號</th>
+									<th>比賽名稱</th>
+									<th>比賽遊戲</th>
+									<th>參賽者</th>
+									<th>比賽時間</th>
+									<th>報名狀況</th>
+									<th>刪除</th>
+								</tr>
+								</thead>
+								<c:forEach var="contest" items="${allContest}">
+									<c:forEach var="participate" items="${contest.lParticipateBeans}">
+								
 										<tr>
-											<th>編號</th>
-											<th>比賽名稱</th>
-											<th>比賽遊戲</th>
-											<th>主辦人</th>
-											<th>比賽時間</th>
-											<th>報名狀況</th>
-											<th>刪除</th>
+											<td>${participate.iNo}</td>
+											<td><a href="<c:url value='/contest/Information?contestNo=${contest.iNo}'/>">${contest.sName}</a></td>
+											<td>${contest.sGame}</td>
+											<td>${participate.sPlayer}</td>
+											<fmt:formatDate var="sTime" value="${contest.tTime}" pattern="yyyy-MM-dd HH:mm"/>
+											<td>${sTime}</td>
+											<td>${fn:length(contest.lParticipateBeans)}/${contest.iPeople}</td>
+											<td>
+												<button class="btn btn-danger deleteParticipate" value="${contest.iNo}">刪除</button>
+											</td>
 										</tr>
-										</thead>
-										<c:forEach var="contest" items="${allContest}">
-											<tr>
-												<td>${contest.iNo}</td>
-												<td><a href="<c:url value='/contest/Information?contestNo=${contest.iNo}'/>">${contest.sName}</a></td>
-												<td>${contest.sGame}</td>
-												<td>${contest.sHost}</td>
-												<fmt:formatDate var="sTime" value="${contest.tTime}" pattern="yyyy-MM-dd HH:mm"/>
-												<td>${sTime}</td>
-												<td>${fn:length(contest.lParticipateBeans)}/${contest.iPeople}</td>
-												<td>
-													<button class="btn btn-danger delete" value="${contest.iNo}">刪除</button>
-												</td>
-											</tr>
-										</c:forEach>
-									</table>
-								</c:otherwise>
-							</c:choose>
+									</c:forEach>
+								</c:forEach>
+							</table>
 						</div>
 					</div>
 				</div>
 			
 			</div>
+			
+			
+			
+			
 			
 
 			</div>
@@ -365,83 +409,6 @@
 		    });
 		    
 		    
-		    
-		    
-		    
-		    
-		    
-		    
-// 		    ctx = document.getElementById('chartGame').getContext("2d");
-
-// 		    myChart = new Chart(ctx, {
-// 		      type: 'pie',
-// 		      data: {
-// 		        labels: ['英雄聯盟','魔物獵人','跑跑卡丁車','鬥陣特攻','絕地求生','爐石戰記','傳說對決'],
-// 		        datasets: [{
-// 		          label: "games",
-// 		          pointRadius: 0,
-// 		          pointHoverRadius: 0,
-// 		          backgroundColor: [
-// 		            '#B87070',
-// 		            '#6FB7B7',
-// 		            '#B766AD',
-// 		            '#FFAD86',
-// 		            '#79FF79',
-// 		            '#9393FF',
-// 		            '#FF60AF'
-// 		          ],
-// 		          borderWidth: 0,
-// 		          data: [8,16,9,10,8,12,10]
-// 		        }]
-// 		      },
-
-// 		      options: {
-
-// 		        legend: {
-// 		          display: true
-// 		        },
-
-// 		        pieceLabel: {
-// 		          render: 'percentage',
-// 		          fontColor: ['white'],
-// 		          precision: 2
-// 		        },
-
-// 		        tooltips: {
-// 		          enabled: true
-// 		        },
-
-// 		        scales: {
-// 		          yAxes: [{
-
-// 		            ticks: {
-// 		              display: false
-// 		            },
-// 		            gridLines: {
-// 		              drawBorder: false,
-// 		              zeroLineColor: "transparent",
-// 		              color: 'rgba(255,255,255,0.05)'
-// 		            }
-
-// 		          }],
-
-// 		          xAxes: [{
-// 		            barPercentage: 1.6,
-// 		            gridLines: {
-// 		              drawBorder: false,
-// 		              color: 'rgba(255,255,255,0.1)',
-// 		              zeroLineColor: "transparent"
-// 		            },
-// 		            ticks: {
-// 		              display: false,
-// 		            }
-// 		          }]
-// 		        },
-// 		      }
-// 		    });
-		    
-		    
-		    
 		    $('#tableAllContest').DataTable({
  				language: {
  	    		    "lengthMenu": "顯示_MENU_筆資料",
@@ -469,6 +436,158 @@
  	    		    }
  	    		}
  			});
+		    
+		    $('#tableAllParticipate').DataTable({
+ 				language: {
+ 	    		    "lengthMenu": "顯示_MENU_筆資料",
+ 	    		    "sProcessing": "處理中...",
+ 	    		    "sZeroRecords": "没有匹配结果",
+ 	    		    "sInfo": "目前有_MAX_筆資料",
+ 	    		    "sInfoEmpty": "目前共有 0 筆紀錄",
+ 	    		    "sInfoFiltered": " ",
+ 	    		    "sInfoPostFix": "",
+ 	    		    "sSearch": "尋找:",
+ 	    		    "sUrl": "",
+ 	    		    "sEmptyTable": "尚未有資料紀錄存在",
+ 	    		    "sLoadingRecords": "載入資料中...",
+ 	    		    "sInfoThousands": ",",
+ 	    		    "oPaginate": {
+ 	    		        "sFirst": "首頁",
+ 	    		        "sPrevious": "上一頁",
+ 	    		        "sNext": "下一頁",
+ 	    		        "sLast": "末頁"
+ 	    		    },
+ 	    		    "order": [[0, "desc"]],
+ 	    		    "oAria": {
+ 	    		        "sSortAscending": ": 以升序排列此列",
+ 	    		        "sSortDescending": ": 以降序排列此列"
+ 	    		    }
+ 	    		}
+ 			});
+		    
+		    $(".row").on("click","a",function(){
+				this.target = "_blank";
+			});	
+		    
+		    $(".deleteContest").on("click", function(){
+				Swal.fire({
+					showClass: {
+					    popup: 'animate__animated animate__fadeInDown'
+					  },
+					  title: '確定刪除此賽事?',
+					  text: "刪除之後將不能復原",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#d33',
+					  cancelButtonColor: '#3085d6',
+					  confirmButtonText: '刪除',
+				      cancelButtonText: '取消',
+						hideClass: {
+						    popup: 'animate__animated animate__fadeOutUp'
+						  }
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						  $.ajax({
+								type: "delete",
+								url: "<c:url value='/contest/Edit/" + $(this).val() + "'/>",
+								dataType: "json",
+								data: {},
+								success: function(result){
+									if(result.status == "success"){
+										Swal.fire({
+												      title:"刪除成功!",
+													  icon:"success",
+													  hideClass: {
+													    popup: 'animate__animated animate__fadeOutUp'
+													  }
+												  }).then(function(){
+													window.setTimeout(function(){location.reload();},500);
+													
+												})
+									}else if(result.status == "sqlError"){
+										Swal.fire(
+												  '資料庫發生錯誤!',
+												  '請聯繫管理員',
+												  'error'
+												)
+									}
+								},
+								error: function(err){
+									Swal.fire(
+											  '網頁發生錯誤!',
+											  '請聯繫管理員',
+											  'error'
+											)
+								}
+								
+							});		
+					  }
+					});
+
+			});
+		    
+		    $(".deleteParticipate").on("click", function(){
+		    	console.log($(this).parent().prev().prev().prev().text())
+				Swal.fire({
+					showClass: {
+					    popup: 'animate__animated animate__fadeInDown'
+					  },
+					  title: '確定刪除此位參賽者?',
+					  text: "刪除之後將不能復原",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#d33',
+					  cancelButtonColor: '#3085d6',
+					  confirmButtonText: '刪除',
+				      cancelButtonText: '取消',
+						hideClass: {
+						    popup: 'animate__animated animate__fadeOutUp'
+						  }
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						  $.ajax({
+								type: "delete",
+								url: "<c:url value='/contest/DeleteParticipate/" + $(this).val() + "/" + $(this).parent().prev().prev().prev().text() + "'/>",
+								dataType: "json",
+								data: {},
+								success: function(result){
+									if(result.status == "success"){
+										Swal.fire({
+												      title:"刪除成功!",
+													  icon:"success",
+													  hideClass: {
+													    popup: 'animate__animated animate__fadeOutUp'
+													  }
+												  }).then(function(){
+													window.setTimeout(function(){location.reload();},500);
+													
+												})
+									}else if(result.status == "sqlError"){
+										Swal.fire(
+												  '資料庫發生錯誤!',
+												  '請聯繫管理員',
+												  'error'
+												)
+									}
+								},
+								error: function(err){
+									Swal.fire(
+											  '網頁發生錯誤!',
+											  '請聯繫管理員',
+											  'error'
+											)
+								}
+								
+							});		
+					  }
+					});
+
+			});
+		    
+		    
+		    
+		    
+		    
 		    
 	});
 

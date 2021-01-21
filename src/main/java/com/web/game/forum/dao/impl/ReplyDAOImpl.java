@@ -82,6 +82,14 @@ public class ReplyDAOImpl implements ReplyDAO{
 		Session session = factory.getCurrentSession();
 		return session.createQuery(hql).setParameter("sAccount", sAccount).getResultList();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReplyBean> selectAllReply() {
+		String hql = "from ReplyBean order by dDate desc, tTime desc";
+		Session session = factory.getCurrentSession();
+		return session.createQuery(hql).getResultList();
+	}
 	
 	
 	

@@ -68,6 +68,12 @@ public class ReplyServiceImpl implements ReplyService {
 		return rDAO.selectUserReply(sAccount);
 	}
 	
+	@Transactional
+	@Override
+	public List<ReplyBean> selectAllReply() {
+		return rDAO.selectAllReply();
+	}
+	
 	
 	
 }

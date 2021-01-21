@@ -64,10 +64,11 @@ public class ForumDAOImpl implements ForumDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ForumBean> selectAllForum() {
-		String hql = "from ForumBean order by dDate desc, tTime desc";
+		String sql = "select forum.iNo,forum.sCategory,forum.sTitle,forum.dDate,forum.tTime,forum.sAuthor, count(iForumNo) c from forum left join reply on forum.iNo = reply.iForumNo " + 
+				" group by forum.iNo,forum.sCategory,forum.sTitle,forum.dDate,forum.tTime,forum.sAuthor" + 
+				" order by dDate desc, tTime desc";
 		Session session = factory.getCurrentSession();
-		return session.createQuery(hql)
-						.setMaxResults(6)
+		return session.createNativeQuery(sql)
 						.getResultList();
 	}
 
