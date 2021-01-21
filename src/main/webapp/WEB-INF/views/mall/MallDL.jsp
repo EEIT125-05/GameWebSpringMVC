@@ -7,7 +7,7 @@
 	driver="com.microsoft.sqlserver.jdbc.SQLServerDriver"
 	url="jdbc:sqlserver://localhost:1433;DatabaseName=GameSpringMVCDB"
 	user="sa" password="sa123456" />
-<sql:query sql="select * from BusinessHistoryTable WHERE sAccount like '%${user.sAccount}%'" var="rs" dataSource="${ds}" />
+<sql:query sql="select * from BusinessHistoryTable bh,BusinessDetailTable bd,MalllistTable mt WHERE bh.sAccount like '%${user.sAccount}%'and bd.fk_cartid=bh.iNO and mt.name=bd.sCartName order by fk_cartid " var="rs" dataSource="${ds}" />
     
     
     
@@ -48,16 +48,28 @@ table tr:nth-child(even) {
     </ol>
     
     <table border="0.5">
-			<th>No.</th>
+			<th>訂單編號</th>
 			<th>會員</th>
+			<th>商品</th>
+			<th>數量</th>	
+			<th>價錢</th>
+			<th>總額</th>	
 			<th>訂單時間</th>
+<!-- 			<th>訂單總額</th> -->
 			<c:forEach var="row" items="${rs.rows}">
 				<tr>
-					<td>${row.iNo}</td>
+					<td>${row.fk_cartid}</td>
 					<td>${row.sAccount}</td>
+					<td>${row.sCartName}</td>
+					<td>${row.iQty}</td>
+					<td>${row.money}</td>
+					<td>${row.money*row.iQty}</td>
+					
 					<td>${row.tTime}</td>
+<%-- 					<td>${row.fMoney}</td> --%>
 					
 				</tr>
+				
 			</c:forEach>
 			
 			
