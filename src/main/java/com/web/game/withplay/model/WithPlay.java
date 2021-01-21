@@ -43,12 +43,23 @@ public class WithPlay {
 	private Integer iPrice;	
 	@Column(columnDefinition="VARCHAR(32) NOT NULL")
 	private String sAccount;
+	private Integer iCount;
+	private Integer iStatus;
+	public Integer getiStatus() {
+		return iStatus;
+	}
+
+	public void setiStatus(Integer iStatus) {
+		this.iStatus = iStatus;
+	}
+
 	@JsonIgnore
 	Blob bImage;
 	String sFileName;
 	@Transient
 	MultipartFile mWithImage;
 	
+
 	@OneToMany(mappedBy = "WithBean", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	public List<WithReplyBean> sReplyBeans = new ArrayList<>();
 	
@@ -146,7 +157,7 @@ public class WithPlay {
 	}
 
 	public WithPlay( String sName, String sNickname, String sGender, String sIdcode, String sGame,
-			String sComment, Integer iPrice, String sAccount) {
+			String sComment, Integer iPrice, String sAccount,Integer iCount,Integer iStatus) {
 		super();
 		this.sName = sName;
 		this.sNickname = sNickname;
@@ -156,9 +167,18 @@ public class WithPlay {
 		this.sComment = sComment;
 		this.iPrice = iPrice;
 		this.sAccount = sAccount;
+		this.iCount = iCount;
+		this.iStatus = iStatus;
+		
 	}
 
+	public Integer getiCount() {
+		return iCount;
+	}
 
+	public void setiCount(Integer iCount) {
+		this.iCount = iCount;
+	}
 	
 	
  

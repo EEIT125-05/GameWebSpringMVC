@@ -14,6 +14,13 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 
 <head>
 <meta charset="UTF-8">
+<!-- <script src="sweetalert2.min.js"></script> -->
+<!-- <link rel="stylesheet" href="bower_components/sweetalert2/dist/sweetalert2.min.css"> -->
+<!-- <script src="../sweetalert2.all.min.js"></script> -->
+<script
+	src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
@@ -26,9 +33,6 @@ input {
 
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<!--CLIENT_ID請自己改成從 後端組態檔讀取，例如：ASP.net的Web.config-->
 <script type="text/javascript">
 	let CLIENT_ID = "1008807704595-38ht6cjuqr4a111jlemo1iifp2son1s5.apps.googleusercontent.com";
 	//let API_KEY = '';//Javascript SDK無須 API 金鑰
@@ -40,7 +44,6 @@ input {
 	onreadystatechange="if (this.readyState === 'complete') this.onload()">
 	
 </script>
-<!--以下請另外放置到 *.js檔案-->
 <script type="text/javascript">
 	//jQuery處理button click event 當畫面DOM都載入時....
 	$(function() {
@@ -51,7 +54,14 @@ input {
 		$("#btnDisconnect").on("click", function() {
 			Google_disconnect();//和Google App斷連
 		});
+		// 		$("#Signin").on("click", function(){
+		// 			MemberSignin();
+		// 		});
 	});
+
+	// 		function MemberSignin(){
+	// 			swal("恭喜登入成功", "You clicked the button!", "success");
+	// 		}
 
 	function GoogleClientInit() {
 		//官網範例寫client:auth2，但本人實測由於待會要呼叫gapi.client.init而不是gapi.auth2.init，所以給client即可
@@ -70,34 +80,48 @@ input {
 
 	function GoogleLogin() {
 		let auth2 = gapi.auth2.getAuthInstance();//取得GoogleAuth物件
-		auth2.signIn().then(function(GoogleUser) {
+		auth2
+				.signIn()
+				.then(
+						function(GoogleUser) {
 							console.log("Google登入成功");
 							let user_id = GoogleUser.getId();//取得user id，不過要發送至Server端的話，為了資安請使用id_token，本人另一篇文章有範例：https://dotblogs.com.tw/shadow/2019/01/31/113026
 							console.log("user_id=" + user_id);
 							let AuthResponse = GoogleUser.getAuthResponse(true);//true會回傳包含access token ，false則不會
 							let id_token = AuthResponse.id_token;//取得id_token
 							//people.get方法參考：https://developers.google.com/people/api/rest/v1/people/get
-							gapi.client.people.people.get(
-											{'resourceName' : 'people/me',
+							gapi.client.people.people
+									.get(
+											{
+												'resourceName' : 'people/me',
 												//通常你會想要知道的用戶個資↓
 												'personFields' : 'names,phoneNumbers,emailAddresses,addresses,residences,genders,birthdays,occupations',
-											}).then(function(res) {
+											})
+									.then(
+											function(res) {
 
 												//success
-												let str = JSON.stringify(res.result);//將物件列化成string，方便顯示結果在畫面上
+												let str = JSON
+														.stringify(res.result);//將物件列化成string，方便顯示結果在畫面上
 												//顯示授權你網站存取的用戶個資
 												// 												document.getElementById('content').innerHTML = str;
-												console.log("res="
+												console
+														.log("res="
 																+ res.result.names[0].displayName);
-												console.log("res="
+												console
+														.log("res="
 																+ res.result.emailAddresses[0].value);
 												//↑通常metadata標記primary:true的個資就是你該抓的資料
 												var googleEname = res.result.names[0].displayName;
 												var googleEmail = res.result.emailAddresses[0].value;
 												var xhr = new XMLHttpRequest();
-												xhr.open("POST","<c:url value='/member/GoogleSignin' />",
+												xhr
+														.open(
+																"POST",
+																"<c:url value='/member/GoogleSignin' />",
 																true);
-												xhr.setRequestHeader(
+												xhr
+														.setRequestHeader(
 																"Content-Type",
 																"application/x-www-form-urlencoded");
 												xhr.send("googleEname="
@@ -107,17 +131,30 @@ input {
 												xhr.onreadystatechange = function() {
 													if (xhr.readyState == 4
 															&& xhr.status == 200) {
-														console.log("登入成功xhr.readyState="
+														console
+																.log("登入成功xhr.readyState="
 																		+ xhr.readyState);
-														console.log("登入成功xhr.status="
+														console
+																.log("登入成功xhr.status="
 																		+ xhr.status);
-														alert("恭喜登入成功");
-														$('#Google').submit();
+														Swal
+																.fire(
+																		'OK',
+																		"恭喜登入成功",
+																		'success')
+																.then(
+																		function() {
+																			$(
+																					'#Google')
+																					.submit();
+																		})
 														return true;
 													} else {
-														console.log("登入失敗xhr.readyState="
+														console
+																.log("登入失敗xhr.readyState="
 																		+ xhr.readyState);
-														console.log("登入失敗xhr.status="
+														console
+																.log("登入失敗xhr.status="
 																		+ xhr.status);
 														// 														alert("登入失敗");
 													}
@@ -157,8 +194,12 @@ input {
 	}
 
 	function GoogleClientInit() {
-		gapi.load('client',function() {
-							gapi.client.init({
+		gapi
+				.load(
+						'client',
+						function() {
+							gapi.client
+									.init({
 										//client_id 和 scope 兩者參數必填
 										clientId : CLIENT_ID,
 										//scope參考：https://developers.google.com/people/api/rest/v1/people/get
@@ -209,6 +250,7 @@ input {
 		}
 		checkCode.value = code;
 	}
+
 	function validate() {
 		var inputCode = document.getElementById("input1").value.toUpperCase();
 		var check = document.getElementById("check");
@@ -221,9 +263,17 @@ input {
 			return false;
 		} else {
 			check.innerHTML = "<font color='green'>驗證成功</font>";
-			document.getElementById("Signin").disabled = false;
+			document.getElementById("submitSignin").disabled = false;
 			return true;
 		}
+	}
+
+	// 	function GameBarSubmit() {
+	// 		console.log("????");
+	// 		$('#GameBar').submit()
+	// 	}
+	function checkSubmit() {
+		$('#submitSignin').submit()
 	}
 </script>
 
@@ -234,8 +284,9 @@ input {
 	<%@ include file="../Header.jsp"%>
 	<div align='center'>
 		<div align='center'
-			style='border: 3px solid gray; width: 500;padding-bottom:20px; border-radius: 5px; background-color: #272727; color: white;'>
-			<form action="<c:url value='/member/SignIn'/>" method="post">
+			style='border: 3px solid gray; width: 500; height: 575; border-radius: 5px; background-color: #272727; color: white;'>
+			<form action="<c:url value='/member/SignIn'/>" method="post"
+				id="submitSignin">
 				<h3 style='padding-top: 30px; padding-left: 30px;' align='left'>
 					帳號:<input type="text" name="sAccount" minlength="6" maxlength="20"
 						placeholder="請輸入帳號" required
@@ -267,8 +318,9 @@ input {
 					<span id="check"></span>
 				</h4>
 
-				<button id="Signin" name="Signin" type="submit"
-					style='width: 350; height: 50; font-size: 30; margin-top: 15; background-color: yellow; color: purple'>
+				<button id="submitSignin" name="submit555" type="button"
+					style='width: 350; height: 50; font-size: 30; margin-top: 15; background-color: yellow; color: purple'
+					onclick="checkSubmit();">
 					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
 						fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
 					<path
@@ -281,10 +333,10 @@ input {
 						<select name="demoAccount">
 							<option value="aaa">廷亙</option>
 							<option value="bbb">駿宏</option>
-							<option value="ccc">昌孝1</option>
-							<option value="ddd">昌孝2</option>
+							<option value="Jack12345">昌孝1</option>
+							<option value="bts520">昌孝2</option>
 							<option value="Jack1234">嵩謙</option>
-							<option value="hernycccc">冠惟1</option>
+							<option value="henryxcccc">冠惟1</option>
 							<option value="benchang">冠惟2</option>
 						</select>
 						<button type="submit">DEMO</button>
@@ -292,10 +344,12 @@ input {
 			<div>
 				<div>
 					<form action="<c:url value='/member/GameBarGMSignin'/>"
-						method="post">
+						method="post" id="GameBar">
 						<div style='padding-top: 10px;'>
 							<button type="submit"
 								style='width: 350; height: 50; font-size: 30; margin-top: 10; background-color: red; color: limegreen;'>
+								<!-- 							onclick="GameBarSubmit();" id="GameBar" -->
+
 								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
 									fill="currentColor" class="bi bi-person-fill"
 									viewBox="0 0 16 16"> <path
@@ -315,10 +369,10 @@ input {
 						Google登入
 					</button>
 					<!-- 					<button type="button" id="btnDisconnect">斷連Google App</button> -->
-					
-					
-					
-					
+
+
+
+
 				</div>
 				<div id="content"></div>
 			</div>

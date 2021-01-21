@@ -19,8 +19,8 @@ public class MemberServiceImpl implements MemberService {
 	MemberDao dao;
 	
 	@Override
-	public Boolean InsertMember(MemberBean InsertMB) {
-		dao.InsertMember(InsertMB);
+	public Boolean InsertMember(MemberBean insertMB) {
+		dao.InsertMember(insertMB);
 		return true;
 	}
 

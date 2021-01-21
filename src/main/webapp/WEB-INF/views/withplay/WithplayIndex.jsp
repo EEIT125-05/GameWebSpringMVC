@@ -113,13 +113,13 @@ response.setContentType("text/html;charset=UTF-8");
 											</a></div>
 											<div class="col-md-6 ml-auto">
 											<div ><span style="font-weight:bold;font-size:24px;">${With.sGame}</span></div>
-											<div><span style="font-size:14px;">接單次</span></div>
+											<div><span style="font-size:14px;">接${With.iCount}單次</span></div>
 											<div>
 													<p style="color:#D87901;font-weight:bold;font-size:21px;">
 														<span>$</span> <span>${With.iPrice}</span> <span>/局</span>
 													</p>
 												</div>
-											<div><span style="font-weight:bold;">介紹</span><span style="font-size:14px;">介紹</span></div>
+											<div><span style="font-weight:bold;">介紹</span><br><span style="font-size:14px;">${With.sComment}</span></div>
 											</div>
 											</div>											
 											<hr>
@@ -160,7 +160,7 @@ response.setContentType("text/html;charset=UTF-8");
 													</c:if>
 												</c:forEach>												
 												<c:choose> 
-													<c:when test="${showReply == 'true' ||user.sAccount==With.sAccount}">
+													<c:when test="${showReply == 'true' && user.sAccount != With.sAccount}">
 														回覆: <input type="text" id="Reply${With.iId}" name="sText" required>
 																<button type="submit" id="replySubmit${With.iId}" name="withNo"
 																	value="${With.iId}" class="btn btn-primary" >送出</button>
@@ -186,25 +186,25 @@ response.setContentType("text/html;charset=UTF-8");
 										data-dismiss="modal">關閉</button>
 										<c:set var="showOrder" value="false"/>
 												<c:forEach var="Ordercheck" items="${UserOrdercheckList}">
-													<c:if test="${Ordercheck == 1 || Ordercheck == 2}">
+													<c:if test="${Ordercheck == With.iId}">
 														<c:set var="showOrder" value="true"/>
 													</c:if>
 										</c:forEach>
 									<c:choose>
-									<c:when test="${user!=null}">
-									<c:choose>								
-									<c:when test="${user.sAccount == With.sAccount || showOrder == 'true'}">									
-									<button type="submit" class="btn btn-primary " disabled="disabled" name="orderNo" value="${With.iId}">立即下單</button>
+									<c:when test="${not empty user}">
+										<c:choose>								
+											<c:when test="${user.sAccount == With.sAccount || showOrder == 'true'}">									
+												<button type="submit" class="btn btn-primary " disabled="disabled" name="orderNo" value="${With.iId}">立即下單</button>
+											</c:when>
+											<c:otherwise>
+												<button type="submit" class="btn btn-primary "  name="orderNo" value="${With.iId}">立即下單</button>
+											</c:otherwise>
+										</c:choose>	
 									</c:when>
 									<c:otherwise>
-									<button type="submit" class="btn btn-primary "  name="orderNo" value="${With.iId}">立即下單</button>
-									</c:otherwise>
-									</c:choose>	
-									</c:when>
-									<c:otherwise>
-									<c:if test="${user==null}">
-									<button type="submit" class="btn btn-primary" disabled="disabled" name="orderNo" value="${With.iId}">立即下單</button>									
-									</c:if>
+<%-- 									<c:if test="${user==null}"> --%>
+										<button type="submit" class="btn btn-primary" disabled="disabled" name="orderNo" value="${With.iId}">立即下單</button>									
+<%-- 									</c:if> --%>
 									</c:otherwise>
 									</c:choose>								
 								</div>

@@ -25,7 +25,7 @@
       <li class="breadcrumb-item">
         <a href="<c:url value='/'/>">Home</a>
       </li>
-      <li class="breadcrumb-item active">管理資料</li>
+      <li class="breadcrumb-item active">我的訂單</li>
     </ol>
 
 	<div align="center" >
@@ -55,7 +55,7 @@
 			<tr>
 				<th>編號</th>
 				<th>照片</th>
-				<th>陪玩主</th>
+				<th>陪玩師</th>
 				<th>訂單時間</th>
 				<th>遊戲</th>
 				<th >消費金額</th>
@@ -63,6 +63,7 @@
 			</tr>
 			</thead>
 			<c:forEach items="${WithOrder}" var="Order" varStatus="status">
+	
 				<tr>	
 					<td>${status.count}</td>
 					<td><img style="width:150px;height:150px;"class="img1" src='${pageContext.request.contextPath}/withplay/picture/${Order.with.iId}'>
@@ -100,7 +101,7 @@
 
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
-    	我要徵共${fn:length(WithOrder2)}筆
+    	陪玩師目前訂單${fn:length(WithOrder2)}筆
   </a>
 </p>
 
@@ -124,7 +125,7 @@
 			<c:forEach items="${WithOrder2}" var="withOrder" varStatus="status">
 			<jsp:useBean id="nowDate" class="java.util.Date" />
 			<fmt:formatDate var="dateString" value="${nowDate}"	pattern="yyyy-MM-dd" />
-			<fmt:parseDate var="Date" value="${dateString}"		pattern="yyyy-MM-dd" />
+<%-- 			<fmt:parseDate var="Date" value="${dateString}"		pattern="yyyy-MM-dd" /> --%>
 				<tr>	
 					<td>${status.count}</td>
 					<td><img style="width:150px;height:150px;"class="img1" src='${pageContext.request.contextPath}/withplay/picture/${withOrder.member.iNo}'>
@@ -309,14 +310,6 @@ $(document).ready(function() {
 	})
 	
 
-// 	$('.deletelink').click(function() {
-// 		if (confirm('確定刪除此筆紀錄? ')) {
-// 			var href = $(this).attr('href');
-// 			$('form').attr('action', href).submit();
-// 		}
-// 		return false;
-
-// 	});
 	
 });
 </script>

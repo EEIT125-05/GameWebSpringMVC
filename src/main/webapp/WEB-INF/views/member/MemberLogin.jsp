@@ -3,7 +3,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../Link.jsp"%>
-
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 	response.setContentType("text/html;charset=UTF-8");
@@ -14,6 +14,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 
 <head>
 <meta charset="UTF-8">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
@@ -31,6 +32,16 @@ input {
 	color: white;
 	font-size: 30;
 	font-weight: 900;
+}
+
+#DIV2 {
+	background-color: #272727;
+	color: white;
+	width: 850px;
+	line-height: 50px;
+	margin-left: 100;
+	padding: 20px;
+	border: 5px gray solid;
 }
 </style>
 <title>會員註冊</title>
@@ -50,6 +61,7 @@ input {
 			}
 		}
 	}
+
 	let accountflag = false;
 	let passwordflag = false;
 	let nicknameflag = false;
@@ -138,8 +150,7 @@ input {
 			idphone.innerHTML = "<font color='red'>請輸入09開頭電話號碼</font>";
 		} else {
 			var xhr = new XMLHttpRequest();
-			xhr
-					.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
+			xhr.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
 							true);
 			xhr.setRequestHeader("Content-Type",
 					"application/x-www-form-urlencoded");
@@ -236,14 +247,12 @@ input {
 		check();
 	}
 
-	function check() {
-		if (accountflag && passwordflag && nicknameflag && nameflag
-				&& emailflag && phoneflag) {
-			document.getElementById("submit").disabled = false;
-		} else {
-			document.getElementById("submit").disabled = true;
-		}
-	}
+	function checkSubmit() {
+				swal.fire("註冊成功", "回到首頁", "success").then(function() {
+					$('form').submit()
+					console.log("success")
+				})
+			} 
 
 	function OneLogin() {
 		var sAccount = document.getElementById("sAccount");
@@ -266,7 +275,7 @@ input {
 		sAddress;
 		sGender;
 		sBirthday.value = "1989-08-18";
-		document.getElementById("submit").disabled = false;
+		document.getElementById("submitDisable").disabled = false;
 	}
 </script>
 </head>
@@ -274,17 +283,17 @@ input {
 	<h1 align='center'>註冊成為GameBar會員</h1>
 	<hr>
 	<%@ include file="../Header.jsp"%>
-	<form action="<c:url value='/member/MemberCheck'/>" method="post">
-		<div align='center'>
-			<div align='left'
-				style="border: 3px solid gray; width: 650; height: 900; border-radius: 5px; padding-left: 20; background-color: #272727; color: white;">
+	<div align='center'>
+		<c:url var='url' value='/member/MemberCheck' />
+		<form:form modelAttribute="memberBean" action='${url}' method="post"
+			enctype='multipart/form-data'>
+			<div id="DIV2" style='margin-bottom: 30;'>
 				<table>
 					<tr class="b">
 						<td>設定的帳號</td>
-						<td>: <input pattern="[a-zA-Z]{1}[a-zA-Z0-9]{5,19}"
-							type="text" id="sAccount" name="sAccount" minlength="6"
-							maxlength="20" required onblur="checkAccount();"> <input
-							type="button" id='accountCheck' value="檢查" disabled> <br>
+						<td>: <form:input pattern="[a-zA-Z]{1}[a-zA-Z0-9]{5,19}"
+								type="text" id="sAccount" path="sAccount" minlength="6"
+								maxlength="20" required="true" onblur="checkAccount();" /> <br>
 						</td>
 					</tr>
 					<tr class="b">
@@ -293,10 +302,9 @@ input {
 					</tr>
 					<tr class="b">
 						<td>使用的信箱</td>
-						<td>: <input type="email" id="sEmail" name="sEmail"
-							maxlength="30" required onblur="checkEmail();"
-							pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$">
-							<input type="button" id='emailCheck' value="檢查" disabled>
+						<td>: <form:input type="email" id="sEmail" path="sEmail"
+								maxlength="30" required="true" onblur="checkEmail();"
+								pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$" />
 							<br>
 						</td>
 					</tr>
@@ -306,10 +314,9 @@ input {
 					</tr>
 					<tr class="b">
 						<td>手機號碼</td>
-						<td>: <input type="text" id="sPhone" name="sPhone"
-							maxlength="10" required onblur="checkPhone();"
-							pattern="[0]{1}[9]{1}\d{8}" /> <input type="button"
-							id='PhoneCheck' value="檢查" disabled> <br>
+						<td>: <form:input type="text" id="sPhone" path="sPhone"
+								maxlength="10" required="true" onblur="checkPhone();"
+								pattern="[0]{1}[9]{1}\d{8}" /> <br>
 						</td>
 					</tr>
 					<tr class="b">
@@ -318,9 +325,9 @@ input {
 					</tr>
 					<tr class="b">
 						<td>設定的密碼</td>
-						<td>: <input pattern="[a-z0-9]{8,16}" type="password"
-							id="sPassword" name="sPassword" minlength="8" maxlength="16"
-							required onblur="checkPassword();"> <input id="btn"
+						<td>: <form:input pattern="[a-z0-9]{8,16}" type="password"
+								id="sPassword" path="sPassword" minlength="8" maxlength="16"
+								required="true" onblur="checkPassword();" /> <input id="btn"
 							type="button" class="material-icons" style="font-size: 25px"
 							value="visibility"> <br>
 						</td>
@@ -331,9 +338,10 @@ input {
 					</tr>
 					<tr class="b">
 						<td>真實姓名</td>
-						<td>: <input type="text" id="sEname" name="sEname" required
-							onblur="checkName();" pattern="^[\u4e00-\u9fa5{2,4}]+$"
-							minlength="2" maxlength="4"> <br>
+						<td>: <form:input type="text" id="sEname" path="sEname"
+								required="true" onblur="checkName();"
+								pattern="^[\u4e00-\u9fa5{2,4}]+$" minlength="2" maxlength="4" />
+							<br>
 						</td>
 					</tr>
 					<tr class="b">
@@ -342,8 +350,8 @@ input {
 					</tr>
 					<tr class="b">
 						<td>使用的暱稱</td>
-						<td>: <input type="text" id="sNickname" name="sNickname"
-							required maxlength="10" onblur="checkNickname();"><br>
+						<td>: <form:input type="text" id="sNickname" path="sNickname"
+								required="true" maxlength="10" onblur="checkNickname();" /><br>
 						</td>
 					</tr>
 					<tr class="b">
@@ -352,8 +360,8 @@ input {
 					</tr>
 					<tr class="b">
 						<td>居住城市</td>
-						<td>: <select id="sAddress" name="sAddress"
-							onblur="checkAddress();">
+						<td>: <form:select id="sAddress" path="sAddress"
+								onblur="checkAddress();">
 								<option>請挑選</option>
 								<option>臺北市</option>
 								<option>新北市</option>
@@ -377,7 +385,7 @@ input {
 								<option>澎湖縣</option>
 								<option>金門縣</option>
 								<option>連江縣</option>
-						</select><br>
+							</form:select><br>
 						</td>
 					</tr>
 					<tr class="b">
@@ -385,34 +393,45 @@ input {
 						<td><span id="idaddress"></span></td>
 					</tr>
 					<tr class="b">
-						<td>性別</td>
-						<td>: <input id="sGender" type="radio" name="sGender"
-							value="男" checked required>男 <input id="sGender"
-							type="radio" name="sGender" value="女" required>女
-						</td>
+						<div class="radio">
+							<td>性別</td>
+							<td>: <form:radiobutton id="sGender" path="sGender"
+									value="男" checked="checked" required="true" />男 <form:radiobutton
+									id="sGender" path="sGender" value="女" required="true" />女
+							</td>
+						</div>
 					</tr>
 					<tr class="b">
 						<td>生年月日</td>
-						<td>: <input type="date" id="sBirthday" name="sBirthday"
-							required></td>
+						<td>: <form:input type="date" id="sBirthday" path="sBirthday"
+								required="true" /></td>
+					</tr>
+					<tr class="b">
+						<td>請選擇上傳照片</td>
+						<td>:<form:input type="file" id="productImage"
+								path="productImage" /></td>
 					</tr>
 				</table>
 				<!-- 				<h3> -->
 				<!-- 					請選擇上傳照片:<input type="file" name="productImage" required /> -->
 				<!-- 				</h3> -->
 				<h3>
-					<input type="hidden" name="registerDate">
+					<form:input type="hidden" id="registerDate" path="registerDate" />
+					<form:input type="hidden" id="status" path="status" />
 				</h3>
 				<h6 align='center' style='color: red;'>${showError}</h6>
 				<h3 align='center'>
-					<button id="submit" type="submit" name="submit" disabled
-						style='width: 350; height: 50; font-size: 30; margin-top: 15;'>
-						<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-							fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
+					<button id="submitDisable" type="button" name="submit555" disabled
+						style='width: 350; height: 50; font-size: 30; margin-top: 15;'
+						onclick="checkSubmit();">
+						<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
+							fill="currentColor" class="bi bi-person-check-fill"
+							viewBox="0 0 16 16"> <path fill-rule="evenodd"
+							d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
 						<path
-							d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z" />
-						<path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /> </svg>
-						確認資料
+							d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+						</svg>
+						確認註冊
 					</button>
 				</h3>
 				<h3 align='center'>
@@ -428,8 +447,8 @@ input {
 
 				</h3>
 			</div>
-		</div>
-	</form>
+		</form:form>
+	</div>
 
 	<%@ include file="../Foot.jsp"%>
 </body>

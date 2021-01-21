@@ -1,5 +1,6 @@
 package com.web.game.withplay.controller;
 
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -28,13 +29,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.web.game.contest.service.GameListService;
+import com.web.game.home.aspect.userAspect;
 import com.web.game.member.model.MemberBean;
 import com.web.game.withplay.model.WithOrder;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithOrderService;
 import com.web.game.withplay.service.WithService;
 
-@SessionAttributes("user,withplayHost")
+@SessionAttributes({"user", "withplayHost"})
 @Controller
 public class NocheckWithController {
 
@@ -56,19 +58,25 @@ public class NocheckWithController {
 	
 	@GetMapping("/withplay/Index")
 	public String WithplayIndex(Model model) {
+//		model.addAttribute("Withsearch", withService.search("", ""));
 		model.addAttribute("Withlist",withService.list());
 		model.addAttribute("GameList",ListService.selectGameList());		
 		if(model.getAttribute("user")!=null) {
 		List<WithOrder> OrderList = withOrderService.list(((MemberBean)model.getAttribute("user")).getiNo());
 		  Set<Integer> set = new HashSet<Integer>();
 		  Set<Integer> set1 = new HashSet<Integer>();
+		  
 		  for(WithOrder wo:OrderList) {
 		   set.add(wo.getWith().getiId());
-		   set1.add(wo.getiStatus());
+		   if(wo.getiStatus() == 1 ||wo.getiStatus() == 2) {
+			   set1.add(wo.getWith().getiId());
+		   }
 		  }
 		  model.addAttribute("UserOrderList",set);
 		  model.addAttribute("UserOrdercheckList",set1);
 		  }
+		
+		
 		
 		
 		return "withplay/WithplayIndex";

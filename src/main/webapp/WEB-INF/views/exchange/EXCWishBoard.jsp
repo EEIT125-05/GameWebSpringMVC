@@ -43,7 +43,7 @@ ul.pagination li a:hover:not(.active) { background-color: #ddd; }
 			<div class="container">
 
 
-				<h1 class="mt-4 mb-3">許願池</h1>
+				<h1 class="mt-4 mb-3 ">許願池</h1>
 
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a>
@@ -218,7 +218,7 @@ ul.pagination li a:hover:not(.active) { background-color: #ddd; }
 				divout.innerHTML ="";
 				for (let i = 0; i < t.list.length; i++) {
 						console.log("!````!")
-						divout.innerHTML += "<div class='col-md-4 col-xs-6 work'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/images/"+t.list[i].gamename+".jpg' alt=''>"
+						divout.innerHTML += "<div class='col-md-4 col-xs-6 work animate__bounceIn'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/images/"+t.list[i].gamename+".jpg' alt=''>"
 								+ "<div class='overlay'></div><div class='work-content'><span>遊戲名稱:"
 								+ t.list[i].gamename
 								+ "</span>"
@@ -299,7 +299,7 @@ function changeConditionByPage(a){
 				divout.innerHTML ="";
 				for (let i = 0; i < t.list.length; i++) {
 						console.log("!````!")
-						divout.innerHTML += "<div class='col-md-4 col-xs-6 work'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/images/"+t.list[i].gamename+".jpg' alt=''>"
+						divout.innerHTML += "<div class='col-md-4 col-xs-6 work animate__bounceIn'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/images/"+t.list[i].gamename+".jpg' alt=''>"
 								+ "<div class='overlay'></div><div class='work-content'><span>遊戲名稱:"
 								+ t.list[i].gamename
 								+ "</span>"
