@@ -19,30 +19,9 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 input {
 	border-radius: 10px;
 }
-
-#DIV1 {
-	width: 350px;
-	line-height: 50px;
-	padding: 10px;
-	border: 5px gray solid;
-	margin-left: 50;
-	float: left;
-}
-
-#DIV2 {
-	background-color: #272727;
-	color: white;
-	width: 600px;
-	line-height: 50px;
-	margin-left: 100;
-	padding: 20px;
-	border: 5px gray solid;
-}
-
 .b {
-	background-color: #272727;
 	color: white;
-	font-size: 30;
+	font-size: 25;
 	font-weight: 900;
 }
 
@@ -65,16 +44,7 @@ input {
 .b:hover {
 	color: #00FFFF;
 }
-button{
-	background-color: white;
-	color:black;
-	font-weight: 900;
-}
-button:hover{
-	background-color: #00FFFF;
-	color:black;
-	font-weight: 900;
-}
+
 </style>
 </head>
 <body>
@@ -102,8 +72,8 @@ button:hover{
 		</table>
 	</div>
 	<div align='center'>
-		<div id="DIV2" style='margin-bottom: 30;'>
-			<form action="<c:url value='/member/GoogleUpdate'/>" method="post">
+		<div style='margin-bottom: 30;'>
+			<form action="<c:url value='/member/GoogleUpdate'/>" method="post" class="dark-matter com">
 				<div align='center' style="padding-top: 15">
 					<div>
 						<!-- 						style="border: 1px solid gray; width: 202; height: 202"> -->
@@ -201,7 +171,7 @@ button:hover{
 					</tr>
 				</table>
 				<H3 align='center' style='padding-top: 20;'>
-					<button type="submit" name="submit">
+					<button type="submit" name="submit" class="button">
 						<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
 							fill="currentColor" class="bi bi-pencil-square"
 							viewBox="0 0 16 16"> <path

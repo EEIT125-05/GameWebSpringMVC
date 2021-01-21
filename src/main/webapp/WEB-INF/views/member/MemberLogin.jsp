@@ -14,7 +14,8 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 
 <head>
 <meta charset="UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
@@ -27,22 +28,22 @@ input {
 	border-radius: 10px;
 }
 
-.b {
-	background-color: #272727;
-	color: white;
-	font-size: 30;
-	font-weight: 900;
-}
+/* .b { */
+/* 	background-color: #272727; */
+/* 	color: white; */
+/* 	font-size: 30; */
+/* 	font-weight: 900; */
+/* } */
 
-#DIV2 {
-	background-color: #272727;
-	color: white;
-	width: 850px;
-	line-height: 50px;
-	margin-left: 100;
-	padding: 20px;
-	border: 5px gray solid;
-}
+/* #DIV2 { */
+/* 	background-color: #272727; */
+/* 	color: white; */
+/* 	width: 850px; */
+/* 	line-height: 50px; */
+/* 	margin-left: 100; */
+/* 	padding: 20px; */
+/* 	border: 5px gray solid; */
+/* } */
 </style>
 <title>會員註冊</title>
 <%-- <script src="<c:url value='/js/MemberLogin.js'/>"></script> --%>
@@ -159,7 +160,8 @@ input {
 			phoneflag = false;
 		} else {
 			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
+			xhr
+					.open("POST", "<c:url value='/member/MemberPhoneCheck' />",
 							true);
 			xhr.setRequestHeader("Content-Type",
 					"application/x-www-form-urlencoded");
@@ -258,7 +260,7 @@ input {
 			;
 		}
 	}
-	
+
 	function check() {
 		if (passwordflag && nicknameflag && nameflag && accountflag
 				&& emailflag && phoneflag) {
@@ -268,12 +270,12 @@ input {
 		}
 	}
 
-// 	function checkSubmit() {
-// 				swal.fire("註冊成功", "回到首頁", "success").then(function() {
-// 					$('form').submit()
-// 					console.log("success")
-// 				})
-// 			} 
+	// 	function checkSubmit() {
+	// 				swal.fire("註冊成功", "回到首頁", "success").then(function() {
+	// 					$('form').submit()
+	// 					console.log("success")
+	// 				})
+	// 			} 
 
 	function OneLogin() {
 		var sAccount = document.getElementById("sAccount");
@@ -304,171 +306,172 @@ input {
 	<h1 align='center'>註冊成為GameBar會員</h1>
 	<hr>
 	<%@ include file="../Header.jsp"%>
-	<div align='center'>
-		<c:url var='url' value='/member/MemberCheck' />
-		<form:form modelAttribute="memberBean" action='${url}' method="post"
-			enctype='multipart/form-data'>
-			<div id="DIV2" style='margin-bottom: 30;'>
-				<table>
-					<tr class="b">
-						<td>設定的帳號</td>
-						<td>: <form:input pattern="[a-zA-Z]{1}[a-zA-Z0-9]{5,19}"
-								type="text" id="sAccount" path="sAccount" minlength="6"
-								maxlength="20" required="true" onblur="checkAccount();" /> <br>
-						</td>
-					</tr>
-					<tr class="b">
-						<td></td>
-						<td><span id="idaccount"></span></td>
-					</tr>
-					<tr class="b">
-						<td>使用的信箱</td>
-						<td>: <form:input type="email" id="sEmail" path="sEmail"
-								maxlength="30" required="true" onblur="checkEmail();"
-								pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$" />
-							<br>
-						</td>
-					</tr>
-					<tr class="b">
-						<td></td>
-						<td><span id="idemail"></span></td>
-					</tr>
-					<tr class="b">
-						<td>手機號碼</td>
-						<td>: <form:input type="text" id="sPhone" path="sPhone"
-								maxlength="10" required="true" onblur="checkPhone();"
-								pattern="[0]{1}[9]{1}\d{8}" /> <br>
-						</td>
-					</tr>
-					<tr class="b">
-						<td></td>
-						<td><span id="idphone"></span></td>
-					</tr>
-					<tr class="b">
-						<td>設定的密碼</td>
-						<td>: <form:input pattern="[a-z0-9]{8,16}" type="password"
-								id="sPassword" path="sPassword" minlength="8" maxlength="16"
-								required="true" onblur="checkPassword();" /> <input id="btn"
-							type="button" class="material-icons" style="font-size: 25px"
-							value="visibility"> <br>
-						</td>
-					</tr>
-					<tr class="b">
-						<td></td>
-						<td><span id="idpassword"></span></td>
-					</tr>
-					<tr class="b">
-						<td>真實姓名</td>
-						<td>: <form:input type="text" id="sEname" path="sEname"
-								required="true" onblur="checkName();"
-								pattern="^[\u4e00-\u9fa5{2,4}]+$" minlength="2" maxlength="4" />
-							<br>
-						</td>
-					</tr>
-					<tr class="b">
-						<td></td>
-						<td><span id="idname"></span></td>
-					</tr>
-					<tr class="b">
-						<td>使用的暱稱</td>
-						<td>: <form:input type="text" id="sNickname" path="sNickname"
-								required="true" maxlength="10" onblur="checkNickname();" /><br>
-						</td>
-					</tr>
-					<tr class="b">
-						<td></td>
-						<td><span id="idnickname"></span></td>
-					</tr>
-					<tr class="b">
-						<td>居住城市</td>
-						<td>: <form:select id="sAddress" path="sAddress"
-								onblur="checkAddress();">
-								<option>請挑選</option>
-								<option>臺北市</option>
-								<option>新北市</option>
-								<option>桃園市</option>
-								<option>臺中市</option>
-								<option>臺南市</option>
-								<option>高雄市</option>
-								<option>基隆市</option>
-								<option>新竹市</option>
-								<option>嘉義市</option>
-								<option>新竹縣</option>
-								<option>苗栗縣</option>
-								<option>彰化縣</option>
-								<option>南投縣</option>
-								<option>雲林縣</option>
-								<option>嘉義縣</option>
-								<option>屏東縣</option>
-								<option>宜蘭縣</option>
-								<option>花蓮縣</option>
-								<option>臺東縣</option>
-								<option>澎湖縣</option>
-								<option>金門縣</option>
-								<option>連江縣</option>
-							</form:select><br>
-						</td>
-					</tr>
-					<tr class="b">
-						<td></td>
-						<td><span id="idaddress"></span></td>
-					</tr>
-					<tr class="b">
-<!-- 						<div class="radio"> -->
-							<td>性別</td>
-							<td>: <form:radiobutton id="sGender" path="sGender"
-									value="男" checked="checked" required="required" />男 <form:radiobutton
-									id="sGender" path="sGender" value="女" required="required" />女
-							</td>
-<!-- 						</div> -->
-					</tr>
-					<tr class="b">
-						<td>生年月日</td>
-						<td>: <form:input type="date" id="sBirthday" path="sBirthday"
-								required="required" /></td>
-					</tr>
-					<tr class="b">
-						<td>請選擇上傳照片</td>
-						<td>:<form:input type="file" id="productImage"
-								path="productImage" /></td>
-					</tr>
-				</table>
-				<!-- 				<h3> -->
-				<!-- 					請選擇上傳照片:<input type="file" name="productImage" required /> -->
-				<!-- 				</h3> -->
-				<h3>
-					<form:input type="hidden" id="registerDate" path="registerDate" />
-					<form:input type="hidden" id="status" path="status" />
-				</h3>
-				<h6 align='center' style='color: red;'>${showError}</h6>
-				<h3 align='center'>
-					<button id="submitDisable" type="submit" name="submit555" disabled
-						style='width: 350; height: 50; font-size: 30; margin-top: 15;'>
-						<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
-							fill="currentColor" class="bi bi-person-check-fill"
-							viewBox="0 0 16 16"> <path fill-rule="evenodd"
-							d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
-						<path
-							d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-						</svg>
-						確認註冊
-					</button>
-				</h3>
-				<h3 align='center'>
-					<button type="button" onclick="OneLogin();"
-						style="width: 350; height: 50; font-size: 30; background-color: white;">
-						<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-							fill="currentColor" class="bi bi-hand-index" viewBox="0 0 16 16">
-						<path
-							d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 1 0 1 0V6.435a4.9 4.9 0 0 1 .106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 0 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.035a.5.5 0 0 1-.416-.223l-1.433-2.15a1.5 1.5 0 0 1-.243-.666l-.345-3.105a.5.5 0 0 1 .399-.546L5 8.11V9a.5.5 0 0 0 1 0V1.75A.75.75 0 0 1 6.75 1zM8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v5.34l-1.2.24a1.5 1.5 0 0 0-1.196 1.636l.345 3.106a2.5 2.5 0 0 0 .405 1.11l1.433 2.15A1.5 1.5 0 0 0 6.035 16h6.385a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5.114 5.114 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.632 2.632 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046l-.048.002zm2.094 2.025z" />
-						</svg>
-						一鍵輸入
-					</button>
+	<!-- 	<div align='center'> -->
+	<c:url var='url' value='/member/MemberCheck' />
+	<form:form modelAttribute="memberBean" action='${url}' method="post"
+		class="dark-matter com" enctype='multipart/form-data'>
+		<div style='margin-bottom: 30;'>
+			<table>
+				<tr class="b">
+					<td>設定的帳號</td>
+					<td>: <form:input pattern="[a-zA-Z]{1}[a-zA-Z0-9]{5,19}"
+							type="text" id="sAccount" path="sAccount" minlength="6"
+							maxlength="20" required="true" onblur="checkAccount();" /> <br>
+					</td>
+				</tr>
+				<tr class="b">
+					<td></td>
+					<td><span id="idaccount"></span></td>
+				</tr>
+				<tr class="b">
+					<td>使用的信箱</td>
+					<td>: <form:input type="email" id="sEmail" path="sEmail"
+							maxlength="30" required="true" onblur="checkEmail();"
+							pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$" />
+						<br>
+					</td>
+				</tr>
+				<tr class="b">
+					<td></td>
+					<td><span id="idemail"></span></td>
+				</tr>
+				<tr class="b">
+					<td>手機號碼</td>
+					<td>: <form:input type="text" id="sPhone" path="sPhone"
+							maxlength="10" required="true" onblur="checkPhone();"
+							pattern="[0]{1}[9]{1}\d{8}" /> <br>
+					</td>
+				</tr>
+				<tr class="b">
+					<td></td>
+					<td><span id="idphone"></span></td>
+				</tr>
+				<tr class="b">
+					<td>設定的密碼</td>
+					<td>: <form:input pattern="[a-z0-9]{8,16}" type="password"
+							id="sPassword" path="sPassword" minlength="8" maxlength="16"
+							required="true" onblur="checkPassword();" /> <input id="btn"
+						type="button" class="material-icons" style="font-size: 25px"
+						value="visibility"> <br>
+					</td>
+				</tr>
+				<tr class="b">
+					<td></td>
+					<td><span id="idpassword"></span></td>
+				</tr>
+				<tr class="b">
+					<td>真實姓名</td>
+					<td>: <form:input type="text" id="sEname" path="sEname"
+							required="true" onblur="checkName();"
+							pattern="^[\u4e00-\u9fa5{2,4}]+$" minlength="2" maxlength="4" />
+						<br>
+					</td>
+				</tr>
+				<tr class="b">
+					<td></td>
+					<td><span id="idname"></span></td>
+				</tr>
+				<tr class="b">
+					<td>使用的暱稱</td>
+					<td>: <form:input type="text" id="sNickname" path="sNickname"
+							required="true" maxlength="10" onblur="checkNickname();" /><br>
+					</td>
+				</tr>
+				<tr class="b">
+					<td></td>
+					<td><span id="idnickname"></span></td>
+				</tr>
+				<tr class="b">
+					<td>居住城市</td>
+					<td>: <form:select id="sAddress" path="sAddress"
+							onblur="checkAddress();">
+							<option>請挑選</option>
+							<option>臺北市</option>
+							<option>新北市</option>
+							<option>桃園市</option>
+							<option>臺中市</option>
+							<option>臺南市</option>
+							<option>高雄市</option>
+							<option>基隆市</option>
+							<option>新竹市</option>
+							<option>嘉義市</option>
+							<option>新竹縣</option>
+							<option>苗栗縣</option>
+							<option>彰化縣</option>
+							<option>南投縣</option>
+							<option>雲林縣</option>
+							<option>嘉義縣</option>
+							<option>屏東縣</option>
+							<option>宜蘭縣</option>
+							<option>花蓮縣</option>
+							<option>臺東縣</option>
+							<option>澎湖縣</option>
+							<option>金門縣</option>
+							<option>連江縣</option>
+						</form:select><br>
+					</td>
+				</tr>
+				<tr class="b">
+					<td></td>
+					<td><span id="idaddress"></span></td>
+				</tr>
+				<tr class="b">
+					<!-- 						<div class="radio"> -->
+					<td>性別</td>
+					<td>: <form:radiobutton id="sGender" path="sGender" value="男"
+							checked="checked" required="required" />男 <form:radiobutton
+							id="sGender" path="sGender" value="女" required="required" />女
+					</td>
+					<!-- 						</div> -->
+				</tr>
+				<tr class="b">
+					<td>生年月日</td>
+					<td>: <form:input type="date" id="sBirthday" path="sBirthday"
+							required="required" /></td>
+				</tr>
+				<tr class="b">
+					<td>請選擇上傳照片</td>
+					<td>:<form:input type="file" id="productImage"
+							path="productImage" /></td>
+				</tr>
+			</table>
+			<!-- 				<h3> -->
+			<!-- 					請選擇上傳照片:<input type="file" name="productImage" required /> -->
+			<!-- 				</h3> -->
+			<h3>
+				<form:input type="hidden" id="registerDate" path="registerDate" />
+				<form:input type="hidden" id="status" path="status" />
+			</h3>
+			<h6 align='center' style='color: red;'>${showError}</h6>
+			<h3 align='center'>
+				<button class="button" id="submitDisable" type="submit"
+					name="submit555" disabled
+					style='width: 350; height: 50; font-size: 30; margin-top: 15;'>
+					<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
+						fill="currentColor" class="bi bi-person-check-fill"
+						viewBox="0 0 16 16"> <path fill-rule="evenodd"
+						d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+					<path
+						d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+					</svg>
+					確認註冊
+				</button>
+			</h3>
+			<h3 align='center'>
+				<button type="button" onclick="OneLogin();" class="button"
+					style="width: 350; height: 50; font-size: 30;">
+					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+						fill="currentColor" class="bi bi-hand-index" viewBox="0 0 16 16">
+					<path
+						d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 1 0 1 0V6.435a4.9 4.9 0 0 1 .106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 0 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.035a.5.5 0 0 1-.416-.223l-1.433-2.15a1.5 1.5 0 0 1-.243-.666l-.345-3.105a.5.5 0 0 1 .399-.546L5 8.11V9a.5.5 0 0 0 1 0V1.75A.75.75 0 0 1 6.75 1zM8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v5.34l-1.2.24a1.5 1.5 0 0 0-1.196 1.636l.345 3.106a2.5 2.5 0 0 0 .405 1.11l1.433 2.15A1.5 1.5 0 0 0 6.035 16h6.385a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5.114 5.114 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.632 2.632 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046l-.048.002zm2.094 2.025z" />
+					</svg>
+					一鍵輸入
+				</button>
 
-				</h3>
-			</div>
-		</form:form>
-	</div>
+			</h3>
+		</div>
+	</form:form>
+	<!-- 	</div> -->
 
 	<%@ include file="../Foot.jsp"%>
 </body>

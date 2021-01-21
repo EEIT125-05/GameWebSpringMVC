@@ -131,32 +131,25 @@ input {
 												xhr.onreadystatechange = function() {
 													if (xhr.readyState == 4
 															&& xhr.status == 200) {
-														console
-																.log("登入成功xhr.readyState="
+														console.log("登入成功xhr.readyState="
 																		+ xhr.readyState);
-														console
-																.log("登入成功xhr.status="
+														console.log("登入成功xhr.status="
 																		+ xhr.status);
-														Swal
-																.fire(
-																		'OK',
-																		"恭喜登入成功",
-																		'success')
-																.then(
-																		function() {
-																			$(
-																					'#Google')
-																					.submit();
-																		})
-														return true;
+															Swal.fire('OK',"恭喜登入成功",
+																			'success').then(function() {
+																				$('#Google').submit();
+																			})
+															return true;
 													} else {
-														console
-																.log("登入失敗xhr.readyState="
+														console.log("登入失敗xhr.readyState="
 																		+ xhr.readyState);
-														console
-																.log("登入失敗xhr.status="
+														console.log("登入失敗xhr.status="
 																		+ xhr.status);
-														// 														alert("登入失敗");
+														Swal.fire('註冊失敗',"已有重複信箱",
+														'error').then(function() {
+															$('#Google').submit();
+														})
+										return false;
 													}
 												}
 
@@ -329,18 +322,19 @@ input {
 					會員登入
 				</button>
 			</form>
-					<form action="<c:url value='/demo'/>" method="post" style="margin-top:20px">
-						<select name="demoAccount">
-							<option value="aaa">廷亙</option>
-							<option value="bbb">駿宏</option>
-							<option value="Jack12345">昌孝1</option>
-							<option value="bts520">昌孝2</option>
-							<option value="Jack1234">嵩謙</option>
-							<option value="henryxcccc">冠惟1</option>
-							<option value="benchang">冠惟2</option>
-						</select>
-						<button type="submit">DEMO</button>
-					</form>
+			<form action="<c:url value='/demo'/>" method="post"
+				style="margin-top: 20px">
+				<select name="demoAccount">
+					<option value="aaa">廷亙</option>
+					<option value="bbb">駿宏</option>
+					<option value="Jack12345">昌孝1</option>
+					<option value="bts520">昌孝2</option>
+					<option value="Jack1234">嵩謙</option>
+					<option value="henryxcccc">冠惟1</option>
+					<option value="benchang">冠惟2</option>
+				</select>
+				<button type="submit">DEMO</button>
+			</form>
 			<div>
 				<div>
 					<form action="<c:url value='/member/GameBarGMSignin'/>"

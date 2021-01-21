@@ -17,60 +17,41 @@ input {
 	border-radius: 10px;
 }
 
-#DIV1 {
-	width: 350px;
-	line-height: 50px;
-	padding: 10px;
-	border: 5px gray solid;
-	margin-left: 50;
-	float: left;
-}
+ #DIV1 { 
+  	margin-left: 50;  
+ } 
 
-#DIV2 {
-	background-color: #272727;
-	color: white;
-	width: 750px;
-	line-height: 50px;
-	margin-left: 100;
-	padding: 20px;
-	border: 5px gray solid;
-	float: left;
-}
+ #DIV2 { */
+ 	margin-left: 100; 
+ 	padding-left:65px;
+ } 
 
-.a {
+.leftBar {
 	width: 450px;
 	height: 80px;
 	border: 2px solid black;
-	background-color: #272727;
+	background-color: #fff;
 	margin: auto;
 	margin-bottom: 100px;
-	font-size: 50;
-	font-weight: 900;
+	font-size: 1.5em;
+	font-weight: bold;
+	border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
 }
 
-.a:hover {
+.leftBar:hover {
 	background-color: white;
 	color: black;
 }
 
-.b {
-	background-color: #272727;
-	color: white;
-	font-size: 30;
-	font-weight: 900;
+
+.row {
+  flex-grow: 1; /*可佔滿垂直剩餘的空間*/
 }
-.b:hover {
-	color: #00FFFF;
-}
-button{
-	background-color: white;
-	color:black;
-	font-weight: 900;
-}
-button:hover{
-	background-color: #00FFFF;
-	color:black;
-	font-weight: 900;
+
+.detail{
+    border: 1px solid rgba(0,0,0,.125);
+    background-color: #fff;
 }
 </style>
 
@@ -247,31 +228,38 @@ button:hover{
 </script>
 </head>
 <body>
-	<H1 align='center'>會員修改資料</H1>
-	<hr>
 	<%@ include file="../Header.jsp"%>
-	<div id="DIV1">
-		<H1>相關記錄</H1>
-		<table>
-			<tr>
-				<td class="a"><a href="####">商城記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a href="####">討論區記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a href="####">陪玩記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a href="####">賽事記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a href="####">交換記錄</a></td>
-			</tr>
-		</table>
-	</div>
-	<div id="DIV2" style='margin-bottom: 30;'>
-		<form action="<c:url value='/member/MemberData'/>" method="post"
+	
+	<div class="row">
+		<div id="DIV1" class="col-md-2">
+			<H1>相關記錄</H1>
+			<table>
+				<tr>
+					<td class="leftBar"><a href="<c:url value='/member/Data'/>">會員資料</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a href="####">商城記錄</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a href="<c:url value="/forum/gotoMemberData"/>">討論區記錄</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a href="####">陪玩記錄</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a
+						href="<c:url value="/contest/gotoMemberData"/>">賽事記錄</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a
+						href="<c:url value="/exchange/gotoMemberData"/>">交換記錄</a></td>
+				</tr>
+			</table>
+		</div>
+		<div id="DIV2" class="col-md-9">
+			<h1 style="color:black">修改${user.sAccount }的會員資料</h1>
+			<div class="detail">
+				<form action="<c:url value='/member/MemberData'/>" method="post"
 			enctype="multipart/form-data">
 			<div align='center' style="padding-top: 15">
 				<div>
@@ -292,7 +280,7 @@ button:hover{
 					<td>:<input id="Password" type="password" name="sPassword" minlength="8"
 						required maxlength="16" onblur="checkPassword();"
 						value="${user.sPassword}"><input id="btn" type="button"
-						class="material-icons" style="font-size: 25px" value="visibility"></td>
+						class="material-icons btn btn-primary" style="font-size: 25px" value="visibility"></td>
 				<tr class="b">
 					<td>再次確認密碼</td>
 					<td>:<input id="passwordConfirm" type="password"
@@ -377,7 +365,7 @@ button:hover{
 			</table>
 			
 			<H2 align='center'>
-				<button id="submit" name="submit" type="submit" 
+				<button id="submit" name="submit" type="submit" class="btn btn-primary"
 					style=" margin-top: 30; font-weight: 900; border-radius: 10px;">
 					<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
 						fill="currentColor" class="bi bi-cloud-arrow-up-fill"
@@ -386,7 +374,7 @@ button:hover{
 					</svg>
 					修改
 				</button>
-				<a href="<c:url value='/member/Data'/>"><button type="button"
+				<a href="<c:url value='/member/Data'/>"><button type="button" class="btn btn-primary"
 						style=" margin-top: 30; font-weight: 900; border-radius: 10px;">
 						<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
 							fill="currentColor" class="bi bi-backspace-fill"
@@ -397,8 +385,10 @@ button:hover{
 					</button></a>
 			</H2>
 		</form>
+			</div>
+		</div>
 	</div>
-	<div style="clear: both;"></div>
+	
 	<%@ include file="../Foot.jsp"%>
 </body>
 </html>

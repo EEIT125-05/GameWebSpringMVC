@@ -33,22 +33,22 @@ td {
 }
 
 #DIV1 {
-	width: 400px;
-	line-height: 50px;
+	width: 300px;
+ 	line-height: 50px; 
 	padding: 10px;
 	border: 5px gray solid;
 	margin-left: 50;
-	/* 	float: left; */
+	 	float: left; 
 }
 
 .a {
-	width: 450px;
+	width: 250px;
 	height: 80px;
 	border: 2px solid black;
 	background-color: #272727;
 	margin: auto;
 	margin-bottom: 100px;
-	font-size: 50;
+	font-size: 30;
 	font-weight: 900;
 }
 
@@ -66,7 +66,7 @@ td {
 	<br>
 	<hr style="color: black; border: 1px solid;">
 	<div id="DIV1">
-		<H1>GameBar後台管理</H1>
+		<H3>GameBar後台管理</H3>
 		<table>
 			<tr>
 				<td class="a"><a href="####">後台會員管理</a></td>
@@ -113,8 +113,8 @@ td {
 							<th width='40'>性別</th>
 							<th width='30'>生日</th>
 							<th width='30'>建立日期</th>
-							<th width='30'>狀態</th>
-							<th width='70'>資料維護</th>
+							<th width='30'>權限狀態</th>
+							<!-- 							<th width='70'>資料維護</th> -->
 						</tr>
 					</thead>
 					<tbody>
@@ -127,7 +127,7 @@ td {
 								<%-- 								method="post">${user.iNo}</a></td> --%>
 								<td><a
 									href="<c:url value='/member/Update?sAccount=${user.sAccount}'/>">
-										<input type="button" value="${user.sAccount}"
+										<input type="button" class="account" value="${user.sAccount}"
 										style='background-color: skyblue; width: 100%; height: 100%;'>
 								</a></td>
 								<%-- 							<td>${user.sAccount}</td> --%>
@@ -139,14 +139,22 @@ td {
 								<td>${user.sGender}</td>
 								<td>${user.sBirthday}</td>
 								<td>${user.registerDate}</td>
-								<td><a
-									href="<c:url value='/member/Change/${user.sAccount}'/>"> <input
-										type="button" value="${user.status}"
-										style='background-color: orange; width: 100%; height: 100%;'></a></td>
-								<td><a class='deletelink'
-									href="<c:url value='/member/delete/${user.iNo}'/>"><button
-											type="button"
-											style='background-color: red; width: 100%; height: 100%;'>刪除</button></a></td>
+								<td>
+<%-- 								<input id="change${user.iNo}" class="change" type="submit" --%>
+<%-- <%-- 									onclick="abc('${user.sAccount}');" --%> 
+<!-- 									style='background-color: orange; width: 100%; height: 100%;' -->
+<%-- 									value='${user.status}'> --%>
+									<button id="change${user.iNo}" class="change" type="submit"
+<%-- 									onclick="abc('${user.sAccount}');" --%>
+									style='background-color: orange; width: 100%; height: 100%;'
+									value='${user.iNo}'>${user.status}</button>
+									
+									
+									</td>
+								<!-- 								<td><a class='deletelink' -->
+								<%-- 									href="<c:url value='/member/delete/${user.iNo}'/>"><button --%>
+								<!-- 											type="button" -->
+								<!-- 											style='background-color: red; width: 100%; height: 100%;'>刪除</button></a></td> -->
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -163,26 +171,83 @@ td {
 				}
 				return false;
 			});
+			
+			$('.change').click(function(){
+				var id = $(this).val();
+// 				console.log("success2 " + $("#change" + id).val());
+				var sAccount = $(this).parent().parent().find(".account").val();
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", "<c:url value='/member/Change/" + sAccount + "'/>" ,
+						true);
+				xhr.setRequestHeader("Content-Type",
+						"application/x-www-form-urlencoded");
+				xhr.send("sAccount=" + sAccount);
+				xhr.onreadystatechange = function() {
+					
+// 					console.log("sAccount=" + sAccount);
+					if (xhr.readyState == 4 && xhr.status == 200) {
+						let obj = JSON.parse(xhr.responseText);
+// 						console.log("success " + obj);
+// 						console.log("idvalue  " + $("#change" + id).val());
+						$("#change" + id).text(obj);
+					} else {
+						console.log("xhr.readyState=" + xhr.readyState);
+						console.log("xhr.status=" + xhr.status);
+						console.log("修改失敗");
+					}
+				}
+			})
+			
+			
+			
+			
+			
 		})
 
 		$().ready(function() {
 			$('#tablee').DataTable({});
 		});
 
-		// 		window.onload = function() {
-		// 			var Status = document.getElementById("Status");
-		// 			Status.onclick = function() {
-		// 				var status = document.getElementById("Status").value.trim();
-		// 				var xhr = new XMLHttpRequest();
-		// 				xhr.open("POST", "<c:url value='/member/${user.sAccount}' />",
-		// 						true);
-		// 				xhr.setRequestHeader("Content-Type",
-		// 						"application/x-www-form-urlencoded");
-		// 				xhr.send("status=" + status);
-		// 				xhr.onreadystatechange = function() {
-		// 				}
-		// 			}
-		// 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		function abc(sAccount) {
+			// 			console.log("sAcc"+sAccount);
+			// 			var Account = document.getElementById("sAccount");
+			
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "<c:url value="/member/Change/"/>" + sAccount,
+					true);
+			xhr.setRequestHeader("Content-Type",
+					"application/x-www-form-urlencoded");
+			xhr.send("sAccount=" + sAccount);
+			xhr.onreadystatechange = function() {
+				console.log("sAccount=" + sAccount);
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					console.log("btn="+btn);
+					if (sAccount.value == 'true') {
+						sAccount.value == 'false';
+					} else if (sAccount.value == 'false') {
+						sAccount.value == 'true';
+					}
+				} else {
+					console.log("xhr.readyState=" + xhr.readyState);
+					console.log("xhr.status=" + xhr.status);
+					console.log("修改失敗");
+				}
+			}
+		}
 	</script>
 </body>
 <%@ include file="../Foot.jsp"%>
