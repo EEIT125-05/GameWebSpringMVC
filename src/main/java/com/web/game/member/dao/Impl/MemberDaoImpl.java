@@ -25,6 +25,7 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public Boolean InsertMember(MemberBean insertMB) {
 		Session session = getSession();
+		System.out.println("有進來dao嗎");
 		session.save(insertMB);
 		System.out.println("成功儲存");
 		return true;

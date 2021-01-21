@@ -17,16 +17,6 @@ input {
 	border-radius: 10px;
 }
 
-#DIV2 {
-	background-color: #272727;
-	color: white;
-	width: 650px;
-	line-height: 50px;
-	margin-left: 100;
-	padding: 20px;
-	border: 5px gray solid;
-}
-
 .a {
 	width: 450px;
 	height: 80px;
@@ -44,24 +34,13 @@ input {
 }
 
 .b {
-	background-color: #272727;
 	color: white;
-	font-size: 30;
+	font-size: 25;
 	font-weight: 900;
 }
 .b:hover {
 	color: #00FFFF;
-}
-button{
-	background-color: white;
-	color:black;
-	font-weight: 900;
-}
-button:hover{
-	background-color: #00FFFF;
-	color:black;
-	font-weight: 900;
-}
+
 </style>
 <head>
 <meta charset="UTF-8">
@@ -186,9 +165,9 @@ button:hover{
 	<hr>
 	<%@ include file="../Header.jsp"%>
 	<form action="<c:url value='/member/GoogleData'/>" method="post"
-		enctype="multipart/form-data">
+		enctype="multipart/form-data" class="dark-matter com">
 		<div align='center'>
-			<div id="DIV2" style='margin-bottom: 30;'>
+			<div style='margin-bottom: 30;'>
 				<div align='center' style="padding-top: 15">
 					<div>
 						<img style="width: 250; height: 175;"
@@ -355,7 +334,7 @@ button:hover{
 					</tr>
 				</table>
 				<H3 align='center' style='padding-top: 20;'>
-					<button id="submit" name="submit" type="submit" disabled>
+					<button id="submit" name="submit" type="submit" disabled class="button">
 						<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
 							fill="currentColor" class="bi bi-cloud-arrow-up-fill"
 							viewBox="0 0 16 16"> <path
@@ -363,7 +342,7 @@ button:hover{
 						</svg>
 						新增/修改
 					</button>
-					<a href="<c:url value='/member/Data'/>"><button type="button">
+					<a href="<c:url value='/member/Data'/>"><button type="button" class="button">
 							<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
 								fill="currentColor" class="bi bi-backspace-fill"
 								viewBox="0 0 16 16"> <path

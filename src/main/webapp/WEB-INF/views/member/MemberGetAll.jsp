@@ -190,12 +190,6 @@ td {
 // 						console.log("success " + obj);
 // 						console.log("idvalue  " + $("#change" + id).val());
 						$("#change" + id).text(obj);
-						
-// 						if () {
-// 							;
-// 						} else if () {
-// 							;
-// 						}
 					} else {
 						console.log("xhr.readyState=" + xhr.readyState);
 						console.log("xhr.status=" + xhr.status);

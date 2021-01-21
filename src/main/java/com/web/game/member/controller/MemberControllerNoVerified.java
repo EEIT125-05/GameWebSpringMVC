@@ -431,7 +431,7 @@ public class MemberControllerNoVerified {
 		registerDate = sdf.format(new Date());
 		Integer iNo = null;
 //		sAccount = sEmail.split("@")[0];
-		sEmail = "";
+//		sEmail = null;
 
 		System.out.println("sAccount=" + sAccount);
 		System.out.println("Ename=" + sEname);
