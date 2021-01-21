@@ -80,15 +80,15 @@ response.setContentType("text/html;charset=UTF-8");
 								<a href="#"> <img class="img1"
 									src='${pageContext.request.contextPath}/withplay/picture/${With.iId}'>
 								</a>
-								<!-- 								<a> -->
-								<div style="font-family:Microsoft JhengHei;font-size:16px;"><span>${With.sNickname}</span></div>
-								<div style="font-size:14px;"><span>評價(${fn:length(With.sReplyBeans)})</span></div>
+								<a >
+								<div style="font-family:Microsoft JhengHei;font-size:16px;padding-left:5px"><span>${With.sNickname}</span></div>
+								<div style="font-size:14px;padding-left:5px"><span>評價(${fn:length(With.sReplyBeans)})</span></div>
 								<div>
-									<p style="color:#FA006E;font-weight:bold;font-size:21px;">
+									<p style="color:#FA006E;font-weight:bold;font-size:21px;padding-left:5px">
 										<span>$</span> <span>${With.iPrice}</span> <span>/局</span>
 									</p>
 								</div>
-								<!-- 								</a> -->
+								</a>
 
 							</div>
 						</div>
