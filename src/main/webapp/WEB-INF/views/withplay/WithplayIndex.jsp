@@ -113,7 +113,7 @@ response.setContentType("text/html;charset=UTF-8");
 											</a></div>
 											<div class="col-md-6 ml-auto">
 											<div ><span style="font-weight:bold;font-size:24px;">${With.sGame}</span></div>
-											<div><span style="font-size:14px;">接${With.iCount}單次</span></div>
+											<div><span style="font-size:14px;">接單${With.iCount}次</span></div>
 											<div>
 													<p style="color:#D87901;font-weight:bold;font-size:21px;">
 														<span>$</span> <span>${With.iPrice}</span> <span>/局</span>
@@ -238,7 +238,7 @@ response.setContentType("text/html;charset=UTF-8");
 												}
 												let user = $("#userNow").val();
 												let checkString;
-												let checksAccount;
+// 												let checksAccount= ${fn:length(With.sReplyBeans)};
 												$.each(obj,function(key,value) {
 													if(value.sAccount == user || user==null){
 														checkString = "<button type=\"submit\" class=\"btn btn-primary \" disabled=\"disabled\" name=\"orderNo\" value=\"" + value.iId + "\">立即下單</button>"
@@ -246,7 +246,6 @@ response.setContentType("text/html;charset=UTF-8");
 														checkString = "<button type=\"submit\" class=\"btn btn-primary \" name=\"orderNo\" value=\"" + value.iId + "\">立即下單</button>"
 													
 													}
-													
 													$("#point").append(
 // 																					"<div class='row' id='point'>"
 																							 "<div class='col col-12 col-sm-6 col-md-6 col-lg-3'>"
@@ -259,15 +258,15 @@ response.setContentType("text/html;charset=UTF-8");
 																							+ value.sNickname
 																							+ "</span></div>"
 																							+ "<div style='font-size:14px;'><span>評價"
-																							+ "value.sGame (${fn:length(value.sReplyBeans)})"
+																							+ "("+value.sReplyBeans.length+")"
 																							+ "</span></div>"
 																							+ "<div>"
 																							+ "<p style='color:#FA006E;font-weight:bold;font-size:21px;'>"
 																							+ "<span>$</span>"
-																							+ "<span>"
+																							+ "<span> "
 																							+ value.iPrice
 																							+ "</span>"
-																							+ "<span>/局</span>"
+																							+ " <span>/局</span>"
 																							+ "</p>"
 																							+ "</div>"
 																							+ "</a>"
@@ -279,7 +278,7 @@ response.setContentType("text/html;charset=UTF-8");
 																							+ "<div class='modal-dialog' role='document'>"
 																							+ "<div class='modal-content'>"
 																							+ "<div class='modal-header'>"
-																							+ "<h5 class='modal-title' id='exampleModalLabel'><img src='${pageContext.request.contextPath}/withplay/picture/'"+value.iId+"' class='rounded-circle' alt='Cinque Terre' width='32px' height='32px'></h5>"
+																							+ "<h5 class='modal-title' id='exampleModalLabel'><img src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"' class='rounded-circle' alt='Cinque Terre' width='32px' height='32px'>"+value.sNickname+"</h5>"
 																							+ "<button type='button' class='close' data-dismiss='modal' aria-label='Close'> <span aria-hidden='true'>&times;</span> </button>"
 																							+ "</div>"
 																							+ "<div class='modal-body'>"
@@ -293,25 +292,25 @@ response.setContentType("text/html;charset=UTF-8");
 																							+ "<div><span style='font-weight:bold;font-size:24px;'>"
 																							+ value.sGame
 																							+ "</span></div>"
-																							+ "<div><span style='font-size:14px;'>接$"
+																							+ "<div><span style='font-size:14px;'>接單"
 																							+ value.iCount
-																							+ "單次</span></div>"
-																							<div>
-																								<p style="color:#D87901;font-weight:bold;font-size:21px;">
-																									<span>$</span> <span>${With.iPrice}</span> <span>/局</span>
-																								</p>
-																							</div>
-																								<div><span style="font-weight:bold;">介紹</span><br><span style="font-size:14px;">${With.sComment}</span></div>
-																								</div>
-																								</div>											
-																								<hr>
-																								<div class="row" >
-																							
-																							+"<form action='<c:url value='/withplay/Reply'/>' method='post'>"
-																							+"<div id='reply" + value.iId + "' style='position: relative'>"
-																								
+																							+ "次</span></div>"
+																							+"<div>"
+																							+	"<p style='color:#D87901;font-weight:bold;font-size:21px;'>"
+																							+		"<span>$</span> <span>"+value.iPrice+"</span><span>/局</span>"
+																							+	"</p>"
 																							+"</div>"
-
+																							+	"<div><span style='font-weight:bold;'>介紹</span><br><span style='font-size:14px;'>"+value.sComment+"</span></div>"
+																							+	"</div>"
+																							+	"</div>"
+																							
+																							+	"<hr>"
+																							+	"<div class='row' >"																							
+																							+"<form action='<c:url value='/withplay/Reply'/>' method='post'>"
+																							+"<div style='width:466px'>"
+																							+"<div  id='reply" + value.iId + "'>"																								
+																							+"</div>"
+																							+"</div>"
 																							+"<hr>"
 
 																							+"<div>"
@@ -354,10 +353,12 @@ response.setContentType("text/html;charset=UTF-8");
 														}
 														time = value.tTime;
 														
-														$("#reply"+id).append("<label>" + author + "</label>"
-																+"<label> : " + text + "</label>"
-																+"<label style='position: absolute; right: 0'>" + date + " " + time + "</label>"
-																+"<br>")
+														$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>");
+// 																+"<label> : " + text + "</label>"
+// 																+"<label style='position: absolute; right: 0'>" + date + " " + time + "</label>"
+// 																+"<br>")
+// 																<label style="word-break: break-all;width:466px">${user.sNickname}: ${reply.sText}<span style="float:right;">${timeString}</span></label>														
+													
 													});				
 												});
 											};
@@ -410,85 +411,93 @@ response.setContentType("text/html;charset=UTF-8");
 								}
 								$("#point").append(
 //																	"<div class='row' id='point'>"
-																		 "<div class='col col-12 col-sm-6 col-md-6 col-lg-3'>"
-																		+ "<div data-toggle='modal' data-target='#exampleModal" + value.iId + "'>"
-																		+ "<div class='div1'>"
-																		+ "<div class='fi1'>"
-																		+ "<a href='#'> <img class='img1' src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'></a>"
-																		+ "<a>"
-																		+ "<div>"
-																		+ value.sNickname
-																		+ "</div>"
-																		+ "<div>"
-																		+ value.sGame
-																		+ "</div>"
-																		+ "<div>"
-																		+ "<p>"
-																		+ "<span>$</span>"
-																		+ "<span>"
-																		+ value.iPrice
-																		+ "</span>"
-																		+ "<span>/局</span>"
-																		+ "</p>"
-																		+ "</div>"
-																		+ "</a>"
+										 "<div class='col col-12 col-sm-6 col-md-6 col-lg-3'>"
+										+ "<div data-toggle='modal' data-target='#exampleModal" + value.iId + "'>"
+										+ "<div class='div1'>"
+										+ "<div class='fi1'>"
+										+ "<a href='#'> <img class='img1' src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'></a>"
+										+ "<a>"
+										+ "<div style='font-family:Microsoft JhengHei;font-size:16px;'><span>"
+										+ value.sNickname
+										+ "</span></div>"
+										+ "<div style='font-size:14px;'><span>評價"
+										+ "("+value.sReplyBeans.length+")"
+										+ "</span></div>"
+										+ "<div>"
+										+ "<p style='color:#FA006E;font-weight:bold;font-size:21px;'>"
+										+ "<span>$</span>"
+										+ "<span> "
+										+ value.iPrice
+										+ "</span>"
+										+ " <span>/局</span>"
+										+ "</p>"
+										+ "</div>"
+										+ "</a>"
 
-																		+ "</div>"
-																		+ "</div>"
-																		+ "</div>"
-																		+ "<div class='modal fade' id='exampleModal" + value.iId + "' tabindex='-1' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
-																		+ "<div class='modal-dialog' role='document'>"
-																		+ "<div class='modal-content'>"
-																		+ "<div class='modal-header'>"
-																		+ "<h5 class='modal-title' id='exampleModalLabel'>Modal title</h5>"
-																		+ "<button type='button' class='close' data-dismiss='modal' aria-label='Close'> <span aria-hidden='true'>&times;</span> </button>"
-																		+ "</div>"
-																		+ "<div class='modal-body'>"
-																		+ "<div class='container-fluid'>"
-																		+ "<div class='row'>"
-																		+ "<a> <img class='img1'"
-											+"src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'>"
-																		+ "</a>"
-																		+ "<div>"
-																		+ value.sGame
-																		+ "</div>"
-																		+ "<div>"
-																		+ value.sNickname
-																		+ "</div>"
+										+ "</div>"
+										+ "</div>"
+										+ "</div>"
+										+ "<div class='modal fade' id='exampleModal" + value.iId + "' tabindex='-1' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
+										+ "<div class='modal-dialog' role='document'>"
+										+ "<div class='modal-content'>"
+										+ "<div class='modal-header'>"
+										+ "<h5 class='modal-title' id='exampleModalLabel'><img src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"' class='rounded-circle' alt='Cinque Terre' width='32px' height='32px'>"+value.sNickname+"</h5>"
+										+ "<button type='button' class='close' data-dismiss='modal' aria-label='Close'> <span aria-hidden='true'>&times;</span> </button>"
+										+ "</div>"
+										+ "<div class='modal-body'>"
+										+ "<div class='container-fluid'>"
+										+ "<div class='row'>"
+										+ "<div class='col-md-6 ml'>"
+										+ "<a> <img style='width:200px;height:200px;border-radius: 20px;'"
+										+"src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'>"
+										+ "</a></div>"
+										+ "<div class='col-md-6 ml-auto'>"
+										+ "<div><span style='font-weight:bold;font-size:24px;'>"
+										+ value.sGame
+										+ "</span></div>"
+										+ "<div><span style='font-size:14px;'>接單"
+										+ value.iCount
+										+ "次</span></div>"
+										+"<div>"
+										+	"<p style='color:#D87901;font-weight:bold;font-size:21px;'>"
+										+		"<span>$</span> <span>"+value.iPrice+"</span><span>/局</span>"
+										+	"</p>"
+										+"</div>"
+										+	"<div><span style='font-weight:bold;'>介紹</span><br><span style='font-size:14px;'>"+value.sComment+"</span></div>"
+										+	"</div>"
+										+	"</div>"
+										
+										+	"<hr>"
+										+	"<div class='row' >"																							
+										+"<form action='<c:url value='/withplay/Reply'/>' method='post'>"
+										+"<div style='width:466px'>"
+										+"<div id='reply" + value.iId + "' style='position: relative'>"																								
+										+"</div>"
+										+"</div>"
+										+"<hr>"
 
-																		
-																		+"<form action='<c:url value='/withplay/Reply'/>' method='post'>"
-
-
-																		+"<hr>"
-																		+"<div id='reply" + value.iId + "' style='position: relative'>"
-																			
-																		+"</div>"
-
-																		+"<hr>"
-
-																		+"<div>"
-																			+"回覆: <input type='text' id='reply' name='sText' required>"
-																			+"<button type='submit' id='replySubmit' class='btn btn-primary' name='withNo'"
-																				+"value='" + value.iId + "'>送出</button>"
-																		+"</div>"
-																	+"</form>"
-																		
-																		
-																		+ "</div>"
-																		+ "</div>"
-																		+ "</div>"						
-																		+"<form action='<c:url value='/withplay/Order'/>' method='post'>"
-																			+"<div class='modal-footer'>"
-																				+"<button type='button' class='btn btn-secondary'"
-																					+"data-dismiss='modal'>關閉</button>"																																			
-																				+ checkString
-																			+"</div>"
-																			+"</form>"																							
-																		+ "</div>"
-																		+ "</div>"
-																		+ "</div>"
-																		+ "</div>" )
+										+"<div>"
+											+"回覆: <input type='text' id='reply' name='sText' required>"
+											+"<button type='submit' id='replySubmit' class='btn btn-primary' name='withNo'"
+												+"value='" + value.iId + "'>送出</button>"
+										+"</div>"
+									+"</form>"
+										
+										
+										+ "</div>"
+										+ "</div>"
+										+ "</div>"						
+										+"<form action='<c:url value='/withplay/Order'/>' method='post'>"
+											+"<div class='modal-footer'>"
+												+"<button type='button' class='btn btn-secondary'"
+													+"data-dismiss='modal'>關閉</button>"																																			
+												+ checkString
+											+"</div>"
+											+"</form>"																							
+										+ "</div>"
+										+ "</div>"
+										+ "</div>"
+										+ "</div>" )
 //																			+ "</div>" )
 								let author ="";
 								let text = "";
@@ -507,10 +516,10 @@ response.setContentType("text/html;charset=UTF-8");
 									}
 									time = value.tTime;
 									
-									$("#reply"+id).append("<label>" + author + "</label>"
-											+"<label> : " + text + "</label>"
-											+"<label style='position: absolute; right: 0'>" + date + " " + time + "</label>"
-											+"<br>")
+									$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>");
+// 											+"<label> : " + text + "</label>"
+// 											+"<label style='position: absolute; right: 0'>" + date + " " + time + "</label>"
+// 											+"<br>")
 								});				
 							});
 						};
