@@ -194,7 +194,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">今日增加會員人數</p>
-                      <p class="card-title">56人<p>
+                      <p class="card-title">156人<p>
                     </div>
                   </div>
                 </div>
@@ -561,14 +561,14 @@
  		      type: 'line',
 
  		      data: {
- 		        labels: ["11/30-12/6", "12/7-13", "12/14-20","12/21-27","12/28-1/3","1/4-10","1/11-17","1/18-24"],
+ 		        labels: ["1","2","3","4","5","6","7","8","9","10","11","12"],
  		        datasets: [{
  		            borderColor: "#6bd098",
  		            backgroundColor: "#6bd098",
  		            pointRadius: 0,
  		            pointHoverRadius: 0,
  		            borderWidth: 3,
- 		            data: [24,34,38,36,40,42,39,45]
+ 		            data: [10,8,7,12,11,14,12,11,10,12,11,11]
  		          }
  		        ]
  		      },
@@ -621,23 +621,17 @@
  		    myChart = new Chart(ctx, {
  		      type: 'pie',
  		      data: {
- 		        labels: ['GTA','芬尼克斯傳說','雙重鏡影','看門狗：自由軍團','Far Cry','荒野八人組','美俏女劍士 ORIGIN','大地王國：罪與罰 '],
+ 		        labels: ['男','女'],
  		        datasets: [{
  		          label: "Emails",
  		          pointRadius: 0,
  		          pointHoverRadius: 0,
  		          backgroundColor: [
- 		            '#CE0000',
- 		            '#FF0080',
- 		            '#E800E8',
- 		            '#921AFF',
- 		            '#00DB00',
- 		            '#0072E3',
- 		            '#64A600',
- 		            '#408080'
+ 		            '#2894FF',
+ 		            '#FF0080'
  		          ],
  		          borderWidth: 0,
- 		          data: [6,8,9,10,8,9,5,10]
+ 		          data: [65,49]
  		        }]
  		      },
 
@@ -691,7 +685,7 @@
  		    myChart = new Chart(ctx, {
  		      type: 'pie',
  		      data: {
- 		        labels: ['刺客教條','戰神','對馬戰鬼','電馭叛客 2077','惡魔獵人','仁王','海賊王','七龍珠'],
+ 		        labels: ['白羊座','金牛座','雙子座','巨蟹座','獅子座','處女座','天秤座','天蠍座','射手座','摩羯座','水瓶座','雙魚座'],
  		        datasets: [{
  		          label: "Emails",
  		          pointRadius: 0,
@@ -704,10 +698,14 @@
  		            '#FF9D6F',
  		            '#EAC100',
  		            '#95CACA',
- 		            '#C2C287'
+ 		            '#C2C287',
+ 		            '#921AFF',
+ 		            '#FF2D2D',
+ 		            '#000093',
+ 		            '#642100'
  		          ],
  		          borderWidth: 0,
- 		          data: [10,12,9,7,8,10,100,9]
+ 		          data: [10,9,12,15,13,17,16,12,11,10,9,8]
  		        }]
  		      },
 

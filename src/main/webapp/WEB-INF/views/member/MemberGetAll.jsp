@@ -38,7 +38,7 @@ td {
 	padding: 10px;
 	border: 5px gray solid;
 	margin-left: 50;
-	 	float: left; 
+	float: left; 
 }
 
 .a {
