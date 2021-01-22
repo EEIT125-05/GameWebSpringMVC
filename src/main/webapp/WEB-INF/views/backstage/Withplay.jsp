@@ -289,7 +289,7 @@
     <div class="card-header" id="headingTwo">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          	管理交換板
+          	管理訂單
         </button>
       </h5>
     </div>
@@ -346,12 +346,7 @@
 
 				</c:forEach>
 
-			</table>
-        
-        
-        
-        
-        
+			</table>         
       </div>
     </div>
   </div>
@@ -408,58 +403,7 @@
 		</table>
   
   
-<!--   <div class="card"> -->
-<!--     <div class="card-header" id="headingThree"> -->
-<!--       <h5 class="mb-0"> -->
-<!--         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"> -->
-<!--           	管理許願池 -->
-<!--         </button> -->
-<!--       </h5> -->
-<!--     </div> -->
-<!--     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion"> -->
-<!--       <div class="card-body"> -->
-      
-      
-<!--         <table border="1" class="table table-hover" style="font-size: 12px; border:3px"> -->
-<!-- 						<tr> -->
-<!-- 							<th>編號</th> -->
-<!-- 							<th>玩家</th> -->
-<!-- 							<th>遊戲名稱</th> -->
-<!-- 							<th>商品位置</th> -->
-<!-- 							<th>主機平台</th> -->
-<!-- 							<th>備註</th> -->
-<!-- 							<th>刪除</th> -->
-<!-- 							<th>暫時下架</th> -->
-<!-- 						</tr> -->
 
-<%-- 						<c:forEach var='d' varStatus='vs2' items='${AllListMap.demand }'> --%>
-
-<!-- 							<tr> -->
-<%-- 								<td>${vs2.count}</td> --%>
-<%-- 								<td>${d.gamer}</td> --%>
-<%-- 								<td>${d.gamename}</td> --%>
-<%-- 								<td>${d.area}</td> --%>
-<%-- 								<td>${d.console}</td> --%>
-<%-- 								<td>${d.remark}</td> --%>
-
-<%-- 								<c:choose> --%>
-<%-- 									<c:when test="${d.status == 0}"> --%>
-<!-- 										<td><a class="btn btn-primary btn-sm" -->
-<%-- 											onclick="deleteCheck('Demand','${d.no}');"/>刪除</a></td> --%>
-<%-- 										<td><input type="checkbox" class="checkinput" id="switcha${vs2.index }" onchange="updateStatus('demand','${d.status }',${d.no });"/><label class="checklabel" for="switcha${vs2.index }">Toggle</label></td> --%>
-<%-- 									</c:when> --%>
-<%-- 									<c:when test="${d.status == 5}"> --%>
-<!-- 										<td><a class="btn btn-primary btn-sm" -->
-<%-- 											onclick="deleteCheck('Demand','${d.no}');"/>刪除</a></td> --%>
-<%-- 										<td><input type="checkbox" class="checkinput" id="switcha${vs2.index }" checked onchange="updateStatus('demand','${d.status }',${d.no });"/><label class="checklabel" for="switcha${vs2.index }">Toggle</label></td> --%>
-										
-<%-- 									</c:when> --%>
-<%-- 								</c:choose> --%>
-
-<!-- 							</tr> -->
-
-<%-- 						</c:forEach> --%>
-<!-- 					</table> -->
       
       
       

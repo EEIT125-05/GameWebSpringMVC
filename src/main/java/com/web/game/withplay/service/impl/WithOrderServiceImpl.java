@@ -107,5 +107,10 @@ public class WithOrderServiceImpl implements WithOrderService {
 		  return form;
 		  //4311 9522 2222 2222   0130 
 		 }
+
+	@Override
+	public List<WithOrder> alllist() {
+		return oDAO.alllist();
+	}
 	
 }
