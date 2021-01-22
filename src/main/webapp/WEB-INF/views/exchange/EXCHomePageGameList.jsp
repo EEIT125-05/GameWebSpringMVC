@@ -81,7 +81,7 @@
 
 			<!-- Work -->
 			<div class="col-md-4 col-xs-6 work">
-				<img class="img-responsive" style="width: 345px; height: 345px"
+				<img class="img-responsive" style="width:100%"
 					src="${pageContext.request.contextPath }/${g.image }" alt="">
 				<div class="overlay"></div>
 				<div class="work-content">
@@ -222,7 +222,7 @@
 				divout.innerHTML ="";
 				for (let i = 0; i < g.list.length; i++) {
 						console.log("!````!")
-						divout.innerHTML += "<div class='col-md-4 col-xs-6 work animate__bounceIn'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/"+g.list[i].image+"' alt=''>"
+						divout.innerHTML += "<div class='col-md-4 col-xs-6 work animate__bounceIn'><img class='img-responsive' style='width:100%' src='${pageContext.request.contextPath }/"+g.list[i].image+"' alt=''>"
 						+ "<div class='overlay'></div><div class='work-content'><span>遊戲名稱:"
 						+ g.list[i].gamename
 						+ "</span>"
@@ -310,7 +310,7 @@
 				divout.innerHTML ="";
 				for (let i = 0; i < g.list.length; i++) {
 						console.log("!````!")
-						divout.innerHTML += "<div class='col-md-4 col-xs-6 work animate__bounceIn'><img class='img-responsive' style='width:345px; height:345px' src='${pageContext.request.contextPath }/"+g.list[i].image+"' alt=''>"
+						divout.innerHTML += "<div class='col-md-4 col-xs-6 work animate__bounceIn'><img class='img-responsive' style='width:100%' src='${pageContext.request.contextPath }/"+g.list[i].image+"' alt=''>"
 						+ "<div class='overlay'></div><div class='work-content'><span>遊戲名稱:"
 						+ g.list[i].gamename
 						+ "</span>"
