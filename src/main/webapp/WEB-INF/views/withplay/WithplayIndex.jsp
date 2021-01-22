@@ -149,7 +149,7 @@ response.setContentType("text/html;charset=UTF-8");
 														</c:choose>
 														<c:choose>
 														<c:when test="${not empty user}">
-														<label style="word-break: break-all;width:466px">${user.sNickname}: ${reply.sText}<span style="float:right;">${timeString}</span></label>														
+														<label style="word-break: break-all;width:466px">${reply.sAuthor}: ${reply.sText}<span style="float:right;">${timeString}</span></label>														
 														</c:when>
 														<c:otherwise>
 														<label style="word-break: break-all;width:466px">${reply.sAuthor}: ${reply.sText}<span style="float:right;">${timeString}</span></label>												

@@ -216,7 +216,7 @@ public class WithController {
 		String nextPage = null;
 		WithPlay WithBean = withService.get(withNo);
 		WithReplyBean rReplyBean = ReplyService.newBean(sText, WithBean);
-		rReplyBean.setsAuthor(((MemberBean)model.getAttribute("user")).getsAccount());
+		rReplyBean.setsAuthor(((MemberBean)model.getAttribute("user")).getsNickname());
 		try {if(ReplyService.insertReply(rReplyBean)) {
 			nextPage = "redirect:/withplay/Index";
 		}else {

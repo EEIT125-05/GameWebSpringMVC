@@ -190,11 +190,12 @@ table{
 			</form>
 		</div>
 	</div>
+	
 
 
 
 
 
-	<%@ include file="../Foot.jsp"%>
+<%-- 	<%@ include file="../Foot.jsp"%> --%>
 </body>
 </html>

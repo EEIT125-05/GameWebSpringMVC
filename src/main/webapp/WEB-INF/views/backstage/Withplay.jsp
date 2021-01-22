@@ -425,7 +425,7 @@
   </div>
   
   
-<%@ include file="../Foot.jsp"%>
+<%-- <%@ include file="../Foot.jsp"%> --%>
 </body>
 <script>
 function updateStatus(a,b,c){
