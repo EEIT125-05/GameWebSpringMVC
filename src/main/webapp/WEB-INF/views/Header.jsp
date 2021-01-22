@@ -47,9 +47,9 @@
               <a class="dropdown-item" href="<c:url value='/mall/Index'/>">商城</a>
               <a class="dropdown-item" href="<c:url value='/mall/MallDL'/>">訂單查詢</a>
               <a class="dropdown-item" href="<c:url value='/mall/Addshop'/>">我的購物車</a>   
-              <a class="dropdown-item" href="<c:url value='/mall/New'/>">新增商品</a>
-              <a class="dropdown-item" href="<c:url value='/mall/Inquire'/>">查詢商品</a>
-              <a class="dropdown-item" href="<c:url value='/mall/Delete'/>">刪除商品</a>
+<%--               <a class="dropdown-item" href="<c:url value='/mall/New'/>">新增商品</a> --%>
+<%--               <a class="dropdown-item" href="<c:url value='/mall/Inquire'/>">查詢商品</a> --%>
+<%--               <a class="dropdown-item" href="<c:url value='/mall/Delete'/>">刪除商品</a> --%>
             </div>
           </li>
           

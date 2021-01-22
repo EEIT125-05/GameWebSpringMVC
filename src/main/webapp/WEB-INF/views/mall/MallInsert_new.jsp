@@ -15,16 +15,12 @@ response.setDateHeader("Expires", -1);
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel=stylesheet type="text/css" href="css/LeftMall.css">
 <title>商品資料註冊</title>
-<STYLE>
-body {
-　background-color: #ffffff;
-background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='203' height='203' viewBox='0 0 200 200'%3E%3Cg %3E%3Cpolygon fill='%23867d1c' points='100 57.1 64 93.1 71.5 100.6 100 72.1'/%3E%3Cpolygon fill='%23a29822' points='100 57.1 100 72.1 128.6 100.6 136.1 93.1'/%3E%3Cpolygon fill='%23867d1c' points='100 163.2 100 178.2 170.7 107.5 170.8 92.4'/%3E%3Cpolygon fill='%23a29822' points='100 163.2 29.2 92.5 29.2 107.5 100 178.2'/%3E%3Cpath fill='%23bfb328' d='M100 21.8L29.2 92.5l70.7 70.7l70.7-70.7L100 21.8z M100 127.9L64.6 92.5L100 57.1l35.4 35.4L100 127.9z'/%3E%3Cpolygon fill='%23545454' points='0 157.1 0 172.1 28.6 200.6 36.1 193.1'/%3E%3Cpolygon fill='%23666666' points='70.7 200 70.8 192.4 63.2 200'/%3E%3Cpolygon fill='%23787878' points='27.8 200 63.2 200 70.7 192.5 0 121.8 0 157.2 35.3 192.5'/%3E%3Cpolygon fill='%23666666' points='200 157.1 164 193.1 171.5 200.6 200 172.1'/%3E%3Cpolygon fill='%23545454' points='136.7 200 129.2 192.5 129.2 200'/%3E%3Cpolygon fill='%23787878' points='172.1 200 164.6 192.5 200 157.1 200 157.2 200 121.8 200 121.8 129.2 192.5 136.7 200'/%3E%3Cpolygon fill='%23545454' points='129.2 0 129.2 7.5 200 78.2 200 63.2 136.7 0'/%3E%3Cpolygon fill='%23787878' points='200 27.8 200 27.9 172.1 0 136.7 0 200 63.2 200 63.2'/%3E%3Cpolygon fill='%23666666' points='63.2 0 0 63.2 0 78.2 70.7 7.5 70.7 0'/%3E%3Cpolygon fill='%23787878' points='0 63.2 63.2 0 27.8 0 0 27.8'/%3E%3C/g%3E%3C/svg%3E");
-</STYLE>
+
 </head>
 
 <body>
 	<%@ include file="../Header.jsp"%>
-	<div class="container " style="background-color:#ffffff">
+	<div class="container " >
 
 		<h1 class="mt-4 mb-3">
 			商品 <small>新增資料</small>
@@ -157,8 +153,9 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 			</label>
 			<center>
 
-				<Button class="btn btn-warning" href="MallInquire.jsp">查詢</Button>
-				<Button class="btn btn-warning" type="submit" name="submit" value="送出">送出</Button>
+				<Button  class="btn btn-warning" href="<c:url value="/mall/Inquire"/>">查詢</Button>
+				<Button class="btn btn-warning" type="submit" name="submit" value="送出">送出</Button></div><br>
+				<Button class="btn btn-warning" href="<c:url value="/mall/MALLbat"/>">返回後台管理頁面</Button>
 			</center>
 	</div>
 
