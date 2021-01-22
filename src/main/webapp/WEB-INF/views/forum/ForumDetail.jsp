@@ -99,17 +99,13 @@
 	</c:if>
 
 
-	<h3>[${fForumBean.sCategory}]${fForumBean.sTitle}</h3>
+	<h3>
+		<img src="<c:url value='/member/picture?sAccount=${fForumBean.sAuthor}'/>" class="rounded-circle" alt="Cinque Terre" width="50px" height="50px">
+		[${fForumBean.sCategory}]${fForumBean.sTitle}
+	</h3>
 	<span>${fForumBean.dDate} ${fForumBean.tTime}</span><br>
 	<div>${fForumBean.sText}</div>
 	<hr>
-	
-<%-- 	<form id="editReply" action="<c:url value='/forum/EditReply'/>" method="POST" > --%>
-<%-- 		<input type="hidden" name="forumNo" value="${fForumBean.iNo}" > --%>
-<!-- 		<input type="hidden" name="_method" value="" > -->
-<!-- 		<input type="hidden" name="replyNo" value="" > -->
-<!-- 		<input type="hidden" name="newText" value="" > -->
-<!-- 	</form> -->
 	
 	<div  style="position:relative">
 		<jsp:useBean id="nowDate" class="java.util.Date"/>
@@ -132,7 +128,9 @@
 					</c:otherwise>
 				</c:choose>
 						<label style="width: 90%;">
-							<div><b>${reply.sAuthor} : </b>
+							<div>
+								<img src="<c:url value='/member/picture?sAccount=${reply.sAuthor}'/>" class="rounded-circle" alt="Cinque Terre" width="32px" height="32px">
+								<b>${reply.sAuthor} : </b>
 								<a data-toggle="collapse" href="#childReply${reply.iNo}" role="button" aria-expanded="false" aria-controls="#childReply${reply.iNo}">回覆</a>
 								<c:if test="${reply.sAuthor == user.sAccount}">
 									<input type="hidden" id="oldText${reply.iNo}" value="${reply.sText}">
@@ -157,7 +155,9 @@
 								</c:choose>
 								<label style="width:5%"></label>
 								<label style="width:90%">
-									<div><b>${childReply.sAuthor} : </b>
+									<div>
+										<img src="<c:url value='/member/picture?sAccount=${childReply.sAuthor}'/>" class="rounded-circle" alt="Cinque Terre" width="32px" height="32px">
+										<b>${childReply.sAuthor} : </b>
 									<c:if test="${childReply.sAuthor == user.sAccount}">
 										<input type="hidden" id="oldText${childReply.iNo}" value="${childReply.sText}">
 										<button class="replyUpdate" value="${childReply.iNo}">修改</button>
