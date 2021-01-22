@@ -51,131 +51,40 @@ ul.pagination li a:hover:not(.active) { background-color: #ddd; }
 					<li class="breadcrumb-item active">交換</li>
 				</ol>
 
-				<label>依名稱搜尋: </label>
-				<div class="input-group">
-					<input type="text" class="form-control" name="searchparams" id="searchparams"
+				<div class="input-group" style="width:400px;text-align:center;">
+					<input type="text" class="form-control  input-lg" placeholder="輸入條件"  name="searchparams" id="searchparams" style="width:200px" 
 						value="${ searchparams}">
 						<select id="search" >
+						<option value="gamename">全部</option> 
 						<option value="gamename">遊戲名稱</option> 
 						<option value="area">地區</option> 
 						</select>
 						 <a class="btn btn-secondary" onclick="searchCondition();">搜尋</a>
+	
 				</div>
 				
-				<input type="hidden" id="search" value="${search}">
-				<!-- 藏參數 -->
 	
 	<br>
 	<div>
-<%-- 	<a class="btn btn-secondary" href='<c:url value="/exchange/addDemandFilter?gamename=刺客"/>' onclick="changeCondition('刺客');">刺客</a> --%>
-	<a class="btn btn-secondary" onclick="changeCondition('刺客','gamename');">刺客</a>
-	<a class="btn btn-secondary" onclick="changeCondition('戰神','gamename');">戰神</a>
-	<a class="btn btn-secondary" onclick="changeCondition('薩爾達','gamename');">薩爾達</a>
-	<a class="btn btn-secondary" onclick="changeCondition('台北市','area');">台北市</a>
-	<a class="btn btn-secondary" onclick="changeCondition('新北市','area');">新北市</a>
+	<label style="font-weight: 900;margin-top:10px">    熱門條件</label>
+	<a class="btn btn-outline-dark fast game" onclick="changeCondition('台北','area');">台北</a>
+	<a class="btn btn-outline-dark fast game" onclick="changeCondition('新北','area');">新北</a>
+	<a class="btn btn-outline-dark fast game" onclick="changeCondition('刺客','gamename');">刺客教條</a>
+	<a class="btn btn-outline-dark fast game" onclick="changeCondition('惡魔','gamename');">惡魔獵人</a>
+	<a class="btn btn-outline-dark fast game" onclick="changeCondition('GTA','gamename');">GTA</a>
+	<a class="btn btn-outline-dark fast game" onclick="changeCondition('戰神','gamename');">戰神</a>
+	<a class="btn btn-outline-dark fast game" onclick="changeCondition('薩爾達','gamename');">薩爾達</a>
+	<a class="btn btn-outline-dark fast game" onclick="changeCondition('最後生還者','gamename');">最後生還者</a>
+	<a class="btn btn-outline-dark fast game" onclick="changeCondition('台中','area');">台中</a>
+	<a class="btn btn-outline-dark fast game" onclick="changeCondition('桃園','area');">桃園</a>
+	<a class="btn btn-outline-dark fast game" onclick="changeCondition('台南','area');">台南</a>
+	<a class="btn btn-outline-dark fast game" onclick="changeCondition('高雄','area');">高雄</a>
+	<a class="btn btn-outline-dark fast game" onclick="changeCondition('花蓮','area');">花蓮</a>
 	</div>
 	<br>
 	<div class="row" id="bigdiv">
 
 
-		<c:forEach var='g' varStatus='vs' items='${list }'>
-
-			<!-- Work -->
-			<div class="col-md-4 col-xs-6 work">
-				<img class="img-responsive" style="width: 345px; height: 345px"
-					src="${pageContext.request.contextPath }/images/${g.gamename}.jpg"
-					alt="">
-				<div class="overlay"></div>
-				<div class="work-content">
-					<span>遊戲名稱:${g.gamename}</span>
-					<span>遊戲所在地:${g.area}</span>
-					<span>遊戲平台:${g.console}</span>
-					<span>玩家名稱:${g.gamer}</span>
-					<span>備註:${g.remark}</span>
-					<div class="work-link" style="margin: auto;">
-
-						<div data-toggle="modal" data-target="#exampleModal">
-							<button type="button" class="btn btn-primary" data-toggle="modal"
-								data-target="#exampleModalLong${vs.index}"
-								onclick="selectChange('${g.gamename }','${g.gamer}','${vs.index }');">
-								<i class="fa fa-exchange"></i>
-							</button>
-						</div>
-
-
-					</div>
-				</div>
-			</div>
-
-			<div class="modal fade" id="exampleModalLong${vs.index}"
-				tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-				aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLongTitle">交換申請</h5>
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-
-						<div class="modal-body">
-
-
-							<fieldset>
-								<div>
-									<label for="partyA">甲方　　 </label> <input type="text"
-										name="partyA" value="${user.sAccount }" style="width: 260px;"
-										class="fixedlen" id="partyA${vs.index }" readonly /> <span
-										id="console1span"></span>
-								</div>
-								<div>
-
-									<label for="gamename">您的遊戲</label> <input type="text"
-										name="supportGame" value="${g.console }-${g.gamename}"
-										style="width: 260px;" class="fixedlen" id="demandgamebean"
-										readonly /> <input type="hidden" name="demandGameNo"
-										id="demandGameNo${vs.index }" value="${g.no }" /> <span
-										id="gamenamespan"></span>
-
-								</div>
-								<div>
-
-									<label for="partyB">乙方　　 </label> <input type="text"
-										name="partyB" value="${g.gamer }" style="width: 260px;"
-										class="fixedlen" id="partyB${vs.index }" readonly /> <span
-										id="qtyspan"></span>
-
-								</div>
-								<div>
-
-									<label for="gamename">對方遊戲</label> <select
-										style="width: 260px;" class="fixedlen" name="myGameNo"
-										id="myGame${vs.index }" onblur="resetSelect(${vs.index });">
-										
-									</select> <span id="gamenamespan${vs.index }"></span>
-
-								</div>
-
-							</fieldset>
-
-						</div>
-						<div class="modal-footer">
-						<div id="submit${vs.index }">
-							<button type="botton" class="btn btn-secondary"
-								data-dismiss="modal">返回</button>
-							<a class="btn btn-primary appforsubmit "
-								id="button${vs.index }"
-								onclick="checksubmit(${vs.index });">申請</a>
-						</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-
-		</c:forEach>
 	</div>
 	<div id="pagediv" style="text-align: center;">
 		<ul id="pageul" class='pagination'>

@@ -95,12 +95,20 @@ div {
 			<div style="margin-top: 20px;">
 				<button type="button"   id="submitButton" onclick="checkSubmit();" class="button" disabled>送出</button>
 				<button type="reset" class="button">清除</button>
+				<button type="button" class="button"  onclick="oneClick();">一鍵輸入:馬力歐賽車</button>
 			</div>
 		</fieldset>
 		</div>
 	</form:form>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 	<script>
+	
+	function oneClick(){
+		$("#console1").val("Switch")
+		$("#gamename").val("馬力歐賽車")
+		$("#gamelocation").val("台中市")
+		$("#submitButton").attr("disabled",false)
+	}
 	
 	function checkSubmit(){
 		swal.fire("${action}成功",

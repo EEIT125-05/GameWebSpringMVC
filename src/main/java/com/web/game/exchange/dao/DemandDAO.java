@@ -25,7 +25,7 @@ public class DemandDAO {
 	public List<DemandGameBean> changeDemandByFilter(int page,String str){
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		Session session =factory.getCurrentSession();
-		String queryAll = "FROM DemandGameBean WHERE status = 0 "+str;
+		String queryAll = "FROM DemandGameBean WHERE status = 0 "+str+"ORDER BY no desc";
 		
 		int start = 0;
 		if (page == 1) {
@@ -43,7 +43,7 @@ public class DemandDAO {
 	public Integer getDemandPage(String str){
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		Session session =factory.getCurrentSession();
-		String queryAll = "FROM DemandGameBean WHERE status = 0 "+str;
+		String queryAll = "FROM DemandGameBean WHERE status = 0 "+str+"ORDER BY no desc";
 		list = (List<DemandGameBean>) session.createQuery(queryAll)
 				.getResultList();
 		if(list.size() % counts ==0 ) {

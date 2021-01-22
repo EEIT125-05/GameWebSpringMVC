@@ -264,10 +264,10 @@
               </div>
               <div class="card-footer ">
                 <div class="legend">
-                  <!-- <i class="fa fa-circle text-primary"></i> Opened
-                  <i class="fa fa-circle text-warning"></i> Read
-                  <i class="fa fa-circle text-danger"></i> Deleted
-                  <i class="fa fa-circle text-gray"></i> Unopened -->
+<!--                   <i class="fa fa-circle text-primary"></i> Opened -->
+<!--                    <i class="fa fa-circle text-warning"></i> Read  -->
+<!--                    <i class="fa fa-circle text-danger"></i> Deleted  -->
+<!--                    <i class="fa fa-circle text-gray"></i> Unopened  -->
                 </div>
                 <hr>
                 <div class="stats">

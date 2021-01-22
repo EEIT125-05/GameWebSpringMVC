@@ -29,7 +29,7 @@ public class SupportDAO {
 	public List<SupportGameBean> changePage(int page) {
 		List<SupportGameBean> list = new ArrayList<>();
 		Session session = factory.getCurrentSession();
-		String queryAll = "FROM SupportGameBean WHERE status = 0";
+		String queryAll = "FROM SupportGameBean WHERE status = 0 ORDER BY no desc";
 
 		int start = 0;
 		if (page == 1) {
@@ -47,7 +47,7 @@ public class SupportDAO {
 	public List<SupportGameBean> changeSupportByFilter(int page, String str) {
 		List<SupportGameBean> list = new ArrayList<>();
 		Session session = factory.getCurrentSession();
-		String queryAll = "FROM SupportGameBean WHERE status = 0 "+str;;
+		String queryAll = "FROM SupportGameBean WHERE status = 0 "+str+"ORDER BY no desc";;
 
 		int start = 0;
 		if (page == 1) {
