@@ -147,7 +147,14 @@ response.setContentType("text/html;charset=UTF-8");
 																	
 															</c:otherwise>
 														</c:choose>
+														<c:choose>
+														<c:when test="${not empty user}">
 														<label style="word-break: break-all;width:466px">${user.sNickname}: ${reply.sText}<span style="float:right;">${timeString}</span></label>														
+														</c:when>
+														<c:otherwise>
+														<label style="word-break: break-all;width:466px">${reply.sAuthor}: ${reply.sText}<span style="float:right;">${timeString}</span></label>												
+														</c:otherwise>
+														</c:choose>
 														<br>
 													</c:forEach>
 												</div>
@@ -238,6 +245,7 @@ response.setContentType("text/html;charset=UTF-8");
 												}
 												let user = $("#userNow").val();
 												let checkString;
+												let checkreply;
 // 												let checksAccount= ${fn:length(With.sReplyBeans)};
 												$.each(obj,function(key,value) {
 													if(value.sAccount == user || user==null){
@@ -246,6 +254,7 @@ response.setContentType("text/html;charset=UTF-8");
 														checkString = "<button type=\"submit\" class=\"btn btn-primary \" name=\"orderNo\" value=\"" + value.iId + "\">立即下單</button>"
 													
 													}
+												
 													$("#point").append(
 // 																					"<div class='row' id='point'>"
 																							 "<div class='col col-12 col-sm-6 col-md-6 col-lg-3'>"
@@ -254,14 +263,14 @@ response.setContentType("text/html;charset=UTF-8");
 																							+ "<div class='fi1'>"
 																							+ "<a href='#'> <img class='img1' src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'></a>"
 																							+ "<a>"
-																							+ "<div style='font-family:Microsoft JhengHei;font-size:16px;'><span>"
+																							+ "<div style='font-family:Microsoft JhengHei;font-size:16px;padding-left:5px'><span>"
 																							+ value.sNickname
 																							+ "</span></div>"
-																							+ "<div style='font-size:14px;'><span>評價"
+																							+ "<div style='font-size:14px;padding-left:5px'><span>評價"
 																							+ "("+value.sReplyBeans.length+")"
 																							+ "</span></div>"
 																							+ "<div>"
-																							+ "<p style='color:#FA006E;font-weight:bold;font-size:21px;'>"
+																							+ "<p style='color:#FA006E;font-weight:bold;font-size:21px;padding-left:5px'>"
 																							+ "<span>$</span>"
 																							+ "<span> "
 																							+ value.iPrice
@@ -342,6 +351,7 @@ response.setContentType("text/html;charset=UTF-8");
 													let time = "";
 													let id = value.iId			
 													let d = new Date();
+													let sNickname= value.sNickname;
 													$.each(value.sReplyBeans,function(key,value) {
 														author = value.sAuthor;
 														text = value.sText;
@@ -352,12 +362,11 @@ response.setContentType("text/html;charset=UTF-8");
 															date = "昨日";
 														}
 														time = value.tTime;
-														
-														$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>");
-// 																+"<label> : " + text + "</label>"
-// 																+"<label style='position: absolute; right: 0'>" + date + " " + time + "</label>"
-// 																+"<br>")
-// 																<label style="word-break: break-all;width:466px">${user.sNickname}: ${reply.sText}<span style="float:right;">${timeString}</span></label>														
+														if(${not empty user}){
+														$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+sNickname+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
+														}else{
+														$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
+														}
 													
 													});				
 												});
@@ -417,14 +426,14 @@ response.setContentType("text/html;charset=UTF-8");
 										+ "<div class='fi1'>"
 										+ "<a href='#'> <img class='img1' src='${pageContext.request.contextPath}/withplay/picture/"+value.iId+"'></a>"
 										+ "<a>"
-										+ "<div style='font-family:Microsoft JhengHei;font-size:16px;'><span>"
+										+ "<div style='font-family:Microsoft JhengHei;font-size:16px;padding-left:5px'><span>"
 										+ value.sNickname
 										+ "</span></div>"
-										+ "<div style='font-size:14px;'><span>評價"
+										+ "<div style='font-size:14px;padding-left:5px'><span>評價"
 										+ "("+value.sReplyBeans.length+")"
 										+ "</span></div>"
 										+ "<div>"
-										+ "<p style='color:#FA006E;font-weight:bold;font-size:21px;'>"
+										+ "<p style='color:#FA006E;font-weight:bold;font-size:21px;padding-left:5px'>"
 										+ "<span>$</span>"
 										+ "<span> "
 										+ value.iPrice
@@ -505,6 +514,7 @@ response.setContentType("text/html;charset=UTF-8");
 								let time = "";
 								let id = value.iId			
 								let d = new Date();
+								let sNickname= value.sNickname;
 								$.each(value.sReplyBeans,function(key,value) {
 									author = value.sAuthor;
 									text = value.sText;
@@ -515,11 +525,11 @@ response.setContentType("text/html;charset=UTF-8");
 										date = "昨日";
 									}
 									time = value.tTime;
-									
-									$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>");
-// 											+"<label> : " + text + "</label>"
-// 											+"<label style='position: absolute; right: 0'>" + date + " " + time + "</label>"
-// 											+"<br>")
+									if(${not empty user}){
+												$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+sNickname+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
+												}else{
+												$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
+												}
 								});				
 							});
 						};
