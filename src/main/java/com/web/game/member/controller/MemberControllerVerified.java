@@ -55,7 +55,7 @@ public class MemberControllerVerified {
 	public String GameBarData(Model model, String sAccount) {
 		MemberBean Signin = (MemberBean) model.getAttribute("user");
 		sAccount = Signin.getsAccount();
-		sAccount.equals("game20200922");
+		sAccount.equals("admin");
 		model.addAttribute("users", mService.getAllMembers());
 		return "member/GameBarGMSignin";
 	}
@@ -71,7 +71,7 @@ public class MemberControllerVerified {
 		sGender = Signin.getsGender();
 		sAddress = Signin.getsAddress();
 		sBirthday = Signin.getsBirthday();
-		if (sAccount.equals("game20200922")) {
+		if (sAccount.equals("admin")) {
 			model.addAttribute("users", mService.getAllMembers());
 			return "/backstage/Member";
 		} else if (sPassword == null) {

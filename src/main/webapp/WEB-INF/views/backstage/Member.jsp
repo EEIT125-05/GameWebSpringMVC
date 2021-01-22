@@ -16,7 +16,6 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 <title>後台管理</title>
 <link type="text/css" rel="stylesheet"
 	href="${pageContext.request.contextPath}/vendor/css/paper-dashboard.css" />
-<%@ include file="../Link.jsp"%>
 <!-- <script src='//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js'></script> -->
 <link rel='stylesheet'
 	href='https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css'>
@@ -394,7 +393,7 @@ centering /* body { */
 
 						</div>
 					</div>
-					<%@ include file="../Foot.jsp"%>
+<%-- 					<%@ include file="../Foot.jsp"%> --%>
 </body>
 <script>
 	window.onload = function() {

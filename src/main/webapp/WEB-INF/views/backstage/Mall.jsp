@@ -85,7 +85,6 @@ mark.yellow {
 </style>
 </style>
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/paper-dashboard.css" />
-<%@ include file="../Link.jsp"%>
 </head>
 <body class="">
 <%@ include file="../Header.jsp"%>
@@ -758,6 +757,6 @@ mark.yellow {
 	}
 </script>
   
-<%@ include file="../Foot.jsp"%>
+<%-- <%@ include file="../Foot.jsp"%> --%>
 </body>
 </html>

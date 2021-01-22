@@ -292,7 +292,7 @@
 			</div>
         </div>
       </div>
-<%@ include file="../Foot.jsp"%>
+<%-- <%@ include file="../Foot.jsp"%> --%>
     </div>
   </div>
   

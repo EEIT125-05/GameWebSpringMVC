@@ -198,11 +198,6 @@ td{
 			})
 		}
 
-		
-
-		$(function() {
-
-
 	$(function(){
 		
 		console.log("file: " + $("#fImage").val());
@@ -212,20 +207,6 @@ td{
 		
 		$("#fImage").on("change",function(){
 
-
-		
-		$(function() {
-
-
-
-		
-		$(function() {
-
-
-		
-		$(function() {
-
- 
 			console.log("file: " + $("#fImage").val());
             let fileReader = new FileReader();
             let imageFile = this.files[0];

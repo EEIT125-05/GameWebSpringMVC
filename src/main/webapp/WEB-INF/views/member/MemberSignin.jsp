@@ -137,7 +137,8 @@ input {
 														console
 																.log("登入成功xhr.status="
 																		+ xhr.status);
-														Swal
+
+
 																.fire(
 																		'OK',
 																		"恭喜登入成功",

@@ -178,8 +178,8 @@ public class ContestController {
 		}else {
 			if(cService.insertContest(cContestBean)) {
 				map.put("successMessage", "新增成功");
-				JavaMail mail = new JavaMail();
-				mail.SendContestMail(((MemberBean)model.getAttribute("user")).getsEmail(), cContestBean.getiNo(), "contest");
+//				JavaMail mail = new JavaMail();
+//				mail.SendContestMail(((MemberBean)model.getAttribute("user")).getsEmail(), cContestBean.getiNo(), "contest");
 			}else {
 				success = false;
 			}
@@ -261,8 +261,8 @@ public class ContestController {
 		MemberBean user = ((MemberBean)model.getAttribute("user"));
 		if(pService.insertParticipate(new ParticipateBean(null, user.getsAccount(), cContestBean))) {
 			map.put("status", "success");
-			JavaMail mail = new JavaMail();
-			mail.SendContestMail(user.getsEmail(), cContestBean.getiNo(), "participate");
+//			JavaMail mail = new JavaMail();
+//			mail.SendContestMail(user.getsEmail(), cContestBean.getiNo(), "participate");
 		}else {
 			map.put("status", "sqlError");
 		}
@@ -310,9 +310,9 @@ public class ContestController {
 				map.put("status", "success");
 				//確認進資料庫才寄信
 				for(String player:players) {
-					JavaMail mail = new JavaMail();
-					MemberBean mb = mService.get(player);
-					mail.SendContestMail(mb.getsEmail(), contestNo, "participate");
+//					JavaMail mail = new JavaMail();
+//					MemberBean mb = mService.get(player);
+//					mail.SendContestMail(mb.getsEmail(), contestNo, "participate");
 				}
 				
 			}else {

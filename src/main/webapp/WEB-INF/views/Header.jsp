@@ -33,7 +33,7 @@
               </c:choose>
               <a class="dropdown-item" href="<c:url value='/member/Login'/>">註冊</a>
               <a class="dropdown-item" href="<c:url value='/member/Data'/>">會員資料</a>
-              <c:if test="${user.sAccount == 'game20200922'}">
+              <c:if test="${user.sAccount == 'admin'}">
               	<a class="dropdown-item" href="<c:url value="/backstage/Member"/>">後台測試中</a>
               </c:if>
             </div>
