@@ -41,7 +41,7 @@
 		</c:when>
 		<c:when test="${not empty MemberSupport }">
 
-			<table border="1" class="table table-hover" style="font-size: 12px; border:3px">
+			<table border="1" class="table table-hover" style="font-size: 12px; border:3px;font-weight:bold;">
 				<tr>
 					<th>編號</th>
 					<th>遊戲名稱</th>

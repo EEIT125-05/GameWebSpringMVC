@@ -238,14 +238,14 @@ div {
 			flag2 = true;
 			$("#console1").attr("disabled","disabled");
 			$("#gamename").attr("disabled","disabled");
-				$("#submit").on("click",function(){
+				$("#submitButton").on("click",function(){
 				$("#console1").removeAttr("disabled");
 				$("#gamename").removeAttr("disabled");
 			})
 		}
 		
 		
-		$("#console1").on("blur", function(){
+		$("#console1").mouseout(function(){
 			flag1 = false
 			if ($("#console1 :selected").text() == "") {
 				$("#console1span").html("<span>必填</span>")
@@ -258,7 +258,7 @@ div {
 			checkall();
 		})
 
-		$("#gamename").on("blur", function() {
+		$("#gamename").mouseout(function() {
 			flag2 = false
 			if ($("#gamename :selected").text() == "") {
 				$("#gamenamespan").html("<span>必填</span>")
@@ -271,7 +271,7 @@ div {
 			checkall();
 		})
 
-		$("#qty").on("blur", function() {
+		$("#qty").mouseout(function() {
 			flag3 = false
 			if ($("#qty").val() == "") {
 				$("#qtyspan").html("<span>必填</span>")
@@ -284,7 +284,7 @@ div {
 			checkall();
 		})
 
-		$("#condition").on("blur", function() {
+		$("#condition").mouseout(function() {
 			flag4 = false
 			if ($("#condition :selected").text() == "") {
 				$("#conditionspan").html("<span>必填</span>")
@@ -297,7 +297,7 @@ div {
 			checkall();
 		})
 
-		$("#gamelocation").on("blur", function() {
+		$("#gamelocation").mouseout(function() {
 			flag5 = false
 			if ($("#gamelocation :selected").text() == "") {
 				$("#gamelocationspan").html("<span>必填</span>")

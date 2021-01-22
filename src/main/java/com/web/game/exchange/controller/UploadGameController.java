@@ -59,6 +59,7 @@ public class UploadGameController {
 			HttpServletRequest request,
 			RedirectAttributes attr
 			)throws Exception{ 
+		System.out.println("testIn"+gamebean.getGamename()+gamebean.getConsole()+gamebean.getGamer());
 		System.out.println("insertSupportgame");
 		System.out.println("gamer"+gamebean.getGamer());
 		//---------注入資料
@@ -98,8 +99,8 @@ public class UploadGameController {
 				System.out.println("success");
 			} else {
 				System.out.println("fail");
-//				sPath = "EXCFail";
 			}
+			System.out.println("test"+gamebean.getGamename()+gamebean.getConsole());
 			return "redirect:/exchange/management";
 	}
 	
@@ -153,7 +154,7 @@ public class UploadGameController {
 		gamebean.setConsole(mygame.getConsole());
 		gamebean.setGamename(mygame.getGamename());
 		gamebean.setGamer(mygame.getGamer());
-		gamebean.setDlc("否");//預設值
+		gamebean.setDlc("是");//預設值
 		model.addAttribute("gamebean",gamebean);
 		model.addAttribute("insert","我要換");
 		model.addAttribute("GameToSupport",no);
