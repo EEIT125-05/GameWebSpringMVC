@@ -35,7 +35,7 @@ input {
 }
 
 #DIV4 {
-	color: white;
+	background-color: gray;
 	width: 450px;
 	height: 300px;
 	margin: 25px;
@@ -48,6 +48,7 @@ table {
 }
 
 .b {
+	color: white;
 	font-size: 22;
 	font-weight: 900;
 }

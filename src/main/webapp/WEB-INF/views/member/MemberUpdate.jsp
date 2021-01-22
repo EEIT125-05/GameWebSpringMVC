@@ -23,19 +23,21 @@ input {
 
 #DIV2 {
 	margin-left: 50;
-	padding-bottom:50px;
+	padding-bottom: 50px;
 }
 
 #DIV3 {
-	padding: 15px;
+	padding-top: 15px;
+	padding-left: 30px;
 	float: left;
 }
 
 #DIV4 {
-	color: white;
+	background-color: gray;
 	width: 450px;
 	height: 300px;
-	margin: 15px;
+	margin-top: 15px;
+	margin-right: 30px;
 	border: 3px solid gray;
 	float: right;
 }
@@ -45,12 +47,15 @@ table {
 }
 
 .b {
+	color: white;
 	font-size: 20;
 	font-weight: 900;
 }
+
 .b:hover {
 	color: #00FFFF;
 }
+
 .leftBar {
 	width: 450px;
 	height: 80px;
@@ -283,15 +288,17 @@ table {
 				</tr>
 			</table>
 		</div>
-		<div id="DIV2" class="col-md-9" >
-			<div class="detail"  style="margin-top: 25">
+		<div id="DIV2" class="col-md-9">
+			<div class="detail" style="margin-top: 25">
 				<h1 align='center'>修改${user.sAccount }的會員資料</h1>
 				<form action="<c:url value='/member/MemberData'/>" method="post"
 					enctype="multipart/form-data">
 					<div id="DIV3">
-						<img style="width: 400; height: 350;"
+						<img style="width: 400; height: 300;"
 							src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>"><br>
-						<h6>點選換照片<input type="file" name="productImage" /></h6>
+						<h6>
+							點選換照片<input type="file" name="productImage" />
+						</h6>
 					</div>
 					<div id="DIV4">
 						<input name="iNo" type="hidden" value="${user.iNo}" readonly>
@@ -352,23 +359,22 @@ table {
 							</tr>
 							<tr class="b">
 								<td></td>
-								<td><input type="hidden" id="Ename"
-									name="sEname" required onblur="checkName();"
-									pattern="^[\u4e00-\u9fa5]+$" minlength="2" maxlength="4"
-									value="${user.sEname}" readonly><span id="idname"></span></td>
+								<td><input type="hidden" id="Ename" name="sEname" required
+									onblur="checkName();" pattern="^[\u4e00-\u9fa5]+$"
+									minlength="2" maxlength="4" value="${user.sEname}" readonly><span
+									id="idname"></span></td>
 							</tr>
 							<tr class="b">
 								<td></td>
-								<td><input type="hidden" id="Email"
-									name="sEmail" required
+								<td><input type="hidden" id="Email" name="sEmail" required
 									pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$"
 									onblur="checkEmail();" value="${user.sEmail}"><span
 									id="idemail"></span></td>
 							</tr>
 							<tr class="b">
 								<td></td>
-								<td><input type="hidden" id="Phone"
-									name="sPhone" maxlength="10" pattern="[0]{1}[9]{1}\d{8}"
+								<td><input type="hidden" id="Phone" name="sPhone"
+									maxlength="10" pattern="[0]{1}[9]{1}\d{8}"
 									onblur="checkPhone();" value="${user.sPhone}"><span
 									id="idphone"></span></td>
 							</tr>
@@ -384,33 +390,34 @@ table {
 							</tr>
 							<tr class="b">
 								<td></td>
-								<td><input type="hidden"
-									name="registerDate" value="${user.registerDate}" readonly></td>
+								<td><input type="hidden" name="registerDate"
+									value="${user.registerDate}" readonly></td>
 							</tr>
 						</table>
-					</div>
-					<H2 align='center'>
-						<button id="submit" name="submit" type="submit"
-							class="btn btn-primary"
-							style="margin-top: 30; font-weight: 900; border-radius: 10px;">
-							<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
-								fill="currentColor" class="bi bi-cloud-arrow-up-fill"
-								viewBox="0 0 16 16"> <path
-								d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z" />
-							</svg>
-							修改
-						</button>
-						<a href="<c:url value='/member/Data'/>"><button type="button"
+
+						<H2 align='center'>
+							<button id="submit" name="submit" type="submit"
 								class="btn btn-primary"
-								style="margin-top: 30; font-weight: 900; border-radius: 10px;">
+								style="margin-bottom:20px ; font-weight: 900; border-radius: 10px;">
 								<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
-									fill="currentColor" class="bi bi-backspace-fill"
+									fill="currentColor" class="bi bi-cloud-arrow-up-fill"
 									viewBox="0 0 16 16"> <path
-									d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z" />
+									d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z" />
 								</svg>
-								回上一頁
-							</button></a>
-					</H2>
+								修改
+							</button>
+							<a href="<c:url value='/member/Data'/>"><button type="button"
+									class="btn btn-primary"
+									style="margin-bottom:20px ; font-weight: 900; border-radius: 10px;">
+									<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
+										fill="currentColor" class="bi bi-backspace-fill"
+										viewBox="0 0 16 16"> <path
+										d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z" />
+									</svg>
+									回上一頁
+								</button></a>
+						</H2>
+					</div>
 				</form>
 			</div>
 		</div>

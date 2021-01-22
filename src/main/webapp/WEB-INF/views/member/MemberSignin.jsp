@@ -115,13 +115,9 @@ input {
 												var googleEname = res.result.names[0].displayName;
 												var googleEmail = res.result.emailAddresses[0].value;
 												var xhr = new XMLHttpRequest();
-												xhr
-														.open(
-																"POST",
-																"<c:url value='/member/GoogleSignin' />",
+												xhr.open("POST","<c:url value='/member/GoogleSignin' />",
 																true);
-												xhr
-														.setRequestHeader(
+												xhr.setRequestHeader(
 																"Content-Type",
 																"application/x-www-form-urlencoded");
 												xhr.send("googleEname="
@@ -131,22 +127,13 @@ input {
 												xhr.onreadystatechange = function() {
 													if (xhr.readyState == 4
 															&& xhr.status == 200) {
-														console
-																.log("登入成功xhr.readyState="
+														console.log("登入成功xhr.readyState="
 																		+ xhr.readyState);
-														console
-																.log("登入成功xhr.status="
+														console.log("登入成功xhr.status="
 																		+ xhr.status);
-														Swal
-																.fire(
-																		'OK',
-																		"恭喜登入成功",
-																		'success')
-																.then(
-																		function() {
-																			$(
-																					'#Google')
-																					.submit();
+														Swal.fire('OK',"恭喜登入成功",'success')
+																.then(function() {
+																			$('#Google').submit();
 																		})
 														return true;
 													} else {
@@ -324,12 +311,12 @@ input {
 				驗證碼:<input type="text" id="input1" style="width: 150px" /><input
 					type="button" id="checkCode" class="code"
 					style="width: 90px; margin: 0px 10px;" onClick="createCode()" />
-				<!-- 						<input -->
-				<!-- 						id="Button1" onClick="validate();" type="button" value="按這裡驗證" /> -->
+										<input
+										id="Button1" onClick="validate();" type="button" value="按這裡驗證" />
 				<br> <span id="check"></span>
 			</h4>
 
-			<button id="submitSignin" name="submit555" type="button"
+			<button id="submitSignin" name="submit555" type="button" disabled
 				class="button"
 				style='width: 350; height: 50; font-size: 30; margin-top: 15;'
 				onclick="checkSubmit();">
