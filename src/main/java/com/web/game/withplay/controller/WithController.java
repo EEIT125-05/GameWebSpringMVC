@@ -62,7 +62,7 @@ public class WithController {
 	@GetMapping("/withplay/With")
 	public String list(Model model) {
 		model.addAttribute("With",withService.list());
-		return "withplay/With";
+		return "backstage/Withplay";
 				
 	}
 	
@@ -320,6 +320,9 @@ public class WithController {
 		gameMap.put("原神", "原神");
 		gameMap.put("糖豆人", "糖豆人");
 		gameMap.put("灌籃高手 ", "灌籃高手 ");
+		gameMap.put("魔物獵人 ", "魔物獵人 ");
+		gameMap.put("爐石戰記 ", "爐石戰記 ");
+		gameMap.put("星海爭霸 ", "星海爭霸 ");
 		model.addAttribute("sGameMap", gameMap);
 
 	}

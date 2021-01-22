@@ -230,20 +230,7 @@
 	           </div>
 	         </div>
           </div>
-			<div class="row">
-				<div class="card">
-				<div class="card-header" id="headingOne">
-					<h5 class="mb-0">
-						<button class="btn btn-link" data-toggle="collapse"
-							data-target="#collapseOne" aria-expanded="true"
-							aria-controls="collapseOne">管理所有比賽</button>
-					</h5>
-				</div>
-
-				
-			</div>
-			
-			</div>
+	
 			<div class="col-md-12">
             <div class="card card-chart">
               <div class="card-header">
