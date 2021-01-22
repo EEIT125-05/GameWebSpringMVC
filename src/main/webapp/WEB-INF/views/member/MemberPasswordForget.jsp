@@ -25,18 +25,18 @@ input {
 	<h1 align='center'>忘記密碼</h1>
 	<hr>
 	<form action="<c:url value='/member/JavaMail'/>" method="post">
-		<div align='center' style='padding-bottom:240;'>
+		<div align='center' style='padding-bottom:240;' class="dark-matter com">
 			<div align='center'
-				style="border: 3px solid gray; width: 450; height: 250;padding-top:15;background-color: #272727;color: white;">
+				style="width: 450; height: 250;padding-top:150;">
 				<H3 align='center'>
-					請輸入使用的信箱<input type="email" name="mail" style="width: 400;padding-top:15;"
+					請輸入使用的信箱<input type="email" name="mail" style="width: 400;height: 50;padding-top:15;"
 						pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$">
 				</H3>
-				<h6 style='color: red;'>${showError}</h6>
-				<h6 style='color: green;'>${message}</h6>
+				<h4 style='color: #FF0000;'>${showError}</h4>
+				<h4 style='color: limegreen;'>${message}</h4>
 				<BR>
 				<H3>
-					<button type="submit">
+					<button type="submit" class="button">
 						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
 							fill="currentColor" class="bi bi-envelope-fill"
 							viewBox="0 0 16 16"> <path

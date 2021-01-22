@@ -54,10 +54,11 @@ public class MemberControllerVerified {
 	@GetMapping("/backstage/Member")
 	public String GameBarData(Model model, String sAccount) {
 		MemberBean Signin = (MemberBean) model.getAttribute("user");
+		System.out.println("有無進來這裡");
 		sAccount = Signin.getsAccount();
 		sAccount.equals("game20200922");
 		model.addAttribute("users", mService.getAllMembers());
-		return "member/GameBarGMSignin";
+		return "/backstage/Member";
 	}
 
 	@GetMapping("/Data")

@@ -46,7 +46,7 @@ table{
 		margin:15px;
 }
 .b {
-	font-size: 20;
+	font-size: 21;
 	font-weight: 900;
 }
 .b:hover {
@@ -76,7 +76,7 @@ table{
 
 .detail {
 	width: 1000px;
-	height: 450px; 
+	height: 500px; 
 	border: 5px solid gray;
 	background-color: #fff;
 }
@@ -114,8 +114,8 @@ table{
 		</div>
 		<div class="col-md-9">
 			<form action="<c:url value='/member/Update'/>" method="post">
-				<h1 align='center' style="color: black">${user.sAccount }的詳細資料</h1>
-				<div class="detail" style='padding-left: 30px;'>
+				<div class="detail" style='padding-left: 30px;margin-top:30px;'>
+					<h1 align='center' style="color: black">${user.sAccount }的基本資料</h1>
 					<div id="DIV3">
 						<img style="width: 400; height: 300;"
 							src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>">
@@ -151,7 +151,7 @@ table{
 									value="${user.sPhone}" readonly></td>
 							</tr>
 							<tr class="b">
-								<td>我的城市</td>
+								<td>住的城市</td>
 								<td>:${user.sAddress}<input type="hidden" name="sAddress"
 									value="${user.sAddress}" readonly></td>
 							</tr>
@@ -175,7 +175,7 @@ table{
 
 					<H2 align='center'>
 						<button type="submit" name="button" class="btn btn-primary"
-							style="margin-top: 30; font-weight: 900;">
+							style="font-weight: 900;">
 							<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
 								fill="currentColor" class="bi bi-pencil-square"
 								viewBox="0 0 16 16"> <path

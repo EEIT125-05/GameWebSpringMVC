@@ -11,6 +11,8 @@ response.setHeader("Pragma", "no-cache"); // HTTP 1.0
 response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 %>
 <head>
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css"
@@ -26,6 +28,8 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <canvas id="myChart" width="400" height="400"></canvas>
 <style>
+  .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20rem; }
+  .toggle.ios .toggle-handle { border-radius: 20rem; }
 td {
 	border: 2px solid gray;
 	background-color: #272727;

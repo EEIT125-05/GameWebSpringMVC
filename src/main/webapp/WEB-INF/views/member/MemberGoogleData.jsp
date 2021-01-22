@@ -48,7 +48,7 @@ table {
 }
 
 .b {
-	font-size: 20;
+	font-size: 22;
 	font-weight: 900;
 }
 
@@ -96,14 +96,14 @@ table {
 
 .detail {
 	width: 1000px;
-	height: 450px;
+	height: 500px;
 	border: 5px solid gray;
 	background-color: #fff;
 }
 </style>
 </head>
 <body>
-	<H1 align='center'>Google會員資料</H1>
+
 	<hr>
 	<%@ include file="../Header.jsp"%>
 	<div class="row">
@@ -136,6 +136,7 @@ table {
 		<div class="col-md-9">
 			<form action="<c:url value='/member/GoogleUpdate'/>" method="post">
 				<div class="detail" style='padding-left: 30px;'>
+					<H1 align='center'>Google會員資料</H1>
 					<div id="DIV3">
 						<img style="width: 400; height: 300;"
 							src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>">
@@ -167,7 +168,7 @@ table {
 										<input type="hidden" name="sPhone" value="${user.sPhone}">
 									</c:when>
 									<c:otherwise>
-										<td>電話</td>
+										<td>手機號碼</td>
 										<td>:${user.sPhone}<input type="hidden" name="sPhone"
 											value="${user.sPhone}"></td>
 									</c:otherwise>

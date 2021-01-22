@@ -23,8 +23,7 @@ input {
 
 #DIV2 {
 	margin-left: 50;
-	padding-left: 50px;
-	padding-bottom:30px;
+	padding-bottom:50px;
 }
 
 #DIV3 {
@@ -35,7 +34,7 @@ input {
 #DIV4 {
 	color: white;
 	width: 450px;
-	height: 450px;
+	height: 300px;
 	margin: 15px;
 	border: 3px solid gray;
 	float: right;
@@ -75,7 +74,7 @@ table {
 }
 
 .detail {
-	width: 900px;
+	width: 1000px;
 	height: 500px;
 	border: 5px solid gray;
 	background-color: #fff;
@@ -285,12 +284,12 @@ table {
 			</table>
 		</div>
 		<div id="DIV2" class="col-md-9" >
-			<h1 style="color: black">修改${user.sAccount }的會員資料</h1>
-			<div class="detail">
+			<div class="detail"  style="margin-top: 25">
+				<h1 align='center'>修改${user.sAccount }的會員資料</h1>
 				<form action="<c:url value='/member/MemberData'/>" method="post"
 					enctype="multipart/form-data">
 					<div id="DIV3">
-						<img style="width: 350; height: 300;"
+						<img style="width: 400; height: 350;"
 							src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>"><br>
 						<h6>點選換照片<input type="file" name="productImage" /></h6>
 					</div>
@@ -352,40 +351,40 @@ table {
 								</select></td>
 							</tr>
 							<tr class="b">
-								<td>我的姓名</td>
-								<td>:${user.sEname}<input type="hidden" id="Ename"
+								<td></td>
+								<td><input type="hidden" id="Ename"
 									name="sEname" required onblur="checkName();"
 									pattern="^[\u4e00-\u9fa5]+$" minlength="2" maxlength="4"
 									value="${user.sEname}" readonly><span id="idname"></span></td>
 							</tr>
 							<tr class="b">
-								<td>我的信箱</td>
-								<td>:${user.sEmail}<input type="hidden" id="Email"
+								<td></td>
+								<td><input type="hidden" id="Email"
 									name="sEmail" required
 									pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$"
 									onblur="checkEmail();" value="${user.sEmail}"><span
 									id="idemail"></span></td>
 							</tr>
 							<tr class="b">
-								<td>我的手機號碼</td>
-								<td>:${user.sPhone}<input type="hidden" id="Phone"
+								<td></td>
+								<td><input type="hidden" id="Phone"
 									name="sPhone" maxlength="10" pattern="[0]{1}[9]{1}\d{8}"
 									onblur="checkPhone();" value="${user.sPhone}"><span
 									id="idphone"></span></td>
 							</tr>
 							<tr class="b">
-								<td>我的性別</td>
-								<td>:${user.sGender}<input type="hidden" name="sGender"
+								<td></td>
+								<td><input type="hidden" name="sGender"
 									value="${user.sGender}" readonly></td>
 							</tr>
 							<tr class="b">
-								<td>我的生日</td>
-								<td>:${user.sBirthday}<input type="hidden" name="sBirthday"
+								<td></td>
+								<td><input type="hidden" name="sBirthday"
 									value="${user.sBirthday}" readonly></td>
 							</tr>
 							<tr class="b">
-								<td>建立日期</td>
-								<td>:${user.registerDate}<input type="hidden"
+								<td></td>
+								<td><input type="hidden"
 									name="registerDate" value="${user.registerDate}" readonly></td>
 							</tr>
 						</table>

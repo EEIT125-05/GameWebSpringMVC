@@ -328,10 +328,10 @@ centering /* body { */
 																	<th width='30'>暱稱</th>
 																	<th width='10'>姓名</th>
 																	<th width='30'>信箱</th>
-																	<th width='30'>居住地</th>
-																	<th width='30'>手機號碼</th>
+<!-- 																	<th width='30'>居住地</th> -->
+<!-- 																	<th width='30'>手機號碼</th> -->
 																	<th width='40'>性別</th>
-																	<th width='30'>生日</th>
+<!-- 																	<th width='30'>生日</th> -->
 																	<th width='30'>建立日期</th>
 																	<th width='30'>權限狀態</th>
 																	<!-- 							<th width='70'>資料維護</th> -->
@@ -355,10 +355,10 @@ centering /* body { */
 																		<td>${user.sNickname}</td>
 																		<td>${user.sEname}</td>
 																		<td>${user.sEmail}</td>
-																		<td>${user.sAddress}</td>
-																		<td>${user.sPhone}</td>
+<%-- 																		<td>${user.sAddress}</td> --%>
+<%-- 																		<td>${user.sPhone}</td> --%>
 																		<td>${user.sGender}</td>
-																		<td>${user.sBirthday}</td>
+<%-- 																		<td>${user.sBirthday}</td> --%>
 																		<td>${user.registerDate}</td>
 																		<td>
 																			<button id="change${user.iNo}" class="change"

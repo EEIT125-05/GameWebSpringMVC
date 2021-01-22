@@ -22,8 +22,8 @@ input {
 }
 
 #DIV2 {
-	margin-left: 100;
-	padding-left: 65px;
+	margin-left: 50;
+	padding-bottom:50px;
 }
 
 #DIV3 {
@@ -93,7 +93,7 @@ table {
 
 .detail {
 	width: 1000px;
-	height: 450px;
+	height: 500px;
 	border: 5px solid gray;
 	background-color: #fff;
 }
@@ -217,7 +217,7 @@ table {
 </script>
 </head>
 <body>
-	<H1 align='center'>會員修改資料</H1>
+
 	<hr>
 	<%@ include file="../Header.jsp"%>
 	<div class="row">
@@ -251,11 +251,14 @@ table {
 			<form action="<c:url value='/member/GoogleData'/>" method="post"
 				enctype="multipart/form-data">
 				<div class="detail">
+					<H1 align='center'>Google會員修改資料</H1>
 					<div align='center' style="padding-top: 15">
 						<div id="DIV3">
-						<img style="width: 400; height: 350;"
+							<img style="width: 400; height: 350;"
 								src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>"><br>
-									<h6>點選換照片<input type="file" name="productImage" /></h6>
+							<h6>
+								點選換照片<input type="file" name="productImage" />
+							</h6>
 						</div>
 					</div>
 					<div id="DIV4">
@@ -267,11 +270,10 @@ table {
 									value="${user.sAccount}" readonly></td>
 							</tr>
 							<tr class="b">
-								<td>姓名</td>
-								<td>:${user.sEname}<input type="hidden" id="Ename"
-									name="sEname" required onblur="checkName();"
-									pattern="^[\u4e00-\u9fa5]+$" minlength="2" maxlength="4"
-									value="${user.sEname}" readonly></td>
+								<td></td>
+								<td><input type="hidden" id="Ename" name="sEname" required
+									onblur="checkName();" pattern="^[\u4e00-\u9fa5]+$"
+									minlength="2" maxlength="4" value="${user.sEname}" readonly></td>
 								<span id="idname"></span>
 								<input type="hidden" name="sPassword" value="${user.sPassword}"
 									readonly>
@@ -294,8 +296,8 @@ table {
 										</tr>
 									</c:when>
 									<c:otherwise>
-										<td>手機號碼</td>
-										<td>:${user.sPhone}<input type="hidden" name="sPhone"
+										<td></td>
+										<td><input type="hidden" name="sPhone"
 											value="${user.sPhone}"></td>
 									</c:otherwise>
 								</c:choose>
@@ -387,8 +389,8 @@ table {
 												value="${user.sGender}" required>女</label></td>
 									</c:when>
 									<c:otherwise>
-										<td>性別</td>
-										<td>:${user.sGender}<input type="hidden" name="sGender"
+										<td></td>
+										<td><input type="hidden" name="sGender"
 											value="${user.sGender}"></td>
 									</c:otherwise>
 
@@ -402,16 +404,16 @@ table {
 											value="${user.sBirthday}"></td>
 									</c:when>
 									<c:otherwise>
-										<td>生年月日</td>
-										<td>:${user.sBirthday}<input type="hidden" id="Birthday"
-											name="sBirthday" value="${user.sBirthday}"></td>
+										<td></td>
+										<td><input type="hidden" id="Birthday" name="sBirthday"
+											value="${user.sBirthday}"></td>
 									</c:otherwise>
 								</c:choose>
 							</tr>
 							<tr class="b">
-								<td>建立日期</td>
-								<td>:${user.registerDate}<input type="hidden"
-									name="registerDate" value="${user.registerDate}"></td>
+								<td></td>
+								<td><input type="hidden" name="registerDate"
+									value="${user.registerDate}"></td>
 							</tr>
 						</table>
 					</div>

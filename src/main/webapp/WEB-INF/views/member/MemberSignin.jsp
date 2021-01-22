@@ -298,12 +298,13 @@ input {
 			id="submitSignin">
 			<h3 style='padding-top: 30px; padding-left: 30px;' align='left'>
 				帳號:<input type="text" name="sAccount" minlength="6" maxlength="20"
-					placeholder="請輸入帳號" required
+					style="height: 50;" placeholder="請輸入帳號" required
 					value="${requestScope.sAccount}${param.sAccount}">
 			</h3>
-			<h3 style='padding-top: 30px; padding-left: 30px;' align='left'>
+			<h3 style='padding-top: 5px; padding-left: 30px;' align='left'>
 				密碼:<input type="password" id="Password" name="sPassword"
-					placeholder="請輸入密碼" minlength="8" maxlength="16" required
+					style="height: 50;" placeholder="請輸入密碼" minlength="8"
+					maxlength="16" required
 					value="${requestScope.password}${param.sPassword}"> <input
 					id="btn" type="button" class="material-icons"
 					style="font-size: 25px" value="visibility">
