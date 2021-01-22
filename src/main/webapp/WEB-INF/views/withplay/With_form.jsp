@@ -22,7 +22,7 @@
 
 		let CommentCheck = false;
 		if (Comment == "") {
-			idname.innerHTML = "<font color='red'>請輸入自我介紹</font>";
+			idname.innerHTML = "<font color='yellow'>請輸入自我介紹</font>";
 		} else if (CommentLen >= 6) {
 			for (let idname = 0; idname < CommentLen; idname++) {
 				let ENAME = Comment.charAt(idname);
@@ -34,14 +34,14 @@
 				}
 			}
 			if (CommentCheck) {
-				idname.innerHTML = "<font color='red'>請輸入中文</font>";
+				idname.innerHTML = "<font color='yellow'>請輸入中文</font>";
 				nameflag = false;
 			} else {
 				idname.innerHTML = "<font color='yellow'>OK</font>";
 				nameflag = true;
 			}
 		} else {
-			idname.innerHTML = "<font color='red'>至少六個字</font>";
+			idname.innerHTML = "<font color='yellow'>至少六個字</font>";
 			Commentflag = false;
 		}
 		check();
@@ -54,7 +54,7 @@
 		let IdcodeCheck = false;
 		let reg = /^[a-zA-Z]{1}[1-2]{1}\d{8}$/;
 		if (iIdcode == "") {
-			Idcode.innerHTML = "<font color='red'>請輸入身份證字號</font>";
+			Idcode.innerHTML = "<font color='yellow'>請輸入身份證字號</font>";
 			Idcodeflag = false;
 		} else if (IdcodeLen >= 10 && reg.test(iIdcode)) {
 // 			if (reg.test(phone)) {
@@ -66,7 +66,7 @@
 				Idcodeflag = false;
 			} 
 		} else {
-			Idcode.innerHTML = "<font color='red'>請輸入正確格式</font>";
+			Idcode.innerHTML = "<font color='yellow'>請輸入正確格式</font>";
 			Idcodeflag = false;
 		}
 // 		check();
@@ -91,13 +91,13 @@
 					Idcode.innerHTML = "<font color='yellow'>身份證字號可用</font>";
 					Idcodeflag = true;
 				} else {
-					Idcode.innerHTML = "<font color='red' '>身份證字號已被使用，請重新輸入</font>";
+					Idcode.innerHTML = "<font color='yellow' '>身份證字號已被使用，請重新輸入</font>";
 					Idcodeflag = false;
 				}
 				}
 			}
 		}else{
-			Idcode.innerHTML = "<font color='red'>請確認身份證字號格式</font>";
+			Idcode.innerHTML = "<font color='yellow'>請確認身份證字號格式</font>";
 			Idcodeflag = false;
 		}
 	}
@@ -145,7 +145,7 @@ td{
 				</tr>
 				<tr>
 					<td>暱稱</td>
-					<td><form:input path="sNickname" /><span style="color:red;"><form:errors  path="sNickname"/></span></td>
+					<td><form:input path="sNickname" /><span style="color:yellow;"><form:errors  path="sNickname"/></span></td>
 					
 				</tr>
 				<tr>
@@ -156,7 +156,7 @@ td{
 				</tr>
 				<tr>
 					<td>遊戲選項</td>
-					<td><span style="color:lightgrey;"><form:checkboxes path="sGame" items='${sGameMap}' /></span>&nbsp;<span style="color:red;"><form:errors path="sGame"/></span></td>
+					<td><span style="color:lightgrey;"><form:checkboxes path="sGame" items='${sGameMap}' /></span><br><span style="color:yellow;"><form:errors path="sGame"/></span></td>
 
 				</tr>
 				<tr>
@@ -171,7 +171,7 @@ td{
 				
 				<tr>
 					<td>金額</td>
-					<td><form:input path="iPrice" />&nbsp;<span style="color:yellow;"><form:errors path="iPrice" placeholder="不得大於150元"/></span></td>
+					<td><form:input path="iPrice"  placeholder="不得大於150元" />&nbsp;<span style="color:yellow;"><form:errors path="iPrice" placeholder="不得大於150元"/></span></td>
 				</tr>
 				<tr>
 					<td>自我介紹</td>
@@ -207,6 +207,7 @@ td{
 		
 		$("#fImage").on("change",function(){
 
+ 
 			console.log("file: " + $("#fImage").val());
             let fileReader = new FileReader();
             let imageFile = this.files[0];

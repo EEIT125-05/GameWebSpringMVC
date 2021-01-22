@@ -46,6 +46,9 @@ public class HomeController {
 	@Autowired
 	ReplyService rService;
 	
+	@Autowired
+	WithService withService;
+	
 	@GetMapping("/")
 	public String gameIndex(@CookieValue(required = false) String JSESSIONID,
 							@CookieValue(required = false) String user,
@@ -122,7 +125,8 @@ public class HomeController {
 	
 	@GetMapping("/backstage/Withplay")
 	public String gotoWithplayBackStage(Model model) {
-		
+		model.addAttribute("With",withService.list());
+
 		
 		
 		return "backstage/Withplay";
