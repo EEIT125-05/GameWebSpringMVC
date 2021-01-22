@@ -262,6 +262,7 @@ public class MemberControllerNoVerified {
 		MemberBean GameBarSignin = mService.Selectmember(sAccount);
 		model.addAttribute("user", GameBarSignin);
 		model.addAttribute("users", mService.getAllMembers());
+		model.addAttribute("withplayHost", WithService.getaccount(sAccount));
 //		response.setContentType(CONTENT_TYPE);
 //		PrintWriter out = response.getWriter();
 //		out.print("<html><body>");

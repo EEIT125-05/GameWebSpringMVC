@@ -351,7 +351,6 @@ response.setContentType("text/html;charset=UTF-8");
 													let time = "";
 													let id = value.iId			
 													let d = new Date();
-													let sNickname= value.sNickname;
 													$.each(value.sReplyBeans,function(key,value) {
 														author = value.sAuthor;
 														text = value.sText;
@@ -363,7 +362,7 @@ response.setContentType("text/html;charset=UTF-8");
 														}
 														time = value.tTime;
 														if(${not empty user}){
-														$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+sNickname+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
+														$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
 														}else{
 														$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
 														}
@@ -514,7 +513,6 @@ response.setContentType("text/html;charset=UTF-8");
 								let time = "";
 								let id = value.iId			
 								let d = new Date();
-								let sNickname= value.sNickname;
 								$.each(value.sReplyBeans,function(key,value) {
 									author = value.sAuthor;
 									text = value.sText;
@@ -526,7 +524,7 @@ response.setContentType("text/html;charset=UTF-8");
 									}
 									time = value.tTime;
 									if(${not empty user}){
-												$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+sNickname+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
+												$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
 												}else{
 												$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
 												}

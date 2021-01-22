@@ -268,6 +268,7 @@ public class WithController {
 	public String dataOrder(Model model) {
 		model.addAttribute("WithOrder",withOrderService.getWithOrderList(((MemberBean) model.getAttribute("user")).getiNo()));
 		List<WithOrder> withorder2 = withOrderService.getWithOrderwithList(((WithPlay) model.getAttribute("withplayHost")).getiId());
+		
 		model.addAttribute("WithOrder2",withorder2);
 		System.out.println("有進這個123");
 		System.out.println("有進這個123");
