@@ -50,6 +50,15 @@ public class MemberControllerVerified {
 	public void setService(MemberService service) {
 		this.mService = service;
 	}
+	
+	@GetMapping("/backstage/Member")
+	public String GameBarData(Model model, String sAccount) {
+		MemberBean Signin = (MemberBean) model.getAttribute("user");
+		sAccount = Signin.getsAccount();
+		sAccount.equals("game20200922");
+		model.addAttribute("users", mService.getAllMembers());
+		return "member/GameBarGMSignin";
+	}
 
 	@GetMapping("/Data")
 	public String SigninToData(Model model, String sAccount, String sPassword, String sPhone, String sNickname,
@@ -64,7 +73,7 @@ public class MemberControllerVerified {
 		sBirthday = Signin.getsBirthday();
 		if (sAccount.equals("game20200922")) {
 			model.addAttribute("users", mService.getAllMembers());
-			return "/member/MemberGetAll";
+			return "/backstage/Member";
 		} else if (sPassword == null) {
 			return "/member/MemberGoogleData";
 		} else if (sPassword.equals("")) {

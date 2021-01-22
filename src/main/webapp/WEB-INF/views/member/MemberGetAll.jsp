@@ -12,11 +12,11 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 %>
 <head>
 <meta charset="UTF-8">
-<script
-	src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"
 	integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
 	crossorigin="anonymous"></script>
@@ -38,7 +38,7 @@ td {
 	padding: 10px;
 	border: 5px gray solid;
 	margin-left: 50;
-	 	float: left; 
+	float: left; 
 }
 
 .a {
@@ -222,32 +222,32 @@ td {
 		
 		
 		
-		function abc(sAccount) {
-			// 			console.log("sAcc"+sAccount);
-			// 			var Account = document.getElementById("sAccount");
+// 		function abc(sAccount) {
+// 			// 			console.log("sAcc"+sAccount);
+// 			// 			var Account = document.getElementById("sAccount");
 			
-			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "<c:url value="/member/Change/"/>" + sAccount,
-					true);
-			xhr.setRequestHeader("Content-Type",
-					"application/x-www-form-urlencoded");
-			xhr.send("sAccount=" + sAccount);
-			xhr.onreadystatechange = function() {
-				console.log("sAccount=" + sAccount);
-				if (xhr.readyState == 4 && xhr.status == 200) {
-					console.log("btn="+btn);
-					if (sAccount.value == 'true') {
-						sAccount.value == 'false';
-					} else if (sAccount.value == 'false') {
-						sAccount.value == 'true';
-					}
-				} else {
-					console.log("xhr.readyState=" + xhr.readyState);
-					console.log("xhr.status=" + xhr.status);
-					console.log("修改失敗");
-				}
-			}
-		}
+// 			var xhr = new XMLHttpRequest();
+// 			xhr.open("POST", "<c:url value="/member/Change/"/>" + sAccount,
+// 					true);
+// 			xhr.setRequestHeader("Content-Type",
+// 					"application/x-www-form-urlencoded");
+// 			xhr.send("sAccount=" + sAccount);
+// 			xhr.onreadystatechange = function() {
+// 				console.log("sAccount=" + sAccount);
+// 				if (xhr.readyState == 4 && xhr.status == 200) {
+// 					console.log("btn="+btn);
+// 					if (sAccount.value == 'true') {
+// 						sAccount.value == 'false';
+// 					} else if (sAccount.value == 'false') {
+// 						sAccount.value == 'true';
+// 					}
+// 				} else {
+// 					console.log("xhr.readyState=" + xhr.readyState);
+// 					console.log("xhr.status=" + xhr.status);
+// 					console.log("修改失敗");
+// 				}
+// 			}
+// 		}
 	</script>
 </body>
 <%@ include file="../Foot.jsp"%>

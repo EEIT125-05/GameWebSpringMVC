@@ -27,13 +27,16 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 input {
 	border-radius: 10px;
 }
-
-/* .b { */
-/* 	background-color: #272727; */
-/* 	color: white; */
-/* 	font-size: 30; */
-/* 	font-weight: 900; */
-/* } */
+table{
+	 color:white;
+	 font-size:18;
+}
+ .b { 
+/*  	background-color: #272727;  */
+  	color: white;  
+ 	font-size: 18; 
+ 	font-weight: 900; 
+ } 
 
 /* #DIV2 { */
 /* 	background-color: #272727; */
@@ -310,7 +313,7 @@ input {
 	<c:url var='url' value='/member/MemberCheck' />
 	<form:form modelAttribute="memberBean" action='${url}' method="post"
 		class="dark-matter com" enctype='multipart/form-data'>
-		<div style='margin-bottom: 30;'>
+		<div style='margin-bottom: 30;width:450;'>
 			<table>
 				<tr class="b">
 					<td>設定的帳號</td>
