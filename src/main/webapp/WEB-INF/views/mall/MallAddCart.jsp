@@ -21,7 +21,7 @@
 				<body>
 					<%@ include file="../Header.jsp" %>
 
-					<div class="container " style="background-color:#ffffff">
+					<div class="container " >
 							<form action="<c:url value="/mall/todo"/>" method="get">
 							<c:forEach var="row" items="${rs.rows}">
 
@@ -35,7 +35,7 @@
 									</li>
 									<li class="breadcrumb-item active">商品簡介</li>
 								</ol>
-
+<div style="background-color:#ffffff">
 								<div
 									style=" 1100px;height: 500px; margin 0px 0px 20px 0px;">
 									<div style=" width: 600px; height: 400px;float:left;">
@@ -65,6 +65,7 @@
 
 
 
+</div>
 					
 							</c:forEach>
 							</form>

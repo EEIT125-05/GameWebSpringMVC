@@ -144,6 +144,7 @@ public class WithController {
 			nextPage = "withplay/With_update";
 			model.addAttribute("With", checkwithPlay);
 		}
+		
 		return nextPage;
 	}
 	
@@ -193,7 +194,16 @@ public class WithController {
 				}
 			}
 		}
-		withService.update(With);
+		try {
+			withService.update(With);
+		} catch (org.hibernate.exception.ConstraintViolationException e) {
+			result.rejectValue("sNickname", "", "暱稱已存在，請重新輸入");
+			return "withplay/With_form";
+		} catch (Exception ex) {
+			System.out.println(ex.getClass().getName() + ", ex.getMessage()=" + ex.getMessage());
+			result.rejectValue("account", "", "請通知系統人員...");
+			return "withplay/With_form";
+		}
 		return "redirect:/withplay/Index";
 
 	}
@@ -242,7 +252,14 @@ public class WithController {
 		WithOrder order=new WithOrder(null, null, null, null, total, sGame, member, withPlay);
 		withOrderService.insertWithOrder(order);
 		model.addAttribute("Order", order);
-		return "redirect:/withplay/Index";
+		//綠界  JAVAmail
+		model.addAttribute("ecpay",withOrderService.ecpay(total, sGame, withPlay, member));
+		JavaMail mail = new JavaMail();
+		mail.SendMail(total, sGame, withPlay, member);
+//		return "redirect:/withplay/Index";
+		 
+		return "withplay/WithplayIndex";
+
 
 	}
 	

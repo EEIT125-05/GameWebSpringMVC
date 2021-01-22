@@ -83,7 +83,6 @@ public class ContestDAOImpl implements ContestDAO {
 		String hql = "from ContestBean order by dSignStart desc";
 		Session session = factory.getCurrentSession();
 		return session.createQuery(hql)
-				.setMaxResults(4)
 				.getResultList();
 	}
 	

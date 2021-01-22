@@ -64,22 +64,22 @@
 	    <button id="submit" class="btn btn-secondary" name="select" style="margin-bottom:5px">查詢</button>
 	    <br>
 	    <label>快速選擇</label>
-	    <button class="btn btn-primary fast game" value="英雄聯盟">英雄聯盟</button>
-	    <button class="btn btn-primary fast game" value="魔物獵人">魔物獵人</button>
-	    <button class="btn btn-primary fast game" value="鬥陣特攻">鬥陣特攻</button>
-	    <button class="btn btn-primary fast game" value="傳說對決">傳說對決</button>
-	    <button class="btn btn-primary fast game" value="絕地求生">絕地求生</button>
-	    <button class="btn btn-primary fast game" value="跑跑卡丁車">跑跑卡丁車</button>
-	    <button class="btn btn-primary fast game" value="爐石戰記">爐石戰記</button>
-	    <button class="btn btn-primary fast game" value="星海爭霸">星海爭霸</button>
+	    <button class="btn btn-outline-dark fast game" value="英雄聯盟">英雄聯盟</button>
+	    <button class="btn btn-outline-dark fast game" value="魔物獵人">魔物獵人</button>
+	    <button class="btn btn-outline-dark fast game" value="鬥陣特攻">鬥陣特攻</button>
+	    <button class="btn btn-outline-dark fast game" value="傳說對決">傳說對決</button>
+	    <button class="btn btn-outline-dark fast game" value="絕地求生">絕地求生</button>
+	    <button class="btn btn-outline-dark fast game" value="跑跑卡丁車">跑跑卡丁車</button>
+	    <button class="btn btn-outline-dark fast game" value="爐石戰記">爐石戰記</button>
+	    <button class="btn btn-outline-dark fast game" value="星海爭霸">星海爭霸</button>
 	    <br>
-	    <button class="btn btn-primary fast compSystem" value="and iTeamMemberCount = 1">單人賽</button>
-	    <button class="btn btn-primary fast compSystem" value="and iTeamMemberCount != 1">團體賽</button>
-	    <button class="btn btn-primary fast compSystem" value="and sRematchMode = 'knockout'">淘汰賽</button>
-	    <button class="btn btn-primary fast compSystem" value="and sRematchMode = 'ground'">循環賽</button>
-	    <button class="btn btn-primary fast compSystem" value="and sRematchMode = 'free'">自由對戰</button>
-	    <button class="btn btn-primary fast compSystem" value="and sPreliminary != 'none'">有預賽</button>
-	    <button class="btn btn-primary fast compSystem" value="and sPreliminary = 'none'">無預賽</button>
+	    <button class="btn btn-outline-dark fast compSystem" value="and iTeamMemberCount = 1">單人賽</button>
+	    <button class="btn btn-outline-dark fast compSystem" value="and iTeamMemberCount != 1">團體賽</button>
+	    <button class="btn btn-outline-dark fast compSystem" value="and sRematchMode = 'knockout'">淘汰賽</button>
+	    <button class="btn btn-outline-dark fast compSystem" value="and sRematchMode = 'ground'">循環賽</button>
+	    <button class="btn btn-outline-dark fast compSystem" value="and sRematchMode = 'free'">自由對戰</button>
+	    <button class="btn btn-outline-dark fast compSystem" value="and sPreliminary != 'none'">有預賽</button>
+	    <button class="btn btn-outline-dark fast compSystem" value="and sPreliminary = 'none'">無預賽</button>
 	    
 	    
 	    
@@ -159,7 +159,7 @@
 						<p>比賽地點: ${cContest.sLocation}</p>
 						<p>報名狀況:
 							${fn:length(cContest.lParticipateBeans)}/${cContest.iPeople}</p>
-						<a class="btn btn-primary"
+						<a class="btn btn-outline-dark"
 							href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>">詳細按鈕
 							<span class="glyphicon glyphicon-chevron-right"></span>
 						</a>
@@ -266,7 +266,7 @@ $(function(){
  												+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
  												+"<p>比賽地點: " + value.sLocation + "</p>"
  												+"<p>報名狀況: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
- 												+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
+ 												+"<a class=\"btn btn-outline-dark\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
  												+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"
  												+"</a>"
  												+"</div>"
@@ -396,7 +396,7 @@ $(function(){
 									+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
 									+"<p>比賽地點: " + value.sLocation + "</p>"
 									+"<p>報名狀況: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
-									+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
+									+"<a class=\"btn btn-outline-dark\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
 									+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"
 									+"</a>"
 									+"</div>"
@@ -501,7 +501,7 @@ $(function(){
 									+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
 									+"<p>比賽地點: " + value.sLocation + "</p>"
 									+"<p>報名狀況: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
-									+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
+									+"<a class=\"btn btn-outline-dark\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
 									+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"
 									+"</a>"
 									+"</div>"

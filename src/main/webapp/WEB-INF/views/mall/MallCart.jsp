@@ -59,7 +59,7 @@ mark.yellow {
 	if (theCart != null && theCart.size() > 0) {
 	%>
 	
-	<table border="1" cellspacing="0" cellpadding="5">
+	<table border="1" cellspacing="0" cellpadding="5" style="background-color:#ffffff">
 		<tr>
 			<th>商品名稱</th>
 			<th>價錢</th>

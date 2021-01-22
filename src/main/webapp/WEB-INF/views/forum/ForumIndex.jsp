@@ -15,7 +15,7 @@ th, tr, td {
 }
 
 .categoryChoose, .hotChoose{
-	background-color:#0069d9;
+	background-color:#FCFCFC;
 }
 a.enterDetail{
 	color: black;
@@ -84,13 +84,13 @@ a.delete{
   
   		<input type="hidden" id="category" value="${category}">
   		<input type="hidden" id="search" value="${search}">
-		<a class="btn btn-primary category categoryChoose">全部</a>
-		<a class="btn btn-primary category">閒聊</a>
-		<a class="btn btn-primary category">公告</a>
-		<a class="btn btn-primary category">討論</a>
-		<a class="btn btn-primary category">問題</a>
-		<a class="btn btn-primary category">情報</a>
-		<a class="btn btn-primary category">攻略</a>
+		<a class="btn btn-outline-dark category categoryChoose">全部</a>
+		<a class="btn btn-outline-dark category">閒聊</a>
+		<a class="btn btn-outline-dark category">公告</a>
+		<a class="btn btn-outline-dark category">討論</a>
+		<a class="btn btn-outline-dark category">問題</a>
+		<a class="btn btn-outline-dark category">情報</a>
+		<a class="btn btn-outline-dark category">攻略</a>
 		
 		<div class="input-group" style="margin-top:15px">
 			<h3> 標題:&nbsp;</h3>
@@ -101,8 +101,8 @@ a.delete{
 			</span>
 		</div>
 	</form>
-	<a class="btn btn-primary hot hotChoose" id="new">最新</a>
-	<a class="btn btn-primary hot" id="hot">熱門</a>
+	<a class="btn btn-outline-dark hot hotChoose" id="new">最新</a>
+	<a class="btn btn-outline-dark hot" id="hot">熱門</a>
 	<hr>
 	<div id="point">
 		<c:forEach var="forum" items="${lForumList}">

@@ -164,7 +164,7 @@
         </div>
         <div>
             <label>比賽時間: </label> 
-            <input type="datetime-local" id="sTime" name="sTime" value="${sTime}" />
+            <input type="datetime-local" id="sTime" name="sTime" value="${sTime}" style="width:50%"/>
             <form:errors path="tTime" class="error"/>
             <label class="error"></label>
         </div>

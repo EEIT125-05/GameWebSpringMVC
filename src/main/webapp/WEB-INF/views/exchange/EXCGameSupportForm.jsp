@@ -115,7 +115,7 @@ div {
 			</div>
 			<div>
 				<label for="remark">備註　　</label>
-				<form:input class="fixedlen" type="text" path="remark" />
+				<form:input id="remark" class="fixedlen" type="text" path="remark" />
 			</div>
 			<c:if test="${insert != null }">
 				<div >
@@ -150,6 +150,8 @@ div {
 					</c:otherwise>
 				</c:choose>
 				<button type="reset" class="button"  >清除</button>
+				<button type="button" class="button"  onclick="oneClick();">一鍵輸入(戰神4)</button>
+				<button type="button" class="button"  onclick="oneClick1();">一鍵輸入(電馭叛客2077)</button>
 			</div>
 		</fieldset>
 		<c:if test="${not empty GameToSupport}">
@@ -160,6 +162,23 @@ div {
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 	<script>
 		
+	function oneClick(){
+		$("#console1").val("PS3")
+		$("#gamename").val("戰神4")
+		$("#qty").val("1")
+		$("#gamelocation").val("花蓮縣")
+		$("#condition").val("全新未拆封")
+		$("#remark").val("上班族，面交請約6點後")
+		$("#submitButton").attr("disabled",false)
+	}
+	function oneClick1(){
+		$("#qty").val("1")
+		$("#gamelocation").val("台北市")
+		$("#condition").val("全新未拆封")
+		$("#remark").val("周末才有空面交")
+		$("#submitButton").attr("disabled",false)
+	}
+	
 	 $(function(){  
 	        function getObjectURL(file){    
 	            var url=null     

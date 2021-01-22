@@ -34,11 +34,6 @@ public class ReplyBean {
 	private String sText;
 	private Integer iForumNo;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "iForumNo")
-//	@JsonIgnore
-//	private ForumBean fForumBean;
-	
 	@OneToMany(mappedBy = "rReplyBean", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<ReplyBean> lReplyBean = new ArrayList<>();
 	
@@ -59,7 +54,6 @@ public class ReplyBean {
 		this.tTime = tTime;
 		this.sText = sText;
 		this.iForumNo = iForumNo;
-//		this.fForumBean = fForumBean;
 		this.rReplyBean = rReplyBean;
 	}
 
