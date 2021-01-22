@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.web.game.contest.service.ContestService;
 import com.web.game.exchange.service.ExchangeService;
+import com.web.game.forum.service.ForumService;
+import com.web.game.forum.service.ReplyService;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
 import com.web.game.withplay.service.WithService;
@@ -37,6 +39,12 @@ public class HomeController {
 	
 	@Autowired
 	ContestService cService;
+	
+	@Autowired
+	ForumService fService;
+	
+	@Autowired
+	ReplyService rService;
 	
 	@GetMapping("/")
 	public String gameIndex(@CookieValue(required = false) String JSESSIONID,
@@ -120,15 +128,10 @@ public class HomeController {
 		return "backstage/Withplay";
 	}
 	
-	@GetMapping("/backstage/Contest")
-	public String gotoContestBackStage(Model model) {
-		model.addAttribute("allContest", cService.selectAllContest());
-		return "backstage/Contest";
-	}
-	
 	@GetMapping("/backstage/Forum")
 	public String gotoForumBackStage(Model model) {
-		
+		model.addAttribute("allForum", fService.selectAllForum());
+		model.addAttribute("allReply", rService.selectAllReply());
 		
 		
 		return "backstage/Forum";

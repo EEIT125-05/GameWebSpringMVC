@@ -115,7 +115,7 @@
 									<thead>
 									<tr>
 										<th>編號</th>
-										<th>分類</th>
+										<th>子版</th>
 										<th>標題</th>
 										<th>時間</th>
 										<th>編輯</th>
@@ -177,28 +177,16 @@
 											<td>${reply.dDate} ${reply.tTime}</td>
 										</tr>
 									</c:forEach>
-								
-								
-								
 								</table>
 							</c:otherwise>
 						</c:choose>
-					
-					
-					
-					
 					</div>
 				</div>
 			</div>
-
-
-
 		</div>
-
 	</div>
 
 
-	<div style="clear: both;"></div>
 <!-- 	</div> -->
 	<%@ include file="../Foot.jsp"%>
 </body>

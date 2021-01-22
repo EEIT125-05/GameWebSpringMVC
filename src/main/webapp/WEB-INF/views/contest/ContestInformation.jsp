@@ -124,26 +124,6 @@ body{
 	margin:0;
 }
 
-ul.test {
-    position: relative;
-    width: 300px;
-    height: 50px;
-    background-color: #bbb;
-    padding: 4px
-}
-
-ul.test:after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: -2px;
-    width: 50%;
-    height: 2px;
-    background-color: red
-}
-
-
-
 </style>
 
 </head>
@@ -180,7 +160,7 @@ ul.test:after {
 	    	
 			<c:set var="joinStatus" value="true"/>
 			
-<!-- 				團體賽要從參加組別拆自串比對 -->
+<!-- 				團體賽要從參加組別拆自串比對-->
 			<c:choose>
 	    		<c:when test="${cContestBean.iTeamMemberCount != 1}">
 	    			<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
@@ -245,25 +225,6 @@ ul.test:after {
 				</c:otherwise>
 			</c:choose>
 		</div>
-		
-<!-- 		<ul class="nav nav-tabs test" id="myTab" role="tablist"> -->
-<!-- 			  <li class="nav-item"> -->
-<!-- 			    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a> -->
-<!-- 			  </li> -->
-<!-- 			  <li class="nav-item"> -->
-<!-- 			    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a> -->
-<!-- 			  </li> -->
-<!-- 			  <li class="nav-item"> -->
-<!-- 			    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a> -->
-<!-- 			  </li> -->
-<!-- 			</ul> -->
-<!-- 			<div class="tab-content" id="myTabContent"> -->
-<!-- 			  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div> -->
-<!-- 			  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div> -->
-<!-- 			  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div> -->
-<!-- 			</div> -->
-		
-		
 		
 		
 <!-- 		<hr> -->

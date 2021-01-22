@@ -20,55 +20,13 @@
   	<%@ include file="./SideBar.jsp"%>
   
   
-    <div class="main-panel" style="height: 100vh;">
+    <div class="main-panel">
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-<!--             <div class="navbar-toggle"> -->
-<!--               <button type="button" class="navbar-toggler"> -->
-<!--                 <span class="navbar-toggler-bar bar1"></span> -->
-<!--                 <span class="navbar-toggler-bar bar2"></span> -->
-<!--                 <span class="navbar-toggler-bar bar3"></span> -->
-<!--               </button> -->
-<!--             </div> -->
             <a class="navbar-brand" href="javascript:;">賽事系統後台</a>
           </div>
-          
-<!--           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation"> -->
-<!--             <span class="navbar-toggler-bar navbar-kebab"></span> -->
-<!--             <span class="navbar-toggler-bar navbar-kebab"></span> -->
-<!--             <span class="navbar-toggler-bar navbar-kebab"></span> -->
-<!--           </button> -->
-          
-<!--           <div class="collapse navbar-collapse justify-content-end" id="navigation"> -->
-<!--             <form> -->
-<!--               <div class="input-group no-border"> -->
-<!--                 <input type="text" value="" class="form-control" placeholder="Search..."> -->
-<!--                 <div class="input-group-append"> -->
-<!--                   <div class="input-group-text"> -->
-<!--                     <i class="nc-icon nc-zoom-split"></i> -->
-<!--                   </div> -->
-<!--                 </div> -->
-<!--               </div> -->
-<!--             </form> -->
-<!--             <ul class="navbar-nav"> -->
-<!--               <li class="nav-item btn-rotate dropdown"> -->
-<!--                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-<!--                   <i class="nc-icon nc-bell-55"></i> -->
-<!--                   <p> -->
-<!--                     <span class="d-lg-none d-md-block">Some Actions</span> -->
-<!--                   </p> -->
-<!--                 </a> -->
-<!--                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink"> -->
-<!--                   <a class="dropdown-item" href="#">Action</a> -->
-<!--                   <a class="dropdown-item" href="#">Another action</a> -->
-<!--                   <a class="dropdown-item" href="#">Something else here</a> -->
-<!--                 </div> -->
-<!--               </li> -->
-<!--             </ul> -->
-<!--           </div> -->
-
         </div>
       </nav>
       <!-- End Navbar -->
@@ -213,7 +171,6 @@
 	           <div class="card ">
 	             <div class="card-header ">
 	               <h5 class="card-title">熱門遊戲</h5>
-<!-- 	               <p class="card-category">最缺遊戲</p> -->
 	             </div>
 	             <div class="card-body ">
 	               <canvas id="chartGame"></canvas>
@@ -234,21 +191,98 @@
 	           </div>
 	         </div>
           </div>
-			<div class="row">
-				<div class="card">
-				<div class="card-header" id="headingOne">
-					<h5 class="mb-0">
-						<button class="btn btn-link" data-toggle="collapse"
-							data-target="#collapseOne" aria-expanded="true"
-							aria-controls="collapseOne">管理所有比賽</button>
-					</h5>
+          
+			<div class="row" id="accordion">
+				<div class="card col-md-12">
+					<div class="card-header" id="headingOne">
+						<h5 class="mb-0">
+							<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseAllContest" aria-expanded="false" aria-controls="collapseAllContest">所有比賽</button>
+						</h5>
+					</div>
+	
+					<div id="collapseAllContest" class="collapse"
+						aria-labelledby="headingOne" data-parent="#accordion">
+						<div class="card-body">
+						
+							<table border="1" id="tableAllContest" class="table table-hover" style="font-size: 12px; border:3px">
+								<thead>
+								<tr>
+									<th>編號</th>
+									<th>比賽名稱</th>
+									<th>比賽遊戲</th>
+									<th>主辦人</th>
+									<th>比賽時間</th>
+									<th>報名狀況</th>
+									<th>刪除</th>
+								</tr>
+								</thead>
+								<c:forEach var="contest" items="${allContest}">
+									<tr>
+										<td>${contest.iNo}</td>
+										<td><a href="<c:url value='/contest/Information?contestNo=${contest.iNo}'/>">${contest.sName}</a></td>
+										<td>${contest.sGame}</td>
+										<td>${contest.sHost}</td>
+										<fmt:formatDate var="sTime" value="${contest.tTime}" pattern="yyyy-MM-dd HH:mm"/>
+										<td>${sTime}</td>
+										<td>${fn:length(contest.lParticipateBeans)}/${contest.iPeople}</td>
+										<td>
+											<button class="btn btn-danger deleteContest" value="${contest.iNo}">刪除</button>
+										</td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
 				</div>
-
-				
 			</div>
 			
-			</div>
+			<div class="row" id="accordion">
+				<div class="card col-md-12">
+					<div class="card-header" id="headingTwo">
+						<h5 class="mb-0">
+							<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseAllParticipate" aria-expanded="false" aria-controls="collapseAllParticipate">所有參賽者</button>
+						</h5>
+					</div>
+	
+					<div id="collapseAllParticipate" class="collapse"
+						aria-labelledby="headingOne" data-parent="#accordion">
+						<div class="card-body">
+						
+							<table border="1" id="tableAllParticipate" class="table table-hover" style="font-size: 12px; border:3px">
+								<thead>
+								<tr>
+									<th>編號</th>
+									<th>比賽名稱</th>
+									<th>比賽遊戲</th>
+									<th>參賽者</th>
+									<th>比賽時間</th>
+									<th>報名狀況</th>
+									<th>刪除</th>
+								</tr>
+								</thead>
+								<c:forEach var="contest" items="${allContest}">
+									<c:forEach var="participate" items="${contest.lParticipateBeans}">
+								
+										<tr>
+											<td>${participate.iNo}</td>
+											<td><a href="<c:url value='/contest/Information?contestNo=${contest.iNo}'/>">${contest.sName}</a></td>
+											<td>${contest.sGame}</td>
+											<td>${participate.sPlayer}</td>
+											<fmt:formatDate var="sTime" value="${contest.tTime}" pattern="yyyy-MM-dd HH:mm"/>
+											<td>${sTime}</td>
+											<td>${fn:length(contest.lParticipateBeans)}/${contest.iPeople}</td>
+											<td>
+												<button class="btn btn-danger deleteParticipate" value="${contest.iNo}">刪除</button>
+											</td>
+										</tr>
+									</c:forEach>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
+				</div>
 			
+			</div>
 			
 			
 			
@@ -258,24 +292,6 @@
 			</div>
         </div>
       </div>
-<!--       <footer class="footer" style="position: absolute; bottom: 0; width: -webkit-fill-available;"> -->
-<!--         <div class="container-fluid"> -->
-<!--           <div class="row"> -->
-<!--             <nav class="footer-nav"> -->
-<!--               <ul> -->
-<!--                 <li><a href="https://www.creative-tim.com" target="_blank">Creative Tim</a></li> -->
-<!--                 <li><a href="https://www.creative-tim.com/blog" target="_blank">Blog</a></li> -->
-<!--                 <li><a href="https://www.creative-tim.com/license" target="_blank">Licenses</a></li> -->
-<!--               </ul> -->
-<!--             </nav> -->
-<!--             <div class="credits ml-auto"> -->
-<!--               <span class="copyright"> -->
-<!--                 © 2020, made with <i class="fa fa-heart heart"></i> by Creative Tim -->
-<!--               </span> -->
-<!--             </div> -->
-<!--           </div> -->
-<!--         </div> -->
-<!--       </footer> -->
 <%@ include file="../Foot.jsp"%>
     </div>
   </div>
@@ -284,6 +300,7 @@
 <script>
 	$(function(){
 		let ctx;
+		let myChart
 		ctx = document.getElementById('chartLocation').getContext("2d");
 
 		    myChart = new Chart(ctx, {
@@ -350,78 +367,49 @@
 		      }
 		    });
 		    
-		    ctx = document.getElementById('chartGame').getContext("2d");
-
+		    ctx = document.getElementById('chartGame').getContext("2d");;
 		    myChart = new Chart(ctx, {
-		      type: 'pie',
+		      type: 'bar', 
 		      data: {
 		        labels: ['英雄聯盟','魔物獵人','跑跑卡丁車','鬥陣特攻','絕地求生','爐石戰記','傳說對決'],
 		        datasets: [{
-		          label: "games",
-		          pointRadius: 0,
-		          pointHoverRadius: 0,
+		          label: '比賽數量',
+		          data: [12, 19, 10, 15, 12, 9, 12], 
 		          backgroundColor: [
-		            '#B87070',
-		            '#6FB7B7',
-		            '#B766AD',
-		            '#FFAD86',
-		            '#79FF79',
-		            '#9393FF',
-		            '#FF60AF'
+		            'rgba(255, 99, 132, 0.2)',
+		            'rgba(54, 162, 235, 0.2)',
+		            'rgba(255, 206, 86, 0.2)',
+		            'rgba(75, 192, 192, 0.2)',
+		            'rgba(153, 102, 255, 0.2)',
+		            'rgba(255, 80, 64, 0.2)',
+		            'rgba(255, 159, 64, 0.2)'
 		          ],
-		          borderWidth: 0,
-		          data: [8,16,9,10,8,12,10]
+		          borderColor: [
+		            'rgba(255, 99, 132, 1)',
+		            'rgba(54, 162, 235, 1)',
+		            'rgba(255, 206, 86, 1)',
+		            'rgba(75, 192, 192, 1)',
+		            'rgba(153, 102, 255, 1)',
+		            'rgba(255, 80, 64, 1)',
+		            'rgba(255, 159, 64, 1)'
+		          ],
+		          borderWidth: 1
 		        }]
 		      },
-
 		      options: {
-
-		        legend: {
-		          display: true
-		        },
-
-		        pieceLabel: {
-		          render: 'percentage',
-		          fontColor: ['white'],
-		          precision: 2
-		        },
-
-		        tooltips: {
-		          enabled: true
-		        },
-
 		        scales: {
 		          yAxes: [{
-
 		            ticks: {
-		              display: false
-		            },
-		            gridLines: {
-		              drawBorder: false,
-		              zeroLineColor: "transparent",
-		              color: 'rgba(255,255,255,0.05)'
-		            }
-
-		          }],
-
-		          xAxes: [{
-		            barPercentage: 1.6,
-		            gridLines: {
-		              drawBorder: false,
-		              color: 'rgba(255,255,255,0.1)',
-		              zeroLineColor: "transparent"
-		            },
-		            ticks: {
-		              display: false,
+		              beginAtZero: true,
+		              responsive: true //符合響應式
 		            }
 		          }]
-		        },
+		        }
 		      }
 		    });
 		    
 		    
-		    
-		    $('#allContest').DataTable({
+		    $('#tableAllContest').DataTable({
  				language: {
  	    		    "lengthMenu": "顯示_MENU_筆資料",
  	    		    "sProcessing": "處理中...",
@@ -448,6 +436,159 @@
  	    		    }
  	    		}
  			});
+		    
+		    $('#tableAllParticipate').DataTable({
+ 				language: {
+ 	    		    "lengthMenu": "顯示_MENU_筆資料",
+ 	    		    "sProcessing": "處理中...",
+ 	    		    "sZeroRecords": "没有匹配结果",
+ 	    		    "sInfo": "目前有_MAX_筆資料",
+ 	    		    "sInfoEmpty": "目前共有 0 筆紀錄",
+ 	    		    "sInfoFiltered": " ",
+ 	    		    "sInfoPostFix": "",
+ 	    		    "sSearch": "尋找:",
+ 	    		    "sUrl": "",
+ 	    		    "sEmptyTable": "尚未有資料紀錄存在",
+ 	    		    "sLoadingRecords": "載入資料中...",
+ 	    		    "sInfoThousands": ",",
+ 	    		    "oPaginate": {
+ 	    		        "sFirst": "首頁",
+ 	    		        "sPrevious": "上一頁",
+ 	    		        "sNext": "下一頁",
+ 	    		        "sLast": "末頁"
+ 	    		    },
+ 	    		    "order": [[0, "desc"]],
+ 	    		    "oAria": {
+ 	    		        "sSortAscending": ": 以升序排列此列",
+ 	    		        "sSortDescending": ": 以降序排列此列"
+ 	    		    }
+ 	    		}
+ 			});
+		    
+		    $(".row").on("click","a",function(){
+				this.target = "_blank";
+			});	
+		    
+		    $(".row").on("click", ".deleteContest", function(){
+		    	let tr = $(this).closest("tr");
+				Swal.fire({
+					showClass: {
+					    popup: 'animate__animated animate__fadeInDown'
+					  },
+					  title: '確定刪除此賽事?',
+					  text: "刪除之後將不能復原",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#d33',
+					  cancelButtonColor: '#3085d6',
+					  confirmButtonText: '刪除',
+				      cancelButtonText: '取消',
+						hideClass: {
+						    popup: 'animate__animated animate__fadeOutUp'
+						  }
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						  $.ajax({
+								type: "delete",
+								url: "<c:url value='/contest/Edit/" + $(this).val() + "'/>",
+								dataType: "json",
+								data: {},
+								success: function(result){
+									if(result.status == "success"){
+										Swal.fire({
+												      title:"刪除成功!",
+													  icon:"success",
+													  hideClass: {
+													    popup: 'animate__animated animate__fadeOutUp'
+													  }
+												  }).then(function(){
+													window.setTimeout(function(){tr.remove();},500);
+													
+												})
+									}else if(result.status == "sqlError"){
+										Swal.fire(
+												  '資料庫發生錯誤!',
+												  '請聯繫管理員',
+												  'error'
+												)
+									}
+								},
+								error: function(err){
+									Swal.fire(
+											  '網頁發生錯誤!',
+											  '請聯繫管理員',
+											  'error'
+											)
+								}
+								
+							});		
+					  }
+					});
+
+			});
+		    
+		    $(".row").on("click", ".deleteParticipate", function(){
+		    	let tr = $(this).closest("tr");
+				Swal.fire({
+					showClass: {
+					    popup: 'animate__animated animate__fadeInDown'
+					  },
+					  title: '確定刪除此位參賽者?',
+					  text: "刪除之後將不能復原",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#d33',
+					  cancelButtonColor: '#3085d6',
+					  confirmButtonText: '刪除',
+				      cancelButtonText: '取消',
+						hideClass: {
+						    popup: 'animate__animated animate__fadeOutUp'
+						  }
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						  $.ajax({
+								type: "delete",
+								url: "<c:url value='/contest/DeleteParticipate/" + $(this).val() + "/" + $(this).parent().prev().prev().prev().text() + "'/>",
+								dataType: "json",
+								data: {},
+								success: function(result){
+									if(result.status == "success"){
+										Swal.fire({
+												      title:"刪除成功!",
+													  icon:"success",
+													  hideClass: {
+													    popup: 'animate__animated animate__fadeOutUp'
+													  }
+												  }).then(function(){
+													window.setTimeout(function(){tr.remove();},500);
+													
+												})
+									}else if(result.status == "sqlError"){
+										Swal.fire(
+												  '資料庫發生錯誤!',
+												  '請聯繫管理員',
+												  'error'
+												)
+									}
+								},
+								error: function(err){
+									Swal.fire(
+											  '網頁發生錯誤!',
+											  '請聯繫管理員',
+											  'error'
+											)
+								}
+								
+							});		
+					  }
+					});
+
+			});
+		    
+		    
+		    
+		    
+		    
 		    
 	});
 
