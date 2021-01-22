@@ -1,7 +1,5 @@
 package com.web.game.contest.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -90,7 +88,7 @@ public class RecordController {
 		Integer iGroupUp = Integer.valueOf(cContestBean.getsPreliminary().split("-")[1]);
 		Integer iLast = Integer.valueOf(cContestBean.getsPreliminary().split("-")[2]);
 		Integer iTotalUp = (iTotal/iOneGroup) * iGroupUp + iLast;
-		Integer iRematchTotal = iTotalUp * 2 - 1;
+//		Integer iRematchTotal = iTotalUp * 2 - 1;
 		
 		List<String> lPromoteList = new ArrayList<String>();
 		for(int i=1; i<=(iTotal/iOneGroup)+1; i++) {

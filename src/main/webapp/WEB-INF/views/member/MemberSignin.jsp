@@ -131,25 +131,43 @@ input {
 												xhr.onreadystatechange = function() {
 													if (xhr.readyState == 4
 															&& xhr.status == 200) {
-														console.log("登入成功xhr.readyState="
+														console
+																.log("登入成功xhr.readyState="
 																		+ xhr.readyState);
-														console.log("登入成功xhr.status="
+														console
+																.log("登入成功xhr.status="
 																		+ xhr.status);
-															Swal.fire('OK',"恭喜登入成功",
-																			'success').then(function() {
-																				$('#Google').submit();
-																			})
-															return true;
+														Swal
+																.fire(
+																		'OK',
+																		"恭喜登入成功",
+																		'success')
+																.then(
+																		function() {
+																			$(
+																					'#Google')
+																					.submit();
+																		})
+														return true;
 													} else {
-														console.log("登入失敗xhr.readyState="
+														console
+																.log("登入失敗xhr.readyState="
 																		+ xhr.readyState);
-														console.log("登入失敗xhr.status="
+														console
+																.log("登入失敗xhr.status="
 																		+ xhr.status);
-														Swal.fire('註冊失敗',"已有重複信箱",
-														'error').then(function() {
-															$('#Google').submit();
-														})
-										return false;
+														Swal
+																.fire(
+																		'註冊失敗',
+																		"已有重複信箱",
+																		'error')
+																.then(
+																		function() {
+																			$(
+																					'#Google')
+																					.submit();
+																		})
+														return false;
 													}
 												}
 
@@ -275,102 +293,102 @@ input {
 	<h1 align='center'>登入GameBar會員</h1>
 	<hr>
 	<%@ include file="../Header.jsp"%>
-	<div align='center'>
-		<div align='center'
-			style='border: 3px solid gray; width: 500; height: 575; border-radius: 5px; background-color: #272727; color: white;'>
-			<form action="<c:url value='/member/SignIn'/>" method="post"
-				id="submitSignin">
-				<h3 style='padding-top: 30px; padding-left: 30px;' align='left'>
-					帳號:<input type="text" name="sAccount" minlength="6" maxlength="20"
-						placeholder="請輸入帳號" required
-						value="${requestScope.sAccount}${param.sAccount}">
-				</h3>
-				<h3 style='padding-top: 30px; padding-left: 30px;' align='left'>
-					密碼:<input type="password" id="Password" name="sPassword"
-						placeholder="請輸入密碼" minlength="8" maxlength="16" required
-						value="${requestScope.password}${param.sPassword}"> <input
-						id="btn" type="button" class="material-icons"
-						style="font-size: 25px" value="visibility">
-				</h3>
-				<h6 style='color: red;'>${showError}</h6>
-				<BR>
-				<h4>
-					<label style='padding-top: 10px; padding-right: 20px;'><input
-						type="checkbox" name="rememberMe"
-						<c:if test='${requestScope.rememberMe==true}'>
+	<div align='center' class="dark-matter com">
+		<form action="<c:url value='/member/SignIn'/>" method="post"
+			id="submitSignin">
+			<h3 style='padding-top: 30px; padding-left: 30px;' align='left'>
+				帳號:<input type="text" name="sAccount" minlength="6" maxlength="20"
+					placeholder="請輸入帳號" required
+					value="${requestScope.sAccount}${param.sAccount}">
+			</h3>
+			<h3 style='padding-top: 30px; padding-left: 30px;' align='left'>
+				密碼:<input type="password" id="Password" name="sPassword"
+					placeholder="請輸入密碼" minlength="8" maxlength="16" required
+					value="${requestScope.password}${param.sPassword}"> <input
+					id="btn" type="button" class="material-icons"
+					style="font-size: 25px" value="visibility">
+			</h3>
+			<h6 style='color: red;'>${showError}</h6>
+			<BR>
+			<h4>
+				<label style='padding-top: 10px; padding-right: 20px;'><input
+					type="checkbox" name="rememberMe"
+					<c:if test='${requestScope.rememberMe==true}'>
                   
                   checked='checked'
                </c:if>
-						value="true">自動登入</label><a href="<c:url value='/member/Forget'/>">忘記密碼</a><br>
-				</h4>
-				<h4 style='padding-top: 10px;'>
-					驗證碼:<input type="text" id="input1" style="width: 150px" /><input
-						type="button" id="checkCode" class="code"
-						style="width: 90px; margin: 0px 10px;" onClick="createCode()" /><input
-						id="Button1" onClick="validate();" type="button" value="按這裡驗證" /><br>
-					<span id="check"></span>
-				</h4>
+					value="true">自動登入</label><a href="<c:url value='/member/Forget'/>">忘記密碼</a><br>
+			</h4>
+			<h4 style='padding-top: 10px;'>
+				驗證碼:<input type="text" id="input1" style="width: 150px" /><input
+					type="button" id="checkCode" class="code"
+					style="width: 90px; margin: 0px 10px;" onClick="createCode()" />
+				<!-- 						<input -->
+				<!-- 						id="Button1" onClick="validate();" type="button" value="按這裡驗證" /> -->
+				<br> <span id="check"></span>
+			</h4>
 
-				<button id="submitSignin" name="submit555" type="button"
-					style='width: 350; height: 50; font-size: 30; margin-top: 15; background-color: yellow; color: purple'
-					onclick="checkSubmit();">
+			<button id="submitSignin" name="submit555" type="button"
+				class="button"
+				style='width: 350; height: 50; font-size: 30; margin-top: 15;'
+				onclick="checkSubmit();">
+				<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+					fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+				<path
+					d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+				</svg>
+				會員登入
+			</button>
+		</form>
+		<form action="<c:url value='/demo'/>" method="post"
+			style="margin-top: 20px">
+			<select name="demoAccount">
+				<option value="aaa">廷亙</option>
+				<option value="bbb">駿宏</option>
+				<option value="Jack12345">昌孝1</option>
+				<option value="bts520">昌孝2</option>
+				<option value="Jack1234">嵩謙</option>
+				<option value="henryxcccc">冠惟1</option>
+				<option value="benchang">冠惟2</option>
+			</select>
+			<button type="submit">DEMO</button>
+		</form>
+		<div>
+			<div>
+				<form action="<c:url value='/member/GameBarGMSignin'/>"
+					method="post" id="GameBar">
+					<div style='padding-top: 10px;'>
+						<button type="submit" class="button"
+							style='width: 350; height: 50; font-size: 30; margin-top: 10;'>
+							<!-- 							onclick="GameBarSubmit();" id="GameBar" -->
+
+							<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+								fill="currentColor" class="bi bi-person-fill"
+								viewBox="0 0 16 16"> <path
+								d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+							</svg>
+							管理者登入
+						</button>
+					</div>
+				</form>
+				<button type="button" id="btnSignIn" class="button"
+					style='width: 350; height: 50; font-size: 30; margin-top: 10;'>
 					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
 						fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
 					<path
 						d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
 					</svg>
-					會員登入
+					Google登入
 				</button>
-			</form>
-			<form action="<c:url value='/demo'/>" method="post"
-				style="margin-top: 20px">
-				<select name="demoAccount">
-					<option value="aaa">廷亙</option>
-					<option value="bbb">駿宏</option>
-					<option value="Jack12345">昌孝1</option>
-					<option value="bts520">昌孝2</option>
-					<option value="Jack1234">嵩謙</option>
-					<option value="henryxcccc">冠惟1</option>
-					<option value="benchang">冠惟2</option>
-				</select>
-				<button type="submit">DEMO</button>
-			</form>
-			<div>
-				<div>
-					<form action="<c:url value='/member/GameBarGMSignin'/>"
-						method="post" id="GameBar">
-						<div style='padding-top: 10px;'>
-							<button type="submit"
-								style='width: 350; height: 50; font-size: 30; margin-top: 10; background-color: red; color: limegreen;'>
-								<!-- 							onclick="GameBarSubmit();" id="GameBar" -->
-
-								<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-									fill="currentColor" class="bi bi-person-fill"
-									viewBox="0 0 16 16"> <path
-									d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-								</svg>
-								管理者登入
-							</button>
-						</div>
-					</form>
-					<button type="button" id="btnSignIn"
-						style='width: 350; height: 50; font-size: 30; margin-top: 10; background-color: blue; color: Orange'>
-						<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-							fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-						<path
-							d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-						</svg>
-						Google登入
-					</button>
-					<!-- 					<button type="button" id="btnDisconnect">斷連Google App</button> -->
+				<!-- 					<button type="button" id="btnDisconnect">斷連Google App</button> -->
 
 
 
 
-				</div>
-				<div id="content"></div>
 			</div>
+			<div id="content"></div>
 		</div>
+
 	</div>
 
 	<form id="Google" action="<c:url value='/member/GameIndex'/>"></form>

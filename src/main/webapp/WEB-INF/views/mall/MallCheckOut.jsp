@@ -33,7 +33,7 @@ mark.yellow {
 
 
 	
-	<table border="1" cellspacing="0" cellpadding="5"
+	<table border="1" cellspacing="0" cellpadding="5" style="background-color:#ffffff"
 		>
 		<tr>
 			<th>遊戲名稱</th>

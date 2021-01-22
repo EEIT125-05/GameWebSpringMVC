@@ -275,11 +275,12 @@ function change(){
 	let i = document.getElementById("warningSpanSupport")
 	if(x==true){
 		console.log("white")
-	i.style.color="#FFFFFF"
+	i.style.opacity="0.0"
+
 	x =false
 	}else{
 		console.log("red")
-	i.style.color="#FF0000"
+	i.style.opacity="1.0"
 	x= true
 	}
 }
@@ -291,11 +292,11 @@ function change(){
 	let i = document.getElementById("warningSpanDemand")
 	if(x==true){
 		console.log("white")
-	i.style.color="#FFFFFF"
+		i.style.opacity="0.0"
 	x =false
 	}else{
 		console.log("red")
-	i.style.color="#FF0000"
+		i.style.opacity="1.0"
 	x= true
 	}
 }

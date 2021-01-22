@@ -102,7 +102,7 @@
 			<form:option value="攻略">攻略</form:option>
 		</form:select>
 		<label>標題: </label>
-		<form:input type="text" id="sTitle" path="sTitle" size="83"/>
+		<form:input type="text" id="sTitle" path="sTitle" size="40" style="width:50%"/>
 		<label id="titleError" class="error"></label>
 		<form:errors path="sTitle" class="error"/> 
 	</div>

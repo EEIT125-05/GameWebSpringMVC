@@ -103,6 +103,14 @@ public class MemberControllerNoVerified {
 		model.addAttribute("m", m);
 		return "member/MemberPasswordSet";
 	}
+	
+	@GetMapping("/forget/PasswordSetAgain")
+	public String MemberPasswordSetAgain(Model model, @RequestParam Integer iNo) {
+		MemberBean m = mService.get(iNo);
+		model.addAttribute("m", m);
+		model.addAttribute("showError", "密碼不一致請再次確認");
+		return "member/MemberPasswordSet";
+	}
 
 	@PostMapping("/PasswordChange")
 	public String PasswordChange(Model model, @RequestParam Integer iNo, @RequestParam String sPassword,
@@ -110,7 +118,7 @@ public class MemberControllerNoVerified {
 		MemberBean PasswordChange = mService.get(iNo);
 		if (!sPassword.equals(password)) {
 			model.addAttribute("showError", "密碼不一致請再次確認");
-			return "redirect:/member/forget/PasswordSet?iNo="+iNo;
+			return "redirect:/member/forget/PasswordSetAgain?iNo="+iNo;
 		} else {
 			PasswordChange.setsPassword(sPassword);
 			mService.UpdateMember(PasswordChange);
@@ -262,7 +270,7 @@ public class MemberControllerNoVerified {
 //				+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/GameBarGMSignin'\r\n" + "})");
 //		out.print("</script>");
 //		out.print("</html></body>");
-		return "member/MemberGetAll";
+		return "/backstage/Member";
 	}
 
 	@GetMapping("/SignIn")

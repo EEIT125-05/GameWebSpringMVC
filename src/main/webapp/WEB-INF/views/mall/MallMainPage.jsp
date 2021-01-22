@@ -83,7 +83,7 @@
 
 
 
-		<div class="container " style="background-color:#ffffff">
+		<div class="container " >
 			<h1 class="mt-4 mb-3">
 				商城 <small>首頁</small>
 			</h1>
@@ -118,7 +118,7 @@
 	<form action="<c:url value="/mall/todoadd"/>" method="get">
 
 
-		<div class="row">
+		<div class="row" style="background-color:#ffffff">
 			<c:forEach var="row" items="${rs.rows}">
 				<!-- 				 <div style="display:inline"> -->
 			<div style=" width: 350px; height: 250px;margin-left: 20px; margin-bottom: 35px;">

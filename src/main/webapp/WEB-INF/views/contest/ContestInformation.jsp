@@ -124,26 +124,6 @@ body{
 	margin:0;
 }
 
-ul.test {
-    position: relative;
-    width: 300px;
-    height: 50px;
-    background-color: #bbb;
-    padding: 4px
-}
-
-ul.test:after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: -2px;
-    width: 50%;
-    height: 2px;
-    background-color: red
-}
-
-
-
 </style>
 
 </head>
@@ -166,104 +146,85 @@ ul.test:after {
 
 		<img src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" alt="" style="width:560px">
 		<div>
-<!-- 			<label class="btn btn-primary item itemChoose">總覽</label> -->
-<!-- 			<label class="btn btn-primary item">參賽者</label> -->
-<!-- 			<label class="btn btn-primary item">賽程</label> -->
-<%-- 			<c:choose> --%>
-<%-- 	    		<c:when test="${cContestBean.sHost == user.sAccount}"> --%>
-<!-- 					<label class="btn btn-primary item">更新戰績</label> -->
-<%-- 	    		</c:when> --%>
-<%-- 	    		<c:otherwise> --%>
-<!-- 					<label class="btn btn-primary item">戰績</label> -->
-<%-- 	    		</c:otherwise> --%>
-<%-- 	    	</c:choose> --%>
+			<label class="btn btn-primary item itemChoose">總覽</label>
+			<label class="btn btn-primary item">參賽者</label>
+			<label class="btn btn-primary item">賽程</label>
+			<c:choose>
+	    		<c:when test="${cContestBean.sHost == user.sAccount}">
+					<label class="btn btn-primary item">更新戰績</label>
+	    		</c:when>
+	    		<c:otherwise>
+					<label class="btn btn-primary item">戰績</label>
+	    		</c:otherwise>
+	    	</c:choose>
 	    	
-<%-- 			<c:set var="joinStatus" value="true"/> --%>
+			<c:set var="joinStatus" value="true"/>
 			
-<!-- <!-- 				團體賽要從參加組別拆自串比對 -->
-<%-- 			<c:choose> --%>
-<%-- 	    		<c:when test="${cContestBean.iTeamMemberCount != 1}"> --%>
-<%-- 	    			<c:forEach var="participate" items="${cContestBean.lParticipateBeans}"> --%>
-<%-- 	    				<c:forEach var="player" items="${fn:split(participate.sPlayer,',')}"> --%>
-<%-- 		    				<c:if test="${player == user.sAccount}"> --%>
-<%-- 								<c:set var="joinStatus" value="false"/> --%>
-<%-- 							</c:if> --%>
-<%-- 	    				</c:forEach> --%>
-<%-- 	    			</c:forEach> --%>
-<%-- 	    		</c:when> --%>
-<%-- 	    		<c:otherwise> --%>
-<%-- 					<c:forEach var="participate" items="${cContestBean.lParticipateBeans}"> --%>
-<%-- 						<c:if test="${participate.sPlayer == user.sAccount}"> --%>
-<%-- 							<c:set var="joinStatus" value="false"/> --%>
-<%-- 						</c:if> --%>
-<%-- 					</c:forEach> --%>
-<%-- 	    		</c:otherwise> --%>
-<%-- 	    	</c:choose> --%>
+<!-- 				團體賽要從參加組別拆自串比對-->
+			<c:choose>
+	    		<c:when test="${cContestBean.iTeamMemberCount != 1}">
+	    			<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
+	    				<c:forEach var="player" items="${fn:split(participate.sPlayer,',')}">
+		    				<c:if test="${player == user.sAccount}">
+								<c:set var="joinStatus" value="false"/>
+							</c:if>
+	    				</c:forEach>
+	    			</c:forEach>
+	    		</c:when>
+	    		<c:otherwise>
+					<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
+						<c:if test="${participate.sPlayer == user.sAccount}">
+							<c:set var="joinStatus" value="false"/>
+						</c:if>
+					</c:forEach>
+	    		</c:otherwise>
+	    	</c:choose>
 			
 			
 			
-<%-- 			<jsp:useBean id="nowDate" class="java.util.Date"/> --%>
-<%-- 			<fmt:formatDate var="today" pattern="yyyy-MM-dd" value="${nowDate}" /> --%>
-<%-- 			<c:choose> --%>
-<%-- 				<c:when test="${joinStatus == 'false'}"> --%>
-<!-- 					<button class="btn btn-success joinItem" disabled>已報名</button> -->
-<%-- 					<c:choose> --%>
-<%-- 						<c:when test="${cContestBean.dSignEnd < today}"> --%>
-<!-- 							<button class="btn btn-danger" disabled>退出比賽</button> -->
-<!-- 							<span style="font-size:70%;color:red">(註:報名截止後即無法退出比賽)</span> -->
-<%-- 						</c:when> --%>
-<%-- 						<c:otherwise> --%>
-<%-- 							<button id="quitContest" class="btn btn-danger" value="${cContestBean.iNo}">退出比賽</button> --%>
-<!-- 							<span style="font-size:70%;color:red">(註:報名截止後即無法退出比賽)</span> -->
-<%-- 						</c:otherwise> --%>
-<%-- 					</c:choose> --%>
-<%-- 				</c:when> --%>
-<%-- 				<c:otherwise> --%>
-<%-- 					<c:choose> --%>
-<%-- 					<c:when test="${cContestBean.dSignStart > today}"> --%>
-<!-- 						<button class="btn btn-success joinItem" disabled>未開始報名</button> -->
-<%-- 					</c:when> --%>
-<%-- 					<c:otherwise> --%>
-<%-- 						<c:choose> --%>
-<%-- 							<c:when test="${cContestBean.dSignEnd < today}"> --%>
-<!-- 								<button class="btn btn-success joinItem" disabled>報名已截止</button> -->
-<%-- 							</c:when> --%>
-<%-- 							<c:otherwise> --%>
-<%-- 								<c:choose> --%>
-<%-- 									<c:when --%>
-<%-- 										test="${fn:length(cContestBean.lParticipateBeans) == cContestBean.iPeople}"> --%>
-<!-- 										<button class="btn btn-success joinItem" disabled>報名人數已滿</button> -->
-<%-- 									</c:when> --%>
-<%-- 									<c:otherwise> --%>
-<!-- 										<button class="btn btn-success joinItem">報名</button> -->
-<%-- 									</c:otherwise> --%>
-<%-- 								</c:choose> --%>
-<%-- 							</c:otherwise> --%>
-<%-- 						</c:choose> --%>
-<%-- 					</c:otherwise> --%>
-<%-- 					</c:choose> --%>
-<%-- 				</c:otherwise> --%>
-<%-- 			</c:choose> --%>
+			<jsp:useBean id="nowDate" class="java.util.Date"/>
+			<fmt:formatDate var="today" pattern="yyyy-MM-dd" value="${nowDate}" />
+			<c:choose>
+				<c:when test="${joinStatus == 'false'}">
+					<button class="btn btn-success joinItem" disabled>已報名</button>
+					<c:choose>
+						<c:when test="${cContestBean.dSignEnd < today}">
+							<button class="btn btn-danger" disabled>退出比賽</button>
+							<span style="font-size:70%;color:red">(註:報名截止後即無法退出比賽)</span>
+						</c:when>
+						<c:otherwise>
+							<button id="quitContest" class="btn btn-danger" value="${cContestBean.iNo}">退出比賽</button>
+							<span style="font-size:70%;color:red">(註:報名截止後即無法退出比賽)</span>
+						</c:otherwise>
+					</c:choose>
+				</c:when>
+				<c:otherwise>
+					<c:choose>
+					<c:when test="${cContestBean.dSignStart > today}">
+						<button class="btn btn-success joinItem" disabled>未開始報名</button>
+					</c:when>
+					<c:otherwise>
+						<c:choose>
+							<c:when test="${cContestBean.dSignEnd < today}">
+								<button class="btn btn-success joinItem" disabled>報名已截止</button>
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when
+										test="${fn:length(cContestBean.lParticipateBeans) == cContestBean.iPeople}">
+										<button class="btn btn-success joinItem" disabled>報名人數已滿</button>
+									</c:when>
+									<c:otherwise>
+										<button class="btn btn-success joinItem">報名</button>
+									</c:otherwise>
+								</c:choose>
+							</c:otherwise>
+						</c:choose>
+					</c:otherwise>
+					</c:choose>
+				</c:otherwise>
+			</c:choose>
 		</div>
-		
-		<ul class="nav nav-tabs test" id="myTab" role="tablist">
-			  <li class="nav-item">
-			    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-			  </li>
-			</ul>
-			<div class="tab-content" id="myTabContent">
-			  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
-			  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
-			  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
-			</div>
-		
-		
 		
 		
 <!-- 		<hr> -->
