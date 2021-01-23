@@ -17,7 +17,7 @@
   	margin-left: 50;  
  } 
 
- #DIV2 { */
+ #DIV2 { 
  	margin-left: 100; 
  	padding-left:65px;
  } 

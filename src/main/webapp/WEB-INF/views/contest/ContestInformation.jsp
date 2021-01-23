@@ -663,6 +663,8 @@ body{
 										"winners": winners
 								},
 								success: function(result){
+									let rematchMode = ${cContestBean.sRematchMode};
+									console.log("複賽: " + rematchMode);
 									$.each(result.promoteList,function(key, value){
 										console.log(value);
 									});
@@ -794,8 +796,6 @@ body{
 										});
 								        
 							        });
-									
-									
 									
 								},error: function(err){
 									Swal.fire(
