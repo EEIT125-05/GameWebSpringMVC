@@ -107,13 +107,20 @@ public class HomeController {
 		return "backstage/Backstage";
 	}
 	
+//	@GetMapping("/backstage/Member")
+//	public String gotoMemberBackStage(Model model) {	
+//		return "backstage/Member";
+//	}
 	@GetMapping("/backstage/Member")
-	public String gotoMemberBackStage(Model model) {
-		
-		
-		
-		return "backstage/Member";
+	public String gotoMemberBackStage(Model model, String sAccount) {
+		MemberBean Signin = (MemberBean) model.getAttribute("user");
+		System.out.println("有無進來這裡");
+		sAccount = Signin.getsAccount();
+		sAccount.equals("game20200922");
+		model.addAttribute("users", mService.getAllMembers());
+		return "/backstage/Member";
 	}
+
 	
 	@GetMapping("/backstage/Mall")
 	public String gotoMallBackStage(Model model) {

@@ -269,7 +269,7 @@ table{
 				&& emailflag && phoneflag) {
 			document.getElementById("submitDisable").disabled = false;
 		} else {
-			document.getElementById("submitDisable").disabled = true;
+// 			document.getElementById("submitDisable").disabled = true;
 		}
 	}
 
@@ -293,7 +293,7 @@ table{
 		var sBirthday = document.getElementById("sBirthday");
 
 		sAccount.value = "year780818";
-		sEmail.value = "year780818@gmail.com";
+		sEmail.value = "gamebar20210128@gmail.com";
 		sPhone.value = "0956175060";
 		sPassword.value = "year780818";
 		sEname.value = "顏廷亙";
@@ -301,7 +301,7 @@ table{
 		sAddress;
 		sGender;
 		sBirthday.value = "1989-08-18";
-		document.getElementById("submitDisable").disabled = false;
+// 		document.getElementById("submitDisable").disabled = false;
 	}
 </script>
 </head>
@@ -448,7 +448,7 @@ table{
 			<h6 align='center' style='color: red;'>${showError}</h6>
 			<h3 align='center'>
 				<button class="button" id="submitDisable" type="submit"
-					name="submit555" disabled
+					name="submit555"
 					style='width: 350; height: 50; font-size: 30; margin-top: 15;'>
 					<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
 						fill="currentColor" class="bi bi-person-check-fill"
