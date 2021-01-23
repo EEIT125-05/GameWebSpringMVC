@@ -106,7 +106,7 @@ div {
 // 	}	
 	
 	
-	$("#console1").on("blur", function() {
+	$("#console1").mouseout(function() {
 		flag1 = false
 		if ($("#console1 :selected").text() == "") {
 			$("#console1span").html("<span>必填</span>")
@@ -119,7 +119,7 @@ div {
 		checkall();
 	})
 
-	$("#gamename").on("blur", function() {
+	$("#gamename").mouseout(function() {
 		flag2 = false
 		if ($("#gamename :selected").text() == "") {
 			$("#gamenamespan").html("<span>必填</span>")

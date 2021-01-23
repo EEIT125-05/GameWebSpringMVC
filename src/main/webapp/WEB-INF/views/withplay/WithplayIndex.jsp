@@ -180,7 +180,6 @@ response.setContentType("text/html;charset=UTF-8");
 																		
 												</c:choose> 
 
-														
 												</div>
 											</form>
 											</div>

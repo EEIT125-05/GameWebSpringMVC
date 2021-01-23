@@ -142,7 +142,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">我要換遊戲</p>
-                      <p class="card-title">245筆<p>
+                      <p class="card-title" id=supportGameQty>245筆<p>
                     </div>
                   </div>
                 </div>
@@ -150,8 +150,8 @@
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-calendar-o"></i>
-                  Last day
+                  <a onclick="getSupportGameQty();"><i class="fa fa-refresh"></i>Update
+                  </a>
                 </div>
               </div>
             </div>
@@ -264,10 +264,6 @@
               </div>
               <div class="card-footer ">
                 <div class="legend">
-<!--                   <i class="fa fa-circle text-primary"></i> Opened -->
-<!--                    <i class="fa fa-circle text-warning"></i> Read  -->
-<!--                    <i class="fa fa-circle text-danger"></i> Deleted  -->
-<!--                    <i class="fa fa-circle text-gray"></i> Unopened  -->
                 </div>
                 <hr>
                 <div class="stats">
@@ -378,12 +374,12 @@
 								
 								<td><a class="btn btn-primary btn-sm"
 								 onclick="deleteCheck('Support','${s.no}');">刪除</a></td>
-								<td><input type="checkbox" class="checkinput" id="switch${vs1.index }" onchange="updateStatus('support','${s.status }',${s.no });"/><label class="checklabel" for="switch${vs1.index }">Toggle</label></td>
+								<td><input type="checkbox" class="checkinput" id="switch${vs1.index }" onchange="updateStatus('support',${s.no });"/><label class="checklabel" for="switch${vs1.index }">Toggle</label></td>
 							</c:when>
 							<c:when test="${s.status == 5}">
 								<td><a class="btn btn-primary btn-sm"
 								 onclick="deleteCheck('Support','${s.no}');">刪除</a></td>
-								<td><input type="checkbox" class="checkinput" id="switch${vs1.index }" checked onchange="updateStatus('support','${s.status }',${s.no });"/><label class="checklabel" for="switch${vs1.index }">Toggle</label></td>
+								<td><input type="checkbox" class="checkinput" id="switch${vs1.index }" checked onchange="updateStatus('support',${s.no });"/><label class="checklabel" for="switch${vs1.index }">Toggle</label></td>
 							</c:when>
 						</c:choose>
 
@@ -439,12 +435,12 @@
 									<c:when test="${d.status == 0}">
 										<td><a class="btn btn-primary btn-sm"
 											onclick="deleteCheck('Demand','${d.no}');"/>刪除</a></td>
-										<td><input type="checkbox" class="checkinput" id="switcha${vs2.index }" onchange="updateStatus('demand','${d.status }',${d.no });"/><label class="checklabel" for="switcha${vs2.index }">Toggle</label></td>
+										<td><input type="checkbox" class="checkinput" id="switcha${vs2.index }" onchange="updateStatus('demand',${d.no });"/><label class="checklabel" for="switcha${vs2.index }">Toggle</label></td>
 									</c:when>
 									<c:when test="${d.status == 5}">
 										<td><a class="btn btn-primary btn-sm"
 											onclick="deleteCheck('Demand','${d.no}');"/>刪除</a></td>
-										<td><input type="checkbox" class="checkinput" id="switcha${vs2.index }" checked onchange="updateStatus('demand','${d.status }',${d.no });"/><label class="checklabel" for="switcha${vs2.index }">Toggle</label></td>
+										<td><input type="checkbox" class="checkinput" id="switcha${vs2.index }" checked onchange="updateStatus('demand',${d.no });"/><label class="checklabel" for="switcha${vs2.index }">Toggle</label></td>
 										
 									</c:when>
 								</c:choose>
@@ -487,10 +483,35 @@
 <%-- <%@ include file="../Foot.jsp"%> --%>
 </body>
  <script>
+
+ function getSupportGameQty(){
+	 console.log("click")
+	 	xhr1 = new XMLHttpRequest();
+	 	xhr1.open('get','<c:url value="/exchange/backstage/getSupportGameQtyAjax" />',true);
+	 	xhr1.send();
+	 	xhr1.onload = function(){
+	 		if(xhr1.readyState===4 && xhr1.status ===200){
+	 			let s = JSON.parse(xhr1.responseText)
+ 	 			Swal.fire(
+ 	 				      'OK',
+ 	 				      '更新成功',
+ 	 				      'success'
+ 	 				    )
+					$('#supportGameQty').text(s+"筆");
+	 			}else{
+	 	 			Swal.fire(
+				      '出現錯誤',
+				      'xhr1.readyState:'+xhr1.readyState+'<br>xhr1.status:'+xhr1.status,
+				      'warning'
+				    )
+	 			}
+			}
+ }
  
- function updateStatus(a,b,c){
+ 
+ function updateStatus(a,b){
 	 var xhr = new XMLHttpRequest();
-	 	xhr.open('PUT','<c:url value="/exchange/updateStatus" />'+'?type='+a+'&status='+b+'&no='+c,true);
+	 	xhr.open('PUT','<c:url value="/exchange/updateStatus" />'+'?type='+a+'&no='+b,true);
 	 	xhr.send();
 	 	xhr.onload = function(){
 	 		if(xhr.readyState===4 && xhr.status ===200){

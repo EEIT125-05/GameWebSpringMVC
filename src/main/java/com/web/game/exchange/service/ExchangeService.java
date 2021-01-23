@@ -112,6 +112,12 @@ public class ExchangeService {
 		return list;
 	}
 	
+	@Transactional
+	public List<SupportGameBean> getBackStageSupportQty(){
+		List<SupportGameBean> list = new ArrayList<>();
+		list = supportDAO.getBackStageSupportQty();
+		return list;
+	}
 	
 	
 	@Transactional
@@ -206,9 +212,13 @@ public class ExchangeService {
 				mygamesDAO.insertMyGame(partyAgamebean);
 				mygamesDAO.insertMyGame(partyBgamebean);
 				result = changeDAO.updateChangeHistory(CHB);
-				if(CHB.getMygamebean().getSupportgamebean()!=null) {
-					CHB.getMygamebean().getSupportgamebean().setStatus(3);//透過上交換過的狀態碼
-					supportDAO.updateSupportGame(CHB.getMygamebean().getSupportgamebean());
+//				if(CHB.getMygamebean().getSupportgamebean()!=null) {
+//					CHB.getMygamebean().getSupportgamebean().setStatus(3);//透過上交換過的狀態碼
+//					supportDAO.updateSupportGame(CHB.getMygamebean().getSupportgamebean());
+//				}
+				if(CHB.getSupportgamebean().getMygamebean()!=null) {
+					CHB.getSupportgamebean().getMygamebean().setStatus(3);//透過上交換過的狀態碼
+					mygamesDAO.updateGameToSupport(CHB.getSupportgamebean().getMygamebean());
 				}
 			}
 		}

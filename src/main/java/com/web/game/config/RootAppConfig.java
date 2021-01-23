@@ -54,7 +54,7 @@ public class RootAppConfig {
 		Properties p0 = new Properties();
 		p0.put("hibernate.dialect", org.hibernate.dialect.SQLServer2012Dialect.class);
 		p0.put("hibernate.hbm2ddl.auto","update" );
-		p0.put("hibernate.show_sql", Boolean.TRUE);
+		p0.put("hibernate.show_sql", Boolean.FALSE);//不要commit,測試
 		p0.put("hibernate.format_sql", Boolean.TRUE);
 		p0.put("hibernate.transaction.coordinator_class","jdbc" );
 		p0.put("hibernate.bytecode.use_reflection_optimizer", Boolean.FALSE);

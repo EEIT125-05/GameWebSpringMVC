@@ -126,7 +126,7 @@ div {
 	$("#gamer").attr("readonly", true);
 	
 	
-	$("#console1").on("blur", function() {
+	$("#console1").mouseout(function() {
 		flag1 = false
 		if ($("#console1 :selected").text() == "") {
 			$("#console1span").html("<span>必填</span>")
@@ -139,7 +139,7 @@ div {
 		checkall();
 	})
 
-	$("#gamename").on("blur", function() {
+	$("#gamename").mouseout(function() {
 		flag2 = false
 		if ($("#gamename :selected").text() == "") {
 			$("#gamenamespan").html("<span>必填</span>")
@@ -152,7 +152,7 @@ div {
 		checkall();
 	})
 	
-	$("#gamelocation").on("blur", function() {
+	$("#gamelocation").mouseout(function() {
 			flag3 = false
 			if ($("#gamelocation :selected").text() == "") {
 				$("#gamelocationspan").html("<span>必填</span>")

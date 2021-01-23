@@ -84,6 +84,15 @@ public class SupportDAO {
 				.getResultList();
 		return list;
 	}
+	@SuppressWarnings("unchecked")
+	public List<SupportGameBean> getBackStageSupportQty(){
+		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
+		Session session =factory.getCurrentSession();
+		String queryAll = "FROM SupportGameBean WHERE status =0";
+		list = (List<SupportGameBean>) session.createQuery(queryAll)
+				.getResultList();
+		return list;
+	}
 	
 	
 	// -------------------------------------------------
