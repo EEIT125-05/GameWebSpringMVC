@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -283,7 +285,7 @@ public class WithController {
 	public String PersonOrder(Model model) {
 		model.addAttribute("WithOrder",withOrderService.getWithOrderList(((MemberBean) model.getAttribute("user")).getiNo()));
 		model.addAttribute("WithOrder2",withOrderService.getWithOrderwithList(((MemberBean) model.getAttribute("user")).getiNo()));
-		return "withplay/withorderData";
+		return "withplay/WithData";
 		
 	}
 	
@@ -299,7 +301,18 @@ public class WithController {
 		return "redirect:/withplay/Withorderlist";
 		
 	}
-	
+	@PutMapping("/withplay/Withstatus")
+	public @ResponseBody boolean updateistatus(@RequestParam Integer iNO,Model model) {
+		model.addAttribute("WithOrder",withService.updateWithistatus(iNO));
+		return true;
+		
+	}
+	@PutMapping("/withplay/deleteReply")
+	public @ResponseBody boolean deleteReply(@RequestParam Integer iNO,Model model) {
+		model.addAttribute("WithOrder",ReplyService.delete(iNO));
+		return true;
+		
+	}
 	
 	
 	
