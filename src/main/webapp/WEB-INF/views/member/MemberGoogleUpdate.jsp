@@ -23,7 +23,7 @@ input {
 
 #DIV2 {
 	margin-left: 50;
-	padding-bottom: 50px;
+	padding-left: 50px;
 }
 
 #DIV3 {
@@ -93,7 +93,7 @@ table {
 }
 
 .detail {
-	width: 1000px;
+	width: 1050px;
 	height: 500px;
 	border: 5px solid gray;
 	background-color: #fff;
@@ -205,10 +205,10 @@ table {
 				</tr>
 			</table>
 		</div>
-		<div class="col-md-9">
+		<div id="DIV2" class="col-md-9">
 			<form action="<c:url value='/member/GoogleData'/>" method="post"
 				enctype="multipart/form-data">
-				<div class="detail">
+				<div class="detail" style='padding-left: 30px; margin-top: 30px;'>
 					<H1 align='center'>Google會員修改資料</H1>
 					<div id="DIV3">
 						<img style="width: 350; height: 300;"
@@ -376,7 +376,7 @@ table {
 						<H3 align='center' style='padding-top: 20;'>
 							<button id="submit" name="submit" type="submit" disabled
 								class="btn btn-primary" style="margin-top: 5;">
-								<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
+								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
 									fill="currentColor" class="bi bi-cloud-arrow-up-fill"
 									viewBox="0 0 16 16"> <path
 									d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z" />
@@ -385,7 +385,7 @@ table {
 							</button>
 							<a href="<c:url value='/member/Data'/>"><button type="button"
 									style="margin-top: 5;" class="btn btn-primary">
-									<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
+									<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
 										fill="currentColor" class="bi bi-backspace-fill"
 										viewBox="0 0 16 16"> <path
 										d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z" />
@@ -395,7 +395,7 @@ table {
 							<button id="submit" name="submit" type="button"
 								onclick="OneLogin();" class="btn btn-primary"
 								style="margin-top: 5;">
-								<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
+								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
 									fill="currentColor" class="bi bi-hand-index"
 									viewBox="0 0 16 16"> <path
 									d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 1 0 1 0V6.435a4.9 4.9 0 0 1 .106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 0 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.035a.5.5 0 0 1-.416-.223l-1.433-2.15a1.5 1.5 0 0 1-.243-.666l-.345-3.105a.5.5 0 0 1 .399-.546L5 8.11V9a.5.5 0 0 0 1 0V1.75A.75.75 0 0 1 6.75 1zM8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v5.34l-1.2.24a1.5 1.5 0 0 0-1.196 1.636l.345 3.106a2.5 2.5 0 0 0 .405 1.11l1.433 2.15A1.5 1.5 0 0 0 6.035 16h6.385a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5.114 5.114 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.632 2.632 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046l-.048.002zm2.094 2.025z" />

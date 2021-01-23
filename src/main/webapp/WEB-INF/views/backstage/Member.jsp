@@ -155,13 +155,13 @@ centering /* body { */
 								<div class="row">
 									<div class="col-5 col-md-4">
 										<div class="icon-big text-center icon-warning">
-											<i class="nc-icon nc-controller-modern text-danger"></i>
+											<i class="nc-icon nc-single-02 text-primary"></i>
 										</div>
 									</div>
 									<div class="col-7 col-md-8">
 										<div class="numbers">
 											<p class="card-category">本站停權人數</p>
-											<p class="card-title">4
+											<p class="card-title">4人
 											<p>
 										</div>
 									</div>
@@ -170,7 +170,7 @@ centering /* body { */
 							<div class="card-footer ">
 								<hr>
 								<div class="stats">
-									<i class="fa fa-clock-o"></i> In the last hour
+									<i class="fa fa-refresh"></i> Update now
 								</div>
 							</div>
 						</div>
@@ -187,7 +187,7 @@ centering /* body { */
 									<div class="col-7 col-md-8">
 										<div class="numbers">
 											<p class="card-category">上月增加會員人數</p>
-											<p class="card-title">43人
+											<p class="card-title">40人
 											<p>
 										</div>
 									</div>
@@ -213,7 +213,7 @@ centering /* body { */
 									<div class="col-7 col-md-8">
 										<div class="numbers">
 											<p class="card-category">本月增加會員人數</p>
-											<p class="card-title">56人
+											<p class="card-title">43人
 											<p>
 										</div>
 									</div>
@@ -413,7 +413,7 @@ centering /* body { */
 					pointRadius : 0,
 					pointHoverRadius : 0,
 					borderWidth : 3,
-					data : [ 4,15,27,43,56 ]
+					data : [ 4,29,29,40,43 ]
 				} ]
 			},
 			options : {
@@ -530,8 +530,8 @@ centering /* body { */
 					label : "Emails",
 					pointRadius : 0,
 					pointHoverRadius : 0,
-					backgroundColor : [ '#FF9797', '#FFC1E0', '#B7FF4A',
-							'#ACD6FF', '#FF9D6F' ],
+					backgroundColor : [ '#00FFFF', '#8600FF', '#28FF28',
+							'#FF8040', '#842B00' ],
 					borderWidth : 0,
 					data : [ 19,32,45,33,16 ]
 				} ]

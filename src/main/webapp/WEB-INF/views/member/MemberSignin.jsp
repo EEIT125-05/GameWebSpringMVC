@@ -316,7 +316,7 @@ input {
 <!-- 				<br> <span id="check"></span> -->
 <!-- 			</h4> -->
 
-			<button id="submitSignin" name="submit555" type="button" 
+			<button id="submitSignin" name="submit555" type="submit" 
 				class="button"
 				style='width: 350; height: 50; font-size: 30; margin-top: 15;'
 				onclick="checkSubmit();">

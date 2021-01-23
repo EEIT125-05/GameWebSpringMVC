@@ -53,7 +53,7 @@ table {
 }
 
 .b:hover {
-	color:white;
+	color: white;
 }
 
 .leftBar {
@@ -79,7 +79,7 @@ table {
 }
 
 .detail {
-	width: 1000px;
+	width: 1050px;
 	height: 500px;
 	border: 5px solid gray;
 	background-color: #fff;
@@ -260,7 +260,7 @@ table {
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
-
+	<hr>
 	<div class="row">
 		<div id="DIV1" class="col-md-2">
 			<H1>相關記錄</H1>
@@ -312,7 +312,7 @@ table {
 								<td>:<input id="Password" type="password" name="sPassword"
 									minlength="8" required maxlength="16" onblur="checkPassword();"
 									value="${user.sPassword}"><input id="btn" type="button"
-									class="material-icons btn btn-primary" style="font-size: 25px"
+									class="material-icons btn btn-primary" style="font-size: 20px"
 									value="visibility"></td>
 							<tr class="b">
 								<td>再次確認密碼</td>
@@ -398,8 +398,8 @@ table {
 						<H2 align='center'>
 							<button id="submit" name="submit" type="submit"
 								class="btn btn-primary"
-								style="margin-bottom:20px ; font-weight: 900; border-radius: 10px;">
-								<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
+								style="margin-bottom: 20px; font-weight: 900; border-radius: 10px;">
+								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
 									fill="currentColor" class="bi bi-cloud-arrow-up-fill"
 									viewBox="0 0 16 16"> <path
 									d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z" />
@@ -408,8 +408,8 @@ table {
 							</button>
 							<a href="<c:url value='/member/Data'/>"><button type="button"
 									class="btn btn-primary"
-									style="margin-bottom:20px ; font-weight: 900; border-radius: 10px;">
-									<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
+									style="margin-bottom: 20px; font-weight: 900; border-radius: 10px;">
+									<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
 										fill="currentColor" class="bi bi-backspace-fill"
 										viewBox="0 0 16 16"> <path
 										d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z" />
