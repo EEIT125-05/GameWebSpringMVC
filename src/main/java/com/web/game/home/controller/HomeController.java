@@ -116,7 +116,7 @@ public class HomeController {
 		MemberBean Signin = (MemberBean) model.getAttribute("user");
 		System.out.println("有無進來這裡");
 		sAccount = Signin.getsAccount();
-		sAccount.equals("game20200922");
+		sAccount.equals("admin");
 		model.addAttribute("users", mService.getAllMembers());
 		return "/backstage/Member";
 	}
