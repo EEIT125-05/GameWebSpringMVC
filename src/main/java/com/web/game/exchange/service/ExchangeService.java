@@ -112,6 +112,12 @@ public class ExchangeService {
 		return list;
 	}
 	
+	@Transactional
+	public List<SupportGameBean> getBackStageSupportQty(){
+		List<SupportGameBean> list = new ArrayList<>();
+		list = supportDAO.getBackStageSupportQty();
+		return list;
+	}
 	
 	
 	@Transactional

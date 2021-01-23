@@ -96,7 +96,7 @@ public class ChangeGameController {
 		
 		if(exchangeService.insertChangeHistory(CHB)) {
 			JavaMail mail = new JavaMail();
-			mail.SendChangeMail(mbPartyA.getsEmail(), mbPartyB.getsAccount(), partyB, mbPartyA.getsAccount());
+			mail.SendChangeMail(mbPartyA.getsEmail(), mgMyGame.getGamename(), mbPartyB.getsAccount(), sgSupportGame.getGamename());
 			return true;
 		}
 		return false;

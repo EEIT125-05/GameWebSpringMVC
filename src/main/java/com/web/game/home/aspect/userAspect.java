@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
@@ -48,4 +49,6 @@ public class userAspect {
 			throw new userException("使用者要登入-runtimeException");
 		}
 	}
+	
+
 }

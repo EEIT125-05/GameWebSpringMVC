@@ -115,11 +115,11 @@ public class JavaMail {
 	@SuppressWarnings("static-access")
 	public void SendChangeMail(String sEmail, String parryBgame,String partyB,String parryAgame) {
 		
-		
+		subject = "親愛的GameBar會員您好，這是封交換申請通知的信件";
 			txt="親愛的GameBar會員:<br>"+
 					"您有一筆新的交換申請<br>"+
-					"詳情如下:<br>會員:"+
-					partyB +"欲用"+parryBgame+"與您交換"+parryAgame+
+					"詳情如下:<br>會員: "+
+					partyB +" 欲用 <h1>"+parryBgame+"</h1>與您交換<h1>"+parryAgame+"</h1>"+
 					"<br>趕快至<a href='http://localhost:8080/GameWebSpringMVC/'>GameBar</a>確認吧";
 
 		
