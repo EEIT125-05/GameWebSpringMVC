@@ -37,7 +37,7 @@ input {
 #DIV4 {
 	background-color: skyblue;
 	width: 450px;
-	height: 400px;
+	height: 375px;
 	margin-top: 25px;
 	margin-right: 30px;
 	border: 3px solid gray;

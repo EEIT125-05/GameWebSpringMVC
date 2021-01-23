@@ -35,7 +35,7 @@ input {
 #DIV4 {
 	background-color: skyblue;
 	width: 450px;
-	height: 300px;
+	height: 375px;
 	margin-top: 25px;
 	margin-right: 30px;
 	border: 3px solid gray;
@@ -106,7 +106,8 @@ table {
 		let passwordConfirm = document.getElementById("passwordConfirm");
 		let c = document.getElementById("idpasswordConfirm");
 		if (passwordConfirm.value == "") {
-			c.innerHTML = ("<font color='red'>請輸入密碼</font>");
+			// 			c.innerHTML = ("<font color='red'>請輸入密碼</font>")
+			;
 		} else {
 			if (password.value == passwordConfirm.value) {
 				c.innerHTML = "<font color='green'>OK</font>";
@@ -317,9 +318,12 @@ table {
 							<tr class="b">
 								<td>再次確認密碼</td>
 								<td>:<input id="passwordConfirm" type="password"
-									name="password" minlength="8" maxlength="16"
-									onblur="checkPassword();"><span id="idpasswordConfirm"></span>
+									name="password" onblur="checkPassword();">
 								</td>
+							<tr class="b">
+								<td></td>
+								<td><span id="idpasswordConfirm"></span></td>
+							</tr>
 							<tr class="b">
 								<td></td>
 								<td style='color: red;'>${showError}</td>

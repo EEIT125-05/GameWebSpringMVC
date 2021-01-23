@@ -42,7 +42,7 @@ input {
 
 #DIV4 {
 	background-color: skyblue;
-	width: 450px;
+	width: 500px;
 	height: 450px;
 	margin: 15px;
 	border: 3px solid gray;
@@ -55,7 +55,7 @@ table {
 
 .b {
 	color: black;
-	font-size: 20;
+	font-size: 25;
 	font-weight: 900;
 }
 
@@ -86,7 +86,7 @@ table {
 }
 
 .detail {
-	width: 1000px;
+	width: 1050px;
 	height: 500px;
 	border: 5px solid gray;
 	background-color: #fff;
@@ -113,17 +113,17 @@ table {
 									value="${OneMember.iNo}" readonly></td>
 							</tr>
 							<tr>
-								<H3>${OneMember.sAccount}基本資料</H3>
+								<H4>${OneMember.sAccount}基本資料</H4>
 								<input type="hidden" name="sAccount"
 									value="${OneMember.sAccount}" readonly>
 							</tr>
-							<tr class="b">
-								<td>會員帳號</td>
-								<td>:${OneMember.sEmail}<input type="hidden" id="Email"
-									name="sEmail"
-									pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$"
-									onblur="checkEmail();" value="${OneMember.sEmail}"></td>
-							</tr>
+<!-- 							<tr class="b"> -->
+<!-- 								<td>會員帳號</td> -->
+<%-- 								<td>:${OneMember.sEmail}<input type="hidden" id="Email" --%>
+<!-- 									name="sEmail" -->
+<!-- 									pattern="^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+[.]){1,63}[a-z0-9]+$" -->
+<%-- 									onblur="checkEmail();" value="${OneMember.sEmail}"></td> --%>
+<!-- 							</tr> -->
 							<tr class="b">
 								<td><input type="hidden" name="sPassword"
 									value="${OneMember.sPassword}" readonly></td>

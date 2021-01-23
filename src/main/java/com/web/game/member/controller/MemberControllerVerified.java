@@ -181,7 +181,7 @@ public class MemberControllerVerified {
 		if (password.equals("")) {
 			System.out.println("要一樣的密碼是空的，什麼都不做進行下面動作");
 		} else if (!sPassword.equals(password)) {
-			System.out.println("有輸入密碼且密碼不一樣，什麼都不做回會員資料");
+			System.out.println("有輸入密碼且密碼不一樣，什麼都不做回修改資料");
 			model.addAttribute("showError", "密碼不一致更改失敗");
 			return "member/MemberUpdate";
 		} else {
