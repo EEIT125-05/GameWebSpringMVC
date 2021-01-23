@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.web.game.contest.service.ContestService;
 import com.web.game.contest.service.ParticipateService;
-import com.web.game.member.model.MemberBean;
 
 @Controller
 public class Backstage {

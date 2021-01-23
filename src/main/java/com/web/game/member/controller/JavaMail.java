@@ -172,10 +172,12 @@ public class JavaMail {
 	 public void SendContestMail(String sEmail, Integer iContestNo,String sCorP) {
 		 
 		 if(sCorP.equals("contest")) {
+			 this.subject = "親愛的GameBar會員您好，您已新增一場比賽";
 			 txt="親愛的GameBar會員:<br>"+
 					 "您的比賽已建立！<a href='http://localhost:8080/GameWebSpringMVC/contest/Information?contestNo="+ iContestNo + "'>點擊我進入比賽詳細資料</a><br>"+
 					 "*請留意報名時間、比賽時間、比賽地點,本網站不負比賽無法如期舉辦等官方責任與賠償";
 		 }else if(sCorP.equals("participate")) {
+			 this.subject = "親愛的GameBar會員您好，您已參加一場比賽";
 			 txt="親愛的GameBar會員:<br>"+
 					 "恭喜您報名成功！祝您武運昌隆！<a href='http://localhost:8080/GameWebSpringMVC/contest/Information?contestNo="+ iContestNo + "'>點擊我進入比賽詳細資料</a><br>"+
 					 "*請留意報名時間、比賽時間,於比賽往頁確認賽程與戰績";

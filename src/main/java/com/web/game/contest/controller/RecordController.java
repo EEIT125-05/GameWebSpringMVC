@@ -112,8 +112,10 @@ public class RecordController {
 			System.out.println("比對:　 " + s);
 		}
 		
+		
 		//建複賽進資料庫
 		if(cContestBean.getsRematchMode().equals("knockout")) {//淘汰賽
+			
 			
 			Integer a = iTotalUp;
 			Integer pow = Integer.toBinaryString(a).length();
@@ -165,7 +167,7 @@ public class RecordController {
 		}else if(cContestBean.getsRematchMode().equals("ground")) {//循環賽
 			for(int i=0; i<iTotalUp; i++) {
 				for(int j=i+1; j<iTotalUp; j++) {
-					if(!rService.insertRecord(new RecordBean(null, contestNo, "循環賽", 1, null, null, null))) {
+					if(!rService.insertRecord(new RecordBean(null, contestNo, "循環賽", null, null, lPromoteList.get(i), lPromoteList.get(j)))) {
 						
 					}
 				}
