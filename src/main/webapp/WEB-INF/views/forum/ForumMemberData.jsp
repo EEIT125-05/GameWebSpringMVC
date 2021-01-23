@@ -13,92 +13,78 @@
 <link rel='stylesheet'
 	href='https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css'>
 <style>
-#DIV1 {
-	width: 350px;
-	line-height: 50px;
-	padding: 10px;
-	border: 5px gray solid;
-	margin-left: 50;
-	float: left;
+ #DIV1 { 
+  	margin-left: 50;  
+ } 
+
+ #DIV2 { */
+ 	margin-left: 100; 
+ 	padding-left:65px;
+ } 
+
+#DIV2 td{
+	font-size:1.5em;
 }
 
-#DIV2 {
-	background-color: #272727;
-	/* 	color: white; */
-	/* 	width: 600px; */
-	/* 	line-height: 50px; */
-	margin-left: 100;
-	padding: 20px;
-	border: 5px gray solid;
-	float: left;
-}
-
-.a {
+.leftBar {
 	width: 450px;
 	height: 80px;
 	border: 2px solid black;
-	background-color: #272727;
+	background-color: #fff;
 	margin: auto;
 	margin-bottom: 100px;
-	font-size: 50;
-	font-weight: 900;
+	font-size: 1.5em;
+	font-weight: bold;
+	border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
 }
 
-.a:hover {
-	background-color: white;
-	color: black;
+.row {
+  flex-grow: 1; /*可佔滿垂直剩餘的空間*/
 }
-
-.b {
-	background-color: #272727;
-	/* 	color: white; */
-	font-size: 30;
-	font-weight: 900;
-}
-
-.b:hover {
-	color: #00FFFF;
-}
-
 </style>
 </head>
 <body>
-	<H1 align='center'>會員資料管理</H1>
-	<hr>
+<!-- 	<H1 align='center'>會員資料管理</H1> -->
+<!-- 	<hr> -->
 	<%@ include file="../Header.jsp"%>
-<!-- 	<div style="height:1018px"> -->
-	<div id="DIV1">
-		<H1>相關記錄</H1>
-		<table>
-			<tr>
-				<td class="a"><a href="####">商城記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a href="<c:url value="/forum/gotoMemberData"/>">討論區記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a href="####">陪玩記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a
-					href="<c:url value="/contest/gotoMemberData"/>">賽事記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a
-					href="<c:url value="/exchange/gotoMemberData"/>">交換記錄</a></td>
-			</tr>
-		</table>
-	</div>
-	<div class="container" id="DIV2" style='margin-bottom: 30;'>
-		<div id="accordion">
-			<h1 class="text-warning">${user.sAccount }的討論區記錄</h1>
-			<div class="card">
-				<div class="card-header" id="headingOne">
-					<h5 class="mb-0">
-						<button class="btn btn-link" data-toggle="collapse"
-							data-target="#collapseOne" aria-expanded="true"
-							aria-controls="collapseOne">我的貼文</button>
-					</h5>
+	
+	<div class="row">
+		<div id="DIV1" class="col-md-2">
+			<H1>相關記錄</H1>
+			<table>
+				<tr>
+					<td class="leftBar"><a href="<c:url value='/member/Data'/>">會員資料</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a href="####">商城記錄</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a href="<c:url value="/forum/gotoMemberData"/>">討論區記錄</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a href="####">陪玩記錄</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a
+						href="<c:url value="/contest/gotoMemberData"/>">賽事記錄</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a
+						href="<c:url value="/exchange/gotoMemberData"/>">交換記錄</a></td>
+				</tr>
+			</table>
+		</div>
+		<div id="DIV2" class="col-md-9">
+			<div id="accordion">
+				<h1 style="color:black">${user.sAccount }的討論區記錄</h1>
+				<div class="card">
+					<div class="card-header" id="headingOne">
+						<h5 class="mb-0">
+							<button class="btn btn-link" data-toggle="collapse"
+								data-target="#collapseOne" aria-expanded="true"
+								aria-controls="collapseOne">我的貼文</button>
+						</h5>
 				</div>
 
 				<div id="collapseOne" class="collapse show"
@@ -183,8 +169,11 @@
 					</div>
 				</div>
 			</div>
+			
+			</div>
 		</div>
 	</div>
+	
 
 
 <!-- 	</div> -->
