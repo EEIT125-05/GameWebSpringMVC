@@ -23,20 +23,20 @@ input {
 
 #DIV2 {
 	margin-left: 50;
-	padding-bottom: 50px;
+	padding-left: 50px;
 }
 
 #DIV3 {
-	padding-top: 15px;
-	padding-left: 30px;
+	padding-top: 25px;
+	padding-left: 25px;
 	float: left;
 }
 
 #DIV4 {
-	background-color: gray;
+	background-color: skyblue;
 	width: 450px;
 	height: 300px;
-	margin-top: 15px;
+	margin-top: 25px;
 	margin-right: 30px;
 	border: 3px solid gray;
 	float: right;
@@ -47,13 +47,13 @@ table {
 }
 
 .b {
-	color: white;
+	color: black;
 	font-size: 20;
 	font-weight: 900;
 }
 
 .b:hover {
-	color: #00FFFF;
+	color:white;
 }
 
 .leftBar {
@@ -289,7 +289,7 @@ table {
 			</table>
 		</div>
 		<div id="DIV2" class="col-md-9">
-			<div class="detail" style="margin-top: 25">
+			<div class="detail" style='padding-left: 30px; margin-top: 30px;'>
 				<h1 align='center'>修改${user.sAccount }的會員資料</h1>
 				<form action="<c:url value='/member/MemberData'/>" method="post"
 					enctype="multipart/form-data">

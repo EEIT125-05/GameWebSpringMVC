@@ -25,8 +25,8 @@ input {
 }
 
 #DIV2 {
-	margin-left: 100;
-	padding-left: 65px;
+	margin-left: 50;
+	padding-left: 50px;
 }
 
 #DIV3 {
@@ -35,24 +35,29 @@ input {
 }
 
 #DIV4 {
-	background-color:gray;
+	background-color: skyblue;
 	width: 450px;
-	height: 300px; 
-	margin: 25px;
+	height: 300px;
+	margin-top: 25px;
+	margin-right: 30px;
 	border: 3px solid gray;
 	float: right;
 }
-table{
-		margin:15px;
+
+table {
+	margin: 15px;
 }
+
 .b {
-	color:	white;
+	color: black;
 	font-size: 21;
 	font-weight: 900;
 }
+
 .b:hover {
-	color: #00FFFF;
+	color:white;
 }
+
 .leftBar {
 	width: 450px;
 	height: 80px;
@@ -77,7 +82,7 @@ table{
 
 .detail {
 	width: 1000px;
-	height: 500px; 
+	height: 500px;
 	border: 5px solid gray;
 	background-color: #fff;
 }
@@ -113,10 +118,10 @@ table{
 				</tr>
 			</table>
 		</div>
-		<div class="col-md-9">
-			<form action="<c:url value='/member/Update'/>" method="post">
-				<div class="detail" style='padding-left: 30px;margin-top:30px;'>
-					<h1 align='center' style="color: black">${user.sAccount }的基本資料</h1>
+		<div id="DIV2" class="col-md-9">
+			<div class="detail" style='padding-left: 30px; margin-top: 30px;'>
+				<h1 align='center' style="color: black">${user.sAccount }的基本資料</h1>
+				<form action="<c:url value='/member/Update'/>" method="post">
 					<div id="DIV3">
 						<img style="width: 400; height: 300;"
 							src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>">
@@ -147,7 +152,7 @@ table{
 									value="${user.sNickname}" readonly></td>
 							</tr>
 							<tr class="b">
-								<td>我的手機號碼</td>
+								<td>手機號碼</td>
 								<td>:${user.sPhone}<input type="hidden" name="sPhone"
 									value="${user.sPhone}" readonly></td>
 							</tr>
@@ -167,7 +172,7 @@ table{
 									value="${user.sBirthday}" readonly></td>
 							</tr>
 							<tr class="b">
-								<td>帳號建立日期</td>
+								<td>建立日期</td>
 								<td>:${user.registerDate}<input type="hidden"
 									name="registerDate" value="${user.registerDate}" readonly></td>
 							</tr>
@@ -176,7 +181,7 @@ table{
 
 					<H2 align='center'>
 						<button type="submit" name="button" class="btn btn-primary"
-							style="font-weight: 900;">
+							style="font-weight: 900;margin-top:25px ;">
 							<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
 								fill="currentColor" class="bi bi-pencil-square"
 								viewBox="0 0 16 16"> <path
@@ -187,8 +192,8 @@ table{
 							修改會員資料
 						</button>
 					</H2>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
 

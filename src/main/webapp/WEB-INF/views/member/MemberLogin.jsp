@@ -269,7 +269,7 @@ table{
 				&& emailflag && phoneflag) {
 			document.getElementById("submitDisable").disabled = false;
 		} else {
-			document.getElementById("submitDisable").disabled = true;
+// 			document.getElementById("submitDisable").disabled = true;
 		}
 	}
 
@@ -293,7 +293,7 @@ table{
 		var sBirthday = document.getElementById("sBirthday");
 
 		sAccount.value = "year780818";
-		sEmail.value = "year780818@gmail.com";
+		sEmail.value = "gamebar20210128@gmail.com";
 		sPhone.value = "0956175060";
 		sPassword.value = "year780818";
 		sEname.value = "顏廷亙";
@@ -301,7 +301,7 @@ table{
 		sAddress;
 		sGender;
 		sBirthday.value = "1989-08-18";
-		document.getElementById("submitDisable").disabled = false;
+// 		document.getElementById("submitDisable").disabled = false;
 	}
 </script>
 </head>

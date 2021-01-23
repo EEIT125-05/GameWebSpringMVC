@@ -32,8 +32,8 @@ input {
 }
 
 #DIV4 {
-	background-color: gray;
-	width: 450px;
+	background-color: skyblue;
+	width: 500px;
 	height: 350px;
 	margin: 25px;
 	border: 3px solid gray;
@@ -45,7 +45,7 @@ table {
 }
 
 .b {
-	color: white;
+	color: black;
 	font-size: 20;
 	font-weight: 900;
 }
@@ -67,7 +67,7 @@ table {
 }
 
 .b:hover {
-	color: #00FFFF;
+	color:white;
 }
 
 .leftBar {
@@ -116,43 +116,8 @@ table {
 
 	window.onload = function() {
 		document.getElementById("submit").disabled = false;
+		var sGender = document.getElementById('sGender').checked = false;
 	}
-	// 		var btn = document.getElementById("btn");
-	// 		var psw = document.getElementById("Password");
-	// 		var pswC = document.getElementById("passwordConfirm");
-
-	// 		btn.onclick = function() {
-	// 			if (psw.getAttribute('type') == 'password') {
-	// 				psw.setAttribute('type', 'text');
-	// 				btn.value = "visibility_off";
-	// 			} else if (psw.getAttribute('type') == 'text') {
-	// 				psw.setAttribute('type', 'password');
-	// 				btn.value = "visibility";
-	// 			}
-	// 			if (pswC.getAttribute('type') == 'password') {
-	// 				pswC.setAttribute('type', 'text');
-	// 				btn.value = "visibility_off";
-	// 			} else if (pswC.getAttribute('type') == 'text') {
-	// 				pswC.setAttribute('type', 'password');
-	// 				btn.value = "visibility";
-	// 			}
-
-	// 		}
-
-	// 	}
-
-	// 	function checkNickname() {
-	// 		let nickname = document.getElementById("Nickname").value;
-	// 		let idnickname = document.getElementById("idnickname");
-	// 		if (nickname == "") {
-	// 			idnickname.innerHTML = "<font color='red'>請輸入暱稱</font>";
-	// 			nicknameflag = false;
-	// 		} else {
-	// 			idnickname.innerHTML = "<font color='green'>OK</font>";
-	// 			nicknameflag = true;
-	// 		}
-	// 		// 		check();
-	// 	}
 
 	function checkPhone() {
 		var sPhone = document.getElementById("sPhone").value.trim();
@@ -194,27 +159,19 @@ table {
 
 	}
 
-	// 	function checkAddress() {
-	// 		let address = document.getElementById("Address").value;
-	// 		let idaddress = document.getElementById("idaddress");
-	// 		if (address == "") {
-	// 			idaddress.innerHTML = "<font color='red'>請輸入地址</font>";
-	// 			addressflag = false;
-	// 		} else {
-	// 			idaddress.innerHTML = "<font color='green'>OK</font>";
-	// 			addressflag = true;
-	// 		}
-	// 		// 		check();
-	// 	}
+	function OneLogin() {
+		var sPhone = document.getElementById("sPhone");
+		var sNickname = document.getElementById("sNickname");
+		var sAddress = document.getElementById("sAddress").options[5].selected = true;
+// 		var sGender = document.getElementById('sGender').checked = true;
+		var sBirthday = document.getElementById("sBirthday");
 
-	// 	function check() {
-	// 		if ( nicknameflag && nameflag && addressflag
-	// 				&& emailflag && phoneflag) {
-	// 			document.getElementById("submit").disabled = false;
-	// 		} else {
-	// 			document.getElementById("submit").disabled = true;
-	// 		}
-	// 	}
+		sPhone.value = "0981562590";
+		sNickname.value = "奶茶糾齁拎";
+		sAddress;
+// 		sGender;
+		sBirthday.value = "2021-01-28";
+	}
 </script>
 </head>
 <body>
@@ -253,20 +210,18 @@ table {
 				enctype="multipart/form-data">
 				<div class="detail">
 					<H1 align='center'>Google會員修改資料</H1>
-					<div align='center' style="padding-top: 15">
-						<div id="DIV3">
-							<img style="width: 400; height: 350;"
-								src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>"><br>
-							<h6>
-								點選換照片<input type="file" name="productImage" />
-							</h6>
-						</div>
+					<div id="DIV3">
+						<img style="width: 350; height: 300;"
+							src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>"><br>
+						<h6>
+							點選換照片<input type="file" name="productImage" />
+						</h6>
 					</div>
 					<div id="DIV4">
 						<input name="iNo" type="hidden" value="${user.iNo}" readonly>
 						<table>
 							<tr class="b">
-								<td>Google會員帳號</td>
+								<td>會員帳號</td>
 								<td>:${user.sAccount}<input type="hidden" name="sAccount"
 									value="${user.sAccount}" readonly></td>
 							</tr>
@@ -287,7 +242,7 @@ table {
 							<tr class="b">
 								<c:choose>
 									<c:when test="${empty user.sPhone}">
-										<td>新增手機號碼</td>
+										<td>新增手機</td>
 										<td>:<input type="text" id="sPhone" name="sPhone"
 											maxlength="10" pattern="[0]{1}[9]{1}\d{8}"
 											onblur="checkPhone();" value="${user.sPhone}"></td>
@@ -307,7 +262,7 @@ table {
 								<c:choose>
 									<c:when test="${empty user.sNickname}">
 										<td>新增暱稱</td>
-										<td>:<input type="text" id="Nickname" name="sNickname"
+										<td>:<input type="text" id="sNickname" name="sNickname"
 											maxlength="10" value="${user.sNickname}"></td>
 										<span id="idnickname"></span>
 									</c:when>
@@ -321,8 +276,8 @@ table {
 							<tr class="b">
 								<c:choose>
 									<c:when test="${empty user.sAddress}">
-										<td>新增居住城市</td>
-										<td>:<select id="Address" name="sAddress">
+										<td>新增城市</td>
+										<td>:<select id="sAddress" name="sAddress">
 												<option>${user.sAddress}</option>
 												<option>臺北市</option>
 												<option>新北市</option>
@@ -349,8 +304,8 @@ table {
 										</select></td>
 									</c:when>
 									<c:otherwise>
-										<td>更改居住城市</td>
-										<td>:<select id="Address" name="sAddress">
+										<td>更改城市</td>
+										<td>:<select id="sAddress" name="sAddress">
 												<option>${user.sAddress}</option>
 												<option>臺北市</option>
 												<option>新北市</option>
@@ -384,10 +339,10 @@ table {
 								<c:choose>
 									<c:when test="${empty user.sGender}">
 										<td>新增性別</td>
-										<td>:<label><input type="radio" name="sGender"
-												value="男" value="${user.sGender}" required>男</label> <label><input
-												type="radio" name="sGender" value="女"
-												value="${user.sGender}" required>女</label></td>
+										<td>:<label><input type="radio" id="sGender"
+												name="sGender" checked="checked" value="男" required>男</label>
+											<label><input type="radio" name="sGender" value="女"
+												id="sGender" required>女</label></td>
 									</c:when>
 									<c:otherwise>
 										<td></td>
@@ -401,7 +356,7 @@ table {
 								<c:choose>
 									<c:when test="${empty user.sBirthday}">
 										<td>新增生日</td>
-										<td>:<input type="date" name="sBirthday"
+										<td>:<input type="date" id="sBirthday" name="sBirthday"
 											value="${user.sBirthday}"></td>
 									</c:when>
 									<c:otherwise>
@@ -437,6 +392,16 @@ table {
 									</svg>
 									回上一頁
 								</button></a>
+							<button id="submit" name="submit" type="button"
+								onclick="OneLogin();" class="btn btn-primary"
+								style="margin-top: 5;">
+								<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
+									fill="currentColor" class="bi bi-hand-index"
+									viewBox="0 0 16 16"> <path
+									d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 1 0 1 0V6.435a4.9 4.9 0 0 1 .106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 0 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.035a.5.5 0 0 1-.416-.223l-1.433-2.15a1.5 1.5 0 0 1-.243-.666l-.345-3.105a.5.5 0 0 1 .399-.546L5 8.11V9a.5.5 0 0 0 1 0V1.75A.75.75 0 0 1 6.75 1zM8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v5.34l-1.2.24a1.5 1.5 0 0 0-1.196 1.636l.345 3.106a2.5 2.5 0 0 0 .405 1.11l1.433 2.15A1.5 1.5 0 0 0 6.035 16h6.385a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5.114 5.114 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.632 2.632 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046l-.048.002zm2.094 2.025z" />
+								</svg>
+								一鍵輸入
+							</button>
 						</H3>
 					</div>
 				</div>

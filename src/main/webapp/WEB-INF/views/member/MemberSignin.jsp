@@ -307,16 +307,16 @@ input {
                </c:if>
 					value="true">自動登入</label><a href="<c:url value='/member/Forget'/>">忘記密碼</a><br>
 			</h4>
-			<h4 style='padding-top: 10px;'>
-				驗證碼:<input type="text" id="input1" style="width: 150px" /><input
-					type="button" id="checkCode" class="code"
-					style="width: 90px; margin: 0px 10px;" onClick="createCode()" />
-										<input
-										id="Button1" onClick="validate();" type="button" value="按這裡驗證" />
-				<br> <span id="check"></span>
-			</h4>
+<!-- 			<h4 style='padding-top: 10px;'> -->
+<!-- 				驗證碼:<input type="text" id="input1" style="width: 150px" /><input -->
+<!-- 					type="button" id="checkCode" class="code" -->
+<!-- 					style="width: 90px; margin: 0px 10px;" onClick="createCode()" /> -->
+<!-- 										<input -->
+<!-- 										id="Button1" onClick="validate();" type="button" value="按這裡驗證" /> -->
+<!-- 				<br> <span id="check"></span> -->
+<!-- 			</h4> -->
 
-			<button id="submitSignin" name="submit555" type="button" disabled
+			<button id="submitSignin" name="submit555" type="button" 
 				class="button"
 				style='width: 350; height: 50; font-size: 30; margin-top: 15;'
 				onclick="checkSubmit();">

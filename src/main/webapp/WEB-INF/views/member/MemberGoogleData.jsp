@@ -35,8 +35,8 @@ input {
 }
 
 #DIV4 {
-	background-color: gray;
-	width: 450px;
+	background-color: skyblue;
+	width: 500px;
 	height: 300px;
 	margin: 25px;
 	border: 3px solid gray;
@@ -48,7 +48,7 @@ table {
 }
 
 .b {
-	color: white;
+	color: black;
 	font-size: 22;
 	font-weight: 900;
 }
@@ -70,7 +70,7 @@ table {
 }
 
 .b:hover {
-	color: #00FFFF;
+	color:white;
 }
 
 .leftBar {
@@ -136,10 +136,10 @@ table {
 		</div>
 		<div class="col-md-9">
 			<form action="<c:url value='/member/GoogleUpdate'/>" method="post">
-				<div class="detail" style='padding-left: 30px;'>
+				<div class="detail">
 					<H1 align='center'>Google會員資料</H1>
 					<div id="DIV3">
-						<img style="width: 400; height: 300;"
+						<img style="width: 350; height: 300;"
 							src="<c:url value='/member/picture?sAccount=${user.sAccount}'/>">
 					</div>
 
@@ -147,7 +147,7 @@ table {
 						<input type="hidden" name="iNo" ${user.iNo} readonly>
 						<table>
 							<tr class="b">
-								<td>Google帳號</td>
+								<td>會員帳號</td>
 								<td>:${user.sAccount}<input type="hidden" name="sAccount"
 									value="${user.sAccount}" readonly> <input type="hidden"
 									name="sPassword" value="${user.sPassword}" readonly> <input
