@@ -235,7 +235,7 @@ response.setContentType("text/html;charset=UTF-8");
 	         <div class="col-md-6">
 	           <div class="card ">
 	             <div class="card-header ">
-	               <h5 class="card-title">地區</h5>
+	               <h5 class="card-title">男女陪玩師</h5>
 <!-- 	               <p class="card-category"></p> -->
 	             </div>
 	             <div class="card-body ">
@@ -311,7 +311,7 @@ response.setContentType("text/html;charset=UTF-8");
       <table border="1" id="table3" class="display" style="text-align:center;">
 				<thead>
 				<tr>
-					<th>編號</th>
+<!-- 					<th>編號</th> -->
 					<th>留言者</th>
 					<th>陪玩師</th>
 					<th>時間</th>
@@ -319,10 +319,10 @@ response.setContentType("text/html;charset=UTF-8");
 					<th>功能</th>
 				</tr>
 				</thead>
-				<c:forEach items="${Withlist}" var="With" >
-				<c:forEach var='Reply' varStatus='vs' items="${With.sReplyBeans}">
+				<c:forEach items="${Withlist}" var="With"  > 
+				<c:forEach var='Reply' varStatus='Status' items="${With.sReplyBeans}">
 				<tr>
-				<td>${vs.count }</td>
+<%-- 				<td>${Status.count}</td> --%>
 				<td>${Reply.sAuthor }</td>
 				<td>${With.sNickname}</td>
 				<td>${Reply.dDate}<br>${Reply.tTime}</td>

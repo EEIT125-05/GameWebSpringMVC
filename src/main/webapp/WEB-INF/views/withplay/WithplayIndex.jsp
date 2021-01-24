@@ -16,9 +16,26 @@ response.setContentType("text/html;charset=UTF-8");
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>WithIndex</title>
+<style>
+.categoryChoose{
+	background-color:#FCFCFC;
+}
+</style>
 <link rel="stylesheet" href="../css/WithGame.css">
-
-
+<style>
+.replyUpdate,.replyDelete{
+		border:none;
+		background-color:transparent;
+		color:#007bff;
+	}
+	.replyUpdate:focus,.replyDelete:focus{
+		outline:none;
+	}
+	.replyUpdate:focus,.replyDelete:hover{
+		color: #0056b3;
+		text-decoration: underline;
+	}
+</style>
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
@@ -56,6 +73,7 @@ response.setContentType("text/html;charset=UTF-8");
 		
 <div style="margin:10px">
 <label style="font-weight: 900;">熱門遊戲</label>
+	    <button class="btn btn-outline-dark fast game category categoryChoose" value="">全部</button>
 	    <button class="btn btn-outline-dark fast game" value="英雄聯盟">英雄聯盟</button>
 	    <button class="btn btn-outline-dark fast game" value="魔物獵人">魔物獵人</button>
 	    <button class="btn btn-outline-dark fast game" value="鬥陣特攻">鬥陣特攻</button>
@@ -147,14 +165,18 @@ response.setContentType("text/html;charset=UTF-8");
 																	
 															</c:otherwise>
 														</c:choose>
-														<c:choose>
-														<c:when test="${not empty user}">
-														<label style="word-break: break-all;width:466px">${reply.sAuthor}: ${reply.sText}<span style="float:right;">${timeString}</span></label>														
-														</c:when>
-														<c:otherwise>
-														<label style="word-break: break-all;width:466px">${reply.sAuthor}: ${reply.sText}<span style="float:right;">${timeString}</span></label>												
-														</c:otherwise>
-														</c:choose>
+														<label style="word-break: break-all;width:466px">
+														<div><b>${reply.sAuthor} : </b>
+														<c:if test="${reply.sAuthor == user.sNickname}">
+															<input type="hidden" id="oldText${reply.iNo}" value="${reply.sText}">
+															<button class="replyUpdate" value="${reply.iNo}" style="font-size:14px">修改</button>
+															<button class="replyDelete" value="${reply.iNo}"style="font-size:14px">刪除</button>
+														</c:if>
+														<span style="float:right;">${timeString}</span>														
+														</div>
+														<div id="newText${reply.iNo}">${reply.sText}</div> 
+														</label>														
+														
 														<br>
 													</c:forEach>
 												</div>
@@ -256,7 +278,6 @@ response.setContentType("text/html;charset=UTF-8");
 													}
 												
 													$("#point").append(
-// 																					"<div class='row' id='point'>"
 																							 "<div class='col col-12 col-sm-6 col-md-6 col-lg-3'>"
 																							+ "<div data-toggle='modal' data-target='#exampleModal" + value.iId + "'>"
 																							+ "<div class='div1'>"
@@ -344,13 +365,13 @@ response.setContentType("text/html;charset=UTF-8");
 																							+ "</div>"
 																							+ "</div>"
 																							+ "</div>" )
-// 																							+ "</div>" )
 													let author ="";
 													let text = "";
 													let date = "";
 													let time = "";
 													let id = value.iId			
 													let d = new Date();
+													let Nickname=user.sNickname
 													$.each(value.sReplyBeans,function(key,value) {
 														author = value.sAuthor;
 														text = value.sText;
@@ -361,10 +382,11 @@ response.setContentType("text/html;charset=UTF-8");
 															date = "昨日";
 														}
 														time = value.tTime;
-														if(${not empty user}){
-														$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
-														}else{
-														$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
+														if(author=='${user.sNickname}'){
+														
+														$("#reply"+id).append("<label style='word-break: break-all;width:466px'><div><b>"+author+":</b><input type='hidden' id='oldText"+id+"'value="+Text+"><button class='replyUpdate' value='"+id+"' style='font-size:14px'>修改</button><button class='replyDelete' value='"+id+"' style='font-size:14px'>刪除</button><span style='float:right;'>"+date+""+time+"</span></div><div id='newText"+id+"'>"+text+"</div></label>");
+														}else{															
+														$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>");
 														}
 													
 													});				
@@ -522,12 +544,9 @@ response.setContentType("text/html;charset=UTF-8");
 									}else if(d.getTime() - Date.parse(date) > 86400000 && d.getTime() - Date.parse(date) <= 86400000*2){
 										date = "昨日";
 									}
-									time = value.tTime;
-									if(${not empty user}){
-												$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
-												}else{
-												$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
-												}
+									time = value.tTime;								
+									$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
+											
 								});				
 							});
 						};
@@ -551,7 +570,109 @@ response.setContentType("text/html;charset=UTF-8");
 			alert("您的瀏覽器不支援Ajax");
 		}
 	});
+			
+	$(".replyUpdate").on("click",function(){
+		let text = $("#oldText"+$(this).val()).val();
+		$("#newText"+$(this).val()).html("<input type=\"text\" value=\"" + text + "\"> <button class=\"btn btn-primary submitNewReply\">送出");
+	});
+	
+	$(document).on("click", ".submitNewReply", function(){
+		$.ajax({
+			type: "post",
+			url: "<c:url value='/withplay/updateReply'/>",
+			dataType: "json",
+			data: {
+					"replyNo": $(this).parent().prev().find(".replyUpdate").val(),
+					"newText": $(this).prev().val()
+			},
+			success: function(result){
+				if(result.status == "success"){
+					Swal.fire({
+							      title:"更改成功!",
+								  icon:"success",
+								  hideClass: {
+								    popup: 'animate__animated animate__fadeOutUp'
+								  }
+							  }).then(function(){
+								  window.setTimeout(function(){location.reload();},500);
+							})
+				}else if(result.status == "sqlError"){
+					Swal.fire(
+							  '資料庫發生錯誤!',
+							  '請聯繫管理員',
+							  'error'
+							)
+				}
+			},
+			error: function(err){
+				Swal.fire(
+						  '網頁發生錯誤!',
+						  '請聯繫管理員',
+						  'error'
+						)
+			}
+			
+		});		
+	});
+	
+	$(".replyDelete").on("click", function(){
+		Swal.fire({
+			showClass: {
+			    popup: 'animate__animated animate__fadeInDown'
+			  },
+			  title: '確定刪除此則留言?',
+			  text: "刪除之後將不能復原",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#d33',
+			  cancelButtonColor: '#3085d6',
+			  confirmButtonText: '刪除',
+		      cancelButtonText: '取消',
+				hideClass: {
+				    popup: 'animate__animated animate__fadeOutUp'
+				  }
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  $.ajax({
+						type: "delete",
+						url: "<c:url value='/withplay/Replydelete/" + $(this).val() + "'/>",
+						dataType: "json",
+						data: {
+//								"forumNo": $("#replySubmit").val(), //借來用
+//								"replyNo": $(this).val()
+						},
+						success: function(result){
+							if(result.status == "success"){
+								Swal.fire({
+										      title:"刪除成功!",
+											  icon:"success",
+											  hideClass: {
+											    popup: 'animate__animated animate__fadeOutUp'
+											  }
+										  }).then(function(){
+											  window.setTimeout(function(){location.reload();},500);
+										})
+							}else if(result.status == "sqlError"){
+								Swal.fire(
+										  '資料庫發生錯誤!',
+										  '請聯繫管理員',
+										  'error'
+										)
+							}
+						},
+						error: function(err){
+							Swal.fire(
+									  '網頁發生錯誤!',
+									  '請聯繫管理員',
+									  'error'
+									)
+						}
 						
+					});		
+			  }
+			});
+		
+	});
 						
 	</script>
 </body>
