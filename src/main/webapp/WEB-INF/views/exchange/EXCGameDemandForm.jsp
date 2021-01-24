@@ -90,7 +90,7 @@ div {
 			</div>
 			<div>
 				<label for="remark">備註 </label>
-				<form:input class="fixedlen" type="text" path="remark" />
+				<form:input class="fixedlen" type="text" path="remark" id="remark"/>
 			</div>
 			<div style="margin-top: 20px;">
 				<button type="button"   id="submitButton" onclick="checkSubmit();" class="button" disabled>送出</button>
@@ -107,6 +107,7 @@ div {
 		$("#console1").val("Switch")
 		$("#gamename").val("馬力歐賽車")
 		$("#gamelocation").val("台中市")
+		$("#remark").val("下班後可面交")
 		$("#submitButton").attr("disabled",false)
 	}
 	

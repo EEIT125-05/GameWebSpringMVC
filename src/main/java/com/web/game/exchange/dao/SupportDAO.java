@@ -94,6 +94,18 @@ public class SupportDAO {
 		return list;
 	}
 	
+	public Boolean changeSupportStatusByMember(Integer status,String sAccount) {
+		Session session = factory.getCurrentSession();
+		String changeStatus = "update SupportGameBean s set s.status=:status where s.gamer=:gamer";
+		Integer times = session.createQuery(changeStatus).setParameter("status", status).setParameter("gamer", sAccount).
+		executeUpdate();
+		System.out.println("更新次數support"+times);
+		if(times > 0) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	// -------------------------------------------------
 

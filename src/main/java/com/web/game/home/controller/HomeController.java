@@ -155,6 +155,8 @@ public class HomeController {
 		map.put("support",exchangeService.getAllSupportList());
 		map.put("demand",exchangeService.getAllDemandList());
 		model.addAttribute("AllListMap",map);
+		model.addAttribute("demandGameQty",exchangeService.getBackStageDemandQty().size());
+		model.addAttribute("supportGameQty",exchangeService.getBackStageSupportQty().size());
 		return "backstage/Exchange";
 	}
 	

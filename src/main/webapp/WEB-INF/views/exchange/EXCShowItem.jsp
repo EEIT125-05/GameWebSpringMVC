@@ -10,6 +10,12 @@
 <head>
 <meta charset="UTF-8">
 <title>管理頁面</title>
+<style>
+.spanStyle{
+	color:green;
+	font-size:18px
+}
+</style>
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
@@ -18,7 +24,6 @@
 
 	<h1>管理 / ${user.sAccount } 你好</h1>
 
- 
 
 <!--  class="text-danger" -->
 <p>
@@ -26,7 +31,7 @@
     我要換/共${fn:length(MemberSupport)}筆
   </a>
   <c:if test="${not empty MemberPending}">
-  	<span id="warningSpanSupport" style="color:red;">您有${fn:length(MemberPending)}筆交換待確認！</span>
+  	<span id="warningSpanSupport"  style="color:red;font-size: 20px;font-weight:bold;">您有${fn:length(MemberPending)}筆交換待確認！</span>
   </c:if>
   
 </p>
@@ -41,7 +46,7 @@
 		</c:when>
 		<c:when test="${not empty MemberSupport }">
 
-			<table border="1" class="table table-hover" style="font-size: 12px; border:3px;font-weight:bold;">
+			<table border="1" class="table table-hover" style="font-size: 14px; border:3px;font-weight:bold;">
 				<tr>
 					<th>編號</th>
 					<th>遊戲名稱</th>
@@ -71,13 +76,13 @@
 						<c:choose>
 							<c:when test="${s.status == 0}">
 								<td><a class="btn btn-primary btn-sm"
-								 onclick="deleteCheck('Support','${s.no}');">刪除</a></td>
+								 onclick="deleteCheck('Support','${s.no}');"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
 								<td><a class="btn btn-primary btn-sm"
-									href="<c:url value="/exchange/update?updateindex=${vs.index}"/>">修改</a></td>
+									href="<c:url value="/exchange/update?updateindex=${vs.index}"/>"><i class="fa fa-pencil-square-o" aria-hidden="true"></a></td>
 							</c:when>
 							<c:when test="${s.status == 1 || s.status ==2 ||s.status ==3 || s.status ==4 || s.status ==5}">
-								<td><a class="btn btn-primary disabled btn-sm">刪除</a></td>
-								<td><a class="btn btn-primary disabled btn-sm">修改</a></td>
+								<td><a class="btn btn-primary disabled btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+								<td><a class="btn btn-primary disabled btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></a></td>
 							</c:when>
 						</c:choose>
 
@@ -86,21 +91,21 @@
     							未換出
     							</c:when>
 								<c:when test="${s.status == 1}">
-    							已換出，與 ${s.changehistorybean.partyB.sAccount } 交換
+    							已換出，與  <span class="spanStyle text-primary">${s.changehistorybean.partyB.sAccount }</span> 交換
     							</c:when>
 								<c:when test="${s.status == 2}">
 								<a class="btn btn-primary btn-sm" style="background-color: green;" href='<c:url value="showApplyFor?no=${s.changehistorybean.no }"/>' >待審核</a>
 
-    							(來自${s.changehistorybean.partyB.sAccount }的交換請求)
+    							(來自 <span class="spanStyle">${s.changehistorybean.partyB.sAccount }</span>的交換請求)
     							</c:when>
     							<c:when test="${s.status == 3}">
-    							已換出，與 ${s.mygamebean.changehistorybean.partyA.sAccount } 交換
+    							已換出，與  <span class="spanStyle text-success">${s.mygamebean.changehistorybean.partyA.sAccount }</span> 交換
     							</c:when>
     							<c:when test="${s.status == 4}">
-    							已向 ${s.mygamebean.changehistorybean.partyA.sAccount } 提出交換申請
+    							已向 <span class="spanStyle"> ${s.mygamebean.changehistorybean.partyA.sAccount }</span> 提出交換申請
     							</c:when>
     							<c:when test="${s.status == 5}">
-    							<span class="text-danger">已被管理員暫時下架</span>
+    							<span class="spanStyle text-primary">已被管理員暫時下架</span>
     							</c:when>
 							</c:choose></td>
 					</tr>
@@ -122,7 +127,7 @@
     	我要徵 /共${fn:length(MemberDemand)}筆
   </a>
   <c:if test="${not empty MemberDemandPending}">
-  	<span id="warningSpanDemand" style="color:red;">您有${fn:length(MemberDemandPending)}筆交換待確認！</span>
+  	<span id="warningSpanDemand" style="color:red;font-size: 20px;font-weight:bold;">您有${fn:length(MemberDemandPending)}筆交換待確認！</span>
   </c:if>
 </p>
 <div class="collapse" id="collapseExample1">
@@ -134,7 +139,7 @@
 				</c:when>
 				<c:when test="${not empty MemberDemand }">
 
-					<table border="1" class="table table-hover" style="font-size: 12px; border:3px">
+					<table border="1" class="table table-hover" style="font-size: 14px; border:3px;font-weight:bold;">
 						<tr>
 							<th>編號</th>
 							<th>遊戲名稱</th>
@@ -157,10 +162,10 @@
 								<c:choose>
 									<c:when test="${d.status == 0}">
 										<td><a class="btn btn-primary btn-sm"
-											onclick="deleteCheck('Demand','${d.no}');"/>刪除</a></td>
+											onclick="deleteCheck('Demand','${d.no}');"/><i class="fa fa-trash" aria-hidden="true"></i></a></td>
 									</c:when>
 									<c:when test="${d.status == 1 || d.status ==2 ||d.status ==5}">
-										<td><a class="btn btn-primary disabled btn-sm">刪除</a></td>
+										<td><a class="btn btn-primary disabled btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
 									</c:when>
 								</c:choose>
 
@@ -173,10 +178,10 @@
     							</c:when>
 								<c:when test="${d.status == 2}">
     								<a class="btn btn-primary btn-sm" style="background-color: green;" href='<c:url value="showDemandApplyFor?no=${d.wishhistorybean.no }"/>' >待審核</a>
-    							(來自${d.wishhistorybean.partyA.sAccount }的交換請求)
+    							 <span class="spanStyle">(來自${d.wishhistorybean.partyA.sAccount }的交換請求)</span>
     							</c:when>
 								<c:when test="${d.status == 5}">
-    							<span class="text-danger">已被管理員暫時下架</span>
+    							<span class="spanStyle text-danger">已被管理員暫時下架</span>
     							</c:when>
 									</c:choose></td>
 
@@ -201,7 +206,7 @@
 		目前遊戲庫無任何遊戲<br>
 				</c:when>
 				<c:when test="${not empty MemberGames }">
-					<table border="1" class="table table-hover" style="font-size: 12px; border:3px">
+					<table border="1" class="table table-hover" style="font-size: 14px; border:3px;font-weight:bold;">
 						<tr>
 							<th>編號</th>
 							<th>遊戲名稱</th>
@@ -221,17 +226,17 @@
 								<c:choose>
 									<c:when test="${g.changehistorybean.supportgamebean.gamename != null}">
 										<a class="btn btn-primary btn-sm btn-danger"  onclick="applyFor('','${g.changehistorybean.no }')" >取消交換申請</a>
-										待換中(您申請交換 <span style="color:green">${g.changehistorybean.supportgamebean.gamename }</span>
-								 		等待 <span style="color:green">${g.changehistorybean.partyA.sAccount }</span> 的同意)
+										待換中(您申請交換 <span class="spanStyle">${g.changehistorybean.supportgamebean.gamename }</span>
+								 		等待 <span class="spanStyle">${g.changehistorybean.partyA.sAccount }</span> 的同意)
 									</c:when>
 									<c:when test="${g.wishhistorybean.demandgamebean.gamename !=null}">
-										待換中(申請交換 <span style="color:green">${g.wishhistorybean.demandgamebean.gamename }</span>
-										 等待 <span style="color:green">${g.wishhistorybean.partyB.sAccount }</span> 的同意)
+										待換中(申請交換 <span class="spanStyle">${g.wishhistorybean.demandgamebean.gamename }</span>
+										 等待 <span class="spanStyle">${g.wishhistorybean.partyB.sAccount }</span> 的同意)
 									</c:when>
 									<c:when test="${g.demandgamebean.wishhistorybean.mygamebean.gamename !=null}">
 										<a class="btn btn-primary btn-sm btn-danger"   onclick="applyFor('Demand','${g.demandgamebean.wishhistorybean.no }')" >取消交換申請</a>
-										待換中(您申請交換 <span style="color:green">${g.demandgamebean.wishhistorybean.mygamebean.gamename }</span>
-										 等待 <span style="color:green">${g.demandgamebean.wishhistorybean.partyB.sAccount }</span> 的同意)
+										待換中(您申請交換 <span class="spanStyle">${g.demandgamebean.wishhistorybean.mygamebean.gamename }</span>
+										 等待 <span class="spanStyle">${g.demandgamebean.wishhistorybean.partyB.sAccount }</span> 的同意)
 									</c:when>
 								</c:choose>
 
@@ -243,7 +248,7 @@
 							</c:when>
 							<c:when test="${g.supportgamebean==null }">
 								<td>	
-								<a href="<c:url value="/exchange/myGameToSupportGame?no=${g.no }"/>">交換去</a>
+								<a href="<c:url value="/exchange/myGameToSupportGame?no=${g.no }" />" class="btn btn-primary btn-sm btn-warning">交換去</a>
 								</td>
 							</c:when>
 							<c:otherwise>

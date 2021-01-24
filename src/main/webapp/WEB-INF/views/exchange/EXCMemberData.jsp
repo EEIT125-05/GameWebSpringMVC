@@ -129,7 +129,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 			查無資料<br>
 				</c:when>
 				<c:when test="${not empty ChangeHistoryList}">
-				<table border="1" id="tableChange" class="table table-hover" style="font-size: 12px; border:3px;">
+				<table border="1" id="tableChange" class="display" style="font-size: 20px;text-align:center;">
 				<thead>
 				<tr>
 					<th>編號　　</th>
@@ -173,7 +173,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 			查無資料<br>
 				</c:when>
 				<c:when test="${not empty WishHistoryList}">
-				<table border="1" id="tableWish" class="table table-hover" style="font-size: 12px; border:3px;">
+				<table border="1" id="tableWish" class="display" style="font-size: 20px;text-align:center;">
 				<thead>
 				<tr>
 					<th>編號　　</th>
@@ -227,7 +227,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 		</c:when>
 		<c:when test="${not empty MemberSupport }">
 
-			<table border="1" id="tableSupport" class="table table-hover" style="font-size: 12px; border:3px">
+			<table border="1" id="tableSupport" class="display" style="font-size: 20px;text-align:center;">
 				<thead>
 				<tr>
 					<th>編號</th>
@@ -325,7 +325,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 				</c:when>
 				<c:when test="${not empty MemberDemand }">
 
-					<table border="1" id="tableDemand" class="table table-hover" style="font-size: 12px; border:3px">
+					<table border="1" id="tableDemand" class="display" style="font-size: 20px;text-align:center;">
 						<tr>
 							<th>編號</th>
 							<th>遊戲名稱</th>
@@ -402,7 +402,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 		目前遊戲庫無任何遊戲<br>
 				</c:when>
 				<c:when test="${not empty MemberGames }">
-					<table border="1" id="tableMyGames" class="table table-hover" style="font-size: 12px; border:3px">
+					<table border="1" id="tableMyGames" class="display" style="font-size: 20px;text-align:center;">
 						<thead>
 						<tr>
 							<th>編號</th>
