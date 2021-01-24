@@ -122,7 +122,7 @@ table {
 						href="<c:url value="/forum/gotoMemberData"/>">討論區記錄</a></td>
 				</tr>
 				<tr>
-					<td class="leftBar"><a href="####">陪玩記錄</a></td>
+					<td class="leftBar"><a href="<c:url value="/withplay/gotoMemberData"/>">陪玩記錄</a></td>
 				</tr>
 				<tr>
 					<td class="leftBar"><a
