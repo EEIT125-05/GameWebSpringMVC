@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.web.game.exchange.model.DemandGameBean;
-import com.web.game.exchange.model.SupportGameBean;
+import com.web.game.exchange.model.DemandGameBean;
 
 @Repository
 public class DemandDAO {
@@ -53,6 +53,30 @@ public class DemandDAO {
 		}
 		
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DemandGameBean> getBackStageDemandQty(){
+		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
+		Session session =factory.getCurrentSession();
+		String queryAll = "FROM DemandGameBean WHERE status =0";
+		list = (List<DemandGameBean>) session.createQuery(queryAll)
+				.getResultList();
+		return list;
+	}
+	
+	
+	public Boolean changeDemandStatusByMember(Integer status,String sAccount) {
+		Session session = factory.getCurrentSession();
+		String changeStatus = "update DemandGameBean d set d.status=:status where d.gamer=:gamer";
+		Integer times = session.createQuery(changeStatus).setParameter("status", status).setParameter("gamer", sAccount).
+		executeUpdate();
+		System.out.println("更新次數demand"+times);
+		if(times > 0) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	public boolean insertDemandGame(DemandGameBean dgb) {
 		int count = 0;

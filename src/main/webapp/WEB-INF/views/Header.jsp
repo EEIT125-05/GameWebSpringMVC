@@ -111,11 +111,11 @@
               遊戲交換
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-              <a class="dropdown-item" href="<c:url value='/exchange/Index'/>">交換版</a>
+              <a class="dropdown-item" href="<c:url value='/exchange/Index'/>">交換池</a>
               <a class="dropdown-item" href="<c:url value="/exchange/wishBoard"/>">許願池</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/insertSupportGame"/>">我要換</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/insertDemandGame"/>">我要徵</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/insertMyGame"/>">新增我的遊戲庫</a>
+              <a class="dropdown-item" href="<c:url value="/exchange/insertSupportGame"/>"><span style="color:gray">(交換池)</span>二手交換</a>
+              <a class="dropdown-item" href="<c:url value="/exchange/insertDemandGame"/>"><span style="color:gray">(許願池)</span>許願</a>
+              <a class="dropdown-item" href="<c:url value="/exchange/insertMyGame"/>"><span style="color:gray">(遊戲庫)</span>新增我的遊戲</a>
               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">我的遊戲庫</a>
               <a class="dropdown-item" href="<c:url value="/exchange/gotoMemberData"/>">我的交易紀錄(會員中心)</a>
               

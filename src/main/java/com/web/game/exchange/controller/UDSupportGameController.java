@@ -159,6 +159,13 @@ public class UDSupportGameController {
 		System.out.println("listsize:"+list.size());
 		return list.size();
 	}
+	@GetMapping("/backstage/getDemandGameQtyAjax")
+	public @ResponseBody Integer getDemandGameQty(Model model) {
+		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
+		list = exchangeService.getBackStageDemandQty();
+		System.out.println("listsize:"+list.size());
+		return list.size();
+	}
 
 	
 	

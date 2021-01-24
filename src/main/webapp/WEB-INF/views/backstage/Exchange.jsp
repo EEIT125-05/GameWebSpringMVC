@@ -24,9 +24,9 @@
  	width: 50px; 
  	height: 25px; 
 	background: grey;
-	display: flex; 
+/* 	display: flex;  */
 	border-radius: 100px;
- 	position: relative;
+  	position: relative;
 }
 
 .checklabel:after {
@@ -142,7 +142,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">我要換遊戲</p>
-                      <p class="card-title" id=supportGameQty>245筆<p>
+                      <p class="card-title" id=supportGameQty>${supportGameQty }筆<p>
                     </div>
                   </div>
                 </div>
@@ -168,7 +168,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">許願池遊戲</p>
-                      <p class="card-title">178筆<p>
+                      <p class="card-title" id=demandGameQty>${demandGameQty }筆<p>
                     </div>
                   </div>
                 </div>
@@ -176,8 +176,8 @@
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-clock-o"></i>
-                  In the last hour
+                  <a onclick="getDemandGameQty();"><i class="fa fa-refresh"></i>Update
+                  </a>
                 </div>
               </div>
             </div>
@@ -203,7 +203,7 @@
                 <hr>
                 <div class="stats">
                   <i class="fa fa-refresh"></i>
-                  Update now
+                  Update
                 </div>
               </div>
             </div>
@@ -299,7 +299,7 @@
       <div class="card-body">
       
       
-      <table border="1" id="tableChange" class="display" style="font-size: 12px; border:4px">
+      <table border="1" id="tableChange" class="display" style="font-size: 20px;text-align:center;">
 				<thead>
 				<tr>
 					<th>編號　　</th>
@@ -340,7 +340,7 @@
         
         
         
-        <table border="1" id="tableSupport" class="display" style="font-size: 12px; border:3px">
+        <table border="1" id="tableSupport" class="display" style="font-size: 20px;text-align:center;">
 				<thead>
 				<tr>
 					<th>編號</th>
@@ -409,7 +409,8 @@
       <div class="card-body">
       
       
-        <table border="1" class="table table-hover" style="font-size: 12px; border:3px">
+        <table border="1" id="tableDemand" class="display" style="font-size: 20px;text-align:center;">
+						<thead>
 						<tr>
 							<th>編號</th>
 							<th>玩家</th>
@@ -420,6 +421,7 @@
 							<th>刪除</th>
 							<th>暫時下架</th>
 						</tr>
+						</thead>
 
 						<c:forEach var='d' varStatus='vs2' items='${AllListMap.demand }'>
 
@@ -502,6 +504,29 @@
 	 	 			Swal.fire(
 				      '出現錯誤',
 				      'xhr1.readyState:'+xhr1.readyState+'<br>xhr1.status:'+xhr1.status,
+				      'warning'
+				    )
+	 			}
+			}
+ }
+ function getDemandGameQty(){
+	 console.log("click")
+	 	xhr2 = new XMLHttpRequest();
+	 	xhr2.open('get','<c:url value="/exchange/backstage/getDemandGameQtyAjax" />',true);
+	 	xhr2.send();
+	 	xhr2.onload = function(){
+	 		if(xhr2.readyState===4 && xhr2.status ===200){
+	 			let s = JSON.parse(xhr2.responseText)
+ 	 			Swal.fire(
+ 	 				      'OK',
+ 	 				      '更新成功',
+ 	 				      'success'
+ 	 				    )
+					$('#demandGameQty').text(s+"筆");
+	 			}else{
+	 	 			Swal.fire(
+				      '出現錯誤',
+				      'xhr2.readyState:'+xhr2.readyState+'<br>xhr2.status:'+xhr2.status,
 				      'warning'
 				    )
 	 			}
@@ -590,6 +615,36 @@
  		})
  		$(function(){
  			$('#tableSupport').DataTable({
+ 				language: {
+ 	    		    "lengthMenu": "顯示_MENU_筆資料",
+ 	    		    "sProcessing": "處理中...",
+ 	    		    "sZeroRecords": "没有匹配结果",
+ 	    		    "sInfo": "目前有_MAX_筆資料",
+ 	    		    "sInfoEmpty": "目前共有 0 筆紀錄",
+ 	    		    "sInfoFiltered": " ",
+ 	    		    "sInfoPostFix": "",
+ 	    		    "sSearch": "尋找:",
+ 	    		    "sUrl": "",
+ 	    		    "sEmptyTable": "尚未有資料紀錄存在",
+ 	    		    "sLoadingRecords": "載入資料中...",
+ 	    		    "sInfoThousands": ",",
+ 	    		    "oPaginate": {
+ 	    		        "sFirst": "首頁",
+ 	    		        "sPrevious": "上一頁",
+ 	    		        "sNext": "下一頁",
+ 	    		        "sLast": "末頁"
+ 	    		    },
+ 	    		    "order": [[0, "desc"]],
+ 	    		    "oAria": {
+ 	    		        "sSortAscending": ": 以升序排列此列",
+ 	    		        "sSortDescending": ": 以降序排列此列"
+ 	    		    }
+ 	    		}
+ 			});
+ 			
+ 		})
+ 		$(function(){
+ 			$('#tableDemand').DataTable({
  				language: {
  	    		    "lengthMenu": "顯示_MENU_筆資料",
  	    		    "sProcessing": "處理中...",
