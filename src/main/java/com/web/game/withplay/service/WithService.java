@@ -23,6 +23,8 @@ public interface WithService {
 	List<WithPlay> search(String sNickname,String sGame);
 	
 	String CheckID(String sIdcode);
+	
+	public boolean updateWithistatus(Integer iNO);
 
 
 }

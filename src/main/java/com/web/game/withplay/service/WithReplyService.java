@@ -12,5 +12,10 @@ public interface WithReplyService {
 	
 	Boolean delete(Integer iId);
 
+	public WithReplyBean selectOneReply(Integer iNo);
+
+	public Boolean deleteReply(WithReplyBean rReplyBean);
+
+	public Boolean updateReply(WithReplyBean rReplyBean);
 
 }

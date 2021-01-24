@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.web.game.withplay.model.WithOrder;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.service.WithService;
 import com.web.game.withplay.dao.WithDao;
@@ -76,5 +77,20 @@ public class WithServiceImpl implements WithService {
 		return withDao.CheckID(sIdcode);
 	}
 	
+	@Override
+	public boolean updateWithistatus(Integer iNO) {
+		Integer status=null;
+		WithPlay wp=withDao.get(iNO);
+		if(wp.getiStatus()==0) {
+			 status = 1; //ok
+		}else {
+			status =0;//執行訂單完畢
+		}
+		wp.setiStatus(status);
+		withDao.update(wp);
+		return true;
+		
+		
+	}
 	
 }

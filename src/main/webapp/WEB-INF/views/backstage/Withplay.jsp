@@ -3,6 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %><!DOCTYPE html>
+<%
+	request.setCharacterEncoding("UTF-8");
+response.setContentType("text/html;charset=UTF-8");
+%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -11,6 +15,53 @@
 <%@ include file="../Link.jsp"%>
 <script src='//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js'></script>
 <link rel='stylesheet' href='https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css'>
+
+<style>
+
+
+.checkinput[type=checkbox]{
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+.checklabel { 
+	cursor: pointer;
+	text-indent: -9999px;
+ 	width: 50px; 
+ 	height: 25px; 
+	background: grey;
+/*  	display: flex;   */
+	border-radius: 100px;
+ 	position: relative; 
+}
+
+.checklabel:after {
+	content: '';
+  	position: absolute;  
+ 	top: 5px; 
+ 	left: 5px; 
+	width: 15px;
+	height: 15px;
+	background: #fff;
+	border-radius: 90px;
+	transition: 0.3s;
+}
+
+.checkinput:checked + .checklabel {
+	background: #db1f1f;
+}
+
+.checkinput:checked + .checklabel:after {
+	left: calc(100% - 5px);
+	transform: translateX(-100%);
+}
+
+.checklabel:active:after {
+	width: 20px;
+}r
+
+</style>
 </head>
 <body class="">
 <%@ include file="../Header.jsp"%>
@@ -184,7 +235,7 @@
 	         <div class="col-md-6">
 	           <div class="card ">
 	             <div class="card-header ">
-	               <h5 class="card-title">地區</h5>
+	               <h5 class="card-title">男女陪玩師</h5>
 <!-- 	               <p class="card-category"></p> -->
 	             </div>
 	             <div class="card-body ">
@@ -234,8 +285,8 @@
 			<div class="col-md-12">
             <div class="card card-chart">
               <div class="card-header">
-                <h5 class="card-title">管理交換系統</h5>
-                <p class="card-category">下架功能</p>
+                <h5 class="card-title">管理陪玩系統 </h5>
+                <p class="card-category">刪除、停權功能</p>
               </div>
               <div class="card-body">
               
@@ -248,7 +299,7 @@
     <div class="card-header" id="headingOne">
       <h5 class="mb-0">
         <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          	全站交換紀錄
+          	管理留言紀錄
         </button>
       </h5>
     </div>
@@ -257,27 +308,28 @@
       <div class="card-body">
       
       
-      <table border="1" id="tableChange" class="display" style="font-size: 12px; border:4px">
+      <table border="1" id="table3" class="display" style="text-align:center;">
 				<thead>
 				<tr>
-					<th>編號　　</th>
-					<th>甲方　　</th>
-					<th>甲方遊戲</th>
-					<th>乙方</th>
-					<th>乙方遊戲</th>
-					<th>時間　　</th>
+<!-- 					<th>編號</th> -->
+					<th>留言者</th>
+					<th>陪玩師</th>
+					<th>時間</th>
+					<th>留言內容</th>
+					<th>功能</th>
 				</tr>
 				</thead>
-				
-				<c:forEach var='c' varStatus='vs' items='${AllListMap.change }'>
+				<c:forEach items="${Withlist}" var="With"  > 
+				<c:forEach var='Reply' varStatus='Status' items="${With.sReplyBeans}">
 				<tr>
-				<td>${vs.count }</td>
-				<td>${c.partyA.sAccount }</td>
-				<td>${c.supportgamebean.gamename }</td>
-				<td>${c.partyB.sAccount }</td>
-				<td>${c.mygamebean.gamename }</td>
-				<td>${c.date }</td>
+<%-- 				<td>${Status.count}</td> --%>
+				<td>${Reply.sAuthor }</td>
+				<td>${With.sNickname}</td>
+				<td>${Reply.dDate}<br>${Reply.tTime}</td>
+				<td style="word-break: break-all;width:600px">${Reply.sText}</td>
+				<td><a class="btn btn-danger" onclick="deleteReply(${Reply.iNo});">刪除</a></td>
 				</tr>
+				</c:forEach>
 				</c:forEach>
 				</table>
       
@@ -289,69 +341,60 @@
     <div class="card-header" id="headingTwo">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          	管理交換板
+          	管理訂單
         </button>
       </h5>
     </div>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-      <div class="card-body">
-        
-        
-        
-        <table border="1" id="tableSupport" class="display" style="font-size: 12px; border:3px">
+      <div class="card-body">        
+        <c:choose>
+		<c:when test="${empty WithOrder}">
+			<span>查無資料</span>
+		</c:when>
+		<c:otherwise>        
+        <table border="1" id="table2" class="display" style="text-align:center;">
 				<thead>
-				<tr>
-					<th>編號</th>
-					<th>玩家</th>
-					<th>遊戲名稱</th>
-					<th>商品位置</th>
-					<th>運送方式</th>
-					<th>主機平台</th>
-					<th>是否含特典</th>
-					<th>備註</th>
-					<th>商品狀況</th>
-					<th>刪除</th>
-					<th>暫時下架</th>
-				</tr>
-				</thead>
-				<c:forEach var='s' varStatus='vs1' items='${AllListMap.support }'>
-
 					<tr>
-						<td>${vs1.count}</td>
-						<td>${s.gamer}</td>
-						<td>${s.gamename}</td>
-						<td>${s.gamelocation}</td>
-						<td>${s.delivery}</td>
-						<td>${s.console}</td>
-						<td>${s.dlc}</td>
-						<td>${s.remark}</td>
-						<td>${s.condition}</td>
-
-						<c:choose>
-							<c:when test="${s.status == 0}">
-								
-								<td><a class="btn btn-primary btn-sm"
-								 onclick="deleteCheck('Support','${s.no}');">刪除</a></td>
-								<td><input type="checkbox" class="checkinput" id="switch${vs1.index }" onchange="updateStatus('support','${s.status }',${s.no });"/><label class="checklabel" for="switch${vs1.index }">Toggle</label></td>
-							</c:when>
-							<c:when test="${s.status == 5}">
-								<td><a class="btn btn-primary btn-sm"
-								 onclick="deleteCheck('Support','${s.no}');">刪除</a></td>
-								<td><input type="checkbox" class="checkinput" id="switch${vs1.index }" checked onchange="updateStatus('support','${s.status }',${s.no });"/><label class="checklabel" for="switch${vs1.index }">Toggle</label></td>
-							</c:when>
-						</c:choose>
-
-
+						<th>編號</th>
+						<th>下單會員</th>
+						<th>陪玩師</th>
+						<th>訂單時間</th>
+						<th>遊戲</th>
+						<th >消費金額</th>
+						<th>狀態</th>
 					</tr>
-
-				</c:forEach>
-
-			</table>
-        
-        
-        
-        
-        
+					</thead>
+					<c:forEach items="${WithOrder}" var="Order" varStatus="status">
+						<tr>	
+							<td>${status.count}</td>
+							<td>${Order.member.sNickname}</td>
+							<td >${Order.with.sNickname}</td>
+							<td>${Order.dDate}</td>
+							<td>${Order.sGame}</td>
+							<td>${Order.iPrice}</td>
+							<td>
+								<c:choose>
+								<c:when test="${Order.iStatus == 1 }">
+								<span style="font-weight:bold;font-size:20px;">等待確認</span>						
+								</c:when>
+								<c:when test="${Order.iStatus == 2 }">
+								<span style="font-weight:bold;font-size:20px;">確認成功，尚未成功</span>
+								</c:when>
+								<c:when test="${Order.iStatus == 3 }">
+								<span style="font-weight:bold;font-size:20px;">訂單遭拒，請退款</span>
+								</c:when>
+								<c:when test="${Order.iStatus == 4 }">
+								<span style="font-weight:bold;font-size:20px;">訂單完成</span>
+								</c:when>
+								<c:otherwise>
+								</c:otherwise>						
+								</c:choose>        	
+							</td>
+						</tr>
+					</c:forEach>
+				</table>         
+			</c:otherwise>
+		</c:choose>
       </div>
     </div>
   </div>
@@ -369,7 +412,7 @@
     	</div>
     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
       <div class="card-body">
-		<table border="1" id="table1" class="display">
+		<table border="1" id="table1" class="display" style="text-align:center;">
 
 			<thead>
 			<tr>
@@ -385,7 +428,7 @@
 				<th>功能</th>
 			</tr>
 			</thead>
-			<c:forEach items="${With}" var="With" varStatus="status">
+			<c:forEach items="${Withlist}" var="With" varStatus="status" >
 				<tr>
 					<td>${With.sAccount}</td>
 					<td >${With.sName}</td>
@@ -399,7 +442,15 @@
 					<td>${With.iPrice}</td>
 					<td><a class='btn btn-outline-dark'
 						href="${pageContext.request.contextPath}/withplay/edit/${With.iId}">Edit</a>
-						&nbsp;&nbsp; 
+						<hr>
+						<c:choose>
+							<c:when test="${With.iStatus == 0}">
+								<input type="checkbox" class="checkinput" id="switch${status.index }" onchange="updateStatus(${With.iId})"/><label class="checklabel" for="switch${status.index }">Toggle</label>
+							</c:when>
+							<c:when test="${With.iStatus == 1}">						
+								<input type="checkbox" class="checkinput" id="switch${status.index }" checked onchange="updateStatus(${With.iId});"/><label class="checklabel" for="switch${status.index }">Toggle</label>
+							</c:when>
+						</c:choose>
 <!-- 						<a class='deletelink' -->
 <%-- 						href="${pageContext.request.contextPath}/withplay/delete/${With.iId}">Delete</a> --%>
 					</td>
@@ -408,58 +459,7 @@
 		</table>
   
   
-<!--   <div class="card"> -->
-<!--     <div class="card-header" id="headingThree"> -->
-<!--       <h5 class="mb-0"> -->
-<!--         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"> -->
-<!--           	管理許願池 -->
-<!--         </button> -->
-<!--       </h5> -->
-<!--     </div> -->
-<!--     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion"> -->
-<!--       <div class="card-body"> -->
-      
-      
-<!--         <table border="1" class="table table-hover" style="font-size: 12px; border:3px"> -->
-<!-- 						<tr> -->
-<!-- 							<th>編號</th> -->
-<!-- 							<th>玩家</th> -->
-<!-- 							<th>遊戲名稱</th> -->
-<!-- 							<th>商品位置</th> -->
-<!-- 							<th>主機平台</th> -->
-<!-- 							<th>備註</th> -->
-<!-- 							<th>刪除</th> -->
-<!-- 							<th>暫時下架</th> -->
-<!-- 						</tr> -->
 
-<%-- 						<c:forEach var='d' varStatus='vs2' items='${AllListMap.demand }'> --%>
-
-<!-- 							<tr> -->
-<%-- 								<td>${vs2.count}</td> --%>
-<%-- 								<td>${d.gamer}</td> --%>
-<%-- 								<td>${d.gamename}</td> --%>
-<%-- 								<td>${d.area}</td> --%>
-<%-- 								<td>${d.console}</td> --%>
-<%-- 								<td>${d.remark}</td> --%>
-
-<%-- 								<c:choose> --%>
-<%-- 									<c:when test="${d.status == 0}"> --%>
-<!-- 										<td><a class="btn btn-primary btn-sm" -->
-<%-- 											onclick="deleteCheck('Demand','${d.no}');"/>刪除</a></td> --%>
-<%-- 										<td><input type="checkbox" class="checkinput" id="switcha${vs2.index }" onchange="updateStatus('demand','${d.status }',${d.no });"/><label class="checklabel" for="switcha${vs2.index }">Toggle</label></td> --%>
-<%-- 									</c:when> --%>
-<%-- 									<c:when test="${d.status == 5}"> --%>
-<!-- 										<td><a class="btn btn-primary btn-sm" -->
-<%-- 											onclick="deleteCheck('Demand','${d.no}');"/>刪除</a></td> --%>
-<%-- 										<td><input type="checkbox" class="checkinput" id="switcha${vs2.index }" checked onchange="updateStatus('demand','${d.status }',${d.no });"/><label class="checklabel" for="switcha${vs2.index }">Toggle</label></td> --%>
-										
-<%-- 									</c:when> --%>
-<%-- 								</c:choose> --%>
-
-<!-- 							</tr> -->
-
-<%-- 						</c:forEach> --%>
-<!-- 					</table> -->
       
       
       
@@ -484,9 +484,9 @@
 <%-- <%@ include file="../Foot.jsp"%> --%>
 </body>
 <script>
-function updateStatus(a,b,c){
+function updateStatus(iNo){
 	 var xhr = new XMLHttpRequest();
-	 	xhr.open('PUT','<c:url value="/exchange/updateStatus" />'+'?type='+a+'&status='+b+'&no='+c,true);
+	 	xhr.open('PUT',"<c:url value='/withplay/Withstatus' />"+'?iNO='+iNo,true);
 	 	xhr.send();
 	 	xhr.onload = function(){
 	 		if(xhr.readyState===4 && xhr.status ===200){
@@ -498,8 +498,22 @@ function updateStatus(a,b,c){
 	 			}
 			}
 }
+function deleteReply(iNo){
+	 var xhr = new XMLHttpRequest();
+	 	xhr.open('PUT',"<c:url value='/withplay/deleteReply' />"+'?iNO='+iNo,true);
+	 	xhr.send();
+	 	xhr.onload = function(){
+	 		if(xhr.readyState===4 && xhr.status ===200){
+	 			Swal.fire(
+	 				      'OK',
+	 				      '刪除成功',
+	 				      'success'
+	 				    )
+	 			}
+			}
+}
 $(function(){
-		$('#tableChange').DataTable({
+		$('#table2').DataTable({
 			language: {
  		    "lengthMenu": "顯示_MENU_筆資料",
  		    "sProcessing": "處理中...",
@@ -558,6 +572,36 @@ $(function(){
 		});
 		
 	})
+	$(function(){
+		$('#table3').DataTable({
+			language: {
+ 		    "lengthMenu": "顯示_MENU_筆資料",
+ 		    "sProcessing": "處理中...",
+ 		    "sZeroRecords": "没有匹配结果",
+ 		    "sInfo": "目前有_MAX_筆資料",
+ 		    "sInfoEmpty": "目前共有 0 筆紀錄",
+ 		    "sInfoFiltered": " ",
+ 		    "sInfoPostFix": "",
+ 		    "sSearch": "尋找:",
+ 		    "sUrl": "",
+ 		    "sEmptyTable": "尚未有資料紀錄存在",
+ 		    "sLoadingRecords": "載入資料中...",
+ 		    "sInfoThousands": ",",
+ 		    "oPaginate": {
+ 		        "sFirst": "首頁",
+ 		        "sPrevious": "上一頁",
+ 		        "sNext": "下一頁",
+ 		        "sLast": "末頁"
+ 		    },
+ 		    "order": [[0, "desc"]],
+ 		    "oAria": {
+ 		        "sSortAscending": ": 以升序排列此列",
+ 		        "sSortDescending": ": 以降序排列此列"
+ 		    }
+ 		}
+		});
+		
+	})
 
 $(function(){
 	let ctx;
@@ -566,7 +610,7 @@ $(function(){
 	    myChart = new Chart(ctx, {
 	      type: 'pie',
 	      data: {
-	        labels: ['北部','中部','南部','東部'],
+	        labels: ['男生','女生'],
 	        datasets: [{
 	          label: "locations",
 	          pointRadius: 0,
@@ -574,11 +618,9 @@ $(function(){
 	          backgroundColor: [
 	            '#FF9797',
 	            '#FFDC35',
-	            '#5A5AAD',
-	            '#9AFF02'
 	          ],
 	          borderWidth: 0,
-	          data: [16,8,9,10]
+	          data: [23,40,]
 	        }]
 	      },
 
@@ -629,69 +671,42 @@ $(function(){
 	    ctx = document.getElementById('chartGame').getContext("2d");
 
 	    myChart = new Chart(ctx, {
-	      type: 'pie',
+	      type: 'bar',
 	      data: {
 	        labels: ['英雄聯盟','魔物獵人','跑跑卡丁車','鬥陣特攻','絕地求生','爐石戰記','傳說對決'],
 	        datasets: [{
-	          label: "games",
-	          pointRadius: 0,
-	          pointHoverRadius: 0,
+	          label: "玩家選擇遊戲",
+	          data: [12, 19, 10, 15, 12, 9, 12], 
 	          backgroundColor: [
-	            '#B87070',
-	            '#6FB7B7',
-	            '#B766AD',
-	            '#FFAD86',
-	            '#79FF79',
-	            '#9393FF',
-	            '#FF60AF'
+	            'rgba(255, 99, 132, 0.2)',
+	            'rgba(54, 162, 235, 0.2)',
+	            'rgba(255, 206, 86, 0.2)',
+	            'rgba(75, 192, 192, 0.2)',
+	            'rgba(153, 102, 255, 0.2)',
+	            'rgba(255, 80, 64, 0.2)',
+	            'rgba(255, 159, 64, 0.2)'
 	          ],
-	          borderWidth: 0,
-	          data: [8,16,9,10,8,12,10]
+	          borderColor: [
+	            'rgba(255, 99, 132, 1)',
+	            'rgba(54, 162, 235, 1)',
+	            'rgba(255, 206, 86, 1)',
+	            'rgba(75, 192, 192, 1)',
+	            'rgba(153, 102, 255, 1)',
+	            'rgba(255, 80, 64, 1)',
+	            'rgba(255, 159, 64, 1)'
+	          ],
+	          borderWidth: 1
 	        }]
 	      },
-
 	      options: {
-
-	        legend: {
-	          display: true
-	        },
-
-	        pieceLabel: {
-	          render: 'percentage',
-	          fontColor: ['white'],
-	          precision: 2
-	        },
-
-	        tooltips: {
-	          enabled: true
-	        },
-
 	        scales: {
 	          yAxes: [{
-
 	            ticks: {
-	              display: false
-	            },
-	            gridLines: {
-	              drawBorder: false,
-	              zeroLineColor: "transparent",
-	              color: 'rgba(255,255,255,0.05)'
-	            }
-
-	          }],
-
-	          xAxes: [{
-	            barPercentage: 1.6,
-	            gridLines: {
-	              drawBorder: false,
-	              color: 'rgba(255,255,255,0.1)',
-	              zeroLineColor: "transparent"
-	            },
-	            ticks: {
-	              display: false,
+	              beginAtZero: true,
+	              responsive: true //符合響應式
 	            }
 	          }]
-	        },
+	        }
 	      }
 	    });
 	});

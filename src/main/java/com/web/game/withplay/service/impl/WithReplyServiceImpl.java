@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import com.web.game.forum.model.ReplyBean;
 import com.web.game.withplay.dao.WithReplyDAO;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.model.WithReplyBean;
@@ -44,4 +44,23 @@ public class WithReplyServiceImpl implements WithReplyService {
 		
 		
 	}
+
+	@Override
+	public WithReplyBean selectOneReply(Integer iNo) {
+		return rDAO.selectOneReply(iNo);
+	}
+
+	@Override
+	public Boolean deleteReply(WithReplyBean rReplyBean) {
+		return rDAO.deleteReply(rReplyBean);
+
+	}
+
+	@Override
+	public Boolean updateReply(WithReplyBean rReplyBean) {
+		return rDAO.updateReply(rReplyBean);
+	}
+
+	
 }
+

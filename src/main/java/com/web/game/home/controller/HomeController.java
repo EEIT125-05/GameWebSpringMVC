@@ -22,6 +22,7 @@ import com.web.game.forum.service.ForumService;
 import com.web.game.forum.service.ReplyService;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
+import com.web.game.withplay.service.WithOrderService;
 import com.web.game.withplay.service.WithService;
 
 @Controller
@@ -33,6 +34,9 @@ public class HomeController {
 	
 	@Autowired
 	WithService WithService;
+	
+	@Autowired
+	WithOrderService OrderService;
 	
 	@Autowired
 	ExchangeService exchangeService;
@@ -132,8 +136,8 @@ public class HomeController {
 	
 	@GetMapping("/backstage/Withplay")
 	public String gotoWithplayBackStage(Model model) {
-		model.addAttribute("With",withService.list());
-
+		model.addAttribute("Withlist",withService.list());
+		model.addAttribute("WithOrder",OrderService.alllist());
 		
 		
 		return "backstage/Withplay";

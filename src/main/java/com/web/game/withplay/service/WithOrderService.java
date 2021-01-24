@@ -24,5 +24,7 @@ public interface WithOrderService {
 	
 	public List<WithOrder> list(Integer useriNo);
 	
+	public List<WithOrder> alllist();
+	
 	public String ecpay(Integer total,String sGame,WithPlay wp,MemberBean mb);
 }
