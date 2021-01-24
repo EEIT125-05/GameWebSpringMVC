@@ -178,8 +178,8 @@ public class ContestController {
 		}else {
 			if(cService.insertContest(cContestBean)) {
 				map.put("successMessage", "新增成功");
-				JavaMail mail = new JavaMail();
-				mail.SendContestMail(((MemberBean)model.getAttribute("user")).getsEmail(), cContestBean.getiNo(), "contest");
+//				JavaMail mail = new JavaMail();
+//				mail.SendContestMail(((MemberBean)model.getAttribute("user")).getsEmail(), cContestBean.getiNo(), "contest");
 			}else {
 				success = false;
 			}
@@ -261,8 +261,8 @@ public class ContestController {
 		MemberBean user = ((MemberBean)model.getAttribute("user"));
 		if(pService.insertParticipate(new ParticipateBean(null, user.getsAccount(), cContestBean))) {
 			map.put("status", "success");
-			JavaMail mail = new JavaMail();
-			mail.SendContestMail(user.getsEmail(), cContestBean.getiNo(), "participate");
+//			JavaMail mail = new JavaMail();
+//			mail.SendContestMail(user.getsEmail(), cContestBean.getiNo(), "participate");
 		}else {
 			map.put("status", "sqlError");
 		}
@@ -310,9 +310,9 @@ public class ContestController {
 				map.put("status", "success");
 				//確認進資料庫才寄信
 				for(String player:players) {
-					JavaMail mail = new JavaMail();
-					MemberBean mb = mService.get(player);
-					mail.SendContestMail(mb.getsEmail(), contestNo, "participate");
+//					JavaMail mail = new JavaMail();
+//					MemberBean mb = mService.get(player);
+//					mail.SendContestMail(mb.getsEmail(), contestNo, "participate");
 				}
 				
 			}else {
@@ -436,40 +436,6 @@ public class ContestController {
 							}
 						}
 					}
-					
-//					if(success) {//先把複賽的資料表建好
-//						iTotal = cContestBean.getiPeople();
-//						iOneGroup = Integer.valueOf(cContestBean.getsPreliminary().split("-")[0]);
-//						iGroupUp = Integer.valueOf(cContestBean.getsPreliminary().split("-")[1]);
-//						iLast = Integer.valueOf(cContestBean.getsPreliminary().split("-")[2]);
-//						iTotalUp = (iTotal/iOneGroup) * iGroupUp + iLast;
-//						iRematchTotal = iTotalUp * 2 - 1;
-//	//					System.out.println("全部: " + iTotal);
-//	//					System.out.println("一組: " + iOneGroup);
-//	//					System.out.println("晉級: " + iGroupUp);
-//	//					System.out.println("剩下: " + iLast);
-//	//					System.out.println("晉級人數: " + iTotalUp);
-//						
-//						if(cContestBean.getsRematchMode().equals("knockout")) {//淘汰賽
-//							for(int i=1; i<=iRematchTotal; i++) {
-//								if(!rService.insertRecord(new RecordBean(null, contestNo, "淘汰賽", null, i, null, null))) {
-//									success = false;
-//								}
-//							}
-//						}else if(cContestBean.getsRematchMode().equals("ground")) {//循環賽
-//							for(int i=0; i<iTotalUp; i++) {
-//								for(int j=i+1; j<iTotalUp; j++) {
-//									if(!rService.insertRecord(new RecordBean(null, contestNo, "循環賽", 1, null, null, null))) {
-//										success = false;
-//									}
-//								}
-//							}
-//						}else {//自由對戰
-//							if(!rService.insertRecord(new RecordBean(null, contestNo, "自由對戰", null, null, null, null))) {
-//								success = false;
-//							}
-//						}
-//					}
 					
 					if(success) {	
 						map.put("status", "success");

@@ -16,8 +16,8 @@ import com.web.game.member.model.MemberBean;
 import com.web.game.withplay.model.WithPlay;
 
 public class JavaMail {
-	private String userName = "xicnen@gmail.com";
-	private String password = "stveoixqpqvbzcqh";
+	private String userName = "GameBar20210128@gmail.com";
+	private String password = "gamebar20210128";
 	private String customer = "" ;
 	private String subject = "親愛的GameBar會員訂單通知";
 //	private String PasswordSet = "http://localhost:8080/GameWebSpringMVC/src/main/webapp/WEB-INF/views/member/MemberPasswordSet";

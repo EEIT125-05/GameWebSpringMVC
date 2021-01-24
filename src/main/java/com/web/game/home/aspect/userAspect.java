@@ -4,18 +4,28 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
+import com.web.game.exchange.service.ExchangeService;
 import com.web.game.home.exception.userException;
 import com.web.game.member.model.MemberBean;
+import com.web.game.member.service.MemberService;
 
 @Aspect
 @Component
 public class userAspect {
-			 
+	
+	@Autowired
+	MemberService memberService;
+	
+	@Autowired
+	ExchangeService exchangeService;
+	
 	@Before("execution (* com.web.game.contest.controller.ContestController.*(..)) "+
 			"||execution (* com.web.game.contest.controller.RecordController.*(..)) "+
 			"||execution (* com.web.game.forum.controller.ForumController.*(..))"+
@@ -48,4 +58,25 @@ public class userAspect {
 			throw new userException("使用者要登入-runtimeException");
 		}
 	}
-}
+	
+	@After("execution (* com.web.game.member.controller.MemberControllerVerified.StatusChange(..))")
+	public void exchangeStatus(JoinPoint joinPoint) {
+		System.out.println("exchangeAOP成功-------------------------------------------------------------------------------------------------------------------");
+		String methodName = joinPoint.getSignature().getName();
+		List<Object> args = Arrays.asList(joinPoint.getArgs());
+		System.out.println("方法 " + methodName + " 開始執行，傳入的參數為 " + args);
+		
+		String user = null;
+		for(Object object: args) {
+			if(object instanceof String) {
+				String account = (String) object;
+						MemberBean member = memberService.Selectmember(account);
+						Boolean status = member.getStatus();
+						exchangeService.changeStatusByMember(status, account);
+					break;
+				}
+			}
+		}
+		
+	}
+

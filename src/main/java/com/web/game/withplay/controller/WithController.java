@@ -21,10 +21,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.web.game.forum.model.ReplyBean;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
 import com.web.game.withplay.model.WithOrder;
@@ -62,7 +65,7 @@ public class WithController {
 	@GetMapping("/withplay/With")
 	public String list(Model model) {
 		model.addAttribute("With",withService.list());
-		return "withplay/With";
+		return "backstage/Withplay";
 				
 	}
 	
@@ -216,7 +219,7 @@ public class WithController {
 		String nextPage = null;
 		WithPlay WithBean = withService.get(withNo);
 		WithReplyBean rReplyBean = ReplyService.newBean(sText, WithBean);
-		rReplyBean.setsAuthor(((MemberBean)model.getAttribute("user")).getsAccount());
+		rReplyBean.setsAuthor(((MemberBean)model.getAttribute("user")).getsNickname());
 		try {if(ReplyService.insertReply(rReplyBean)) {
 			nextPage = "redirect:/withplay/Index";
 		}else {
@@ -268,6 +271,7 @@ public class WithController {
 	public String dataOrder(Model model) {
 		model.addAttribute("WithOrder",withOrderService.getWithOrderList(((MemberBean) model.getAttribute("user")).getiNo()));
 		List<WithOrder> withorder2 = withOrderService.getWithOrderwithList(((WithPlay) model.getAttribute("withplayHost")).getiId());
+		
 		model.addAttribute("WithOrder2",withorder2);
 		System.out.println("有進這個123");
 		System.out.println("有進這個123");
@@ -283,7 +287,7 @@ public class WithController {
 	public String PersonOrder(Model model) {
 		model.addAttribute("WithOrder",withOrderService.getWithOrderList(((MemberBean) model.getAttribute("user")).getiNo()));
 		model.addAttribute("WithOrder2",withOrderService.getWithOrderwithList(((MemberBean) model.getAttribute("user")).getiNo()));
-		return "withplay/withorderData";
+		return "withplay/WithData";
 		
 	}
 	
@@ -299,10 +303,52 @@ public class WithController {
 		return "redirect:/withplay/Withorderlist";
 		
 	}
+	@PutMapping("/withplay/Withstatus")
+	public @ResponseBody boolean updateistatus(@RequestParam Integer iNO,Model model) {
+		model.addAttribute("WithOrder",withService.updateWithistatus(iNO));
+		return true;
+		
+	}
+	@PutMapping("/withplay/deleteReply")
+	public @ResponseBody boolean deleteReply(@RequestParam Integer iNO,Model model) {
+		model.addAttribute("WithOrder",ReplyService.delete(iNO));
+		return true;
+		
+	}
+	
+	@PostMapping("/withplay/updateReply")
+	public @ResponseBody Map<String, String> replyUpdate(
+							@RequestParam Integer replyNo,
+							@RequestParam String newText,
+							Model model) {
+		System.out.println("回覆更新" + replyNo + newText);
+		Map<String, String> map = new HashMap<String, String>();
+		WithReplyBean rReplyBean = ReplyService.selectOneReply(replyNo);
+		rReplyBean.setsText(newText);
+		if(ReplyService.updateReply(rReplyBean)) {
+			map.put("status", "success");
+		}else {
+			map.put("status", "sqlError");
+		}
+		return map;
+	}
 	
 	
 	
-	
+	@DeleteMapping("/withplay/Replydelete/{replyNo}")
+	public @ResponseBody Map<String, String> replyDelete(
+							@PathVariable Integer replyNo,
+							Model model) {
+		System.out.println("回覆刪除" + replyNo);
+		Map<String, String> map = new HashMap<String, String>();
+		WithReplyBean rReplyBean = ReplyService.selectOneReply(replyNo);
+		if(ReplyService.deleteReply(rReplyBean)) {
+			map.put("status", "success");
+		}else {
+			map.put("status", "sqlError");
+		}
+		return map;
+	}
 	
 	
 	
@@ -320,6 +366,9 @@ public class WithController {
 		gameMap.put("原神", "原神");
 		gameMap.put("糖豆人", "糖豆人");
 		gameMap.put("灌籃高手 ", "灌籃高手 ");
+		gameMap.put("魔物獵人 ", "魔物獵人 ");
+		gameMap.put("爐石戰記 ", "爐石戰記 ");
+		gameMap.put("星海爭霸 ", "星海爭霸 ");
 		model.addAttribute("sGameMap", gameMap);
 
 	}

@@ -39,12 +39,6 @@
     border-radius: .25rem;
 }
 
-.leftBar:hover {
-	background-color: white;
-	color: black;
-}
-
-
 .row {
   flex-grow: 1; /*可佔滿垂直剩餘的空間*/
 }
@@ -53,7 +47,7 @@
 </head>
 <body>
 <!-- 	<H1 align='center'>會員資料管理</H1> -->
-	<hr>
+<!-- 	<hr> -->
 	<%@ include file="../Header.jsp"%>
 
 	<div class="row">
@@ -70,7 +64,7 @@
 					<td class="leftBar"><a href="<c:url value="/forum/gotoMemberData"/>">討論區記錄</a></td>
 				</tr>
 				<tr>
-					<td class="leftBar"><a href="####">陪玩記錄</a></td>
+					<td class="leftBar"><a href="<c:url value="/withplay/gotoMemberData"/>">陪玩記錄</a></td>
 				</tr>
 				<tr>
 					<td class="leftBar"><a

@@ -20,6 +20,7 @@ import com.web.game.exchange.model.ChangeHistoryBean;
 import com.web.game.exchange.model.MyGameBean;
 import com.web.game.exchange.model.SupportGameBean;
 import com.web.game.exchange.service.ExchangeService;
+import com.web.game.member.controller.JavaMail;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
 
@@ -94,6 +95,8 @@ public class ChangeGameController {
 		CHB.setDate(time);
 		
 		if(exchangeService.insertChangeHistory(CHB)) {
+			JavaMail mail = new JavaMail();
+			mail.SendChangeMail(mbPartyA.getsEmail(), mgMyGame.getGamename(), mbPartyB.getsAccount(), sgSupportGame.getGamename());
 			return true;
 		}
 		return false;

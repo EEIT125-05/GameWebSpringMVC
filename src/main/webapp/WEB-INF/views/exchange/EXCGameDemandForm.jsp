@@ -90,7 +90,7 @@ div {
 			</div>
 			<div>
 				<label for="remark">備註 </label>
-				<form:input class="fixedlen" type="text" path="remark" />
+				<form:input class="fixedlen" type="text" path="remark" id="remark"/>
 			</div>
 			<div style="margin-top: 20px;">
 				<button type="button"   id="submitButton" onclick="checkSubmit();" class="button" disabled>送出</button>
@@ -107,6 +107,7 @@ div {
 		$("#console1").val("Switch")
 		$("#gamename").val("馬力歐賽車")
 		$("#gamelocation").val("台中市")
+		$("#remark").val("下班後可面交")
 		$("#submitButton").attr("disabled",false)
 	}
 	
@@ -126,7 +127,7 @@ div {
 	$("#gamer").attr("readonly", true);
 	
 	
-	$("#console1").on("blur", function() {
+	$("#console1").mouseout(function() {
 		flag1 = false
 		if ($("#console1 :selected").text() == "") {
 			$("#console1span").html("<span>必填</span>")
@@ -139,7 +140,7 @@ div {
 		checkall();
 	})
 
-	$("#gamename").on("blur", function() {
+	$("#gamename").mouseout(function() {
 		flag2 = false
 		if ($("#gamename :selected").text() == "") {
 			$("#gamenamespan").html("<span>必填</span>")
@@ -152,7 +153,7 @@ div {
 		checkall();
 	})
 	
-	$("#gamelocation").on("blur", function() {
+	$("#gamelocation").mouseout(function() {
 			flag3 = false
 			if ($("#gamelocation :selected").text() == "") {
 				$("#gamelocationspan").html("<span>必填</span>")

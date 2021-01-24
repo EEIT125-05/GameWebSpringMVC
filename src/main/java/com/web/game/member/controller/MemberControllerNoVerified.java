@@ -122,30 +122,17 @@ public class MemberControllerNoVerified {
 		} else {
 			PasswordChange.setsPassword(sPassword);
 			mService.UpdateMember(PasswordChange);
-			return "redirect:/";
+//			return "redirect:/";
+			return "member/PasswordSetSuccess";
+			
 		}
-
+	}
+	
+	@GetMapping("/PasswordSetSuccess")
+	public String PasswordSetSuccess() {
+		return "redirect:/";
 	}
 
-//	@PostMapping("/MemberCheck")
-//	public String MemberLogin(Model model, String sAccount, String sEmail,
-//			 String sPhone) {
-//		try {
-//			String Account = mService.Checkmember(sAccount);
-//			String Phone = mService.CheckPhone(sPhone);
-//			String Email = mService.CheckEmail(sEmail);
-//			if(Account==""&&Phone==""&&Email=="") {
-//				return "member/MemberCheck";
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return "member/MemberCheck";
-//		}
-//		model.addAttribute("showError", "請確認帳號、電話或信箱是否有重複");
-//		return "member/MemberLogin";
-//	}
-
-	// @PostMapping("/MemberCheck111")
 	@PostMapping("/MemberCheck")
 	public void MemberInsert(Model model, MemberBean insertMB,
 //			,@RequestParam String sNickname, @RequestParam String sEmail, @RequestParam String sEname,
@@ -167,7 +154,8 @@ public class MemberControllerNoVerified {
 				out.print("<script>");
 				out.print("Swal.fire({\r\n" + "  icon: 'error',\r\n" + "  title: '註冊失敗',\r\n"
 						+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
-						+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/Login'\r\n" + "})");
+//						+ "window.location.href='http://192.168.196.32:8080/GameWebSpringMVC/member/Login'\r\n" + "})");
+				+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/Login'\r\n" + "})");
 				out.print("</script>");
 				out.print("</html></body>");
 
@@ -215,7 +203,8 @@ public class MemberControllerNoVerified {
 			out.print("<script>");
 			out.print("Swal.fire({\r\n" + "  icon: 'success',\r\n" + "  title: '註冊成功，回到首頁',\r\n"
 					+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
-					+ "window.location.href='http://localhost:8080/GameWebSpringMVC/'\r\n" + "})");
+//					+ "window.location.href='http://192.168.196.32:8080/GameWebSpringMVC/'\r\n" + "})");
+			+ "window.location.href='http://localhost:8080/GameWebSpringMVC/'\r\n" + "})");
 			out.print("</script>");
 			out.print("</html></body>");
 //			return "redirect:/";
@@ -256,10 +245,11 @@ public class MemberControllerNoVerified {
 
 	@PostMapping("/GameBarGMSignin")
 	public String GameBarSignin(Model model, String sAccount, HttpServletResponse response, SessionStatus Status) {
-		sAccount = "game20200922";
+		sAccount = "admin";
 		MemberBean GameBarSignin = mService.Selectmember(sAccount);
 		model.addAttribute("user", GameBarSignin);
 		model.addAttribute("users", mService.getAllMembers());
+		model.addAttribute("withplayHost", WithService.getaccount(sAccount));
 //		response.setContentType(CONTENT_TYPE);
 //		PrintWriter out = response.getWriter();
 //		out.print("<html><body>");
@@ -271,6 +261,7 @@ public class MemberControllerNoVerified {
 //		out.print("</script>");
 //		out.print("</html></body>");
 		return "/backstage/Member";
+//		return "/member/MemberGetAll";
 	}
 
 	@GetMapping("/SignIn")
@@ -331,7 +322,8 @@ public class MemberControllerNoVerified {
 				out.print("<script>");
 				out.print("Swal.fire({\r\n" + "  icon: 'success',\r\n" + "  title: '登入成功，回到首頁',\r\n"
 						+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
-						+ "window.location.href='http://localhost:8080/GameWebSpringMVC/'\r\n" + "})");
+//						+ "window.location.href='http://192.168.196.32:8080/GameWebSpringMVC/'\r\n" + "})");
+				+ "window.location.href='http://localhost:8080/GameWebSpringMVC/'\r\n" + "})");
 				out.print("</script>");
 				out.print("</html></body>");
 
@@ -350,7 +342,8 @@ public class MemberControllerNoVerified {
 				out.print("<script>");
 				out.print("Swal.fire({\r\n" + "  icon: 'error',\r\n" + "  title: '帳號已遭鎖定，如有問題請洽詢客服',\r\n"
 						+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
-						+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/Sign'\r\n" + "})");
+//						+ "window.location.href='http://192.168.196.32:8080/GameWebSpringMVC/member/Sign'\r\n" + "})");
+				+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/Sign'\r\n" + "})");
 				out.print("</script>");
 				out.print("</html></body>");
 			}
@@ -361,7 +354,8 @@ public class MemberControllerNoVerified {
 			out.print("<script>");
 			out.print("Swal.fire({\r\n" + "  icon: 'error',\r\n" + "  title: '帳號或密碼錯誤，請重新輸入',\r\n"
 					+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
-					+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/Sign'\r\n" + "})");
+//					+ "window.location.href='http://192.168.196.32:8080/GameWebSpringMVC/member/Sign'\r\n" + "})");
+			+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/Sign'\r\n" + "})");
 			out.print("</script>");
 			out.print("</html></body>");
 			// return "member/MemberSignin";

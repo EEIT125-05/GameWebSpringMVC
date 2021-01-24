@@ -4,7 +4,7 @@
 
  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="<c:url value='/'/>" style="color:white;font-weight:bold;padding:0"><img src="${pageContext.request.contextPath}/images/barLOGOsmall.png" style="height:45px"></a>
+      <a class="navbar-brand" href="<c:url value='/'/>" style="color:white;font-weight:bold;padding:0"><img src="${pageContext.request.contextPath}/images/gamebarLOGO2.png" style="height:45px"></a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -33,7 +33,7 @@
               </c:choose>
               <a class="dropdown-item" href="<c:url value='/member/Login'/>">註冊</a>
               <a class="dropdown-item" href="<c:url value='/member/Data'/>">會員資料</a>
-              <c:if test="${user.sAccount == 'game20200922'}">
+              <c:if test="${user.sAccount == 'admin'}">
               	<a class="dropdown-item" href="<c:url value="/backstage/Member"/>">後台測試中</a>
               </c:if>
             </div>
@@ -69,6 +69,7 @@
               陪玩
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+   
               <c:choose>
 	              <c:when test="${empty user}">
 	              	<a class="dropdown-item" href="<c:url value='/withplay/Index'/>">找人陪玩</a>
@@ -79,17 +80,15 @@
 		              <c:when test="${empty withplayHost.sAccount}">
 		              	<a class="dropdown-item" href="<c:url value='/withplay/new'/>">當陪玩主</a>
 	             	<a class="dropdown-item" href="<c:url value='/withplay/Withorderlist'/>">我的訂單</a>
-	             	<a class="dropdown-item" href="<c:url value='/withplay/With'/>">管理</a>
 		              </c:when>  
 		              <c:otherwise>              
 		              	<a class="dropdown-item" href="<c:url value='/withplay/update'/>">修改資料</a>
 		              	<a class="dropdown-item" href="<c:url value='/withplay/Withorderlist'/>">我的訂單</a>
-	             		<a class="dropdown-item" href="<c:url value='/withplay/With'/>">管理</a>
 		              </c:otherwise>              
 		              </c:choose>              
 	              </c:otherwise>
               </c:choose>
-               
+             
               
             </div>
           </li>
@@ -111,11 +110,11 @@
               遊戲交換
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-              <a class="dropdown-item" href="<c:url value='/exchange/Index'/>">交換版</a>
+              <a class="dropdown-item" href="<c:url value='/exchange/Index'/>">交換池</a>
               <a class="dropdown-item" href="<c:url value="/exchange/wishBoard"/>">許願池</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/insertSupportGame"/>">我要換</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/insertDemandGame"/>">我要徵</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/insertMyGame"/>">新增我的遊戲庫</a>
+              <a class="dropdown-item" href="<c:url value="/exchange/insertSupportGame"/>"><span style="color:gray">(交換池)</span>二手交換</a>
+              <a class="dropdown-item" href="<c:url value="/exchange/insertDemandGame"/>"><span style="color:gray">(許願池)</span>許願</a>
+              <a class="dropdown-item" href="<c:url value="/exchange/insertMyGame"/>"><span style="color:gray">(遊戲庫)</span>新增我的遊戲</a>
               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">我的遊戲庫</a>
               <a class="dropdown-item" href="<c:url value="/exchange/gotoMemberData"/>">我的交易紀錄(會員中心)</a>
               

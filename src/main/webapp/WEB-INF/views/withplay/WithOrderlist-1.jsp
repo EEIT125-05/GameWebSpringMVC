@@ -161,12 +161,12 @@
 					<c:when test="${ withOrder.iStatus == 1}">
 					<button  class="btn btn-primary" onclick="Ok(${withOrder.iNo})" >接受</button>
 					<HR>									
-					<button  class="btn btn-primary"  onclick="Reject(${withOrder.iNo})" >拒絕</button>					
+					<button  class="btn btn-danger"  onclick="Reject(${withOrder.iNo})" >拒絕</button>					
 					</c:when>
 					<c:otherwise>
 					<button  class="btn btn-primary" disabled="disabled" onclick="Ok(${withOrder.iNo})" >接受</button>
 					<HR>									
-					<button  class="btn btn-primary" disabled="disabled" onclick="Reject(${withOrder.iNo})" >拒絕</button>	
+					<button  class="btn btn-danger" disabled="disabled" onclick="Reject(${withOrder.iNo})" >拒絕</button>	
 					</c:otherwise>				
 					</c:choose>
 					</td>

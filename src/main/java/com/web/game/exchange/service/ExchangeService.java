@@ -1,6 +1,7 @@
 package com.web.game.exchange.service;
 
 
+import java.awt.peer.MenuComponentPeer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +36,7 @@ public class ExchangeService {
 	DemandDAO demandDAO;
 	@Autowired
 	WishDao wishDAO;
-
+	
 	//-------------testchange
 	@Transactional
 	public List<SupportGameBean> changePage(int page){
@@ -55,6 +56,14 @@ public class ExchangeService {
 	@Transactional
 	public List<DemandGameBean> getAllDemandList() {
 		return demandDAO.getAllDemandList();
+	}
+	
+	
+	@Transactional
+	public List<DemandGameBean> getBackStageDemandQty(){
+		List<DemandGameBean> list = new ArrayList<>();
+		list = demandDAO.getBackStageDemandQty();
+		return list;
 	}
 	
 //	@Transactional
@@ -112,6 +121,12 @@ public class ExchangeService {
 		return list;
 	}
 	
+	@Transactional
+	public List<SupportGameBean> getBackStageSupportQty(){
+		List<SupportGameBean> list = new ArrayList<>();
+		list = supportDAO.getBackStageSupportQty();
+		return list;
+	}
 	
 	
 	@Transactional
@@ -206,9 +221,13 @@ public class ExchangeService {
 				mygamesDAO.insertMyGame(partyAgamebean);
 				mygamesDAO.insertMyGame(partyBgamebean);
 				result = changeDAO.updateChangeHistory(CHB);
-				if(CHB.getMygamebean().getSupportgamebean()!=null) {
-					CHB.getMygamebean().getSupportgamebean().setStatus(3);//透過上交換過的狀態碼
-					supportDAO.updateSupportGame(CHB.getMygamebean().getSupportgamebean());
+//				if(CHB.getMygamebean().getSupportgamebean()!=null) {
+//					CHB.getMygamebean().getSupportgamebean().setStatus(3);//透過上交換過的狀態碼
+//					supportDAO.updateSupportGame(CHB.getMygamebean().getSupportgamebean());
+//				}
+				if(CHB.getSupportgamebean().getMygamebean()!=null) {
+					CHB.getSupportgamebean().getMygamebean().setStatus(3);//透過上交換過的狀態碼
+					mygamesDAO.updateGameToSupport(CHB.getSupportgamebean().getMygamebean());
 				}
 			}
 		}
@@ -379,6 +398,25 @@ public class ExchangeService {
 		System.out.println(mygame.getSupportgamebean());
 		return mygamesDAO.updateGameToSupport(mygame);
 	}
+	
+	//----------------------AOP
+	
+	@Transactional
+	public boolean changeStatusByMember(Boolean status,String sAccount) {
+		System.out.println("AOP changeStatusSupportServiceIn");
+		if(status ==true) {
+			if(demandDAO.changeDemandStatusByMember(0, sAccount)) {
+			return supportDAO.changeSupportStatusByMember(0, sAccount);
+			}
+		}else {
+			if(demandDAO.changeDemandStatusByMember(5, sAccount)) {
+			return supportDAO.changeSupportStatusByMember(5, sAccount);
+			}
+		}
+		return false;
+	}
+	
+	
 	
 	//-----------------------
 	@Transactional

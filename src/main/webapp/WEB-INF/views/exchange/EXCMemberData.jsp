@@ -20,29 +20,6 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 <script src='//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js'></script>
 <link rel='stylesheet' href='https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css'>
 <style>
-/* input { */
-/* 	border-radius: 5px; */
-/* } */
-
-#DIV1 {
-	width: 350px;
-	line-height: 50px; 
-	padding: 10px;
-	border: 5px gray solid;
-	margin-left: 50;
-	float: left;
-}
-
-#DIV2 {
-	background-color: #272727;
-/* 	color: white; */
-/* 	width: 600px; */
-/* 	line-height: 50px; */
- 	margin-left: 100;
- 	padding: 20px;
- 	border: 5px gray solid; 
- 	float: left; 
-}
 
 .a {
 	width: 450px;
@@ -70,35 +47,72 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 .b:hover {
 	color: #00FFFF;
 }
+
+ #DIV1 { 
+  	margin-left: 50;  
+ } 
+
+ #DIV2 { */
+ 	margin-left: 100; 
+ 	padding-left:65px;
+ } 
+
+#DIV2 td{
+	font-size:1.5em;
+}
+
+.leftBar {
+	width: 450px;
+	height: 80px;
+	border: 2px solid black;
+	background-color: #fff;
+	margin: auto;
+	margin-bottom: 100px;
+	font-size: 1.5em;
+	font-weight: bold;
+	border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.row {
+  flex-grow: 1; /*可佔滿垂直剩餘的空間*/
+}
+
+
 </style>
 </head>
 <body>
-	<H1 align='center'>會員資料管理</H1>
-	<hr>
+
 	<%@ include file="../Header.jsp"%>
-	<div id="DIV1">
+	<div class="row">
+	<div id="DIV1" class="col-md-2">
 		<H1>相關記錄</H1>
 		<table>
-			<tr>
-				<td class="a"><a href="####">商城記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a href="<c:url value="/forum/gotoMemberData"/>">討論區記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a href="####">陪玩記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a href="<c:url value="/contest/gotoMemberData"/>">賽事記錄</a></td>
-			</tr>
-			<tr>
-				<td class="a"><a href="<c:url value="/exchange/gotoMemberData"/>">交換記錄</a></td>
-			</tr>
-		</table>
+				<tr>
+					<td class="leftBar"><a href="<c:url value='/member/Data'/>">會員資料</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a href="####">商城記錄</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a href="<c:url value="/forum/gotoMemberData"/>">討論區記錄</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a href="<c:url value="/withplay/gotoMemberData"/>">陪玩記錄</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a
+						href="<c:url value="/contest/gotoMemberData"/>">賽事記錄</a></td>
+				</tr>
+				<tr>
+					<td class="leftBar"><a
+						href="<c:url value="/exchange/gotoMemberData"/>">交換記錄</a></td>
+				</tr>
+			</table>
 	</div>
-	<div class="container" id="DIV2" style='margin-bottom: 30;'>
+	<div id="DIV2" class="col-md-9">
 		<div id="accordion">
-	<h1 class="text-warning">${user.sAccount }的遊戲庫</h1>
+	<h1 style="color:black">${user.sAccount }的遊戲庫</h1>
   <div class="card">
     <div class="card-header" id="headingOne">
       <h5 class="mb-0">
@@ -115,7 +129,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 			查無資料<br>
 				</c:when>
 				<c:when test="${not empty ChangeHistoryList}">
-				<table border="1" id="tableChange" class="table table-hover" style="font-size: 12px; border:3px;">
+				<table border="1" id="tableChange" class="display" style="font-size: 20px;text-align:center;">
 				<thead>
 				<tr>
 					<th>編號　　</th>
@@ -159,7 +173,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 			查無資料<br>
 				</c:when>
 				<c:when test="${not empty WishHistoryList}">
-				<table border="1" id="tableWish" class="table table-hover" style="font-size: 12px; border:3px;">
+				<table border="1" id="tableWish" class="display" style="font-size: 20px;text-align:center;">
 				<thead>
 				<tr>
 					<th>編號　　</th>
@@ -213,7 +227,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 		</c:when>
 		<c:when test="${not empty MemberSupport }">
 
-			<table border="1" id="tableSupport" class="table table-hover" style="font-size: 12px; border:3px">
+			<table border="1" id="tableSupport" class="display" style="font-size: 20px;text-align:center;">
 				<thead>
 				<tr>
 					<th>編號</th>
@@ -311,7 +325,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 				</c:when>
 				<c:when test="${not empty MemberDemand }">
 
-					<table border="1" id="tableDemand" class="table table-hover" style="font-size: 12px; border:3px">
+					<table border="1" id="tableDemand" class="display" style="font-size: 20px;text-align:center;">
 						<tr>
 							<th>編號</th>
 							<th>遊戲名稱</th>
@@ -388,7 +402,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 		目前遊戲庫無任何遊戲<br>
 				</c:when>
 				<c:when test="${not empty MemberGames }">
-					<table border="1" id="tableMyGames" class="table table-hover" style="font-size: 12px; border:3px">
+					<table border="1" id="tableMyGames" class="display" style="font-size: 20px;text-align:center;">
 						<thead>
 						<tr>
 							<th>編號</th>
@@ -458,9 +472,8 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 </div>
 		
 		
-		
+	</div>	
 	</div>
-	<div style="clear: both;"></div>
 
 	<%@ include file="../Foot.jsp"%>
 </body>

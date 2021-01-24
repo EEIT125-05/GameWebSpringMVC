@@ -22,6 +22,7 @@ import com.web.game.forum.service.ForumService;
 import com.web.game.forum.service.ReplyService;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
+import com.web.game.withplay.service.WithOrderService;
 import com.web.game.withplay.service.WithService;
 
 @Controller
@@ -35,6 +36,9 @@ public class HomeController {
 	WithService WithService;
 	
 	@Autowired
+	WithOrderService OrderService;
+	
+	@Autowired
 	ExchangeService exchangeService;
 	
 	@Autowired
@@ -45,6 +49,9 @@ public class HomeController {
 	
 	@Autowired
 	ReplyService rService;
+	
+	@Autowired
+	WithService withService;
 	
 	@GetMapping("/")
 	public String gameIndex(@CookieValue(required = false) String JSESSIONID,
@@ -104,13 +111,20 @@ public class HomeController {
 		return "backstage/Backstage";
 	}
 	
+//	@GetMapping("/backstage/Member")
+//	public String gotoMemberBackStage(Model model) {	
+//		return "backstage/Member";
+//	}
 	@GetMapping("/backstage/Member")
-	public String gotoMemberBackStage(Model model) {
-		
-		
-		
-		return "backstage/Member";
+	public String gotoMemberBackStage(Model model, String sAccount) {
+		MemberBean Signin = (MemberBean) model.getAttribute("user");
+		System.out.println("有無進來這裡");
+		sAccount = Signin.getsAccount();
+		sAccount.equals("admin");
+		model.addAttribute("users", mService.getAllMembers());
+		return "/backstage/Member";
 	}
+
 	
 	@GetMapping("/backstage/Mall")
 	public String gotoMallBackStage(Model model) {
@@ -122,7 +136,8 @@ public class HomeController {
 	
 	@GetMapping("/backstage/Withplay")
 	public String gotoWithplayBackStage(Model model) {
-		
+		model.addAttribute("Withlist",withService.list());
+		model.addAttribute("WithOrder",OrderService.alllist());
 		
 		
 		return "backstage/Withplay";
@@ -144,6 +159,8 @@ public class HomeController {
 		map.put("support",exchangeService.getAllSupportList());
 		map.put("demand",exchangeService.getAllDemandList());
 		model.addAttribute("AllListMap",map);
+		model.addAttribute("demandGameQty",exchangeService.getBackStageDemandQty().size());
+		model.addAttribute("supportGameQty",exchangeService.getBackStageSupportQty().size());
 		return "backstage/Exchange";
 	}
 	

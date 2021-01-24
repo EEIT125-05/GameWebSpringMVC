@@ -42,7 +42,7 @@
             </a>
           </li>
           <li>
-            <a href="javascript:;">
+            <a href="<c:url value='/withplay/With'/>">
               <i class="nc-icon nc-bank"></i>
               <p>陪玩系統</p>
             </a>

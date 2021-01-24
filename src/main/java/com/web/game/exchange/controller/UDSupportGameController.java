@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sun.mail.imap.protocol.Status;
+import com.web.game.exchange.dao.SupportDAO;
 import com.web.game.exchange.model.ChangeHistoryBean;
 import com.web.game.exchange.model.DemandGameBean;
 import com.web.game.exchange.model.MyGameBean;
@@ -56,25 +58,33 @@ public class UDSupportGameController {
 	@PutMapping("/updateStatus")//停權用
 	public @ResponseBody boolean updateStatus(Model model,
 											  @RequestParam String type,
-											  @RequestParam Integer no,
-											  @RequestParam Integer status) {
+											  @RequestParam Integer no
+//											  @RequestParam Integer status
+											  ) {
+		
 		boolean result = false;
-		if(status == 0) {
-			status = 5;
-		}else {
-			status = 0;
-		}
+		Integer status;
 		if(type.equals("support")) {
 			SupportGameBean supportGameBean = exchangeService.FindsupportGame(no);
+			if(supportGameBean.getStatus() == 0) {
+				status = 5;
+			}else {
+				status = 0;
+			}
 			supportGameBean.setStatus(status);
 			if(exchangeService.UpdateSupportGame(supportGameBean)) {
 			result =true;
 			}
 		}else {
 			DemandGameBean demandGameBean = exchangeService.getDemandGameBean(no);
+			if(demandGameBean.getStatus() == 0) {
+				status = 5;
+			}else {
+				status = 0;
+			}
 			demandGameBean.setStatus(status);
 			if(exchangeService.updateDemandGema(demandGameBean)) {
-				result= true;
+			result= true;
 			}
 		}
 		return result;
@@ -140,6 +150,21 @@ public class UDSupportGameController {
 		model.addAttribute("update", "修改");
 		model.addAttribute("gamebean", gamebean);
 		return "exchange/EXCGameSupportForm";
+	}
+	
+	@GetMapping("/backstage/getSupportGameQtyAjax")
+	public @ResponseBody Integer getSupportGameQty(Model model) {
+		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
+		list = exchangeService.getBackStageSupportQty();
+		System.out.println("listsize:"+list.size());
+		return list.size();
+	}
+	@GetMapping("/backstage/getDemandGameQtyAjax")
+	public @ResponseBody Integer getDemandGameQty(Model model) {
+		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
+		list = exchangeService.getBackStageDemandQty();
+		System.out.println("listsize:"+list.size());
+		return list.size();
 	}
 
 	

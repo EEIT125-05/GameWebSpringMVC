@@ -84,6 +84,27 @@ public class SupportDAO {
 				.getResultList();
 		return list;
 	}
+	@SuppressWarnings("unchecked")
+	public List<SupportGameBean> getBackStageSupportQty(){
+		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
+		Session session =factory.getCurrentSession();
+		String queryAll = "FROM SupportGameBean WHERE status =0";
+		list = (List<SupportGameBean>) session.createQuery(queryAll)
+				.getResultList();
+		return list;
+	}
+	
+	public Boolean changeSupportStatusByMember(Integer status,String sAccount) {
+		Session session = factory.getCurrentSession();
+		String changeStatus = "update SupportGameBean s set s.status=:status where s.gamer=:gamer";
+		Integer times = session.createQuery(changeStatus).setParameter("status", status).setParameter("gamer", sAccount).
+		executeUpdate();
+		System.out.println("更新次數support"+times);
+		if(times > 0) {
+			return true;
+		}
+		return false;
+	}
 	
 	
 	// -------------------------------------------------

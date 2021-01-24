@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.web.game.forum.model.ReplyBean;
 import com.web.game.withplay.dao.WithReplyDAO;
 import com.web.game.withplay.model.WithPlay;
 import com.web.game.withplay.model.WithReplyBean;
@@ -36,6 +37,39 @@ public class WithReplyDAOImpl implements WithReplyDAO{
 		Wp.setiNo(iId);
 		try{
 			session.delete(Wp);
+			return true;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+
+	@Override
+	public WithReplyBean selectOneReply(Integer iNo) {
+		Session session = factory.getCurrentSession();
+		return session.get(WithReplyBean.class, iNo);
+	}
+
+
+	@Override
+	public Boolean deleteReply(WithReplyBean rReplyBean) {
+		Session session = factory.getCurrentSession();
+		try {
+			session.delete(rReplyBean);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+
+	@Override
+	public Boolean updateReply(WithReplyBean rReplyBean) {
+		Session session = factory.getCurrentSession();
+		try {
+			session.update(rReplyBean);
 			return true;
 		}catch (Exception e) {
 			e.printStackTrace();

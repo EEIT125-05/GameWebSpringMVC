@@ -115,13 +115,9 @@ input {
 												var googleEname = res.result.names[0].displayName;
 												var googleEmail = res.result.emailAddresses[0].value;
 												var xhr = new XMLHttpRequest();
-												xhr
-														.open(
-																"POST",
-																"<c:url value='/member/GoogleSignin' />",
+												xhr.open("POST","<c:url value='/member/GoogleSignin' />",
 																true);
-												xhr
-														.setRequestHeader(
+												xhr.setRequestHeader(
 																"Content-Type",
 																"application/x-www-form-urlencoded");
 												xhr.send("googleEname="
@@ -131,22 +127,13 @@ input {
 												xhr.onreadystatechange = function() {
 													if (xhr.readyState == 4
 															&& xhr.status == 200) {
-														console
-																.log("登入成功xhr.readyState="
+														console.log("登入成功xhr.readyState="
 																		+ xhr.readyState);
-														console
-																.log("登入成功xhr.status="
+														console.log("登入成功xhr.status="
 																		+ xhr.status);
-														Swal
-																.fire(
-																		'OK',
-																		"恭喜登入成功",
-																		'success')
-																.then(
-																		function() {
-																			$(
-																					'#Google')
-																					.submit();
+														Swal.fire('OK',"恭喜登入成功",'success')
+																.then(function() {
+																			$('#Google').submit();
 																		})
 														return true;
 													} else {
@@ -298,12 +285,13 @@ input {
 			id="submitSignin">
 			<h3 style='padding-top: 30px; padding-left: 30px;' align='left'>
 				帳號:<input type="text" name="sAccount" minlength="6" maxlength="20"
-					placeholder="請輸入帳號" required
+					style="height: 50;" placeholder="請輸入帳號" required
 					value="${requestScope.sAccount}${param.sAccount}">
 			</h3>
-			<h3 style='padding-top: 30px; padding-left: 30px;' align='left'>
+			<h3 style='padding-top: 5px; padding-left: 30px;' align='left'>
 				密碼:<input type="password" id="Password" name="sPassword"
-					placeholder="請輸入密碼" minlength="8" maxlength="16" required
+					style="height: 50;" placeholder="請輸入密碼" minlength="8"
+					maxlength="16" required
 					value="${requestScope.password}${param.sPassword}"> <input
 					id="btn" type="button" class="material-icons"
 					style="font-size: 25px" value="visibility">
@@ -319,16 +307,16 @@ input {
                </c:if>
 					value="true">自動登入</label><a href="<c:url value='/member/Forget'/>">忘記密碼</a><br>
 			</h4>
-			<h4 style='padding-top: 10px;'>
-				驗證碼:<input type="text" id="input1" style="width: 150px" /><input
-					type="button" id="checkCode" class="code"
-					style="width: 90px; margin: 0px 10px;" onClick="createCode()" />
-				<!-- 						<input -->
-				<!-- 						id="Button1" onClick="validate();" type="button" value="按這裡驗證" /> -->
-				<br> <span id="check"></span>
-			</h4>
+<!-- 			<h4 style='padding-top: 10px;'> -->
+<!-- 				驗證碼:<input type="text" id="input1" style="width: 150px" /><input -->
+<!-- 					type="button" id="checkCode" class="code" -->
+<!-- 					style="width: 90px; margin: 0px 10px;" onClick="createCode()" /> -->
+<!-- 										<input -->
+<!-- 										id="Button1" onClick="validate();" type="button" value="按這裡驗證" /> -->
+<!-- 				<br> <span id="check"></span> -->
+<!-- 			</h4> -->
 
-			<button id="submitSignin" name="submit555" type="button"
+			<button id="submitSignin" name="submit555" type="submit" 
 				class="button"
 				style='width: 350; height: 50; font-size: 30; margin-top: 15;'
 				onclick="checkSubmit();">
@@ -345,9 +333,9 @@ input {
 			<select name="demoAccount">
 				<option value="aaa">廷亙</option>
 				<option value="bbb">駿宏</option>
-				<option value="Jack12345">昌孝1</option>
+				<option value="handsomeJack">昌孝1</option>
 				<option value="bts520">昌孝2</option>
-				<option value="Jack1234">嵩謙</option>
+				<option value="handsomeJack">嵩謙</option>
 				<option value="henryxcccc">冠惟1</option>
 				<option value="benchang">冠惟2</option>
 			</select>
