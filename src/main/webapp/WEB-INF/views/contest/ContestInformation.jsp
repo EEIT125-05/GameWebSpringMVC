@@ -15,7 +15,8 @@
 	margin:0
 }
 .itemChoose{
-	background-color:#0069d9;
+	background-color:#343a40;
+	color:white;
 }
 
 .item{
@@ -146,15 +147,15 @@ body{
 
 		<img src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" alt="" style="width:560px">
 		<div>
-			<label class="btn btn-primary item itemChoose">總覽</label>
-			<label class="btn btn-primary item">參賽者</label>
-			<label class="btn btn-primary item">賽程</label>
+			<label class="btn btn-outline-dark item itemChoose">總覽</label>
+			<label class="btn btn-outline-dark item">參賽者</label>
+			<label class="btn btn-outline-dark item">賽程</label>
 			<c:choose>
 	    		<c:when test="${cContestBean.sHost == user.sAccount}">
-					<label class="btn btn-primary item">更新戰績</label>
+					<label class="btn btn-outline-dark item">更新戰績</label>
 	    		</c:when>
 	    		<c:otherwise>
-					<label class="btn btn-primary item">戰績</label>
+					<label class="btn btn-outline-dark item">戰績</label>
 	    		</c:otherwise>
 	    	</c:choose>
 	    	
@@ -236,10 +237,10 @@ body{
 						<span style="color:gray;margin:0 12px">更改</span>
 					</c:when>
 					<c:otherwise>
-						<a class="btn btn-primary" href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>
+						<a class="btn btn-outline-dark" href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>
 					</c:otherwise>
 				</c:choose>
-				<button class="btn btn-primary" type="submit" id="delete" value="${cContestBean.iNo}">刪除</button>
+				<button class="btn btn-outline-dark" type="submit" id="delete" value="${cContestBean.iNo}">刪除</button>
 				<span style="font-size:70%;color:red">(註:至比賽當日即無法更改比賽)</span>
 			</c:if>
 			
@@ -313,7 +314,7 @@ body{
 								<span style="color:gray">新增/更新賽程</span>
 							</c:when>
 							<c:otherwise>
-								<a id="showOption" class="btn btn-primary" href="<c:url value='/contest/Schedule/${cContestBean.iNo}'/>">編輯賽程</a>
+								<a id="showOption" class="btn btn-outline-dark" href="<c:url value='/contest/Schedule/${cContestBean.iNo}'/>">編輯賽程</a>
 							</c:otherwise>
 						</c:choose>
 						<span id="spanHidden" style="font-size:70%;color:red">(註:至比賽當日即無法更改賽程)</span>
@@ -420,7 +421,7 @@ body{
     		</c:otherwise>
     	</c:choose>
     	
-			<a class="btn btn-primary" data-toggle="collapse" href="#preliminaryCollapse" role="button" aria-expanded="false" aria-controls="#preliminaryCollapse">預賽戰績</a>
+			<a class="btn btn-outline-dark" data-toggle="collapse" href="#preliminaryCollapse" role="button" aria-expanded="false" aria-controls="#preliminaryCollapse">預賽戰績</a>
 			
 			<div class="collapse" id="preliminaryCollapse" style="margin-top:20px;margin-bottom:20px">
 	  			
@@ -485,7 +486,7 @@ body{
 			
 			
 			<hr>
-			<a class="btn btn-primary" data-toggle="collapse" href="#rematchCollapse" role="button" aria-expanded="false" aria-controls="#rematchCollapse">複賽戰績</a>
+			<a class="btn btn-outline-dark" data-toggle="collapse" href="#rematchCollapse" role="button" aria-expanded="false" aria-controls="#rematchCollapse">複賽戰績</a>
 			
 			<div class="collapse" id="rematchCollapse" style="margin-top:20px;margin-bottom:20px">
 
@@ -600,6 +601,9 @@ body{
 						Swal.fire({
 								      title:"儲存成功!",
 									  icon:"success",
+									  showClass: {
+										    popup: 'animate__animated animate__fadeInDown'
+										  },
 									  hideClass: {
 									    popup: 'animate__animated animate__fadeOutUp'
 									  }
@@ -663,7 +667,7 @@ body{
 										"winners": winners
 								},
 								success: function(result){
-									let rematchMode = ${cContestBean.sRematchMode};
+									let rematchMode = "${cContestBean.sRematchMode}";
 									console.log("複賽: " + rematchMode);
 									$.each(result.promoteList,function(key, value){
 										console.log(value);

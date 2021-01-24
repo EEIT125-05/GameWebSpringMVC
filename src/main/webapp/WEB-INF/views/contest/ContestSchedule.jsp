@@ -170,7 +170,7 @@
 	    		<label>比賽形式: </label><label>自由對戰</label><br>
 	    	</c:if>
 	    		<input type="hidden" id="rematchMode" value="${cContestBean.sRematchMode}">
-			<input class="btn btn-primary" type="button" id="build" value="產生">
+			<input class="btn btn-outline-dark" type="button" id="build" value="產生">
 		</div>
 		<hr>
 	</div>
@@ -190,8 +190,8 @@
 		<p>參賽人員:</p>
 		<label id="playerCount"></label>
 		<br>
-		<button class="btn btn-primary" id="auto">自動安排</button>
-	    <button class="btn btn-primary" id="createImage">儲存賽程</button>
+		<button class="btn btn-outline-dark" id="auto">自動安排</button>
+	    <button class="btn btn-outline-dark" id="createImage">儲存賽程</button>
 	
 	</div>
 

@@ -107,10 +107,10 @@
 		<form:errors path="sTitle" class="error"/> 
 	</div>
 	<div>
-		<label>內文: </label>
+		
+		<label>內文: </label><form:errors path="sText" class="error"/> 
 		<form:textarea id="sText" path="sText" cols="100" rows="15"/>
 		<br><label id="textError" class="error"></label>
-		<br><form:errors path="sText" class="error"/> 
 	</div>
 	<div>
 		<input type="submit" id="submitForm" class="button" name="sForumConfirm" value="${sForumConfirm}"/>

@@ -81,7 +81,7 @@
 				<p>遊戲ID: ${pParticipateBean.sGameId}</p>
 				<hr>
 			</c:if>
-			<input class="btn btn-primary" type="submit" id="confirm" name="confirm" value="確認${sContestConfirm}"/>
+			<input class="btn btn-outline-dark" type="submit" id="confirm" name="confirm" value="確認${sContestConfirm}"/>
 
 </div>
 <%@ include file="../Foot.jsp" %>
