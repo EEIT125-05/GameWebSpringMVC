@@ -44,10 +44,6 @@ input {
 	float: right;
 }
 
-table {
-	margin: 15px;
-}
-
 .b {
 	color: black;
 	font-size: 21;
@@ -119,8 +115,8 @@ table {
 			</table>
 		</div>
 		<div id="DIV2" class="col-md-9">
-			<div class="detail" style='padding-left: 30px; margin-top: 30px;'>
-				<h1 align='center' style="color: black">${user.sAccount }的基本資料</h1>
+			<h1 align='center' style="color: black">${user.sAccount }的基本資料</h1>
+			<div class="detail" style='padding-left: 30px;'>
 				<form action="<c:url value='/member/Update'/>" method="post">
 					<div id="DIV3">
 						<img style="width: 400; height: 300;"

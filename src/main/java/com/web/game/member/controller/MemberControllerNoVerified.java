@@ -1,6 +1,9 @@
 package com.web.game.member.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.Blob;
 import java.text.SimpleDateFormat;
@@ -8,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +19,10 @@ import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,6 +56,9 @@ public class MemberControllerNoVerified {
 
 	@Autowired
 	WithService WithService;
+	
+	@Autowired
+	ServletContext context;
 
 	public void setService(MemberService service) {
 		this.mService = service;
@@ -475,5 +485,67 @@ public class MemberControllerNoVerified {
 	public String GoogleSignin() {
 		System.out.println("想回主畫面");
 		return "redirect:../";
+	}
+	
+	@GetMapping("/picture")
+	public ResponseEntity<byte[]> getPicture(Model model, @RequestParam("sAccount") String sAccount) {
+		System.out.println("有抓到圖片嗎??" + sAccount);
+		InputStream is = null;
+		OutputStream os = null;
+		String fileName = null;
+		String mimeType = null;
+		byte[] media = null;
+		ResponseEntity<byte[]> responseEntity = null;
+		HttpHeaders headers = new HttpHeaders();
+		MediaType mediaType = null;
+		Blob blob = null;
+		try {
+			System.out.println("進去service之前的" + sAccount);
+			MemberBean bean = mService.queryMember(sAccount);
+			System.out.println("抓圖片的資料=" + sAccount);
+			if (bean != null) {
+				blob = bean.getImage();
+				if (blob != null) {
+					is = blob.getBinaryStream();
+				}
+				fileName = bean.getFileName();
+			}
+
+			if (is == null) {
+				fileName = "NoImage.png";
+				is = context.getResourceAsStream("/images/" + fileName);
+			}
+
+			mimeType = context.getMimeType(fileName);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			int len = 0;
+			byte[] bytes = new byte[8192];
+
+			while ((len = is.read(bytes)) != -1) {
+				baos.write(bytes, 0, len);
+			}
+			media = baos.toByteArray();
+			mediaType = MediaType.valueOf(mimeType);
+			headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+			headers.setContentType(mediaType);
+			responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			throw new RuntimeException("發生Exception: " + ex.getMessage());
+		} finally {
+			try {
+				if (is != null)
+					is.close();
+			} catch (IOException e) {
+				;
+			}
+			try {
+				if (os != null)
+					os.close();
+			} catch (IOException e) {
+				;
+			}
+		}
+		return responseEntity;
 	}
 }

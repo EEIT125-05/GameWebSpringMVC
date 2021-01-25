@@ -279,68 +279,6 @@ public class MemberControllerVerified {
 		return responseEntity;
 	}
 
-	@GetMapping("/picture")
-	public ResponseEntity<byte[]> getPicture(Model model, @RequestParam("sAccount") String sAccount) {
-		System.out.println("有抓到圖片嗎??" + sAccount);
-		InputStream is = null;
-		OutputStream os = null;
-		String fileName = null;
-		String mimeType = null;
-		byte[] media = null;
-		ResponseEntity<byte[]> responseEntity = null;
-		HttpHeaders headers = new HttpHeaders();
-		MediaType mediaType = null;
-		Blob blob = null;
-		try {
-			System.out.println("進去service之前的" + sAccount);
-			MemberBean bean = mService.queryMember(sAccount);
-			System.out.println("抓圖片的資料=" + sAccount);
-			if (bean != null) {
-				blob = bean.getImage();
-				if (blob != null) {
-					is = blob.getBinaryStream();
-				}
-				fileName = bean.getFileName();
-			}
-
-			if (is == null) {
-				fileName = "NoImage.png";
-				is = context.getResourceAsStream("/images/" + fileName);
-			}
-
-			mimeType = context.getMimeType(fileName);
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			int len = 0;
-			byte[] bytes = new byte[8192];
-
-			while ((len = is.read(bytes)) != -1) {
-				baos.write(bytes, 0, len);
-			}
-			media = baos.toByteArray();
-			mediaType = MediaType.valueOf(mimeType);
-			headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-			headers.setContentType(mediaType);
-			responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			throw new RuntimeException("發生Exception: " + ex.getMessage());
-		} finally {
-			try {
-				if (is != null)
-					is.close();
-			} catch (IOException e) {
-				;
-			}
-			try {
-				if (os != null)
-					os.close();
-			} catch (IOException e) {
-				;
-			}
-		}
-		return responseEntity;
-	}
-
 	@RequestMapping("/Change/{sAccount}")
 	public @ResponseBody boolean StatusChange(Model model, @PathVariable("sAccount") String sAccount, boolean status,
 			HttpServletResponse response) {

@@ -8,7 +8,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>交換申請</title>
+<style>
+.spanStyle{
+	color:green;
+	font-size:18px
+}
+</style>
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
@@ -50,10 +56,10 @@ function applyFor(x){
 	var str1 = ""
 	if (x==="Submit"){
 		str = "交換"
-		str1 = "趕快到您的遊戲庫確認吧!!"
+		str1 = "<span class='spanStyle text-success'>${changeHistoryBean.mygamebean.gamename }${wishhistorybean.demandgamebean.gamename}</span>已經加到您的遊戲庫中囉<br>趕快到您的遊戲庫確認吧!!"
 	}else{
 		str = "駁回"
-		str1 = "您已駁回申請"
+		str1 = "您已駁回申請<br>遊戲將回到 交換池/許願池中"
 	}
 	Swal.fire({
   title: "你確定要"+str+"?",

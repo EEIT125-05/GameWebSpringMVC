@@ -98,7 +98,7 @@
 					<div class="col-md-7">
 						<a href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>"> 
 							<img class="img-fluid rounded mb-3 mb-md-0"
-								src="<c:url value='/contest/ImageLoading?iNo=${cContest.iNo}'/>" alt="">
+								src="<c:url value='/contest/ImageLoading?iNo=${cContest.iNo}'/>" alt="" style="width:100%">
 						</a>
 					</div>
 					<div class="col-md-5">
@@ -253,7 +253,7 @@ $(function(){
  								$("#point").append("<div class=\"row\">"
  												+"<div class=\"col-md-7\">"
  												+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
- 												+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\">"
+ 												+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\" style=\"width:100%\">"
  												+"</a>"
  												+"</div>"
  												+"<div class=\"col-md-5\">"
@@ -383,7 +383,7 @@ $(function(){
 					$("#point").append("<div class=\"row\">"
 									+"<div class=\"col-md-7\">"
 									+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
-									+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\">"
+									+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\" style=\"width:100%\">"
 									+"</a>"
 									+"</div>"
 									+"<div class=\"col-md-5\">"
@@ -488,7 +488,7 @@ $(function(){
 					$("#point").append("<div class=\"row\">"
 									+"<div class=\"col-md-7\">"
 									+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
-									+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\">"
+									+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\" style=\"width:100%\">"
 									+"</a>"
 									+"</div>"
 									+"<div class=\"col-md-5\">"
@@ -596,7 +596,7 @@ $(function(){
 							$("#point").append("<div class=\"row\">"
 											+"<div class=\"col-md-7\">"
 											+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
-											+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\">"
+											+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\" style=\"width:100%\">"
 											+"</a>"
 											+"</div>"
 											+"<div class=\"col-md-5\">"
@@ -609,7 +609,7 @@ $(function(){
 											+"<p>比賽時間: " + $.format.date(new Date(value.tTime), 'yyyy-MM-dd HH:mm') + "</p>"
 											+"<p>比賽地點: " + value.sLocation + "</p>"
 											+"<p>報名狀況: 	" + value.lParticipateBeans.length + "/" + value.iPeople + "</p>"
-											+"<a class=\"btn btn-primary\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
+											+"<a class=\"btn btn-outline-dark\" href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\">詳細按鈕"
 											+"<span class=\"glyphicon glyphicon-chevron-right\"></span>"
 											+"</a>"
 											+"</div>"

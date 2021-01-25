@@ -189,7 +189,7 @@ response.setContentType("text/html;charset=UTF-8");
 								<div class="col-7 col-md-8">
 									<div class="numbers">
 										<p class="card-category">陪玩師人數</p>
-										<p class="card-title">63人
+										<p class="card-title">9人
 										<p>
 									</div>
 								</div>
@@ -214,8 +214,8 @@ response.setContentType("text/html;charset=UTF-8");
 								</div>
 								<div class="col-7 col-md-8">
 									<div class="numbers">
-										<p class="card-category">留言總數</p>
-										<p class="card-title">98人次
+										<p class="card-category">評論總數</p>
+										<p class="card-title">10則
 										<p>
 									</div>
 								</div>
@@ -438,7 +438,7 @@ response.setContentType("text/html;charset=UTF-8");
 					<td>${With.sGame}</td>
 					<td><img style="width:150px;height:150px;"class="img1"
 						src='${pageContext.request.contextPath}/withplay/picture/${With.iId}' /></td>
-					<td style="word-break: break-all; width:300px" >${With.sComment}</td>
+					<td style="word-break: break-all; width:250px" >${With.sComment}</td>
 					<td>${With.iPrice}</td>
 					<td><a class='btn btn-outline-dark'
 						href="${pageContext.request.contextPath}/withplay/edit/${With.iId}">Edit</a>
@@ -620,7 +620,7 @@ $(function(){
 	            '#FFDC35',
 	          ],
 	          borderWidth: 0,
-	          data: [23,40,]
+	          data: [4,5,]
 	        }]
 	      },
 

@@ -174,7 +174,7 @@
 							<div class="collapse" id="childReply${reply.iNo}">
 								<label style="width:5%" ></label>
 								<input type="text" name="sText" required>
-								<button type="submit" class="btn btn-primary" name="parentReplyNo" value="${reply.iNo}">回覆</button>
+								<button type="submit" class="btn btn-outline-dark" name="parentReplyNo" value="${reply.iNo}">回覆</button>
 							</div>
 							</form>
 						</label>
@@ -188,7 +188,7 @@
 	<form action="<c:url value="/forum/Reply"/>" method="post">
 	<label>留言: </label>
 	<input type="text" id="reply" name="sText" required>
-	<button type="submit" id="replySubmit" class="btn btn-primary" name="forumNo" value="${fForumBean.iNo}">送出</button>
+	<button type="submit" id="replySubmit" class="btn btn-outline-dark" name="forumNo" value="${fForumBean.iNo}">送出</button>
 	</form>
 </div>
 
@@ -255,7 +255,7 @@
 		
 		$(".replyUpdate").on("click",function(){
 			let text = $("#oldText"+$(this).val()).val();
-			$("#newText"+$(this).val()).html("<input type=\"text\" value=\"" + text + "\"> <button class=\"btn btn-primary submitNewReply\">送出");
+			$("#newText"+$(this).val()).html("<input type=\"text\" value=\"" + text + "\"> <button class=\"btn btn-outline-dark submitNewReply\">送出");
 		});
 		
 		$(document).on("click", ".submitNewReply", function(){

@@ -53,13 +53,13 @@
     </div>
   	<br>
 	<form action="<c:url value='/forum/Index'/>" method="post">
-  		<button type="submit" class="btn btn-primary" name="sCategory" value="">全部</button>
-  		<button type="submit" class="btn btn-primary" name="sCategory" value="閒聊">閒聊</button>
-  		<button type="submit" class="btn btn-primary" name="sCategory" value="公告">公告</button>
-  		<button type="submit" class="btn btn-primary" name="sCategory" value="討論">討論</button>
-  		<button type="submit" class="btn btn-primary" name="sCategory" value="問題">問題</button>
-  		<button type="submit" class="btn btn-primary" name="sCategory" value="情報">情報</button>
-  		<button type="submit" class="btn btn-primary" name="sCategory" value="攻略">攻略</button>
+  		<button type="submit" class="btn btn-outline-dark" name="sCategory" value="">全部</button>
+  		<button type="submit" class="btn btn-outline-dark" name="sCategory" value="閒聊">閒聊</button>
+  		<button type="submit" class="btn btn-outline-dark" name="sCategory" value="公告">公告</button>
+  		<button type="submit" class="btn btn-outline-dark" name="sCategory" value="討論">討論</button>
+  		<button type="submit" class="btn btn-outline-dark" name="sCategory" value="問題">問題</button>
+  		<button type="submit" class="btn btn-outline-dark" name="sCategory" value="情報">情報</button>
+  		<button type="submit" class="btn btn-outline-dark" name="sCategory" value="攻略">攻略</button>
 		
 		<div class="input-group" style="margin-top:15px">
 			<h3> 搜尋其他文章:&nbsp;</h3>
@@ -79,7 +79,7 @@
 	<p>內文: </p>
 	<div>${fForumBean.sText}</div>
 	<hr>
-	<input class="btn btn-primary" type="submit" id="confirm" name="confirm" value="確認${sForumConfirm}"/>
+	<input class="btn btn-outline-dark" type="submit" id="confirm" name="confirm" value="確認${sForumConfirm}"/>
 
 <!-- </form> -->
 

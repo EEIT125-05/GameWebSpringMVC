@@ -5,7 +5,8 @@
     background: #555;
     padding: 20px 30px 20px 30px;
     font: 1.2em "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #D3D3D3;
+    color: white;
+    font-weight:bold;
     text-shadow: 1px 1px 1px #444;
     border: none;
     border-radius: 5px;

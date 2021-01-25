@@ -38,7 +38,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
 /* 	color: white; */
 /* 	width: 600px; */
 /* 	line-height: 50px; */
- 	margin-left: 100;
+    margin-left: 100; 
  	padding: 20px;
  	border: 5px gray solid; 
  	float: left; 
