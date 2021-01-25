@@ -292,10 +292,10 @@ table{
 		var sGender = document.getElementById('sGender').checked = true;
 		var sBirthday = document.getElementById("sBirthday");
 
-		sAccount.value = "year780818";
+		sAccount.value = "year2020";
 		sEmail.value = "gamebar20210128@gmail.com";
 		sPhone.value = "0956175060";
-		sPassword.value = "year780818";
+		sPassword.value = "year2020";
 		sEname.value = "顏廷亙";
 		sNickname.value = "奶茶糾齁拎";
 		sAddress;

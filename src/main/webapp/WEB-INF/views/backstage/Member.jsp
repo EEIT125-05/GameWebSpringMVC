@@ -321,7 +321,7 @@ centering /* body { */
 
 										<table id='tablee' style="text-align: center; width: 100%;">
 											<thead>
-												<tr style='background-color: limegreen; height: 72;'>
+												<tr style='height: 72;'>
 													<!-- 																	<th width='40' type="">編號</th> -->
 													<th width='30'>照片</th>
 													<th width='30'>帳號</th>
