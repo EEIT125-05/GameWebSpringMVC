@@ -43,10 +43,12 @@ input {
 	border: 3px solid gray;
 	float: right;
 }
-
+table {
+	margin: 15px;
+}
 .b {
 	color: black;
-	font-size: 21;
+	font-size: 20;
 	font-weight: 900;
 }
 
@@ -77,7 +79,7 @@ input {
 }
 
 .detail {
-	width: 1050px; height : 500px;
+	width: 1050px;
 	border: 5px solid gray;
 	background-color: #fff;
 	height: 500px;
@@ -115,8 +117,8 @@ input {
 			</table>
 		</div>
 		<div id="DIV2" class="col-md-9">
+			<div class="detail" style='padding-left: 30px; margin-top: 30px;'>
 			<h1 align='center' style="color: black">${user.sAccount }的基本資料</h1>
-			<div class="detail" style='padding-left: 30px;'>
 				<form action="<c:url value='/member/Update'/>" method="post">
 					<div id="DIV3">
 						<img style="width: 400; height: 300;"
@@ -199,6 +201,6 @@ input {
 
 
 
-<%-- 	<%@ include file="../Foot.jsp"%> --%>
+	<%@ include file="../Foot.jsp"%>
 </body>
 </html>

@@ -35,7 +35,7 @@ public class MemberBean {
 	private String sEname;
 	@Column(columnDefinition = "nvarchar(Max)", unique = true)
 	private String sPhone;
-	@Column(columnDefinition = "nvarchar(Max)")
+	@Column(columnDefinition = "nvarchar(Max)", unique = true)
 	private String sAddress;
 	@Column(columnDefinition = "nvarchar(Max)")
 	private String sGender;

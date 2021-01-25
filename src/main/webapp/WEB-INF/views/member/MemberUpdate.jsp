@@ -14,7 +14,7 @@ request.setCharacterEncoding("UTF-8");
 %>
 <style>
 input {
-	border-radius: 10px;
+	border-radius: 5px;
 }
 
 #DIV1 {
