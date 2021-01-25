@@ -74,6 +74,7 @@
 
 	<br>
 	<form action="<c:url value='/forum/Index'/>" method="post">
+		<div style="float:left">
   		<button type="submit" class="btn btn-outline-dark" name="sCategory" value="">全部</button>
   		<button type="submit" class="btn btn-outline-dark" name="sCategory" value="閒聊">閒聊</button>
   		<button type="submit" class="btn btn-outline-dark" name="sCategory" value="公告">公告</button>
@@ -81,31 +82,42 @@
   		<button type="submit" class="btn btn-outline-dark" name="sCategory" value="問題">問題</button>
   		<button type="submit" class="btn btn-outline-dark" name="sCategory" value="情報">情報</button>
   		<button type="submit" class="btn btn-outline-dark" name="sCategory" value="攻略">攻略</button>
-		
-		<div class="input-group" style="margin-top:15px">
+  		</div>
+		<div class="input-group" style="margin-top:15px;width:400px;">
 			<h3> 搜尋其他文章:&nbsp;</h3>
 			<input type="text" id="sSearch" class="form-control" name="sSearch">
 			<span class="input-group-append">
 				<button type="submit" class="btn btn-secondary">搜尋</button>
+				
 			</span>
 		</div>
 	</form>
 	<hr>
 
-	<div>
-		<div style="display:inline">
-			<h3>
-			<img src="<c:url value='/member/picture?sAccount=${fForumBean.sAuthor}'/>" class="rounded-circle" alt="Cinque Terre" width="50px" height="50px">
-			[${fForumBean.sCategory}]${fForumBean.sTitle}
-			</h3>
-		</div>
-		<div style="display:inline">
-			<c:if test="${fForumBean.sAuthor == user.sAccount}">
-			<input type="hidden" name="_method"  id='putOrDelete${forum[0]}'   value="" >
-			<a class="btn btn-outline-dark update" href="<c:url value='/forum/Update/${fForumBean.iNo}'/>">修改</a>
-			<button id="delete" class="btn btn-outline-dark" value="${fForumBean.iNo}">刪除</button>
-			</c:if>
-		</div>
+	<div class="row">
+		<c:choose>
+			<c:when test="${fForumBean.sAuthor == user.sAccount}">
+				<div class="col-md-10">
+					<h3>
+					<img src="<c:url value='/member/picture?sAccount=${fForumBean.sAuthor}'/>" class="rounded-circle" alt="Cinque Terre" width="50px" height="50px">
+					[${fForumBean.sCategory}]${fForumBean.sTitle}
+					</h3>
+				</div>
+				<div class="col-md-2">
+					<input type="hidden" name="_method"  id='putOrDelete${forum[0]}'   value="" >
+					<a class="btn btn-outline-dark update" href="<c:url value='/forum/Update/${fForumBean.iNo}'/>">修改</a>
+					<button id="delete" class="btn btn-outline-dark" value="${fForumBean.iNo}">刪除</button>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div class="col-md-12">
+					<h3>
+					<img src="<c:url value='/member/picture?sAccount=${fForumBean.sAuthor}'/>" class="rounded-circle" alt="Cinque Terre" width="50px" height="50px">
+					[${fForumBean.sCategory}]${fForumBean.sTitle}
+					</h3>
+				</div>
+			</c:otherwise>
+		</c:choose>
 	</div>
 	
 
@@ -113,13 +125,12 @@
 	
 	
 	<div style="position:relative;height:60px">
-		<div class="alert alert-success" style="position:absolute;right:0;background-color:rgba(209,231,221,0.8)">${fForumBean.dDate} ${fForumBean.tTime}</div>
+		<div class="alert alert-success" style="background-color:rgba(212, 237, 218, 0.8);color:black;position:absolute;right:0;)">${fForumBean.dDate} ${fForumBean.tTime}</div>
 	</div>
-	<div class="alert alert-light" style="background-color:rgba(255,255,255,0.8)">${fForumBean.sText}</div>
+	<div class="alert alert-light" style="background-color:rgba(255, 255, 255, 0.8);color:black;font-size:1.2em">${fForumBean.sText}</div>
 	
 	<hr>
 	
-	<div  style="position:relative">
 		<jsp:useBean id="nowDate" class="java.util.Date"/>
 		<fmt:formatDate var="dateString" value="${nowDate}" pattern="yyyy-MM-dd"/>
 <%-- 	<fmt:formatDate var="timeString" value="${nowDate}" pattern="HH:mm:ss"/> 先留著 要做XX分內可以拿來用--%>
@@ -139,6 +150,7 @@
 						<c:set var="timeString" value="${reply.dDate} ${reply.tTime}"/>							
 					</c:otherwise>
 				</c:choose>
+					<div class="alert alert-danger" style="background-color:rgba(248, 215, 218, 0.8);color:black;position:relative;">
 						<label style="width: 90%;">
 							<div>
 								<img src="<c:url value='/member/picture?sAccount=${reply.sAuthor}'/>" class="rounded-circle" alt="Cinque Terre" width="32px" height="32px">
@@ -178,7 +190,7 @@
 									</div>
 									<div id="newText${childReply.iNo}">${childReply.sText} </div>
 								</label>
-								<label style="position:absolute;right:0">${childTimeString}</label>
+								<label style="position:absolute;right:10px">${childTimeString}</label>
 								<br>
 							</c:forEach> 
 							<form action="<c:url value="/forum/Reply"/>" method="post">
@@ -190,16 +202,15 @@
 							</div>
 							</form>
 						</label>
-					<label style="position:absolute;right:0"><b>${timeString}</b></label>
-				<br>
+					<label style="position:absolute;right:10px"><b>${timeString}</b></label>
+				</div>
 			</c:if>
 		</c:forEach>
-	</div>
 	
 	<hr>
 	<form action="<c:url value="/forum/Reply"/>" method="post">
 	<label>留言: </label>
-	<input type="text" id="reply" name="sText" required>
+	<input type="text" id="reply" name="sText" required style="width:400px">
 	<button type="submit" id="replySubmit" class="btn btn-outline-dark" name="forumNo" value="${fForumBean.iNo}">送出</button>
 	</form>
 </div>

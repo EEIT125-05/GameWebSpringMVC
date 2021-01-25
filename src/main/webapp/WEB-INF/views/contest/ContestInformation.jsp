@@ -129,11 +129,34 @@ p{
 	margin-bottom:0;
 }
 
+.example{ 
+/*  background-color:rgba(0,0,0,0.8); */
+	background-color:rgba(0,0,0,0.8);
+ 	position:fixed; 
+/*  top:0px;  */
+/*  left:0px;  */
+/*  width:100%;  */
+/*  height:100%;  */
+} 
+
 </style>
 
 </head>
 <body>
 <%@ include file="../Header.jsp"%>
+
+<div class="example" style="display:none">
+    <div class="sk-chase"  style="position:fixed; top:50%; left:50%;">
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+    </div>
+  </div>
+
+
 
 <div class="container" style="font-size:1.2em">
 	<input type="hidden" id="checkUser" value="${user}">
@@ -149,7 +172,7 @@ p{
 		<li class="breadcrumb-item active">詳細資料</li>
 	</ol>
 		
-		<div class="alert alert-dark" role="alert">
+		<div class="alert alert-dark" role="alert" style="background-color:rgba(214, 216, 217, 0.8);color:black">
 			<div class="row">
 				<div class="col-md-7">
 					<img class="img-fluid rounded mb-3 mb-md-0"
@@ -297,7 +320,7 @@ p{
 		
 		
 <!-- 		<hr> -->
-		<div id="詳細規則" class="hiddenDiv alert alert-warning"  style="padding-left:30px">
+		<div id="詳細規則" class="hiddenDiv alert alert-warning"  style="background-color:rgba(255, 243, 205, 0.8);color:black;padding-left:30px">
 		    	<c:choose>
 		    		<c:when test="${cContestBean.iTeamMemberCount == 1}">
 		    			<p><label>隊伍組成: </label><label>個人</label></p>
@@ -333,7 +356,7 @@ p{
 				<div id="rule">${cContestBean.sRule}</div>
 		</div>
 		
-		<div id="參賽者" class="hiddenDiv alert alert-warning" style="display:none;">
+		<div id="參賽者" class="hiddenDiv alert alert-warning" style="display:none;background-color:rgba(255, 243, 205, 0.8);color:black">
 			<c:choose>
 				<c:when test="${fn:length(cContestBean.lParticipateBeans) == 0}">
 					<p>目前暫無參賽者</p>
@@ -351,7 +374,7 @@ p{
 			</c:choose>
 		</div>
 		
-		<div id="賽程" class="hiddenDiv alert alert-warning" style="display:none;">
+		<div id="賽程" class="hiddenDiv alert alert-warning" style="display:none;background-color:rgba(255, 243, 205, 0.8);color:black">
 			<c:choose>
 				<c:when test="${cContestBean.sPreliminary == 'none' && cContestBean.sRematchMode == 'free'}">
 					<p>本場賽事類型為 自由對戰-無預賽 ,故無賽程表</p>
@@ -464,10 +487,10 @@ p{
 
 		<c:choose>
     		<c:when test="${cContestBean.sHost == user.sAccount}">
-				<div id="更新戰績" class="hiddenDiv alert alert-warning" style="display:none;">
+				<div id="更新戰績" class="hiddenDiv alert alert-warning" style="display:none;background-color:rgba(255, 243, 205, 0.8);color:black">
     		</c:when>
     		<c:otherwise>
-				<div id="戰績" class="hiddenDiv alert alert-warning" style="display:none;">
+				<div id="戰績" class="hiddenDiv alert alert-warning" style="display:none;background-color:rgba(255, 243, 205, 0.8);color:black">
     		</c:otherwise>
     	</c:choose>
     	
@@ -646,6 +669,12 @@ p{
 						"contestNo": $(this).val(),
 						"winners": winners
 				},
+				beforeSend:function(){
+					$(".example").show()
+				},
+	 			complete:function(){
+					$(".example").hide()
+				},
 				success: function(result){
 					if(result.status == "success"){
 						Swal.fire({
@@ -705,6 +734,9 @@ p{
 							"contestNo": $(this).val(),
 							"winners": winners
 					},
+					beforeSend:function(){
+						$(".example").show()
+					},
 					success: function(result){
 						if(result.status == "success"){
 							//儲存成功算戰績
@@ -715,6 +747,9 @@ p{
 								data: {
 										"contestNo": $("#createRematch").val(),
 										"winners": winners
+								},
+								beforeSend:function(){
+									$(".example").show()
 								},
 								success: function(result){
 									let rematchMode = "${cContestBean.sRematchMode}";
@@ -810,6 +845,12 @@ p{
 											data:{
 												"treeImage64": treeImage64,
 												"contestNo": $("#createRematch").val(),
+											},
+											beforeSend:function(){
+												$(".example").show()
+											},
+								 			complete:function(){
+												$(".example").hide()
 											},
 											success: function(result){
 												if(result.status == "success"){
@@ -908,6 +949,9 @@ p{
 						"contestNo": $(this).val(),
 						"winners": winners
 				},
+				beforeSend:function(){
+					$(".example").show()
+				},
 				success: function(result){
 					if(result.status == "success"){
 						let successMessage = result.successMessage;
@@ -1000,6 +1044,12 @@ p{
 									"treeImage64": treeImage64,
 									"contestNo": $("#createRematch").val(),
 								},
+								beforeSend:function(){
+									$(".example").show()
+								},
+					 			complete:function(){
+									$(".example").hide()
+								},
 								success: function(result){
 									if(result.status == "success"){
 										
@@ -1033,11 +1083,6 @@ p{
 				 								});
 										}
 										
-										
-									
-									
-									
-									
 									}else if(result.status == "sqlError"){
 										Swal.fire(
 												  '資料庫發生錯誤!',
@@ -1141,6 +1186,12 @@ p{
 							url: "<c:url value='/contest/Join'/>",
 							dataType: "json",
 							data:{},
+							beforeSend:function(){
+								$(".example").show()
+							},
+				 			complete:function(){
+								$(".example").hide()
+							},
 							success: function(result){
 								if(result.status == "success"){
 									Swal.fire({
