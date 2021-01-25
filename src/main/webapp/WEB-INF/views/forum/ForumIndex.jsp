@@ -15,7 +15,8 @@ th, tr, td {
 }
 
 .categoryChoose, .hotChoose{
-	background-color:#FCFCFC;
+	background-color:#343a40;
+	color:white;
 }
 a.enterDetail{
 	color: black;

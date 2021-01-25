@@ -84,6 +84,7 @@
 <!-- </form> -->
 
 </div>
+<br>
 <%@ include file="../Foot.jsp" %>
 <script>
 	$("#confirm").on("click",function(){

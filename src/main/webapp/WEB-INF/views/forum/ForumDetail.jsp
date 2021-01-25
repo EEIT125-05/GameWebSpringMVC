@@ -92,19 +92,31 @@
 	</form>
 	<hr>
 
-	<c:if test="${fForumBean.sAuthor == user.sAccount}">
-		<input type="hidden" name="_method"  id='putOrDelete${forum[0]}'   value="" >
-		<a class="btn btn-outline-dark update" href="<c:url value='/forum/Update/${fForumBean.iNo}'/>">修改</a>
-		<button id="delete" class="btn btn-outline-dark" value="${fForumBean.iNo}">刪除</button>
-	</c:if>
+	<div>
+		<div style="display:inline">
+			<h3>
+			<img src="<c:url value='/member/picture?sAccount=${fForumBean.sAuthor}'/>" class="rounded-circle" alt="Cinque Terre" width="50px" height="50px">
+			[${fForumBean.sCategory}]${fForumBean.sTitle}
+			</h3>
+		</div>
+		<div style="display:inline">
+			<c:if test="${fForumBean.sAuthor == user.sAccount}">
+			<input type="hidden" name="_method"  id='putOrDelete${forum[0]}'   value="" >
+			<a class="btn btn-outline-dark update" href="<c:url value='/forum/Update/${fForumBean.iNo}'/>">修改</a>
+			<button id="delete" class="btn btn-outline-dark" value="${fForumBean.iNo}">刪除</button>
+			</c:if>
+		</div>
+	</div>
+	
 
 
-	<h3>
-		<img src="<c:url value='/member/picture?sAccount=${fForumBean.sAuthor}'/>" class="rounded-circle" alt="Cinque Terre" width="50px" height="50px">
-		[${fForumBean.sCategory}]${fForumBean.sTitle}
-	</h3>
-	<span>${fForumBean.dDate} ${fForumBean.tTime}</span><br>
-	<div>${fForumBean.sText}</div>
+	
+	
+	<div style="position:relative;height:60px">
+		<div class="alert alert-success" style="position:absolute;right:0;background-color:rgba(209,231,221,0.8)">${fForumBean.dDate} ${fForumBean.tTime}</div>
+	</div>
+	<div class="alert alert-light" style="background-color:rgba(255,255,255,0.8)">${fForumBean.sText}</div>
+	
 	<hr>
 	
 	<div  style="position:relative">
@@ -378,7 +390,7 @@
 	});
 
 </script>
-
+<br>
 <%@ include file="../Foot.jsp" %>
 </body>
 </html>
