@@ -34,10 +34,43 @@
 		padding: 8px 16px;
 		text-decoration: none;
 		}
+ 		.example{ 
+/*  			background-color:rgba(0,0,0,0.8); */
+			background-color:rgba(0,0,0,0.8);
+ 			position:fixed; 
+/*  			top:0px;  */
+/*  			left:0px;  */
+/* 			width:100%;  */
+/*  			height:100%;  */
+ 		} 
+ 		
+ 		.mask {       
+   		 position: absolute;
+   		 top: 0px;
+   		 left: 0px;
+   		 background-color:rgba(0,0,0,0.8);
+/*     z-index: 9; */
+/*     opacity:0.5; //Chrome */
+/*     -moz-opacity:0.5; //fireFox */
+}
 </style>
 </head>
 <body>
 	<%@ include file="../Header.jsp"%>
+
+	<div class="example" style="display:none">
+<!-- 	<div class="example"> -->
+    <div class="sk-fold" style="position:fixed; top:50%; left:50%;background-color:blue">
+      <div class="sk-fold-cube"></div>
+      <div class="sk-fold-cube"></div>
+      <div class="sk-fold-cube"></div>
+      <div class="sk-fold-cube"></div>
+    </div>
+  </div>
+
+<div id="mask" class="mask"></div>
+<a href="javascript:;" onClick="showMask()" >显示遮罩层</a><br>
+<a href="javascript:;" onClick="hideMask()" >隐藏遮罩层</a>
 
 
 		<div id="portfolio" class="section md-padding bg-grey">
@@ -87,6 +120,10 @@
 
 
 	</div>
+	
+	
+	
+	
 	<div id="pagediv" style="text-align: center;">
 		<ul id="pageul" class='pagination'>
 		</ul>
@@ -98,6 +135,16 @@
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 
+	function showMask(){
+	    $("#mask").css("height",$(document).height());
+	    $("#mask").css("width",$(document).width());
+	    $("#mask").show();
+	}
+	//隐藏遮罩层
+	function hideMask(){
+	    $("#mask").hide();
+	}
+	
 	var optstr ="";
 	
 	
@@ -310,41 +357,80 @@
 					$(".appforsubmit").attr("disabled", false);
 				}
 		}
-		
-		function checksubmit(a){
-			if($("#myGame"+a).val()!= "我的遊戲庫"){
-			var myGameval = $("#myGame"+a).val()
-			var supportGameNoval = $("#supportGameNo"+a).val()
-			var partyAval = $("#partyA"+a).val()
-			var partyBval = $("#partyB"+a).val()
-			console.log(myGameval+supportGameNoval+partyAval+partyBval)
-			var xhr1 = new XMLHttpRequest();
-			
-			xhr1.open('POST', '<c:url value="/exchange/applyForAjax" />'
-					+ '?partyA=' + partyAval 
-					+ '&partyB='+ partyBval
-					+'&myGameNo='+myGameval
-					+ '&supportGameNo='+supportGameNoval
-					, true);
-			xhr1.send();
-			xhr1.onload = function() {
+	
+	
+	function checksubmit(a){
+		$.ajax({
+			type:"post",
+			url:'<c:url value="/exchange/applyForAjax" />',
+		  	dataType:"json",
+			data:{
+			 "myGameNo": $("#myGame"+a).val(),
+			 "partyB": $("#partyB"+a).val(),
+			 "partyA": $("#partyA"+a).val(),
+			 "supportGameNo": $("#supportGameNo"+a).val(),
+			},
+		success:function(){
+			swal("申請成功",
+					  "等待對方回覆!!",
+					  "success").then(function(){
+						 window.location.reload(false)
+						  console.log("success")
+					  })
+			},
+			beforeSend:function(){
 				
-				if (xhr1.readyState === 4 && xhr1.status === 200) {
-					swal("申請成功",
-		 					  "等待對方回覆!!",
-		 					  "success").then(function(){
-		 						 window.location.reload(false)
-		 						  console.log("success")
-		 					  })
-				}else{
-					alert("readyState"+xhr1.readyState+"status"+xhr1.status)
-				}
+				$("#mask").css("height",$(document).height());
+			    $("#mask").css("width",$(document).width());
+			    $("#mask").show();
+				
+				$(".example").show()
+			},
+// 			complete:function(){
+// 				$("#mask").hide();
+				
+// 				$(".example").hide()
+// 			},
+			error:function(err){
+				alert("readyState"+err.readyState+"status"+err.status)
 			}
-		}else{
-			alert("請選擇遊戲")
-			return;
-		}
-		}
+		})
+	}
+	
+		
+// 		function checksubmit(a){
+// 			if($("#myGame"+a).val()!= "我的遊戲庫"){
+// 			var myGameval = $("#myGame"+a).val()
+// 			var supportGameNoval = $("#supportGameNo"+a).val()
+// 			var partyAval = $("#partyA"+a).val()
+// 			var partyBval = $("#partyB"+a).val()
+// 			console.log(myGameval+supportGameNoval+partyAval+partyBval)
+// 			var xhr1 = new XMLHttpRequest();
+			
+// 			xhr1.open('POST', '<c:url value="/exchange/applyForAjax" />'
+// 					+ '?partyA=' + partyAval 
+// 					+ '&partyB='+ partyBval
+// 					+'&myGameNo='+myGameval
+// 					+ '&supportGameNo='+supportGameNoval
+// 					, true);
+// 			xhr1.send();
+// 			xhr1.onload = function() {
+				
+// 				if (xhr1.readyState === 4 && xhr1.status === 200) {
+// 					swal("申請成功",
+// 		 					  "等待對方回覆!!",
+// 		 					  "success").then(function(){
+// 		 						 window.location.reload(false)
+// 		 						  console.log("success")
+// 		 					  })
+// 				}else{
+// 					alert("readyState"+xhr1.readyState+"status"+xhr1.status)
+// 				}
+// 			}else{
+// 			alert("請選擇遊戲")
+// 			return;
+// 		}
+// 		}
 		
 			
 	</script>

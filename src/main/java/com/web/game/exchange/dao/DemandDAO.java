@@ -67,7 +67,7 @@ public class DemandDAO {
 	
 	public Boolean changeDemandStatusByMember(Integer status,String sAccount) {
 		Session session = factory.getCurrentSession();
-		String changeStatus = "update DemandGameBean d set d.status=:status where d.gamer=:gamer";
+		String changeStatus = "update DemandGameBean d set d.status=:status where d.gamer=:gamer and d.status in(5,0)";
 		Integer times = session.createQuery(changeStatus).setParameter("status", status).setParameter("gamer", sAccount).
 		executeUpdate();
 		System.out.println("更新次數demand"+times);

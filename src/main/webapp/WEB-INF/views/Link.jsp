@@ -27,6 +27,7 @@
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/portfoliostyle.css" />
 <%-- <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/paper-dashboard.css" /> --%>
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/demo.css" />
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/vendor/css/spinkit.css" />
 
 
 <%-- <script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.min.js"></script> --%>
