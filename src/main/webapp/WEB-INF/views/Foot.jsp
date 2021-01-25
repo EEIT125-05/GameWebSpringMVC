@@ -3,7 +3,7 @@
     
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white">資策會 &copy; gameweb 2020/12/20</p>
+      <p class="m-0 text-center text-white">資策會 &copy; gameweb 2021/01/28</p>
     </div>
    
   </footer>

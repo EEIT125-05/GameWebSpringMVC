@@ -15,7 +15,7 @@ response.setContentType("text/html;charset=UTF-8");
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>WithIndex</title>
+<title>GameBar</title>
 <style>
 .categoryChoose{
 	background-color:#FCFCFC;
@@ -44,7 +44,7 @@ response.setContentType("text/html;charset=UTF-8");
 	<input type="hidden" id="userNow" value="${user.sAccount}">
 	<input type="hidden" id="userNo" value="${user.iNo}">
 		<h1 class="mt-4 mb-3">
-			陪玩 <small>Play</small>
+			陪玩 <small>選你所愛 愛你所選</small>
 		</h1>
 		${ecpay}
 		<ol class="breadcrumb">

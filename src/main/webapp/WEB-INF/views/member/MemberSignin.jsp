@@ -331,8 +331,8 @@ input {
 		<form action="<c:url value='/demo'/>" method="post"
 			style="margin-top: 20px">
 			<select name="demoAccount">
-				<option value="aaa">廷亙</option>
-				<option value="bbb">駿宏</option>
+<!-- 				<option value="aaa">廷亙</option> -->
+<!-- 				<option value="bbb">駿宏</option> -->
 				<option value="handsomeJack">昌孝1</option>
 				<option value="bts520">昌孝2</option>
 				<option value="handsomeJack">嵩謙</option>

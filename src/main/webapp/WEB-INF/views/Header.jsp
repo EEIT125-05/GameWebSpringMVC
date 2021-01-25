@@ -34,7 +34,7 @@
               <a class="dropdown-item" href="<c:url value='/member/Login'/>">註冊</a>
               <a class="dropdown-item" href="<c:url value='/member/Data'/>">會員資料</a>
               <c:if test="${user.sAccount == 'admin'}">
-              	<a class="dropdown-item" href="<c:url value="/backstage/Member"/>">後台測試中</a>
+              	<a class="dropdown-item" href="<c:url value="/backstage/Member"/>">後台</a>
               </c:if>
             </div>
           </li>
@@ -78,7 +78,7 @@
 	              	<a class="dropdown-item" href="<c:url value='/withplay/Index'/>">找人陪玩</a>
 		              <c:choose>
 		              <c:when test="${empty withplayHost.sAccount}">
-		              	<a class="dropdown-item" href="<c:url value='/withplay/new'/>">當陪玩主</a>
+		              	<a class="dropdown-item" href="<c:url value='/withplay/new'/>">當陪玩師</a>
 	             	<a class="dropdown-item" href="<c:url value='/withplay/Withorderlist'/>">我的訂單</a>
 		              </c:when>  
 		              <c:otherwise>              
