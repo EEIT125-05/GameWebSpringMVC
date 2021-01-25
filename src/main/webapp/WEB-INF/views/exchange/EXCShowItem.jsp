@@ -28,7 +28,7 @@
 <!--  class="text-danger" -->
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" >
-    我要換/共${fn:length(MemberSupport)}筆
+    交換池/共${fn:length(MemberSupport)}筆
   </a>
   <c:if test="${not empty MemberPending}">
   	<span id="warningSpanSupport"  style="color:red;font-size: 20px;font-weight:bold;">您有${fn:length(MemberPending)}筆交換待確認！</span>
@@ -124,7 +124,7 @@
 </div>
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1">
-    	我要徵 /共${fn:length(MemberDemand)}筆
+    	許願池 /共${fn:length(MemberDemand)}筆
   </a>
   <c:if test="${not empty MemberDemandPending}">
   	<span id="warningSpanDemand" style="color:red;font-size: 20px;font-weight:bold;">您有${fn:length(MemberDemandPending)}筆交換待確認！</span>
@@ -275,7 +275,7 @@
 <script>
 if(${not empty MemberPending}){
 let t = window.setInterval(change,1000)
-var x = true;
+let x = true;
 function change(){
 	let i = document.getElementById("warningSpanSupport")
 	if(x==true){
@@ -291,8 +291,8 @@ function change(){
 }
 }
 if(${not empty MemberDemandPending}){
-let t = window.setInterval(change,1000)
-var x = true;
+let y = window.setInterval(change,1000)
+let x = true;
 function change(){
 	let i = document.getElementById("warningSpanDemand")
 	if(x==true){
