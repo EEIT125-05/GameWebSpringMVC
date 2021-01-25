@@ -149,7 +149,7 @@ p{
 		<li class="breadcrumb-item active">詳細資料</li>
 	</ol>
 		
-		<div class="alert alert-light" role="alert" style="background-color:rgba(255, 255, 255, 0.8)">
+		<div class="alert alert-dark" role="alert">
 			<div class="row">
 				<div class="col-md-7">
 					<img class="img-fluid rounded mb-3 mb-md-0"
@@ -297,7 +297,7 @@ p{
 		
 		
 <!-- 		<hr> -->
-		<div id="詳細規則" class="hiddenDiv alert alert-warning"  style="background-color:rgba(255, 243, 205, 0.8);padding-left:30px">
+		<div id="詳細規則" class="hiddenDiv alert alert-warning"  style="padding-left:30px">
 		    	<c:choose>
 		    		<c:when test="${cContestBean.iTeamMemberCount == 1}">
 		    			<p><label>隊伍組成: </label><label>個人</label></p>
@@ -333,7 +333,7 @@ p{
 				<div id="rule">${cContestBean.sRule}</div>
 		</div>
 		
-		<div id="參賽者" class="hiddenDiv alert alert-warning" style="display:none;background-color:rgba(255, 243, 205, 0.8)">
+		<div id="參賽者" class="hiddenDiv alert alert-warning" style="display:none;">
 			<c:choose>
 				<c:when test="${fn:length(cContestBean.lParticipateBeans) == 0}">
 					<p>目前暫無參賽者</p>
@@ -351,7 +351,7 @@ p{
 			</c:choose>
 		</div>
 		
-		<div id="賽程" class="hiddenDiv alert alert-warning" style="display:none;background-color:rgba(255, 243, 205, 0.8)">
+		<div id="賽程" class="hiddenDiv alert alert-warning" style="display:none;">
 			<c:choose>
 				<c:when test="${cContestBean.sPreliminary == 'none' && cContestBean.sRematchMode == 'free'}">
 					<p>本場賽事類型為 自由對戰-無預賽 ,故無賽程表</p>
@@ -464,10 +464,10 @@ p{
 
 		<c:choose>
     		<c:when test="${cContestBean.sHost == user.sAccount}">
-				<div id="更新戰績" class="hiddenDiv alert alert-warning" style="display:none;background-color:rgba(255, 243, 205, 0.8)">
+				<div id="更新戰績" class="hiddenDiv alert alert-warning" style="display:none;">
     		</c:when>
     		<c:otherwise>
-				<div id="戰績" class="hiddenDiv alert alert-warning" style="display:none;background-color:rgba(255, 243, 205, 0.8)">
+				<div id="戰績" class="hiddenDiv alert alert-warning" style="display:none;">
     		</c:otherwise>
     	</c:choose>
     	
