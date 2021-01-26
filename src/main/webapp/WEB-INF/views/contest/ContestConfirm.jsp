@@ -32,7 +32,7 @@
   </div>
 
 
-<div class="container">
+<div class="container" style="font-size:1.2em">
 
 <h1 class="mt-4 mb-3">比賽資料確認
 <!--       <small>XXXXX</small> -->
@@ -45,6 +45,8 @@
       <li class="breadcrumb-item active">賽事</li>
     </ol>
     
+    
+    <div class="alert alert-warning"  style="background-color:rgba(255, 243, 205, 0.8);color:black;">
 		<p>比賽名稱: ${cContestBean.sName}</p>
 		<p>比賽遊戲: ${cContestBean.sGame}</p>
 		
@@ -83,24 +85,28 @@
 		<p>比賽時間: ${sTime} </p>
 		<p>比賽地點: ${cContestBean.sLocation}</p>
 		<p>參加人數: ${cContestBean.iPeople}</p>
-		<c:choose>
-			<c:when	test="${cContestBean.sImage == 'contestDefault.jpg'}">
-				<label style="vertical-align:top">宣傳圖片(預設): </label>
-			</c:when>
-			<c:otherwise>
-				<label style="vertical-align:top">宣傳圖片: </label>
-			</c:otherwise>
-		</c:choose>
-		<img src="<c:url value='/contest/ConfirmImage'/>" style="width:560px"/>
-		<br>
+	</div>
+	
+	<c:choose>
+		<c:when	test="${cContestBean.sImage == 'contestDefault.jpg'}">
+			<label style="vertical-align:top">宣傳圖片(預設): </label>
+		</c:when>
+		<c:otherwise>
+			<label style="vertical-align:top">宣傳圖片: </label>
+		</c:otherwise>
+	</c:choose>
+	<img src="<c:url value='/contest/ConfirmImage'/>" style="width:560px"/>
+	<br>
+	<div class="alert alert-warning"  style="background-color:rgba(255, 243, 205, 0.8);color:black;">
 		<span>比賽規則:</span><br><span id="rule">${cContestBean.sRule}</span>
 		<br>
+	</div>
+	<c:if test="${sContestConfirm == '報名' }">
+		<p>遊戲ID: ${pParticipateBean.sGameId}</p>
 		<hr>
-			<c:if test="${sContestConfirm == '報名' }">
-				<p>遊戲ID: ${pParticipateBean.sGameId}</p>
-				<hr>
-			</c:if>
-			<input class="btn btn-outline-dark" type="submit" id="confirm" name="confirm" value="確認${sContestConfirm}"/>
+	</c:if>
+	<input class="btn btn-outline-dark" type="submit" id="confirm" name="confirm" value="確認${sContestConfirm}"/>
+	<br>
 
 </div>
 <%@ include file="../Foot.jsp" %>

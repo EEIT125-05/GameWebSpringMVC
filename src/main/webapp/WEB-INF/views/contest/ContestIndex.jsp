@@ -23,7 +23,7 @@
 <body>
 <%@ include file="../Header.jsp" %>
 
-<div class="container">
+<div class="container" style="font-size:1.2em;">
 
 <h1 class="mt-4 mb-3">
 <!-- 賽事首頁 -->
@@ -93,7 +93,7 @@
 		</c:if>
 	
 		<c:forEach var="cContest" items="${lContestList}">
-
+			<div class="alert alert-warning"  style="background-color:rgba(255, 243, 205, 0.8);color:black;">
 				<div class="row">
 					<div class="col-md-7">
 						<a href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>"> 
@@ -165,10 +165,10 @@
 						</a>
 					</div>
 				</div>
+			</div>
+<!-- 				<hr> -->
 
-				<hr>
-
-			</c:forEach>
+		</c:forEach>
 	</div>
 	
 </div>
@@ -250,7 +250,8 @@ $(function(){
  								}
  								
  								
- 								$("#point").append("<div class=\"row\">"
+ 								$("#point").append("<div class=\"alert alert-warning\"  style=\"background-color:rgba(255, 243, 205, 0.8);color:black;\">"
+ 												+"<div class=\"row\">"
  												+"<div class=\"col-md-7\">"
  												+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
  												+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\" style=\"width:100%\">"
@@ -271,7 +272,7 @@ $(function(){
  												+"</a>"
  												+"</div>"
  												+"</div>"
- 												+"<hr>");
+ 												+"</div>");
 								});
 						}
 					}else{
@@ -380,7 +381,8 @@ $(function(){
 					}
 					
 					
-					$("#point").append("<div class=\"row\">"
+					$("#point").append("<div class=\"alert alert-warning\"  style=\"background-color:rgba(255, 243, 205, 0.8);color:black;\">"
+									+"<div class=\"row\">"
 									+"<div class=\"col-md-7\">"
 									+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
 									+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\" style=\"width:100%\">"
@@ -401,7 +403,7 @@ $(function(){
 									+"</a>"
 									+"</div>"
 									+"</div>"
-									+"<hr>");
+									+"</div>");
 					});
 			},
 			error: function(err){
@@ -485,7 +487,8 @@ $(function(){
 					}
 					
 					
-					$("#point").append("<div class=\"row\">"
+					$("#point").append("<div class=\"alert alert-warning\"  style=\"background-color:rgba(255, 243, 205, 0.8);color:black;\">"
+									+"<div class=\"row\">"
 									+"<div class=\"col-md-7\">"
 									+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
 									+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\" style=\"width:100%\">"
@@ -506,7 +509,7 @@ $(function(){
 									+"</a>"
 									+"</div>"
 									+"</div>"
-									+"<hr>");
+									+"</div>");
 					});
 			},
 			error: function(err){
@@ -593,7 +596,8 @@ $(function(){
 							}
 							
 							
-							$("#point").append("<div class=\"row\">"
+							$("#point").append("<div class=\"alert alert-warning\"  style=\"background-color:rgba(255, 243, 205, 0.8);color:black;\">"
+											+"<div class=\"row\">"
 											+"<div class=\"col-md-7\">"
 											+"<a href=\"<c:url value='/contest/Information?contestNo=" + value.iNo + "'/>\"> <img class=\"img-fluid rounded mb-3 mb-md-0\" "
 											+"src=\"<c:url value='/contest/ImageLoading?iNo=" + value.iNo + "'/>\" alt=\"\" style=\"width:100%\">"
@@ -614,7 +618,7 @@ $(function(){
 											+"</a>"
 											+"</div>"
 											+"</div>"
-											+"<hr>");
+											+"</div>");
 							});
 					},
 					error: function(err){
