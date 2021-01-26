@@ -55,25 +55,25 @@ response.setContentType("text/html;charset=UTF-8");
 
 
 		<%-- 		<form action='${pageContext.request.contextPath}/withplay/select'> --%>
-		<div class="input-group" style="width:600px;text-align:center;">
-			<input type="text"  placeholder="輸入暱稱" name="sNickname" class="form-control input-lg" id="sNickname" style="width:200px"> 
-				<span class="input-group-btn"> 
-				<input type="button" value="搜尋" class="btn btn-secondary" id="submit">
-			</span>&emsp;&emsp;
-		<label style="font-weight: 900;">進階條件: </label><label style="font-weight: 900;">遊戲</label> <select id="sGame"
+		<div class="input-group" style="width:500px;">
+		<input type="text"  placeholder="輸入暱稱" name="sNickname" class="form-control input-lg" id="sNickname" style="width:200px;"> 
+		<label style="font-size:20px;padding-top:5px;font-weight:bold">遊戲</label> <select id="sGame"
 			class="form-control" name="sGame"
 			style="width: 130px; display: inline">
 			<option value="">全部</option>
 			<c:forEach var="sGame" items="${GameList}">
 				<option value="${sGame}">${sGame}</option>
 			</c:forEach>
-		</select>
+			<span class="input-group-btn"> 
+				<input type="button" value="搜尋" class="btn btn-secondary" id="submit">
+			</span>
+		</select>			
 		</div>
 
 		
 <div style="margin:10px">
 <label style="font-weight: 900;">熱門遊戲</label>
-	    <button class="btn btn-outline-dark fast game category categoryChoose" value="">全部</button>
+	    <button class="btn btn-outline-dark fast game" value="">全部</button>
 	    <button class="btn btn-outline-dark fast game" value="英雄聯盟">英雄聯盟</button>
 	    <button class="btn btn-outline-dark fast game" value="魔物獵人">魔物獵人</button>
 	    <button class="btn btn-outline-dark fast game" value="鬥陣特攻">鬥陣特攻</button>
@@ -99,10 +99,10 @@ response.setContentType("text/html;charset=UTF-8");
 									src='${pageContext.request.contextPath}/withplay/picture/${With.iId}'>
 								</a>
 								<a >
-								<div style="font-family:Microsoft JhengHei;font-size:16px;padding-left:5px"><span>${With.sNickname}</span></div>
-								<div style="font-size:14px;padding-left:5px"><span>評價(${fn:length(With.sReplyBeans)})</span></div>
+								<div style="font-family:Microsoft JhengHei;font-size:20px;padding-left:15px;font-weight:bold"><span>${With.sNickname}</span></div>
+								<div style="font-size:16px;padding-left:15px"><span>評價(${fn:length(With.sReplyBeans)})</span></div>
 								<div>
-									<p style="color:#FA006E;font-weight:bold;font-size:21px;padding-left:5px">
+									<p style="color:#FA006E;font-weight:bold;font-size:21px;padding-left:15px">
 										<span>$</span> <span>${With.iPrice}</span> <span>/局</span>
 									</p>
 								</div>
@@ -130,14 +130,14 @@ response.setContentType("text/html;charset=UTF-8");
 												src='${pageContext.request.contextPath}/withplay/picture/${With.iId}'>
 											</a></div>
 											<div class="col-md-6 ml-auto">
-											<div ><span style="font-weight:bold;font-size:24px;">${With.sGame}</span></div>
-											<div><span style="font-size:14px;">接單${With.iCount}次</span></div>
+											<div ><span style="font-weight:bold;font-size:32px;">${With.sGame}</span></div>
+											<div><span style="font-size:20px;">接單${With.iCount}次</span></div>
 											<div>
-													<p style="color:#D87901;font-weight:bold;font-size:21px;">
+													<p style="color:#D87901;font-weight:bold;font-size:28px;">
 														<span>$</span> <span>${With.iPrice}</span> <span>/局</span>
 													</p>
 												</div>
-											<div><span style="font-weight:bold;">介紹</span><br><span style="font-size:14px;">${With.sComment}</span></div>
+											<div><span style="font-weight:bold;">介紹</span><br><span style="font-size:20px;">${With.sComment}</span></div>
 											</div>
 											</div>											
 											<hr>
@@ -248,6 +248,16 @@ response.setContentType("text/html;charset=UTF-8");
 	</div>
 	<%@ include file="../Foot.jsp"%>
 	<script>
+	
+$(function(){
+		
+		let category = "";
+		let search = "";
+	
+	
+	
+}
+	
 		$("#submit").on("click",function() {
 			$("#point").empty();
 							let xhr = new XMLHttpRequest();
