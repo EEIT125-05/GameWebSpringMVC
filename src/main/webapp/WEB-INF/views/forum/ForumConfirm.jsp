@@ -11,7 +11,7 @@
 </head>
 <body>
 <%@ include file="../Header.jsp" %>
-<div class="container">
+<div class="container" style="font-size:1.2em">
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height:300px;">
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -70,18 +70,18 @@
 		</div>
 	</form>
 	<hr>
-<h3>貼文資料確認</h3>
+	<h3>貼文資料確認</h3>
 
-<%-- <form action="<c:url value='/forum/Confrim'/>" method="post"> --%>
+	<div class="alert alert-success" style="background-color:rgba(212, 237, 218, 0.8);color:black;">
+		<p>分類: ${fForumBean.sCategory}</p>
+		<p>標題: ${fForumBean.sTitle}</p>
+	</div>
 
-	<p>分類: ${fForumBean.sCategory} 標題: ${fForumBean.sTitle}</p>
-
-	<p>內文: </p>
-	<div>${fForumBean.sText}</div>
-	<hr>
+	<div class="alert alert-light" style="background-color:rgba(255, 255, 255, 0.8);color:black">
+		<p>內文: </p>
+		<div>${fForumBean.sText}</div>
+	</div>
 	<input class="btn btn-outline-dark" type="submit" id="confirm" name="confirm" value="確認${sForumConfirm}"/>
-
-<!-- </form> -->
 
 </div>
 <br>

@@ -27,7 +27,6 @@
 	}
 	
 	body{
-		padding-left:20px;
 		padding-top:76px;
 	}
 	
@@ -145,70 +144,71 @@
 
  <input type="hidden" id="contestNo" value="${cContestBean.iNo}"> <!--截圖的ajax要用的 -->
 	
-	
-	<div id="option">
-		<div>
-			<label>比賽: ${cContestBean.sName}</label><br>
-			<label>本場比賽共有${fn:length(cContestBean.lParticipateBeans)}人參賽: </label><br>
-			<c:forEach varStatus="vs" var="participate" items="${cContestBean.lParticipateBeans}">
-				<label>${vs.count}. </label><label class="playerNone" style="margin-right:10px">${participate.sPlayer}</label>
-			</c:forEach>
+	<div class="alert alert-secondary" style="background-color:rgba(226, 227, 229, 0.8);color:black;margin:10px">
+		<div id="option">
+			<div>
+				<label>比賽: ${cContestBean.sName}</label><br>
+				<label>本場比賽共有${fn:length(cContestBean.lParticipateBeans)}人參賽: </label><br>
+				<c:forEach varStatus="vs" var="participate" items="${cContestBean.lParticipateBeans}">
+					<label>${vs.count}. </label><label class="playerNone" style="margin-right:10px">${participate.sPlayer}</label>
+				</c:forEach>
+			</div>
+			<div>
+				<c:choose>
+		    		<c:when test="${cContestBean.iTeamMemberCount == 1}">
+		    			<label>隊伍組成: </label><label>個人</label><br>
+		    		</c:when>
+		    		<c:otherwise>
+		    			<label>隊伍組成: </label><label>團體，每隊${cContestBean.iTeamMemberCount}人</label><br>
+		    		</c:otherwise>
+		    	</c:choose>
+		    	<c:choose>
+		    		<c:when test="${cContestBean.sPreliminary == 'none'}">
+		    			<label>預賽: </label><label>無預賽</label><br>
+		    		</c:when>
+		    		<c:otherwise>
+		    			<c:set var="sPreliminary" value="${fn:split(cContestBean.sPreliminary,'-')}"/>
+		   				<label>預賽: </label><label>有預賽，${sPreliminary[0]}取${sPreliminary[1]}  剩餘取${sPreliminary[2]}</label><br>
+		    		</c:otherwise>
+		    	</c:choose>
+		    		<input type="hidden" id="preliminary" value="${cContestBean.sPreliminary}">
+		    	
+		    	<c:if test="${cContestBean.sRematchMode == 'knockout'}">
+		    		<label>比賽形式: </label><label>淘汰賽</label><br>
+		    	</c:if>
+		    	<c:if test="${cContestBean.sRematchMode == 'ground'}">
+		    		<label>比賽形式: </label><label>循環賽</label><br>
+		    	</c:if>
+		    	<c:if test="${cContestBean.sRematchMode == 'free'}">
+		    		<label>比賽形式: </label><label>自由對戰</label><br>
+		    	</c:if>
+		    		<input type="hidden" id="rematchMode" value="${cContestBean.sRematchMode}">
+				<input class="btn btn-outline-dark" type="button" id="build" value="產生">
+			</div>
 		</div>
-		<div>
-			<c:choose>
-	    		<c:when test="${cContestBean.iTeamMemberCount == 1}">
-	    			<label>隊伍組成: </label><label>個人</label><br>
-	    		</c:when>
-	    		<c:otherwise>
-	    			<label>隊伍組成: </label><label>團體，每隊${cContestBean.iTeamMemberCount}人</label><br>
-	    		</c:otherwise>
-	    	</c:choose>
-	    	<c:choose>
-	    		<c:when test="${cContestBean.sPreliminary == 'none'}">
-	    			<label>預賽: </label><label>無預賽</label><br>
-	    		</c:when>
-	    		<c:otherwise>
-	    			<c:set var="sPreliminary" value="${fn:split(cContestBean.sPreliminary,'-')}"/>
-	   				<label>預賽: </label><label>有預賽，${sPreliminary[0]}取${sPreliminary[1]}  剩餘取${sPreliminary[2]}</label><br>
-	    		</c:otherwise>
-	    	</c:choose>
-	    		<input type="hidden" id="preliminary" value="${cContestBean.sPreliminary}">
-	    	
-	    	<c:if test="${cContestBean.sRematchMode == 'knockout'}">
-	    		<label>比賽形式: </label><label>淘汰賽</label><br>
-	    	</c:if>
-	    	<c:if test="${cContestBean.sRematchMode == 'ground'}">
-	    		<label>比賽形式: </label><label>循環賽</label><br>
-	    	</c:if>
-	    	<c:if test="${cContestBean.sRematchMode == 'free'}">
-	    		<label>比賽形式: </label><label>自由對戰</label><br>
-	    	</c:if>
-	    		<input type="hidden" id="rematchMode" value="${cContestBean.sRematchMode}">
-			<input class="btn btn-outline-dark" type="button" id="build" value="產生">
-		</div>
-		<hr>
 	</div>
-
+	
 	<div id="showSchedule" style="display:none">
-		<span>賽程:</span>
-		<div id="hiddenDiv" style="overflow:auto">
-				<label>複賽</label>
-				<div id="tree" class="tree"></div>
-				<br>
-				<c:if test="${cContestBean.sPreliminary != 'none'}">
-					<label>預賽</label>
-				</c:if>
-				<div id="drow" class="drow"></div>
+		<div class="alert alert-warning"  style="background-color:rgba(255, 243, 205, 0.8);color:black;margin:10px">
+			<span>賽程:</span>
+			<div id="hiddenDiv" style="overflow:auto">
+					<label>複賽</label>
+					<div id="tree" class="tree"></div>
+					<br>
+					<c:if test="${cContestBean.sPreliminary != 'none'}">
+						<label>預賽</label>
+					</c:if>
+					<div id="drow" class="drow"></div>
+			</div>
+			<hr>	
+			<p>參賽人員:</p>
+			<label id="playerCount"></label>
+			<br>
+			<button class="btn btn-outline-dark" id="auto">自動安排</button>
+		    <button class="btn btn-outline-dark" id="createImage">儲存賽程</button>
+		
 		</div>
-		<hr>	
-		<p>參賽人員:</p>
-		<label id="playerCount"></label>
-		<br>
-		<button class="btn btn-outline-dark" id="auto">自動安排</button>
-	    <button class="btn btn-outline-dark" id="createImage">儲存賽程</button>
-	
 	</div>
-
 
 <!-- </div> -->
 	<%@ include file="../Foot.jsp"%>
