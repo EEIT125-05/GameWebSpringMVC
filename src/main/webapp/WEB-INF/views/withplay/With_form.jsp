@@ -151,7 +151,7 @@ td{
 				<tr>
 					<td>身分證字號</td>
 					<td><form:input path="sIdcode" maxlength="10" id="sIdcode"  onblur="checkIdcode();"/>
-					<input type="button" id='IdcodeCheck' value="檢查"><br><span id="Idcode"></span>
+					<input type="button" id='IdcodeCheck' class="btn btn-warning btn-sm" value="檢查"><br><span id="Idcode"></span>
 					</td>
 				</tr>
 				<tr>
