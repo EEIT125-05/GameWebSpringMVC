@@ -48,7 +48,7 @@
 			<div class="container">
 
 
-				<h1 class="mt-4 mb-3">交換版</h1>
+				<div class="systemLOGO"><img src="${pageContext.request.contextPath}/images/changeLOGO.png" class="systemIMG"></div>
 
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a>

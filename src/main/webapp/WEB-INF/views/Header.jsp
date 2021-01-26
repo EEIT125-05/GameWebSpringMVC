@@ -133,7 +133,7 @@
               <a class="dropdown-item" href="<c:url value="/exchange/insertMyGame"/>"><span style="color:gray">(遊戲庫)</span>新增我的遊戲</a>
               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">我的遊戲庫</a>
               <a class="dropdown-item" href="<c:url value="/exchange/gotoMemberData"/>">我的交易紀錄(會員中心)</a>
-              <a class="dropdown-item" href="<c:url value="/exchange/test"/>">test</a>
+<%--               <a class="dropdown-item" href="<c:url value="/exchange/test"/>">test</a> --%>
               
             </div>
           </li>

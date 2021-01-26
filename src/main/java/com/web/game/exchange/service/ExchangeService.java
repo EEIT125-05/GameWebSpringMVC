@@ -398,6 +398,11 @@ public class ExchangeService {
 		System.out.println(mygame.getSupportgamebean());
 		return mygamesDAO.updateGameToSupport(mygame);
 	}
+	@Transactional
+	public boolean deleteMyGame(MyGameBean mygame) {
+		System.out.println("mygame"+mygame);
+		return mygamesDAO.deleteMyGame(mygame);
+	}
 	
 	//----------------------AOP
 	

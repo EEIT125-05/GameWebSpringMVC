@@ -239,18 +239,15 @@
 										 等待 <span class="spanStyle">${g.demandgamebean.wishhistorybean.partyB.sAccount }</span> 的同意)
 									</c:when>
 								</c:choose>
-
-<%-- 																<a class="btn btn-primary btn-sm" style="background-color: green;" href='<c:url value="showApplyFor?no=${s.changehistorybean.no }"/>' >待審核</a> --%>
-<%-- 								待換中(申請交換 <span style="color:green">${g.changehistorybean.supportgamebean.gamename }${g.wishhistorybean.demandgamebean.gamename }${g.demandgamebean.wishhistorybean.mygamebean.gamename }</span> --%>
-<%-- 								 等待 <span style="color:green">${g.changehistorybean.partyA.sAccount }${g.wishhistorybean.partyB.sAccount }${g.demandgamebean.wishhistorybean.partyB.sAccount }</span> 的同意) --%>
-								
 								</td>
 							</c:when>
-							<c:when test="${g.supportgamebean==null }">
-								<td>	
+						<c:when test="${g.supportgamebean==null }">
+								<td>
+								<a class="btn btn-primary btn-sm"
+											onclick="deleteCheck('MyGame','${g.no}');"/><i class="fa fa-trash" aria-hidden="true"></i></a>	
 								<a href="<c:url value="/exchange/myGameToSupportGame?no=${g.no }" />" class="btn btn-primary btn-sm btn-warning">交換去</a>
 								</td>
-							</c:when>
+						</c:when>
 							<c:otherwise>
 							<td>
 								已在交換清單中
@@ -268,9 +265,9 @@
   </div>
   <br>
 </div>
-					<a class="btn btn-primary" style="background-color: red;" href="<c:url value="/exchange/Index"/>">返回主頁</a>
+<a class="btn btn-primary" style="background-color: red;" href="<c:url value="/exchange/Index"/>">返回主頁</a>
 </div>
-					<%@ include file="../Foot.jsp"%>
+<%@ include file="../Foot.jsp"%>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.all.min.js"></script>
 <script>
 if(${not empty MemberPending}){

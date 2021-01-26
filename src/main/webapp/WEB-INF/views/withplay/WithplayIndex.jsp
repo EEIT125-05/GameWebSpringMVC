@@ -43,9 +43,7 @@ response.setContentType("text/html;charset=UTF-8");
 	<div class="container">
 	<input type="hidden" id="userNow" value="${user.sAccount}">
 	<input type="hidden" id="userNo" value="${user.iNo}">
-		<h1 class="mt-4 mb-3">
-			陪玩 <small>選你所愛 愛你所選</small>
-		</h1>
+		<div class="systemLOGO"><img src="${pageContext.request.contextPath}/images/withLOGO.png" class="systemIMG"></div>
 		${ecpay}
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a>

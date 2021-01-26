@@ -25,6 +25,9 @@
 
 <div class="container">
 
+
+<div class="systemLOGO"><img src="${pageContext.request.contextPath}/images/contestLOGO.png" class="systemIMG"></div>
+
 <h1 class="mt-4 mb-3">
 <!-- 賽事首頁 -->
 <!--       <small>XXXXX</small> -->

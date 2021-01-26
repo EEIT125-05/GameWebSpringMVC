@@ -77,8 +77,6 @@ body {
     background-color:black; 
 
 }
-
-
 .mid{
    width: 100px; 
     height: 100px;  
@@ -87,6 +85,13 @@ body {
   top: 50%;
   left: 50%;
    margin: -100px 0 0 -70px; */
+}
+.systemLOGO{
+	text-align:center;
+	margin:20px
+}
+.systemIMG{
+	height:130px
 }
 
 
