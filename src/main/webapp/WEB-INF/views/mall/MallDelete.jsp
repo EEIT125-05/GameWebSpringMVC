@@ -44,7 +44,7 @@
         <hr>
             <input class="btn btn-danger" type="submit" name="strike" value="送出">
             <a  class="btn btn-warning" href="<c:url value="/mall/Inquire"/>">查詢</a></div>
-            <a class="btn btn-warning" href="<c:url value="/mall/MALLbat"/>">返回後台管理介面</a>
+            <a class="btn btn-warning" href="<c:url value="/backstage/Mall"/>">返回後台管理介面</a>
         </center>
     </form>
     </div>

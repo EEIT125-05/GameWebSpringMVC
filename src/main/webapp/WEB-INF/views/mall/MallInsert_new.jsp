@@ -155,11 +155,11 @@ response.setDateHeader("Expires", -1);
 
 				<Button  class="btn btn-warning" href="<c:url value="/mall/Inquire"/>">查詢</Button>
 				<Button class="btn btn-warning" type="submit" name="submit" value="送出">送出</Button></div><br>
-				<Button class="btn btn-warning" href="<c:url value="/mall/MALLbat"/>">返回後台管理頁面</Button>
 			</center>
 	</div>
 
 	</form>
+				<a class="btn btn-warning" href="<c:url value="/backstage/Mall"/>">返回後台管理頁面</a>
 	</div>
 	</div>
 
