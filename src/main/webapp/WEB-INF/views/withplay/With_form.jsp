@@ -110,7 +110,9 @@
     max-width:850px; 
 }
 td{
-	color:lightgrey;
+	color:white;
+	font: 1.2em "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight:bold;
 }
 </style>
 </head>
@@ -128,7 +130,7 @@ td{
 	<div align="center">
 		<form:form method="post" modelAttribute="With"
 			enctype='multipart/form-data' class="dark-matter com">
-			<table style="cellpadding:5px">
+			<table >
 				<tbody >
 				<form:hidden path="iId" />
 				<form:hidden path="sGender" items='${sGenderMap}' readonly="true" />

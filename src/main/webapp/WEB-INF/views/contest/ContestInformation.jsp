@@ -350,7 +350,7 @@ p{
 					<div class="row">
 						<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
 						
-							<div class="col-md-3" style="margin:20px 0 10px 80px"><img src="<c:url value='/member/picture?sAccount=${participate.sPlayer}'/>" class="rounded-circle" alt="Cinque Terre" width="50px" height="50px">${participate.sPlayer}</div>
+							<div class="col-md-3" style="margin:20px 0 10px 80px"><img src="<c:url value='/member/picture?sAccount=${participate.sPlayer}'/>" class="rounded-circle" alt="Cinque Terre" width="60px" height="60px" style="margin-right:10px">${participate.sPlayer}</div>
 							
 						</c:forEach>
 					</div>

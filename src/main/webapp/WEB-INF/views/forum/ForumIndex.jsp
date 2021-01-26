@@ -141,13 +141,14 @@ a.delete{
 					</div>
 					<div class="col-md-8" style="border-right:1px solid rgba(0, 0, 0, 0.1)">
 						<a class="enterDetail" href="<c:url value='/forum/Detail/${forum[0]}'/>">
-							<div>
+							<div style="min-height:70px">
 								<h3>${forum[2]}</h3>
 							</div>
 						</a>
 					</div>
-					<div class="col-md-1" style="border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center">
-						${forum[5]}
+					<div class="col-md-1" style="border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center;">
+						<img src="<c:url value='/member/picture?sAccount=${forum[5]}'/>" class="rounded-circle" alt="Cinque Terre" width="60px" height="60px">
+						<br><span style="font-size:0.8em">${forum[5]}</span>
 					</div>
 					<div class="col-md-1" style="border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center">
 						${forum[3]}<br>${forum[4]}
@@ -157,23 +158,6 @@ a.delete{
 					</div>
 				</div>
 			</div>
-			
-			
-			
-			
-<!-- 			<div class="row"> -->
-<!-- 				<div class="col-md-10" style="border-right:1px solid rgba(0, 0, 0, 0.1);padding:0"> -->
-<%-- 					<a class="enterDetail" href="<c:url value='/forum/Detail/${forum[0]}'/>"> --%>
-<!-- 						<div> -->
-<%-- 							<h3>[${forum[1]}]${forum[2]}</h3> --%>
-<%-- 							<span>發文/更改時間: ${forum[3]} ${forum[4]}</span><br>  --%>
-<%-- 							<span>樓主: ${forum[5]}</span><br>  --%>
-<%-- 							<span>留言數: ${forum[7]}</span> --%>
-<!-- 						</div> -->
-<!-- 					</a> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 			<hr> -->
 		</c:forEach>
 	</div>
 	</div>
@@ -274,13 +258,14 @@ a.delete{
 												+"</div>"
 												+"<div class=\"col-md-8\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1)\">"
 												+"<a class=\"enterDetail\" href=\"<c:url value='/forum/Detail/" + value[0] + "'/>\">"
-												+"<div>"
+												+"<div style=\"min-height:70px\">"
 												+"<h3>" + value[2] + "</h3>"
 												+"</div>"
 												+"</a>"
 												+"</div>"
 												+"<div class=\"col-md-1\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center\">"
-												+ value[5]
+												+"<img src=\"<c:url value='/member/picture?sAccount=" + value[5] + "'/>\" class=\"rounded-circle\" width=\"60px\" height=\"60px\">"
+												+"<br><span style=\"font-size:0.8em\">" + value[5] + "</span>"
 												+"</div>"
 												+"<div class=\"col-md-1\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center\">"
 												+ $.format.date(new Date(value[3]), 'yyyy-MM-dd') + "<br>" + value[4]
@@ -290,25 +275,6 @@ a.delete{
 												+"</div>"
 												+"</div>"
 												+"</div>");
-						
-						
-						
-						
-						
-// 						$("#point").append("<div class=\"row\">"+
-// 									"<div class=\"col-md-10\">"+
-// 									"<a class=\"enterDetail\" href=\"<c:url value='/forum/Detail/" + value[0] + "'/>\">"+
-// 									"<div>"+
-// 									"<h3>[" + value[1] + "]" + value[2] + "</h3>"+
-// 									"<span>發文/更改時間: " + $.format.date(new Date(value[3]), 'yyyy-MM-dd') + "&nbsp;" + value[4] + "</span><br>"+
-// 									"<span>樓主: " + value[5] + "</span><br>"+
-// 									"<span>留言數: " + value[7] + "</span>"+
-// 									"</div>"+
-// 									"</a>"+
-// 									"</div>"+
-// // 									button +
-// 									"</div>"+
-// 									"<hr>");
 					});
 	            },
 	            error:function (err) {
@@ -348,13 +314,14 @@ a.delete{
 										+"</div>"
 										+"<div class=\"col-md-8\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1)\">"
 										+"<a class=\"enterDetail\" href=\"<c:url value='/forum/Detail/" + value[0] + "'/>\">"
-										+"<div>"
+										+"<div style=\"min-height:70px\">"
 										+"<h3>" + value[2] + "</h3>"
 										+"</div>"
 										+"</a>"
 										+"</div>"
 										+"<div class=\"col-md-1\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center\">"
-										+ value[5]
+										+"<img src=\"<c:url value='/member/picture?sAccount=" + value[5] + "'/>\" class=\"rounded-circle\" width=\"60px\" height=\"60px\">"
+										+"<br><span style=\"font-size:0.8em\">" + value[5] + "</span>"
 										+"</div>"
 										+"<div class=\"col-md-1\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center\">"
 										+ $.format.date(new Date(value[3]), 'yyyy-MM-dd') + "<br>" + value[4]
