@@ -24,5 +24,6 @@ public interface WithDao {
 	
 	String CheckID(String sIdcode);
 
+	List<WithPlay> backstagelist();
 
 }

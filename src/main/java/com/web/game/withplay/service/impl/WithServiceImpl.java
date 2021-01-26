@@ -92,5 +92,10 @@ public class WithServiceImpl implements WithService {
 		
 		
 	}
+
+	@Override
+	public List<WithPlay> backstagelist() {
+		return withDao.backstagelist();
+	}
 	
 }
