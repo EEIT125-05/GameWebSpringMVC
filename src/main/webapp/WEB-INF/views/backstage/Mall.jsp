@@ -218,7 +218,7 @@ mark.yellow {
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">今日賣出數量</p>
-                      <p class="card-title">491筆<p>
+                      <p class="card-title">42筆<p>
                     </div>
                   </div>
                 </div>
@@ -246,7 +246,7 @@ mark.yellow {
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">今日商城系統流量</p>
-                      <p class="card-title">9265位<p>
+                      <p class="card-title">165位<p>
                     </div>
                   </div>
                 </div>
