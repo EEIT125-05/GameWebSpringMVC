@@ -64,7 +64,7 @@ mark.yellow {
 					<span id="search1span"></span>
 				</div></td>
 				<td>
-				<a class="btn btn-warning" href="<c:url value="/mall/MALLbat"/>">返回後台管理介面</a>
+				<a class="btn btn-warning" href="<c:url value="/backstage/Mall"/>">返回後台管理介面</a>
 				</td>
 			</tr>
 		</table>
