@@ -58,7 +58,7 @@ td{
 }
 
 body{
-	padding-left:20px;
+/* 	padding-left:20px; */
 	padding-top:76px;
 }
 
@@ -145,19 +145,6 @@ p{
 <body>
 <%@ include file="../Header.jsp"%>
 
-<div class="example" style="display:none">
-    <div class="sk-chase"  style="position:fixed; top:50%; left:50%;">
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-    </div>
-  </div>
-
-
-
 <div class="container" style="font-size:1.2em">
 	<input type="hidden" id="checkUser" value="${user}">
 <!-- 			按報名鈕檢查使用者是否登入用的 -->
@@ -176,7 +163,7 @@ p{
 			<div class="row">
 				<div class="col-md-7">
 					<img class="img-fluid rounded mb-3 mb-md-0"
-						src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" alt="" style="width:100%">
+						src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" alt="目前無法載入圖片，請等待片刻" style="width:100%">
 				</div>
 				<div class="col-md-5" style="positon:relative">
 					<p><label>比賽名稱：</label><label>${cContestBean.sName}</label></p>
@@ -231,9 +218,6 @@ p{
 <!-- 							<br><span style="font-size:70%;color:red">(註:至比賽當日即無法更改比賽)</span> -->
 					</div>
 					</c:if>
-			    	
-					
-					
 					
 				</div>
 			</div>
@@ -632,6 +616,17 @@ p{
 		
 		
 		<div id="tree" class="tree"></div>
+		
+	<div class="example" style="display:none">
+	    <div class="sk-chase"  style="position:fixed; top:50%; left:50%;">
+	      <div class="sk-chase-dot"></div>
+	      <div class="sk-chase-dot"></div>
+	      <div class="sk-chase-dot"></div>
+	      <div class="sk-chase-dot"></div>
+	      <div class="sk-chase-dot"></div>
+	      <div class="sk-chase-dot"></div>
+	    </div>
+   </div>
 </div>
 <!-- 		畫圖用 不讓使用者看的 -->
 <%@ include file="../Foot.jsp"%>
@@ -1302,6 +1297,12 @@ p{
 								dataType: "json",
 								data:{"contestNo": $("#delete").val(),//借來用
 									  "players":players
+								},
+								beforeSend:function(){
+									$(".example").show()
+								},
+					 			complete:function(){
+									$(".example").hide()
 								},
 								success: function(result){
 									if(result.status == "success"){

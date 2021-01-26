@@ -107,27 +107,66 @@ a.delete{
 	<a class="btn btn-outline-dark hot" id="hot">熱門</a>
 	<hr>
 	<div id="point">
+		<div class="alert alert-success" style="background-color:rgba(212, 237, 218, 0.8);color:black">
+			<div class="row" style="font-size:1.2em;text-align:center">
+				<div class="col-md-1" style="border-right:1px solid rgba(0, 0, 0, 0.1)">
+					子版
+				</div>
+				<div class="col-md-8" style="border-right:1px solid rgba(0, 0, 0, 0.1)">
+					標題
+				</div>
+				<div class="col-md-1" style="border-right:1px solid rgba(0, 0, 0, 0.1)">
+					樓主
+				</div>
+				<div class="col-md-1" style="border-right:1px solid rgba(0, 0, 0, 0.1)">
+					時間
+				</div>
+				<div class="col-md-1">
+					留言數
+				</div>
+			</div>
+		</div>
 		<c:forEach var="forum" items="${lForumList}">
-			<div class="row">
-					<div class="col-md-10">
+			<div class="alert alert-light" style="background-color:rgba(255, 255, 255, 0.8);color:black">
+				<div class="row">
+					<div class="col-md-1" style="border-right:1px solid rgba(0, 0, 0, 0.1);text-align:center">
+						<h3>${forum[1]}</h3>
+					</div>
+					<div class="col-md-8" style="border-right:1px solid rgba(0, 0, 0, 0.1)">
 						<a class="enterDetail" href="<c:url value='/forum/Detail/${forum[0]}'/>">
 							<div>
-								<h3>[${forum[1]}]${forum[2]}</h3>
-								<span>發文/更改時間: ${forum[3]} ${forum[4]}</span><br> 
-								<span>樓主: ${forum[5]}</span><br> 
-								<span>留言數: ${forum[7]}</span>
+								<h3>${forum[2]}</h3>
 							</div>
 						</a>
 					</div>
-<%-- 					<c:if test="${forum[5] == user.sAccount}"> --%>
-<%-- 						<form action="<c:url value='/forum/Edit/${forum[0]}'/>" method="POST" > --%>
-<%-- 							<input type="hidden" name="_method"  id='putOrDelete${forum[0]}'   value="" > --%>
-<%-- 							<a class="btn btn-primary update" href="<c:url value='/forum/Update/${forum[0]}'/>">修改</a> --%>
-<%-- 							<button type="submit" class="btn btn-primary delete" value="${forum[0]}">刪除</button> --%>
-<!-- 						</form> -->
-<%-- 					</c:if> --%>
+					<div class="col-md-1" style="border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center">
+						${forum[5]}
+					</div>
+					<div class="col-md-1" style="border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center">
+						${forum[3]}<br>${forum[4]}
+					</div>
+					<div class="col-md-1" style="padding:0;text-align:center;font-size:1.2em">
+						${forum[7]}
+					</div>
+				</div>
 			</div>
-			<hr>
+			
+			
+			
+			
+<!-- 			<div class="row"> -->
+<!-- 				<div class="col-md-10" style="border-right:1px solid rgba(0, 0, 0, 0.1);padding:0"> -->
+<%-- 					<a class="enterDetail" href="<c:url value='/forum/Detail/${forum[0]}'/>"> --%>
+<!-- 						<div> -->
+<%-- 							<h3>[${forum[1]}]${forum[2]}</h3> --%>
+<%-- 							<span>發文/更改時間: ${forum[3]} ${forum[4]}</span><br>  --%>
+<%-- 							<span>樓主: ${forum[5]}</span><br>  --%>
+<%-- 							<span>留言數: ${forum[7]}</span> --%>
+<!-- 						</div> -->
+<!-- 					</a> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 			<hr> -->
 		</c:forEach>
 	</div>
 	</div>
@@ -158,20 +197,6 @@ a.delete{
 			search = $("#search").val();
 		}
 
-// 		$(document).on("click", ".delete", function(){
-// 			return confirmDelete($(this).val());
-// 		});
-
-// 		function confirmDelete(iNo){
-// 		  var result = confirm("確定刪除此則文章?");
-// 		  if (result) {
-// 			  $("#putOrDelete" + iNo).val("DELETE");
-// 		      return true;
-// 		  }
-// 		  return false;
-// 		}
-		
-		
 		$("#submit").on("click",function(){
 			search = $("#sSearch").val();
 			scrollInt = 0;
@@ -196,10 +221,7 @@ a.delete{
 		$("#new").on("click",function(){
 			$(".hot").removeClass("hotChoose");
 			$(this).addClass("hotChoose");
-// 			search = "";
-// 			category = "";
 			scrollInt = 0;
-// 			$("#sSearch").val("").attr("placeholder","");
 			hot = "";
 			doAjax(category, search, hot, scrollInt);		
 		});	
@@ -226,30 +248,60 @@ a.delete{
 					$("#point").empty();
 					if(result.length == 0){
 						$("#point").append("<p>無貼文符合您搜尋的條件</p>")							
+					}else{
+						$("#point").append("<div class=\"alert alert-success\" style=\"background-color:rgba(212, 237, 218, 0.8);color:black\">"
+						+"<div class=\"row\" style=\"font-size:1.2em;text-align:center\">"
+						+"<div class=\"col-md-1\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1)\">子版</div>"
+						+"<div class=\"col-md-8\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1)\">標題</div>"
+						+"<div class=\"col-md-1\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1)\">樓主</div>"
+						+"<div class=\"col-md-1\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1)\">時間</div>"
+						+"<div class=\"col-md-1\">留言數</div>"
+						+"</div>"
+						+"</div>");
 					}
 					$.each(result ,function(key,value){
-// 						let button = "";
-// 						if(value[5] == $("#sAccount").val()){
-// 							button = "<form action=\"<c:url value='/forum/Edit/" + value[0] + "'/>\" method=\"POST\" >"+
-// 										"<input type=\"hidden\" name=\"_method\"  id='putOrDelete" + value[0] + "'   value=\"\" >"+
-// 										"<a class=\"btn btn-primary update\" href=\"<c:url value='/forum/Update/" + value[0] + "'/>\">修改</a>"+
-// 										"<button type=\"submit\" class=\"btn btn-primary delete\" value=\"" + value[0] + "\">刪除</button>"+
-// 									"</form>";
-// 						}
-						$("#point").append("<div class=\"row\">"+
-									"<div class=\"col-md-10\">"+
-									"<a class=\"enterDetail\" href=\"<c:url value='/forum/Detail/" + value[0] + "'/>\">"+
-									"<div>"+
-									"<h3>[" + value[1] + "]" + value[2] + "</h3>"+
-									"<span>發文/更改時間: " + $.format.date(new Date(value[3]), 'yyyy-MM-dd') + "&nbsp;" + value[4] + "</span><br>"+
-									"<span>樓主: " + value[5] + "</span><br>"+
-									"<span>留言數: " + value[7] + "</span>"+
-									"</div>"+
-									"</a>"+
-									"</div>"+
-// 									button +
-									"</div>"+
-									"<hr>");
+						$("#point").append("<div class=\"alert alert-light\" style=\"background-color:rgba(255, 255, 255, 0.8);color:black\">"
+												+"<div class=\"row\">"
+												+"<div class=\"col-md-1\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1);text-align:center\">"
+												+"<h3>" + value[1] + "</h3>"
+												+"</div>"
+												+"<div class=\"col-md-8\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1)\">"
+												+"<a class=\"enterDetail\" href=\"<c:url value='/forum/Detail/" + value[0] + "'/>\">"
+												+"<div>"
+												+"<h3>" + value[2] + "</h3>"
+												+"</div>"
+												+"</a>"
+												+"</div>"
+												+"<div class=\"col-md-1\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center\">"
+												+ value[5]
+												+"</div>"
+												+"<div class=\"col-md-1\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center\">"
+												+ $.format.date(new Date(value[3]), 'yyyy-MM-dd') + "<br>" + value[4]
+												+"</div>"
+												+"<div class=\"col-md-1\" style=\"padding:0;text-align:center;font-size:1.2em\">"
+												+ value[7]
+												+"</div>"
+												+"</div>"
+												+"</div>");
+						
+						
+						
+						
+						
+// 						$("#point").append("<div class=\"row\">"+
+// 									"<div class=\"col-md-10\">"+
+// 									"<a class=\"enterDetail\" href=\"<c:url value='/forum/Detail/" + value[0] + "'/>\">"+
+// 									"<div>"+
+// 									"<h3>[" + value[1] + "]" + value[2] + "</h3>"+
+// 									"<span>發文/更改時間: " + $.format.date(new Date(value[3]), 'yyyy-MM-dd') + "&nbsp;" + value[4] + "</span><br>"+
+// 									"<span>樓主: " + value[5] + "</span><br>"+
+// 									"<span>留言數: " + value[7] + "</span>"+
+// 									"</div>"+
+// 									"</a>"+
+// 									"</div>"+
+// // 									button +
+// 									"</div>"+
+// 									"<hr>");
 					});
 	            },
 	            error:function (err) {
@@ -282,19 +334,29 @@ a.delete{
 						},
 						success:function (result) {	
 							$.each(result ,function(key,value){
-								$("#point").append("<div class=\"row\">"+
-										"<div class=\"col-md-10\">"+
-										"<a class=\"enterDetail\" href=\"<c:url value='/forum/Detail/" + value[0] + "'/>\">"+
-										"<div>"+
-										"<h3>[" + value[1] + "]" + value[2] + "</h3>"+
-										"<span>發文/更改時間: " + $.format.date(new Date(value[3]), 'yyyy-MM-dd') + "&nbsp;" + value[4] + "</span><br>"+
-										"<span>樓主: " + value[5] + "</span><br>"+
-										"<span>留言數: " + value[7] + "</span>"+
-										"</div>"+
-										"</a>"+
-										"</div>"+
-										"</div>"+
-										"<hr>");
+								$("#point").append("<div class=\"alert alert-light\" style=\"background-color:rgba(255, 255, 255, 0.8);color:black\">"
+										+"<div class=\"row\">"
+										+"<div class=\"col-md-1\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1);text-align:center\">"
+										+"<h3>" + value[1] + "</h3>"
+										+"</div>"
+										+"<div class=\"col-md-8\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1)\">"
+										+"<a class=\"enterDetail\" href=\"<c:url value='/forum/Detail/" + value[0] + "'/>\">"
+										+"<div>"
+										+"<h3>" + value[2] + "</h3>"
+										+"</div>"
+										+"</a>"
+										+"</div>"
+										+"<div class=\"col-md-1\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center\">"
+										+ value[5]
+										+"</div>"
+										+"<div class=\"col-md-1\" style=\"border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center\">"
+										+ $.format.date(new Date(value[3]), 'yyyy-MM-dd') + "<br>" + value[4]
+										+"</div>"
+										+"<div class=\"col-md-1\" style=\"padding:0;text-align:center;font-size:1.2em\">"
+										+ value[7]
+										+"</div>"
+										+"</div>"
+										+"</div>");
 							});
 			            },
 			            error:function (err) {
@@ -312,10 +374,6 @@ a.delete{
 			this.target = "_blank";
 		});	
 		
-// 		$("#point").on("click","button",function(){
-// 			let contestId = $(this).val();
-// 			window.open("/GameWebSpringMVC/forum/Detail/"+contestId,"_blank");
-// 		});
 	});
 	</script>
 </body>
