@@ -67,7 +67,7 @@ public class WithDaoImpl implements WithDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<WithPlay> list() {
-		String hql = "FROM WithPlay";
+		String hql = "FROM WithPlay where iStatus =0";
 		Session session = getSession();
 		List<WithPlay> list = session.createQuery(hql).getResultList();
 		return list;	}
@@ -82,7 +82,7 @@ public class WithDaoImpl implements WithDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<WithPlay> selectlist(String sNickname) {
-		String hql = "FROM WithPlay w WHERE w.sNickname like '%"+sNickname+"%'";
+		String hql = "FROM WithPlay w WHERE w.iStatus =0 and w.sNickname like '%"+sNickname+"%'";
 		Session session = getSession();
 		return session.createQuery(hql).getResultList();
 	}
@@ -90,7 +90,7 @@ public class WithDaoImpl implements WithDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<WithPlay> search(String sNickname,String sGame) {
-		String hql = "from WithPlay where sNickname like '%" + sNickname + "%' and sGame like '%" + sGame + "%'" ;
+		String hql = "from WithPlay where iStatus =0 and sNickname like '%" + sNickname + "%' and sGame like '%" + sGame + "%'" ;
 		Session session = getSession();
 		return  session.createQuery(hql).getResultList();
 		
