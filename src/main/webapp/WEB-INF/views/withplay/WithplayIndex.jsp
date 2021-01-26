@@ -276,12 +276,11 @@ response.setContentType("text/html;charset=UTF-8");
 													
 													}
 													
-													let user = "${user}";
 													let ordercheck;
 													let withId = value.iId;
 													let check = false;
 													if(user != ""){
-														ordercheck = ${UserOrdercheckList};
+														ordercheck = ${UserOrdercheckList}
 														$.each(ordercheck, function(key, value){
 															if(value == withId){
 																check = true;
@@ -460,12 +459,11 @@ response.setContentType("text/html;charset=UTF-8");
 
 								}
 								
-								let user = "${user}";
 								let ordercheck;
 								let withId = value.iId;
 								let check = false;
 								if(user != ""){
-									ordercheck = ${UserOrdercheckList};
+									ordercheck = ${UserOrdercheckList}
 									$.each(ordercheck, function(key, value){
 										if(value == withId){
 											check = true;
