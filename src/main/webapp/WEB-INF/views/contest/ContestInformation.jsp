@@ -125,13 +125,40 @@ body{
 	margin:0;
 }
 
+p{
+	margin-bottom:0;
+}
+
+.example{ 
+/*  background-color:rgba(0,0,0,0.8); */
+	background-color:rgba(0,0,0,0.8);
+ 	position:fixed; 
+/*  top:0px;  */
+/*  left:0px;  */
+/*  width:100%;  */
+/*  height:100%;  */
+} 
+
 </style>
 
 </head>
 <body>
 <%@ include file="../Header.jsp"%>
 
-<div class="container">
+<div class="example" style="display:none">
+    <div class="sk-chase"  style="position:fixed; top:50%; left:50%;">
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+    </div>
+  </div>
+
+
+
+<div class="container" style="font-size:1.2em">
 	<input type="hidden" id="checkUser" value="${user}">
 <!-- 			按報名鈕檢查使用者是否登入用的 -->
 	<h1 class="mt-4 mb-3">
@@ -144,10 +171,76 @@ body{
 		<li class="breadcrumb-item active"><a href="<c:url value='/contest/Index'/>">賽事</a></li>
 		<li class="breadcrumb-item active">詳細資料</li>
 	</ol>
-
-		<img src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" alt="" style="width:560px">
-		<div>
-			<label class="btn btn-outline-dark item itemChoose">總覽</label>
+		
+		<div class="alert alert-dark" role="alert" style="background-color:rgba(214, 216, 217, 0.8);color:black">
+			<div class="row">
+				<div class="col-md-7">
+					<img class="img-fluid rounded mb-3 mb-md-0"
+						src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" alt="" style="width:100%">
+				</div>
+				<div class="col-md-5" style="positon:relative">
+					<p><label>比賽名稱：</label><label>${cContestBean.sName}</label></p>
+			    	<p><label>比賽遊戲：</label><label>${cContestBean.sGame}</label></p>
+			    	<p><label style="width:80px;text-align:right">隊伍數：</label><label>${cContestBean.iPeople}</label></p>
+			    	
+			    	<c:choose>
+			    		<c:when test="${cContestBean.iTeamMemberCount == 1}">
+			    			<c:set var="iTeamMemberCount" value="個人"/>
+			    		</c:when>
+			    		<c:otherwise>
+			    			<c:set var="iTeamMemberCount" value="團體"/>
+			    		</c:otherwise>
+			    	</c:choose>
+					<c:if test="${cContestBean.sRematchMode == 'knockout'}">
+			   			<c:set var="sRematchMode" value="淘汰賽"/>
+			    	</c:if>
+			    	<c:if test="${cContestBean.sRematchMode == 'ground'}">
+			   			<c:set var="sRematchMode" value="循環賽"/>
+			    	</c:if>
+			    	<c:if test="${cContestBean.sRematchMode == 'free'}">
+			   			<c:set var="sRematchMode" value="自由對戰"/>
+			    	</c:if>
+			    	<c:choose>
+			    		<c:when test="${cContestBean.sPreliminary == 'none'}">
+			    			<c:set var="sPreliminary" value="無預賽"/>
+			    		</c:when>
+			    		<c:otherwise>
+			    			<c:set var="sPreliminary" value="有預賽"/>
+			    		</c:otherwise>
+			    	</c:choose>
+			    	<p><label style="width:80px;text-align:right">賽制：</label><label>${iTeamMemberCount}-${sRematchMode}-${sPreliminary}</label></p>
+			    	
+			    	<p><label>報名時間：</label><label> ${cContestBean.dSignStart}~${cContestBean.dSignEnd}</label></p>
+					<fmt:formatDate var="sTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd HH:mm"/>
+			    	<p><label>比賽時間：</label><label>${sTime}</label></p>
+			    	<p><label>比賽地點：</label><label>${cContestBean.sLocation}</label></p>
+			    	
+			    	<p><label>報名狀況：</label><label>${fn:length(cContestBean.lParticipateBeans)}/${cContestBean.iPeople}</label></p>
+		    		<c:if test="${cContestBean.sHost == user.sAccount }">
+	            	<fmt:formatDate var="dTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd"/>
+					<div style="position:absolute;right:0;bottom:0">
+						<c:choose>
+							<c:when test="${dTime <= today}">
+								<span style="color:gray;margin:0 12px">更改</span>
+							</c:when>
+							<c:otherwise>
+								<a class="btn btn-outline-dark" href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>
+							</c:otherwise>
+						</c:choose>
+						<button class="btn btn-outline-dark" type="submit" id="delete" value="${cContestBean.iNo}">刪除</button>
+<!-- 							<br><span style="font-size:70%;color:red">(註:至比賽當日即無法更改比賽)</span> -->
+					</div>
+					</c:if>
+			    	
+					
+					
+					
+				</div>
+			</div>
+		</div>
+		
+		<div class="btn-group" role="group" aria-label="Basic mixed styles example">
+			<label class="btn btn-outline-dark item itemChoose">詳細規則</label>
 			<label class="btn btn-outline-dark item">參賽者</label>
 			<label class="btn btn-outline-dark item">賽程</label>
 			<c:choose>
@@ -158,150 +251,130 @@ body{
 					<label class="btn btn-outline-dark item">戰績</label>
 	    		</c:otherwise>
 	    	</c:choose>
-	    	
-			<c:set var="joinStatus" value="true"/>
+	    </div>
+		<c:set var="joinStatus" value="true"/>
 			
 <!-- 				團體賽要從參加組別拆自串比對-->
-			<c:choose>
-	    		<c:when test="${cContestBean.iTeamMemberCount != 1}">
-	    			<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
-	    				<c:forEach var="player" items="${fn:split(participate.sPlayer,',')}">
-		    				<c:if test="${player == user.sAccount}">
-								<c:set var="joinStatus" value="false"/>
-							</c:if>
-	    				</c:forEach>
-	    			</c:forEach>
-	    		</c:when>
-	    		<c:otherwise>
-					<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
-						<c:if test="${participate.sPlayer == user.sAccount}">
+		<c:choose>
+    		<c:when test="${cContestBean.iTeamMemberCount != 1}">
+    			<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
+    				<c:forEach var="player" items="${fn:split(participate.sPlayer,',')}">
+	    				<c:if test="${player == user.sAccount}">
 							<c:set var="joinStatus" value="false"/>
 						</c:if>
-					</c:forEach>
-	    		</c:otherwise>
-	    	</c:choose>
+    				</c:forEach>
+    			</c:forEach>
+    		</c:when>
+    		<c:otherwise>
+				<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
+					<c:if test="${participate.sPlayer == user.sAccount}">
+						<c:set var="joinStatus" value="false"/>
+					</c:if>
+				</c:forEach>
+    		</c:otherwise>
+    	</c:choose>
 			
-			
-			
-			<jsp:useBean id="nowDate" class="java.util.Date"/>
-			<fmt:formatDate var="today" pattern="yyyy-MM-dd" value="${nowDate}" />
-			<c:choose>
-				<c:when test="${joinStatus == 'false'}">
-					<button class="btn btn-success joinItem" disabled>已報名</button>
-					<c:choose>
-						<c:when test="${cContestBean.dSignEnd < today}">
-							<button class="btn btn-danger" disabled>退出比賽</button>
-							<span style="font-size:70%;color:red">(註:報名截止後即無法退出比賽)</span>
-						</c:when>
-						<c:otherwise>
-							<button id="quitContest" class="btn btn-danger" value="${cContestBean.iNo}">退出比賽</button>
-							<span style="font-size:70%;color:red">(註:報名截止後即無法退出比賽)</span>
-						</c:otherwise>
-					</c:choose>
+		<jsp:useBean id="nowDate" class="java.util.Date"/>
+		<fmt:formatDate var="today" pattern="yyyy-MM-dd" value="${nowDate}" />
+		<c:choose>
+			<c:when test="${joinStatus == 'false'}">
+				<button class="btn btn-success joinItem" disabled>已報名</button>
+				<c:choose>
+					<c:when test="${cContestBean.dSignEnd < today}">
+						<button class="btn btn-danger" disabled>退出比賽</button>
+						<span style="font-size:70%;color:red">(註:報名截止後即無法退出比賽)</span>
+					</c:when>
+					<c:otherwise>
+						<button id="quitContest" class="btn btn-danger" value="${cContestBean.iNo}">退出比賽</button>
+						<span style="font-size:70%;color:red">(註:報名截止後即無法退出比賽)</span>
+					</c:otherwise>
+				</c:choose>
+			</c:when>
+			<c:otherwise>
+				<c:choose>
+				<c:when test="${cContestBean.dSignStart > today}">
+					<button class="btn btn-success joinItem" disabled>未開始報名</button>
 				</c:when>
 				<c:otherwise>
 					<c:choose>
-					<c:when test="${cContestBean.dSignStart > today}">
-						<button class="btn btn-success joinItem" disabled>未開始報名</button>
-					</c:when>
-					<c:otherwise>
-						<c:choose>
-							<c:when test="${cContestBean.dSignEnd < today}">
-								<button class="btn btn-success joinItem" disabled>報名已截止</button>
-							</c:when>
-							<c:otherwise>
-								<c:choose>
-									<c:when
-										test="${fn:length(cContestBean.lParticipateBeans) == cContestBean.iPeople}">
-										<button class="btn btn-success joinItem" disabled>報名人數已滿</button>
-									</c:when>
-									<c:otherwise>
-										<button class="btn btn-success joinItem">報名</button>
-									</c:otherwise>
-								</c:choose>
-							</c:otherwise>
-						</c:choose>
-					</c:otherwise>
+						<c:when test="${cContestBean.dSignEnd < today}">
+							<button class="btn btn-success joinItem" disabled>報名已截止</button>
+						</c:when>
+						<c:otherwise>
+							<c:choose>
+								<c:when
+									test="${fn:length(cContestBean.lParticipateBeans) == cContestBean.iPeople}">
+									<button class="btn btn-success joinItem" disabled>報名人數已滿</button>
+								</c:when>
+								<c:otherwise>
+									<button class="btn btn-success joinItem">報名</button>
+								</c:otherwise>
+							</c:choose>
+						</c:otherwise>
 					</c:choose>
 				</c:otherwise>
-			</c:choose>
-		</div>
+				</c:choose>
+			</c:otherwise>
+		</c:choose>
+		
 		
 		
 <!-- 		<hr> -->
-		<div id="總覽" class="hiddenDiv">
-			<c:if test="${cContestBean.sHost == user.sAccount }">
-            	<fmt:formatDate var="dTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd"/>
-				<c:choose>
-					<c:when test="${dTime <= today}">
-						<span style="color:gray;margin:0 12px">更改</span>
-					</c:when>
-					<c:otherwise>
-						<a class="btn btn-outline-dark" href="<c:url value='/contest/Update/${cContestBean.iNo}'/>">更改</a>
-					</c:otherwise>
-				</c:choose>
-				<button class="btn btn-outline-dark" type="submit" id="delete" value="${cContestBean.iNo}">刪除</button>
-				<span style="font-size:70%;color:red">(註:至比賽當日即無法更改比賽)</span>
-			</c:if>
-			
-			<p><label>比賽名稱: </label><label>${cContestBean.sName}</label></p>
-	    	<p><label>比賽遊戲: </label><label>${cContestBean.sGame}</label></p>
-	    	<p><label style="width:67.47px;text-align:right">隊伍數: </label><label>${cContestBean.iPeople}</label></p>
-	    	
-	    	<c:choose>
-	    		<c:when test="${cContestBean.iTeamMemberCount == 1}">
-	    			<p><label>隊伍組成: </label><label>個人</label></p>
-	    		</c:when>
-	    		<c:otherwise>
-	    			<p><label>隊伍組成: </label><label>團體，每隊${cContestBean.iTeamMemberCount}人</label></p>
-	    		</c:otherwise>
-	    	</c:choose>
-	    		<input type="hidden" id="teamMemberCount" value="${cContestBean.iTeamMemberCount}">
-	    	<c:choose>
-	    		<c:when test="${cContestBean.sPreliminary == 'none'}">
-	    			<p><label style="width:67.47px;text-align:right">預賽: </label><label>無預賽</label></p>
-	    		</c:when>
-	    		<c:otherwise>
-	    			<c:set var="sPreliminary" value="${fn:split(cContestBean.sPreliminary,'-')}"/>
-    			<p><label style="width:67.47px;text-align:right">預賽: </label><label>有預賽，${sPreliminary[0]}取${sPreliminary[1]}  剩餘取${sPreliminary[2]}</label></p>
-	    		</c:otherwise>
-	    	</c:choose>
-	    	
-	    	<c:if test="${cContestBean.sRematchMode == 'knockout'}">
-	    		<p><label>比賽形式: </label><label>淘汰賽</label></p>
-	    	</c:if>
-	    	<c:if test="${cContestBean.sRematchMode == 'ground'}">
-	    		<p><label>比賽形式: </label><label>循環賽</label></p>
-	    	</c:if>
-	    	<c:if test="${cContestBean.sRematchMode == 'free'}">
-	    		<p><label>比賽形式: </label><label>自由對戰</label></p>
-	    	</c:if>
-	    	
-	    	<p><label>報名時間: </label><label> ${cContestBean.dSignStart}~${cContestBean.dSignEnd}</label></p>
-			<fmt:formatDate var="sTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd HH:mm"/>
-	    	<p><label>比賽時間: </label><label>${sTime}</label></p>
-	    	<p><label>比賽地點: </label><label>${cContestBean.sLocation}</label></p>
-	    	<p><label>報名狀況: </label><label>${fn:length(cContestBean.lParticipateBeans)}/${cContestBean.iPeople}</label></p>
-			<span>比賽規則:</span> 
-			<br> 
-			<span id="rule">${cContestBean.sRule}</span>
+		<div id="詳細規則" class="hiddenDiv alert alert-warning"  style="background-color:rgba(255, 243, 205, 0.8);color:black;padding-left:30px">
+		    	<c:choose>
+		    		<c:when test="${cContestBean.iTeamMemberCount == 1}">
+		    			<p><label>隊伍組成: </label><label>個人</label></p>
+		    		</c:when>
+		    		<c:otherwise>
+		    			<p><label>隊伍組成: </label><label>團體，每隊${cContestBean.iTeamMemberCount}人</label></p>
+		    		</c:otherwise>
+		    	</c:choose>
+		    		<input type="hidden" id="teamMemberCount" value="${cContestBean.iTeamMemberCount}">
+		    	<c:choose>
+		    		<c:when test="${cContestBean.sPreliminary == 'none'}">
+		    			<p><label style="width:80px;text-align:right">預賽: </label><label>無預賽</label></p>
+		    		</c:when>
+		    		<c:otherwise>
+		    			<c:set var="sPreliminary" value="${fn:split(cContestBean.sPreliminary,'-')}"/>
+	    			<p><label style="width:80px;text-align:right">預賽: </label><label>有預賽，${sPreliminary[0]}取${sPreliminary[1]}  剩餘取${sPreliminary[2]}</label></p>
+		    		</c:otherwise>
+		    	</c:choose>
+		    	
+		    	<c:if test="${cContestBean.sRematchMode == 'knockout'}">
+		    		<p><label>比賽形式: </label><label>淘汰賽</label></p>
+		    	</c:if>
+		    	<c:if test="${cContestBean.sRematchMode == 'ground'}">
+		    		<p><label>比賽形式: </label><label>循環賽</label></p>
+		    	</c:if>
+		    	<c:if test="${cContestBean.sRematchMode == 'free'}">
+		    		<p><label>比賽形式: </label><label>自由對戰</label></p>
+		    	</c:if>
+		    	
+		    	<br>
+				<span>比賽規則:</span> 
+				<br> 
+				<div id="rule">${cContestBean.sRule}</div>
 		</div>
 		
-		<div id="參賽者" class="hiddenDiv" style="display:none">
+		<div id="參賽者" class="hiddenDiv alert alert-warning" style="display:none;background-color:rgba(255, 243, 205, 0.8);color:black">
 			<c:choose>
 				<c:when test="${fn:length(cContestBean.lParticipateBeans) == 0}">
 					<p>目前暫無參賽者</p>
 				</c:when>
 				<c:otherwise>
 					<p>目前參賽者: </p>
-					<c:forEach varStatus="vs" var="participate" items="${cContestBean.lParticipateBeans}">
-						<div><label style="width:50px;text-align:right">${vs.count}.</label><label>${participate.sPlayer}</label></div>
-					</c:forEach>
+					<div class="row">
+						<c:forEach var="participate" items="${cContestBean.lParticipateBeans}">
+						
+							<div class="col-md-3" style="margin:20px 0 10px 80px"><img src="<c:url value='/member/picture?sAccount=${participate.sPlayer}'/>" class="rounded-circle" alt="Cinque Terre" width="50px" height="50px">${participate.sPlayer}</div>
+							
+						</c:forEach>
+					</div>
 				</c:otherwise>
 			</c:choose>
 		</div>
 		
-		<div id="賽程" class="hiddenDiv" style="display:none">
+		<div id="賽程" class="hiddenDiv alert alert-warning" style="display:none;background-color:rgba(255, 243, 205, 0.8);color:black">
 			<c:choose>
 				<c:when test="${cContestBean.sPreliminary == 'none' && cContestBean.sRematchMode == 'free'}">
 					<p>本場賽事類型為 自由對戰-無預賽 ,故無賽程表</p>
@@ -414,10 +487,10 @@ body{
 
 		<c:choose>
     		<c:when test="${cContestBean.sHost == user.sAccount}">
-				<div id="更新戰績" class="hiddenDiv" style="display:none">
+				<div id="更新戰績" class="hiddenDiv alert alert-warning" style="display:none;background-color:rgba(255, 243, 205, 0.8);color:black">
     		</c:when>
     		<c:otherwise>
-				<div id="戰績" class="hiddenDiv" style="display:none">
+				<div id="戰績" class="hiddenDiv alert alert-warning" style="display:none;background-color:rgba(255, 243, 205, 0.8);color:black">
     		</c:otherwise>
     	</c:choose>
     	
@@ -596,6 +669,12 @@ body{
 						"contestNo": $(this).val(),
 						"winners": winners
 				},
+				beforeSend:function(){
+					$(".example").show()
+				},
+	 			complete:function(){
+					$(".example").hide()
+				},
 				success: function(result){
 					if(result.status == "success"){
 						Swal.fire({
@@ -655,6 +734,9 @@ body{
 							"contestNo": $(this).val(),
 							"winners": winners
 					},
+					beforeSend:function(){
+						$(".example").show()
+					},
 					success: function(result){
 						if(result.status == "success"){
 							//儲存成功算戰績
@@ -665,6 +747,9 @@ body{
 								data: {
 										"contestNo": $("#createRematch").val(),
 										"winners": winners
+								},
+								beforeSend:function(){
+									$(".example").show()
 								},
 								success: function(result){
 									let rematchMode = "${cContestBean.sRematchMode}";
@@ -760,6 +845,12 @@ body{
 											data:{
 												"treeImage64": treeImage64,
 												"contestNo": $("#createRematch").val(),
+											},
+											beforeSend:function(){
+												$(".example").show()
+											},
+								 			complete:function(){
+												$(".example").hide()
 											},
 											success: function(result){
 												if(result.status == "success"){
@@ -858,6 +949,9 @@ body{
 						"contestNo": $(this).val(),
 						"winners": winners
 				},
+				beforeSend:function(){
+					$(".example").show()
+				},
 				success: function(result){
 					if(result.status == "success"){
 						let successMessage = result.successMessage;
@@ -950,6 +1044,12 @@ body{
 									"treeImage64": treeImage64,
 									"contestNo": $("#createRematch").val(),
 								},
+								beforeSend:function(){
+									$(".example").show()
+								},
+					 			complete:function(){
+									$(".example").hide()
+								},
 								success: function(result){
 									if(result.status == "success"){
 										
@@ -983,11 +1083,6 @@ body{
 				 								});
 										}
 										
-										
-									
-									
-									
-									
 									}else if(result.status == "sqlError"){
 										Swal.fire(
 												  '資料庫發生錯誤!',
@@ -1091,6 +1186,12 @@ body{
 							url: "<c:url value='/contest/Join'/>",
 							dataType: "json",
 							data:{},
+							beforeSend:function(){
+								$(".example").show()
+							},
+				 			complete:function(){
+								$(".example").hide()
+							},
 							success: function(result){
 								if(result.status == "success"){
 									Swal.fire({

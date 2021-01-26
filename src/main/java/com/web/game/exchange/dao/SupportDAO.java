@@ -96,7 +96,7 @@ public class SupportDAO {
 	
 	public Boolean changeSupportStatusByMember(Integer status,String sAccount) {
 		Session session = factory.getCurrentSession();
-		String changeStatus = "update SupportGameBean s set s.status=:status where s.gamer=:gamer";
+		String changeStatus = "update SupportGameBean s set s.status=:status where s.gamer=:gamer and d.status in(5,0)";
 		Integer times = session.createQuery(changeStatus).setParameter("status", status).setParameter("gamer", sAccount).
 		executeUpdate();
 		System.out.println("更新次數support"+times);

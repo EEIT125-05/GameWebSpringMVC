@@ -267,7 +267,7 @@ response.setContentType("text/html;charset=UTF-8");
 												let user = $("#userNow").val();
 												let checkString;
 												let checkreply;
-// 												let checksAccount= ${fn:length(With.sReplyBeans)};
+
 												$.each(obj,function(key,value) {
 													if(value.sAccount == user || user==null){
 														checkString = "<button type=\"submit\" class=\"btn btn-primary \" disabled=\"disabled\" name=\"orderNo\" value=\"" + value.iId + "\">立即下單</button>"
@@ -275,7 +275,25 @@ response.setContentType("text/html;charset=UTF-8");
 														checkString = "<button type=\"submit\" class=\"btn btn-primary \" name=\"orderNo\" value=\"" + value.iId + "\">立即下單</button>"
 													
 													}
-												
+													
+													let ordercheck = ${UserOrdercheckList};
+													let withId = value.iId;
+													let check = false;
+													$.each(ordercheck, function(key, value){
+														if(value == withId){
+															check = true;
+														}
+													});
+													let button = "";
+													if(check){
+														button = "<button type='submit' id='replySubmit' class='btn btn-primary' name='withNo'"
+															+"value='" + value.iId + "'>送出</button>";
+													}else{
+														button = "<button type='submit' id='replySubmit' class='btn btn-primary' name='withNo'"
+														+"value='" + value.iId + "' disabled>送出</button>";
+													}
+													
+													
 													$("#point").append(
 																							 "<div class='col col-12 col-sm-6 col-md-6 col-lg-3'>"
 																							+ "<div data-toggle='modal' data-target='#exampleModal" + value.iId + "'>"
@@ -344,8 +362,7 @@ response.setContentType("text/html;charset=UTF-8");
 
 																							+"<div>"
 																								+"回覆: <input type='text' id='reply' name='sText' required>"
-																								+"<button type='submit' id='replySubmit' class='btn btn-primary' name='withNo'"
-																									+"value='" + value.iId + "'>送出</button>"
+																								+button
 																							+"</div>"
 																						+"</form>"
 																							
@@ -368,11 +385,13 @@ response.setContentType("text/html;charset=UTF-8");
 													let text = "";
 													let date = "";
 													let time = "";
-													let id = value.iId			
+													let withplayId = value.iId;
+													let replyId;			
 													let d = new Date();
 													$.each(value.sReplyBeans,function(key,value) {
 														author = value.sAuthor;
 														text = value.sText;
+														replyId = value.iNo;
 														date = $.format.date(new Date(value.dDate), 'yyyy-MM-dd');
 														if(d.getTime() - value.dDate <= 86400000){
 															date = "今日";
@@ -381,10 +400,9 @@ response.setContentType("text/html;charset=UTF-8");
 														}
 														time = value.tTime;
 														if(author=='${user.sNickname}'){
-														
-														$("#reply"+id).append("<label style='word-break: break-all;width:466px'><div><b>"+author+":</b><input type='hidden' id='oldText"+id+"'value="+Text+"><button class='replyUpdate' value='"+id+"' style='font-size:14px'>修改</button><button class='replyDelete' value='"+id+"' style='font-size:14px'>刪除</button><span style='float:right;'>"+date+""+time+"</span></div><div id='newText"+id+"'>"+text+"</div></label>");
+															$("#reply"+withplayId).append("<label style='word-break: break-all;width:466px'><div><b>"+author+":</b><input type='hidden' id='oldText"+replyId+"' value="+text+"><button class='replyUpdate' value='"+replyId+"' style='font-size:14px'>修改</button><button class='replyDelete' value='"+replyId+"' style='font-size:14px'>刪除</button><span style='float:right;'>"+date+""+time+"</span></div><div id='newText"+replyId+"'>"+text+"</div></label>");
 														}else{															
-														$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>");
+															$("#reply"+withplayId).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>");
 														}
 													
 													});				
@@ -437,6 +455,24 @@ response.setContentType("text/html;charset=UTF-8");
 									checkString = "<button type=\"submit\" class=\"btn btn-primary \" name=\"orderNo\" value=\"" + value.iId + "\">立即下單</button>"
 
 								}
+								
+								let ordercheck = ${UserOrdercheckList};
+								let withId = value.iId;
+								let check = false;
+								$.each(ordercheck, function(key, value){
+									if(value == withId){
+										check = true;
+									}
+								});
+								let button = "";
+								if(check){
+									button = "<button type='submit' id='replySubmit' class='btn btn-primary' name='withNo'"
+										+"value='" + value.iId + "'>送出</button>";
+								}else{
+									button = "<button type='submit' id='replySubmit' class='btn btn-primary' name='withNo'"
+									+"value='" + value.iId + "' disabled>送出</button>";
+								}
+								
 								$("#point").append(
 //																	"<div class='row' id='point'>"
 										 "<div class='col col-12 col-sm-6 col-md-6 col-lg-3'>"
@@ -506,8 +542,7 @@ response.setContentType("text/html;charset=UTF-8");
 
 										+"<div>"
 											+"回覆: <input type='text' id='reply' name='sText' required>"
-											+"<button type='submit' id='replySubmit' class='btn btn-primary' name='withNo'"
-												+"value='" + value.iId + "'>送出</button>"
+											+button
 										+"</div>"
 									+"</form>"
 										
@@ -531,11 +566,13 @@ response.setContentType("text/html;charset=UTF-8");
 								let text = "";
 								let date = "";
 								let time = "";
-								let id = value.iId			
+								let withplayId = value.iId;
+								let replyId;					
 								let d = new Date();
 								$.each(value.sReplyBeans,function(key,value) {
 									author = value.sAuthor;
 									text = value.sText;
+									replyId = value.iNo;
 									date = $.format.date(new Date(value.dDate), 'yyyy-MM-dd');
 									if(d.getTime() - value.dDate <= 86400000){
 										date = "今日";
@@ -543,7 +580,11 @@ response.setContentType("text/html;charset=UTF-8");
 										date = "昨日";
 									}
 									time = value.tTime;								
-									$("#reply"+id).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>")
+									if(author=='${user.sNickname}'){
+										$("#reply"+withplayId).append("<label style='word-break: break-all;width:466px'><div><b>"+author+":</b><input type='hidden' id='oldText"+replyId+"' value="+text+"><button class='replyUpdate' value='"+replyId+"' style='font-size:14px'>修改</button><button class='replyDelete' value='"+replyId+"' style='font-size:14px'>刪除</button><span style='float:right;'>"+date+""+time+"</span></div><div id='newText"+replyId+"'>"+text+"</div></label>");
+									}else{															
+										$("#reply"+withplayId).append("<label style='word-break: break-all;width:466px'>"+author+":"+text+"<span style='float:right;'>"+date+""+time+"</span></label>");
+									}
 											
 								});				
 							});
@@ -569,7 +610,7 @@ response.setContentType("text/html;charset=UTF-8");
 		}
 	});
 			
-	$(".replyUpdate").on("click",function(){
+	$(document).on("click", ".replyUpdate",function(){
 		let text = $("#oldText"+$(this).val()).val();
 		$("#newText"+$(this).val()).html("<input type=\"text\" value=\"" + text + "\"> <button class=\"btn btn-primary submitNewReply\">送出");
 	});
@@ -613,7 +654,7 @@ response.setContentType("text/html;charset=UTF-8");
 		});		
 	});
 	
-	$(".replyDelete").on("click", function(){
+	$(document).on("click", ".replyDelete", function(){
 		Swal.fire({
 			showClass: {
 			    popup: 'animate__animated animate__fadeInDown'

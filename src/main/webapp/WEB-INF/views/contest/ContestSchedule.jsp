@@ -102,6 +102,25 @@
 		margin:0;
 	}
 	
+	.example{ 
+/*  background-color:rgba(0,0,0,0.8); */
+	background-color:rgba(0,0,0,0.8);
+ 	position:fixed; 
+/*  top:0px;  */
+/*  left:0px;  */
+/*  width:100%;  */
+/*  height:100%;  */
+} 
+ 		
+.mask {       
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color:rgba(0,0,0,0.8);
+/*     z-index: 9; */
+/*     opacity:0.5; //Chrome */
+/*     -moz-opacity:0.5; //fireFox */
+}
 
 </style>
 
@@ -111,25 +130,20 @@
 
 </head>
 <body>
-	<%@ include file="../Header.jsp"%>
+<%@ include file="../Header.jsp"%>
+	
+<div class="example" style="display:none">
+    <div class="sk-chase"  style="position:fixed; top:50%; left:50%;">
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+    </div>
+  </div>
 
-<!-- <div class="container"> -->
-
-<!-- <h1 class="mt-4 mb-3"> -->
-<!-- 比賽詳細資料/賽程安排 -->
-<!--       <small>XXXXX</small> -->
-<!--     </h1> -->
-
-<!--     <ol class="breadcrumb"> -->
-<%-- 		<li class="breadcrumb-item"><a href="<c:url value='/'/>">Home</a> --%>
-<!-- 		</li> -->
-<%-- 		<li class="breadcrumb-item active"><a href="<c:url value='/contest/Index'/>">賽事</a></li> --%>
-<%-- 		<li class="breadcrumb-item active"><a href="<c:url value='/contest/Information?contestNo=${cContestBean.iNo}'/>">詳細資料</a></li> --%>
-<%-- 		<li class="breadcrumb-item active"><a href="<c:url value='/contest/ScheduleTest/${cContestBean.iNo}'/>">編輯賽程</a></li> --%>
-<!-- 	</ol> -->
-<input type="hidden" name="_method"  id='putOrDelete'   value="" >
  <input type="hidden" id="contestNo" value="${cContestBean.iNo}"> <!--截圖的ajax要用的 -->
- 
 	
 	
 	<div id="option">
@@ -203,63 +217,6 @@
 	<script src="<c:url value='/js/html2canvas.js'/>"></script>
 <script>
 $(function(){
-	$("#delete").on("click", function(){
-		Swal.fire({
-			showClass: {
-			    popup: 'animate__animated animate__fadeInDown'
-			  },
-			  title: '確定刪除此筆紀錄?',
-			  text: "刪除之後將不能復原",
-			  icon: 'warning',
-			  showCancelButton: true,
-			  confirmButtonColor: '#d33',
-			  cancelButtonColor: '#3085d6',
-			  confirmButtonText: '刪除',
-		      cancelButtonText: '取消',
-				hideClass: {
-				    popup: 'animate__animated animate__fadeOutUp'
-				  }
-			}).then((result) => {
-			  if (result.isConfirmed) {
-				  $.ajax({
-						type: "delete",
-						url: "<c:url value='/contest/Edit/" + $(this).val() + "'/>",
-						dataType: "json",
-						data: {},
-						success: function(result){
-							if(result.status == "success"){
-								Swal.fire({
-										      title:"刪除成功!",
-											  icon:"success",
-											  hideClass: {
-											    popup: 'animate__animated animate__fadeOutUp'
-											  }
-										  }).then(function(){
-											window.setTimeout(function(){$(location).attr("href", "<c:url value='/contest/Index'/>");},500);
-											
-										})
-							}else if(result.status == "sqlError"){
-								Swal.fire(
-										  '資料庫發生錯誤!',
-										  '請聯繫管理員',
-										  'error'
-										)
-							}
-						},
-						error: function(err){
-							Swal.fire(
-									  '網頁發生錯誤!',
-									  '請聯繫管理員',
-									  'error'
-									)
-						}
-						
-					});		
-			  }
-			})
-
-	});
-	
 	
 	let preliminary = $("#preliminary").val();
 	let rematchMode = $("#rematchMode").val();
@@ -605,6 +562,12 @@ $(function(){
 						"contestNo": $("#contestNo").val(),
 		 				"groupPlayer": JSON.stringify(groupPlayer)
 					},
+					beforeSend:function(){
+						$(".example").show()
+					},
+					complete:function(){
+	 					$(".example").hide()
+	 				},
 					success: function(result){
 						if(result.status == "success"){
 							Swal.fire({

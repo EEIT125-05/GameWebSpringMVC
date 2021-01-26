@@ -72,7 +72,6 @@ header.masthead h1 {
                 </div>
             </div>
         </header>
-
 	<%@ include file="Foot.jsp"%>
 </body>
 

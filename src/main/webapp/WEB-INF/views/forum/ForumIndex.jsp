@@ -15,7 +15,8 @@ th, tr, td {
 }
 
 .categoryChoose, .hotChoose{
-	background-color:#FCFCFC;
+	background-color:#343a40;
+	color:white;
 }
 a.enterDetail{
 	color: black;
@@ -75,24 +76,24 @@ a.delete{
     </div>
   
 
-	<h1 class="mt-4 mb-3">討論區首頁
+	<h1 class="mt-4 mb-3">討論區
     </h1>
   
 	<form>
 	<input type="hidden" id="sAccount" value="${user.sAccount}">
 <!-- 	ajax要用的 -->
-  
-  		<input type="hidden" id="category" value="${category}">
-  		<input type="hidden" id="search" value="${search}">
-		<a class="btn btn-outline-dark category categoryChoose">全部</a>
-		<a class="btn btn-outline-dark category">閒聊</a>
-		<a class="btn btn-outline-dark category">公告</a>
-		<a class="btn btn-outline-dark category">討論</a>
-		<a class="btn btn-outline-dark category">問題</a>
-		<a class="btn btn-outline-dark category">情報</a>
-		<a class="btn btn-outline-dark category">攻略</a>
-		
-		<div class="input-group" style="margin-top:15px">
+  		<div style="float:left">
+	  		<input type="hidden" id="category" value="${category}">
+	  		<input type="hidden" id="search" value="${search}">
+			<a class="btn btn-outline-dark category categoryChoose">全部</a>
+			<a class="btn btn-outline-dark category">閒聊</a>
+			<a class="btn btn-outline-dark category">公告</a>
+			<a class="btn btn-outline-dark category">討論</a>
+			<a class="btn btn-outline-dark category">問題</a>
+			<a class="btn btn-outline-dark category">情報</a>
+			<a class="btn btn-outline-dark category">攻略</a>
+		</div>	
+		<div class="input-group" style="margin-top:15px;width:400px">
 			<h3> 標題:&nbsp;</h3>
 			<input type="text" id="sSearch" class="form-control" name="sSearch">
 			<span class="input-group-append">
@@ -100,6 +101,7 @@ a.delete{
 					 name="select" value="搜尋">
 			</span>
 		</div>
+  		
 	</form>
 	<a class="btn btn-outline-dark hot hotChoose" id="new">最新</a>
 	<a class="btn btn-outline-dark hot" id="hot">熱門</a>

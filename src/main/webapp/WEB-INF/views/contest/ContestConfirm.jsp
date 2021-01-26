@@ -9,9 +9,28 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>賽事 - GameBar</title>
+<style>
+.example{ 
+	background-color:rgba(0,0,0,0.8);
+ 	position:fixed; 
+} 
+
+</style>
 </head>
 <body>
 <%@ include file="../Header.jsp" %>
+
+<div class="example" style="display:none">
+    <div class="sk-chase"  style="position:fixed; top:50%; left:50%;">
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+    </div>
+  </div>
+
 
 <div class="container">
 
@@ -100,6 +119,12 @@
 			url: "<c:url value='/contest/Confirm'/>",
 			dataType: "json",
 			data:{},
+			beforeSend:function(){
+				$(".example").show()
+			},
+			complete:function(){
+				$(".example").hide()
+			},
 			success: function(result){
 				if(result.status == "success"){
 					Swal.fire({

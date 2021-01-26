@@ -311,7 +311,7 @@ response.setContentType("text/html;charset=UTF-8");
       <table border="1" id="table3" class="display" style="text-align:center;">
 				<thead>
 				<tr>
-<!-- 					<th>編號</th> -->
+					<th>編號</th>
 					<th>留言者</th>
 					<th>陪玩師</th>
 					<th>時間</th>
@@ -319,17 +319,19 @@ response.setContentType("text/html;charset=UTF-8");
 					<th>功能</th>
 				</tr>
 				</thead>
+				<c:set var="count" value="0"/>
 				<c:forEach items="${Withlist}" var="With"  > 
-				<c:forEach var='Reply' varStatus='Status' items="${With.sReplyBeans}">
-				<tr>
-<%-- 				<td>${Status.count}</td> --%>
-				<td>${Reply.sAuthor }</td>
-				<td>${With.sNickname}</td>
-				<td>${Reply.dDate}<br>${Reply.tTime}</td>
-				<td style="word-break: break-all;width:600px">${Reply.sText}</td>
-				<td><a class="btn btn-danger" onclick="deleteReply(${Reply.iNo});">刪除</a></td>
-				</tr>
-				</c:forEach>
+					<c:forEach var='Reply' items="${With.sReplyBeans}">
+						<tr>
+							<c:set var="count" value="${count+1}"/>
+							<td>${count}</td>
+							<td>${Reply.sAuthor }</td>
+							<td>${With.sNickname}</td>
+							<td>${Reply.dDate}<br>${Reply.tTime}</td>
+							<td style="word-break: break-all;width:600px">${Reply.sText}</td>
+							<td><a class="btn btn-danger" onclick="deleteReply(${Reply.iNo});">刪除</a></td>
+						</tr>
+					</c:forEach>
 				</c:forEach>
 				</table>
       
