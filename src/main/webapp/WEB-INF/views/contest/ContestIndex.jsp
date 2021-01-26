@@ -98,7 +98,7 @@
 					<div class="col-md-7">
 						<a href="<c:url value='/contest/Information?contestNo=${cContest.iNo}'/>"> 
 							<img class="img-fluid rounded mb-3 mb-md-0"
-								src="<c:url value='/contest/ImageLoading?iNo=${cContest.iNo}'/>" alt="" style="width:100%">
+								src="<c:url value='/contest/ImageLoading?iNo=${cContest.iNo}'/>" alt="目前無法載入圖片，請等待片刻" style="width:100%">
 						</a>
 					</div>
 					<div class="col-md-5">

@@ -163,7 +163,7 @@ p{
 			<div class="row">
 				<div class="col-md-7">
 					<img class="img-fluid rounded mb-3 mb-md-0"
-						src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" alt="" style="width:100%">
+						src="<c:url value='/contest/ImageLoading?iNo=${cContestBean.iNo}'/>" alt="目前無法載入圖片，請等待片刻" style="width:100%">
 				</div>
 				<div class="col-md-5" style="positon:relative">
 					<p><label>比賽名稱：</label><label>${cContestBean.sName}</label></p>
