@@ -97,7 +97,8 @@ table {
 					<td class="leftBar"><a href="<c:url value='/member/Data'/>">會員資料</a></td>
 				</tr>
 				<tr>
-					<td class="leftBar"><a href="####">商城記錄</a></td>
+					<td class="leftBar"><a 
+						href="<c:url value="/mall/gotoMemberData"/>">商城記錄</a></td>
 				</tr>
 				<tr>
 					<td class="leftBar"><a

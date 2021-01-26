@@ -61,6 +61,12 @@ public class MallController {
 		System.out.println("8888888888888");
 		return "/mall/Mall";
 	}
+	
+	@GetMapping("/gotoMemberData")
+	public String MallData(){
+		System.out.println("8888888888888");
+		return "/mall/MallMemberData";
+	}
 	private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
 	private static final String CHARSET_CODE = "UTF-8";
 
