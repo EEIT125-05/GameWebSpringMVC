@@ -136,7 +136,7 @@ public class HomeController {
 	
 	@GetMapping("/backstage/Withplay")
 	public String gotoWithplayBackStage(Model model) {
-		model.addAttribute("Withlist",withService.list());
+		model.addAttribute("Withlist",withService.backstagelist());
 		model.addAttribute("WithOrder",OrderService.alllist());
 		
 		

@@ -17,6 +17,8 @@ public interface WithService {
 	void delete(Integer iId);
 
 	List<WithPlay> list();
+ 	
+	List<WithPlay> backstagelist();
 	
 	List<WithPlay> selectlist(String sNickname);
 

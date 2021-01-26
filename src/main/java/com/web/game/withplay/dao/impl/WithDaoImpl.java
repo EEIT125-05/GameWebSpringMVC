@@ -114,4 +114,13 @@ public class WithDaoImpl implements WithDao {
 		return Idcode;
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<WithPlay> backstagelist() {
+		String hql = "FROM WithPlay";
+		Session session = getSession();
+		List<WithPlay> list = session.createQuery(hql).getResultList();
+		return list;
+	}
+
 }
