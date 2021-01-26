@@ -109,24 +109,41 @@ a.delete{
 	<div id="point">
 		<c:forEach var="forum" items="${lForumList}">
 			<div class="row">
-					<div class="col-md-10">
-						<a class="enterDetail" href="<c:url value='/forum/Detail/${forum[0]}'/>">
-							<div>
-								<h3>[${forum[1]}]${forum[2]}</h3>
-								<span>發文/更改時間: ${forum[3]} ${forum[4]}</span><br> 
-								<span>樓主: ${forum[5]}</span><br> 
-								<span>留言數: ${forum[7]}</span>
-							</div>
-						</a>
-					</div>
-<%-- 					<c:if test="${forum[5] == user.sAccount}"> --%>
-<%-- 						<form action="<c:url value='/forum/Edit/${forum[0]}'/>" method="POST" > --%>
-<%-- 							<input type="hidden" name="_method"  id='putOrDelete${forum[0]}'   value="" > --%>
-<%-- 							<a class="btn btn-primary update" href="<c:url value='/forum/Update/${forum[0]}'/>">修改</a> --%>
-<%-- 							<button type="submit" class="btn btn-primary delete" value="${forum[0]}">刪除</button> --%>
-<!-- 						</form> -->
-<%-- 					</c:if> --%>
+				<div class="col-md-1" style="border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center">
+					<h3>${forum[1]}</h3>
+				</div>
+				<div class="col-md-8" style="border-right:1px solid rgba(0, 0, 0, 0.1);padding:0">
+					<a class="enterDetail" href="<c:url value='/forum/Detail/${forum[0]}'/>">
+						<h3>${forum[2]}</h3>
+					</a>
+				</div>
+				<div class="col-md-1" style="border-right:1px solid rgba(0, 0, 0, 0.1);padding:0">
+					${forum[5]}
+				</div>
+				<div class="col-md-1" style="border-right:1px solid rgba(0, 0, 0, 0.1);padding:0;text-align:center">
+					${forum[3]}<br>${forum[4]}
+				</div>
+				<div class="col-md-1" style="padding:0;text-align:center">
+					${forum[7]}
+				</div>
 			</div>
+			
+			
+			
+			
+			
+<!-- 			<div class="row"> -->
+<!-- 				<div class="col-md-10" style="border-right:1px solid rgba(0, 0, 0, 0.1);padding:0"> -->
+<%-- 					<a class="enterDetail" href="<c:url value='/forum/Detail/${forum[0]}'/>"> --%>
+<!-- 						<div> -->
+<%-- 							<h3>[${forum[1]}]${forum[2]}</h3> --%>
+<%-- 							<span>發文/更改時間: ${forum[3]} ${forum[4]}</span><br>  --%>
+<%-- 							<span>樓主: ${forum[5]}</span><br>  --%>
+<%-- 							<span>留言數: ${forum[7]}</span> --%>
+<!-- 						</div> -->
+<!-- 					</a> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
 			<hr>
 		</c:forEach>
 	</div>
