@@ -125,7 +125,7 @@
 	
 	
 	<div style="position:relative;height:60px">
-		<div class="alert alert-success" style="background-color:rgba(212, 237, 218, 0.8);color:black;position:absolute;right:0;)">${fForumBean.dDate} ${fForumBean.tTime}</div>
+		<div class="alert alert-success" style="background-color:rgba(212, 237, 218, 0.8);color:black;position:absolute;right:0;">${fForumBean.dDate} ${fForumBean.tTime}</div>
 	</div>
 	<div class="alert alert-light" style="background-color:rgba(255, 255, 255, 0.8);color:black;font-size:1.2em">${fForumBean.sText}</div>
 	
