@@ -39,6 +39,8 @@
 <script src="${pageContext.request.contextPath}/vendor/js/chartjs.min.js"></script>
 <script src="${pageContext.request.contextPath}/vendor/js/perfect-scrollbar.jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/vendor/js/popper.min.js"></script>
+<script src="${pageContext.request.contextPath}/vendor/js/Custom.js"></script>
+
 
 <link rel="stylesheet" href="<c:url value='/css/FormStyle.css'/>"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -62,7 +64,30 @@ body {
 .container {
   flex-grow: 1; /*可佔滿垂直剩餘的空間*/
 }
+#loader{
+	position: fixed;
+    z-index: 3000;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #595758;
+    background-color:black; 
 
+}
+
+
+.mid{
+   width: 100px; 
+    height: 100px;  
+/*   position: absolute; 
+/* margin: 0px auto; */
+  top: 50%;
+  left: 50%;
+   margin: -100px 0 0 -70px; */
+}
 
 
 

@@ -11,7 +11,7 @@
 </head>
 <body class="">
 <%@ include file="../Header.jsp"%>
-  <div class="wrapper ">
+  <div class="wrappers">
     <div class="sidebar" data-color="white" data-active-color="danger">
       <div class="logo">
         <a href="https://www.creative-tim.com" class="simple-text logo-mini">
