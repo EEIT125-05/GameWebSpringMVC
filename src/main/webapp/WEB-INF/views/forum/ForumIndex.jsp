@@ -41,7 +41,7 @@ a.delete{
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
       </ol>
-      <div class="carousel-inner" role="listbox" style="height:300px">
+      <div class="carousel-inner" role="listbox" style="height:300px;position:relative">
        
         <div class="carousel-item active" style="background-image: url('https://content.shopback.com/tw/wp-content/uploads/2020/04/10142030/Cover-nintendo-web.jpg');height:300px">
           <div class="carousel-caption d-none d-md-block">
@@ -63,6 +63,10 @@ a.delete{
             <p></p>
           </div>
         </div>
+        
+<%--         <div class="systemLOGO" style="position:absolute;top:0;left:0"><img src="${pageContext.request.contextPath}/images/fourmLOGO.png" class="systemIMG"></div> --%>
+       
+        
       </div>
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -76,8 +80,11 @@ a.delete{
     </div>
   
 
-	<h1 class="mt-4 mb-3">討論區
+	<h1 class="mt-4 mb-3">
+	討論區首頁
+<%-- <img src="${pageContext.request.contextPath}/images/fourmLOGO.png" class="systemIMG" style="width:300px"> --%>
     </h1>
+<%-- <div class="systemLOGO"><img src="${pageContext.request.contextPath}/images/fourmLOGO.png" class="systemIMG"></div> --%>
   
 	<form>
 	<input type="hidden" id="sAccount" value="${user.sAccount}">

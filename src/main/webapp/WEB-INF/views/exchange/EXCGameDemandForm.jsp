@@ -9,8 +9,6 @@
 request.setCharacterEncoding("UTF-8");
 %>
 
-
-
 <!DOCTYPE html>
 <html>
 <HEAD>
@@ -106,7 +104,7 @@ div {
 	function oneClick(){
 		$("#console1").val("Switch")
 		$("#gamename").val("馬力歐賽車")
-		$("#gamelocation").val("台中市")
+		$("#gamelocation").val("新北市")
 		$("#remark").val("下班後可面交")
 		$("#submitButton").attr("disabled",false)
 	}

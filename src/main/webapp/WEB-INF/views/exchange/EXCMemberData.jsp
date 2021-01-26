@@ -117,7 +117,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
     <div class="card-header" id="headingOne">
       <h5 class="mb-0">
         <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          	(我要換)交換紀錄/共${fn:length(ChangeHistoryList)}筆
+          	(交換池)交換紀錄/共${fn:length(ChangeHistoryList)}筆
         </button>
       </h5>
     </div>
@@ -210,7 +210,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
     <div class="card-header" id="headingTwo">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed show" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          	我要換/共${fn:length(MemberSupport)}筆
+          	交換池/共${fn:length(MemberSupport)}筆
         </button>
         <c:if test="${not empty MemberPending}">
   		<span id="warningSpanSupport" style="color:red;">您有${fn:length(MemberPending)}筆交換待確認！</span>
@@ -306,7 +306,7 @@ response.setDateHeader("Expires", -1); // Prevents caching at the proxy server
     <div class="card-header" id="headingThree">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          我要徵 /共${fn:length(MemberDemand)}筆
+          許願池 /共${fn:length(MemberDemand)}筆
           <c:if test="${not empty MemberDemandPending}">
   				<span id="warningSpanDemand" style="color:red;">您有${fn:length(MemberDemandPending)}筆交換待確認！</span>
   			</c:if>

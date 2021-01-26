@@ -2,6 +2,22 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+
+
+<div id="loader">
+    <div class="sk-chase mid">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+      </div>
+</div>
+
+
+
+
  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="<c:url value='/'/>" style="color:white;font-weight:bold;padding:0"><img src="${pageContext.request.contextPath}/images/gamebarLOGO2.png" style="height:45px"></a>
@@ -117,6 +133,7 @@
               <a class="dropdown-item" href="<c:url value="/exchange/insertMyGame"/>"><span style="color:gray">(遊戲庫)</span>新增我的遊戲</a>
               <a class="dropdown-item" href="<c:url value="/exchange/management"/>">我的遊戲庫</a>
               <a class="dropdown-item" href="<c:url value="/exchange/gotoMemberData"/>">我的交易紀錄(會員中心)</a>
+<%--               <a class="dropdown-item" href="<c:url value="/exchange/test"/>">test</a> --%>
               
             </div>
           </li>

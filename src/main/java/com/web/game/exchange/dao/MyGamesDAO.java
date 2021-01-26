@@ -115,5 +115,20 @@ public class MyGamesDAO {
 		return result;
 		
 	}
+	public boolean deleteMyGame(MyGameBean mygame) {
+		System.out.println("deleteMyGameDAOIn");
+		Session session = factory.getCurrentSession();
+		int count = 0;
+		boolean result = false;
+		System.out.println("mygame"+mygame);
+		session.delete(mygame);
+		count++;
+		if (count > 0) {
+			result = true;
+		}
+		System.out.println("deleteMyGameDAOOut");
+		return result;
+		
+	}
 	
 }

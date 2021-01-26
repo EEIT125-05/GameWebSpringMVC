@@ -115,6 +115,16 @@ public class UDSupportGameController {
 	
 	
 
+	@DeleteMapping("/deleteMyGame")
+	public @ResponseBody boolean deleteMyGame(Model model,@RequestParam Integer deleteindex) {
+		
+		boolean result = false;
+			MyGameBean mygamebean = exchangeService.getMyGame(deleteindex);
+		if (exchangeService.deleteMyGame(mygamebean)) {
+			result = true;
+		} 
+		return result;
+	}
 	@DeleteMapping("/deleteSupport")
 	public @ResponseBody boolean DeleteSupportGame(Model model,@RequestParam Integer deleteindex) {
 
