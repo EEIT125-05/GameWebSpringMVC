@@ -248,16 +248,6 @@ response.setContentType("text/html;charset=UTF-8");
 	</div>
 	<%@ include file="../Foot.jsp"%>
 	<script>
-	
-$(function(){
-		
-		let category = "";
-		let search = "";
-	
-	
-	
-}
-	
 		$("#submit").on("click",function() {
 			$("#point").empty();
 							let xhr = new XMLHttpRequest();
@@ -277,7 +267,7 @@ $(function(){
 												let user = $("#userNow").val();
 												let checkString;
 												let checkreply;
-
+												
 												$.each(obj,function(key,value) {
 													if(value.sAccount == user || user==null){
 														checkString = "<button type=\"submit\" class=\"btn btn-primary \" disabled=\"disabled\" name=\"orderNo\" value=\"" + value.iId + "\">立即下單</button>"
@@ -286,14 +276,18 @@ $(function(){
 													
 													}
 													
-													let ordercheck = ${UserOrdercheckList};
+													let user = "${user}";
+													let ordercheck;
 													let withId = value.iId;
 													let check = false;
-													$.each(ordercheck, function(key, value){
-														if(value == withId){
-															check = true;
-														}
-													});
+													if(user != ""){
+														ordercheck = ${UserOrdercheckList};
+														$.each(ordercheck, function(key, value){
+															if(value == withId){
+																check = true;
+															}
+														});
+													}
 													let button = "";
 													if(check){
 														button = "<button type='submit' id='replySubmit' class='btn btn-primary' name='withNo'"
@@ -466,14 +460,18 @@ $(function(){
 
 								}
 								
-								let ordercheck = ${UserOrdercheckList};
+								let user = "${user}";
+								let ordercheck;
 								let withId = value.iId;
 								let check = false;
-								$.each(ordercheck, function(key, value){
-									if(value == withId){
-										check = true;
-									}
-								});
+								if(user != ""){
+									ordercheck = ${UserOrdercheckList};
+									$.each(ordercheck, function(key, value){
+										if(value == withId){
+											check = true;
+										}
+									});
+								}
 								let button = "";
 								if(check){
 									button = "<button type='submit' id='replySubmit' class='btn btn-primary' name='withNo'"
