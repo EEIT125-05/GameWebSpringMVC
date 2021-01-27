@@ -186,7 +186,7 @@
 										<c:forEach items="${WithOrder2}" var="withOrder" varStatus="status">
 											<tr>
 												<td>${status.count}</td>
-												<td><img style="width:150px;height:150px;"class="img1" src='${pageContext.request.contextPath}/withplay/picture/${withOrder.member.iNo}'>
+												<td><img style="width:150px;height:150px;"class="img1" src='<c:url value='/member/picture?sAccount=${Order.with.sAccount}'/>'>
 															</td>
 												<td >${withOrder.member.sNickname}</td>
 												<td>${withOrder.dDate}</td>
