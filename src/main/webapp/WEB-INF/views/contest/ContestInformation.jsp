@@ -130,14 +130,13 @@ p{
 }
 
 .example{ 
-/*  background-color:rgba(0,0,0,0.8); */
 	background-color:rgba(0,0,0,0.8);
  	position:fixed; 
-/*  top:0px;  */
-/*  left:0px;  */
-/*  width:100%;  */
-/*  height:100%;  */
 } 
+
+.inforDot:before {
+	background-color:black;
+}
 
 </style>
 
@@ -618,13 +617,13 @@ p{
 		<div id="tree" class="tree"></div>
 		
 	<div class="example" style="display:none">
-	    <div class="sk-chase"  style="position:fixed; top:50%; left:50%;">
-	      <div class="sk-chase-dot"></div>
-	      <div class="sk-chase-dot"></div>
-	      <div class="sk-chase-dot"></div>
-	      <div class="sk-chase-dot"></div>
-	      <div class="sk-chase-dot"></div>
-	      <div class="sk-chase-dot"></div>
+	    <div class="sk-chase"  style="position:fixed;top:50%; left:50%;height:80px;width:80px">
+	      <div class="sk-chase-dot inforDot"></div>
+	      <div class="sk-chase-dot inforDot"></div>
+	      <div class="sk-chase-dot inforDot"></div>
+	      <div class="sk-chase-dot inforDot"></div>
+	      <div class="sk-chase-dot inforDot"></div>
+	      <div class="sk-chase-dot inforDot"></div>
 	    </div>
    </div>
 </div>

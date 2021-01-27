@@ -81,7 +81,7 @@ a.delete{
   
 
 	<h1 class="mt-4 mb-3">
-	討論區首頁
+	討論區
 <%-- <img src="${pageContext.request.contextPath}/images/fourmLOGO.png" class="systemIMG" style="width:300px"> --%>
     </h1>
 <%-- <div class="systemLOGO"><img src="${pageContext.request.contextPath}/images/fourmLOGO.png" class="systemIMG"></div> --%>

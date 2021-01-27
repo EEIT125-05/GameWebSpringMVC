@@ -15,22 +15,14 @@
  	position:fixed; 
 } 
 
+.inforDot:before {
+	background-color:black;
+}
+
 </style>
 </head>
 <body>
 <%@ include file="../Header.jsp" %>
-
-<div class="example" style="display:none">
-    <div class="sk-chase"  style="position:fixed; top:50%; left:50%;">
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-      <div class="sk-chase-dot"></div>
-    </div>
-  </div>
-
 
 <div class="container" style="font-size:1.2em">
 
@@ -112,6 +104,19 @@
 	<br>
 
 </div>
+
+<div class="example" style="display:none">
+    <div class="sk-chase"  style="position:fixed;top:50%; left:50%;height:80px;width:80px">
+      <div class="sk-chase-dot inforDot"></div>
+      <div class="sk-chase-dot inforDot"></div>
+      <div class="sk-chase-dot inforDot"></div>
+      <div class="sk-chase-dot inforDot"></div>
+      <div class="sk-chase-dot inforDot"></div>
+      <div class="sk-chase-dot inforDot"></div>
+    </div>
+  </div>
+
+
 <%@ include file="../Foot.jsp" %>
 
 

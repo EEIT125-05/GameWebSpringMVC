@@ -202,7 +202,7 @@ public class MemberControllerNoVerified {
 				out.print("<script>");
 				out.print("Swal.fire({\r\n" + "  icon: 'success',\r\n" + "  title: '註冊成功，回到首頁',\r\n"
 						+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
-//						+ "window.location.href='http://192.168.196.32:8080/GameWebSpringMVC/'\r\n" + "})");
+//						+ "window.location.href='http://192.168.196.74:8080/GameWebSpringMVC/'\r\n" + "})");
 						+ "window.location.href='http://localhost:8080/GameWebSpringMVC/'\r\n" + "})");
 				out.print("</script>");
 				out.print("</html></body>");
@@ -214,7 +214,7 @@ public class MemberControllerNoVerified {
 				out.print("<script>");
 				out.print("Swal.fire({\r\n" + "  icon: 'error',\r\n" + "  title: '註冊失敗',\r\n"
 						+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
-//						+ "window.location.href='http://192.168.196.32:8080/GameWebSpringMVC/member/Login'\r\n" + "})");
+//						+ "window.location.href='http://192.168.196.74:8080/GameWebSpringMVC/member/Login'\r\n" + "})");
 						+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/Login'\r\n" + "})");
 				out.print("</script>");
 				out.print("</html></body>");
@@ -336,7 +336,7 @@ public class MemberControllerNoVerified {
 				out.print("<script>");
 				out.print("Swal.fire({\r\n" + "  icon: 'success',\r\n" + "  title: '登入成功，回到首頁',\r\n"
 						+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
-//						+ "window.location.href='http://192.168.196.32:8080/GameWebSpringMVC/'\r\n" + "})");
+//						+ "window.location.href='http://192.168.196.74:8080/GameWebSpringMVC/'\r\n" + "})");
 						+ "window.location.href='http://localhost:8080/GameWebSpringMVC/'\r\n" + "})");
 				out.print("</script>");
 				out.print("</html></body>");
@@ -356,7 +356,7 @@ public class MemberControllerNoVerified {
 				out.print("<script>");
 				out.print("Swal.fire({\r\n" + "  icon: 'error',\r\n" + "  title: '帳號已遭鎖定，如有問題請洽詢客服',\r\n"
 						+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
-//						+ "window.location.href='http://192.168.196.32:8080/GameWebSpringMVC/member/Sign'\r\n" + "})");
+//						+ "window.location.href='http://192.168.196.74:8080/GameWebSpringMVC/member/Sign'\r\n" + "})");
 						+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/Sign'\r\n" + "})");
 				out.print("</script>");
 				out.print("</html></body>");
@@ -368,7 +368,7 @@ public class MemberControllerNoVerified {
 			out.print("<script>");
 			out.print("Swal.fire({\r\n" + "  icon: 'error',\r\n" + "  title: '帳號或密碼錯誤，請重新輸入',\r\n"
 					+ "  showConfirmButton: false,\r\n" + "  timer: 1500\r\n" + "}).then((result) => {\r\n"
-//					+ "window.location.href='http://192.168.196.32:8080/GameWebSpringMVC/member/Sign'\r\n" + "})");
+//					+ "window.location.href='http://192.168.196.74:8080/GameWebSpringMVC/member/Sign'\r\n" + "})");
 					+ "window.location.href='http://localhost:8080/GameWebSpringMVC/member/Sign'\r\n" + "})");
 			out.print("</script>");
 			out.print("</html></body>");
