@@ -159,7 +159,7 @@ p{
 		<li class="breadcrumb-item active">詳細資料</li>
 	</ol>
 		
-		<div class="alert alert-dark" role="alert" style="background-color:rgba(214, 216, 217, 0.8);color:black">
+		<div class="alert alert-success" style="background-color:rgba(212, 237, 218, 0.8);color:black">
 			<div class="row">
 				<div class="col-md-7">
 					<img class="img-fluid rounded mb-3 mb-md-0"
@@ -168,7 +168,7 @@ p{
 				<div class="col-md-5" style="positon:relative">
 					<p><label>比賽名稱：</label><label>${cContestBean.sName}</label></p>
 			    	<p><label>比賽遊戲：</label><label>${cContestBean.sGame}</label></p>
-			    	<p><label style="width:80px;text-align:right">隊伍數：</label><label>${cContestBean.iPeople}</label></p>
+			    	<p><label style="width:96px;text-align:right">隊伍數：</label><label>${cContestBean.iPeople}</label></p>
 			    	
 			    	<c:choose>
 			    		<c:when test="${cContestBean.iTeamMemberCount == 1}">
@@ -195,7 +195,7 @@ p{
 			    			<c:set var="sPreliminary" value="有預賽"/>
 			    		</c:otherwise>
 			    	</c:choose>
-			    	<p><label style="width:80px;text-align:right">賽制：</label><label>${iTeamMemberCount}-${sRematchMode}-${sPreliminary}</label></p>
+			    	<p><label style="width:96px;text-align:right">賽制：</label><label>${iTeamMemberCount}-${sRematchMode}-${sPreliminary}</label></p>
 			    	
 			    	<p><label>報名時間：</label><label> ${cContestBean.dSignStart}~${cContestBean.dSignEnd}</label></p>
 					<fmt:formatDate var="sTime" value="${cContestBean.tTime}" pattern="yyyy-MM-dd HH:mm"/>
