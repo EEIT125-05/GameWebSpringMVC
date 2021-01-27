@@ -14,6 +14,10 @@
 	color:green;
 	font-size:18px
 }
+.showAppShow{
+	font-size:30px
+	
+}
 </style>
 </head>
 <body>
@@ -22,19 +26,19 @@
 			<fieldset>
 				<legend>交換申請</legend>
 				<div>
-					<label>您的帳號</label> <input type="text"
+					<label class="showAppShow">您的帳號</label> <input class="showAppShow" type="text"
 						value="${changeHistoryBean.partyA.sAccount }${wishhistorybean.partyB.sAccount}" readonly />
 				</div>
 				<div>
-					<label>您的遊戲</label> <input type="text"
+					<label class="showAppShow">您的遊戲</label> <input class="showAppShow" type="text" 
 						value="${changeHistoryBean.supportgamebean.gamename }${wishhistorybean.mygamebean.gamename}" readonly />
 				</div>
 				<div>
-					<label>對方帳號</label> <input type="text"
+					<label class="showAppShow">對方帳號</label> <input class="showAppShow" type="text"
 						value="${changeHistoryBean.partyB.sAccount }${wishhistorybean.partyA.sAccount}" readonly />
 				</div>
 				<div>
-					<label>對方遊戲</label> <input type="text"
+					<label class="showAppShow">對方遊戲</label> <input class="showAppShow" type="text"
 						value="${changeHistoryBean.mygamebean.gamename }${wishhistorybean.demandgamebean.gamename}" readonly />
 				</div>
 				<div>

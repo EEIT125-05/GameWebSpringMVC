@@ -65,7 +65,7 @@
 
 					<tr>
 						<td>${vs.count}</td>
-						<td>${s.gamename}</td>
+						<td><span style="font-size:20px">${s.gamename}</span></td>
 						<td>${s.gamelocation}</td>
 						<td>${s.delivery}</td>
 						<td>${s.console}</td>
@@ -154,7 +154,7 @@
 
 							<tr>
 								<td>${vs1.count}</td>
-								<td>${d.gamename}</td>
+								<td><span style="font-size:20px">${d.gamename}</span></td>
 								<td>${d.area}</td>
 								<td>${d.console}</td>
 								<td>${d.remark}</td>
@@ -218,7 +218,7 @@
 							<c:if test = "${g.status==0 || g.status==2}">
 							<tr>
 								<td>${vs2.count}</td>
-								<td>${g.gamename}</td>
+								<td><span style="font-size:20px">${g.gamename}</span></td>
 								<td>${g.console}</td>
 								<c:choose>
 							<c:when test="${g.status==2 }">
