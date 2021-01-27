@@ -136,7 +136,7 @@ response.setContentType("text/html;charset=UTF-8");
 								<div class="col-7 col-md-8">
 									<div class="numbers">
 										<p class="card-category">昨日陪玩單數</p>
-										<p class="card-title">13單
+										<p class="card-title">10單
 										<p>
 									</div>
 								</div>
@@ -189,7 +189,7 @@ response.setContentType("text/html;charset=UTF-8");
 								<div class="col-7 col-md-8">
 									<div class="numbers">
 										<p class="card-category">陪玩師人數</p>
-										<p class="card-title">9人
+										<p class="card-title">13人
 										<p>
 									</div>
 								</div>
@@ -622,7 +622,7 @@ $(function(){
 	            '#FFDC35',
 	          ],
 	          borderWidth: 0,
-	          data: [4,5,]
+	          data: [4,9,]
 	        }]
 	      },
 

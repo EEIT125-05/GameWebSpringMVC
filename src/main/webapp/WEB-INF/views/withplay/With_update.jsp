@@ -51,7 +51,7 @@
 <style>
 
 .com{
-    max-width:850px;
+    max-width:1000px;
 }
 
 td{
@@ -70,7 +70,7 @@ td{
       <li class="breadcrumb-item">
         <a href="<c:url value='/'/>">Home</a>
       </li>
-      <li class="breadcrumb-item active">修改陪玩主個人資料</li>
+      <li class="breadcrumb-item active">修改陪玩師個人資料</li>
     </ol>
     
 	<div align="center">

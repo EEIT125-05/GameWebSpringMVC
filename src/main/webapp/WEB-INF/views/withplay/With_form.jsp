@@ -107,7 +107,7 @@
 </script>
 <style>
 .com{
-    max-width:850px; 
+    max-width:1000px; 
 }
 td{
 	color:white;
@@ -124,7 +124,7 @@ td{
       <li class="breadcrumb-item">
         <a href="<c:url value='/'/>">Home</a>
       </li>
-      <li class="breadcrumb-item active">成為陪玩主</li>
+      <li class="breadcrumb-item active">成為陪玩師</li>
     </ol>
     
 	<div align="center">
@@ -147,7 +147,7 @@ td{
 				</tr>
 				<tr>
 					<td>暱稱</td>
-					<td><form:input path="sNickname" /><span style="color:yellow;"><form:errors  path="sNickname"/></span></td>
+					<td><form:input path="sNickname" /><br><span style="color:yellow;"><form:errors  path="sNickname"/></span></td>
 					
 				</tr>
 				<tr>

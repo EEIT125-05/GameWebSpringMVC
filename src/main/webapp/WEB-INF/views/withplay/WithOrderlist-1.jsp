@@ -128,7 +128,7 @@
 <%-- 			<fmt:parseDate var="Date" value="${dateString}"		pattern="yyyy-MM-dd" /> --%>
 				<tr>	
 					<td>${status.count}</td>
-					<td><img style="width:150px;height:150px;"class="img1" src='<c:url value='/member/picture?sAccount=${Order.with.sAccount}'/>'>
+					<td><img style="width:150px;height:150px;"class="img1" src='<c:url value='/member/picture?sAccount=${withOrder.member.sAccount}'/>'>
 								</td>
 					<td >${withOrder.member.sNickname}</td>
 					<td>${withOrder.dDate}</td>
