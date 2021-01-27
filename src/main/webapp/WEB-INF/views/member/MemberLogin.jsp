@@ -295,7 +295,7 @@ table{
 		sAccount.value = "year2020";
 		sEmail.value = "gamebar20210128@gmail.com";
 		sPhone.value = "0956175060";
-		sPassword.value = "year2020";
+		sPassword.value = "year2021";
 		sEname.value = "顏廷亙";
 		sNickname.value = "奶茶糾齁拎";
 		sAddress;
