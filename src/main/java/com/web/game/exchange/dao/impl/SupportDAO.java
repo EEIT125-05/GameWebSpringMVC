@@ -1,4 +1,4 @@
-package com.web.game.exchange.dao;
+package com.web.game.exchange.dao.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,41 +8,22 @@ import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.web.game.exchange.model.SupportGameBean;
+import com.web.game.exchange.dao.SupportDAOImpl;
 import com.web.game.exchange.model.SupportGameBean;
 
 
 @Repository
-public class SupportDAO {
+public class SupportDAO implements SupportDAOImpl {
 	
 	static int counts = 9;
 	
 	@Autowired
 	SessionFactory factory;
 
-	// ------------------------testpage
-	@SuppressWarnings("unchecked")
-	public List<SupportGameBean> changePage(int page) {
-		List<SupportGameBean> list = new ArrayList<>();
-		Session session = factory.getCurrentSession();
-		String queryAll = "FROM SupportGameBean WHERE status = 0 ORDER BY no desc";
-
-		int start = 0;
-		if (page == 1) {
-			start = 0;
-		} else {
-			page = page - 1;
-			start = page * counts;
-		}
-		list = (List<SupportGameBean>) session.createQuery(queryAll).setFirstResult(start).setMaxResults(counts)
-				.getResultList();
-		return list;
-	}
-
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<SupportGameBean> changeSupportByFilter(int page, String str) {
 		List<SupportGameBean> list = new ArrayList<>();
@@ -60,6 +41,7 @@ public class SupportDAO {
 		return list;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Integer getSupportPage(String str){
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
@@ -75,6 +57,7 @@ public class SupportDAO {
 		
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<SupportGameBean> getAllSupportList(){
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
@@ -84,6 +67,7 @@ public class SupportDAO {
 				.getResultList();
 		return list;
 	}
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<SupportGameBean> getBackStageSupportQty(){
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
@@ -94,12 +78,13 @@ public class SupportDAO {
 		return list;
 	}
 	
+	@Override
 	public Boolean changeSupportStatusByMember(Integer status,String sAccount) {
 		Session session = factory.getCurrentSession();
 		String changeStatus = "update SupportGameBean s set s.status=:status where s.gamer=:gamer and s.status in(5,0)";
 		Integer times = session.createQuery(changeStatus).setParameter("status", status).setParameter("gamer", sAccount).
 		executeUpdate();
-		System.out.println("更新次數support"+times);
+
 		if(times > 0) {
 			return true;
 		}
@@ -119,6 +104,7 @@ public class SupportDAO {
 //
 //	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<SupportGameBean> GetMemberSupport(String account) {
 		List<SupportGameBean> list = new ArrayList<>();
@@ -128,6 +114,7 @@ public class SupportDAO {
 		return list;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<SupportGameBean> getMemberPending(String account) {
 		List<SupportGameBean> list = new ArrayList<>();
@@ -138,22 +125,15 @@ public class SupportDAO {
 	}
 	
 	// 傳回特定物件值
+	@Override
 	public SupportGameBean selectSupportGame(int pno) {// 暫時沒用到
 		SupportGameBean gb = null;
 		Session session = factory.getCurrentSession();
 		gb = session.get(SupportGameBean.class, pno);
 		return gb;
 	}
-//	public SupportGameBean getSupportGameByAccount(String gamename,String account) {
-//		SupportGameBean SGB = null;
-//		Session session = factory.getCurrentSession();
-//		String HQL = "FROM SupportGameBean WHERE gamer = :account AND gamename =:gamename";
-//		System.out.println("getSupportGameByAccountin"+account);
-//		SGB = (SupportGameBean) session.createQuery(HQL).setParameter("account", account).setParameter("gamename", gamename).getSingleResult();
-//		System.out.println("getSupportGameByAccountout");
-//		return SGB;
-//	}
 
+	@Override
 	public boolean insertSupportGame(SupportGameBean gb) {
 		int count = 0;
 		boolean result = false;
@@ -166,6 +146,7 @@ public class SupportDAO {
 		return result;
 	}
 
+	@Override
 	public boolean deleteSupportGame(int pno) {
 		int count = 0;
 		Session session = factory.getCurrentSession();
@@ -180,6 +161,7 @@ public class SupportDAO {
 		return result;
 	}
 
+	@Override
 	public boolean updateSupportGame(SupportGameBean gb) {
 		int count = 0;
 		Session session = factory.getCurrentSession();
@@ -195,6 +177,7 @@ public class SupportDAO {
 	
 	
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> initOption() {
 		// 4個list放進map

@@ -3,9 +3,7 @@ package com.web.game.exchange.controller;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.web.game.exchange.model.ChangeHistoryBean;
 import com.web.game.exchange.model.MyGameBean;
 import com.web.game.exchange.model.SupportGameBean;
-import com.web.game.exchange.service.ExchangeService;
+import com.web.game.exchange.service.ExchangeServiceImpl;
 import com.web.game.member.controller.JavaMail;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
@@ -31,11 +29,11 @@ import com.web.game.member.service.MemberService;
 public class ChangeGameController {
 
 	@Autowired
-	ExchangeService exchangeService;
+	ExchangeServiceImpl exchangeService;
 	@Autowired
 	MemberService memberService;
 	
-//	@GetMapping("/applyFor")//applicationForm form:form無法接物件屬性 暫時沒用到
+//	@GetMapping("/applyFor")//applicationForm form:form無法接物件屬性 紀錄
 //	public String applyForChange(
 //			@RequestParam String gamer,
 //			@RequestParam Integer no,
@@ -67,30 +65,19 @@ public class ChangeGameController {
 		System.out.println("supportGameNo"+supportGameNo);
 		System.out.println("myGameNo"+myGameNo);
 		ChangeHistoryBean CHB = new ChangeHistoryBean();
-		System.out.println("--");
 		MemberBean mbPartyA = memberService.Selectmember(partyA);
-		System.out.println("--");
 		MemberBean mbPartyB = memberService.Selectmember(partyB);
-		System.out.println("--");
 		SupportGameBean sgSupportGame = exchangeService.FindsupportGame(supportGameNo);
-		System.out.println("--!!");
 		MyGameBean mgMyGame=exchangeService.getMyGame(myGameNo);
-		System.out.println("--!!");
 		SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
     	String sTimeString = sdf.format(new Date());
     	Timestamp time = Timestamp.valueOf(sTimeString);
 		
-    	System.out.println("getData!!");
-		
 		CHB.setPartyA(mbPartyA);
-		System.out.println("1");
 		CHB.setPartyB(mbPartyB);
-		System.out.println("2");
 		System.out.println("mgMyGame"+mgMyGame);
 		CHB.setMygamebean(mgMyGame);
-		System.out.println("3");
 		CHB.setSupportgamebean(sgSupportGame);
-		System.out.println("4");
 		CHB.setStatus(0);
 		CHB.setDate(time);
 		
@@ -135,10 +122,9 @@ public class ChangeGameController {
 	@GetMapping("/ApplyForSubmit")
 	public boolean updateApplyForSubmit(
 			Model model,
-			          		  @RequestParam Integer no
+			@RequestParam Integer no
 			) {
 		boolean result = false;
-		System.out.println("submitIn");
 		System.out.println(no);
 		ChangeHistoryBean chChangeHistory = new ChangeHistoryBean();
 		chChangeHistory = exchangeService.getHistory(no);
@@ -147,26 +133,6 @@ public class ChangeGameController {
 		} 
 		
 		System.out.println(chChangeHistory);
-		System.out.println("submitOut");
 		return result;
 	}
-	
-	
-	@GetMapping("/memberHistoryList")
-	public String getMemberHistoryList(Model model) {
-		System.out.println("memberHistoryIn");
-		List<ChangeHistoryBean> list = new ArrayList<ChangeHistoryBean>();
-		MemberBean user = (MemberBean) model.getAttribute("user");
-		Integer iUserid = user.getiNo();
-		list = exchangeService.getHistoryList(iUserid);
-		System.out.println("HistotyList"+list.size());
-		model.addAttribute("HistotyList",list);
-		
-		System.out.println("memberHistoryIn");
-		
-		return "exchange/NewFile";
-		
-	}
-	
-	
 }

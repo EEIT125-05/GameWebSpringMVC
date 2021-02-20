@@ -4,7 +4,6 @@ import java.io.File;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -26,7 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.web.game.exchange.model.DemandGameBean;
 import com.web.game.exchange.model.MyGameBean;
 import com.web.game.exchange.model.SupportGameBean;
-import com.web.game.exchange.service.ExchangeService;
+import com.web.game.exchange.service.ExchangeServiceImpl;
 import com.web.game.member.model.MemberBean;
 
 @Controller
@@ -35,9 +34,7 @@ import com.web.game.member.model.MemberBean;
 public class UploadGameController {
 
 	@Autowired
-	ExchangeService exchangeService;
-	
-
+	ExchangeServiceImpl exchangeService;
 	
 	@GetMapping("/insertSupportGame")
 	public String GetNewGame(Model model) {
@@ -64,7 +61,7 @@ public class UploadGameController {
 		System.out.println("gamer"+gamebean.getGamer());
 		//---------注入資料
 		String name = "exchange-"+gamebean.getGamer()+"-"+gamebean.getGamename()+"-"+UUID.randomUUID().toString().replaceAll("-", "");//使用UUID給圖片重新命名，並去掉四個“-”
-		String imageName=file.getOriginalFilename();//獲取圖片名稱
+//		String imageName=file.getOriginalFilename();//獲取圖片名稱
 		//String contentType=file.getContentType();  //獲得檔案型別（可以判斷如果不是圖片，禁止上傳）
 		//String suffixName=contentType.substring(contentType.indexOf("/")+1);  獲得檔案字尾名 
 		String ext = FilenameUtils.getExtension(file.getOriginalFilename());//獲取檔案的副檔名FilenameUtils
@@ -84,23 +81,17 @@ public class UploadGameController {
     	gamebean.setStatus(status);
     	//---------注入資料
 		//---------insert後定向
-		String sAction = "新增";
-		String sPath = null;
-		System.out.println("beforeInsert");
 			if(exchangeService.InsertSupportGame(gamebean)) {
 				if(mygameid != null) {
-					System.out.println("mygamid"+mygameid);
 					MyGameBean mygame = exchangeService.getMyGame(mygameid);
 					mygame.setSupportgamebean(gamebean);
 					if(exchangeService.updateGameToSupport(mygame)) {
-						System.out.println("gametoSupport成功");
+//						System.out.println("gametoSupport成功");
 					}
 				}
-				System.out.println("success");
 			} else {
-				System.out.println("fail");
+				System.err.println("fail");
 			}
-			System.out.println("test"+gamebean.getGamename()+gamebean.getConsole());
 			return "redirect:/exchange/management";
 	}
 	
@@ -128,15 +119,11 @@ public class UploadGameController {
 		demandgamebean.setImage(image);
 		demandgamebean.setStatus(status);
 		demandgamebean.setDate(time);
-		
 		String sAction = "新增";
-//		String sPath = null;
 			if(exchangeService.InsertDemandGame(demandgamebean)) {	
 				System.out.println("insertDemandSuccess");
-//				sPath = "EXCThanks";
 			} else {
-				System.out.println("insertDemandFail");
-//				sPath = "EXCFail";
+				System.err.println("insertDemandFail");
 			}
 		model.addAttribute("action", sAction);
 		return "redirect:/exchange/management";
@@ -148,9 +135,6 @@ public class UploadGameController {
 									  Model model) {
 		SupportGameBean gamebean = new SupportGameBean();
 		MyGameBean mygame = exchangeService.getMyGame(no);
-		System.out.println("no"+no);
-		System.out.println("mygame.getConsole()"+mygame.getConsole());
-		System.out.println("mygame.getGamename()"+mygame.getGamename());
 		gamebean.setConsole(mygame.getConsole());
 		gamebean.setGamename(mygame.getGamename());
 		gamebean.setGamer(mygame.getGamer());
@@ -164,7 +148,6 @@ public class UploadGameController {
 	@GetMapping("/insertMyGame")
 	public String GetNewMyGame(Model model) {
 		MyGameBean mygamebean = new MyGameBean();
-		System.out.println("!insertMyGame!111");
 		MemberBean user = (MemberBean) model.getAttribute("user");
 		mygamebean.setGamer(user.getsAccount());//整合後開啟
 //		demandgamebean.setGamer("henryxoooo");測試時使用
@@ -176,18 +159,14 @@ public class UploadGameController {
 								   Model model,
 								   RedirectAttributes attr) {
 		
-		System.out.println("!insertMyGame!");
 		Integer status = 0;// 
 		mygamebean.setStatus(status);
 		
 		String sAction = "新增";
-//		String sPath = null;
 			if(exchangeService.insertMyGame(mygamebean)) {	
 				System.out.println("insertMyGameSuccess");
-//				sPath = "EXCThanks";
 			} else {
-				System.out.println("insertMyGameFail");
-//				sPath = "EXCFail";
+				System.err.println("insertMyGameFail");
 			}
 		model.addAttribute("action", sAction);
 		return "redirect:/exchange/management";
@@ -196,7 +175,6 @@ public class UploadGameController {
 	
 	@ModelAttribute("initOption")
 	public Map<String, Object> initOptionList(HttpServletRequest req,Model model){
-		Map<String, Object> initOptionMap = new HashMap<String, Object>();
 		return exchangeService.initOption();
 	}
 	

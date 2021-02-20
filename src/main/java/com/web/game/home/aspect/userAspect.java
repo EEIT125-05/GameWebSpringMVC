@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
-import com.web.game.exchange.service.ExchangeService;
+import com.web.game.exchange.service.ExchangeServiceImpl;
 import com.web.game.home.exception.userException;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
@@ -24,7 +24,7 @@ public class userAspect {
 	MemberService memberService;
 	
 	@Autowired
-	ExchangeService exchangeService;
+	ExchangeServiceImpl exchangeService;
 	
 	@Before("execution (* com.web.game.contest.controller.ContestController.*(..)) "+
 			"||execution (* com.web.game.contest.controller.RecordController.*(..)) "+

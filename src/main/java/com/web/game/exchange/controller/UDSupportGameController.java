@@ -4,16 +4,13 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,16 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.sun.mail.imap.protocol.Status;
-import com.web.game.exchange.dao.SupportDAO;
 import com.web.game.exchange.model.ChangeHistoryBean;
 import com.web.game.exchange.model.DemandGameBean;
 import com.web.game.exchange.model.MyGameBean;
 import com.web.game.exchange.model.SupportGameBean;
 import com.web.game.exchange.model.WishHistoryBean;
-import com.web.game.exchange.service.ExchangeService;
+import com.web.game.exchange.service.ExchangeServiceImpl;
 import com.web.game.member.model.MemberBean;
 
 @Controller
@@ -42,7 +35,7 @@ import com.web.game.member.model.MemberBean;
 public class UDSupportGameController {
 
 	@Autowired
-	ExchangeService exchangeService;
+	ExchangeServiceImpl exchangeService;
 
 	@GetMapping("/gotoMemberData")
 	public String gotoMemberData(Model model) {
@@ -58,7 +51,6 @@ public class UDSupportGameController {
 	public @ResponseBody boolean updateStatus(Model model,
 											  @RequestParam String type,
 											  @RequestParam Integer no
-//											  @RequestParam Integer status
 											  ) {
 		
 		boolean result = false;
@@ -100,13 +92,10 @@ public class UDSupportGameController {
 		gamebean.setDate(tTime);
 		// ------重定向
 		String sAction = "更新";
-//		String sPath = null;
 		if (exchangeService.UpdateSupportGame(gamebean)) {
-//			sPath = "EXCThanks";
 			System.out.println("insertSuccess");
 		} else {
-//			sPath = "EXCFail";
-			System.out.println("insertFail");
+			System.err.println("insertFail");
 		}
 		model.addAttribute("action", sAction);
 		return "exchange/EXCShowItem";
@@ -116,7 +105,6 @@ public class UDSupportGameController {
 
 	@DeleteMapping("/deleteMyGame")
 	public @ResponseBody boolean deleteMyGame(Model model,@RequestParam Integer deleteindex) {
-		
 		boolean result = false;
 			MyGameBean mygamebean = exchangeService.getMyGame(deleteindex);
 		if (exchangeService.deleteMyGame(mygamebean)) {
@@ -131,7 +119,6 @@ public class UDSupportGameController {
 		if(exchangeService.FindsupportGame(deleteindex).getMygamebean()!=null) {
 			MyGameBean mygamebean = exchangeService.FindsupportGame(deleteindex).getMygamebean();
 			mygamebean.setSupportgamebean(null);
-			System.out.println("test"+mygamebean.getSupportgamebean());
 			exchangeService.updateGameToSupport(mygamebean);
 		}
 		if (exchangeService.DeleteSupportGame(deleteindex)) {
@@ -155,7 +142,6 @@ public class UDSupportGameController {
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
 		list = (List<SupportGameBean>) model.getAttribute("MemberSupport");
 		SupportGameBean gamebean = list.get(updateindex);
-		System.out.println("init"+model.getAttribute("initOption"));
 		model.addAttribute("update", "修改");
 		model.addAttribute("gamebean", gamebean);
 		return "exchange/EXCGameSupportForm";
@@ -165,14 +151,12 @@ public class UDSupportGameController {
 	public @ResponseBody Integer getSupportGameQty(Model model) {
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
 		list = exchangeService.getBackStageSupportQty();
-		System.out.println("listsize:"+list.size());
 		return list.size();
 	}
 	@GetMapping("/backstage/getDemandGameQtyAjax")
 	public @ResponseBody Integer getDemandGameQty(Model model) {
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		list = exchangeService.getBackStageDemandQty();
-		System.out.println("listsize:"+list.size());
 		return list.size();
 	}
 
@@ -181,13 +165,10 @@ public class UDSupportGameController {
 	
 	@ModelAttribute("WishHistoryList")
 	public List<WishHistoryBean> getMemberWishHistory(Model model) {
-		System.out.println("memberHistoryIn");
 		List<WishHistoryBean> list = new ArrayList<WishHistoryBean>();
 		MemberBean user = (MemberBean) model.getAttribute("user");
 		Integer iUserid = user.getiNo();
 		list = exchangeService.getMemberWishHistory(iUserid);
-		System.out.println("HistotyList"+list.size());
-		System.out.println("memberHistoryOut");
 		return list;
 		
 	}
@@ -198,8 +179,6 @@ public class UDSupportGameController {
 		MemberBean user = (MemberBean) model.getAttribute("user");
 		Integer iUserid = user.getiNo();
 		list = exchangeService.getHistoryList(iUserid);
-		System.out.println("HistotyList"+list.size());
-		System.out.println("memberHistoryOut");
 		return list;
 		
 	}
@@ -211,9 +190,7 @@ public class UDSupportGameController {
 		String sMemberaccount = member.getsAccount();//整合後打開
 //		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
-		System.out.println("MemberSupportIn");
 		list = exchangeService.GetMemberSupport(sMemberaccount);
-		System.out.println("MemberSupportOut");
 		return list;
 	}
 
@@ -225,7 +202,6 @@ public class UDSupportGameController {
 //		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		list = exchangeService.GetMemberDemand(sMemberaccount);
-		System.out.println("MemberDemand");
 		return list;
 	}
 	
@@ -237,7 +213,6 @@ public class UDSupportGameController {
 //		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
 		List<MyGameBean> list = new ArrayList<MyGameBean>();
 		list = exchangeService.getMemberGames(sMemberaccount);
-		System.out.println("controllerlist"+list.size());
 		return list;
 	}
 	
@@ -247,9 +222,7 @@ public class UDSupportGameController {
 		String sMemberaccount = member.getsAccount();//整合後打開
 //		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
 		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
-		System.out.println("MemberSupportIn");
 		list = exchangeService.getMemberPending(sMemberaccount);
-		System.out.println("MemberSupportOut");
 		return list;
 	}
 	
@@ -259,15 +232,12 @@ public class UDSupportGameController {
 		String sMemberaccount = member.getsAccount();//整合後打開
 //		String sMemberaccount = "henryxoooo";// 測試使用者帳號預設寫死
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
-		System.out.println("MemberDemandIn");
 		list = exchangeService.GetMemberDemandPending(sMemberaccount);
-		System.out.println("MemberDemandOut");
 		return list;
 	}
 
 	@ModelAttribute("initOption")
 	public Map<String, Object> initOptionList(HttpServletRequest req,Model model){
-		Map<String, Object> initOptionMap = new HashMap<String, Object>();
 		return exchangeService.initOption();
 	}
 	

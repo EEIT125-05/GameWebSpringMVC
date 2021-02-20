@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.web.game.contest.service.ContestService;
-import com.web.game.exchange.service.ExchangeService;
+import com.web.game.exchange.service.ExchangeServiceImpl;
 import com.web.game.forum.service.ForumService;
 import com.web.game.forum.service.ReplyService;
 import com.web.game.member.model.MemberBean;
@@ -39,7 +39,7 @@ public class HomeController {
 	WithOrderService OrderService;
 	
 	@Autowired
-	ExchangeService exchangeService;
+	ExchangeServiceImpl exchangeService;
 	
 	@Autowired
 	ContestService cService;

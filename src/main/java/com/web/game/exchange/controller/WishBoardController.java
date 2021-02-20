@@ -8,10 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.transaction.Transactional;
-
-import org.aspectj.weaver.ast.Test;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +22,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.web.game.exchange.model.DemandGameBean;
 import com.web.game.exchange.model.MyGameBean;
 import com.web.game.exchange.model.WishHistoryBean;
-import com.web.game.exchange.service.ExchangeService;
+import com.web.game.exchange.service.ExchangeServiceImpl;
 import com.web.game.member.model.MemberBean;
 import com.web.game.member.service.MemberService;
 
@@ -38,46 +34,28 @@ public class WishBoardController {
 	@Autowired
 	MemberService memberService;
 	@Autowired
-	ExchangeService exchangeService;
-	
+	ExchangeServiceImpl exchangeService;
 	@Autowired
 	SessionFactory factory;
 	
-	@Transactional
-	@GetMapping("/testWish")
-	public String Test(Model model) {
-		System.out.println("testIn");
-		Session session = factory.getCurrentSession();
-		System.out.println("testIn!!");
-		MyGameBean my = session.get(MyGameBean.class, 24);
-		model.addAttribute("my",my);
-		System.out.println("testOut");
-		return "exchange/see";
-	}
-	
+	@SuppressWarnings("unchecked")
 	@GetMapping("/addDemandFilter")
 	public @ResponseBody Map<String, Object> addDemandFilter(Model model,
 							@RequestParam(required = false) String str,
 							@RequestParam(required = false) String condition,
 							@RequestParam(required = false) Integer nowPage
 			) {
-		System.out.println("addDemandFilterIn");
-		System.out.println("str"+str);
-		System.out.println("condition"+condition);
 		Integer page = 1;  
-		System.out.println("testNowPage"+nowPage);
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> sessionDemandMap = new HashMap<String, Object>();
 		Integer totalPage;
 		if(nowPage != null) {
-			System.out.println("nowPage!=null");
 			sessionDemandMap = (Map<String, Object>) model.getAttribute("sessionDemandMap");
 			totalPage = (Integer) sessionDemandMap.get("totalPage");
 			String sHQL = (String) sessionDemandMap.get("str");
 			list = exchangeService.changeDemandByFilter(nowPage, sHQL);
 		}else {
-			System.out.println("nowPage=null");
 			page = 1;
 			String sHql;
 			if(condition.equals("all")) {
@@ -87,20 +65,16 @@ public class WishBoardController {
 			}
 			totalPage = exchangeService.getDemandPage(sHql);
 			if(totalPage > 1) {
-				System.out.println("setPageSuccess");
 				map.put("totalPage",totalPage);
 				sessionDemandMap.put("totalPage", totalPage);
 			}
 			list = exchangeService.changeDemandByFilter(page, sHql);
-			System.out.println("totalPage"+totalPage);
 			sessionDemandMap.put("str",sHql);
 			model.addAttribute("sessionDemandMap",sessionDemandMap);
 		}
 		MemberBean mbUser = (MemberBean) model.getAttribute("user");
 		map.put("list",list);
 		map.put("mbUser",mbUser);
-		System.out.println(mbUser);
-		System.out.println("addFilterOut");
 		return map;
 	}
 	
@@ -111,22 +85,15 @@ public class WishBoardController {
 			 											  ){
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<MyGameBean> list = new ArrayList<MyGameBean>();
-		System.out.println("memberSupportAjaxIn");
-		System.out.println("gamename"+gamename);
-		System.out.println("gamer"+gamer);
 		MemberBean mb = (MemberBean) model.getAttribute("user");
 		list = exchangeService.getMemberGamesWithoutSupport(gamer);
-		System.out.println("對方的遊戲庫"+list.size());
 		map.put("list",list);
 		if(exchangeService.checkMyGameBean(mb.getsAccount(), gamename)) {
 			map.put("result",true);
-			System.out.println("TRUE");
 		}else {
 			map.put("result",false);
-			System.out.println("FALSE");
+			System.err.println("FALSE");
 		}
-		System.out.println("memberSupportAjaxOut");
-		
 		return map;
 	 }
 	@PostMapping("/applyForWishAjax")
@@ -136,36 +103,22 @@ public class WishBoardController {
 													   @RequestParam String PartyB,
 													   @RequestParam Integer myGameNo) {
 	
-    	System.out.println("createWishTransactionIn");
 		boolean result = false;
-		System.out.println("PartyA"+PartyA);
-		System.out.println("demandGameNo"+demandGameNo);
-		System.out.println("PartyB"+PartyB);
-		System.out.println("myGameNo"+myGameNo);
 		MemberBean partyA = memberService.Selectmember(PartyA);
-		System.out.println("partyAbean"+partyA);
 		MemberBean partyB = memberService.Selectmember(PartyB);
-		System.out.println("partyBbean"+partyB);
 		DemandGameBean demandgamebean = exchangeService.getDemandGameBean(demandGameNo);
 		List<MyGameBean> list = exchangeService.getMyGameByAccount(demandgamebean.getGamename(), PartyA);
 		demandgamebean.setMygamebean(list.get(0));
 		exchangeService.updateDemandGema(demandgamebean);
-		System.out.println("demandgamebean"+demandgamebean);
 		MyGameBean mygamebean = exchangeService.getMyGame(myGameNo);
-		System.out.println("mygamebean"+mygamebean);
-		
 		SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
     	String sTimeString = sdf.format(new Date());
     	Timestamp time = Timestamp.valueOf(sTimeString);
     	Integer status = 0;
-		
     	WishHistoryBean WHB = new WishHistoryBean(null, time, status, partyA, demandgamebean, partyB, mygamebean);
-    	
     	if(exchangeService.insertWishHistory(WHB)) {
     		result = true;
     	}
-    	System.out.println("createWishTransactionOut");
-    	System.out.println("result"+result);
     	return result;
 		
 	}
@@ -184,24 +137,20 @@ public class WishBoardController {
 	@GetMapping("/DemandApplyForSubmit")
 	public @ResponseBody boolean DemandApplyForSubmit(Model model,
 													  @RequestParam Integer no) {
-		System.out.println("DemandApplyForSubmitIn");
 		boolean result = false;
 		WishHistoryBean wishhistorybean = new WishHistoryBean();
 		wishhistorybean = exchangeService.getWishHistory(no);
 		result = exchangeService.updateWishHistorySubmit(wishhistorybean);
-		System.out.println("DemandApplyForSubmitOut");
 		return result;
 	}
 	
 	@GetMapping("/DemandApplyForReject")
 	public @ResponseBody boolean ApplyForReject(Model model,
 			@RequestParam Integer no) {
-		System.out.println("DemandApplyForRejectIn");
 		boolean result = false;
 		WishHistoryBean wishhistorybean = new WishHistoryBean();
 		wishhistorybean = exchangeService.getWishHistory(no);
 		result = exchangeService.updateWishHistoryReject(wishhistorybean);
-		System.out.println("DemandApplyForRejectOut");
 		return result;
 	}
 	

@@ -1,7 +1,6 @@
-package com.web.game.exchange.service;
+package com.web.game.exchange.service.impl;
 
 
-import java.awt.peer.MenuComponentPeer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,200 +11,160 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.web.game.exchange.dao.ChangeDAO;
-import com.web.game.exchange.dao.DemandDAO;
-import com.web.game.exchange.dao.MyGamesDAO;
-import com.web.game.exchange.dao.SupportDAO;
-import com.web.game.exchange.dao.WishDao;
+import com.web.game.exchange.dao.ChangeDAOimpl;
+import com.web.game.exchange.dao.DemandDAOImpl;
+import com.web.game.exchange.dao.MyGamesDAOImpl;
+import com.web.game.exchange.dao.SupportDAOImpl;
+import com.web.game.exchange.dao.WishDaoImpl;
 import com.web.game.exchange.model.ChangeHistoryBean;
 import com.web.game.exchange.model.DemandGameBean;
 import com.web.game.exchange.model.MyGameBean;
 import com.web.game.exchange.model.SupportGameBean;
 import com.web.game.exchange.model.WishHistoryBean;
+import com.web.game.exchange.service.ExchangeServiceImpl;
 
 @Service
-public class ExchangeService {
+public class ExchangeService implements ExchangeServiceImpl {
 
 	@Autowired
-	MyGamesDAO mygamesDAO;
+	MyGamesDAOImpl mygamesDAO;
 	@Autowired
-	ChangeDAO changeDAO;
+	ChangeDAOimpl changeDAO;
 	@Autowired
-	SupportDAO supportDAO;
+	SupportDAOImpl supportDAO;
 	@Autowired
-	DemandDAO demandDAO;
+	DemandDAOImpl demandDAO;
 	@Autowired
-	WishDao wishDAO;
+	WishDaoImpl wishDAO;
 	
-	//-------------testchange
-	@Transactional
-	public List<SupportGameBean> changePage(int page){
-		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
-		return list = supportDAO.changePage(page);
-	}
-//	@Transactional
-//	public List<SupportGameBean> changePageByParam(int page,String search,String param){
-//		List<SupportGameBean> list = new ArrayList<SupportGameBean>();
-//		return list = supportDAO.changePageByParam(page, search, param);
-//	}
-	//------------------------demand
+	@Override
 	@Transactional
 	public Integer getDemandPage(String str) {
 		return demandDAO.getDemandPage(str);
 	}
+	@Override
 	@Transactional
 	public List<DemandGameBean> getAllDemandList() {
 		return demandDAO.getAllDemandList();
 	}
 	
-	
+	@Override
 	@Transactional
 	public List<DemandGameBean> getBackStageDemandQty(){
 		List<DemandGameBean> list = new ArrayList<>();
 		list = demandDAO.getBackStageDemandQty();
 		return list;
 	}
-	
-//	@Transactional
-//	public List<DemandGameBean> changeDemandPage(int page){
-//		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
-//		return list = demandDAO.changeDemandPage(page);
-//	}
+	@Override
 	@Transactional
 	public List<DemandGameBean> changeDemandByFilter(int page,String sHql){
-		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
-		return list = demandDAO.changeDemandByFilter(page,sHql);
+		return demandDAO.changeDemandByFilter(page,sHql);
 	}
+	@Override
 	@Transactional
 	public List<DemandGameBean> GetMemberDemand(String account){
-		List<DemandGameBean> list = new ArrayList<>();
-		list = demandDAO.GetMemberDemand(account);
-		return list;
+		return demandDAO.GetMemberDemand(account);
 	}
 	
+	@Override
 	@Transactional
 	public List<DemandGameBean> GetMemberDemandPending(String account){
-		List<DemandGameBean> list = new ArrayList<>();
-		list = demandDAO.GetMemberDemandPending(account);
-		return list;
+		return demandDAO.GetMemberDemandPending(account);
 	}
 	
+	@Override
 	@Transactional
 	public DemandGameBean getDemandGameBean(int iNo) {
 		return demandDAO.getDemandGameBean(iNo);
 	}
 	
+	@Override
 	@Transactional
 	public boolean DeleteDemandGame(int pno) {
-		boolean result = false;
-		result = demandDAO.deleteDemandGame(pno);
-		return result;
+		return demandDAO.deleteDemandGame(pno);
 	}
+	@Override
 	@Transactional
 	public boolean InsertDemandGame(DemandGameBean dgb) {
-		boolean result = false;
-		result = demandDAO.insertDemandGame(dgb);
-		return result;
+		return demandDAO.insertDemandGame(dgb);
 	}
 	
+	@Override
 	@Transactional
 	public boolean updateDemandGema(DemandGameBean demandgamebean) {
 		return demandDAO.updateDemandGame(demandgamebean);
 	}
 	//-------------------------support
 	
+	@Override
 	@Transactional
 	public List<SupportGameBean> getAllSupportList(){
-		List<SupportGameBean> list = new ArrayList<>();
-		list = supportDAO.getAllSupportList();
-		return list;
+		return supportDAO.getAllSupportList();
 	}
 	
+	@Override
 	@Transactional
 	public List<SupportGameBean> getBackStageSupportQty(){
-		List<SupportGameBean> list = new ArrayList<>();
-		list = supportDAO.getBackStageSupportQty();
-		return list;
+		return supportDAO.getBackStageSupportQty();
 	}
 	
 	
+	@Override
 	@Transactional
 	public List<SupportGameBean> GetMemberSupport(String account){
-		List<SupportGameBean> list = new ArrayList<>();
-		System.out.println("serviceIn");
-		list = supportDAO.GetMemberSupport(account);
-		System.out.println("serviceOut");
-		return list;
+		return supportDAO.GetMemberSupport(account);
 	}
+	@Override
 	@Transactional
 	public List<SupportGameBean> getMemberPending(String account){
-		List<SupportGameBean> list = new ArrayList<>();
-		System.out.println("serviceIn");
-		list = supportDAO.getMemberPending(account);
-		System.out.println("serviceOut");
-		return list;
+		return supportDAO.getMemberPending(account);
 	}
 	
+	@Override
 	@Transactional
 	public List<SupportGameBean> changeSupportByFilter(int nowPage,String sHQL){
-		List<SupportGameBean> list = new ArrayList<>();
 		return supportDAO.changeSupportByFilter(nowPage, sHQL);
 	}
+	@Override
 	@Transactional
 	public Integer getSupportPage(String sHQL){
 		return supportDAO.getSupportPage(sHQL);
 	}
 	
-	
-//	@Transactional
-//	public SupportGameBean getSupportGameByAccount(String gamename,String account) {
-//		return supportDAO.getSupportGameByAccount(gamename,account);
-//	}
-	
 	// 找到特定物件並回丟(1筆)
+	@Override
 	@Transactional
 	public SupportGameBean FindsupportGame(int pk) {//暫時沒用到
-		SupportGameBean gb = null;
-			gb = supportDAO.selectSupportGame(pk);
-		return gb;
+		return supportDAO.selectSupportGame(pk);
 	}
 
 	// 新增物件(1筆)
+	@Override
 	@Transactional
 	public boolean InsertSupportGame(SupportGameBean gb) {
-		boolean result = false;
-			result = supportDAO.insertSupportGame(gb);
-		return result;
+		return supportDAO.insertSupportGame(gb);
 
 	}
 
+	@Override
 	@Transactional
 	public boolean DeleteSupportGame(Integer pno) {
-		boolean result = false;
-			result = supportDAO.deleteSupportGame(pno);
-		return result;
+		return supportDAO.deleteSupportGame(pno);
 	}
 
+	@Override
 	@Transactional
 	public boolean UpdateSupportGame(SupportGameBean gb) {
-		boolean result = false;
-			result = supportDAO.updateSupportGame(gb);
-		return result;
+		return supportDAO.updateSupportGame(gb);
 	}
 	
-	//------------------------ChangeHistory
-//	@Transactional
-//	public boolean createTransaction() {
-//		boolean result = false;
-//		result = changeDAO.createTransaction();
-//	return result;
-//	}
-	
+	@Override
 	@Transactional
 	public List<ChangeHistoryBean> getAllChangeHistory(){
 		return changeDAO.getAllChangeHistory();
 	}
 	
+	@Override
 	@Transactional
 	public boolean updateChangeHistorySubmit(ChangeHistoryBean CHB) {
 		boolean result = false;
@@ -233,6 +192,7 @@ public class ExchangeService {
 		}
 		return result;
 	}
+	@Override
 	@Transactional
 	public boolean updateChangeHistoryReject(ChangeHistoryBean CHB) {
 		boolean result = false;
@@ -251,6 +211,7 @@ public class ExchangeService {
 		return result;
 	}
 	
+	@Override
 	@Transactional
 	public boolean insertChangeHistory(ChangeHistoryBean CHB) {
 		boolean result = false;
@@ -270,19 +231,21 @@ public class ExchangeService {
 		return result;
 	}
 	
+	@Override
 	@Transactional
 	public ChangeHistoryBean getHistory(Integer id) {
 		return changeDAO.getHistory(id);
 	}
 	
+	@Override
 	@Transactional
 	public List<ChangeHistoryBean> getHistoryList(Integer id){
 		return changeDAO.getHistoryList(id);
 	}
 	//------------------------wishhistory
+	@Override
 	@Transactional
 	public boolean insertWishHistory(WishHistoryBean WHB) {
-		System.out.println("insertWishHistoryServiceIn");
 		Integer status = 2;
 		WHB.getDemandgamebean().getMygamebean().setStatus(status);
 		WHB.getMygamebean().setStatus(status);
@@ -296,18 +259,20 @@ public class ExchangeService {
 		}
 		return false;
 	}
+	@Override
 	@Transactional
 	public WishHistoryBean getWishHistory(int iNo) {
 		return wishDAO.getWishHistory(iNo);
 	}
+	@Override
 	@Transactional
 	public List<WishHistoryBean> getMemberWishHistory(int iNo) {
 		return wishDAO.getMemberWishHistory(iNo);
 	}
 
+	@Override
 	@Transactional
 	public boolean updateWishHistorySubmit(WishHistoryBean WHB) {
-		System.out.println("updateWishHistoryServiceIn");
 		boolean result = false;
 		MyGameBean partyAgamebean=new MyGameBean(
 				null,WHB.getDemandgamebean().getGamename(),WHB.getDemandgamebean().getConsole(),WHB.getPartyB().getsAccount(),0);
@@ -332,83 +297,79 @@ public class ExchangeService {
 		return result;
 	}
 	
+	@Override
 	@Transactional
 	public boolean updateWishHistoryReject(WishHistoryBean WHB) {
-		System.out.println("deleteWishHistoryRejectServiceIn");
 		Integer status = 0;
-		System.out.println("WishHistoryBean"+WHB);
 		WHB.getDemandgamebean().getMygamebean().setStatus(status);
-		System.out.println("1");
 		WHB.getMygamebean().setStatus(status);
-		System.out.println("2");
 		WHB.getDemandgamebean().setStatus(status);
-		System.out.println("3");
-		System.out.println("4");
-		System.out.println(WHB.getDemandgamebean().getMygamebean());
+//		System.out.println(WHB.getDemandgamebean().getMygamebean());
 		if(mygamesDAO.updateGameToSupport(WHB.getDemandgamebean().getMygamebean())) {
-			System.out.println("5");
 			if(mygamesDAO.updateGameToSupport(WHB.getMygamebean())) {
-				System.out.println("6");
 				if(demandDAO.updateDemandGame(WHB.getDemandgamebean())) {
 					WHB.getDemandgamebean().setMygamebean(null);
-					System.out.println("deleteWishHistoryServiceOut");
 					return wishDAO.deleteWishHistory(WHB);
 				}
 			}
 		}
-		System.out.println("7");
 		return false;
 	}
 	
 	//------------------------mygames
 	
+	@Override
 	@Transactional
 	public boolean insertMyGame(MyGameBean mygame) {
 		return mygamesDAO.insertMyGame(mygame);
 	}
+	@Override
 	@Transactional
 	public List<MyGameBean> getMyGameByAccount(String gamename,String account) {
 		return mygamesDAO.getMyGameByAccount(gamename,account);
 	}
 	
+	@Override
 	@Transactional
 	public boolean checkMyGameBean(String account,String gamename) {
 		return mygamesDAO.checkMyGameBean(account, gamename);
 	}
+	@Override
 	@Transactional
 	public List<MyGameBean> getMemberGamesName(String account) {
 		return mygamesDAO.getMemberGamesName(account);
 	}
+	@Override
 	@Transactional
 	public List<MyGameBean> getMemberGames(String account) {
-		System.out.println("ServiceIn");
 		return mygamesDAO.getMemberGames(account);
 	}
+	@Override
 	@Transactional
 	public List<MyGameBean> getMemberGamesWithoutSupport(String account) {
-		System.out.println("ServiceIn");
 		return mygamesDAO.getMemberGamesWithoutSupport(account);
 	}
+	@Override
 	@Transactional
 	public MyGameBean getMyGame(Integer no) {
 		return mygamesDAO.getMyGame(no);
 	}
+	@Override
 	@Transactional
 	public boolean updateGameToSupport(MyGameBean mygame) {
-		System.out.println(mygame.getSupportgamebean());
 		return mygamesDAO.updateGameToSupport(mygame);
 	}
+	@Override
 	@Transactional
 	public boolean deleteMyGame(MyGameBean mygame) {
-		System.out.println("mygame"+mygame);
 		return mygamesDAO.deleteMyGame(mygame);
 	}
 	
 	//----------------------AOP
 	
+	@Override
 	@Transactional
 	public boolean changeStatusByMember(Boolean status,String sAccount) {
-		System.out.println("AOP changeStatusSupportServiceIn");
 		if(status ==true) {
 			if(demandDAO.changeDemandStatusByMember(0, sAccount)) {
 			return supportDAO.changeSupportStatusByMember(0, sAccount);
@@ -423,7 +384,8 @@ public class ExchangeService {
 	
 	
 	
-	//-----------------------
+	//-----------------------初始化選單
+	@Override
 	@Transactional
 	public Map<String, Object> initOption(){
 		Map<String, Object> initOptionMap = new HashMap<String, Object>();

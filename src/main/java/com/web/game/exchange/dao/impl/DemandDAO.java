@@ -1,26 +1,25 @@
-package com.web.game.exchange.dao;
+package com.web.game.exchange.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.web.game.exchange.model.DemandGameBean;
+import com.web.game.exchange.dao.DemandDAOImpl;
 import com.web.game.exchange.model.DemandGameBean;
 
 @Repository
-public class DemandDAO {
+public class DemandDAO implements DemandDAOImpl {
 
 	static int counts = 9;
 	
 	@Autowired
 	SessionFactory factory;
 	
-
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<DemandGameBean> changeDemandByFilter(int page,String str){
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
@@ -39,6 +38,7 @@ public class DemandDAO {
 		
 		return list;
 	}
+	@Override
 	@SuppressWarnings("unchecked")
 	public Integer getDemandPage(String str){
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
@@ -54,6 +54,7 @@ public class DemandDAO {
 		
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<DemandGameBean> getBackStageDemandQty(){
 		List<DemandGameBean> list = new ArrayList<DemandGameBean>();
@@ -65,12 +66,12 @@ public class DemandDAO {
 	}
 	
 	
+	@Override
 	public Boolean changeDemandStatusByMember(Integer status,String sAccount) {
 		Session session = factory.getCurrentSession();
 		String changeStatus = "update DemandGameBean d set d.status=:status where d.gamer=:gamer and d.status in(5,0)";
 		Integer times = session.createQuery(changeStatus).setParameter("status", status).setParameter("gamer", sAccount).
 		executeUpdate();
-		System.out.println("更新次數demand"+times);
 		if(times > 0) {
 			return true;
 		}
@@ -78,6 +79,7 @@ public class DemandDAO {
 	}
 	
 	
+	@Override
 	public boolean insertDemandGame(DemandGameBean dgb) {
 		int count = 0;
 		boolean result = false;
@@ -90,6 +92,7 @@ public class DemandDAO {
 		return result;
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<DemandGameBean> GetMemberDemand(String account) {
 		List<DemandGameBean> list = new ArrayList<>();
@@ -98,6 +101,7 @@ public class DemandDAO {
 		list = session.createQuery(hql).setParameter("account", account).getResultList();
 		return list;
 	}
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<DemandGameBean> getAllDemandList() {
 		List<DemandGameBean> list = new ArrayList<>();
@@ -106,6 +110,7 @@ public class DemandDAO {
 		list = session.createQuery(hql).getResultList();
 		return list;
 	}
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<DemandGameBean> GetMemberDemandPending(String account) {
 		List<DemandGameBean> list = new ArrayList<>();
@@ -115,11 +120,13 @@ public class DemandDAO {
 		return list;
 	}
 	
+	@Override
 	public DemandGameBean getDemandGameBean(int iNo) {
 		Session session = factory.getCurrentSession();
 		return session.get(DemandGameBean.class, iNo);
 	}
 	
+	@Override
 	public boolean updateDemandGame(DemandGameBean demandgamebean) {
 		int count = 0;
 		Session session = factory.getCurrentSession();
@@ -132,6 +139,7 @@ public class DemandDAO {
 		return result;
 	}
 	
+	@Override
 	public boolean deleteDemandGame(int pno) {
 		int count = 0;
 		Session session = factory.getCurrentSession();
