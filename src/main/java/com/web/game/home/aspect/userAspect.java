@@ -66,6 +66,7 @@ public class userAspect {
 		List<Object> args = Arrays.asList(joinPoint.getArgs());
 		System.out.println("方法 " + methodName + " 開始執行，傳入的參數為 " + args);
 		
+		@SuppressWarnings("unused")
 		String user = null;
 		for(Object object: args) {
 			if(object instanceof String) {
